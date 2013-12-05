@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Unix Networking Programming (3rd Version)</title>
+<title>二分查找法查找数字首次末次出现位置</title>
 <!-- 2013-12-05 ���� 16:33 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
@@ -159,7 +159,7 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Unix Networking Programming (3rd Version)</h1>
+<h1 class="title">二分查找法查找数字首次末次出现位置</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -181,14 +181,15 @@ for the JavaScript code in this tag.
 <h3 id="sec-1-1">题目</h3>
 <div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
-<li>如下
+<li>给出一个排序好数组,比如{0,0,1,1,1,5,5,6,6,6,6,7,11} 找出其中某个数字第一次
+出现和最后一次出现的位置
 </li>
 </ul>
 <pre class="example">
-input : (((()]]]
-output: false
-input : ()[](()){}
-output: true
+Sample Input : {0,0,1,1,1,5,5,6,6,6,6,7,11}, n = 5
+Sample Output: {5, 6}
+Sample Input : {0,0,1,1,1,5,5,6,6,6,6,7,11}, n = 8
+Sample Output: {-1, -1}
 </pre>
 </div>
 </div>
@@ -196,7 +197,13 @@ output: true
 <h3 id="sec-1-2">思路</h3>
 <div class="outline-text-3" id="text-1-2">
 <ul class="org-ul">
-<li>思路
+<li>看起来是个简单的问题, 二分法查找,然后从查找的地方开始左右延伸,肯定能解决这
+个问题, 但是这样一来如果数组里面的数字全部相同,那么在最坏情况下就退化成了一
+个O(n)的复杂度
+</li>
+<li>所以这个问题肯定还是得从二分的这个角度改, 二分查找的主干不能改.可以增加一个
+变量result(初始化为-1,如果找不到就返回-1). 让result每次记录刚刚找到的暂时
+的结果,然后修改查找区间, 再找.再找到后,就丢弃前面的结果啦
 </li>
 </ul>
 </div>
@@ -207,8 +214,54 @@ output: true
 <div class="outline-text-3" id="text-1-3">
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #999999;">int</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">argc</span>, <span style="color: #999999;">char</span> *<span style="color: #FD971F;">argv</span>[])
+<pre class="src src-c++"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;iostream&gt;</span>
+<span style="color: #A7DBD8;">using</span> <span style="color: #A7DBD8;">namespace</span> <span style="color: #AEE239;">std</span>;
+
+<span style="color: #999999;">int</span> <span style="color: #AEE239;">binary_search_first</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">arr</span>[], <span style="color: #999999;">int</span> <span style="color: #FD971F;">len</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">key</span>) {
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">low</span> = 0;
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">high</span> = len - 1;
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">result</span> = -1;
+    <span style="color: #A7DBD8;">while</span> (low &lt;= high) {
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">mid</span> = (low + high) / 2;
+        <span style="color: #A7DBD8;">if</span> (key == arr[mid]) {
+            result = mid;
+            high = mid -1;
+        } <span style="color: #A7DBD8;">else</span> <span style="color: #A7DBD8;">if</span> (key &lt; arr[mid]) {
+            high = mid - 1;
+        } <span style="color: #A7DBD8;">else</span> {
+            low = mid + 1;
+        }
+    }
+    <span style="color: #A7DBD8;">return</span> result;
+}
+
+<span style="color: #999999;">int</span> <span style="color: #AEE239;">binary_search_last</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">arr</span>[], <span style="color: #999999;">int</span> <span style="color: #FD971F;">len</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">key</span>) {
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">low</span> = 0;
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">high</span> = len - 1;
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">result</span> = -1;
+    <span style="color: #A7DBD8;">while</span> (low &lt;= high) {
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">mid</span> = (low + high) / 2;
+        <span style="color: #A7DBD8;">if</span> (arr[mid] == key) {
+            result = mid;
+            low = mid + 1;
+        } <span style="color: #A7DBD8;">else</span> <span style="color: #A7DBD8;">if</span> (arr[mid] &gt; key) {
+            high = mid - 1;
+        } <span style="color: #A7DBD8;">else</span> {
+            low = mid + 1;
+        }
+    }
+    <span style="color: #A7DBD8;">return</span> result;
+}
+
+<span style="color: #999999;">int</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">argc</span>, <span style="color: #999999;">char</span> *<span style="color: #FD971F;">argv</span>[])
 {
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">array</span>[] = {0,0,1,2,4,5,5,6,6,6,6,7,11};
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">n</span> = <span style="color: #A7DBD8;">sizeof</span>(array) / <span style="color: #A7DBD8;">sizeof</span>(array[0]);
+    cout &lt;&lt; <span style="color: #F8F8F0;">"Found 5 from "</span> &lt;&lt; binary_search_first(array, n, 5) &lt;&lt; <span style="color: #F8F8F0;">" to "</span>
+         &lt;&lt; binary_search_last(array, n, 5) &lt;&lt; endl;
+
+    cout &lt;&lt; <span style="color: #F8F8F0;">"Found 8 from "</span> &lt;&lt; binary_search_first(array, n, 8) &lt;&lt; <span style="color: #F8F8F0;">" to "</span>
+         &lt;&lt; binary_search_last(array, n, 8) &lt;&lt; endl;
 
     <span style="color: #A7DBD8;">return</span> 0;
 }
