@@ -1,0 +1,337 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>逆波兰式的生成和计算</title>
+<!-- 2013-12-08 ���� 21:43 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title"></div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/about.html">About</a></li>
+                    <li><a href="/atom.xml">RSS</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">逆波兰式的生成和计算</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">题目</a></li>
+<li><a href="#sec-2">思路</a></li>
+<li><a href="#sec-3">代码实现</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">题目</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>给出一个算术表达式(加减乘除四则运算和括号) 求其逆波兰式, 并计算计算其结果
+</li>
+</ul>
+<pre class="example">
+Sample Input : (2+3)*5-8 
+Sample Output: rpn is  ['2', '3', '+', '5', '*', '8', '-']
+               result is  17
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">思路</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>普通的算术式比如"3 + 4"是中缀表达式, 而计算机最喜欢使用后缀表达式"3 4 +". 因为后
+缀表达式有如下有特点:
+<ol class="org-ol">
+<li>不需要用括号
+</li>
+<li>用栈来计算, 符合计算机特性
+</li>
+</ol>
+</li>
+<li>中缀表达式转化成后缀表达式的过程如下(只考虑加减乘除四则运算和括号, 开方等只有一个操
+作数的运算稍有不同), 首先有两个栈out结果最终的输出, stack负责临时放操作符:
+<ol class="org-ol">
+<li>从前往后遍历,遇到数字就直接放入out栈, 我们发现数字的先后顺序相对都不会改变的
+</li>
+<li>从前往后遍历,遇到操作符就和stack的栈顶优先级进行比较,
+<ul class="org-ul">
+<li>如果小于(或者是第一个的话),那么就加入到stack里面.
+</li>
+<li>如果大于,就加入到out里面
+</li>
+</ul>
+</li>
+<li>从前往后遍历,遇到'(', 就加入到stack里面
+</li>
+<li>从前往后遍历,遇到')', 就把stack里面从'('到栈顶的所有的token都加入到out里面, 
+注意,不要加入'(' 和 ')'
+</li>
+</ol>
+</li>
+<li>后缀表达式的计算过程就很简单了:
+<ol class="org-ol">
+<li>从前往后遍历,遇到数字放入栈
+</li>
+<li>从前往后遍历,遇到字符就将栈前面两个数字pop, 把结果写入到栈
+</li>
+<li>如果输入是一个合格的逆波兰式的话,那么最后栈底剩下的就是表达式计算结果了.
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">代码实现</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #A7DBD8;">import</span> re
+
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">RPN</span>:
+    <span style="color: #F8F8F0;">""" RPN stands for reversed polish notation, is</span>
+<span style="color: #F8F8F0;">    used to caculate the math express by computer</span>
+<span style="color: #F8F8F0;">    """</span>
+    <span style="color: #FD971F;">OPERATORS</span> = {
+        <span style="color: #F8F8F0;">'+'</span>: (0, <span style="color: #A7DBD8;">lambda</span> a, b: a + b),
+        <span style="color: #F8F8F0;">'-'</span>: (0, <span style="color: #A7DBD8;">lambda</span> a, b: a - b),
+        <span style="color: #F8F8F0;">'*'</span>: (5, <span style="color: #A7DBD8;">lambda</span> a, b: a * b),
+        <span style="color: #F8F8F0;">'/'</span>: (5, <span style="color: #A7DBD8;">lambda</span> a, b: a / b),
+        <span style="color: #F8F8F0;">'%'</span>: (5, <span style="color: #A7DBD8;">lambda</span> a, b: a % b)
+    }
+
+    <span style="color: #FD971F;">token_map</span> = {<span style="color: #F8F8F0;">'+'</span>: <span style="color: #F8F8F0;">'ADD'</span>, <span style="color: #F8F8F0;">'-'</span>: <span style="color: #F8F8F0;">'ADD'</span>, <span style="color: #F8F8F0;">'*'</span>: <span style="color: #F8F8F0;">'MUL'</span>, <span style="color: #F8F8F0;">'/'</span>: <span style="color: #F8F8F0;">'DIV'</span>, <span style="color: #F8F8F0;">'('</span>: <span style="color: #F8F8F0;">'LPAR'</span>,
+                 <span style="color: #F8F8F0;">')'</span>: <span style="color: #F8F8F0;">'RPAR'</span>}
+
+    <span style="color: #A7DBD8;">def</span> <span style="color: #AEE239;">__init__</span>(<span style="color: #A7DBD8;">self</span>, exp=<span style="color: #F8F8F0;">""</span>):
+        <span style="color: #F8F8F0;">"""Given the RPN a normal math express as input</span>
+<span style="color: #F8F8F0;">        """</span>
+        <span style="color: #A7DBD8;">self</span>.infix = re.findall(<span style="color: #F8F8F0;">'[\d.]+|[%s]'</span> % <span style="color: #F8F8F0;">''</span>.join(<span style="color: #A7DBD8;">self</span>.token_map), exp)
+        <span style="color: #A7DBD8;">self</span>.rpn = <span style="color: #A7DBD8;">self</span>.infix_to_rpn()
+
+    <span style="color: #A7DBD8;">def</span> <span style="color: #AEE239;">is_operator</span>(<span style="color: #A7DBD8;">self</span>, token):
+        <span style="color: #A7DBD8;">return</span> token <span style="color: #A7DBD8;">in</span> <span style="color: #A7DBD8;">self</span>.OPERATORS.keys()
+
+    <span style="color: #A7DBD8;">def</span> <span style="color: #AEE239;">cmp_pre</span>(<span style="color: #A7DBD8;">self</span>, tk1, tk2):
+        <span style="color: #A7DBD8;">if</span> <span style="color: #A7DBD8;">not</span> <span style="color: #A7DBD8;">self</span>.is_operator(tk1) <span style="color: #A7DBD8;">or</span> <span style="color: #A7DBD8;">not</span> <span style="color: #A7DBD8;">self</span>.is_operator(tk2):
+            <span style="color: #A7DBD8;">raise</span> <span style="color: #999999;">ValueError</span>(<span style="color: #F8F8F0;">'Invalid token: %s %s'</span> % (tk1, tk2))
+        <span style="color: #A7DBD8;">return</span> <span style="color: #A7DBD8;">self</span>.OPERATORS[tk1][0] - <span style="color: #A7DBD8;">self</span>.OPERATORS[tk2][0]
+
+    <span style="color: #A7DBD8;">def</span> <span style="color: #AEE239;">infix_to_rpn</span>(<span style="color: #A7DBD8;">self</span>):
+        <span style="color: #FD971F;">out</span> = []
+        <span style="color: #FD971F;">stack</span> = []
+        <span style="color: #A7DBD8;">for</span> token <span style="color: #A7DBD8;">in</span> <span style="color: #A7DBD8;">self</span>.infix:
+            <span style="color: #A7DBD8;">if</span> <span style="color: #A7DBD8;">self</span>.is_operator(token):
+                <span style="color: #A7DBD8;">while</span> <span style="color: #F38630;">len</span>(stack) != 0 <span style="color: #A7DBD8;">and</span> <span style="color: #A7DBD8;">self</span>.is_operator(stack[-1]):
+                    <span style="color: #A7DBD8;">if</span> <span style="color: #A7DBD8;">self</span>.cmp_pre(token, stack[-1]) &lt;= 0:
+                        out.append(stack.pop())
+                        <span style="color: #A7DBD8;">continue</span>
+                    <span style="color: #A7DBD8;">break</span>
+                stack.append(token)
+            <span style="color: #A7DBD8;">elif</span> token == <span style="color: #F8F8F0;">'('</span>:
+                stack.append(token)
+            <span style="color: #A7DBD8;">elif</span> token == <span style="color: #F8F8F0;">')'</span>:
+                <span style="color: #A7DBD8;">while</span> <span style="color: #F38630;">len</span>(stack) != 0 <span style="color: #A7DBD8;">and</span> stack[-1] != <span style="color: #F8F8F0;">'('</span>:
+                    out.append(stack.pop())
+                stack.pop()
+            <span style="color: #A7DBD8;">else</span>:
+                out.append(token)
+        <span style="color: #A7DBD8;">while</span> <span style="color: #F38630;">len</span>(stack) != 0:
+            out.append(stack.pop())
+        <span style="color: #A7DBD8;">return</span> out
+
+    <span style="color: #A7DBD8;">def</span> <span style="color: #AEE239;">rpn_eval</span>(<span style="color: #A7DBD8;">self</span>):
+        out = []
+        <span style="color: #A7DBD8;">for</span> token <span style="color: #A7DBD8;">in</span> <span style="color: #A7DBD8;">self</span>.rpn:
+            <span style="color: #A7DBD8;">if</span> <span style="color: #A7DBD8;">self</span>.is_operator(token):
+                p1 = out.pop()
+                p2 = out.pop()
+                out.append(<span style="color: #A7DBD8;">self</span>.OPERATORS[token][1](p2, p1))
+            <span style="color: #A7DBD8;">else</span>:
+                out.append(<span style="color: #F38630;">int</span>(token))
+        <span style="color: #A7DBD8;">return</span> out[0]
+
+
+<span style="color: #A7DBD8;">def</span> <span style="color: #AEE239;">main</span>():
+    r = RPN(<span style="color: #F8F8F0;">'(2+3)*5 - 8'</span>)
+    <span style="color: #A7DBD8;">print</span> r.infix_to_rpn()
+    <span style="color: #A7DBD8;">print</span> r.rpn_eval()
+
+
+<span style="color: #A7DBD8;">if</span> <span style="color: #F38630;">__name__</span> == <span style="color: #F8F8F0;">'__main__'</span>:
+    main()
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Duoshuo Comment BEGIN -->
+         <div class="ds-thread"></div>
+         <script type="text/javascript">
+             var duoshuoQuery = {short_name:"harrifeng"};
+             (function() {
+             var ds = document.createElement('script');
+             ds.type = 'text/javascript';ds.async = true;
+             ds.src = 'http://static.duoshuo.com/embed.js';
+             ds.charset = 'UTF-8';
+             (document.getElementsByTagName('head')[0] 
+             || document.getElementsByTagName('body')[0]).appendChild(ds);
+             })();
+         </script>
+         <!-- Duoshuo Comment END -->
+</div>
+</body>
+</html>
