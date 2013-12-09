@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[HurryUp]]></title>
+  <link href="http://harrifeng.github.io/atom.xml" rel="self"/>
+  <link href="http://harrifeng.github.io/"/>
+  <updated>2013-12-02T19:02:30+08:00</updated>
+  <id>http://harrifeng.github.io/</id>
+  <author>
+    <name><![CDATA[Harri Feng]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Emacs的occur Mode也顶半边天]]></title>
+    <link href="http://harrifeng.github.io/blog/2013/11/29/emacs-occur-mode-usage/"/>
+    <updated>2013-11-29T20:32:23+08:00</updated>
+    <id>http://harrifeng.github.io/blog/2013/11/29/emacs-occur-mode-usage</id>
+    <content type="html"><![CDATA[<p>Emacs查找很多人第一眼就想到的是grep, rgrep, 但是很多时候你到了测试机上,发现只有emacs, 没有grep.exe find.exe(gnu版本), 那你就不查找了?
+这个时候occur-mode是你的好帮手, 它是el写的和eshell一样对emacs 不离不弃</p>
+
+<ul>
+<li>先看看emacs原来就有的一个特性,就是occur查找结果的重命名: 很多时候大家抱怨occur mode查找
+  出来一次再找,上次结果就没有了. 解决办法: 每次当你想再次查找并且保留上次搜索结果的时候.就
+  按<code>Ctrl+u, r</code>, 当前搜索结果就自动保存成了occur+当前文件名.</li>
+<li>在emacs24中, occur mode又有了新的用法: 直接在搜索结果里面更改内容
+
+<ol>
+<li> 打开一个文件, 然后调用occur</li>
+<li> 切换到occur搜索到的结果, 按[e] (M-x occur-edit-mode)就可以更改啦!</li>
+<li> 编辑完毕想回到只读模式按<code>Ctrl+c, Ctrl+c</code></li>
+</ol>
+</li>
+<li>在ibuffer模式下mark了多个文件按[O]也是可以occur搜索的</li>
+</ul>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Leetcode: Two Sum]]></title>
+    <link href="http://harrifeng.github.io/blog/2013/11/27/leetcode-two-sum/"/>
+    <updated>2013-11-27T22:32:23+08:00</updated>
+    <id>http://harrifeng.github.io/blog/2013/11/27/leetcode-two-sum</id>
+    <content type="html"><![CDATA[<p>题目大意就是给一个数组, 然后有一个目标数字,算出这个数组中哪两个数字之和是目标数字的组合</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Input: numbers={2, 7, 11, 15}, target=9  
+</span><span class='line'>Output: index1=1, index2=2</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>如果是找出这两个数字么,那么,这是一个典型的两个指针(排序后)从两头往中间走的简单问题.(我们专门分了一个叫做two-pointers-solution的类别)</li>
+<li>但是它却要求要序列号. 这就会麻烦一些,解决的办法是设计一个类,用其中一个域来记录它原来的(也就是在在排序前)序列号.</li>
+</ul>
+
+
+<figure class='code'><figcaption><span> (two_sum.cc)</span> <a href='http://harrifeng.github.io/downloads/code/two_sum.cc'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">struct</span> <span class="n">Node</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">val</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">index</span><span class="p">;</span>
+</span><span class='line'>    <span class="n">Node</span><span class="p">()</span> <span class="p">{}</span>
+</span><span class='line'>    <span class="n">Node</span><span class="p">(</span><span class="kt">int</span> <span class="n">v</span><span class="p">,</span> <span class="kt">int</span> <span class="n">idx</span><span class="p">)</span> <span class="o">:</span> <span class="n">val</span><span class="p">(</span><span class="n">v</span><span class="p">),</span> <span class="n">index</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span> <span class="p">{}</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="kt">bool</span> <span class="n">compare</span><span class="p">(</span><span class="k">const</span> <span class="n">Node</span> <span class="o">&amp;</span><span class="n">lhs</span><span class="p">,</span> <span class="k">const</span> <span class="n">Node</span> <span class="o">&amp;</span><span class="n">rhs</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">lhs</span><span class="p">.</span><span class="n">val</span> <span class="o">&lt;</span> <span class="n">rhs</span><span class="p">.</span><span class="n">val</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">twoSum</span><span class="p">(</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&amp;</span><span class="n">numbers</span><span class="p">,</span> <span class="kt">int</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="n">vector</span><span class="o">&lt;</span><span class="n">Node</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">;</span>
+</span><span class='line'>    <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">numbers</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="n">a</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">Node</span><span class="p">(</span><span class="n">numbers</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">));</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="n">sort</span><span class="p">(</span><span class="n">a</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">a</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="n">compare</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">.</span><span class="n">size</span><span class="p">()</span>  <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">j</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">val</span> <span class="o">+</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">val</span><span class="p">;</span>
+</span><span class='line'>        <span class="k">if</span> <span class="p">(</span><span class="n">sum</span> <span class="o">==</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">ret</span><span class="p">;</span>
+</span><span class='line'>            <span class="kt">int</span> <span class="n">minIndex</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">index</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">index</span><span class="p">);</span>
+</span><span class='line'>            <span class="kt">int</span> <span class="n">maxIndex</span> <span class="o">=</span> <span class="n">max</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">index</span><span class="p">,</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">].</span><span class="n">index</span><span class="p">);</span>
+</span><span class='line'>            <span class="n">ret</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">minIndex</span><span class="p">);</span>
+</span><span class='line'>            <span class="n">ret</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">maxIndex</span><span class="p">);</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">sum</span> <span class="o">&lt;</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="o">++</span><span class="n">i</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>            <span class="o">--</span><span class="n">j</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[有些问题要靠inode来解释]]></title>
+    <link href="http://harrifeng.github.io/blog/2012/02/19/inode/"/>
+    <updated>2012-02-19T23:52:11+08:00</updated>
+    <id>http://harrifeng.github.io/blog/2012/02/19/inode</id>
+    <content type="html"><![CDATA[<ul>
+<li>问题一: 为什么硬链接无法跨文件系统, 而软链接可以.</li>
+<li>问题二: 为什么有时候硬盘没满确无法创建文件了</li>
+<li>问题三: 为什么Linux升级不需要像windows一样重启</li>
+</ul>
+
+
+<h3>Inode.</h3>
+
+<ol>
+<li>inode是Linux(也就是原来Unix)在&#8221;一切皆文件(Everything is File)&ldquo;的理念下面为每个文件准备的&#8221;花名册&rdquo;, 我们可以通过stat来查看一个文件的inode:</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>hfeng@ubuntu:~$ stat test.txt
+</span><span class='line'>  File: 'test.txt'
+</span><span class='line'>  Size: 12            Blocks: 8          IO Block: 4096   regular file
+</span><span class='line'>Device: 801h/2049d    Inode: 11278619    Links: 1
+</span><span class='line'>Access: (0644/-rw-r--r--)  Uid: ( 1000/   hfeng)   Gid: (  100/   users)
+</span><span class='line'>Access: 2013-12-02 17:58:55.819681923 +0800
+</span><span class='line'>Modify: 2013-12-02 17:58:55.823681923 +0800
+</span><span class='line'>Change: 2013-12-02 17:58:55.823681923 +0800
+</span><span class='line'> Birth: -</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>从上面可以看出每个文件必定有一个自己的inode. 这个inode里面有关于这个文件的所有信息(文件名反而没有,因为linux内部认定文件就是靠inode,文件名由
+文件夹保存是给人识别用的),那是不是每个inode都只对应一个文件呢? 大部分情况下是,比如这里的Links:1, 说明这个文件对应的inode只有他自己使用. 例外
+的情况是你有硬链接(hard link), 比如下面用ln添加了一个硬链接, 就出现了Links:2</li>
+</ol>
+
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>hfeng@ubuntu:~$ ln test.txt hard.txt
+</span><span class='line'>hfeng@ubuntu:~$ stat test.txt
+</span><span class='line'>  File: 'test.txt'
+</span><span class='line'>  Size: 12            Blocks: 8          IO Block: 4096   regular file
+</span><span class='line'>Device: 801h/2049d    Inode: 11278619    Links: 2
+</span><span class='line'>Access: (0644/-rw-r--r--)  Uid: ( 1000/   hfeng)   Gid: (  100/   users)
+</span><span class='line'>Access: 2013-12-02 17:58:55.819681923 +0800
+</span><span class='line'>Modify: 2013-12-02 17:58:55.823681923 +0800
+</span><span class='line'>Change: 2013-12-02 17:59:34.895681190 +0800
+</span><span class='line'> Birth: -</span></code></pre></td></tr></table></div></figure>
+
+
+<ol>
+<li>知道了硬件连接是和inode联系紧密, 而inode是在文件系统分区的时候就建立的. 不同的文件系统之间的inode是相互不理解的.所以解决了问题一, 硬链接
+是无法跨文件系统的. 而软连接(符号链接)就没有这个问题,如下图: 硬链接是两个不同的文件公用一个inode, 而软链接是两个不同的文件用两个inode, 只是
+其中一个文件的功能就是记录别人</li>
+</ol>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[90度旋转矩阵]]></title>
+    <link href="http://harrifeng.github.io/blog/2011/06/16/rotate-matrix/"/>
+    <updated>2011-06-16T21:32:21+08:00</updated>
+    <id>http://harrifeng.github.io/blog/2011/06/16/rotate-matrix</id>
+    <content type="html"><![CDATA[<p>题目大意就是给一个矩阵, 然后把这个矩阵90度旋转</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>Input:
+</span><span class='line'>  0  1  2  3
+</span><span class='line'>  4  5  6  7
+</span><span class='line'>  8  9 10 11
+</span><span class='line'> 12 13 14 15
+</span><span class='line'>  
+</span><span class='line'>Output:
+</span><span class='line'> 12  8  4  0
+</span><span class='line'> 13  9  5  1
+</span><span class='line'> 14 10  6  2
+</span><span class='line'> 15 11  7  3</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>其实就是按层次分, 像拨洋葱一样,从外面一层一层的拨开, 而具体到每一层,都是分几组,每组一次调整四个</li>
+<li>这种题目,主要就是要写对下标,我们专门分了一个叫做complex index的类别</li>
+</ul>
+
+
+<figure class='code'><figcaption><span> (RotateMatrix.java)</span> <a href='http://harrifeng.github.io/downloads/code/RotateMatrix.java'>download</a></figcaption>
+<div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+</pre></td><td class='code'><pre><code class='cpp'><span class='line'><span class="k">public</span> <span class="k">class</span> <span class="nc">RotateMatrix</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="n">rotate</span><span class="p">(</span><span class="kt">int</span> <span class="p">[][]</span><span class="n">matrix</span><span class="p">,</span> <span class="kt">int</span> <span class="n">n</span><span class="p">){</span>
+</span><span class='line'>      <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">layer</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">layer</span> <span class="o">&lt;</span> <span class="n">n</span> <span class="o">/</span> <span class="mi">2</span><span class="p">;</span> <span class="n">layer</span><span class="o">++</span><span class="p">){</span>
+</span><span class='line'>          <span class="kt">int</span> <span class="n">first</span> <span class="o">=</span> <span class="n">layer</span><span class="p">;</span>
+</span><span class='line'>          <span class="kt">int</span> <span class="n">last</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">layer</span><span class="p">;</span>
+</span><span class='line'>          <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="n">first</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">last</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">){</span>
+</span><span class='line'>              <span class="kt">int</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">i</span> <span class="o">-</span> <span class="n">first</span><span class="p">;</span>
+</span><span class='line'>              <span class="kt">int</span> <span class="n">top</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">[</span><span class="n">first</span><span class="p">][</span><span class="n">i</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>              <span class="c1">// left ==&gt; top</span>
+</span><span class='line'>              <span class="n">matrix</span><span class="p">[</span><span class="n">first</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">[</span><span class="n">last</span><span class="o">-</span><span class="n">offset</span><span class="p">][</span><span class="n">first</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>              <span class="c1">// bottom ==&gt; left;</span>
+</span><span class='line'>              <span class="n">matrix</span><span class="p">[</span><span class="n">last</span><span class="o">-</span><span class="n">offset</span><span class="p">][</span><span class="n">first</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">[</span><span class="n">last</span><span class="p">][</span><span class="n">last</span><span class="o">-</span><span class="n">offset</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>              <span class="c1">// right ==&gt; bottom;</span>
+</span><span class='line'>              <span class="n">matrix</span><span class="p">[</span><span class="n">last</span><span class="p">][</span><span class="n">last</span><span class="o">-</span><span class="n">offset</span><span class="p">]</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">last</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>              <span class="c1">// top ==&gt; right;</span>
+</span><span class='line'>              <span class="n">matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">last</span><span class="p">]</span> <span class="o">=</span> <span class="n">top</span><span class="p">;</span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kt">int</span> <span class="p">[][]</span> <span class="n">mat</span> <span class="o">=</span> <span class="p">{{</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">},</span> <span class="p">{</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">},</span> <span class="p">{</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">},</span>
+</span><span class='line'>                        <span class="p">{</span><span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">}};</span>
+</span><span class='line'>        <span class="kt">int</span> <span class="n">Num</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">Num</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">Num</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%3d&quot;</span><span class="p">,</span> <span class="n">mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">();</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>      <span class="n">rotate</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">Num</span><span class="p">);</span>
+</span><span class='line'>        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;--------------&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">Num</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">Num</span><span class="p">;</span> <span class="n">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>                <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%3d&quot;</span><span class="p">,</span> <span class="n">mat</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]);</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>            <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">();</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p></p>
+]]></content>
+  </entry>
+  
+</feed>
