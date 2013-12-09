@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Leetcode: Letter Combinations of a Phone Number</title>
-<!-- 2013-12-08 ���� 21:43 -->
+<title>Leetcode: Valid Parentheses</title>
+<!-- 2013-12-09 ��һ 17:03 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -159,7 +159,7 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Leetcode: Letter Combinations of a Phone Number</h1>
+<h1 class="title">Leetcode: Valid Parentheses</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -174,24 +174,14 @@ for the JavaScript code in this tag.
 <h2 id="sec-1">题目</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li>电话号码上面,每个按键除了数字还会有几个字母,如下图, 如果按顺序按下某些数字,
-求这个顺序产生的的,所有可能的字母组合.
+<li>给出一组括号字符串,比如'(', ')', '{', '}', '[', ']' 判断这些括号引入的顺序是不是合法的
 </li>
 </ul>
 <pre class="example">
-+-------+-------+-------+ 
-|   1   |   2   |   3   | 
-|       |  abc  |  def  | 
-+-------+-------+-------+ 
-|   4   |   5   |   6   | 
-|  ghi  |  jkl  |  mno  | 
-+-------+-------+-------+ 
-|   7   |   8   |   9   | 
-| pqrs  |  tuv  | wxyz  | 
-+-------+-------+-------+ 
-
-Sample Input : string "23"
-Sample Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
+Sample Input : (((()]]]
+Sample Output: false
+Sample Input : ()[](()){}
+Sample Output: true
 </pre>
 </div>
 </div>
@@ -199,13 +189,9 @@ Sample Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
 <h2 id="sec-2">思路</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
-<li>这个是一个结果是排列组合的问题,一个类似的问题就是小组赛N个队, 相互之间的比赛
-列表. 这种问题就是回溯法
+<li>判断括号合法与否,应该立刻与栈联系起来(这里用vector直接模仿栈)
 </li>
-<li>回溯法最重要的就是要"先加再减"
-</li>
-<li>回溯法函数参数的设计是把结果当成参数(此处是用参数引用), 返回值返回一个void. 
-这样容易设计递归. 
+<li>返回值为bool的情况,中间一旦出错就可以返回,其实简化了题目难度
 </li>
 </ul>
 </div>
@@ -217,37 +203,31 @@ Sample Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
 <div class="org-src-container">
 
 <pre class="src src-c++"><span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Solution</span> {
-    <span style="color: #999999;">void</span> <span style="color: #AEE239;">combine</span>(<span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">string</span>&gt;&amp; <span style="color: #FD971F;">result</span>, <span style="color: #999999;">string</span> <span style="color: #FD971F;">digits</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">level</span>,
-                 <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">string</span>&gt; <span style="color: #FD971F;">summary</span>, <span style="color: #999999;">string</span> <span style="color: #FD971F;">tmp</span>) {
-        <span style="color: #A7DBD8;">if</span> (level == digits.size()) {
-            result.push_back(tmp);
-            <span style="color: #A7DBD8;">return</span>;
-        }
-        <span style="color: #999999;">string</span> <span style="color: #FD971F;">current_sum</span> = summary[digits[level] - <span style="color: #F8F8F0;">'2'</span>];
-        <span style="color: #A7DBD8;">for</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; current_sum.size(); i++) {
-            tmp.push_back(<span style="color: #999999;">current_sum</span>[i]);
-            combine(result, digits, level + 1, summary, tmp);
-            <span style="color: #505C63;">// </span><span style="color: #505C63;">c++ 11, used to be ==&gt; tmp.erase(tmp.size()-1);</span>
-            tmp.pop_back();
-        }
-    }
 <span style="color: #A7DBD8;">public</span>:
-    <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">string</span>&gt; <span style="color: #AEE239;">letterCombinations</span>(<span style="color: #999999;">string</span> <span style="color: #FD971F;">digits</span>) {
-        <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">string</span>&gt; <span style="color: #FD971F;">sum</span>;
-        sum.push_back(<span style="color: #F8F8F0;">"abc"</span>);
-        sum.push_back(<span style="color: #F8F8F0;">"def"</span>);
-        sum.push_back(<span style="color: #F8F8F0;">"ghi"</span>);
-        sum.push_back(<span style="color: #F8F8F0;">"jkl"</span>);
-        sum.push_back(<span style="color: #F8F8F0;">"mno"</span>);
-        sum.push_back(<span style="color: #F8F8F0;">"pqrs"</span>);
-        sum.push_back(<span style="color: #F8F8F0;">"tuv"</span>);
-        sum.push_back(<span style="color: #F8F8F0;">"wxyz"</span>);
-
-        <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">string</span>&gt; <span style="color: #FD971F;">ret</span>;
-        <span style="color: #999999;">string</span> <span style="color: #FD971F;">t</span>;
-
-        combine(ret, digits, 0, sum, t);
-        <span style="color: #A7DBD8;">return</span> ret;
+    <span style="color: #999999;">bool</span> <span style="color: #AEE239;">isValid</span>(<span style="color: #999999;">string</span> <span style="color: #FD971F;">s</span>) {
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">len</span> = s.length();
+        <span style="color: #A7DBD8;">if</span> (len == 0) {
+            <span style="color: #A7DBD8;">return</span> <span style="color: #AEE239;">true</span>;
+        }
+        <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">int</span>&gt; <span style="color: #FD971F;">sta</span>;
+        sta.push_back(<span style="color: #999999;">s</span>[0]);
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 1; i &lt; len; i++) {
+            <span style="color: #A7DBD8;">if</span> (s[i] == <span style="color: #F8F8F0;">'('</span> || s[i] == <span style="color: #F8F8F0;">'['</span> || s[i] == <span style="color: #F8F8F0;">'{'</span>) {
+                sta.push_back(<span style="color: #999999;">s</span>[i]);
+            } <span style="color: #A7DBD8;">else</span> <span style="color: #A7DBD8;">if</span> (s[i] == <span style="color: #F8F8F0;">')'</span> &amp;&amp; sta.back() != <span style="color: #F8F8F0;">'('</span>) {
+                <span style="color: #A7DBD8;">return</span> <span style="color: #AEE239;">false</span>;
+            } <span style="color: #A7DBD8;">else</span> <span style="color: #A7DBD8;">if</span> (s[i] == <span style="color: #F8F8F0;">']'</span> &amp;&amp; sta.back() != <span style="color: #F8F8F0;">'['</span>) {
+                <span style="color: #A7DBD8;">return</span> <span style="color: #AEE239;">false</span>;
+            } <span style="color: #A7DBD8;">else</span> <span style="color: #A7DBD8;">if</span> (s[i] == <span style="color: #F8F8F0;">'}'</span> &amp;&amp; sta.back() != <span style="color: #F8F8F0;">'{'</span>) {
+                <span style="color: #A7DBD8;">return</span> <span style="color: #AEE239;">false</span>;
+            } <span style="color: #A7DBD8;">else</span> {
+                sta.pop_back();
+            }
+        }
+        <span style="color: #A7DBD8;">if</span> (sta.empty()) {
+            <span style="color: #A7DBD8;">return</span> <span style="color: #AEE239;">true</span>;
+        }
+        <span style="color: #A7DBD8;">return</span> <span style="color: #AEE239;">false</span>;
     }
 };
 </pre>
