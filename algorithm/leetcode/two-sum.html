@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Sitemap</title>
+<title>Leetcode: Two Sum</title>
 <!-- 2013-12-11 ���� 22:36 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
@@ -159,45 +159,93 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Sitemap</h1>
+<h1 class="title">Leetcode: Two Sum</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">题目</a></li>
+<li><a href="#sec-2">思路</a></li>
+<li><a href="#sec-3">解答</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">题目</h2>
+<div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li>algorithm
-<ul class="org-ul">
-<li>leetcode
-<ul class="org-ul">
-<li><a href="algorithm/leetcode/letter-combinations-of-a-phone-number.html">Leetcode: Letter Combinations of a Phone Number</a>
-</li>
-<li><a href="algorithm/leetcode/merge-k-sorted-lists.html">Leetcode: Merge K Sorted Lists</a>
-</li>
-<li><a href="algorithm/leetcode/two-sum.html">Leetcode: Two Sum</a>
-</li>
-<li><a href="algorithm/leetcode/valid-parentheses.html">Leetcode: Valid Parentheses</a>
+<li>给出一组括号字符串,比如{2, 7, 11, 15}和一个目标数9, 判断这些数中哪些数字的
+和为目标数, 输出他们的下标
 </li>
 </ul>
-</li>
-<li><a href="algorithm/binary-search-find-first-and-last-occurrence.html">二分查找法查找数字首次末次出现位置</a>
-</li>
-<li><a href="algorithm/reverse-polish-notation.html">逆波兰式的生成和计算</a>
-</li>
-<li><a href="algorithm/random-shuffle.html">随机数列</a>
-</li>
-</ul>
-</li>
-<li>notes
+<pre class="example">
+Sample Input : {2, 7, 11, 15}, target=9
+Sample Output: 1, 2
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">思路</h2>
+<div class="outline-text-2" id="text-2">
 <ul class="org-ul">
-<li><a href="notes/effective-cpp.html">Effective C++</a>
+<li>求哪些数字和为某个特定的target很简单,就是两个指针从两头指的问题, 但是要求
+下标的话,就麻烦一些. 因为两指针法需要排序,而排序后很难找到原始下标
 </li>
-<li><a href="notes/unp.html">UNIX网络编程</a>
+<li>这里处理的方法很OOP, 每个数字都用原始下标和数值组合成一个新的类
 </li>
-</ul>
-</li>
-<li><a href="about.html">About</a>
-</li>
-<li><a href="notes.html">读书笔记</a>
-</li>
-<li><a href="index.html">首页</a>
+<li>注意这里compare_number和std::sort的应用
 </li>
 </ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">解答</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">Number</span> {
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">index</span>;
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">value</span>;
+    <span style="color: #AEE239;">Number</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">v</span>) : index(i),  value(v){}
+};
+
+<span style="color: #999999;">bool</span> <span style="color: #AEE239;">compare_number</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Number</span> &amp;<span style="color: #FD971F;">left</span>, <span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Number</span> &amp;<span style="color: #FD971F;">right</span>) {
+    <span style="color: #A7DBD8;">return</span> left.value &lt; right.value;
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Solution</span> {
+<span style="color: #A7DBD8;">public</span>:
+    <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">int</span>&gt; <span style="color: #AEE239;">twoSum</span>(<span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">int</span>&gt; &amp;<span style="color: #FD971F;">numbers</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">target</span>) {
+        <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">Number</span>&gt; <span style="color: #FD971F;">nn</span>;
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; numbers.size(); i++) {
+            nn.push_back(Number(i+1, <span style="color: #999999;">numbers</span>[i]));
+        }
+        <span style="color: #AEE239;">std</span>::sort(nn.begin(), nn.end(), compare_number);
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">beg</span> = 0;
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">end</span> = nn.size() - 1;
+
+        <span style="color: #A7DBD8;">while</span> (beg &lt; end) {
+            <span style="color: #999999;">int</span> <span style="color: #FD971F;">sum</span> = nn[beg].value + nn[end].value;
+            <span style="color: #A7DBD8;">if</span> (sum == target) {
+                <span style="color: #999999;">int</span> <span style="color: #FD971F;">small</span> = <span style="color: #AEE239;">std</span>::min(nn[beg].index, nn[end].index);
+                <span style="color: #999999;">int</span> <span style="color: #FD971F;">big</span> = <span style="color: #AEE239;">std</span>::max(nn[beg].index, nn[end].index);
+                <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">int</span>&gt; <span style="color: #FD971F;">ret</span>;
+                ret.push_back(small);
+                ret.push_back(big);
+                <span style="color: #A7DBD8;">return</span> ret;
+            } <span style="color: #A7DBD8;">else</span> <span style="color: #A7DBD8;">if</span> (sum &lt; target) {
+                beg++;
+            } <span style="color: #A7DBD8;">else</span> {
+                end--;
+            }
+        }
+    }
+};
+</pre>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 
