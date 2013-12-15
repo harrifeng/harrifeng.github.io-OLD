@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Effective C++</title>
-<!-- 2013-12-11 ���� 22:36 -->
+<!-- 2013-12-15 ���� 19:49 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -170,7 +170,18 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1-2">Item 2: Prefer const, enums and inlines to #defines</a></li>
 <li><a href="#sec-1-3">Item 3: Use const whenever possible</a></li>
 <li><a href="#sec-1-4">Item 4: Make sure that objects are initialized before they're used</a></li>
-<li><a href="#sec-1-5"></a></li>
+</ul>
+</li>
+<li><a href="#sec-2">Chapter 2: 构造析构赋值运算</a>
+<ul>
+<li><a href="#sec-2-1">Item 05: 了解C++默默编写并调用哪些函数</a></li>
+<li><a href="#sec-2-2">Item 06: 若不想使用编译器生成的函数,就该明确拒绝</a></li>
+<li><a href="#sec-2-3">Item 07: 为多肽基类声明virtual析构函数</a></li>
+<li><a href="#sec-2-4">Item 08: 别让异常逃离析构函数</a></li>
+<li><a href="#sec-2-5">Item 09: 绝对不在构造和析构过程中调用virtual函数</a></li>
+<li><a href="#sec-2-6">Item 10: 令operator=返回一个reference to *this</a></li>
+<li><a href="#sec-2-7">Item 11: 在operator=中处理"自我赋值"</a></li>
+<li><a href="#sec-2-8">Item 12: 复制对象时勿忘其每一个成分</a></li>
 </ul>
 </li>
 </ul>
@@ -352,9 +363,268 @@ CALL_WITH_MAX(++a, b);  <span style="color: #505C63;">// </span><span style="col
 </ul>
 </div>
 </div>
+</div>
 
-<div id="outline-container-sec-1-5" class="outline-3">
-<h3 id="sec-1-5"></h3>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Chapter 2: 构造析构赋值运算</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Item 05: 了解C++默默编写并调用哪些函数</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>一个类,如果你没声明的话,编译器会默认给你创建三个函数:
+<ul class="org-ul">
+<li>default ctor
+</li>
+<li>copy ctor
+</li>
+<li>copy assignment
+</li>
+<li>dtor
+</li>
+</ul>
+</li>
+<li>所有这些函数都是public, inline的
+</li>
+<li>编译器产生的dtor是non-virtual的
+</li>
+<li>如果某个base的类把copy assignment声明为private,那么derived类是不会生成
+一个copy assignment的
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">Item 06: 若不想使用编译器生成的函数,就该明确拒绝</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>为了不让编译器暗自提供某些功能,可以将相应的成员函数声明为private,并且不予
+实现
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">Item 07: 为多肽基类声明virtual析构函数</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li>当derived 对象经由base 指针删除, 而base 带着一个non-virtual dtor, 那么其
+结果未定义&#x2013;通常情况下是derived成分没有被销毁
+</li>
+<li>如果一个class里面哪怕只有一个virtual函数,那么它一定要有一个virtual的dtor,
+如果一个virtual函数都没有,那么它没有想过继承这件事情,设置一个virtual dtor会
+增大对象的大小
+</li>
+<li>说到多肽, 我们可以有这么一种继承方法:动物类-&gt;鸟类-&gt;鸵鸟类, 其中鸟类和鸵鸟类
+都可以实例化,因为有这种动物, 而动物类就不应该实例化. 为了防止这种类被实例化
+c++中给他们了一个类型叫做"抽象基类(abstract base class)", 想让一个类成为
+抽象基类很简单, 只需要在这个类里面定义一个纯虚函数即可
+</li>
+<li>所谓纯虚函数,就是derived类里面必须要实现,而base类里面不需要实现的函数,其定义
+语法比较不常见
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Base</span> {
+    <span style="color: #A7DBD8;">virtual</span>  <span style="color: #999999;">void</span> <span style="color: #AEE239;">pure_virtual_example</span>() = 0;
+};
+</pre>
+</div>
+</li>
+<li>既然有一个纯虚函数就可以成为抽象基类可以了,而且既然是抽象基类肯定是要继承的
+那么dtor肯定要是虚函数, 那么我们不妨"合二为一"把dtor设计成纯虚函数, 如下,
+需要注意的是,纯虚dtor需要一个定义
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;iostream&gt;</span>
+<span style="color: #A7DBD8;">using</span> <span style="color: #A7DBD8;">namespace</span> <span style="color: #AEE239;">std</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Base</span>
+{
+<span style="color: #A7DBD8;">public</span>:
+    <span style="color: #AEE239;">Base</span>() {
+        cout &lt;&lt; <span style="color: #F8F8F0;">"Base Ctor"</span> &lt;&lt; endl;
+    }
+    <span style="color: #A7DBD8;">virtual</span> ~<span style="color: #AEE239;">Base</span>() = 0;
+    <span style="color: #A7DBD8;">virtual</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">speak</span>() = 0;
+};
+<span style="color: #AEE239;">Base</span>::~<span style="color: #AEE239;">Base</span>() {
+    cout &lt;&lt; <span style="color: #F8F8F0;">"Pure Virtual Dtor Need One Difinition!"</span> &lt;&lt; endl;
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">De</span> : <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">Base</span> {
+<span style="color: #A7DBD8;">public</span>:
+    <span style="color: #AEE239;">De</span>() {
+        cout &lt;&lt; <span style="color: #F8F8F0;">"De Ctor"</span> &lt;&lt; endl;
+    }
+    <span style="color: #A7DBD8;">virtual</span> ~<span style="color: #AEE239;">De</span>() {
+        cout &lt;&lt; <span style="color: #F8F8F0;">"De Dtor"</span> &lt;&lt; endl;
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">speak</span>() {}
+};
+
+<span style="color: #999999;">int</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">argc</span>, <span style="color: #999999;">char</span> *<span style="color: #FD971F;">argv</span>[])
+{
+    <span style="color: #999999;">De</span> *<span style="color: #FD971F;">dd</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">De</span>();
+    <span style="color: #A7DBD8;">delete</span> dd;
+    <span style="color: #A7DBD8;">return</span> 0;
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4">Item 08: 别让异常逃离析构函数</h3>
+<div class="outline-text-3" id="text-2-4">
+<ul class="org-ul">
+<li>c++并不禁止析构函数突出异常,但是它并不鼓励你这么做
+</li>
+<li>如果客户需要堆某个操作函数运行期间抛出的异常做出反应,那么class应该提供一个
+普通函数(而非在析构函数中)执行该操作
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5">Item 09: 绝对不在构造和析构过程中调用virtual函数</h3>
+<div class="outline-text-3" id="text-2-5">
+<ul class="org-ul">
+<li>Base class构造期间, virtual函数不是virtual函数,只是base的一个函数, 其
+绝对不可能到derived class阶层
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6">Item 10: 令operator=返回一个reference to *this</h3>
+<div class="outline-text-3" id="text-2-6">
+<ul class="org-ul">
+<li>赋值是可以写成连锁形式的, 其赋值顺序是才用右结合:
+<div class="org-src-container">
+
+<pre class="src src-c++">x = y = z = 15;
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Following is the real order by default</span>
+x = (y = (z=15));
+</pre>
+</div>
+</li>
+<li>为了实现赋值连锁, 赋值操作符函数必须返回一个reference指向操作符的左侧实参
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Widget</span> {
+<span style="color: #A7DBD8;">public</span>:
+    <span style="color: #999999;">Widget</span>&amp; <span style="color: #A7DBD8;">operator</span><span style="color: #AEE239;">=</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Widget</span>&amp; <span style="color: #FD971F;">rhs</span>) {
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">...</span>
+        <span style="color: #A7DBD8;">return</span> *<span style="color: #A7DBD8;">this</span>;
+    }
+};
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-7" class="outline-3">
+<h3 id="sec-2-7">Item 11: 在operator=中处理"自我赋值"</h3>
+<div class="outline-text-3" id="text-2-7">
+<ul class="org-ul">
+<li>"自我赋值"发生在对象给自己赋值的时候,如果在这个期间有指针的话,那么事情就有可
+能出现问题:
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Bitmap</span> {
+<span style="color: #505C63;">//</span><span style="color: #505C63;">..</span>
+};
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Widget</span> {
+<span style="color: #A7DBD8;">private</span>:
+    <span style="color: #999999;">Bitmap</span>* <span style="color: #FD971F;">pb</span>;
+};
+
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Wrong Version!! what about if rhs is this </span>
+<span style="color: #999999;">Widget</span>&amp; <span style="color: #AEE239;">Widget</span>::<span style="color: #A7DBD8;">operator</span><span style="color: #AEE239;">=</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Widget</span>&amp; <span style="color: #FD971F;">rhs</span>) {
+    <span style="color: #A7DBD8;">delete</span> pb;
+    pb = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Bitmap</span>(*rhs.pb);
+    <span style="color: #A7DBD8;">return</span> *<span style="color: #A7DBD8;">this</span>;
+}
+</pre>
+</div>
+</li>
+<li>破解"自我赋值"难题的方法是"证同测试(identity test)"
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #999999;">Widget</span>&amp; <span style="color: #AEE239;">Widget</span>::<span style="color: #A7DBD8;">operator</span><span style="color: #AEE239;">=</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Widget</span>&amp; <span style="color: #FD971F;">rhs</span>) {
+    <span style="color: #A7DBD8;">if</span> (<span style="color: #A7DBD8;">this</span> == &amp;rhs) <span style="color: #A7DBD8;">return</span> *<span style="color: #A7DBD8;">this</span>; <span style="color: #505C63;">// </span><span style="color: #505C63;">identity test</span>
+    <span style="color: #A7DBD8;">delete</span> pb;
+    pb = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Bitmap</span>(*rhs.pb);
+    <span style="color: #A7DBD8;">return</span> *<span style="color: #A7DBD8;">this</span>;
+}
+</pre>
+</div>
+</li>
+<li>上面这个版本依然有异常方面的麻烦, 如果new Bitmap出现了异常, 那么pb已经被
+删除,现在是一个空指针.所以我们要调整前面的语句顺序: 先记录pb的地址,在new 
+Bitmap之后再删除这个指针
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Widget</span> {
+    <span style="color: #999999;">Bitmap</span>* <span style="color: #FD971F;">pOrig</span> = pb; <span style="color: #505C63;">// </span><span style="color: #505C63;">remember previous pb</span>
+    <span style="color: #505C63;">// </span><span style="color: #505C63;">if exception here, the next line delete pOrig will not execute     </span>
+    pb = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Bitmap</span>(*rhs.pb); 
+    <span style="color: #A7DBD8;">delete</span> pOrig; 
+    <span style="color: #A7DBD8;">return</span> *<span style="color: #A7DBD8;">this</span>;
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-2-8" class="outline-3">
+<h3 id="sec-2-8">Item 12: 复制对象时勿忘其每一个成分</h3>
+<div class="outline-text-3" id="text-2-8">
+<ul class="org-ul">
+<li>OO编程会把内部都封装起来,而外界留下两个函数进行复制拷贝: copy ctor 和 
+copy assignment, 我们称之为copying函数
+</li>
+<li>copying函数应该确保赋值"对象内部所有的成员变量", 和 "所有base class成员"
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Customer</span> {
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">...</span>
+};
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">PriorityCustomer</span> : <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">Customer</span> {
+<span style="color: #A7DBD8;">public</span>:
+    <span style="color: #AEE239;">PriorityCustomer</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">PriorityCustomer</span>&amp; <span style="color: #FD971F;">rhs</span>);
+    <span style="color: #999999;">PriorityCustomer</span>&amp; <span style="color: #A7DBD8;">operator</span><span style="color: #AEE239;">=</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">PriorityCustomer</span>&amp; <span style="color: #FD971F;">rhs</span>);
+<span style="color: #A7DBD8;">private</span>:
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">priority</span>;
+};
+
+<span style="color: #AEE239;">PriorityCustomer</span>::<span style="color: #AEE239;">PriorityCustomer</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">PriorityCustomer</span>&amp; <span style="color: #FD971F;">rhs</span>)
+    : Customer(rhs), priority(rhs.priority) {}
+<span style="color: #999999;">PriorityCustomer</span>&amp; <span style="color: #AEE239;">PriorityCustomer</span>::<span style="color: #A7DBD8;">operator</span><span style="color: #AEE239;">=</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">PriorityCustomer</span>&amp; <span style="color: #FD971F;">rhs</span>) {
+    <span style="color: #AEE239;">Customer</span>::<span style="color: #A7DBD8;">operator</span>=(rhs);
+    priority = rhs.priority;
+    <span style="color: #A7DBD8;">return</span> *<span style="color: #A7DBD8;">this</span>;
+}
+</pre>
+</div>
+</li>
+<li>不要尝试某个copying函数取实现另一个copying函数, 应该将共同机能部分放进第
+三个函数中(通常叫做init),由两个copying函数共同调用
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
