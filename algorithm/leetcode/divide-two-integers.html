@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Sitemap</title>
-<!-- 2013-12-25 Wed 21:55 -->
+<title>Leetcode: Divide Two Integers</title>
+<!-- 2013-12-25 Wed 21:53 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -161,61 +161,88 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Sitemap</h1>
+<h1 class="title">Leetcode: Divide Two Integers</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">题目</a></li>
+<li><a href="#sec-2">思路</a></li>
+<li><a href="#sec-3">解答</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">题目</h2>
+<div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li>algorithm
-<ul class="org-ul">
-<li>leetcode
-<ul class="org-ul">
-<li><a href="algorithm/leetcode/divide-two-integers.html">Leetcode: Divide Two Integers</a>
-</li>
-<li><a href="algorithm/leetcode/letter-combinations-of-a-phone-number.html">Leetcode: Letter Combinations of a Phone Number</a>
-</li>
-<li><a href="algorithm/leetcode/merge-k-sorted-lists.html">Leetcode: Merge K Sorted Lists</a>
-</li>
-<li><a href="algorithm/leetcode/two-sum.html">Leetcode: Two Sum</a>
-</li>
-<li><a href="algorithm/leetcode/valid-parentheses.html">Leetcode: Valid Parentheses</a>
+<li>给出一个除数, 一个被除数, 要求在不用乘除和mod的情况下计算结果
+和为目标数, 输出他们的下标
 </li>
 </ul>
-</li>
-<li><a href="algorithm/kmp.html">KMP算法</a>
-</li>
-<li><a href="algorithm/quick-sort.html">quick-sort</a>
-</li>
-<li><a href="algorithm/binary-search-find-first-and-last-occurrence.html">二分查找法查找数字首次末次出现位置</a>
-</li>
-<li><a href="algorithm/heap-sort.html">堆排序</a>
-</li>
-<li><a href="algorithm/reverse-polish-notation.html">逆波兰式的生成和计算</a>
-</li>
-<li><a href="algorithm/random-shuffle.html">随机数列</a>
-</li>
-</ul>
-</li>
-<li>notes
+<pre class="example">
+Sample Input : 7, 2
+Sample Output: 3
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">思路</h2>
+<div class="outline-text-2" id="text-2">
 <ul class="org-ul">
-<li><a href="notes/effective-cpp.html">Effective C++</a>
+<li>不能用乘除模, 那就只能用加减了.直接用减的方法复杂度是O(N), 这个解法太显然,
+肯定有复杂度更低的
 </li>
-<li><a href="notes/unp.html">UNIX网络编程</a>
+<li>计算机是0,1的科学位移其实就是除法的原型, 那么就用位移来算
 </li>
-</ul>
+<li>多次位移,直到找到合适的部分, 复杂度是O(logN)
 </li>
-<li>tips
-<ul class="org-ul">
-<li><a href="tips/bash-sum.html">bash 常用命令总结</a>
-</li>
-<li><a href="tips/macro-one-two-pound.html">井号(#)和双井号(##)在C语言中的作用</a>
+<li>几个极限值非常值得玩味.
 </li>
 </ul>
-</li>
-<li><a href="about.html">About</a>
-</li>
-<li><a href="notes.html">读书笔记</a>
-</li>
-<li><a href="index.html">首页</a>
-</li>
-</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">解答</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Solution</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">divide</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">dividend</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">divisor</span>) {
+        <span style="color: #A7DBD8;">if</span> (dividend == 0) {
+            <span style="color: #A7DBD8;">return</span> 0;
+        }
+        <span style="color: #A7DBD8;">if</span> (divisor == 1) {
+            <span style="color: #A7DBD8;">return</span> dividend;
+        }
+        <span style="color: #999999;">boolean</span> <span style="color: #FD971F;">positive</span> = (dividend &gt; 0 &amp;&amp; divisor &gt; 0) || (dividend &lt; 0 &amp;&amp; divisor &lt; 0);
+        <span style="color: #999999;">long</span> <span style="color: #FD971F;">absDividend</span> = (dividend &lt; 0) ? (0 - (<span style="color: #999999;">long</span>)dividend) : (<span style="color: #999999;">long</span>) dividend;
+        <span style="color: #999999;">long</span> <span style="color: #FD971F;">absDivisor</span> = (divisor &lt; 0) ? (0 - (<span style="color: #999999;">long</span>)divisor) : (<span style="color: #999999;">long</span>)divisor;
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">result</span> = dividePositive(absDividend, absDivisor, absDivisor);
+        <span style="color: #A7DBD8;">return</span> positive ? result : (0 - result);
+    }
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">dividePositive</span>(<span style="color: #999999;">long</span> <span style="color: #FD971F;">p</span>, <span style="color: #999999;">long</span> <span style="color: #FD971F;">q</span>, <span style="color: #999999;">long</span> <span style="color: #FD971F;">originalDivisor</span>) {
+        <span style="color: #A7DBD8;">if</span> (p &lt; q) {
+            <span style="color: #A7DBD8;">return</span> 0;
+        }
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">result</span> = 0;
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">e</span> = 0;
+        <span style="color: #A7DBD8;">while</span>(p &gt;= q) {
+            result += (1 &lt;&lt; e);
+            p -= q;
+            q = (q &lt;&lt; 1);
+            e++;
+        }
+        <span style="color: #A7DBD8;">return</span> (p &gt; 0) ? (result + dividePositive(p,
+                                                  originalDivisor,
+                                                  originalDivisor)) : result;
+    }
+}
+</pre>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 
