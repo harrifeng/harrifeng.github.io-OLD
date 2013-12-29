@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>随机数列</title>
-<!-- 2013-12-22 Sun 15:45 -->
+<title>堆排序</title>
+<!-- 2013-12-29 Sun 11:41 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -161,94 +161,166 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">随机数列</h1>
+<h1 class="title">堆排序</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">题目</a></li>
-<li><a href="#sec-2">思路</a></li>
-<li><a href="#sec-3">证明</a></li>
-<li><a href="#sec-4">代码实现(python库源代码实现)</a></li>
+<li><a href="#sec-1">原理</a></li>
+<li><a href="#sec-2">原理实现</a></li>
+<li><a href="#sec-3">应用</a></li>
+<li><a href="#sec-4">应用实现</a></li>
 </ul>
 </div>
 </div>
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">题目</h2>
+<h2 id="sec-1">原理</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li>给出一个random函数,可以随机的返回[0.0,1.0)区间的浮点数, 求输出一个不重复的随机
-数组, 其取值范围为0到x
+<li>堆其实是一个完全二叉树(不是满二叉树,满二叉树的个数是有规定的只能是N**2 - 1), 其
+父节点一定大于自己所有的子节点, 而两个子节点之间没有明确的大小关系
 </li>
-</ul>
-<pre class="example">
-Sample Input : random(), x
-Sample Output: {2, 1, 3, 4, x...}
+<li>由于完全二叉树非常整齐的特点,完全可以用数组来存储堆.
+<div class="org-src-container">
+
+<pre class="src src-ditaa">    +----+----+----+----+----+----+----+----+----+----+
+    | 9  | 8  | 7  | 6  | 4  | 4  | 3  | 2  | 1  | 0  |
+    +----+----+----+----+----+----+----+----+----+----+
+
+
+
+                   +---+
+                   | 9 |          
+            +------+---+------+   
+            |                 |      
+            V                 V      
+          +---+             +---+ 
+          | 8 |             | 7 |  
+       +--+---+---+       +-+---+--+
+       |          |       |        |  
+       V          V       V        V
+   +---+        +---+   +---+     +---+  
+   | 6 |        | 4 |   | 4 |     | 3 |  
+   +---+        +---+   +---+     +---+  
+   |   |        | 
+   V   V        V 
++---+ +---+  +---+                                
+| 2 | | 1 |  | 0 |
++---+ +---+  +---+
 </pre>
 </div>
-</div>
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">思路</h2>
-<div class="outline-text-2" id="text-2">
-<ul class="org-ul">
-<li>这个问题是著名的Knuth shuffle,也叫random shuffle, 简言之,就是把一个已知的数
-列打乱顺序, 常见应用就是我们的音乐播放列表随机播放
 </li>
-<li>问题的解答已经有经典的方式,就是把一个数组从后往前,分成[已经随机][正在随机][未随机]
-三个部分, [正在随机]的是一个成员, 然后随机从[未随机]部分抽取一个成员和[正在随机]
-进行交换. 这个过程对整个数组进行便利
+
+<li>排序过程
+<ol class="org-ol">
+<li>最大堆调整（Max_Heapify）：将堆的末端子节点作调整，使得子节点永远小于父节点,
+复杂度O(lgn)
 </li>
-<li>一个常见的错误就是取和[正在随机]进行交换的成员的时候,不是从[未随机]中选取,而是
-从整个数组中选取. 这样看似概率相等,实则有些位置可能被反复选中
+<li>创建最大堆（Build_Max_Heap）：将堆所有数据重新排序, 复杂度O(n)
+</li>
+<li>堆排序（HeapSort）：移除位在第一个数据的根节点，并做最大堆调整的递归运算,复杂
+度O(nlgn)
+</li>
+</ol>
 </li>
 </ul>
 </div>
 </div>
 
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">原理实现</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #505C63;">###############</span>
+<span style="color: #505C63;"># </span><span style="color: #505C63;">heapsort.py #</span>
+<span style="color: #505C63;">###############</span>
+<span style="color: #A7DBD8;">def</span> <span style="color: #AEE239;">max_heapify</span>(A, root, end):
+    <span style="color: #FD971F;">left</span> = root * 2 + 1
+    <span style="color: #FD971F;">right</span> = root * 2 + 2
+    <span style="color: #F38630;">max</span> = root
+    <span style="color: #A7DBD8;">if</span> left &lt;= end <span style="color: #A7DBD8;">and</span> A[left] &gt; A[root]:
+        <span style="color: #F38630;">max</span> = left
+    <span style="color: #A7DBD8;">if</span> right &lt;= end <span style="color: #A7DBD8;">and</span> A[right] &gt; A[<span style="color: #F38630;">max</span>]:
+        <span style="color: #F38630;">max</span> = right
+    <span style="color: #A7DBD8;">if</span> <span style="color: #F38630;">max</span> != root:
+        A[<span style="color: #F38630;">max</span>], <span style="color: #FD971F;">A</span>[root] = A[root], A[<span style="color: #F38630;">max</span>]
+        max_heapify(A, <span style="color: #F38630;">max</span>, end)
+
+
+<span style="color: #A7DBD8;">def</span> <span style="color: #AEE239;">build_max_heap</span>(A):
+    <span style="color: #FD971F;">size</span> = <span style="color: #F38630;">len</span>(A) - 1
+    <span style="color: #A7DBD8;">for</span> i <span style="color: #A7DBD8;">in</span> <span style="color: #F38630;">reversed</span>(<span style="color: #F38630;">range</span>(0, size/2)):
+        max_heapify(A, i, size)
+
+
+<span style="color: #A7DBD8;">def</span> <span style="color: #AEE239;">heap_sort</span>(A):
+    build_max_heap(A)
+    <span style="color: #A7DBD8;">for</span> i <span style="color: #A7DBD8;">in</span> <span style="color: #F38630;">reversed</span>(<span style="color: #F38630;">range</span>(1, <span style="color: #F38630;">len</span>(A))):
+        <span style="color: #A7DBD8;">print</span> i
+        A[i], <span style="color: #FD971F;">A</span>[0] = A[0], A[i]
+        max_heapify(A, 0, i - 1)
+</pre>
+</div>
+</div>
+</div>
+
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">证明</h2>
+<h2 id="sec-3">应用</h2>
 <div class="outline-text-2" id="text-3">
 <ul class="org-ul">
-<li>某个位置在第i次被选中,那么前i-1次没有选中它的概率为
-<pre class="example">
-(k-1/k) + (k-2/k-1) + .... (k-i)/(k-i+1)
-</pre>
+<li>常见的经典题目就是从10亿个数里面取最小的10个数(当然最大方法也一样,除了某些地
+方反过来)
 </li>
-<li>第i次选中他的概率为
-<pre class="example">
-1/k-i
-</pre>
+<li>常见的错误(或者说不太合理)的方法是: 找最小的10个数,我就建一个最小堆
+然后从堆里面min10次出来, 这个方法当然可行,但是这样一次要把所有的数据读入内存
 </li>
-<li>所以它前面i-1次没有被选中,而第i次被选中的概率为
-<pre class="example">
-{(k-1/k) + (k-2/k-1) + .... (k-i)/(k-i+1)} * {(1/k-i)} = 1/k
-</pre>
+<li>最佳实现方法是:
+<ol class="org-ol">
+<li>在取最小的10个数的时候,用10亿个数的前十个建一个最大堆(不是写错了,
+就是最大,同样取最大10个数的适合,建一个最小堆), 最大堆的堆顶肯定是这十个数
+里面最大的一个了(也是最被嫌弃,最有可能被淘汰的一个)
+</li>
+<li>然后用接下来的10亿个数,每次和这个最大堆堆顶进行对比, 比这个数还大的,就直接
+抛弃, 比这个数小的话,就替代老的堆顶, 然后运行一次维护heap的操作,保持这个
+最大堆的属性
+</li>
+<li>最后剩下来的最大堆就说我们想要的前10个最小的.(前10个最大的反过来实现即可)
+</li>
+</ol>
 </li>
 </ul>
 </div>
 </div>
 
 <div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4">代码实现(python库源代码实现)</h2>
+<h2 id="sec-4">应用实现</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #A7DBD8;">def</span> <span style="color: #AEE239;">shuffle</span>(<span style="color: #A7DBD8;">self</span>, x, random=<span style="color: #AEE239;">None</span>, <span style="color: #F38630;">int</span>=<span style="color: #F38630;">int</span>):
-    <span style="color: #F8F8F0;">"""x, random=random.random -&gt; shuffle list x in place; return None.</span>
+<pre class="src src-python"><span style="color: #A7DBD8;">import</span> random
+<span style="color: #A7DBD8;">import</span> heapsort
 
-<span style="color: #F8F8F0;">    Optional arg random is a 0-argument function returning a random</span>
-<span style="color: #F8F8F0;">    float in [0.0, 1.0); by default, the standard random.random.</span>
+
+<span style="color: #A7DBD8;">def</span> <span style="color: #AEE239;">top_n</span>(lst, n):
+    <span style="color: #F8F8F0;">""" list contains very large number of input, n</span>
+<span style="color: #F8F8F0;">    is relatively small number, for intance 100.</span>
+<span style="color: #F8F8F0;">    Solve the question like "find top 10 min elements from billion"</span>
 <span style="color: #F8F8F0;">    """</span>
+    <span style="color: #FD971F;">nlist</span> = lst[:n]
+    build_max_heap(nlist)
 
-    <span style="color: #A7DBD8;">if</span> random <span style="color: #A7DBD8;">is</span> <span style="color: #AEE239;">None</span>:
-        <span style="color: #FD971F;">random</span> = <span style="color: #A7DBD8;">self</span>.random
-        <span style="color: #505C63;"># </span><span style="color: #505C63;">be careful, we won't take member[0] in xrange(), as if choose</span>
-        <span style="color: #505C63;"># </span><span style="color: #505C63;">from only one member, the possibility is difinite 100%</span>
-        <span style="color: #505C63;"># </span><span style="color: #505C63;">==&gt; int (random() * (0+1)) must be 0</span>
-    <span style="color: #A7DBD8;">for</span> i <span style="color: #A7DBD8;">in</span> <span style="color: #F38630;">reversed</span>(<span style="color: #F38630;">xrange</span>(1, <span style="color: #F38630;">len</span>(x))):
-        <span style="color: #505C63;"># </span><span style="color: #505C63;">pick an element in x[:i+1] with which to exchange x[i]</span>
-        <span style="color: #FD971F;">j</span> = <span style="color: #F38630;">int</span>(random() * (i+1))
-        x[i], <span style="color: #FD971F;">x</span>[j] = x[j], x[i]
+    <span style="color: #A7DBD8;">for</span> num <span style="color: #A7DBD8;">in</span> lst[n:]:
+        <span style="color: #A7DBD8;">if</span> num &lt; nlist[0]:
+            <span style="color: #FD971F;">nlist</span>[0] = num
+            build_max_heap(nlist)
+    <span style="color: #A7DBD8;">return</span> nlist
+
+
+<span style="color: #A7DBD8;">if</span> <span style="color: #F38630;">__name__</span> == <span style="color: #F8F8F0;">'__main__'</span>:
+    aa = <span style="color: #F38630;">range</span>(10**9)
+    random.shuffle(aa)
+    <span style="color: #A7DBD8;">print</span> top_n(aa, 10)
 </pre>
 </div>
 </div>
