@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Leetcode 001: Two Sum</title>
-<!-- 2014-01-02 Thu 22:03 -->
+<title>LeetCode: Median of Two Sorted Arrays</title>
+<!-- 2014-01-02 Thu 22:06 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -161,7 +161,7 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Leetcode 001: Two Sum</h1>
+<h1 class="title">LeetCode: Median of Two Sorted Arrays</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -176,13 +176,14 @@ for the JavaScript code in this tag.
 <h2 id="sec-1">题目</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li>给出一组括号字符串,比如{2, 7, 11, 15}和一个目标数9, 判断这些数中哪些数字的
-和为目标数, 输出他们的下标
+<li>给出两组数组，它们都已经分别排序好了，求这两个数组所有数字的中位数
 </li>
 </ul>
 <pre class="example">
-Sample Input : {2, 7, 11, 15}, target=9
-Sample Output: 1, 2
+Sample Input : {1, 3, 5, 6}, {2, 4, 7, 8} 
+Sample Output: 4.5
+Sample Input : {1, 3, 5, 7, 9}, {2, 4, 6, 8}
+Sample Output: 5
 </pre>
 </div>
 </div>
@@ -190,13 +191,7 @@ Sample Output: 1, 2
 <h2 id="sec-2">思路</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
-<li>求哪些数字和为某个特定的target很简单,就是两个指针从两头指的问题, 但是要求
-下标的话,就麻烦一些. 因为两指针法需要排序,而排序后很难找到原始下标
-</li>
-<li>这里处理的方法很OOP, 每个数字都用原始下标和数值组合成一个新的类
-</li>
-<li>注意这里compare_number和std::sort的应用
-</li>
+<li></li>
 </ul>
 </div>
 </div>
@@ -206,44 +201,39 @@ Sample Output: 1, 2
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">Number</span> {
-    <span style="color: #999999;">int</span> <span style="color: #FD971F;">index</span>;
-    <span style="color: #999999;">int</span> <span style="color: #FD971F;">value</span>;
-    <span style="color: #AEE239;">Number</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">v</span>) : index(i),  <span style="color: #999999;">value</span>(<span style="color: #FD971F;">v</span>){}
-};
-
-<span style="color: #999999;">bool</span> <span style="color: #AEE239;">compare_number</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Number</span> &amp;<span style="color: #FD971F;">left</span>, <span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Number</span> &amp;<span style="color: #FD971F;">right</span>) {
-    <span style="color: #A7DBD8;">return</span> left.value &lt; right.value;
-}
-
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Solution</span> {
-<span style="color: #A7DBD8;">public</span>:
-    <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">int</span>&gt; <span style="color: #AEE239;">twoSum</span>(<span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">int</span>&gt; &amp;<span style="color: #FD971F;">numbers</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">target</span>) {
-        <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">Number</span>&gt; <span style="color: #FD971F;">nn</span>;
-        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; numbers.size(); i++) {
-            nn.push_back(Number(i+1, <span style="color: #999999;">numbers</span>[i]));
+<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Solution</span> {
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">findNth</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">A</span>[], <span style="color: #999999;">int</span> <span style="color: #FD971F;">B</span>[], <span style="color: #999999;">int</span> <span style="color: #FD971F;">k</span>){
+        <span style="color: #A7DBD8;">if</span> (A.length &gt; B.length) {
+            <span style="color: #A7DBD8;">return</span> findNth(B, A, k);
         }
-        <span style="color: #AEE239;">std</span>::sort(nn.begin(), nn.end(), compare_number);
-        <span style="color: #999999;">int</span> <span style="color: #FD971F;">beg</span> = 0;
-        <span style="color: #999999;">int</span> <span style="color: #FD971F;">end</span> = nn.size() - 1;
+        <span style="color: #A7DBD8;">if</span> (A.length == 0) {
+            <span style="color: #A7DBD8;">return</span> B[k - 1];
+        }
+        <span style="color: #A7DBD8;">if</span> (B.length == 0) {
+            <span style="color: #A7DBD8;">return</span> A[k - 1];
+        }
+        <span style="color: #A7DBD8;">if</span> (k == 1) {
+            <span style="color: #A7DBD8;">return</span> Math.min(A[0], B[0]);
+        }
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">partA</span> = Math.min(k/2, A.length);
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">partB</span> = k - partA;
 
-        <span style="color: #A7DBD8;">while</span> (beg &lt; end) {
-            <span style="color: #999999;">int</span> <span style="color: #FD971F;">sum</span> = nn[beg].value + nn[end].value;
-            <span style="color: #A7DBD8;">if</span> (sum == target) {
-                <span style="color: #999999;">int</span> <span style="color: #FD971F;">small</span> = <span style="color: #AEE239;">std</span>::min(<span style="color: #999999;">nn</span>[beg].index, <span style="color: #999999;">nn</span>[end].index);
-                <span style="color: #999999;">int</span> <span style="color: #FD971F;">big</span> = <span style="color: #AEE239;">std</span>::max(<span style="color: #999999;">nn</span>[beg].index, <span style="color: #999999;">nn</span>[end].index);
-                <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">int</span>&gt; <span style="color: #FD971F;">ret</span>;
-                ret.push_back(small);
-                ret.push_back(big);
-                <span style="color: #A7DBD8;">return</span> ret;
-            } <span style="color: #A7DBD8;">else</span> <span style="color: #A7DBD8;">if</span> (sum &lt; target) {
-                beg++;
-            } <span style="color: #A7DBD8;">else</span> {
-                end--;
-            }
+        <span style="color: #A7DBD8;">if</span> (A[partA - 1] &lt; B[partB - 1]) {
+            <span style="color: #A7DBD8;">return</span> findNth(Arrays.copyOfRange(A, partA, A.length), B, k - partA);
+        } <span style="color: #A7DBD8;">else</span> {
+            <span style="color: #A7DBD8;">return</span> findNth(A, Arrays.copyOfRange(B, partB, B.length), k - partB);
         }
     }
-};
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">double</span> <span style="color: #AEE239;">findMedianSortedArrays</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">A</span>[], <span style="color: #999999;">int</span> <span style="color: #FD971F;">B</span>[]) {
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">lenSum</span> = A.length + B.length;
+        <span style="color: #A7DBD8;">if</span> (lenSum % 2 == 1) {
+            <span style="color: #A7DBD8;">return</span> findNth(A, B, lenSum / 2 + 1);
+        } <span style="color: #A7DBD8;">else</span> {
+            <span style="color: #A7DBD8;">return</span> (findNth(A, B, lenSum / 2) + findNth(A, B, lenSum / 2 + 1)) / 2.0;
+        }
+    }
+}
 </pre>
 </div>
 </div>
