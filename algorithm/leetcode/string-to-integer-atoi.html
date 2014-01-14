@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Leetcode: Container With Most Water</title>
+<title>Leetcode: String to Integer(atoi)</title>
 <!-- 2014-01-14 Tue 08:39 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
@@ -161,7 +161,7 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Leetcode: Container With Most Water</h1>
+<h1 class="title">Leetcode: String to Integer(atoi)</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -176,11 +176,10 @@ for the JavaScript code in this tag.
 <h2 id="sec-1">题目</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li>有一个数组,里面的数字为大于零的整数, 代表木板的高度, 求其中一对木板的高度,
-这两个数和地板一起,能够得到最大的木桶容积
+<li>实现库函数atoi : 把一个字符串转换成数字
 <pre class="example">
-Sample Input: [1, 2, 13, 14, 5, 6]
-Sample Output: 18
+Sample Input: "1234"
+Sample Output: 1234
 </pre>
 </li>
 </ul>
@@ -191,13 +190,21 @@ Sample Output: 18
 <h2 id="sec-2">思路</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
-<li>这个题目很容易联想到动态规划:max(i) = max{max(i-1), size introduced by j},
-其实动态规划也是可以解决这个问题的, 但是动态规划就要求记住每一步选择的结果,对于
-这种求最大值的问题,往往意味着很多的冗余
+<li>这个就是和reverse integer差不多的题目了,不过又有atoi有相应的库函数实现, 库函数
+对于非法,或者说极值(Integer.MAX_VALUE, Intger.MIN_VALUE)处理的非常好,这样就
+意味着你也要处理的非常好
 </li>
-<li>最优解法非常巧妙,利用了常见的"双指针"法, 两个指针一个指向最前,一个指向最后, 然后
-"数值小"的指针向里运动, 这里利用了"水桶的容积只取决于最断的那个木板"的原理!,最终
-把复杂度降到了O(n)
+<li>atoi常见的处理难点:
+<ol class="org-ol">
+<li>符号
+</li>
+<li>数字之前的空格
+</li>
+<li>数字之后的非法字符不予追究
+</li>
+<li>溢出如何判断和处理
+</li>
+</ol>
 </li>
 </ul>
 </div>
@@ -209,22 +216,37 @@ Sample Output: 18
 <div class="org-src-container">
 
 <pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Solution</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">maxArea</span>(<span style="color: #999999;">int</span>[] <span style="color: #FD971F;">height</span>) {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">atoi</span>(<span style="color: #999999;">String</span> <span style="color: #FD971F;">str</span>) {
+        <span style="color: #A7DBD8;">if</span> (str.length() == 0) {
+            <span style="color: #A7DBD8;">return</span> 0;
+        }
         <span style="color: #999999;">int</span> <span style="color: #FD971F;">start</span> = 0;
-        <span style="color: #999999;">int</span> <span style="color: #FD971F;">end</span> = height.length - 1;
-        <span style="color: #999999;">int</span> <span style="color: #FD971F;">maxV</span> = <span style="color: #AEE239;">Integer</span>.MIN_VALUE;
-
-        <span style="color: #A7DBD8;">while</span> (start &lt; <span style="color: #999999;">end</span>) {
-            <span style="color: #999999;">int</span> <span style="color: #FD971F;">contains</span> = Math.min(height[end], height[start]) * (end - start);
-            maxV = Math.max(maxV, contains);
-
-            <span style="color: #A7DBD8;">if</span> (height[start] &lt; height[end]) {
-                start ++;
+        <span style="color: #999999;">boolean</span> <span style="color: #FD971F;">negVal</span> = <span style="color: #AEE239;">false</span>;
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">result</span> = 0;
+        <span style="color: #A7DBD8;">while</span>(str.charAt(start) == <span style="color: #F8F8F0;">' '</span>) {
+            start++;
+        }
+        <span style="color: #A7DBD8;">if</span> (str.charAt(start) == <span style="color: #F8F8F0;">'-'</span>) {
+            negVal = <span style="color: #AEE239;">true</span>;
+            start++;
+        } <span style="color: #A7DBD8;">else</span> <span style="color: #A7DBD8;">if</span> (str.charAt(start) == <span style="color: #F8F8F0;">'+'</span>) {
+            start++;
+        }
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">len</span> = str.length();
+        <span style="color: #A7DBD8;">for</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = start; i &lt; <span style="color: #999999;">len</span>; i++) {
+            <span style="color: #A7DBD8;">if</span> (str.charAt(i) &gt;= <span style="color: #F8F8F0;">'0'</span> &amp;&amp; str.charAt(i) &lt;= <span style="color: #F8F8F0;">'9'</span>) {
+                <span style="color: #A7DBD8;">if</span> (result &gt; <span style="color: #AEE239;">Integer</span>.MAX_VALUE / 10
+                    || result == <span style="color: #AEE239;">Integer</span>.MAX_VALUE / 10
+                    &amp;&amp; str.charAt(i) - <span style="color: #F8F8F0;">'0'</span> &gt; <span style="color: #AEE239;">Integer</span>.MAX_VALUE % 10) {
+                    <span style="color: #A7DBD8;">return</span> negVal ? <span style="color: #AEE239;">Integer</span>.MIN_VALUE : <span style="color: #AEE239;">Integer</span>.MAX_VALUE;
+                }
+                result = result * 10 + (str.charAt(i) - <span style="color: #F8F8F0;">'0'</span>);
             } <span style="color: #A7DBD8;">else</span> {
-                end--;
+                <span style="color: #A7DBD8;">break</span>;
             }
         }
-        <span style="color: #A7DBD8;">return</span> maxV;
+
+        <span style="color: #A7DBD8;">return</span> negVal ? result * -1 : result;
     }
 }
 </pre>

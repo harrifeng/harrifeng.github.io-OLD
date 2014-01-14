@@ -176,11 +176,17 @@ for the JavaScript code in this tag.
 <h2 id="sec-1">题目</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li>有一个数组,里面的数字为大于零的整数, 代表木板的高度, 求其中一对木板的高度,
-这两个数和地板一起,能够得到最大的木桶容积
+<li>有如下字母以齿轮状的顺序排列.
 <pre class="example">
-Sample Input: [1, 2, 13, 14, 5, 6]
-Sample Output: 18
+P   A   H   N
+A P L S I I G
+Y   I   R
+</pre>
+</li>
+<li>输入是竖着给的,求横着的输出
+<pre class="example">
+Sample Input: "PAYPALISHIRING", 3
+Sample Output: "PAHNAPLSIIGYIR"
 </pre>
 </li>
 </ul>
@@ -191,13 +197,16 @@ Sample Output: 18
 <h2 id="sec-2">思路</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
-<li>这个题目很容易联想到动态规划:max(i) = max{max(i-1), size introduced by j},
-其实动态规划也是可以解决这个问题的, 但是动态规划就要求记住每一步选择的结果,对于
-这种求最大值的问题,往往意味着很多的冗余
+<li>猛一看这题,就是操蛋的无病呻吟题.后来一想,其实是考察你对mod操作的理解.以三个一列
+为例, 后面中间那个就是四个一组. 四个的就是六个一组(总是因为锯齿形状,少两个)
 </li>
-<li>最优解法非常巧妙,利用了常见的"双指针"法, 两个指针一个指向最前,一个指向最后, 然后
-"数值小"的指针向里运动, 这里利用了"水桶的容积只取决于最断的那个木板"的原理!,最终
-把复杂度降到了O(n)
+<li>然后我们发现,最终的结果肯定是n个不同的字符串(n等于要求分成的行数)
+</li>
+<li>解法就是根据一列几个先mod成不同的小组, 小组里面前几个肯定是小于n的, 他们mod的结
+果是x,那么就加入到string[x], 如果mod的结果x大于n(但也肯定小于2*n-2),那么就是
+2*n-2-x, 你可以看看是不是这个规律
+</li>
+<li>注意当列数为1的时候的特殊情况处理
 </li>
 </ul>
 </div>
@@ -209,22 +218,29 @@ Sample Output: 18
 <div class="org-src-container">
 
 <pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Solution</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">maxArea</span>(<span style="color: #999999;">int</span>[] <span style="color: #FD971F;">height</span>) {
-        <span style="color: #999999;">int</span> <span style="color: #FD971F;">start</span> = 0;
-        <span style="color: #999999;">int</span> <span style="color: #FD971F;">end</span> = height.length - 1;
-        <span style="color: #999999;">int</span> <span style="color: #FD971F;">maxV</span> = <span style="color: #AEE239;">Integer</span>.MIN_VALUE;
-
-        <span style="color: #A7DBD8;">while</span> (start &lt; <span style="color: #999999;">end</span>) {
-            <span style="color: #999999;">int</span> <span style="color: #FD971F;">contains</span> = Math.min(height[end], height[start]) * (end - start);
-            maxV = Math.max(maxV, contains);
-
-            <span style="color: #A7DBD8;">if</span> (height[start] &lt; height[end]) {
-                start ++;
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">convert</span>(<span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">nRows</span>) {
+        <span style="color: #A7DBD8;">if</span> (nRows == 1) {
+            <span style="color: #A7DBD8;">return</span> s;
+        }
+        <span style="color: #999999;">StringBuffer</span>[] <span style="color: #FD971F;">sbuf</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">StringBuffer</span>[nRows];
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; <span style="color: #999999;">nRows</span>; i++) {
+            sbuf[i] = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">StringBuffer</span>();
+        }
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">group</span> = nRows * 2 - 2;
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; s.<span style="color: #999999;">length</span>(); i++) {
+            <span style="color: #999999;">int</span> <span style="color: #FD971F;">newi</span> = i % group;
+            <span style="color: #A7DBD8;">if</span> (newi &lt; <span style="color: #999999;">nRows</span>) {
+                sbuf[newi].append(s.charAt(i));
             } <span style="color: #A7DBD8;">else</span> {
-                end--;
+                sbuf[group - newi].append(s.charAt(i));
             }
         }
-        <span style="color: #A7DBD8;">return</span> maxV;
+
+        <span style="color: #999999;">StringBuffer</span> <span style="color: #FD971F;">result</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">StringBuffer</span>();
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; <span style="color: #999999;">nRows</span>; i++) {
+            result.append(sbuf[i]);
+        }
+        <span style="color: #A7DBD8;">return</span> result.toString();
     }
 }
 </pre>
