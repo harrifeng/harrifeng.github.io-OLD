@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Effective C++</title>
-<!-- 2014-01-17 Fri 21:41 -->
+<!-- 2014-01-18 Sat 18:26 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -192,6 +192,7 @@ for the JavaScript code in this tag.
 <li><a href="#sec-3-2">Item 14: 在资源管理类中小心coping行为</a></li>
 <li><a href="#sec-3-3">Item 15: 在资源管理类中提供对原始资源的访问</a></li>
 <li><a href="#sec-3-4">Item 16: 成对的使用new和delete时,要采用相同的形式</a></li>
+<li><a href="#sec-3-5">Item 17: 以独立语句将newd对象置入智能指针</a></li>
 </ul>
 </li>
 </ul>
@@ -642,7 +643,6 @@ copy assignment, 我们称之为copying函数
 
 
 
-
 <div id="outline-container-sec-3" class="outline-2">
 <h2 id="sec-3">Chapter 3: 资源管理</h2>
 <div class="outline-text-2" id="text-3">
@@ -808,6 +808,75 @@ createInvestment的借口
 <span style="color: #505C63;">//</span><span style="color: #505C63;">...</span>
 <span style="color: #A7DBD8;">delete</span> pal; <span style="color: #505C63;">//</span><span style="color: #505C63;">Not defined</span>
 <span style="color: #A7DBD8;">delete</span> []pal; <span style="color: #505C63;">//</span><span style="color: #505C63;">Good</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5">Item 17: 以独立语句将newd对象置入智能指针</h3>
+<div class="outline-text-3" id="text-3-5">
+<ul class="org-ul">
+<li>这里看似是讨论智能指针的问题,其实是讨论c++编译器"灵活性"的一种:参数执行顺序
+的灵活性:一个函数的几个参数如果需要计算值作为参数,那么谁先谁后,是无法保证的
+(java, c#可以保证)
+</li>
+<li>比如我们有个例子,函数processWidget的两个参数pw, priority, 而我们想把函数
+priority()的返回值作为priority的值. 某个new Widget的临时指针作为pw的值:
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #999999;">int</span> <span style="color: #AEE239;">priority</span>();
+
+<span style="color: #505C63;">//</span><span style="color: #505C63;">declaration for the function</span>
+<span style="color: #999999;">void</span> <span style="color: #AEE239;">processWidget</span>(<span style="color: #AEE239;">std</span>::<span style="color: #AEE239;">tr1</span>::<span style="color: #999999;">shared_ptr</span>&lt;Widget&gt;, <span style="color: #999999;">int</span> <span style="color: #FD971F;">priority</span>);
+
+<span style="color: #505C63;">//</span><span style="color: #505C63;">usage fo the function</span>
+processWidget(<span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Widget</span>, priority());
+</pre>
+</div>
+</li>
+<li>上面的这种语法在编译的时候无法通过,因为tr1::shared_ptr的构造函数虽然是以
+一个raw pointer为参数,但是这个构造函数被声明为explicit,所以是无法进行隐式
+转换的, 显示转换然后调用的代码如下
+<div class="org-src-container">
+
+<pre class="src src-c++">processWidget(<span style="color: #AEE239;">std</span>::<span style="color: #AEE239;">tr1</span>::<span style="color: #999999;">shared_ptr</span>&lt;Widget&gt;(<span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Widget</span>), priority());
+</pre>
+</div>
+</li>
+<li>上面看似挺好的代码,却隐藏着资源泄漏的危险, 原因就是我们上面说的c++编译器在
+以什么顺序计算参数方面,是没有定数的. processWidget的参数要完成下面三件事:
+<ul class="org-ul">
+<li>调用priority()
+</li>
+<li>执行new Widget, 生成一个临时的指针X
+</li>
+<li>把临时指针X作为参数,调用tr1::shared_ptr构造函数
+</li>
+</ul>
+</li>
+<li>上面调用shared_ptr构造函数一定要在生成临时指针之后,但是调用priority(),可以
+出现在第一步,第二步,或者最后一步,假设最终是以下面的这个顺序执行的:
+<ol class="org-ol">
+<li>执行new Widget, 生成一个临时的指针X
+</li>
+<li>调用priority()
+</li>
+<li>把临时指针X作为参数,调用tr1::shared_ptr构造函数
+</li>
+</ol>
+</li>
+<li>如果在执行priority()的时候抛出了异常, 那么临时指针X就会遗失,因为它尚未放入到
+我们自动管理资源的shared_ptr内部.也就不可能被释放了.
+</li>
+<li>解决的方法也很简单:使用分离的语句1,创建Widget. 2,讲Widget放入智能指针内部
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #AEE239;">std</span>::<span style="color: #AEE239;">tr1</span>::<span style="color: #999999;">shared_ptr</span>&lt;Widget&gt; <span style="color: #AEE239;">pw</span>(<span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Widget</span>);
+
+processWidget(pw, priority());
 </pre>
 </div>
 </li>
