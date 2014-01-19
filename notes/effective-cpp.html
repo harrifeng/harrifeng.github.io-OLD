@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Effective C++</title>
-<!-- 2014-01-18 Sat 18:26 -->
+<!-- 2014-01-19 Sun 09:29 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -195,6 +195,18 @@ for the JavaScript code in this tag.
 <li><a href="#sec-3-5">Item 17: 以独立语句将newd对象置入智能指针</a></li>
 </ul>
 </li>
+<li><a href="#sec-4">Chapter 4: 设计与声明</a>
+<ul>
+<li><a href="#sec-4-1">Item 18: 让接口容易被正确使用,不易被误用</a></li>
+<li><a href="#sec-4-2">Item 19: 设计class犹如设计type</a></li>
+<li><a href="#sec-4-3">Item 20: 宁以pass-by-reference-to-const替换pass-by-value</a></li>
+<li><a href="#sec-4-4">Item 21: 必须返回对象时, 别妄想返回其reference</a></li>
+<li><a href="#sec-4-5">Item 22: 讲成员变量声明为private</a></li>
+<li><a href="#sec-4-6">Item 23: 宁以non-memeber, non-friend替换member函数</a></li>
+<li><a href="#sec-4-7">Item 24: 若所有参数皆需类型转换,请为此采用non-member函数</a></li>
+<li><a href="#sec-4-8">Item 25: 考虑写出一个不抛出异常的swap函数</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -301,7 +313,7 @@ CALL_WITH_MAX(++a, b);  <span style="color: #505C63;">// </span><span style="col
 </ul>
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #999999;">char</span> <span style="color: #FD971F;">greeting</span>[] = <span style="color: #F8F8F0;">"Hello"</span>;      
+<pre class="src src-c++"><span style="color: #999999;">char</span> <span style="color: #FD971F;">greeting</span>[] = <span style="color: #F8F8F0;">"Hello"</span>;
 <span style="color: #999999;">char</span> *<span style="color: #FD971F;">p</span> = greeting;              <span style="color: #505C63;">//</span><span style="color: #505C63;">non-const pointer, non-const data</span>
 
 <span style="color: #A7DBD8;">const</span> <span style="color: #999999;">char</span> *<span style="color: #FD971F;">p</span> = greeting;        <span style="color: #505C63;">//</span><span style="color: #505C63;">non-const pointer, const data</span>
@@ -330,7 +342,7 @@ CALL_WITH_MAX(++a, b);  <span style="color: #505C63;">// </span><span style="col
 <pre class="src src-c++"><span style="color: #A7DBD8;">class</span> <span style="color: #999999;">TextBlock</span>
 {
 <span style="color: #A7DBD8;">public</span>:
-    <span style="color: #A7DBD8;">const</span> <span style="color: #999999;">char</span>&amp; <span style="color: #A7DBD8;">operator</span><span style="color: #AEE239;">[]</span>(<span style="color: #AEE239;">std</span>::<span style="color: #999999;">size_t</span> <span style="color: #FD971F;">position</span>) <span style="color: #A7DBD8;">const</span> {  <span style="color: #505C63;">//</span><span style="color: #505C63;">operator[] for </span>
+    <span style="color: #A7DBD8;">const</span> <span style="color: #999999;">char</span>&amp; <span style="color: #A7DBD8;">operator</span><span style="color: #AEE239;">[]</span>(<span style="color: #AEE239;">std</span>::<span style="color: #999999;">size_t</span> <span style="color: #FD971F;">position</span>) <span style="color: #A7DBD8;">const</span> {  <span style="color: #505C63;">//</span><span style="color: #505C63;">operator[] for</span>
         <span style="color: #A7DBD8;">return</span> text[position];                            <span style="color: #505C63;">//</span><span style="color: #505C63;">const object</span>
     }
 
@@ -338,7 +350,7 @@ CALL_WITH_MAX(++a, b);  <span style="color: #505C63;">// </span><span style="col
         <span style="color: #A7DBD8;">return</span> text[position];                            <span style="color: #505C63;">// </span><span style="color: #505C63;">non-const object</span>
     }
 <span style="color: #A7DBD8;">private</span>:
-    <span style="color: #AEE239;">std</span>::<span style="color: #999999;">string</span> <span style="color: #FD971F;">text</span>;                                                      
+    <span style="color: #AEE239;">std</span>::<span style="color: #999999;">string</span> <span style="color: #FD971F;">text</span>;
 };
 </pre>
 </div>
@@ -559,7 +571,7 @@ x = (y = (z=15));
     <span style="color: #999999;">Bitmap</span>* <span style="color: #FD971F;">pb</span>;
 };
 
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Wrong Version!! what about if rhs is this </span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Wrong Version!! what about if rhs is this</span>
 <span style="color: #999999;">Widget</span>&amp; <span style="color: #AEE239;">Widget</span>::<span style="color: #A7DBD8;">operator</span><span style="color: #AEE239;">=</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Widget</span>&amp; <span style="color: #FD971F;">rhs</span>) {
     <span style="color: #A7DBD8;">delete</span> pb;
     pb = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Bitmap</span>(*rhs.pb);
@@ -581,15 +593,15 @@ x = (y = (z=15));
 </div>
 </li>
 <li>上面这个版本依然有异常方面的麻烦, 如果new Bitmap出现了异常, 那么pb已经被
-删除,现在是一个空指针.所以我们要调整前面的语句顺序: 先记录pb的地址,在new 
+删除,现在是一个空指针.所以我们要调整前面的语句顺序: 先记录pb的地址,在new
 Bitmap之后再删除这个指针
 <div class="org-src-container">
 
 <pre class="src src-c++"><span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Widget</span> {
     <span style="color: #999999;">Bitmap</span>* <span style="color: #FD971F;">pOrig</span> = pb; <span style="color: #505C63;">// </span><span style="color: #505C63;">remember previous pb</span>
-    <span style="color: #505C63;">// </span><span style="color: #505C63;">if exception here, the next line delete pOrig will not execute     </span>
-    pb = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Bitmap</span>(*rhs.pb); 
-    <span style="color: #A7DBD8;">delete</span> pOrig; 
+    <span style="color: #505C63;">// </span><span style="color: #505C63;">if exception here, the next line delete pOrig will not execute</span>
+    pb = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Bitmap</span>(*rhs.pb);
+    <span style="color: #A7DBD8;">delete</span> pOrig;
     <span style="color: #A7DBD8;">return</span> *<span style="color: #A7DBD8;">this</span>;
 }
 </pre>
@@ -603,7 +615,7 @@ Bitmap之后再删除这个指针
 <h3 id="sec-2-8">Item 12: 复制对象时勿忘其每一个成分</h3>
 <div class="outline-text-3" id="text-2-8">
 <ul class="org-ul">
-<li>OO编程会把内部都封装起来,而外界留下两个函数进行复制拷贝: copy ctor 和 
+<li>OO编程会把内部都封装起来,而外界留下两个函数进行复制拷贝: copy ctor 和
 copy assignment, 我们称之为copying函数
 </li>
 <li>copying函数应该确保赋值"对象内部所有的成员变量", 和 "所有base class成员"
@@ -638,9 +650,6 @@ copy assignment, 我们称之为copying函数
 </div>
 </div>
 </div>
-
-
-
 
 
 <div id="outline-container-sec-3" class="outline-2">
@@ -877,6 +886,279 @@ processWidget(<span style="color: #A7DBD8;">new</span> <span style="color: #9999
 <pre class="src src-c++"><span style="color: #AEE239;">std</span>::<span style="color: #AEE239;">tr1</span>::<span style="color: #999999;">shared_ptr</span>&lt;Widget&gt; <span style="color: #AEE239;">pw</span>(<span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Widget</span>);
 
 processWidget(pw, priority());
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Chapter 4: 设计与声明</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">Item 18: 让接口容易被正确使用,不易被误用</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li>"促进正确使用"的办法包括接口的一致性,以及与内置类型行为的兼容
+</li>
+<li>"阻止误用"的办法包括建立新类型, 限制类型操作, 束缚对象值, 以及消除客户的资
+源管理责任
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2">Item 19: 设计class犹如设计type</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li>在设计每个class的时候,回答以下问题:
+<ul class="org-ul">
+<li>新type对象应该如何创建和销毁
+</li>
+<li>对象的初始化和对象的赋值操作有什么差别
+</li>
+<li>新的type的对象如果被passed by value意味着什么 (copy构造函数用来定义一个
+type的pass-by-value如何实现)
+</li>
+<li>什么是新type的"合法值"
+</li>
+<li>需要继承什么
+</li>
+<li>新type需要什么样的转换
+</li>
+<li>什么样的操作符和函数对次type而言是合理的
+</li>
+<li>什么样的标准函数应该被驳回(声明为private)
+</li>
+<li>函数该采用public,private还是protected
+</li>
+<li>什么是新type的"未声明接口"
+</li>
+<li>新的type有多一般化,如果一般化的够多,比如integer, string等都要一般化的化,
+就要考虑generic编程了
+</li>
+<li>你真的需要一个新的type么
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3">Item 20: 宁以pass-by-reference-to-const替换pass-by-value</h3>
+<div class="outline-text-3" id="text-4-3">
+<ul class="org-ul">
+<li>pass-by-reference-to-const效率高的多, 因为没有任何构造或者析构函数的调用(没
+有新的对象被创建)
+</li>
+<li>pass-by-reference-to-const不仅仅是效率高,而且可以避免对象切割(slicing)问题:
+当一个derived对象以by value的方式传递到一个并被视为base对象, 那么base class的
+拷贝构造函数会被调用而"造成此对象的行为像个derived class对象"的那些特质化的性质
+全被切割掉了
+</li>
+<li>不用pass-by-reference-to-const的唯一情况是1)内置类型2)STL的迭代器和函数对象
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4">Item 21: 必须返回对象时, 别妄想返回其reference</h3>
+<div class="outline-text-3" id="text-4-4">
+<ul class="org-ul">
+<li>说到返回值,在c++中是可以返回一个对象的.方法入下,其实这就是最正常的写法
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #A7DBD8;">inline</span> <span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Rational</span> <span style="color: #A7DBD8;">operator</span><span style="color: #AEE239;">*</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Rational</span>&amp; <span style="color: #FD971F;">lhs</span>, <span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Rational</span>&amp; <span style="color: #FD971F;">rhs</span>) {
+    <span style="color: #A7DBD8;">return</span> Rational(lhs.n * rhs.n, lhs.d * rhs.d);
+}
+</pre>
+</div>
+</li>
+<li>在Item20的影响下,可能会想到返回值"也用reference", 其实这是非常危险的, 因为reference
+不是单独存在的,一个reference一定有一个"实体", 比如下面这个例子. 返回值reference其实
+对应的是一个local的result对象, 一旦从函数返回,那么local的result就被销毁了.返回一个
+已经销毁的,不存在的"实体"的reference是非常可怕的
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Rational</span>&amp; <span style="color: #A7DBD8;">operator</span><span style="color: #AEE239;">*</span> (<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Rational</span>&amp; <span style="color: #FD971F;">lhs</span>,
+                           <span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Rational</span>&amp; <span style="color: #FD971F;">rhs</span>) {
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">&#35686;&#21578;!&#31967;&#31957;&#30340;&#20195;&#30721;!!</span>
+    <span style="color: #999999;">Rational</span> <span style="color: #FD971F;">result</span>(lhs.n * rhs.n, lhs.d * rhs.d);
+    <span style="color: #A7DBD8;">return</span> result;
+}
+</pre>
+</div>
+</li>
+<li>我们稍微改变一下,在heap里面创建一个对象,然后返回,例子如下.
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Rational</span>&amp; <span style="color: #A7DBD8;">operator</span><span style="color: #AEE239;">*</span> (<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Rational</span>&amp; <span style="color: #FD971F;">lhs</span>,
+                           <span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Rational</span>&amp; <span style="color: #FD971F;">rhs</span>) {
+    <span style="color: #999999;">Rational</span>* <span style="color: #FD971F;">result</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Rational</span>(lhs.n * rhs.n, lhs.d * rhs.d*);
+    <span style="color: #A7DBD8;">return</span> *result;
+}
+</pre>
+</div>
+</li>
+<li>这个例子其实也是不行的,因为释放内存的责任是调用者的,那就有可能会因为无法找到heapd的句柄,
+无法释放内存,而发生内存泄漏. 比如下面, 调用了两次operator*, 那么就要释放两次内存,但是
+却没有办法让operator* 使用者进行delete调用, 因为没有合理的办法让他们取得operator*返
+回的references背后隐藏的那个指针.
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #999999;">Rational</span> <span style="color: #FD971F;">w</span>, <span style="color: #FD971F;">x</span>, <span style="color: #FD971F;">y</span>, <span style="color: #FD971F;">z</span>;
+w = x * y *z;
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5">Item 22: 讲成员变量声明为private</h3>
+<div class="outline-text-3" id="text-4-5">
+<ul class="org-ul">
+<li>切记将成员变量声明为private, 因为这样有很多好处:
+<ul class="org-ul">
+<li>可以实现更精确的访问控制:如果是public的话,谁都可以访问,但是private你却可以设置成:
+只读,不准访问,读写访问,只写访问, 等等
+</li>
+<li>一个变量声明为public那就意味着永远不可改变, 声明为private给了class作者有了更大的
+实现弹性
+</li>
+</ul>
+</li>
+<li>protected其实是历史一流, 和public一样,没有任何的封装性.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4-6" class="outline-3">
+<h3 id="sec-4-6">Item 23: 宁以non-memeber, non-friend替换member函数</h3>
+<div class="outline-text-3" id="text-4-6">
+<ul class="org-ul">
+<li>class的member函数和friend函数在访问private数据方面的权利是一样的,所以具有一样的,
+所以封装效果是一样的.这里比较的是non-member, non-friend函数和member函数. 我们的
+原则是:如果一个member函数可以用non-member,non-friend函数来替代,那么就替代
+</li>
+<li>下面是一个webBroswerStuff的例子, 这个例子有三个member函数,其中clearBrowser其实
+可以用一个non-member, non-friend函数代替,这样就是增加了class的封装性
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #A7DBD8;">class</span> <span style="color: #999999;">WebBrowser</span>{
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">clearCache</span>();
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">clearHistory</span>();
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">removeCookies</span>();
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">clearBrowser</span>() {
+        clearCache();
+        clearHistory();
+        removeCookies();
+    }
+};
+</pre>
+</div>
+</li>
+<li>用non-member, non-friend函数代替可以代替的member函数,并且使用一个namespace,是
+c++常用的方法
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #A7DBD8;">namespace</span> <span style="color: #AEE239;">WebBrowserStuff</span>{
+    <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">WebBrowser</span>{
+        <span style="color: #999999;">void</span> <span style="color: #AEE239;">clearCache</span>();
+        <span style="color: #999999;">void</span> <span style="color: #AEE239;">clearHistory</span>();
+        <span style="color: #999999;">void</span> <span style="color: #AEE239;">removeCookies</span>();
+    };
+    <span style="color: #999999;">void</span>  <span style="color: #AEE239;">clearBrowser</span>(<span style="color: #999999;">WebBrowser</span>&amp; <span style="color: #FD971F;">wb</span>){
+        wb.clearCache();
+        wb.clearHistory();
+        wb.removeCookies();
+    }
+}
+</pre>
+</div>
+</li>
+<li>话说,namespace是STL里面组织代码的主要方式,因为namespace可以跨越不同的文件
+(class不行), std命名空间分布在数十个头文件(&lt;vector&gt;, &lt;algorithm&gt;, &lt;memory&gt;
+里面等等), 用户想用某个就include某一个头文件. (class就不行,class无法分割)
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4-7" class="outline-3">
+<h3 id="sec-4-7">Item 24: 若所有参数皆需类型转换,请为此采用non-member函数</h3>
+<div class="outline-text-3" id="text-4-7">
+<ul class="org-ul">
+<li>这个item其实是讲如何在c++中把事情做对,而不是怎样做更好. 比如,一开始把operator*
+实现成成员变量的化,碰到result = 2 * oneHalf, 必然会编译器报错,然后修改也不迟.
+</li>
+<li>错误的operator* 实现
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Rational</span> {
+<span style="color: #AEE239;">pulic</span>:
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">...</span>
+    <span style="color: #505C63;">// </span><span style="color: #505C63;">NOT work for result = 2 * oneHalf</span>
+    <span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Rational</span> <span style="color: #A7DBD8;">operator</span><span style="color: #AEE239;">*</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Rational</span>&amp; <span style="color: #FD971F;">rhs</span>) <span style="color: #A7DBD8;">const</span>;
+};
+</pre>
+</div>
+</li>
+<li>正确的operator*是一个non-member, 借用numberator()和denominator()函数读取
+private值,而不是设计成有元函数
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Rational</span> {
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">...</span>
+};
+
+<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Rational</span> <span style="color: #A7DBD8;">operator</span><span style="color: #AEE239;">*</span>(lhs.numberator() * rhs.numberator(),
+                         lhs.denominator() * rhs.denominator()) {
+    <span style="color: #A7DBD8;">return</span> Rational(lhs.numberator() * rhs.numberator(),
+                    lhs.denominator() * rhs.denominator());
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-4-8" class="outline-3">
+<h3 id="sec-4-8">Item 25: 考虑写出一个不抛出异常的swap函数</h3>
+<div class="outline-text-3" id="text-4-8">
+<ul class="org-ul">
+<li>当std::swap对你的类型效率不高的时候,提供一个swap成员函数, 并确定这个函数不
+抛出异常
+</li>
+<li>如果你提供了一个member swap,也应该提供改一改non-member swap来调用前者,对于
+classes(而不是templates), 也请特化std::swap
+</li>
+<li>对自己特例化的swap调用方式是先using, 再调用swap,而且没有直接写std::swap,这
+源于编译器对namespace的名字查找时, 遵循的一系列规则
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Widget</span> {
+<span style="color: #A7DBD8;">public</span>:
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">...</span>
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">swap</span>(<span style="color: #999999;">Widget</span>&amp; <span style="color: #FD971F;">other</span>) {
+        <span style="color: #A7DBD8;">using</span> <span style="color: #AEE239;">std</span>::<span style="color: #999999;">swap</span>;
+        swap(pImpl, other.pImpl);
+    }
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">...</span>
+};
+<span style="color: #A7DBD8;">namespace</span> <span style="color: #AEE239;">std</span> {
+    <span style="color: #A7DBD8;">template</span>&lt;&gt;
+    <span style="color: #999999;">void</span> <span style="color: #999999;">swap</span>&lt;<span style="color: #999999;">Widget</span>&gt;(<span style="color: #999999;">Widget</span>&amp; <span style="color: #FD971F;">a</span>, <span style="color: #999999;">Widget</span>&amp; <span style="color: #FD971F;">b</span>) {
+        a.swap(b);
+    }
+}
 </pre>
 </div>
 </li>
