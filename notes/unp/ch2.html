@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 2</title>
-<!-- 2014-02-09 Sun 16:39 -->
+<!-- 2014-02-09 Sun 20:43 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -306,21 +306,16 @@ connection是因为:因为connection是两个IP之间的联系,而SCTP是两个�
 </li>
 <li>三次握手图解, 我们可以看到ACK返回的是J+1这是因为SYN本身会占用一个序列号, J是当前
 序列号,那么等连接建立,下次发送的就是J+1了
-<pre class="example">
-               client                       server
-   socket()      |      SYN(J)                |socket(), bind(), listen()
-                 |                            |
-connect() blocks +---------------------------&gt;|accept() blocks
-                 |    SYN(K), ACK(J+1)      / |
-connect() returns|&lt;-------------------------/ |
-                 |\    ACK(K+1)               |
-                 | \-------------------------&gt;|accept() returns
-                 |                            |read() blocks
-                 |                            |
-</pre>
+
+
+<div class="figure">
+<p><img src="../../static/images/unp_threeway.png" alt="unp_threeway.png" />
+</p>
+</div>
 </li>
 </ul>
 </div>
+
 <div id="outline-container-sec-1-6-1" class="outline-4">
 <h4 id="sec-1-6-1">TCP Options</h4>
 <div class="outline-text-4" id="text-1-6-1">
@@ -372,27 +367,16 @@ segment)很有意义.
 </ul>
 </li>
 <li>TCP四次挥手图解(close()可以释放FIN,同时exit或者非正常中断也会发送)
-<pre class="example">
-               client                       server
 
-                 |    FIN(M)                  |
-      close()    +---------------------------&gt;|read() return 0 (eof)
-                 |    ACK(M+1)              / |
-connect() returns|&lt;-------------------------/ |
-                           ........
 
-                 |    FIN(N)                  |
-                 |&lt;---------------------------+close()
-                 |\    ACK(N+1)               |
-                 | \-------------------------&gt;|
-                 |                            |
-                 |                            |
-</pre>
+<div class="figure">
+<p><img src="../../static/images/unp_fourway.png" alt="unp_fourway.png" />
+</p>
+</div>
 </li>
 </ul>
 </div>
 </div>
-
 <div id="outline-container-sec-1-6-3" class="outline-4">
 <h4 id="sec-1-6-3">TCP State Transitiion Diagram</h4>
 <div class="outline-text-4" id="text-1-6-3">
@@ -451,42 +435,14 @@ nothing|                                                                     +==
 <div class="outline-text-4" id="text-1-6-4">
 <ul class="org-ul">
 <li>我们把客户端和服务器都在一起考虑,就会得到下面的图例
-<pre class="example">
-                    Client                               Server
-      connect(blocks) | SYN(j), MSS=536                     | LISTEN(passive open), accept(blocks)
-SYN_SENT(active open) +------------------------------------&gt;+ SYN_RCVD
-                      |                                    /|
-                      | SYN(K), ACK(J+1), MSS=1460        / |
-    ESTABLISHED       +&lt;---------------------------------+  |
-    connect returns   | \                                   |
-                      |  \   ACK(K+1)                       |
-                      |   +--------------------------------&gt;+ ESTABLISHED, accept returns, read (blocks)
-                      |                                     |
-                      |       data(request)                 |
-              write   +------------------------------------&gt;+ read returns
-        read(blocks)  |                                    [server process request]
-                      |                                     |
-                      |                                     +
-                      |                                    /|write, read(blocks)
-                      |    data(reply), ACK of request    / |
-        read returns  +&lt;---------------------------------+  |
-                      |\                                    |
-                      | \  ACK of reply                     |
-                      |  +---------------------------------&gt;+
 
-                      |    FIN(M)                           |
-   close   FIN_WAIT_1 +------------------------------------&gt;+ CLOSE_WAIT (passive close), read returns 0
-                      |                                    /|
-                      |    ACK(M+1)                       / |
-           FIN_WAIT_2 +&lt;---------------------------------+  |
-                      |                                     |
-                      |    FIN(N)                           |
-           TIME_WAIT  +&lt;------------------------------------+ close,LAST_ACK
-                      |\                                    |
-                      | \  ACK(N+1)                         |
-                      |  +---------------------------------&gt;+ CLOSED
-</pre>
+
+<div class="figure">
+<p><img src="../../static/images/unp_three_four_way.png" alt="unp_three_four_way.png" />
+</p>
+</div>
 </li>
+
 <li>客户端的MSS是536,而服务器是1460, 两边的窗口不一样大是没问题的
 </li>
 <li>上面传输数据的时候,服务器的对客户端数据请求的应答,是和数据一块传给客户端的
