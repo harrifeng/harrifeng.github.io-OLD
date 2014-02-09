@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Chapter 2: Thread Safety</title>
-<!-- 2014-01-22 Wed 22:48 -->
+<title>Chapter 2</title>
+<!-- 2014-02-09 Sun 16:39 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -161,12 +161,12 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Chapter 2: Thread Safety</h1>
+<h1 class="title">Chapter 2</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">Chapter 2: Thread Safety</a>
+<li><a href="#sec-1">Thread Safety</a>
 <ul>
 <li><a href="#sec-1-1">What is Thread Safety:</a>
 <ul>
@@ -194,7 +194,7 @@ for the JavaScript code in this tag.
 </div>
 </div>
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Chapter 2: Thread Safety</h2>
+<h2 id="sec-1">Thread Safety</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>有点令人出乎意料的是, 并发编程,并不是一直都和线程或者锁有关.写出线程安全代码
@@ -216,13 +216,13 @@ for the JavaScript code in this tag.
 
 <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">TestCode</span> {
     <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
-        <span style="color: #999999;">HashMap</span>&lt;<span style="color: #999999;">Integer</span>, <span style="color: #999999;">Foo</span>&gt; <span style="color: #FD971F;">hm</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">HashMap</span>&lt;<span style="color: #999999;">Integer</span>, <span style="color: #999999;">Foo</span>&gt;();
+        HashMap&lt;Integer, Foo&gt; hm = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">HashMap</span>&lt;Integer, Foo&gt;();
         <span style="color: #999999;">Foo</span> <span style="color: #FD971F;">foo</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Foo</span>(15);
         <span style="color: #999999;">Foo</span> <span style="color: #FD971F;">foo2</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Foo</span>(35);
         hm.put(1, foo);
         hm.put(2, foo2);
 
-        <span style="color: #A7DBD8;">for</span> (<span style="color: #AEE239;">Map</span>.<span style="color: #999999;">Entry</span>&lt;<span style="color: #999999;">Integer</span>, <span style="color: #999999;">Foo</span>&gt; e : hm.entrySet()) {
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #AEE239;">Map</span>.Entry&lt;Integer, Foo&gt; e : hm.entrySet()) {
             System.out.println(e.getKey() + <span style="color: #F8F8F0;">" "</span> + e.getValue());
         }
         foo.setVal(115);
@@ -236,7 +236,7 @@ for the JavaScript code in this tag.
     }
 
     <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">int</span> <span style="color: #FD971F;">val</span>;
-    <span style="color: #A7DBD8;">public</span> <span style="color: #AEE239;">Foo</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">v</span>) {
+    <span style="color: #A7DBD8;">public</span> Foo(<span style="color: #999999;">int</span> <span style="color: #FD971F;">v</span>) {
         val = v;
     }
 
@@ -506,10 +506,10 @@ null, 然后也创建ExpensiveObject.所以不同的调用者会收到不同的�
 
 <pre class="src src-java"><span style="color: #AEE239;">@NotThreadSafe</span>
 <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">UnsafeCachingFactorizer</span> <span style="color: #A7DBD8;">implements</span> <span style="color: #999999;">Servlet</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">final</span> <span style="color: #999999;">AtomicReference</span>&lt;<span style="color: #999999;">BigInteger</span>&gt; <span style="color: #FD971F;">lastNumber</span>
-        = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">AtomicReference</span>&lt;<span style="color: #999999;">BigInteger</span>&gt; ();
-    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">final</span> <span style="color: #999999;">AtomicReference</span>&lt;<span style="color: #999999;">BigInteger</span>[]&gt; <span style="color: #FD971F;">lastFactors</span>
-        = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">AtomicReference</span>&lt;<span style="color: #999999;">BigInteger</span>[]&gt;();
+    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">final</span> <span style="color: #999999;">AtomicReference</span>&lt;BigInteger&gt; lastNumber
+        = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">AtomicReference</span>&lt;BigInteger&gt; ();
+    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">final</span> <span style="color: #999999;">AtomicReference</span>&lt;BigInteger[]&gt; lastFactors
+        = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">AtomicReference</span>&lt;BigInteger[]&gt;();
 
     <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">service</span>(<span style="color: #999999;">ServletRequest</span> <span style="color: #FD971F;">req</span>, <span style="color: #999999;">ServletResponse</span> <span style="color: #FD971F;">resp</span>) {
         <span style="color: #999999;">BigInteger</span> <span style="color: #FD971F;">i</span> = extractFromRequest(req);

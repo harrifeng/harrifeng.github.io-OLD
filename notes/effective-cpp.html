@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Effective C++</title>
-<!-- 2014-01-22 Wed 22:48 -->
+<!-- 2014-02-09 Sun 16:39 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -205,6 +205,12 @@ for the JavaScript code in this tag.
 <li><a href="#sec-4-6">Item 23: 宁以non-memeber, non-friend替换member函数</a></li>
 <li><a href="#sec-4-7">Item 24: 若所有参数皆需类型转换,请为此采用non-member函数</a></li>
 <li><a href="#sec-4-8">Item 25: 考虑写出一个不抛出异常的swap函数</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">Chapter 5: 实现</a>
+<ul>
+<li><a href="#sec-5-1">Item 26: 尽可能延后变量定义式出现时间</a></li>
+<li><a href="#sec-5-2">Item 27: 尽量少做转型动作</a></li>
 </ul>
 </li>
 </ul>
@@ -650,7 +656,6 @@ copy assignment, 我们称之为copying函数
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-3" class="outline-2">
 <h2 id="sec-3">Chapter 3: 资源管理</h2>
 <div class="outline-text-2" id="text-3">
@@ -1161,6 +1166,118 @@ classes(而不是templates), 也请特化std::swap
 </pre>
 </div>
 </li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Chapter 5: 实现</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1">Item 26: 尽可能延后变量定义式出现时间</h3>
+<div class="outline-text-3" id="text-5-1">
+<ul class="org-ul">
+<li>在老的c语言规范里面(C89/90)里面, 变量只能定义在block开始的地方.注意!!不是
+function开始的地方, 即便是C89/90, 把所有变量都定义在函数开始的地方是非常
+不明智的, 因为这样会导致逻辑不清晰, 变量作用域模糊的代码
+</li>
+<li>对于C++来说,变量"直到需要的时候"才定义,有更多的好处:
+<ul class="org-ul">
+<li>变量作用域更清晰, 下面的成本如下(但是方法B更清晰,作用域更准确):
+<ol class="org-ol">
+<li>方法A : 1个构造函数 + 1个析构函数 + n个赋值操作
+</li>
+<li>方法B : n个构造函数 + n个析构函数
+</li>
+</ol>
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #505C63;">// </span><span style="color: #505C63;">&#26041;&#27861;A, &#23450;&#20041;&#20110;&#24490;&#29615;&#22806;</span>
+<span style="color: #999999;">Widget</span> <span style="color: #FD971F;">w</span>;
+
+<span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; n; ++i) {
+    w = &#21462;&#20915;&#20110;i&#30340;&#26576;&#20010;&#20540;;
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">...</span>
+}
+
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&#26041;&#27861;B, &#23450;&#20041;&#20110;&#24490;&#29615;&#20869;</span>
+<span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; n; ++i) {
+    <span style="color: #999999;">Widget</span> <span style="color: #FD971F;">w</span>(&#21462;&#20915;&#20110;i&#30340;&#26576;&#20010;&#20540;);
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">...</span>
+}
+</pre>
+</div>
+</li>
+<li>防止"定义了不使用"(由于异常的存在,当然异常现在不推荐使用)
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #AEE239;">std</span>::<span style="color: #999999;">string</span> <span style="color: #AEE239;">encryptPassword</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #AEE239;">std</span>::<span style="color: #999999;">string</span>&amp; <span style="color: #FD971F;">password</span>) {
+    <span style="color: #A7DBD8;">using</span> <span style="color: #A7DBD8;">namespace</span> <span style="color: #AEE239;">std</span>;
+    <span style="color: #999999;">string</span> <span style="color: #FD971F;">encrypted</span>;
+
+    <span style="color: #A7DBD8;">if</span> (password.length() &lt; MinimumPasswordLength) {
+        <span style="color: #A7DBD8;">throw</span> logic_error(<span style="color: #F8F8F0;">"Password is too short"</span>);
+    }
+
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">...</span>
+    <span style="color: #A7DBD8;">return</span> encrypted; <span style="color: #505C63;">//</span><span style="color: #505C63;">May NOT be used!</span>
+}
+</pre>
+</div>
+</li>
+<li>直到真正需要的时候,就意味着大多数情况下这个变量已经有了一个靠谱的初始化
+值,那么就可以用"直接在构造的时候指定初始值", 这效率比起"通过default构造
+函数构造出一个对象,然后对它复制"效果好
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #AEE239;">std</span>::<span style="color: #999999;">string</span> <span style="color: #AEE239;">encryptPassword</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #AEE239;">std</span>::<span style="color: #999999;">string</span>&amp; <span style="color: #FD971F;">password</span>) {
+    <span style="color: #505C63;">// </span><span style="color: #505C63;">&#26816;&#26597;&#38271;&#24230;</span>
+    <span style="color: #AEE239;">std</span>::<span style="color: #999999;">string</span> <span style="color: #FD971F;">encrypted</span>(password);
+
+    encrypt(encrypted);
+    <span style="color: #A7DBD8;">return</span> encrypted;
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2">Item 27: 尽量少做转型动作</h3>
+<div class="outline-text-3" id="text-5-2">
+<ul class="org-ul">
+<li>c语言的转型
+</li>
+<li>c++有四种新型的转型:
+<ul class="org-ul">
+<li>const_cast 将对象的常量性去除(cast away the constness)
+</li>
+<li>dynamic_cast 执行"安全向下转型" (safe downcasting), 也就是用来决定某对象
+是否归属继承体系中的某个类型
+</li>
+<li>reinterpret_cast意图执行低级转型, 由于取决于编译器,也即表示它不可移植
+</li>
+<li>static_cast用来强迫隐式转换(implicit conversions).比如将non-const对象
+转换为const对象, 或者将int转换为double. 但是无法将const转换为non-const,
+只有const_cast才能做到
+</li>
+</ul>
+</li>
+<li>c++的新型转型语法更受欢迎, 因为:
+<ul class="org-ul">
+<li>很容易在代码中被辨识出来(相比较老的类型转换就一个括号), 也就容易查找到问题
+</li>
+<li>新型类型转换分成了四种,每种功能都限定在一个比较小的范围内,便于让编译器找到
+问题
+</li>
+</ul>
+</li>
+<li></li>
 </ul>
 </div>
 </div>
