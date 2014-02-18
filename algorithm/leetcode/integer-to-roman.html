@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode: Integger to Roman</title>
-<!-- 2014-02-09 Sun 20:43 -->
+<!-- 2014-02-18 Tue 22:47 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -191,7 +191,7 @@ Sample Output: MCMLXXX
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
 <li>罗马数字是一个以五为小单位的计数:
-<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
 
 
 <colgroup>
@@ -268,59 +268,59 @@ Sample Output: MCMLXXX
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Solution</span> {
-    <span style="color: #505C63;">//</span><span style="color: #505C63;">num is suppose to be 1 to 3999</span>
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">String</span> <span style="color: #FD971F;">romeN</span> = <span style="color: #F8F8F0;">"IVXLCDM"</span>;
+<pre class="src src-java"><span style="color: #b48ead;">public</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Solution</span> {
+    <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">num is suppose to be 1 to 3999</span>
+    <span style="color: #b48ead;">private</span> <span style="color: #c0c5ce;">String</span> <span style="color: #bf616a;">romeN</span> = <span style="color: #a3be8c;">"IVXLCDM"</span>;
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">intToRoman</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">num</span>) {
-        <span style="color: #999999;">StringBuffer</span> <span style="color: #FD971F;">sb</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">StringBuffer</span>(<span style="color: #F8F8F0;">""</span>);
-        <span style="color: #999999;">int</span> <span style="color: #FD971F;">size</span> = 1000;
-        <span style="color: #999999;">int</span>[] <span style="color: #FD971F;">digits</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">int</span>[4];
-        <span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0;
-        <span style="color: #A7DBD8;">while</span> (num != 0) {
+    <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">String</span> <span style="color: #8fa1b3;">intToRoman</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">num</span>) {
+        <span style="color: #c0c5ce;">StringBuffer</span> <span style="color: #bf616a;">sb</span> = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">StringBuffer</span>(<span style="color: #a3be8c;">""</span>);
+        <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">size</span> = 1000;
+        <span style="color: #c0c5ce;">int</span>[] <span style="color: #bf616a;">digits</span> = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">int</span>[4];
+        <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">i</span> = 0;
+        <span style="color: #b48ead;">while</span> (num != 0) {
             digits[i] = num / size;
             num %= size;
             size /= 10;
             i++;
         }
 
-        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">j</span> = 0; j &lt; digits.length; j++) {
-            <span style="color: #A7DBD8;">if</span> (digits[j] &gt; 0) {
+        <span style="color: #b48ead;">for</span> (<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">j</span> = 0; j &lt; digits.length; j++) {
+            <span style="color: #b48ead;">if</span> (digits[j] &gt; 0) {
                 sb.append(dToR(digits[j], 3-j));
             }
         }
 
-        <span style="color: #A7DBD8;">return</span> sb.toString();
+        <span style="color: #b48ead;">return</span> sb.toString();
     }
 
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">dToR</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">lev</span>) {
-        <span style="color: #A7DBD8;">if</span> (i &gt; 9 || i &lt; 1) {
-            <span style="color: #A7DBD8;">return</span> <span style="color: #F8F8F0;">""</span>;
+    <span style="color: #b48ead;">private</span> <span style="color: #c0c5ce;">String</span> <span style="color: #8fa1b3;">dToR</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">i</span>, <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">lev</span>) {
+        <span style="color: #b48ead;">if</span> (i &gt; 9 || i &lt; 1) {
+            <span style="color: #b48ead;">return</span> <span style="color: #a3be8c;">""</span>;
         }
-        <span style="color: #999999;">StringBuffer</span> <span style="color: #FD971F;">sbuf</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">StringBuffer</span>(<span style="color: #F8F8F0;">""</span>);
-        <span style="color: #A7DBD8;">if</span> (i &lt; 4) {
-            <span style="color: #A7DBD8;">while</span> (i &gt; 0) {
+        <span style="color: #c0c5ce;">StringBuffer</span> <span style="color: #bf616a;">sbuf</span> = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">StringBuffer</span>(<span style="color: #a3be8c;">""</span>);
+        <span style="color: #b48ead;">if</span> (i &lt; 4) {
+            <span style="color: #b48ead;">while</span> (i &gt; 0) {
                 sbuf.append(romeN.charAt(lev * 2));
                 i--;
             }
-            <span style="color: #A7DBD8;">return</span> sbuf.toString();
-        } <span style="color: #A7DBD8;">else</span> <span style="color: #A7DBD8;">if</span> (i == 4) {
+            <span style="color: #b48ead;">return</span> sbuf.toString();
+        } <span style="color: #b48ead;">else</span> <span style="color: #b48ead;">if</span> (i == 4) {
             sbuf.append(romeN.charAt(lev * 2));
             sbuf.append(romeN.charAt(lev * 2 + 1));
-            <span style="color: #A7DBD8;">return</span> sbuf.toString();
-        } <span style="color: #A7DBD8;">else</span> <span style="color: #A7DBD8;">if</span> (i &gt; 4 &amp;&amp; i &lt;= 8) {
+            <span style="color: #b48ead;">return</span> sbuf.toString();
+        } <span style="color: #b48ead;">else</span> <span style="color: #b48ead;">if</span> (i &gt; 4 &amp;&amp; i &lt;= 8) {
             sbuf.append(romeN.charAt(lev * 2 + 1));
-            <span style="color: #A7DBD8;">while</span> (i &gt; 5) {
+            <span style="color: #b48ead;">while</span> (i &gt; 5) {
                 sbuf.append(romeN.charAt(lev * 2));
                 i--;
             }
-            <span style="color: #A7DBD8;">return</span> sbuf.toString();
-        } <span style="color: #A7DBD8;">else</span> <span style="color: #A7DBD8;">if</span> (i == 9) {
+            <span style="color: #b48ead;">return</span> sbuf.toString();
+        } <span style="color: #b48ead;">else</span> <span style="color: #b48ead;">if</span> (i == 9) {
             sbuf.append(romeN.charAt(lev * 2 ));
             sbuf.append(romeN.charAt(lev * 2 + 2));
-            <span style="color: #A7DBD8;">return</span> sbuf.toString();
+            <span style="color: #b48ead;">return</span> sbuf.toString();
         }
-        <span style="color: #A7DBD8;">return</span> sbuf.toString();
+        <span style="color: #b48ead;">return</span> sbuf.toString();
     }
 }
 </pre>

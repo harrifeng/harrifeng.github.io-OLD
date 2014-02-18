@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode: String to Integer(atoi)</title>
-<!-- 2014-02-09 Sun 20:43 -->
+<!-- 2014-02-18 Tue 22:47 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -215,38 +215,38 @@ Sample Output: 1234
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Solution</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">atoi</span>(<span style="color: #999999;">String</span> <span style="color: #FD971F;">str</span>) {
-        <span style="color: #A7DBD8;">if</span> (str.length() == 0) {
-            <span style="color: #A7DBD8;">return</span> 0;
+<pre class="src src-java"><span style="color: #b48ead;">public</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Solution</span> {
+    <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">atoi</span>(<span style="color: #c0c5ce;">String</span> <span style="color: #bf616a;">str</span>) {
+        <span style="color: #b48ead;">if</span> (str.length() == 0) {
+            <span style="color: #b48ead;">return</span> 0;
         }
-        <span style="color: #999999;">int</span> <span style="color: #FD971F;">start</span> = 0;
-        <span style="color: #999999;">boolean</span> <span style="color: #FD971F;">negVal</span> = <span style="color: #AEE239;">false</span>;
-        <span style="color: #999999;">int</span> <span style="color: #FD971F;">result</span> = 0;
-        <span style="color: #A7DBD8;">while</span>(str.charAt(start) == <span style="color: #F8F8F0;">' '</span>) {
+        <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">start</span> = 0;
+        <span style="color: #c0c5ce;">boolean</span> <span style="color: #bf616a;">negVal</span> = <span style="color: #d08770;">false</span>;
+        <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">result</span> = 0;
+        <span style="color: #b48ead;">while</span>(str.charAt(start) == <span style="color: #a3be8c;">' '</span>) {
             start++;
         }
-        <span style="color: #A7DBD8;">if</span> (str.charAt(start) == <span style="color: #F8F8F0;">'-'</span>) {
-            negVal = <span style="color: #AEE239;">true</span>;
+        <span style="color: #b48ead;">if</span> (str.charAt(start) == <span style="color: #a3be8c;">'-'</span>) {
+            negVal = <span style="color: #d08770;">true</span>;
             start++;
-        } <span style="color: #A7DBD8;">else</span> <span style="color: #A7DBD8;">if</span> (str.charAt(start) == <span style="color: #F8F8F0;">'+'</span>) {
+        } <span style="color: #b48ead;">else</span> <span style="color: #b48ead;">if</span> (str.charAt(start) == <span style="color: #a3be8c;">'+'</span>) {
             start++;
         }
-        <span style="color: #999999;">int</span> <span style="color: #FD971F;">len</span> = str.length();
-        <span style="color: #A7DBD8;">for</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = start; i &lt; len; i++) {
-            <span style="color: #A7DBD8;">if</span> (str.charAt(i) &gt;= <span style="color: #F8F8F0;">'0'</span> &amp;&amp; str.charAt(i) &lt;= <span style="color: #F8F8F0;">'9'</span>) {
-                <span style="color: #A7DBD8;">if</span> (result &gt; <span style="color: #AEE239;">Integer</span>.MAX_VALUE / 10
-                    || result == <span style="color: #AEE239;">Integer</span>.MAX_VALUE / 10
-                    &amp;&amp; str.charAt(i) - <span style="color: #F8F8F0;">'0'</span> &gt; <span style="color: #AEE239;">Integer</span>.MAX_VALUE % 10) {
-                    <span style="color: #A7DBD8;">return</span> negVal ? <span style="color: #AEE239;">Integer</span>.MIN_VALUE : <span style="color: #AEE239;">Integer</span>.MAX_VALUE;
+        <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">len</span> = str.length();
+        <span style="color: #b48ead;">for</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">i</span> = start; i &lt; len; i++) {
+            <span style="color: #b48ead;">if</span> (str.charAt(i) &gt;= <span style="color: #a3be8c;">'0'</span> &amp;&amp; str.charAt(i) &lt;= <span style="color: #a3be8c;">'9'</span>) {
+                <span style="color: #b48ead;">if</span> (result &gt; <span style="color: #d08770;">Integer</span>.MAX_VALUE / 10
+                    || result == <span style="color: #d08770;">Integer</span>.MAX_VALUE / 10
+                    &amp;&amp; str.charAt(i) - <span style="color: #a3be8c;">'0'</span> &gt; <span style="color: #d08770;">Integer</span>.MAX_VALUE % 10) {
+                    <span style="color: #b48ead;">return</span> negVal ? <span style="color: #d08770;">Integer</span>.MIN_VALUE : <span style="color: #d08770;">Integer</span>.MAX_VALUE;
                 }
-                result = result * 10 + (str.charAt(i) - <span style="color: #F8F8F0;">'0'</span>);
-            } <span style="color: #A7DBD8;">else</span> {
-                <span style="color: #A7DBD8;">break</span>;
+                result = result * 10 + (str.charAt(i) - <span style="color: #a3be8c;">'0'</span>);
+            } <span style="color: #b48ead;">else</span> {
+                <span style="color: #b48ead;">break</span>;
             }
         }
 
-        <span style="color: #A7DBD8;">return</span> negVal ? result * -1 : result;
+        <span style="color: #b48ead;">return</span> negVal ? result * -1 : result;
     }
 }
 </pre>

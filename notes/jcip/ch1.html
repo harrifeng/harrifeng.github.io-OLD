@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 1</title>
-<!-- 2014-02-09 Sun 20:43 -->
+<!-- 2014-02-18 Tue 22:47 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -391,13 +391,13 @@ stack,和局部变量
 <li>下面这段代码就是线程不安全的
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #AEE239;">@NotThreadSafe</span>
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">UnsafeSequence</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">int</span> <span style="color: #FD971F;">value</span>;
+<pre class="src src-java"><span style="color: #d08770;">@NotThreadSafe</span>
+<span style="color: #b48ead;">public</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">UnsafeSequence</span> {
+    <span style="color: #b48ead;">private</span> <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">value</span>;
 
-    <span style="color: #505C63;">/* </span><span style="color: #505C63;">Returns a unique value */</span>
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">getNext</span>() {
-        <span style="color: #A7DBD8;">return</span> value++;
+    <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">Returns a unique value */</span>
+    <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">getNext</span>() {
+        <span style="color: #b48ead;">return</span> value++;
     }
 }
 </pre>
@@ -425,12 +425,12 @@ B      --------&gt;| value  +-------&gt;| 9+1    +-------&gt;+ value  |
 时候,就要java提供的同步方法(synchronization mechanism)
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #AEE239;">@ThreadSafe</span>
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Sequence</span> {
-    <span style="color: #AEE239;">@GuardedBy</span>(<span style="color: #F8F8F0;">"this"</span>) <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">int</span> <span style="color: #FD971F;">nextValue</span>;
+<pre class="src src-java"><span style="color: #d08770;">@ThreadSafe</span>
+<span style="color: #b48ead;">public</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Sequence</span> {
+    <span style="color: #d08770;">@GuardedBy</span>(<span style="color: #a3be8c;">"this"</span>) <span style="color: #b48ead;">private</span> <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">nextValue</span>;
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">synchronized</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">getNext</span>() {
-        <span style="color: #A7DBD8;">return</span> nextValue++;
+    <span style="color: #b48ead;">public</span> <span style="color: #b48ead;">synchronized</span> <span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">getNext</span>() {
+        <span style="color: #b48ead;">return</span> nextValue++;
     }
 }
 </pre>

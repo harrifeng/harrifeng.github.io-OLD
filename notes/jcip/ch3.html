@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 3</title>
-<!-- 2014-02-09 Sun 20:43 -->
+<!-- 2014-02-18 Tue 22:47 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -242,23 +242,23 @@ for the JavaScript code in this tag.
 的状态是否为true,如果是的情况下,就打印number的值
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">NoVisibility</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">boolean</span> <span style="color: #FD971F;">ready</span>;
-    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">int</span> <span style="color: #FD971F;">number</span>;
+<pre class="src src-java"><span style="color: #b48ead;">public</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">NoVisibility</span> {
+    <span style="color: #b48ead;">private</span> <span style="color: #b48ead;">static</span> <span style="color: #c0c5ce;">boolean</span> <span style="color: #bf616a;">ready</span>;
+    <span style="color: #b48ead;">private</span> <span style="color: #b48ead;">static</span> <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">number</span>;
 
-    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">static</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">ReaerThread</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Thread</span> {
-        <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">run</span>() {
-            <span style="color: #A7DBD8;">while</span> (!ready) {
+    <span style="color: #b48ead;">private</span> <span style="color: #b48ead;">static</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">ReaerThread</span> <span style="color: #b48ead;">extends</span> <span style="color: #c0c5ce;">Thread</span> {
+        <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">run</span>() {
+            <span style="color: #b48ead;">while</span> (!ready) {
                 Thread.yield();
             }
             System.out.println(number);
         }
     }
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
-        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">ReaerThread</span>().start();
+    <span style="color: #b48ead;">public</span> <span style="color: #b48ead;">static</span> <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">main</span>(<span style="color: #c0c5ce;">String</span>[] <span style="color: #bf616a;">args</span>) {
+        <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">ReaerThread</span>().start();
         number = 42;
-        ready = <span style="color: #AEE239;">true</span>;
+        ready = <span style="color: #d08770;">true</span>;
     }
 }
 </pre>
@@ -293,15 +293,15 @@ for the JavaScript code in this tag.
 getter的时候,线程B可能在setter.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #AEE239;">@NotThreadSafe</span>
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">MutableInteger</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">int</span> <span style="color: #FD971F;">value</span>;
+<pre class="src src-java"><span style="color: #d08770;">@NotThreadSafe</span>
+<span style="color: #b48ead;">public</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">MutableInteger</span> {
+    <span style="color: #b48ead;">private</span> <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">value</span>;
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">get</span>() {
-        <span style="color: #A7DBD8;">return</span> value;
+    <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">get</span>() {
+        <span style="color: #b48ead;">return</span> value;
     }
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">set</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">value</span>) {
-        <span style="color: #A7DBD8;">this</span>.value = value;
+    <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">set</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">value</span>) {
+        <span style="color: #b48ead;">this</span>.value = value;
     }
 }
 </pre>
@@ -311,15 +311,15 @@ getter的时候,线程B可能在setter.
 还是可以在getter的时候,得到"失效"的数据
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #AEE239;">@ThreadSafe</span>
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">SynchronizedInteger</span> {
-    <span style="color: #AEE239;">@GuardeBy</span>(<span style="color: #F8F8F0;">"this"</span>) <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">int</span> <span style="color: #FD971F;">value</span>;
+<pre class="src src-java"><span style="color: #d08770;">@ThreadSafe</span>
+<span style="color: #b48ead;">public</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">SynchronizedInteger</span> {
+    <span style="color: #d08770;">@GuardeBy</span>(<span style="color: #a3be8c;">"this"</span>) <span style="color: #b48ead;">private</span> <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">value</span>;
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">synchronized</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">get</span>() {
-        <span style="color: #A7DBD8;">return</span> value;
+    <span style="color: #b48ead;">public</span> <span style="color: #b48ead;">synchronized</span> <span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">get</span>() {
+        <span style="color: #b48ead;">return</span> value;
     }
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">synchronized</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">set</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">value</span>) {
-        <span style="color: #A7DBD8;">this</span>.value = value;
+    <span style="color: #b48ead;">public</span> <span style="color: #b48ead;">synchronized</span> <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">set</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">value</span>) {
+        <span style="color: #b48ead;">this</span>.value = value;
     }
 }
 </pre>
@@ -421,9 +421,9 @@ getter的时候,线程B可能在setter.
 的用法也就是flag:
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">volatile</span> <span style="color: #999999;">boolean</span> <span style="color: #FD971F;">asleep</span>;
+<pre class="src src-java"><span style="color: #b48ead;">volatile</span> <span style="color: #c0c5ce;">boolean</span> <span style="color: #bf616a;">asleep</span>;
 
-<span style="color: #A7DBD8;">while</span>(!asleep) {
+<span style="color: #b48ead;">while</span>(!asleep) {
     countSomeSheep();
 }
 </pre>
@@ -469,10 +469,10 @@ getter的时候,线程B可能在setter.
 的人都可以通过knownSecrets得到引用然后知道了Secret的所有内容
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">Set</span>&lt;Secret&gt; knownSecrets;
+<pre class="src src-java"><span style="color: #b48ead;">public</span> <span style="color: #b48ead;">static</span> <span style="color: #c0c5ce;">Set</span>&lt;Secret&gt; knownSecrets;
 
-<span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">initialize</span>() {
-    knownSecrets = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">HashSet</span>&lt;Secret&gt;();
+<span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">initialize</span>() {
+    knownSecrets = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">HashSet</span>&lt;Secret&gt;();
 }
 </pre>
 </div>
@@ -481,17 +481,17 @@ getter的时候,线程B可能在setter.
 个例子,通过返回的引用,我可以轻松的改动本来private的值
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">UnsafeStates</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">String</span>[] <span style="color: #AEE239;">getStates</span>() {
-        <span style="color: #A7DBD8;">return</span> states;
+<pre class="src src-java"><span style="color: #b48ead;">public</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">UnsafeStates</span> {
+    <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">String</span>[] <span style="color: #8fa1b3;">getStates</span>() {
+        <span style="color: #b48ead;">return</span> states;
     }
 
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">String</span>[] <span style="color: #FD971F;">states</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">String</span>[] { <span style="color: #F8F8F0;">"AA"</span>, <span style="color: #F8F8F0;">"BB"</span>};
+    <span style="color: #b48ead;">private</span> <span style="color: #c0c5ce;">String</span>[] <span style="color: #bf616a;">states</span> = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">String</span>[] { <span style="color: #a3be8c;">"AA"</span>, <span style="color: #a3be8c;">"BB"</span>};
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
-        <span style="color: #999999;">UnsafeStates</span> <span style="color: #FD971F;">us</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">UnsafeStates</span>();
+    <span style="color: #b48ead;">public</span> <span style="color: #b48ead;">static</span> <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">main</span>(<span style="color: #c0c5ce;">String</span>[] <span style="color: #bf616a;">args</span>) {
+        <span style="color: #c0c5ce;">UnsafeStates</span> <span style="color: #bf616a;">us</span> = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">UnsafeStates</span>();
         System.out.println(us.getStates()[0]);
-        us.getStates()[0] = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">String</span>(<span style="color: #F8F8F0;">"ZZ"</span>);
+        us.getStates()[0] = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">String</span>(<span style="color: #a3be8c;">"ZZ"</span>);
         System.out.println(us.getStates()[0]);
     }
 
@@ -504,28 +504,28 @@ getter的时候,线程B可能在setter.
 ThisEscape, 所以其实也同时publish了ThisEscape
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">ThisEscape</span> {
-    <span style="color: #A7DBD8;">public</span> ThisEscape(<span style="color: #999999;">EventSource</span> <span style="color: #FD971F;">source</span>) {
-        source.registerListener(<span style="color: #A7DBD8;">new</span> <span style="color: #999999;">EventListener</span>() {
-            <span style="color: #AEE239;">@Override</span>
-            <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">onEvent</span>(<span style="color: #999999;">Event</span> <span style="color: #FD971F;">e</span>) {
+<pre class="src src-java"><span style="color: #b48ead;">public</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">ThisEscape</span> {
+    <span style="color: #b48ead;">public</span> ThisEscape(<span style="color: #c0c5ce;">EventSource</span> <span style="color: #bf616a;">source</span>) {
+        source.registerListener(<span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">EventListener</span>() {
+            <span style="color: #d08770;">@Override</span>
+            <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">onEvent</span>(<span style="color: #c0c5ce;">Event</span> <span style="color: #bf616a;">e</span>) {
                 doSomething(e);
             }
         });
     }
 
-    <span style="color: #999999;">void</span> <span style="color: #AEE239;">doSomething</span>(<span style="color: #999999;">Event</span> <span style="color: #FD971F;">e</span>) {
+    <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">doSomething</span>(<span style="color: #c0c5ce;">Event</span> <span style="color: #bf616a;">e</span>) {
     }
 
-    <span style="color: #A7DBD8;">interface</span> <span style="color: #999999;">EventSource</span> {
-        <span style="color: #999999;">void</span> <span style="color: #AEE239;">registerListener</span>(<span style="color: #999999;">EventListener</span> <span style="color: #FD971F;">e</span>);
+    <span style="color: #b48ead;">interface</span> <span style="color: #c0c5ce;">EventSource</span> {
+        <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">registerListener</span>(<span style="color: #c0c5ce;">EventListener</span> <span style="color: #bf616a;">e</span>);
     }
 
-    <span style="color: #A7DBD8;">interface</span> <span style="color: #999999;">EventListener</span> {
-        <span style="color: #999999;">void</span> <span style="color: #AEE239;">onEvent</span>(<span style="color: #999999;">Event</span> <span style="color: #FD971F;">e</span>);
+    <span style="color: #b48ead;">interface</span> <span style="color: #c0c5ce;">EventListener</span> {
+        <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">onEvent</span>(<span style="color: #c0c5ce;">Event</span> <span style="color: #bf616a;">e</span>);
     }
 
-    <span style="color: #A7DBD8;">interface</span> <span style="color: #999999;">Event</span> {
+    <span style="color: #b48ead;">interface</span> <span style="color: #c0c5ce;">Event</span> {
     }
 }
 </pre>
@@ -557,36 +557,36 @@ this引用泄漏.
 函数设计成private, 然后用public的工厂方法,如下:
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">SafeListener</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">final</span> <span style="color: #999999;">EventListener</span> <span style="color: #FD971F;">listener</span>;
+<pre class="src src-java"><span style="color: #b48ead;">public</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">SafeListener</span> {
+    <span style="color: #b48ead;">private</span> <span style="color: #b48ead;">final</span> <span style="color: #c0c5ce;">EventListener</span> <span style="color: #bf616a;">listener</span>;
 
-    <span style="color: #A7DBD8;">private</span> SafeListener() {
-        listener = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">EventListener</span>() {
-            <span style="color: #AEE239;">@Override</span>
-            <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">onEvent</span>(<span style="color: #999999;">Event</span> <span style="color: #FD971F;">e</span>) {
+    <span style="color: #b48ead;">private</span> SafeListener() {
+        listener = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">EventListener</span>() {
+            <span style="color: #d08770;">@Override</span>
+            <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">onEvent</span>(<span style="color: #c0c5ce;">Event</span> <span style="color: #bf616a;">e</span>) {
                 doSomething();
             }
         };
     }
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">SafeListener</span> <span style="color: #AEE239;">newInstance</span>(<span style="color: #999999;">EventSource</span> <span style="color: #FD971F;">source</span>) {
-        <span style="color: #999999;">SafeListener</span> <span style="color: #FD971F;">safe</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">SafeListener</span>();
+    <span style="color: #b48ead;">public</span> <span style="color: #b48ead;">static</span> <span style="color: #c0c5ce;">SafeListener</span> <span style="color: #8fa1b3;">newInstance</span>(<span style="color: #c0c5ce;">EventSource</span> <span style="color: #bf616a;">source</span>) {
+        <span style="color: #c0c5ce;">SafeListener</span> <span style="color: #bf616a;">safe</span> = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">SafeListener</span>();
         source.registerListener(safe.listener);
-        <span style="color: #A7DBD8;">return</span> safe;
+        <span style="color: #b48ead;">return</span> safe;
     }
 
-    <span style="color: #999999;">void</span> <span style="color: #AEE239;">doSomething</span>() {
+    <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">doSomething</span>() {
     }
 
-    <span style="color: #A7DBD8;">interface</span> <span style="color: #999999;">EventSource</span> {
-        <span style="color: #999999;">void</span> <span style="color: #AEE239;">registerListener</span>(<span style="color: #999999;">EventListener</span> <span style="color: #FD971F;">e</span>);
+    <span style="color: #b48ead;">interface</span> <span style="color: #c0c5ce;">EventSource</span> {
+        <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">registerListener</span>(<span style="color: #c0c5ce;">EventListener</span> <span style="color: #bf616a;">e</span>);
     }
 
-    <span style="color: #A7DBD8;">interface</span> <span style="color: #999999;">EventListener</span> {
-        <span style="color: #999999;">void</span> <span style="color: #AEE239;">onEvent</span>(<span style="color: #999999;">Event</span> <span style="color: #FD971F;">e</span>);
+    <span style="color: #b48ead;">interface</span> <span style="color: #c0c5ce;">EventListener</span> {
+        <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">onEvent</span>(<span style="color: #c0c5ce;">Event</span> <span style="color: #bf616a;">e</span>);
     }
 
-    <span style="color: #A7DBD8;">interface</span> <span style="color: #999999;">Event</span> {
+    <span style="color: #b48ead;">interface</span> <span style="color: #c0c5ce;">Event</span> {
     }
 }
 </pre>
@@ -641,74 +641,74 @@ Connectivity): 在一个服务器端, 一个线程会从connection 池中请求�
 <li>stack confinement更易于实现,健壮性也强于ad-hoc thread confinement
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">import</span> <span style="color: #AEE239;">java</span>.<span style="color: #AEE239;">util</span>.*;
+<pre class="src src-java"><span style="color: #b48ead;">import</span> <span style="color: #d08770;">java</span>.<span style="color: #d08770;">util</span>.*;
 
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Animals</span> {
-    <span style="color: #999999;">Ark</span> <span style="color: #FD971F;">ark</span>;
-    <span style="color: #999999;">Species</span> <span style="color: #FD971F;">species</span>;
-    <span style="color: #999999;">Gender</span> <span style="color: #FD971F;">gender</span>;
+<span style="color: #b48ead;">public</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Animals</span> {
+    <span style="color: #c0c5ce;">Ark</span> <span style="color: #bf616a;">ark</span>;
+    <span style="color: #c0c5ce;">Species</span> <span style="color: #bf616a;">species</span>;
+    <span style="color: #c0c5ce;">Gender</span> <span style="color: #bf616a;">gender</span>;
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">loadTheArk</span>(Collection&lt;Animal&gt; candidates) {
+    <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">loadTheArk</span>(Collection&lt;Animal&gt; candidates) {
         SortedSet&lt;Animal&gt; animals;
-        <span style="color: #999999;">int</span> <span style="color: #FD971F;">numPairs</span> = 0;
-        <span style="color: #999999;">Animal</span> <span style="color: #FD971F;">candidate</span> = <span style="color: #AEE239;">null</span>;
+        <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">numPairs</span> = 0;
+        <span style="color: #c0c5ce;">Animal</span> <span style="color: #bf616a;">candidate</span> = <span style="color: #d08770;">null</span>;
 
-        <span style="color: #505C63;">//</span><span style="color: #505C63;">animals confined to method, don't let them escape!</span>
-        animals = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">TreeSet</span>&lt;Animal&gt;(<span style="color: #A7DBD8;">new</span> <span style="color: #999999;">SpeciesGenderComparator</span>());
+        <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">animals confined to method, don't let them escape!</span>
+        animals = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">TreeSet</span>&lt;Animal&gt;(<span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">SpeciesGenderComparator</span>());
         animals.addAll(candidates);
 
-        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">Animal</span> <span style="color: #FD971F;">a</span> : animals) {
-            <span style="color: #A7DBD8;">if</span> (candidate == <span style="color: #AEE239;">null</span> || !candidate.isPotentialMate(a))
+        <span style="color: #b48ead;">for</span> (<span style="color: #c0c5ce;">Animal</span> <span style="color: #bf616a;">a</span> : animals) {
+            <span style="color: #b48ead;">if</span> (candidate == <span style="color: #d08770;">null</span> || !candidate.isPotentialMate(a))
                 candidate = a;
-            <span style="color: #A7DBD8;">else</span> {
-                ark.load(<span style="color: #A7DBD8;">new</span> <span style="color: #999999;">AnimalPair</span>(candidate, a));
+            <span style="color: #b48ead;">else</span> {
+                ark.load(<span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">AnimalPair</span>(candidate, a));
                 ++numPairs;
-                candidate = <span style="color: #AEE239;">null</span>;
+                candidate = <span style="color: #d08770;">null</span>;
             }
         }
-        <span style="color: #A7DBD8;">return</span> numPairs;
+        <span style="color: #b48ead;">return</span> numPairs;
     }
-    <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Animal</span> {
-        <span style="color: #999999;">Species</span> <span style="color: #FD971F;">species</span>;
-        <span style="color: #999999;">Gender</span> <span style="color: #FD971F;">gender</span>;
+    <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Animal</span> {
+        <span style="color: #c0c5ce;">Species</span> <span style="color: #bf616a;">species</span>;
+        <span style="color: #c0c5ce;">Gender</span> <span style="color: #bf616a;">gender</span>;
 
-        <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">boolean</span> <span style="color: #AEE239;">isPotentialMate</span>(<span style="color: #999999;">Animal</span> <span style="color: #FD971F;">other</span>) {
-            <span style="color: #A7DBD8;">return</span> species == other.species &amp;&amp; gender != other.gender;
+        <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">boolean</span> <span style="color: #8fa1b3;">isPotentialMate</span>(<span style="color: #c0c5ce;">Animal</span> <span style="color: #bf616a;">other</span>) {
+            <span style="color: #b48ead;">return</span> species == other.species &amp;&amp; gender != other.gender;
         }
     }
 
-    <span style="color: #A7DBD8;">enum</span> <span style="color: #999999;">Species</span> {
-        <span style="color: #FD971F;">AARDVARK</span>, <span style="color: #FD971F;">BENGAL_TIGER</span>, <span style="color: #FD971F;">CARIBOU</span>, <span style="color: #FD971F;">DINGO</span>, <span style="color: #FD971F;">ELEPHANT</span>, <span style="color: #FD971F;">FROG</span>, <span style="color: #FD971F;">GNU</span>, <span style="color: #FD971F;">HYENA</span>,
-        <span style="color: #FD971F;">IGUANA</span>, <span style="color: #FD971F;">JAGUAR</span>, <span style="color: #FD971F;">KIWI</span>, <span style="color: #FD971F;">LEOPARD</span>, <span style="color: #FD971F;">MASTADON</span>, <span style="color: #FD971F;">NEWT</span>, <span style="color: #FD971F;">OCTOPUS</span>,
-        <span style="color: #FD971F;">PIRANHA</span>, <span style="color: #FD971F;">QUETZAL</span>, <span style="color: #FD971F;">RHINOCEROS</span>, <span style="color: #FD971F;">SALAMANDER</span>, <span style="color: #FD971F;">THREE_TOED_SLOTH</span>,
-        <span style="color: #FD971F;">UNICORN</span>, <span style="color: #FD971F;">VIPER</span>, <span style="color: #FD971F;">WEREWOLF</span>, <span style="color: #FD971F;">XANTHUS_HUMMINBIRD</span>, <span style="color: #FD971F;">YAK</span>, <span style="color: #FD971F;">ZEBRA</span>
+    <span style="color: #b48ead;">enum</span> <span style="color: #c0c5ce;">Species</span> {
+        <span style="color: #bf616a;">AARDVARK</span>, <span style="color: #bf616a;">BENGAL_TIGER</span>, <span style="color: #bf616a;">CARIBOU</span>, <span style="color: #bf616a;">DINGO</span>, <span style="color: #bf616a;">ELEPHANT</span>, <span style="color: #bf616a;">FROG</span>, <span style="color: #bf616a;">GNU</span>, <span style="color: #bf616a;">HYENA</span>,
+        <span style="color: #bf616a;">IGUANA</span>, <span style="color: #bf616a;">JAGUAR</span>, <span style="color: #bf616a;">KIWI</span>, <span style="color: #bf616a;">LEOPARD</span>, <span style="color: #bf616a;">MASTADON</span>, <span style="color: #bf616a;">NEWT</span>, <span style="color: #bf616a;">OCTOPUS</span>,
+        <span style="color: #bf616a;">PIRANHA</span>, <span style="color: #bf616a;">QUETZAL</span>, <span style="color: #bf616a;">RHINOCEROS</span>, <span style="color: #bf616a;">SALAMANDER</span>, <span style="color: #bf616a;">THREE_TOED_SLOTH</span>,
+        <span style="color: #bf616a;">UNICORN</span>, <span style="color: #bf616a;">VIPER</span>, <span style="color: #bf616a;">WEREWOLF</span>, <span style="color: #bf616a;">XANTHUS_HUMMINBIRD</span>, <span style="color: #bf616a;">YAK</span>, <span style="color: #bf616a;">ZEBRA</span>
     }
 
-    <span style="color: #A7DBD8;">enum</span> <span style="color: #999999;">Gender</span> {
-        <span style="color: #FD971F;">MALE</span>, <span style="color: #FD971F;">FEMALE</span>
+    <span style="color: #b48ead;">enum</span> <span style="color: #c0c5ce;">Gender</span> {
+        <span style="color: #bf616a;">MALE</span>, <span style="color: #bf616a;">FEMALE</span>
     }
 
-    <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">AnimalPair</span> {
-        <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">final</span> <span style="color: #999999;">Animal</span> <span style="color: #FD971F;">one</span>, <span style="color: #FD971F;">two</span>;
+    <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">AnimalPair</span> {
+        <span style="color: #b48ead;">private</span> <span style="color: #b48ead;">final</span> <span style="color: #c0c5ce;">Animal</span> <span style="color: #bf616a;">one</span>, <span style="color: #bf616a;">two</span>;
 
-        <span style="color: #A7DBD8;">public</span> AnimalPair(<span style="color: #999999;">Animal</span> <span style="color: #FD971F;">one</span>, <span style="color: #999999;">Animal</span> <span style="color: #FD971F;">two</span>) {
-            <span style="color: #A7DBD8;">this</span>.one = one;
-            <span style="color: #A7DBD8;">this</span>.two = two;
+        <span style="color: #b48ead;">public</span> AnimalPair(<span style="color: #c0c5ce;">Animal</span> <span style="color: #bf616a;">one</span>, <span style="color: #c0c5ce;">Animal</span> <span style="color: #bf616a;">two</span>) {
+            <span style="color: #b48ead;">this</span>.one = one;
+            <span style="color: #b48ead;">this</span>.two = two;
         }
     }
 
-    <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">SpeciesGenderComparator</span> <span style="color: #A7DBD8;">implements</span> <span style="color: #999999;">Comparator</span>&lt;Animal&gt; {
-        <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #FD971F;">compare</span>(<span style="color: #999999;">Animal</span> <span style="color: #FD971F;">one</span>, <span style="color: #999999;">Animal</span> <span style="color: #FD971F;">two</span>) {
-            <span style="color: #999999;">int</span> <span style="color: #FD971F;">speciesCompare</span> = one.species.compareTo(two.species);
-            <span style="color: #A7DBD8;">return</span> (speciesCompare != 0) ? speciesCompare : one.gender.compareTo(two.gender);
+    <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">SpeciesGenderComparator</span> <span style="color: #b48ead;">implements</span> <span style="color: #c0c5ce;">Comparator</span>&lt;Animal&gt; {
+        <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">compare</span>(<span style="color: #c0c5ce;">Animal</span> <span style="color: #bf616a;">one</span>, <span style="color: #c0c5ce;">Animal</span> <span style="color: #bf616a;">two</span>) {
+            <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">speciesCompare</span> = one.species.compareTo(two.species);
+            <span style="color: #b48ead;">return</span> (speciesCompare != 0) ? speciesCompare : one.gender.compareTo(two.gender);
         }
     }
 
-    <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Ark</span> {
-        <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">final</span> <span style="color: #999999;">Set</span>&lt;AnimalPair&gt; loadedAnimals = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">HashSet</span>&lt;AnimalPair&gt;();
+    <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Ark</span> {
+        <span style="color: #b48ead;">private</span> <span style="color: #b48ead;">final</span> <span style="color: #c0c5ce;">Set</span>&lt;AnimalPair&gt; loadedAnimals = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">HashSet</span>&lt;AnimalPair&gt;();
 
-        <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">load</span>(<span style="color: #999999;">AnimalPair</span> <span style="color: #FD971F;">pair</span>) {
-            loadedAnimals.add(<span style="color: #999999;">pair</span>);
+        <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">load</span>(<span style="color: #c0c5ce;">AnimalPair</span> <span style="color: #bf616a;">pair</span>) {
+            loadedAnimals.add(<span style="color: #c0c5ce;">pair</span>);
         }
     }
 }
@@ -743,22 +743,22 @@ Connectivity): 在一个服务器端, 一个线程会从connection 池中请求�
 <li>而同步机制,就是"用时间换空间":只有一份变量,大家排好队依次取用.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">ConnectionDispenser</span> {
-    <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">String</span> <span style="color: #FD971F;">DB_URL</span> = <span style="color: #F8F8F0;">"jdbc:mysql://localhost/mydatabase"</span>;
+<pre class="src src-java"><span style="color: #b48ead;">public</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">ConnectionDispenser</span> {
+    <span style="color: #b48ead;">static</span> <span style="color: #c0c5ce;">String</span> <span style="color: #bf616a;">DB_URL</span> = <span style="color: #a3be8c;">"jdbc:mysql://localhost/mydatabase"</span>;
 
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">ThreadLocal</span>&lt;Connection&gt; connectionHolder
-        = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">ThreadLocal</span>&lt;Connection&gt;() {
-        <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">Connection</span> <span style="color: #FD971F;">initialValue</span>() {
-            <span style="color: #A7DBD8;">try</span> {
-                <span style="color: #A7DBD8;">return</span> DriverManager.getConnection(DB_URL);
-            } <span style="color: #A7DBD8;">catch</span> (<span style="color: #999999;">SQLException</span> <span style="color: #FD971F;">e</span>) {
-                <span style="color: #A7DBD8;">throw</span> <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">RuntimeException</span>(<span style="color: #F8F8F0;">"Unable to acquire Connection, e"</span>);
+    <span style="color: #b48ead;">private</span> <span style="color: #c0c5ce;">ThreadLocal</span>&lt;Connection&gt; connectionHolder
+        = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">ThreadLocal</span>&lt;Connection&gt;() {
+        <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">Connection</span> <span style="color: #bf616a;">initialValue</span>() {
+            <span style="color: #b48ead;">try</span> {
+                <span style="color: #b48ead;">return</span> DriverManager.getConnection(DB_URL);
+            } <span style="color: #b48ead;">catch</span> (<span style="color: #c0c5ce;">SQLException</span> <span style="color: #bf616a;">e</span>) {
+                <span style="color: #b48ead;">throw</span> <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">RuntimeException</span>(<span style="color: #a3be8c;">"Unable to acquire Connection, e"</span>);
             }
         }
     };
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">Connection</span> <span style="color: #AEE239;">getConnection</span>() {
-        <span style="color: #A7DBD8;">return</span> connectionHolder.get();
+    <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">Connection</span> <span style="color: #8fa1b3;">getConnection</span>() {
+        <span style="color: #b48ead;">return</span> connectionHolder.get();
     }
 }
 </pre>
@@ -796,17 +796,17 @@ Connectivity): 在一个服务器端, 一个线程会从connection 池中请求�
 接触到这个Set
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">ThreeStooges</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">final</span> <span style="color: #999999;">Set</span>&lt;String&gt; stooges = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">HashSet</span>&lt;String&gt;();
+<pre class="src src-java"><span style="color: #b48ead;">public</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">ThreeStooges</span> {
+    <span style="color: #b48ead;">private</span> <span style="color: #b48ead;">final</span> <span style="color: #c0c5ce;">Set</span>&lt;String&gt; stooges = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">HashSet</span>&lt;String&gt;();
 
-    <span style="color: #A7DBD8;">public</span> ThreeStooges() {
-        stooges.add(<span style="color: #F8F8F0;">"Moe"</span>);
-        stooges.add(<span style="color: #F8F8F0;">"Larry"</span>);
-        stooges.add(<span style="color: #F8F8F0;">"Curly"</span>);
+    <span style="color: #b48ead;">public</span> ThreeStooges() {
+        stooges.add(<span style="color: #a3be8c;">"Moe"</span>);
+        stooges.add(<span style="color: #a3be8c;">"Larry"</span>);
+        stooges.add(<span style="color: #a3be8c;">"Curly"</span>);
     }
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">boolean</span> <span style="color: #AEE239;">isStooge</span>(<span style="color: #999999;">String</span> <span style="color: #FD971F;">name</span>) {
-        <span style="color: #A7DBD8;">return</span> stooges.contains(name);
+    <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">boolean</span> <span style="color: #8fa1b3;">isStooge</span>(<span style="color: #c0c5ce;">String</span> <span style="color: #bf616a;">name</span>) {
+        <span style="color: #b48ead;">return</span> stooges.contains(name);
     }
 
 }
@@ -847,20 +847,20 @@ Connectivity): 在一个服务器端, 一个线程会从connection 池中请求�
 object.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">OneValueCache</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">final</span> <span style="color: #999999;">BigInteger</span> <span style="color: #FD971F;">lastNumber</span>;
-    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">final</span> <span style="color: #999999;">BigInteger</span>[] <span style="color: #FD971F;">lastFactors</span>;
+<pre class="src src-java"><span style="color: #b48ead;">public</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">OneValueCache</span> {
+    <span style="color: #b48ead;">private</span> <span style="color: #b48ead;">final</span> <span style="color: #c0c5ce;">BigInteger</span> <span style="color: #bf616a;">lastNumber</span>;
+    <span style="color: #b48ead;">private</span> <span style="color: #b48ead;">final</span> <span style="color: #c0c5ce;">BigInteger</span>[] <span style="color: #bf616a;">lastFactors</span>;
 
-    <span style="color: #A7DBD8;">public</span> OneValueCache(<span style="color: #999999;">BigInteger</span> <span style="color: #FD971F;">i</span>, <span style="color: #999999;">BigInteger</span>[] <span style="color: #FD971F;">factors</span>) {
+    <span style="color: #b48ead;">public</span> OneValueCache(<span style="color: #c0c5ce;">BigInteger</span> <span style="color: #bf616a;">i</span>, <span style="color: #c0c5ce;">BigInteger</span>[] <span style="color: #bf616a;">factors</span>) {
         lastNumber = i;
         lastFactors = Arrays.copyOf(factors, factors.length);
     }
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">BigInteger</span>[] <span style="color: #AEE239;">getLastFactors</span>(<span style="color: #999999;">BigInteger</span> <span style="color: #FD971F;">i</span>) {
-        <span style="color: #A7DBD8;">if</span> (lastNumber == <span style="color: #AEE239;">null</span> || !lastNumber.equals(i)) {
-            <span style="color: #A7DBD8;">return</span> <span style="color: #AEE239;">null</span>;
-        } <span style="color: #A7DBD8;">else</span> {
-            <span style="color: #A7DBD8;">return</span> Arrays.copyOf(lastFactors, lastFactors.length);
+    <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">BigInteger</span>[] <span style="color: #8fa1b3;">getLastFactors</span>(<span style="color: #c0c5ce;">BigInteger</span> <span style="color: #bf616a;">i</span>) {
+        <span style="color: #b48ead;">if</span> (lastNumber == <span style="color: #d08770;">null</span> || !lastNumber.equals(i)) {
+            <span style="color: #b48ead;">return</span> <span style="color: #d08770;">null</span>;
+        } <span style="color: #b48ead;">else</span> {
+            <span style="color: #b48ead;">return</span> Arrays.copyOf(lastFactors, lastFactors.length);
         }
     }
 }
@@ -888,11 +888,11 @@ object.
 的把一个指向对象的ref抛到public区域的做法无法保证publish的安全
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #505C63;">// </span><span style="color: #505C63;">Unsafe publication</span>
-<span style="color: #A7DBD8;">public</span> <span style="color: #999999;">Holder</span> <span style="color: #FD971F;">holder</span>;
+<pre class="src src-java"><span style="color: #c0c5ce;">// </span><span style="color: #65737e;">Unsafe publication</span>
+<span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">Holder</span> <span style="color: #bf616a;">holder</span>;
 
-<span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">initialize</span>() {
-    holder = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Holder</span>(42);
+<span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">initialize</span>() {
+    holder = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">Holder</span>(42);
 }
 </pre>
 </div>
@@ -910,14 +910,14 @@ object.
 AssertionError
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Holder</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">int</span> <span style="color: #FD971F;">n</span>;
-    <span style="color: #A7DBD8;">public</span> Holder(<span style="color: #999999;">int</span> <span style="color: #FD971F;">n</span>) {
-        <span style="color: #A7DBD8;">this</span>.n = n;
+<pre class="src src-java"><span style="color: #b48ead;">public</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Holder</span> {
+    <span style="color: #b48ead;">private</span> <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">n</span>;
+    <span style="color: #b48ead;">public</span> Holder(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">n</span>) {
+        <span style="color: #b48ead;">this</span>.n = n;
     }
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">assertSanity</span>() {
-        <span style="color: #A7DBD8;">if</span> (n != n) {
-            <span style="color: #A7DBD8;">throw</span> <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">AssertionError</span>(<span style="color: #F8F8F0;">"This is statement is false"</span>);
+    <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">assertSanity</span>() {
+        <span style="color: #b48ead;">if</span> (n != n) {
+            <span style="color: #b48ead;">throw</span> <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">AssertionError</span>(<span style="color: #a3be8c;">"This is statement is false"</span>);
         }
     }
 }
@@ -965,7 +965,7 @@ class初始化的时候,就初始化static initializer, 借助于JVM内部的同
 这种初始化的方法可以保证安全的发布(publish)对象
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">Holder</span> <span style="color: #FD971F;">holder</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Holder</span>(42);
+<pre class="src src-java"><span style="color: #b48ead;">public</span> <span style="color: #b48ead;">static</span> <span style="color: #c0c5ce;">Holder</span> <span style="color: #bf616a;">holder</span> = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">Holder</span>(42);
 </pre>
 </div>
 </li>
@@ -1002,8 +1002,8 @@ effectively immutable.
 那么就可以不使用任何其他的"同步"手段,而达到安全正确取用publish完的数据
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #999999;">Map</span>&lt;String, Date&gt; lastLogin =
-    Collections.synchronizedMap(<span style="color: #A7DBD8;">new</span> <span style="color: #999999;">HashMap</span>&lt;String, Date&gt;());
+<pre class="src src-java"><span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">Map</span>&lt;String, Date&gt; lastLogin =
+    Collections.synchronizedMap(<span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">HashMap</span>&lt;String, Date&gt;());
 </pre>
 </div>
 </li>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode: Two Sum</title>
-<!-- 2014-02-09 Sun 20:43 -->
+<!-- 2014-02-18 Tue 22:47 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -206,39 +206,39 @@ Sample Output: 1, 2
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">Number</span> {
-    <span style="color: #999999;">int</span> <span style="color: #FD971F;">index</span>;
-    <span style="color: #999999;">int</span> <span style="color: #FD971F;">value</span>;
-    <span style="color: #AEE239;">Number</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">v</span>) : index(i),  value(v){}
+<pre class="src src-c++"><span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">Number</span> {
+    <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">index</span>;
+    <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">value</span>;
+    <span style="color: #8fa1b3;">Number</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">i</span>, <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">v</span>) : index(i),  value(v){}
 };
 
-<span style="color: #999999;">bool</span> <span style="color: #AEE239;">compare_number</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Number</span> &amp;<span style="color: #FD971F;">left</span>, <span style="color: #A7DBD8;">const</span> <span style="color: #999999;">Number</span> &amp;<span style="color: #FD971F;">right</span>) {
-    <span style="color: #A7DBD8;">return</span> left.value &lt; right.value;
+<span style="color: #c0c5ce;">bool</span> <span style="color: #8fa1b3;">compare_number</span>(<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Number</span> &amp;<span style="color: #bf616a;">left</span>, <span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Number</span> &amp;<span style="color: #bf616a;">right</span>) {
+    <span style="color: #b48ead;">return</span> left.value &lt; right.value;
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Solution</span> {
-<span style="color: #A7DBD8;">public</span>:
-    <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">int</span>&gt; <span style="color: #AEE239;">twoSum</span>(<span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">int</span>&gt; &amp;<span style="color: #FD971F;">numbers</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">target</span>) {
-        <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">Number</span>&gt; <span style="color: #FD971F;">nn</span>;
-        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; numbers.size(); i++) {
-            nn.push_back(Number(i+1, <span style="color: #999999;">numbers</span>[i]));
+<span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Solution</span> {
+<span style="color: #b48ead;">public</span>:
+    <span style="color: #c0c5ce;">vector</span>&lt;<span style="color: #c0c5ce;">int</span>&gt; <span style="color: #8fa1b3;">twoSum</span>(<span style="color: #c0c5ce;">vector</span>&lt;<span style="color: #c0c5ce;">int</span>&gt; &amp;<span style="color: #bf616a;">numbers</span>, <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">target</span>) {
+        <span style="color: #c0c5ce;">vector</span>&lt;<span style="color: #c0c5ce;">Number</span>&gt; <span style="color: #bf616a;">nn</span>;
+        <span style="color: #b48ead;">for</span> (<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">i</span> = 0; i &lt; numbers.size(); i++) {
+            nn.push_back(Number(i+1, <span style="color: #c0c5ce;">numbers</span>[i]));
         }
-        <span style="color: #AEE239;">std</span>::sort(nn.begin(), nn.end(), compare_number);
-        <span style="color: #999999;">int</span> <span style="color: #FD971F;">beg</span> = 0;
-        <span style="color: #999999;">int</span> <span style="color: #FD971F;">end</span> = nn.size() - 1;
+        <span style="color: #d08770;">std</span>::sort(nn.begin(), nn.end(), compare_number);
+        <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">beg</span> = 0;
+        <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">end</span> = nn.size() - 1;
 
-        <span style="color: #A7DBD8;">while</span> (beg &lt; end) {
-            <span style="color: #999999;">int</span> <span style="color: #FD971F;">sum</span> = nn[beg].value + nn[end].value;
-            <span style="color: #A7DBD8;">if</span> (sum == target) {
-                <span style="color: #999999;">int</span> <span style="color: #FD971F;">small</span> = <span style="color: #AEE239;">std</span>::min(nn[beg].index, nn[end].index);
-                <span style="color: #999999;">int</span> <span style="color: #FD971F;">big</span> = <span style="color: #AEE239;">std</span>::max(nn[beg].index, nn[end].index);
-                <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">int</span>&gt; <span style="color: #FD971F;">ret</span>;
+        <span style="color: #b48ead;">while</span> (beg &lt; end) {
+            <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">sum</span> = nn[beg].value + nn[end].value;
+            <span style="color: #b48ead;">if</span> (sum == target) {
+                <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">small</span> = <span style="color: #d08770;">std</span>::min(nn[beg].index, nn[end].index);
+                <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">big</span> = <span style="color: #d08770;">std</span>::max(nn[beg].index, nn[end].index);
+                <span style="color: #c0c5ce;">vector</span>&lt;<span style="color: #c0c5ce;">int</span>&gt; <span style="color: #bf616a;">ret</span>;
                 ret.push_back(small);
                 ret.push_back(big);
-                <span style="color: #A7DBD8;">return</span> ret;
-            } <span style="color: #A7DBD8;">else</span> <span style="color: #A7DBD8;">if</span> (sum &lt; target) {
+                <span style="color: #b48ead;">return</span> ret;
+            } <span style="color: #b48ead;">else</span> <span style="color: #b48ead;">if</span> (sum &lt; target) {
                 beg++;
-            } <span style="color: #A7DBD8;">else</span> {
+            } <span style="color: #b48ead;">else</span> {
                 end--;
             }
         }
