@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Leetcode: Two Sum</title>
-<!-- 2014-02-18 Tue 22:47 -->
+<title>Leetcode 001: Two Sum</title>
+<!-- 2014-02-22 Sat 16:41 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -161,7 +161,7 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Leetcode: Two Sum</h1>
+<h1 class="title">Leetcode 001: Two Sum</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -196,6 +196,8 @@ Sample Output: 1, 2
 <li>这里处理的方法很OOP, 每个数字都用原始下标和数值组合成一个新的类
 </li>
 <li>注意这里compare_number和std::sort的应用
+</li>
+<li>还可以使用Java里面的HashMap,那解决起来就太简单.有点无耻.
 </li>
 </ul>
 </div>
@@ -244,6 +246,27 @@ Sample Output: 1, 2
         }
     }
 };
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #b48ead;">public</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Solution</span> {
+    <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">int</span>[] <span style="color: #8fa1b3;">twoSum</span>(<span style="color: #c0c5ce;">int</span>[] <span style="color: #bf616a;">numbers</span>, <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">target</span>) {
+        HashMap&lt;Integer, Integer&gt; map = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">HashMap</span>&lt;Integer, Integer&gt;();
+        <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">n</span> = numbers.length;
+        <span style="color: #c0c5ce;">int</span>[] <span style="color: #bf616a;">result</span> = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">int</span>[2];
+        <span style="color: #b48ead;">for</span> (<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">i</span> = 0; i &lt; numbers.length; i++) {
+            <span style="color: #b48ead;">if</span> (map.containsKey(target - numbers[i])) {
+                result[0] = map.get(target - numbers[i]) + 1;
+                result[1] = i + 1;
+                <span style="color: #b48ead;">break</span>;
+            } <span style="color: #b48ead;">else</span> {
+                map.put(numbers[i], i);
+            }
+        }
+        <span style="color: #b48ead;">return</span> result;
+    }
+}
 </pre>
 </div>
 </div>
