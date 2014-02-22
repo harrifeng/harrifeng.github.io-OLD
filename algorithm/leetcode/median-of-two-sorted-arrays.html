@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>LeetCode: Median of Two Sorted Arrays</title>
-<!-- 2014-02-18 Tue 22:47 -->
+<title>LeetCode 002: Median of Two Sorted Arrays</title>
+<!-- 2014-02-22 Sat 15:37 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -161,7 +161,7 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">LeetCode: Median of Two Sorted Arrays</h1>
+<h1 class="title">LeetCode 002: Median of Two Sorted Arrays</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -191,7 +191,57 @@ Sample Output: 5
 <h2 id="sec-2">思路</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
-<li></li>
+<li>如果不考虑复杂度,那么当然是把两个数组都放在一起,然后排序,就找到了第K个大的.
+但是这种做法有很多的冗余计算:
+<ul class="org-ul">
+<li>把他们拷贝到一个新的数组里面是非常浪费空间的
+</li>
+<li>我们不需要知道前后的大小,我只需要知道第K个
+</li>
+</ul>
+</li>
+<li>所以解决这个问题就从两个地方来开启:
+<ul class="org-ul">
+<li>不要额外的空间
+</li>
+<li>不要排序
+</li>
+</ul>
+</li>
+<li>两个数组其实都已经排序了,那么我们可以安装空间把数据分成四个部分, 这其中最下的,
+或者最大的一个部分都可以每次删除一个,最后就能找到第K个
+<pre class="example">
+        +---------+---------+
+Array A | part1   | part2   |         
+        +---------+---------+         
+        +---------------+---------------+          
+Array B | part3         | part4         |          
+        +---------------+---------------+
+</pre>
+</li>
+<li>本以为上面是最牛逼的解法了,其实还有更牛逼的解法2.上面分成四块的思想来源于K是中位
+数(也就是sum/2),那么两个数组平分的话,最大的一块也不会大于sum/2(只会无限逼近
+于). 就是每次都倾向于把某个子数组删除完(其中A是数组A的长度):
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">partA</span> = Math.min(k/2, A.length);
+</pre>
+</div>
+</li>
+<li>当然解法2更牛逼的地方是,通过开始的时候让A数组始终大于B数组(如果不是就调换)的方法
+来解决非常头疼的边界问题!
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #b48ead;">if</span> (A.length &gt; B.length) {
+    <span style="color: #b48ead;">return</span> findNth(B, A, k);
+}
+</pre>
+</div>
+</li>
+<li>最后来说说总体的思路, 找到两个数组的中位数,如果总数是基数个,那么就是中间那个, 如果
+总数是偶数个,那么是中间两个数的和(记得int to float). 所以这个问题转换为查找两
+个排序数组的第K大的数
+</li>
 </ul>
 </div>
 </div>

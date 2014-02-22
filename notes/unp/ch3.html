@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 3</title>
-<!-- 2014-02-18 Tue 22:47 -->
+<!-- 2014-02-22 Sat 15:37 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -524,22 +524,10 @@ value-result argument, 另外会出现value-result argument的函数有:
 <ul class="org-ul">
 <li>假设一个Integer是16bit,那么就是由两个bytes组成的.在计算机里面有两种放置方式:
 <ul class="org-ul">
-<li>little-endian : with the low-order byte at the starting address, 英特尔
-设计的x86 cpu都是使用little endian, 因为little-endian在cast的时候,不需要
-知道原型的长度,所以有很好的向后兼容性, 下面两条在x86上面的结果一致
-<div class="org-src-container">
-
-<pre class="src src-c"><span style="color: #c0c5ce;">// </span><span style="color: #65737e;">i can be 4 byte int, can ALSO be 8 bytes int. We just fetch the first byte</span>
-<span style="color: #c0c5ce;">short</span> <span style="color: #bf616a;">s</span> = (<span style="color: #c0c5ce;">short</span>)i;
-<span style="color: #c0c5ce;">short</span> <span style="color: #bf616a;">s</span> = *(<span style="color: #c0c5ce;">short</span>*)&amp;i;
-</pre>
-</div>
-</li>
-<li>big-endian : with the high-order byte at the starting address, 网络数据使
-用的就是这个endian, 另外,摩托罗拉的power cpu使用的是big endian, 因为big endian
-会产生更好看的hex dumps, 对的,你没看错.摩托罗拉的工程师认为,这个比兼容性更重要.为了
-更好的读dump,所以下面的例子只能在integer 为4bytes的时候,成立啦,哪天换了64位cpu,
-integer成了8bytes,下面的代码两个s的值额就不相等了
+<li>big-endian : with the high-order byte at the starting address:
+<ol class="org-ol">
+<li>网络数据使用的就是这个endian, 其兼容性不好:,所以下面的例子只能在integer 为4bytes的
+时候,成立啦,哪天换了64位cpu,integer成了8bytes,下面的代码两个s的值额就不相等了
 <div class="org-src-container">
 
 <pre class="src src-c"><span style="color: #c0c5ce;">// </span><span style="color: #65737e;">i MUST be 4bytes, as we have to fetch the last byte</span>
@@ -548,8 +536,88 @@ integer成了8bytes,下面的代码两个s的值额就不相等了
 </pre>
 </div>
 </li>
+<li>另外,摩托罗拉的power cpu使用的是big endian, 因为big endian会产生更好看
+的hex dumps, 对的,你没看错.摩托罗拉的工程师认为,这个比兼容性更重要.为了更
+好的读dump,因为程序崩溃的时候不是用printf读取数据的,直接是把内存内容打印
+出来,如下,内存内容排列的顺序跟我们输入的顺序0x01020304是一样的:
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;stdio.h&gt;</span>
+
+<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">main</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">argc</span>, <span style="color: #c0c5ce;">char</span> *<span style="color: #bf616a;">argv</span>[])
+{
+    <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">ii</span> = 0x01020304;
+    <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">i</span> = 0;
+    <span style="color: #c0c5ce;">char</span>* <span style="color: #bf616a;">ptr</span> = &amp;ii;
+    <span style="color: #b48ead;">for</span> (i = 0; i &lt; 4; i++) {
+        printf(<span style="color: #a3be8c;">"%x\n"</span>, *ptr);
+        ptr++;
+    }
+
+    <span style="color: #b48ead;">return</span> 0;
+}
+
+<span style="color: #c0c5ce;">/***********************************/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">===Result==                     </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">lvtest@auto-inst:~/tmp$ ./a.out </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">1                               </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">2                               </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">3                               </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">4                               </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/***********************************/</span>
+</pre>
+</div>
+</li>
+</ol>
+</li>
+<li>little-endian : with the low-order byte at the starting address, 
+<ol class="org-ol">
+<li>英特尔设计的x86 cpu都是使用little endian, 因为little-endian在cast
+的时候,不需要知道原型的长度,所以有很好的向后兼容性, 下面两条在x86上面的
+结果一致.
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #c0c5ce;">// </span><span style="color: #65737e;">i can be 4 byte int, can ALSO be 8 bytes int. We just fetch the first byte</span>
+<span style="color: #c0c5ce;">short</span> <span style="color: #bf616a;">s</span> = (<span style="color: #c0c5ce;">short</span>)i;
+<span style="color: #c0c5ce;">short</span> <span style="color: #bf616a;">s</span> = *(<span style="color: #c0c5ce;">short</span>*)&amp;i;
+</pre>
+</div>
+</li>
+<li>little endian里面地址最小的byte,也同时是数据最小的一个byte,如果不用
+printf(coredump的时候)打印出来的顺序和人类写入的顺序是不同的
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;stdio.h&gt;</span>
+
+<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">main</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">argc</span>, <span style="color: #c0c5ce;">char</span> *<span style="color: #bf616a;">argv</span>[])
+{
+    <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">ii</span> = 0x01020304;
+    <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">i</span> = 0;
+    <span style="color: #c0c5ce;">char</span>* <span style="color: #bf616a;">ptr</span> = &amp;ii;
+    <span style="color: #b48ead;">for</span> (i = 0; i &lt; 4; i++) {
+        printf(<span style="color: #a3be8c;">"%x\n"</span>, *ptr);
+        ptr++;
+    }
+
+    <span style="color: #b48ead;">return</span> 0;
+}
+
+<span style="color: #c0c5ce;">/***********************************/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">===Result==                     </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">lvtest@auto-inst:~/tmp$ ./a.out </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">4                               </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">3                               </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">2                               </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">1                               </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/***********************************/</span>
+</pre>
+</div>
+</li>
+</ol>
+</li>
 </ul>
 </li>
+
 <li>下面是一个简单的测试endian的代码:小的"地址"取出来的,是"数据"的较小部分的就
 是little endian, 这样我们每次取"数据"最"小"的部门,也就是地址为的部门,
 肯定可以是casting的结果.

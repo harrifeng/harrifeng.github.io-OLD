@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 5</title>
-<!-- 2014-02-18 Tue 22:47 -->
+<!-- 2014-02-22 Sat 15:37 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -172,6 +172,28 @@ for the JavaScript code in this tag.
 <li><a href="#sec-4">TCP Echo Client: main Function</a></li>
 <li><a href="#sec-5">TCP Echo Client: str_cli Function</a></li>
 <li><a href="#sec-6">Normal Startup</a></li>
+<li><a href="#sec-7">Normal Termination</a></li>
+<li><a href="#sec-8">POSIX Signal Handling</a>
+<ul>
+<li><a href="#sec-8-1">signal Function</a></li>
+<li><a href="#sec-8-2">POSIX Signal Semantics</a></li>
+</ul>
+</li>
+<li><a href="#sec-9">Handling SIGCHLD Signals</a>
+<ul>
+<li><a href="#sec-9-1">Handling Zombies</a></li>
+<li><a href="#sec-9-2">Handling Interrupted System Calls</a></li>
+</ul>
+</li>
+<li><a href="#sec-10">wait and waitpid Function</a></li>
+<li><a href="#sec-11">Connetion Abort before accept Returns</a></li>
+<li><a href="#sec-12">Termination of Server Processs</a></li>
+<li><a href="#sec-13">SIGPIPE Signal</a></li>
+<li><a href="#sec-14">Crashing of Server Host</a></li>
+<li><a href="#sec-15">Crashing and Rebooting of Server Host</a></li>
+<li><a href="#sec-16">Shutdown of Server Host</a></li>
+<li><a href="#sec-17">Summary of TCP Example</a></li>
+<li><a href="#sec-18">Data format</a></li>
 </ul>
 </div>
 </div>
@@ -422,6 +444,845 @@ tcp         0       0  *:9877              *:*                LISTEN
 </ol>
 </li>
 </ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+
+
+
+
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Normal Termination</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li>紧接着上面的操作,建立好连接以后,我们的client端可以开始发送数据, 我们发送发
+送什么, server就会返回什么.最后以control+D的方式来结束.
+<div class="org-src-container">
+
+<pre class="src src-sh">linux % tcpcli01 127.0.0.1
+hello, world
+hello, world
+good bye
+good bye
+^D
+</pre>
+</div>
+</li>
+<li>如果我们在以control+D结束之后马上开始netstat,会得到下面的结果, TIME_WAIT我们
+十分熟悉,他是client端的最后一个state,设置它为两倍的MSL可以一来防止最后一个ACK
+丢失,而来保证老的分组在网络上已经丢失.
+<div class="org-src-container">
+
+<pre class="src src-c">linux % netstat -a | grep 9877
+tcp      0    0   *:9877                   *:*                LISTEN
+tcp      0    0   localhost:42758          localhost:9877     TIME_WAIT
+</pre>
+</div>
+</li>
+<li>正常关闭的时候,有如下的情况发生
+<ol class="org-ol">
+<li>当我们输入EOF的时候, fgets 返回一个null pointer, 然后str_cli函数返回
+</li>
+<li>str_cli返回了以后,client的main函数也就返回了,通过exit()
+</li>
+<li>所有main函数返回的时候,就会关闭这个process占有的open descriptor.这样
+一来, client socket就被kernel所关闭了.这会导致client发送FIN到server,
+server会返回ACK,至此TCP connection termination的第一部分完成了:
+<ul class="org-ul">
+<li>client现在的状态是FIN_WAIT_2
+</li>
+<li>server现在的状态是CLOSE_WAIT(passive close的状态)
+</li>
+</ul>
+</li>
+<li>当server 收到FIN的时候, server child正在readline中block,收到之后,readline
+直接返回0, 然后这导致str_echo直接返回child main函数了.
+</li>
+<li>server的子进程会推出,调用exit()
+</li>
+<li>server的子进程退出的时候,会关闭其所有的open的descriptor.当然包括connected
+socket, 这个时候会完成TCP connection termination的后半部分,之后client就会
+进入TIME_WAIT进行最后的等待:
+<ul class="org-ul">
+<li>FIN从server到client
+</li>
+<li>ACK从client到server
+</li>
+</ul>
+</li>
+<li>最后,当sever的子进程结束的时候,一个SIGCHLD 信号会发送给其父进程.我们的parent
+没有做什么处理,所以子进程最后会进入zombie状态,如下(z代表zombie)
+<div class="org-src-container">
+
+<pre class="src src-sh">linux % ps -eo pid,ppid,stat,wchan:14,comm | grep tcp
+  PID  PPID STAT WCHAN          COMMAND
+13320 13319 S    inet_csk_accep tcpserv01
+13338 13320 Z    exit           tcpserv01 &lt;defunct&gt;
+</pre>
+</div>
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">POSIX Signal Handling</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>所谓signal,也叫做software interrupts就是通知process某个event发生了.
+</li>
+<li>signal是异步方式(asynchronously), 也就是说被signal的发生时间是随机的,process
+无法预测
+</li>
+<li>signal可以向两个方向传播:
+<ul class="org-ul">
+<li>从process到另外一个process(或者自身)
+</li>
+<li>从kernel到process
+</li>
+</ul>
+</li>
+<li>上一节我们讲到子进程在最后结束的时候,发送了SIGCHLD信号给parent,但是没有处理,
+所以子进程的资源没有回收,变成了zombie
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-8-1" class="outline-3">
+<h3 id="sec-8-1">signal Function</h3>
+<div class="outline-text-3" id="text-8-1">
+<ul class="org-ul">
+<li>POSIX对于signal的标准处理方法是sigaction函数,但是这个函数有两个structure来
+进行初始化,非常的麻烦.POSIX时代之前的做法是signal, 这个函数的参数就很友好.
+但是每个系统的实现都不一样,所以我们做个折中:使用signal的接口,内部用sigaction
+实现:
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #d08770;">#include</span>   <span style="color: #a3be8c;">"unp.h"</span>
+
+<span style="color: #c0c5ce;">Sigfunc</span> *
+<span style="color: #8fa1b3;">signal</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">signo</span>, <span style="color: #c0c5ce;">Sigfunc</span> *<span style="color: #bf616a;">func</span>) {
+    <span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">sigaction</span> <span style="color: #bf616a;">act</span>, <span style="color: #bf616a;">oact</span>;
+
+    act.sa_handler = func;
+    sigemptyset(&amp;act.sa_mask);
+    act.sa_flags = 0;
+    <span style="color: #b48ead;">if</span> (signo == SIGALRM) {
+<span style="color: #d08770;">        #ifdef</span> SA_INTERRUPT
+        act.sa_flags |= SA_INTERRUPT;   <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">SunOS 4.x </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #d08770;">        #endif</span>
+    } <span style="color: #b48ead;">else</span> {
+<span style="color: #d08770;">        #ifdef</span> SA_RESTART
+        act.sa_flags |= SA_RESTART;     <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">SVR4, 4.4BSD </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #d08770;">        #endif</span>
+    }
+
+    <span style="color: #b48ead;">if</span> (sigaction(signo, &amp;act, &amp;oact) &lt; 0) {
+        <span style="color: #b48ead;">return</span> (SIG_ERR);
+    }
+    <span style="color: #b48ead;">return</span> (oact.sa_handler);
+}
+</pre>
+</div>
+</li>
+<li>常规的signal函数的声明就非常恐怖:返回值和其中一个参数都是"带一个int参数,返
+回值为空的函数指针"
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #c0c5ce;">void</span> (*<span style="color: #8fa1b3;">signal</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">signo</span>, <span style="color: #c0c5ce;">void</span>(*<span style="color: #bf616a;">func</span>)(<span style="color: #c0c5ce;">int</span>)))(<span style="color: #c0c5ce;">int</span>);
+</pre>
+</div>
+</li>
+<li>为了简化,我们设计了下面的typedef
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #b48ead;">typedef</span> <span style="color: #c0c5ce;">void</span> <span style="color: #c0c5ce;">Sigfunc</span>(<span style="color: #c0c5ce;">int</span>);
+</pre>
+</div>
+</li>
+<li>sigaction的sa_handler成员是为了设置func参数的.
+</li>
+<li>我们还通过sa_mask来设置我们的handler运行期间被block的其他signal: handler
+自己处理的signal不需要block, 因为uinix无法queue signal.如果一个handler正
+在处理某一类signal,相同类型的signal再出现N此就会被认为是只出现了一次.
+</li>
+<li>如果处理的signal不是SA_RESTART,那么可以通过设置sa_flags为SA_RESTART(某些
+老的系统为SA_INTERRUPT)来让某些被中断的(被handler中断的)system call继续运
+行.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-8-2" class="outline-3">
+<h3 id="sec-8-2">POSIX Signal Semantics</h3>
+<div class="outline-text-3" id="text-8-2">
+<ul class="org-ul">
+<li>一旦一个signal handler 被安装了,就一直是安装状态
+</li>
+<li>某个类型A的signal在处理的话,相同类型的signal会被block, sa_mask设置的那些
+signal也会block
+</li>
+<li>如果被block的signal在block的时候出现了N此,只算一次.可以认为block 数组是
+用的boolean类型,只能记住来没来过,不能记住来过几次
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9">Handling SIGCHLD Signals</h2>
+<div class="outline-text-2" id="text-9">
+<ul class="org-ul">
+<li>zombie state存在的理由是它可以保存子进程的一些信息(父进程可能会想知道):
+<ul class="org-ul">
+<li>子进程的process ID
+</li>
+<li>子进程的termination status
+</li>
+<li>子进程的资源使用情况(CPU时间,内存)
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-9-1" class="outline-3">
+<h3 id="sec-9-1">Handling Zombies</h3>
+<div class="outline-text-3" id="text-9-1">
+<ul class="org-ul">
+<li>zombie不能总是留在系统里面,因为它会占据kernel的空间,如果不清理,会导致process
+descriptor用尽,我们需要用wait来防止子进程变成zombie,并且用下面的代码来指定
+其handler.下面的函数需要在listen()之后,fork()之前
+<div class="org-src-container">
+
+<pre class="src src-c">Signal(SIGCHLD, sig_chld);
+</pre>
+</div>
+</li>
+<li>下面就是处理sig_chld的代码
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #d08770;">#include</span>   <span style="color: #a3be8c;">"unp.h"</span>
+
+<span style="color: #c0c5ce;">void</span>
+<span style="color: #8fa1b3;">sig_chld</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">signo</span>) {
+    <span style="color: #c0c5ce;">pid_t</span>    <span style="color: #bf616a;">pid</span>;
+    <span style="color: #c0c5ce;">int</span>      <span style="color: #bf616a;">stat</span>;
+
+    pid = wait(&amp;stat);
+    printf(<span style="color: #a3be8c;">"child %d terminated\n"</span>, pid);
+    <span style="color: #b48ead;">return</span>;
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-9-2" class="outline-3">
+<h3 id="sec-9-2">Handling Interrupted System Calls</h3>
+<div class="outline-text-3" id="text-9-2">
+<ul class="org-ul">
+<li>accept被我们称作"slow system call", 因为它可能一直等待着connection queue里
+面的成员,而一直不返回.相似的system call还有read
+</li>
+<li>如果符合下面的几条,那么system call会返回一个错误代码EINTR:
+<ol class="org-ol">
+<li>进程block在一个slow system call
+</li>
+<li>进程捕捉到一个signal A
+</li>
+<li>signal A的handler处理完成,然后返回了.
+</li>
+</ol>
+</li>
+<li>上述情况下返回错误代码EINTR看起来很突兀.要从系统的角度理解.
+<ul class="org-ul">
+<li>slow system call可能永远都不返回的
+</li>
+<li>进程处理了某个signal,而其signal handler()要比system call更优先运行.这个
+时候,就要牺牲掉system call
+</li>
+<li>但是我们这次的牺牲其实不是真正的错误,所以我们要告诉用户:通过把errno设置为
+EINTR告诉用户,我们这次返回了负数,但是我们不是真的失败,我们是被interrupt了,
+请再次调用我们吧!
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #b48ead;">for</span> (; ;) {
+    clilen = <span style="color: #b48ead;">sizeof</span>(cliaddr);
+    <span style="color: #b48ead;">if</span> ( (connfd = accept(listenfd, (<span style="color: #c0c5ce;">SA</span>*)&amp;cliaddr, &amp;clilen)) &lt; 0) {
+        <span style="color: #b48ead;">if</span> (errno == EINTR) {
+            <span style="color: #b48ead;">continue</span>;
+        } <span style="color: #b48ead;">else</span> {
+            err_sys(<span style="color: #a3be8c;">"accept error"</span>);
+        }
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>上面的做法是让用户再次调用slow system call, 这样做很繁琐. 所以后来出现了一
+种设置sgaction的sa_flags的方法来让刚才被中断的slow system call重新执行:
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;signal.h&gt;</span>
+<span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;stdio.h&gt;</span>
+<span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;stdlib.h&gt;</span>
+<span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;error.h&gt;</span>
+<span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;string.h&gt;</span>
+<span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;unistd.h&gt;</span>
+
+<span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">sig_handler</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">signum</span>)
+{
+    printf(<span style="color: #a3be8c;">"in handler\n"</span>);
+    sleep(1);
+    printf(<span style="color: #a3be8c;">"handler return\n"</span>);
+}
+
+<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">main</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">argc</span>, <span style="color: #c0c5ce;">char</span> **<span style="color: #bf616a;">argv</span>)
+{
+    <span style="color: #c0c5ce;">char</span> <span style="color: #bf616a;">buf</span>[100];
+    <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">ret</span>;
+    <span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">sigaction</span> <span style="color: #bf616a;">action</span>, <span style="color: #bf616a;">old_action</span>;
+
+    action.sa_handler = sig_handler;
+    sigemptyset(&amp;action.sa_mask);
+    action.sa_flags = 0;
+
+    <span style="color: #c0c5ce;">/********************************/</span>
+    <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">version 1: set this flag     </span><span style="color: #c0c5ce;">*/</span>
+    <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">version 2: NOT set this flag </span><span style="color: #c0c5ce;">*/</span>
+    <span style="color: #c0c5ce;">/********************************/</span>
+    action.sa_flags |= SA_RESTART;
+
+
+    <span style="color: #c0c5ce;">/**************************/</span>
+    <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">ctrl + c is for SIGINT </span><span style="color: #c0c5ce;">*/</span>
+    <span style="color: #c0c5ce;">/**************************/</span>
+    sigaction(SIGINT, <span style="color: #d08770;">NULL</span>, &amp;old_action);
+    <span style="color: #b48ead;">if</span> (old_action.sa_handler != SIG_IGN) {
+        sigaction(SIGINT, &amp;action, <span style="color: #d08770;">NULL</span>);
+    }
+
+    bzero(buf, 100);
+
+    ret = read(0, buf, 100);
+    <span style="color: #b48ead;">if</span> (ret == -1) {
+        perror(<span style="color: #a3be8c;">"read"</span>);
+    }
+
+    printf(<span style="color: #a3be8c;">"read %d bytes:\n"</span>, ret);
+    printf(<span style="color: #a3be8c;">"%s\n"</span>, buf);
+
+    <span style="color: #b48ead;">return</span> 0;
+}
+</pre>
+</div>
+</li>
+<li>version 1: SA_RESTART 设置了,可以自动重启read
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~/tmp$ ./a.out
+^Cin handler
+^Chandler return
+<span style="color: #b48ead;">in</span> handler
+handler return
+^Cin handler
+handler return
+<span style="color: #d08770;">read</span> 0 bytes:
+</pre>
+</div>
+</li>
+<li>version 2:没有设置SA_RESTART,无法重启read,直接返回
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~/tmp$ ./a.out
+^Cin handler
+handler return
+<span style="color: #d08770;">read</span>: Interrupted system call
+<span style="color: #d08770;">read</span> -1 bytes:
+</pre>
+</div>
+</li>
+<li>虽然设置sa_flags为SA_RESTART的方法很好,但是却不能跨平台,因为有些平台是无法
+重启某些system call的(更重要的是所有平台都无法重启connect,这个是特例,需要
+select的帮助),所以需要跨平台的程序还是要用循环来重新调用system call
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10">wait and waitpid Function</h2>
+<div class="outline-text-2" id="text-10">
+<ul class="org-ul">
+<li>在Unix-like的系统中,使用wait和waitpid来处理已经结束了的子进程
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;sys/wait.h&gt;</span>
+
+<span style="color: #c0c5ce;">pid_t</span> <span style="color: #8fa1b3;">wait</span>(<span style="color: #c0c5ce;">int</span> *<span style="color: #bf616a;">statloc</span>);
+<span style="color: #c0c5ce;">pid_t</span> <span style="color: #8fa1b3;">waitpid</span>(<span style="color: #c0c5ce;">pid_t</span> <span style="color: #bf616a;">pid</span>, <span style="color: #c0c5ce;">int</span> *<span style="color: #bf616a;">statloc</span>, <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">options</span>);
+</pre>
+</div>
+</li>
+<li>这两个函数都有两个返回值:
+<ul class="org-ul">
+<li>pid_t就是"等到"的刚刚结束的子进程的id
+</li>
+<li>*statloc会返回这个子进程的termination status, 返回的是一个int值(通过int指
+针), 所以具体的信息肯定是这个int值的某个bit位表示的,使用"宏"来读取相应的bit
+从而得知结束状态:WIFEXITED, WEXITSTATUS
+</li>
+</ul>
+</li>
+<li>wait的功能比较简单,而且没有可定制的可能:
+<ul class="org-ul">
+<li>一个进程调用了wait,但是调用的时候没有子进程结束,那么它必须block,等待第一个返
+回的子进程
+</li>
+<li>wait也只能等待第一个返回的子进程,如果有多个子进程的情况下,剩下的子进程就只有
+变成zombie了
+</li>
+</ul>
+</li>
+<li>waitpid的功能是wait的超集:
+<ul class="org-ul">
+<li>一个进程调用了waitpid,但是调用的时候没有子进程结束,那么它可以block,也可以把
+options添加一个设置WNOHANG来让函数watipid马上返回.
+</li>
+<li>waitpid如果设置参数pid为-1,那么就和wait的行为一样:等待第一个返回的子进程.如
+果pid设置为某个子进程的processID,那么就可以"专门"等待那个子进程
+</li>
+</ul>
+</li>
+<li>下面我们就看一个wait的例子,会衍生出很多问题
+<ul class="org-ul">
+<li>client端一次就要求五个socket,server端也就要fork五次来满足
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #d08770;">#include</span>   <span style="color: #a3be8c;">"unp.h"</span>
+
+<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">main</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">argc</span>, <span style="color: #c0c5ce;">char</span> *<span style="color: #bf616a;">argv</span>[])
+{
+    <span style="color: #c0c5ce;">int</span>                <span style="color: #bf616a;">i</span>, <span style="color: #bf616a;">sockfd</span>[5];
+    <span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">sockadr_in</span>  <span style="color: #bf616a;">servaddr</span>;
+
+    <span style="color: #b48ead;">if</span> (argc != 2) {
+        err_quit(<span style="color: #a3be8c;">"usage: tcpcli &lt;IPaddress&gt;"</span>);
+    }
+
+    <span style="color: #b48ead;">for</span> (i = 0; i &lt; 5; i++) {
+        sockfd[i] = Socket(AF_INET, SOCK_STREAM, 0);
+
+        bzero(&amp;servadr, <span style="color: #b48ead;">sizeof</span>(servaddr));
+        servaddr.sin_family = AF_INET;
+        servaddr.sin_port = htons(SERV_PORT);
+        Inet_pton(AF_INET, argv[1], &amp;servaddr.sin_addr);
+
+        Connect(sockfd[i], (<span style="color: #c0c5ce;">SA</span>*)&amp;servadr, <span style="color: #b48ead;">sizeof</span>(servaddr));
+    }
+    str_cli(stdin, sockfd[0]);
+
+    exit(0);
+}
+</pre>
+</div>
+</li>
+<li>当我们传输结束的时候,差不多是5个FIN同时发送给server, 这也就意味着差不多在
+同时,会有五个server的子进程结束, 也就意味着有五个SIGCHLD信号传递给server
+父进程.因为Unix系统的信号是无法queue的, 这也就意味着,如果我们在"同一台机器"
+上面做这个实现,五个SIGCHLD的效果跟一个SIGCLD是一样的.
+<div class="org-src-container">
+
+<pre class="src src-sh">linux % tcpserv03 &amp;
+[1] 20419
+linux % tcpcli04 127.0.0.1
+hello
+hello
+^D
+child 20426 terminated
+</pre>
+</div>
+</li>
+<li>因为只wait到了一个子进程,所以剩下的子进程就全部都zombie了.
+</li>
+<li>不能仅仅是产生zombie的问题,这个程序会因为环境的不同,产生不同的结果.
+<ol class="org-ol">
+<li>这个例子 我们是在同一台机器运行client和server,所以五个SIGCHLD几乎是同
+时产生的,这才造成了handler只运行一次
+</li>
+<li>如果我们是在两台机器上运行这个例子,那么由于五个FIN在网络上传输的时间不同
+最后可能只有有部分SIGCHLD被catch到. 只需要记住造成这种状况的原因是unix
+的signal无法queue.
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>wait的问题,很多时候要靠waitpid来解决.
+<ul class="org-ul">
+<li>waitpid的解决方案如下, 需要注意的是waitpid等到所有子进程的方法是busy waiting
+所以,你一定要设置waitpid的option为WNOHANG,来让waitpid在没有当前退出进程的子
+进程的时候, 马上退出
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #d08770;">#include</span>  <span style="color: #a3be8c;">"unp.h"</span>
+
+<span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">sig_chld</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">signo</span>) {
+    <span style="color: #c0c5ce;">pid_t</span>   <span style="color: #bf616a;">pid</span>;
+    <span style="color: #c0c5ce;">int</span>     <span style="color: #bf616a;">stat</span>;
+
+    <span style="color: #b48ead;">while</span>((pid = waitpid(-1, &amp;stat, WNOHANG)) &gt; 0) {
+        printf(<span style="color: #a3be8c;">"child %d terminated\n"</span>, pid);
+    }
+    <span style="color: #b48ead;">return</span>;
+}
+</pre>
+</div>
+</li>
+<li>server端调用这个新的waitpid版本的sig_chld,同时还要处理EINTR的"正常的"errno,
+所以就有了下面的最"正确"的版本:
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #d08770;">#include</span>   <span style="color: #a3be8c;">"unp.h"</span>
+<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">main</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">argc</span>, <span style="color: #c0c5ce;">char</span> *<span style="color: #bf616a;">argv</span>[])
+{
+    <span style="color: #c0c5ce;">int</span>                 <span style="color: #bf616a;">listenfd</span>, <span style="color: #bf616a;">connfd</span>;
+    <span style="color: #c0c5ce;">pid_t</span>               <span style="color: #bf616a;">childpid</span>;
+    <span style="color: #c0c5ce;">socklen_t</span>           <span style="color: #bf616a;">chilen</span>;
+    <span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">sockaddr_in</span>  <span style="color: #bf616a;">cliaddr</span>, <span style="color: #bf616a;">servaddr</span>;
+
+    <span style="color: #c0c5ce;">void</span>  <span style="color: #bf616a;">sig_chld</span>(<span style="color: #c0c5ce;">int</span>);
+
+    listenfd = Socket(AF_INET, SOCK_STREAM, 0);
+
+    bzero(&amp;servaddr, <span style="color: #b48ead;">sizeof</span>(servaddr));
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    servaddr.sin_port = htons(SERV_PORT);
+
+    Bind(listenfd, (<span style="color: #c0c5ce;">SA</span>*)&amp;servaddr, <span style="color: #b48ead;">sizeof</span>(servaddr));
+
+    Listen(Listenfd, LISTENQ);
+
+    Signal(SIGCHLD, sig_chld); <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">must call waitpid() </span><span style="color: #c0c5ce;">*/</span>
+
+    <span style="color: #b48ead;">for</span> (;;) {
+        clilen = <span style="color: #b48ead;">sizeof</span>(cliaddr);
+        <span style="color: #b48ead;">if</span> ((connfd = accept(listenfd, (<span style="color: #c0c5ce;">SA</span>*)&amp;cliaddr, &amp;clilen)) &lt; 0) {
+            <span style="color: #b48ead;">if</span> (errno == EINTR) {
+                <span style="color: #b48ead;">continue</span>;
+            } <span style="color: #b48ead;">else</span> {
+                err_sys(<span style="color: #a3be8c;">"accept error"</span>);
+            }
+        }
+
+        <span style="color: #b48ead;">if</span> ((childpid = Fork()) == 0) { <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">child process </span><span style="color: #c0c5ce;">*/</span>
+            Close(listenfd);            <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">close litening socket </span><span style="color: #c0c5ce;">*/</span>
+            str_echo(connfd);
+            exit(0);
+        }
+        Close(connfd);
+    }
+    <span style="color: #b48ead;">return</span> 0;
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11">Connetion Abort before accept Returns</h2>
+<div class="outline-text-2" id="text-11">
+<ul class="org-ul">
+<li>前面说过,为了给handler让路所以system call会return, 让handler运行. 这种
+interrupted system call 的情况其实不是fatal的错误,所以会设置errno为EINTR,
+我们可以捕捉这个errno,然后忽略它,重新开启system call
+</li>
+<li>和上面情况是,三次握手完成后,在server端调用accept值钱, client发送了一个RST,
+这种情况下,我们的accept()调用会失败. 如果我们检查errno发现是ECONNABORTED("
+softeare caused connection abor")的话.说明这不是一个fatal的错误,我们可以
+捕捉这个错误,然后重新调用accept()
+</li>
+<li>这里说说FIN和RST的区别:
+<ul class="org-ul">
+<li>FIN: "我已经不想和你说什么了,但是我依然愿意想听你把你的话说完"
+</li>
+<li>RST: "我们的谈话结束了,我不会跟你再废话,也不会听你说任何事情了"
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12">Termination of Server Processs</h2>
+<div class="outline-text-2" id="text-12">
+<ul class="org-ul">
+<li>首先开启client和server, 然后kill掉server的一个子进程.这就模仿了"server进程"
+崩溃的情况(注意这里是"server进程"崩溃, "server的主机"并没有崩溃):
+<ol class="org-ol">
+<li>开启client和server,然后确认echo都是ok的
+</li>
+<li>找到某个server的子进程,然后kill掉它,随之而来的就是所有的descriptor都关闭了,
+一个FIN发送到client, client会回应一个ACK. 半关闭完成了.
+</li>
+<li>SIGCHLD会发送到server的parent,然后被handle了
+</li>
+<li>client这边并不知道server是怎么回事,只是知道"对方不想发数据给我了", client
+这个时候,是block在那里的.等待用户输入的
+</li>
+<li>netstat会看到现在的情况:
+<div class="org-src-container">
+
+<pre class="src src-sh">linux % netstat -a | grep 9877
+tcp     0      0   *:9877                *:*              LISTEN
+tcp     0      0   localhost:9877        localhost:43604  FIN_WAIT2
+tcp     0      0   localhost:43604loca   lhost:9877       CLOSE_WAIT
+</pre>
+</div>
+</li>
+<li>这个时候client依然可以输入,我们输入一段话,会发现str_cli崩溃退出了:
+<ul class="org-ul">
+<li>我们打入"another line", str_cli就会调用writen来往socket里面写数据.这是
+允许的client并不知道server发生了什么,只是知道"server不想跟他说话了",但是
+没有收到FIN,说明"server还能听我的"
+</li>
+<li>server host 收到这些数据后,非常痛快的返回了一个RST,因为对应这个socket的
+子进程已经不存在了
+</li>
+</ul>
+</li>
+<li>client端却不会真正的看到这个RST,因为client在writen之后的操作是readline,
+然后会读取到上面2)返回的0(EOF),这是由于FIN已经设置了,"server已经不想跟我说话"
+了.不会再在socket里面取得任何数据了.所以错误信息是"server terminsted prematurely"
+</li>
+<li>client关闭,它所有的descriptor也会关闭.
+</li>
+</ol>
+</li>
+<li>上面的例子的问题在于当FIN来到的时候,client被block在fgets:
+<ul class="org-ul">
+<li>client在同时和两个descriptor工作:socket和用户的input. 而且只能block在其中一个descriptor
+</li>
+<li>client应该的行为是:同时和"socket","用户的input"两个descriptor工作,而且能够block
+在任意一个descriptor:无论哪个descriptor来了信息都能第一时间知道.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-13" class="outline-2">
+<h2 id="sec-13">SIGPIPE Signal</h2>
+<div class="outline-text-2" id="text-13">
+<ul class="org-ul">
+<li>上面的例子中,如果我们的client忽略了readline返回的错误,一意孤行的往socket里
+面写呢?答案是:如果进程朝一个已经设置为RST的socket里面写入数据的话. SIGPIPE
+信号就会发给这个进程.这个进程的默认处理方式是关闭进程,但是可以catch
+</li>
+<li>如果你catch了这个signal,那么你写入的write函数,也会返回EPIPE
+</li>
+<li>写入一个收到FIN的socket是合理的,写入一个收到RST的socket是错误的,所以因为我们
+第一次的写入导致了RST,所以,我们只认定第二次的写入是错误的.
+</li>
+<li>下面这个例子,就是把写入的数据分成了两个部分,第一个char负责触发RST,剩下的chars
+负责产生SIGPIPE
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #d08770;">#include</span>    <span style="color: #a3be8c;">"unp.h"</span>
+
+<span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">str_cli</span>(<span style="color: #c0c5ce;">FILE</span> *<span style="color: #bf616a;">fp</span>, <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">sockfd</span>) {
+    <span style="color: #c0c5ce;">char</span>     <span style="color: #bf616a;">sendline</span>[MAXLINE], <span style="color: #bf616a;">recvline</span>[MAXLINE];
+
+    <span style="color: #b48ead;">while</span>(Fgets(sendline, MAXLINE, fp) != <span style="color: #d08770;">NULL</span>) {
+        Writen(sockfd, sendline, 1);
+        sleep(1);
+        Writen(sockfd, sendline + 1, strlen(sendline) - 1);
+
+        <span style="color: #b48ead;">if</span> (Readline(sockfd, recvline, MAXLINE) == 0) {
+            err_quit(<span style="color: #a3be8c;">"str_cli: server terminated prematurely"</span>);
+        }
+
+        Fputs(recvline, stdout);
+    }
+}
+</pre>
+</div>
+</li>
+<li>这个新的client的效果如下:就不会有机会到达readline了SIGPIPE没catch,默认的效
+果就是关闭进程
+<div class="org-src-container">
+
+<pre class="src src-c">linux % tcpcli11 127.0.0.1
+hi there
+hi there
+
+bye
+</pre>
+</div>
+</li>
+<li>说道如何处理SIGPIPE,这个真是得依情况而定.一般来说设置SIG_IGN(ignore)是比较好
+的方法.因为两点:
+<ul class="org-ul">
+<li>系统对于这个错误不仅仅发了SIGPIPE,而且让接下来的write都返回EPIPE,所以就算
+ignore了SIGPIPE,也可以通过EPIPE来发现错误
+</li>
+<li>如果当前有多个socket在传递,而signal只是通知错误,又无法确定是哪个socket的
+问题,贸然删除其中某一个显然不好.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-14" class="outline-2">
+<h2 id="sec-14">Crashing of Server Host</h2>
+<div class="outline-text-2" id="text-14">
+<ul class="org-ul">
+<li>说完了server process崩溃,这里讲讲server host崩溃:我们首先开启server和client,
+然后输入一些字符串表示成功建立connection,最后把server的网线拔掉:拔掉就是最
+成功的模拟了server host崩溃.这同时也模拟了由于路由原因server unreachable的情况
+</li>
+<li>server host崩溃后的情况如下:
+<ol class="org-ol">
+<li>当server host崩溃的时候,在网络上没有任何的数据包传输的
+</li>
+<li>我们在client端输入一些东西, 通过writen写入到socket里面,然后就block在readline
+等待结果
+</li>
+<li>如果使用tcpdump, 我们会看到client 不停的重发数据,希望能够对得到server的ACK:
+Berkeley的实现会尝试12次重传等待9分钟之后,放弃.然后发送一个错误到client进程,
+这个时候是block在readline的,所以readline会返回一个错误:
+<ul class="org-ul">
+<li>如果client和server中间的路由器判断出来server host无法到达,并且回应以ICMP
+"destination unreachable"信息.那么错误就是EHOSTUNREACH
+</li>
+<li>如果server host宕机,并且没有其他情况,那么返回ETIMEDOUT
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>虽然我们的client会经过很久(比如9分钟),最后知道了结果,但是我们希望能更快的知道结果,
+方法就是在readline里面设置超时
+</li>
+<li>这个例子我们是通过发送数据换来的知道server宕机,我们还可以通过SO_KEEPALIVE socket
+来做到同样的效果.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-15" class="outline-2">
+<h2 id="sec-15">Crashing and Rebooting of Server Host</h2>
+<div class="outline-text-2" id="text-15">
+<ul class="org-ul">
+<li>server host崩溃之后又重启的话,其实和前面差不多,因为原来的connection已经全部
+都丢失了,所以server还是会返回RST:
+<ol class="org-ol">
+<li>开启server和client,输入一行来确认connection建立成功
+</li>
+<li>server崩溃并重启
+</li>
+<li>我们在client端输入一行,这将会导致一段TCP 数据传给server端
+</li>
+<li>server host崩溃后重启,但是所有原来的connection的信息都已经不存在了,所以
+对client传来的数据只能报以RST
+</li>
+<li>我们的client一直block在readline,然后当RST传来的时候,readline就返回错误
+ECONNRESET
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-16" class="outline-2">
+<h2 id="sec-16">Shutdown of Server Host</h2>
+<div class="outline-text-2" id="text-16">
+<ul class="org-ul">
+<li>前面我讨论了1)关闭server进程2)关闭server主机两种方式,这里我们讨论的是server
+用shutdown的正常方式关机:
+<ul class="org-ul">
+<li>init会首先发送SIGTERM signal给所有server process
+</li>
+<li>在过了5到20秒之后,还有进程没有关闭,那么就给所有的进程发送SIGKILL
+</li>
+<li>SIGTERM是可以catch的,如果我们的server没有catch住,那么SIGKILL就无法catch
+了,SIGKILL会结束server进程,也就意味着关闭server所有的descriptor.
+</li>
+<li>在client端,可能需要select或者epoll函数来探知server的结束
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-17" class="outline-2">
+<h2 id="sec-17">Summary of TCP Example</h2>
+<div class="outline-text-2" id="text-17">
+<ul class="org-ul">
+<li>在client和server通信之前,他们都要指定两对儿socket地址:
+<ul class="org-ul">
+<li>local IP address &amp;&amp; local port
+</li>
+<li>foreign IP address &amp;&amp; foreign port
+</li>
+</ul>
+</li>
+<li>从client的角度来说:
+<ul class="org-ul">
+<li>在socket()之后,foreign IP和address必须要通过connect来指定,
+</li>
+<li>同时,local IP和address要靠bind()来指定,但是一般来说不在client端指定这个.
+</li>
+<li>我们可以在连接建立之后通过getsockname来了解local IP和address
+</li>
+</ul>
+</li>
+<li>从server的角度来说:
+<ul class="org-ul">
+<li>在socket()之后, local IP和address靠bind()来指定,一般来说local的IP都是设置
+为waildcard, 那么具体的数值就要靠建立连接之后的getsockname()
+</li>
+<li>foreign IP address &amp; port是靠accept的两个参数,
+</li>
+<li>如果execed了原来的内存位置的话, accept的返回值就不再准确了.我们需要使用
+getpeername().
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-18" class="outline-2">
+<h2 id="sec-18">Data format</h2>
+<div class="outline-text-2" id="text-18">
+<ul class="org-ul">
+<li>由于不同的体系结构(big endian, small endian)上面传递二进制数据,会造成错误,这
+本质上是由于不同体系对于内存的解释不同.
 </li>
 </ul>
 </div>
