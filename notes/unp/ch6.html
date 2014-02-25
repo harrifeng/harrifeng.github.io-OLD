@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 6</title>
-<!-- 2014-02-22 Sat 15:37 -->
+<!-- 2014-02-25 Tue 21:07 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -186,6 +186,18 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1-3-2">Maximum Number of Descriptors for select</a></li>
 </ul>
 </li>
+<li><a href="#sec-1-4">str_cli Function (Revisited)</a></li>
+<li><a href="#sec-1-5">Batch Input and Buffering</a></li>
+<li><a href="#sec-1-6">shutdown Function</a></li>
+<li><a href="#sec-1-7">str_cli Function (Revisited Again)</a></li>
+<li><a href="#sec-1-8">TCP Echo Server (Revisited)</a>
+<ul>
+<li><a href="#sec-1-8-1">Denial-of-Service Attacks</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-9">pselect Function</a></li>
+<li><a href="#sec-1-10">poll Function</a></li>
+<li><a href="#sec-1-11">TCP Echo Server(Revisited Again)</a></li>
 </ul>
 </li>
 </ul>
@@ -359,32 +371,33 @@ an OK           |                                             |           |
 <li>I/O Multiple Model其实就是利用select来探测数据,然后用recvfrom在确定数据已
 经在的情况下,去调用.
 <pre class="example">
-                    application       system call          kernel
-                   /   select        -----------------&gt;    no datagram ready \
-process blocks     |                                             |           |
-in call to select, |                                             |           |
-waiting for one of |                                             |           |
-possibly many     &lt;|                                             |           |&gt; wait for data
-sockets to become  |                                             |           |
-readable           |                    return readable          |           |
-                   |                  &lt;----------------    datagram ready    /
-                   |                     system call
-                   \   recvfrom       ----------------&gt;    copy datagram     \
-                   /                                             |           |
-                   |                                             |           |
-                   |                                             |           |
-                   |                                             |           |
-process blocks     |                                             |           |
-while data copied  |                                             |           |
-into application  &lt;|                                             |           |&gt; copy data from
-buffer             |                                             |           |  kernel to user
-                   |                                             |           |
-                   |                                             |           |
-                   |                                             |           |
-                   |                                             |           |
-                   \                   return OK                             |
-                      process        &lt;-----------------    copy complete     /
-                      datagram
+                   application      system call         kernel
+                  /   select       -----------------&gt;   no datagram ready \
+process blocks    |                                           |           |
+in call to        |                                           |           |
+select waiting    |                                           |           |
+for one of        |                                           |           |
+possibly many    &lt;|                                           |           |&gt; wait for data
+sockets to        |                                           |           |
+become readable   |                   return readable         |           |
+                  |                 &lt;----------------   datagram ready    /
+                  |                    system call
+                  \   recvfrom      ----------------&gt;   copy datagram     \
+                  /                                           |           |
+                  |                                           |           |
+                  |                                           |           |
+                  |                                           |           |
+process blocks    |                                           |           |
+while data        |                                           |           |
+copied into      &lt;|                                           |           |&gt; copy data
+application       |                                           |           |  from kernel
+buffer            |                                           |           |  to user
+                  |                                           |           |
+                  |                                           |           |
+                  |                                           |           |
+                  \                  return OK                            |
+                     process       &lt;-----------------   copy complete     /
+                     datagram
 </pre>
 </li>
 <li>看上去好像非但不比blocking模型有优势,反而多调用了一次select system call. 其
@@ -405,31 +418,31 @@ select/epoll的优势并不是对于单个连接能处理得更快，而是在�
 <li>Unix系统还为IO设计了一个SIGIO的信号,我们可以通过设置这个信号的handler来达到类
 似select的作用
 <pre class="example">
-                                       sigaction
-                    application       system call             kernel
-                   / establish SIGIO  ----------------&gt;                      \
-                   | signal handler   &lt;----------------                      |
-       process     |                  return                                 |
-       continues  &lt;|                                                         |&gt; wait for data
-      executing    |                    deliveer SIGIO                       |
-                   |  signale handler &lt;----------------    datagram ready    /
-                   |                     system call
-                   \   recvfrom       ----------------&gt;    copy datagram     \
-                   /                                             |           |
-                   |                                             |           |
-process blocks     |                                             |           |
-while data copied &lt;|                                             |           |
-into application   |                                             |           |
-buffer             |                                             |           |
-                   |                                             |           |&gt; copy data from
-                   |                                             |           |  kernel to user                        .
-                   |                                             |           |
-                   |                                             |           |
-                   |                                             |           |
-                   |                                             V           |
-                   \                   return OK                             |
-                      process        &lt;-----------------    copy complete     /
-                      datagram
+                                 sigaction
+              application       system call             kernel
+             / establish SIGIO  ----------------&gt;                    \
+             | signal handler   &lt;----------------                    |
+ process     |                  return                               |
+ continues  &lt;|                                                       |&gt; wait for data
+executing    |                    deliveer SIGIO                     |
+             |  signale handler &lt;----------------    datagram ready  /
+             |                     system call
+             \   recvfrom       ----------------&gt;    copy datagram   \
+             /                                             |         |
+             |                                             |         |
+process      |                                             |         |
+blocks      &lt;|                                             |         |
+when data    |                                             |         |
+copied       |                                             |         |
+into         |                                             |         |&gt; copy data from
+application  |                                             |         |  kernel to user
+             |                                             |         |
+             |                                             |         |
+             |                                             |         |
+             |                                             V         |
+             \                   return OK                           |
+                process        &lt;-----------------    copy complete   /
+                datagram
 </pre>
 </li>
 
@@ -452,32 +465,32 @@ buffer             |                                             |           |
 传递给内核, 这个系统调用会马上返回的(不返回就是block了) 当我们要传的数据都已经
 到我们制定的buffer里面了, 会有一个signal传递给我们的.
 <pre class="example">
-                 application       system call          kernel
-             /   aio_read      ------------------&gt;   no datagram ready \
-             |                 -------------------         |           |
-             |                                             |           |
-             |                                             |           |
-             |                                             |           |&gt; wait for data
-             |                                             |           |
-             |                                             V           |
-             |                                       datagram ready    /
-             |                                    
-process      |                                       copy datagram     \
-continues   &lt;|                                             |           |
-executing    |                                             |           |
-             |                                             |           |
-             |                                             |           |
-             |                                             |           |
-             |                                             |           |
-             |                                             |           |&gt; copy data from
-             |                                             |           |  kernel to user
-             |                                             |           |
-             |                                             |           |
-             |                                             |           |
-             |                                             V           |
-             \                   deliver signal                        |
-                process      &lt;---------------------- copy complete     /
-                datagram      specified in aio_read
+                application      system call          kernel
+            /   aio_read     ------------------&gt;   no datagram ready \
+            |                -------------------         |           |
+            |                                            |           |
+            |                                            |           |
+            |                                            |           |&gt; wait for 
+            |                                            |           |  data
+            |                                            V           |
+            |                                      datagram ready    /
+            |
+process     |                                      copy datagram     \
+continues  &lt;|                                            |           |
+executing   |                                            |           |
+            |                                            |           |
+            |                                            |           |
+            |                                            |           |
+            |                                            |           |
+            |                                            |           |&gt; copy data
+            |                                            |           |  from kernel
+            |                                            |           |  to user
+            |                                            |           |
+            |                                            |           |
+            |                                            V           |
+            \                  deliver signal                        |
+               process     &lt;---------------------- copy complete     /
+               datagram     specified in aio_read
 </pre>
 </li>
 <li>和上面signal-driven IO不同的是:
@@ -795,6 +808,806 @@ mark 为64
 </li>
 </ul>
 </div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">str_cli Function (Revisited)</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>我们前面用两个循环设计过一次str_cli,那个版本的主要问题是client被困在等待两
+个descriptor里面,在server已经关闭的情况下,却完全不知情,一定要再次输入打破
+standard input才能发现socket descriptor的关闭.
+</li>
+<li>下面我们使用select来构建新的版本, select设置standard input和socket两个
+descriptor为其所关心,一旦哪个有可读的就返回.
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">"unp.h"</span>
+
+<span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">str_cli</span>(<span style="color: #c0c5ce;">FILE</span> *<span style="color: #bf616a;">fp</span>, <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">sockfd</span>) {
+    <span style="color: #c0c5ce;">int</span>    <span style="color: #bf616a;">maxfdp1</span>;
+    <span style="color: #c0c5ce;">fd_set</span> <span style="color: #bf616a;">reset</span>;
+    <span style="color: #c0c5ce;">char</span>   <span style="color: #bf616a;">sendline</span>[MAXLINE], <span style="color: #bf616a;">recvline</span>[MAXLINE];
+
+    FD_ZERO(&amp;rset);
+    <span style="color: #b48ead;">for</span>( ; ;) {
+        FD_SET(fileno(fp), &amp;rset);
+        FD_SET(sockfd, &amp;rset);
+        maxfdp1 = max(fileno(fp), sockfd) + 1;
+        Select(maxfdp1, &amp;rset, <span style="color: #d08770;">NULL</span>, <span style="color: #d08770;">NULL</span>, <span style="color: #d08770;">NULL</span>);
+
+        <span style="color: #b48ead;">if</span> (FD_ISSET(sockfd, &amp;rset)) { <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">socket is readable </span><span style="color: #c0c5ce;">*/</span>
+            <span style="color: #b48ead;">if</span> (Readline(sockfd, recvline, MAXLINE) == 0) {
+                err_quit(<span style="color: #a3be8c;">"str_cli: server terminated prematurely"</span>);
+            }
+            Fputs(recvline, stdout);
+        }
+
+        <span style="color: #b48ead;">if</span> (FD_ISSET(fileno(fp), &amp;rset)) { <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">input is readable </span><span style="color: #c0c5ce;">*/</span>
+            <span style="color: #b48ead;">if</span> (Fgets(sendline, MAXLINE, fp) == <span style="color: #d08770;">NULL</span>) {
+                <span style="color: #b48ead;">return</span>;    <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">all done </span><span style="color: #c0c5ce;">*/</span>
+            }
+            Writen(sockfd, sendline, strlen(sendline));
+        }
+    }
+}
+</pre>
+</div>
+</li>
+<li>从socket的角度,上面的这个程序有如下几个情况需要处理:
+<ol class="org-ol">
+<li>如果peer TCP传递了数据,那么socket就变得可读了.read()会返回一个大于0的数
+</li>
+<li>如果peer TCP发送了一个FIN(peer process结束了,那么我们是passive close),
+所以当前socket也是可读的,read()返回0(对方不想给我们说什么了,所以读取总是
+nothing)
+</li>
+<li>如果peer TCP发送了一个RST(peer host宕机或者重启), 那么socket也会变成readable,
+只不过read()会返回-1. errno也会有相应的设置
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Batch Input and Buffering</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>其实前面我们的str_cli版本依然不是理想的版本(当然,对于interactive的用户来说,
+还不错).但是效率方面非常的差,这种模式叫做stop-and-wait模式,下面这个传输图标
+有如下的假设:
+<ul class="org-ul">
+<li>我们把RTT分成八个相等的时间.
+</li>
+<li>每个request和reply的在两个方向上传输时间相等
+</li>
+<li>server处理的时间为0
+</li>
+<li>忽略其他不重要的时间,如TCP确认,握手,挥手的时间.
+</li>
+</ul>
+
+<div class="figure">
+<p><img src="../../static/images/trans_bad.png" alt="trans_bad.png" />
+</p>
+</div>
+</li>
+
+<li>stop-and-wait模式在处理交互性(interactive)的程序方面有一定优势,但是如果是单
+单从网络传输信息的效率来看,实在是差(1/8的利用率),如果我们只关心网络的利用率,
+希望尽可能快的传输数据,那么我们就进入了batch mode
+</li>
+<li>下图就是batch mode的传输情况,我们可以看到,我们传输的速率是TCP能接受多快,我们就
+传多快,即便当前没有数据: 换句话说就是
+<pre class="example">
+     我们不再是根据newline来发起一次传输,而是如果网络上能同时承受N个包,那么我就
+     每过1/N个RTT时间发送一个包.
+</pre>
+
+
+<div class="figure">
+<p><img src="../../static/images/trans_batch.png" alt="trans_batch.png" />
+</p>
+</div>
+</li>
+
+<li>利用batch mode的方法发送如果还用上一节的str_cli的话,会面临一个重要的问题:如
+何判断结束:在上一节的str_cli中,我们是通过EOF来判断结束的,但是在batch mode中
+EOF和其他数据一样没有区别:我们只是按频率在发送
+</li>
+<li>比如,上图中,我们假设有8行输入,time7刚好发送完第8行,那么
+<ul class="org-ul">
+<li>如果不关闭connection, time8还是会传输数据.
+</li>
+<li>如果关闭了connection,那么server端还有数据传递怎么办
+</li>
+<li>所以,结论是要half close connection,发送一个FIN给server就行(程序实现的方法是
+shutdown函数)
+</li>
+</ul>
+</li>
+<li>把stdio的函数和select一起使用是非常危险的,因为select并不知道stdio的函数的buffer
+的情况.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">shutdown Function</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>close是关闭网络连接的方法,引入shutdown是为了弥补close的两个局限性:
+<ol class="org-ol">
+<li>前面我们在fork出子进程处理connection的时候说了,close首先只会减少ref
+count,只有你的ref count到达0的时候,它才会真的发起"四次挥手", 但是shutdown
+没有这个问题,只要调用了shutdown,无论ref count是多少,都开始"四次挥手"
+</li>
+<li>TCP是个双向车道(全双工), close一下子就关闭了两个方向的车道.TCP特有
+的half close,就要靠shutdown来实现.
+</li>
+</ol>
+</li>
+<li>shutdown函数声明如下:
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;sys/socket.h&gt;</span>
+
+<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">shutdown</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">sockfd</span>, <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">howto</span>);
+</pre>
+</div>
+</li>
+<li>howto函数的值有如下:
+<ul class="org-ul">
+<li>SHUT_RD: connection的read half被关闭,不能从socket上再读取任何的数据,socket
+receive buffer里面的数据全部丢弃.以后再从server接受到的数据,会ACK,然后丢弃.
+(因为是无法单方面提起read half close的,所以只是内核标记这个connection无法
+读取了,实际上对方还是可以传递数据过来的,我们也会确认,只是不让应用层读取了)
+</li>
+<li>SHUT_WR: connetion的write half被关闭,不能冲socket上再写入任何数据, socket
+send buffer里面的数据会全部发送完毕.这才是真正的half close(只有write half
+close,没有read half close), 因为可以使用发送FIN到对方的方式来解决.而且无论
+ref descriptor是不是零,都会发送FIN到对方
+</li>
+<li>SHUT_RDWR: read half和write half都关闭,这相当于调用两次shutdown:一次用参数
+SHUT_RD,一次用参数SHUT_WR
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">str_cli Function (Revisited Again)</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>我们来看看引入了shutdonw和select之后的str_cli的代码
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">"unp.h"</span>
+
+<span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">str_cli</span>(<span style="color: #c0c5ce;">FILE</span> *<span style="color: #bf616a;">fp</span>, <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">sockfd</span>) {
+    <span style="color: #c0c5ce;">int</span>     <span style="color: #bf616a;">maxfdp1</span>, <span style="color: #bf616a;">stdineof</span>;
+    <span style="color: #c0c5ce;">fd_set</span>  <span style="color: #bf616a;">reset</span>;
+    <span style="color: #c0c5ce;">char</span>    <span style="color: #bf616a;">buf</span>[MAXLINE];
+    <span style="color: #c0c5ce;">int</span>     <span style="color: #bf616a;">n</span>;
+
+    stdineof = 0;
+    FD_ZERO(&amp;rset);
+    <span style="color: #b48ead;">for</span> (; ;) {
+        <span style="color: #b48ead;">if</span> (stdineof == 0) {
+            FD_SET(fileno(fp), &amp;rset);
+        }
+
+        FD_SET(sockfd, &amp;rset);
+        maxfdp1 = max(fileno(fp), sockfd) + 1;
+        Select(maxfdp1, &amp;rset, <span style="color: #d08770;">NULL</span>, <span style="color: #d08770;">NULL</span>, <span style="color: #d08770;">NULL</span>);
+
+        <span style="color: #b48ead;">if</span> (FD_ISSET(sockfd, &amp;rset)) {   <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">socket is readable </span><span style="color: #c0c5ce;">*/</span>
+            <span style="color: #b48ead;">if</span> ((n = Read(sockfd, buf, MAXLINE)) == 0) {
+                <span style="color: #b48ead;">if</span> (stdineof == 1) {
+                    <span style="color: #b48ead;">return</span>;
+                } <span style="color: #b48ead;">else</span> {
+                    err_quit(<span style="color: #a3be8c;">"str_cli: server terminated prematurely"</span>);
+                }
+                Write(fileno(stdout), buf, n);
+            }
+        }
+        <span style="color: #b48ead;">if</span> (FD_ISSET(fileno(fp), &amp;rset)) { <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">input is readable </span><span style="color: #c0c5ce;">*/</span>
+            <span style="color: #b48ead;">if</span> ((n = Read(fileno(fp), buf, MAXLINE)) == 0) {
+                stdineof = 1;
+                Shutdown(sockfd, SHUT_WR);  <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">send FIN ==&gt; half close </span><span style="color: #c0c5ce;">*/</span>
+                FD_CLR(fileno(fp), &amp;rset);
+                <span style="color: #b48ead;">continue</span>;
+            }
+            Writen(sockfd, buf, n);
+        }
+    }
+}
+</pre>
+</div>
+</li>
+<li>新的实现引入了一个flag stineof, 初始化的时候为0, 只要这个flag为0,我们就在
+select的时候考虑standard input, 注意EOF是end of line (ctrl + D), 这里命名成
+stdineof的原因是, socket和standard input都最终会有自己的EOF的,而standard
+input的到来更早些,所以我们把它作为一个flag
+</li>
+<li>在读取socket的时候,如果读到socket的EOF,而且此时stdineof也是出现过了(值为1),
+那么说明这是正常的退出, 直接return
+</li>
+<li>在读取standard input的时候读取到EOF,这个时候就把flag stdineof设置为出现(为1),
+然后调用shutdown函数来半关闭.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">TCP Echo Server (Revisited)</h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>既然我们引入了select,那么我就可以在server端使用select来管理所有的socket(因
+为socket本质上是file). 使用了select的话,多进程(fork)就变得不必要了
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #d08770;">#include</span>  <span style="color: #a3be8c;">"unp.h"</span>
+<span class="linenr"> 2: </span>
+<span class="linenr"> 3: </span><span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">main</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">argc</span>, <span style="color: #c0c5ce;">char</span> *<span style="color: #bf616a;">argv</span>[])
+<span class="linenr"> 4: </span>{
+<span class="linenr"> 5: </span>    <span style="color: #c0c5ce;">int</span>         <span style="color: #bf616a;">i</span>, <span style="color: #bf616a;">maxi</span>, <span style="color: #bf616a;">maxfd</span>, <span style="color: #bf616a;">listenfd</span>, <span style="color: #bf616a;">connfd</span>, <span style="color: #bf616a;">sockfd</span>;
+<span class="linenr"> 6: </span>    <span style="color: #c0c5ce;">int</span>         <span style="color: #bf616a;">nready</span>, <span style="color: #bf616a;">client</span>[FD_SETSIZE];
+<span class="linenr"> 7: </span>    <span style="color: #c0c5ce;">ssize_t</span>     <span style="color: #bf616a;">n</span>;
+<span class="linenr"> 8: </span>    <span style="color: #c0c5ce;">fd_set</span>      <span style="color: #bf616a;">rset</span>, <span style="color: #bf616a;">allset</span>;
+<span class="linenr"> 9: </span>    <span style="color: #c0c5ce;">char</span>        <span style="color: #bf616a;">buf</span>[MAXLINE];
+<span class="linenr">10: </span>    <span style="color: #c0c5ce;">socklen_t</span>   <span style="color: #bf616a;">clilen</span>;
+<span class="linenr">11: </span>    <span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">sockaddr_in</span> <span style="color: #bf616a;">cliaddr</span>, <span style="color: #bf616a;">servaddr</span>;
+<span class="linenr">12: </span>
+<span class="linenr">13: </span>    listenfd = Socket(AF_INET, SOCK_STREAM, 0);
+<span class="linenr">14: </span>
+<span class="linenr">15: </span>    bzero(servaddr, <span style="color: #b48ead;">sizeof</span>(servaddr));
+<span class="linenr">16: </span>    servaddr.sin_family = AF_INET;
+<span class="linenr">17: </span>    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+<span class="linenr">18: </span>    servaddr.sin_port = htons(SERV_PORT);
+<span class="linenr">19: </span>
+<span class="linenr">20: </span>    Bind(listenfd, (<span style="color: #c0c5ce;">SA</span>*)&amp;servaddr, <span style="color: #b48ead;">sizeof</span>(servaddr));
+<span class="linenr">21: </span>
+<span class="linenr">22: </span>    Listen(listenfd, LISTENQ);
+<span class="linenr">23: </span>
+<span class="linenr">24: </span>    maxfd = listenfd;           <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">initialize </span><span style="color: #c0c5ce;">*/</span>
+<span class="linenr">25: </span>    maxi = -1;                  <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">index into client[] array </span><span style="color: #c0c5ce;">*/</span>
+<span class="linenr">26: </span>    <span style="color: #b48ead;">for</span> (i = 0; i &lt; FD_SETSIZE; i++) {
+<span class="linenr">27: </span>        client[i] = -1;         <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">-1 indicates available entry </span><span style="color: #c0c5ce;">*/</span>
+<span class="linenr">28: </span>    }
+<span class="linenr">29: </span>    FD_ZERO(&amp;allset);
+<span class="linenr">30: </span>    FD_SET(listenfd, &amp;allset);
+<span class="linenr">31: </span>
+<span class="linenr">32: </span>    <span style="color: #b48ead;">for</span> (; :) {
+<span class="linenr">33: </span>        rset = allset;         <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">structure assignment </span><span style="color: #c0c5ce;">*/</span>
+<span class="linenr">34: </span>        nready = Select(maxfd + 1, &amp;rset, <span style="color: #d08770;">NULL</span>, <span style="color: #d08770;">NULL</span>, <span style="color: #d08770;">NULL</span>);
+<span class="linenr">35: </span>
+<span class="linenr">36: </span>        <span style="color: #b48ead;">if</span> (FD_ISSET(listenfd, &amp;rset)) {  <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">new client connection </span><span style="color: #c0c5ce;">*/</span>
+<span class="linenr">37: </span>            clilen = <span style="color: #b48ead;">sizeof</span>(cliaddr);
+<span class="linenr">38: </span>            connfd = Accept(listenfd, (<span style="color: #c0c5ce;">SA</span>*)&amp;cliaddr, &amp;clilen);
+<span class="linenr">39: </span>
+<span class="linenr">40: </span>            <span style="color: #b48ead;">for</span> (i = 0; i &lt; FD_SETSIZE; i++) {
+<span class="linenr">41: </span>                <span style="color: #b48ead;">if</span> (client[i] &lt; 0) {
+<span class="linenr">42: </span>                    client[i] = connfd;  <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">save descriptor </span><span style="color: #c0c5ce;">*/</span>
+<span class="linenr">43: </span>                    <span style="color: #b48ead;">break</span>;
+<span class="linenr">44: </span>                }
+<span class="linenr">45: </span>            }
+<span class="linenr">46: </span>            <span style="color: #b48ead;">if</span> (i == FD_SETSIZE) {
+<span class="linenr">47: </span>                err_quit(<span style="color: #a3be8c;">"too many clients"</span>);
+<span class="linenr">48: </span>            }
+<span class="linenr">49: </span>            FD_SET(connfd, &amp;allset);       <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">add new descriptor to set </span><span style="color: #c0c5ce;">*/</span>
+<span class="linenr">50: </span>
+<span class="linenr">51: </span>            <span style="color: #b48ead;">if</span> (connfd &gt; maxfd) {
+<span class="linenr">52: </span>                maxfd = connfd;
+<span class="linenr">53: </span>            }
+<span class="linenr">54: </span>            <span style="color: #b48ead;">if</span> (i &gt; maxi) {
+<span class="linenr">55: </span>                maxi = i;
+<span class="linenr">56: </span>            }
+<span class="linenr">57: </span>            <span style="color: #b48ead;">if</span> (--nready &lt;= 0) {
+<span class="linenr">58: </span>                <span style="color: #b48ead;">continue</span>;
+<span class="linenr">59: </span>            }
+<span class="linenr">60: </span>        }
+<span class="linenr">61: </span>
+<span class="linenr">62: </span>        <span style="color: #b48ead;">for</span> (i = 0; i &lt;= maxi; i++) {
+<span class="linenr">63: </span>            <span style="color: #b48ead;">if</span> ((sockfd = client[i]) &lt; 0) {
+<span class="linenr">64: </span>                <span style="color: #b48ead;">continue</span>;
+<span class="linenr">65: </span>            }
+<span class="linenr">66: </span>            <span style="color: #b48ead;">if</span> (FD_ISSET(sockfd, &amp;rset)) {
+<span class="linenr">67: </span>                <span style="color: #b48ead;">if</span> ((n = Read(sockfd, buf, MAXLINE)) == 0) {
+<span class="linenr">68: </span>                    <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">connection closed by client </span><span style="color: #c0c5ce;">*/</span>
+<span class="linenr">69: </span>                    Close(sockfd);
+<span class="linenr">70: </span>                } <span style="color: #b48ead;">else</span> {
+<span class="linenr">71: </span>                    Writen(sockfd, buf, n);
+<span class="linenr">72: </span>                }
+<span class="linenr">73: </span>
+<span class="linenr">74: </span>                <span style="color: #b48ead;">if</span> (--nready &lt;= 0) {
+<span class="linenr">75: </span>                    <span style="color: #b48ead;">break</span>;
+<span class="linenr">76: </span>                }
+<span class="linenr">77: </span>            }
+<span class="linenr">78: </span>        }
+<span class="linenr">79: </span>    }
+<span class="linenr">80: </span>    <span style="color: #b48ead;">return</span> 0;
+<span class="linenr">81: </span>}
+</pre>
+</div>
+</li>
+<li>程序非常的长,慢慢来分析:
+<ul class="org-ul">
+<li>line 13-22这部分是创建listening socket, 还是老三样:socket(),bind(),
+listen().
+</li>
+<li>line 22-30有两个数据很关键:
+<ol class="org-ol">
+<li>一个client[]数组,用来跟踪所有的client,因为一个进程最大的file descriptor
+数目有限,所以client数组的大小是FD_SETSIZE.数组的初始化值为(-1),表示
+相应index的client没有连接, maxi这是最大的以连接的index.整数表示连接到哪个
+descriptor
+
+
+<div class="figure">
+<p><img src="../../static/images/server_select1.png" alt="server_select1.png" />
+</p>
+</div>
+</li>
+
+<li>maxfd = listenfd说明这个阶段关心的只到listening socket,还不关心其他的descriptor,
+也没有其他的descriptor(前三个descriptor分别对应standard input, standard output,
+standard erro, 所以listenfd最小也得是4)
+
+
+<div class="figure">
+<p><img src="../../static/images/server_rset1.png" alt="server_rset1.png" />
+</p>
+</div>
+</li>
+</ol>
+</li>
+
+<li>line 32-33: 一个大循环每次等待数据的ready(每次rset会被allset所覆盖,因为
+allset会加上每次connected成功的descriptor line42), ready通常意味这两种
+情况:
+<ol class="org-ol">
+<li>listening 的connection又来了新的请求:新的成员从completed queue里面出来
+形成新的connection
+</li>
+<li>已经连接成功的connection来了数据(也可能是信息,比如FIN, RST)
+</li>
+</ol>
+</li>
+<li>line 36-60是处理listening connection的地方,listening socket可读,就说明一个
+connection已经成功建立了,我们调用accept就可以返回新的descriptor.我们用nready
+来记录这次select有几个需要处理的connection,处理完一次就减一.如果为0了,那么下
+一个处理已经连接成功的connection的for就不需要进入了.
+<ol class="org-ol">
+<li>新的client[] slot会被填充 line 42:
+
+
+<div class="figure">
+<p><img src="../../static/images/server_select2.png" alt="server_select2.png" />
+</p>
+</div>
+</li>
+
+<li>allset也会增加(以后会变成rset) line 49:
+
+
+<div class="figure">
+<p><img src="../../static/images/server_rset2.png" alt="server_rset2.png" />
+</p>
+</div>
+</li>
+</ol>
+</li>
+
+<li>line 62-78: 是第二个循环,来处理已经连接的connection,是通过从0开始到maxi
+逐个检查已经connected过的连接的方法.检测到来袭的数据,那么我们就write back
+回去.如果read为0,那么说明client已经关闭了连接,我们也不含糊,直接close().
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-8-1" class="outline-4">
+<h4 id="sec-1-8-1">Denial-of-Service Attacks</h4>
+<div class="outline-text-4" id="text-1-8-1">
+<ul class="org-ul">
+<li>很可惜的是,我们刚才完成的代码有一个很致命的问题:恶意用户可以connected到我们的
+server,发送一个字节,然后sleep. server当然要响应这个用户,打开一个连接读取那个
+字节,然后hung在那里等client的新的数据.无法为其他用户服务:"在处理多个client服务
+的时候,server"永远不能"block在处理某一个client的函数里面,如果这样的话server会
+huang住无法为其他client提供服务"&#x2013;&gt;这就叫做denial-of-service
+</li>
+<li>解决denial-of-service的方法有:
+<ol class="org-ol">
+<li>nonblocking I/O
+</li>
+<li>为每一个client提供一个thread(只是暂时解决问题,遇到攻击,会出现procesID用
+尽的问题)
+</li>
+<li>为IO操作设置一个timer
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9">pselect Function</h3>
+<div class="outline-text-3" id="text-1-9">
+<ul class="org-ul">
+<li>POSIX发明了一个pselect,很多Unix系统已经支持它了
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;sys/select.h&gt;</span>
+<span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;signal.h&gt;</span>
+<span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;time.h&gt;</span>
+
+<span style="color: #c0c5ce;">/*****************************************************************/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">Returns: count of ready descriptor, 0 on timeout, -1 on error </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/*****************************************************************/</span>
+<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">pselect</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">maxfdp1</span>, <span style="color: #c0c5ce;">fd_set</span>* <span style="color: #bf616a;">readset</span>, <span style="color: #c0c5ce;">fd_set</span>* <span style="color: #bf616a;">writeset</span>, <span style="color: #c0c5ce;">fd_set</span>* <span style="color: #bf616a;">exceptset</span>,
+            <span style="color: #b48ead;">const</span> <span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">timespec</span>* <span style="color: #bf616a;">timeout</span>, <span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">sigset_t</span> *<span style="color: #bf616a;">sgmask</span>);
+</pre>
+</div>
+</li>
+<li>和普通的select相比pselect有如下变化:
+<ul class="org-ul">
+<li>使用了timespec,而不是timeval, tv_usec是纳秒级别,更加精确
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">timespec</span> {
+    <span style="color: #c0c5ce;">time_t</span>   <span style="color: #bf616a;">tv_sec</span>;           <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">seconds </span><span style="color: #c0c5ce;">*/</span>
+    <span style="color: #c0c5ce;">long</span>     <span style="color: #bf616a;">tv_nsec</span>;          <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">nanoseconds </span><span style="color: #c0c5ce;">*/</span>
+};
+</pre>
+</div>
+</li>
+<li>增加了第六个参数:指向signal mask的指针:因为select有block的可能,在select被
+block的时候,可能会有signal丢失,或者signal会打扰select的block:
+<ol class="org-ol">
+<li>想要既不丢失signal,又不打扰我们的select,就要用到sigprocmask:
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">&#22914;&#26524;oset&#19981;&#26159;NULL&#25351;&#38024;&#30340;&#35805;&#65292;&#24403;&#21069;&#30340;signal mask&#20250;&#20445;&#23384;&#21040;&#36825;&#37324;  </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">&#22914;&#26524;set&#19981;&#26159;NULL&#25351;&#38024;&#30340;&#35805;&#65292;&#31532;&#19968;&#20010;&#21442;&#25968;how&#20915;&#23450;&#20102;&#24590;&#20040;&#22788;&#29702;set&#25152;&#21253;&#21547;&#30340;signal mask&#30340;&#22788;&#29702;&#26041;&#24335;  </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">how&#20849;&#26377;&#19977;&#20010;&#20540;:  </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">SIG_BLOCK &#35774;&#32622;&#24403;&#21069;&#30340;signal mask&#20026;set&#21644;&#21407;&#26377;signal mask&#30340;&#24182;&#38598;  </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">SIG_UNBLOCK set&#26159;&#25105;&#20204;&#24819;&#20174;&#21407;&#26377;signal mask&#20013;unblock&#25481;&#30340;&#20449;&#21495;  </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">SIG_SETMASK &#29992;set&#26469;&#26367;&#25442;&#21407;&#26377;&#30340;signal mask. </span><span style="color: #c0c5ce;">*/</span>
+
+sigprocmask(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">how</span>, <span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">sigset_t</span> *<span style="color: #b48ead;">restrict</span> <span style="color: #bf616a;">set</span>, <span style="color: #c0c5ce;">sigset_t</span> * <span style="color: #b48ead;">restrict</span> <span style="color: #bf616a;">oset</span>)
+</pre>
+</div>
+</li>
+<li>从某种意义上来讲,pselect就是收到sigprocmask保护的select
+<div class="org-src-container">
+
+<pre class="src src-c">ready = pselect(nfds, &amp;readfds, &amp;writefds, timeout, &amp;sigmask);
+<span style="color: #c0c5ce;">/************************************************************************/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">Previous line equals following three lines(timeout maybe different): </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/************************************************************************/</span>
+sigprocmask(SIG_SETMASK, &amp;sigmask, &amp;origmask);
+ready = select(nfds, &amp;readfds, &amp;writefds, &amp;exceptfds, new_timeout);
+sigprocmask(SIG_SETMASK, &amp;origmask, <span style="color: #d08770;">NULL</span>);
+</pre>
+</div>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-10" class="outline-3">
+<h3 id="sec-1-10">poll Function</h3>
+<div class="outline-text-3" id="text-1-10">
+<ul class="org-ul">
+<li>poll 函数原来是SVR3为STREAM设备开发的,后来改为对所有类型文件(也就是所有类型
+的descriptor)的支持, poll和select的功能相似,但是多了STREAM支持(STREAM被Linux
+所淘汰), 以及没有FD_SETSIZE的限制
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;poll.h&gt;</span>
+
+<span style="color: #c0c5ce;">/******************************************************************/</span>
+<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">Returns: count of ready descriptors, 0 on timeout, -1 on error </span><span style="color: #c0c5ce;">*/</span>
+<span style="color: #c0c5ce;">/******************************************************************/</span>
+<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">poll</span>(<span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">pollfd</span> *<span style="color: #bf616a;">fdarray</span>, <span style="color: #c0c5ce;">unsigned</span> <span style="color: #c0c5ce;">long</span> <span style="color: #bf616a;">nfds</span>, <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">timeout</span>);
+</pre>
+</div>
+</li>
+<li>pollfd是一个新的自定义类型,集合了某一fd的所有condition
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">pollfd</span> {
+    <span style="color: #c0c5ce;">int</span>      <span style="color: #bf616a;">fd</span>;        <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">descriptor to check </span><span style="color: #c0c5ce;">*/</span>
+    <span style="color: #c0c5ce;">short</span>    <span style="color: #bf616a;">events</span>;    <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">events of interest on fd </span><span style="color: #c0c5ce;">*/</span>
+    <span style="color: #c0c5ce;">sthort</span>   <span style="color: #bf616a;">revents</span>;   <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">events that occurred on fd </span><span style="color: #c0c5ce;">*/</span>
+};
+</pre>
+</div>
+</li>
+<li>需要测试的condition设置在events, poll返回的时候,会把fd的status信息写入到
+revents成员里面.(使用两个成员变量的方法,防止了"调用的时候设置,返回的时候复
+写内存"的方法),下面是这两个condition可能的值:分成了三部分:读,写,错误信息.
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Constant</th>
+<th scope="col" class="left">Input to</th>
+<th scope="col" class="left">Result from</th>
+<th scope="col" class="left">Description</th>
+</tr>
+
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">events?</th>
+<th scope="col" class="left">events?</th>
+<th scope="col" class="left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">POLLIN</td>
+<td class="left">Yes</td>
+<td class="left">Yes</td>
+<td class="left">Normal or priority band data can be read</td>
+</tr>
+
+<tr>
+<td class="left">POLLRDNORM</td>
+<td class="left">Yes</td>
+<td class="left">Yes</td>
+<td class="left">Normal datat can be read</td>
+</tr>
+
+<tr>
+<td class="left">POLLRDBAND</td>
+<td class="left">Yes</td>
+<td class="left">Yes</td>
+<td class="left">Priority band data can be read</td>
+</tr>
+
+<tr>
+<td class="left">POLLPRI</td>
+<td class="left">Yes</td>
+<td class="left">Yes</td>
+<td class="left">High-priority data can be read</td>
+</tr>
+
+<tr>
+<td class="left">POLLOUT</td>
+<td class="left">Yes</td>
+<td class="left">Yes</td>
+<td class="left">Normal data can be written</td>
+</tr>
+
+<tr>
+<td class="left">POLLWRNORM</td>
+<td class="left">Yes</td>
+<td class="left">Yes</td>
+<td class="left">Normal data can be written</td>
+</tr>
+
+<tr>
+<td class="left">POLLWRBAND</td>
+<td class="left">Yes</td>
+<td class="left">Yes</td>
+<td class="left">Priority band data can be read</td>
+</tr>
+
+<tr>
+<td class="left">POLLERR</td>
+<td class="left">No</td>
+<td class="left">Yes</td>
+<td class="left">Error has occurred</td>
+</tr>
+
+<tr>
+<td class="left">POLLHUP</td>
+<td class="left">No</td>
+<td class="left">Yes</td>
+<td class="left">Hangup has occurred</td>
+</tr>
+
+<tr>
+<td class="left">POLLNVAL</td>
+<td class="left">No</td>
+<td class="left">Yes</td>
+<td class="left">Descriptor is not an open file</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>对于TCP和UDP来说,下面的condition会让poll返回相应的revent,不幸的是POSIX没有说
+的太具体
+<ul class="org-ul">
+<li>所有的正常TCP,UDP信息会被认为是normal
+</li>
+<li>TCP的out-of-band会被认为是priority band
+</li>
+<li>TCP的half close情况下依然会被认为是normal
+</li>
+<li>TCP的error可能会被认为是error或者normal
+</li>
+<li>TCP的listening connection收到信息有new connection,也会被认为是priority或
+者normal
+</li>
+<li>nonblocking connect会让poll认为这个socket可写
+</li>
+</ul>
+</li>
+<li>如果我们对某个descriptor不再感兴趣,我们只要把fdarray里面响应的struct pollfd
+的fd设置成负数就行
+</li>
+<li>timeout参数可以设置的数值如下(INFTIM为POSIX规定的负数),某些系统时间精度不到
+ms,可能会有误差:
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">timeout value</th>
+<th scope="col" class="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">INFTIM</td>
+<td class="left">Wait forever</td>
+</tr>
+
+<tr>
+<td class="left">0</td>
+<td class="left">Return immediately, do not block</td>
+</tr>
+
+<tr>
+<td class="left">&gt;0</td>
+<td class="left">Wait specified number of milliseconds</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>我们前面提到过select所关心的descriptor总数有限制:FD_SETSIZE,在poll这里,这个
+限制不存在了,因为我们不再使用select类似的固定的参数,这些参数原来是在stack上面
+设置的,不可能无限大.而限制poll使用的是用户申请的.那么原则上,可以无限的大(放在
+heap上面),当然不太大的时候,还是可以放到stack上面.
+</li>
+<li>其实现在的第一选择还不是poll,而且linux的epoll,因为就算poll没有FD_SETSIZE的缺
+点,但是他却需要O(n)的复杂度来轮询fdarray.这个是无法避免的(其实select也一样,我
+们从select那里仅仅知道了，有I/O事件发生了，但却并不知道是那几个流（可能有一个，
+多个，甚至全部），我们只能无差别轮询所有流，找出能读出数据，或者写入数据的流，
+对他们进行操作.)
+</li>
+<li>Linux的epoll创造性的使用内核"推送"的方式(具体是我们关心的fd会调用callback函数,
+从而让内核知道了哪些fd是"活跃的",而把活跃的函数作为返回值返回)实现了一个"伪AIO
+(Asynchronous IO)".
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-11" class="outline-3">
+<h3 id="sec-1-11">TCP Echo Server(Revisited Again)</h3>
+<div class="outline-text-3" id="text-1-11">
+<ul class="org-ul">
+<li>既然介绍了比select功能更强大的poll,我们就来看看如何用poll来实现我们的server,
+其实现思路和select版本相似.
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #d08770;">#include</span>   <span style="color: #a3be8c;">"unp.h"</span>
+<span style="color: #d08770;">#include</span>   <span style="color: #a3be8c;">&lt;limits.h&gt;</span>          <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">for OPEN_MAX </span><span style="color: #c0c5ce;">*/</span>
+
+<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">main</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">argc</span>, <span style="color: #c0c5ce;">char</span> *<span style="color: #bf616a;">argv</span>[])
+{
+    <span style="color: #c0c5ce;">int</span>       <span style="color: #bf616a;">i</span>, <span style="color: #bf616a;">maxi</span>, <span style="color: #bf616a;">listenfd</span>, <span style="color: #bf616a;">connfd</span>, <span style="color: #bf616a;">sockfd</span>;
+    <span style="color: #c0c5ce;">int</span>       <span style="color: #bf616a;">nready</span>;
+    <span style="color: #c0c5ce;">ssize_t</span>   <span style="color: #bf616a;">n</span>;
+    <span style="color: #c0c5ce;">char</span>      <span style="color: #bf616a;">buf</span>[MAXLINE];
+    <span style="color: #c0c5ce;">socklen_t</span> <span style="color: #bf616a;">clilen</span>;
+    <span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">pollfd</span> <span style="color: #bf616a;">client</span>[OPEN_MAX];
+    <span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">sockaddr_in</span> <span style="color: #bf616a;">cliaddr</span>, <span style="color: #bf616a;">servaddr</span>;
+
+    listenfd = Socket(AF_INET, SOCK_STREAM, 0);
+
+    bzero(&amp;servaddr, <span style="color: #b48ead;">sizeof</span>(servaddr));
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = htol(INADDR_ANY);
+    servaddr.sin_port = htons(SERV_PORT);
+
+    Bind(listenfd, (<span style="color: #c0c5ce;">SA</span>*) &amp;servaddr. <span style="color: #b48ead;">sizeof</span>(servaddr));
+
+    Listen(listenfd, LISTENQ);
+
+    client[0].fd = listenfd;
+    client[0].events = POLLRDNORM;
+    <span style="color: #b48ead;">for</span> (i = 1; i &lt; OPEN_MAX; i++) {
+        client[i].fd = -1;
+    }
+    maxi = 0;
+    <span style="color: #b48ead;">for</span> (; ;) {
+        nready = Poll(client, maxi + 1, INFTIM);
+        <span style="color: #b48ead;">if</span> (client[0].revents &amp; POLLRDNORM) { <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">new client connection </span><span style="color: #c0c5ce;">*/</span>
+            clilen = <span style="color: #b48ead;">sizeof</span>(cliaddr);
+            connfd = Accept(listenfd, (<span style="color: #c0c5ce;">SA</span>*)&amp;cliaddr, &amp;clilen);
+
+            <span style="color: #b48ead;">for</span> (i = 1; i &lt; OPEN_MAX; i++) {
+                <span style="color: #b48ead;">if</span> (client[i].fd &lt; 0) {
+                    client[i].fd = connfd;  <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">save descriptor </span><span style="color: #c0c5ce;">*/</span>
+                    <span style="color: #b48ead;">break</span>;
+                }
+            }
+            <span style="color: #b48ead;">if</span> (i == OPEN_MAX) {
+                err_quit(<span style="color: #a3be8c;">"too many clients"</span>);
+            }
+            client[i].events = POLLRDNORM;
+
+            <span style="color: #b48ead;">if</span> (i &gt; maxi) {
+                maxi = i;
+            }
+
+            <span style="color: #b48ead;">if</span> (--nready &lt;= 0) {
+                <span style="color: #b48ead;">continue</span>;
+            }
+        }
+    }
+
+    <span style="color: #b48ead;">for</span> (i = 1; i &lt;= maxi; i++) {    <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">check all clients for data </span><span style="color: #c0c5ce;">*/</span>
+        <span style="color: #b48ead;">if</span> ((sockfd = client[i].fd) &lt; 0) {
+            <span style="color: #b48ead;">continue</span>;
+        }
+        <span style="color: #b48ead;">if</span> (client[i].revents &amp; (POLLRDNORM | POLLERR)) {
+            <span style="color: #b48ead;">if</span> ((n = read(sokfd, buf, MAXLINE)) &lt; 0) {
+                <span style="color: #b48ead;">if</span> (errno == ECONNERESET) {
+                    <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">connection reset by client </span><span style="color: #c0c5ce;">*/</span>
+                    Close(sockf);
+                    client[i].fd = -1;
+                } <span style="color: #b48ead;">else</span> <span style="color: #b48ead;">if</span> (n == 0) {
+                    <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">connection close by client </span><span style="color: #c0c5ce;">*/</span>
+                    Close(sockfd);
+                    client[i].fd = -1;
+                } <span style="color: #b48ead;">else</span> {
+                    Writen(sockfd, buf, n);
+                }
+                <span style="color: #b48ead;">if</span> (--nready &lt;= 0) {
+                    <span style="color: #b48ead;">break</span>;
+                }
+            }
+        }
+    }
+    <span style="color: #b48ead;">return</span> 0;
+}
+</pre>
+</div>
+</li>
+</ul>
 </div>
 </div>
 </div>
