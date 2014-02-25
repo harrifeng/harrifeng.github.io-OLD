@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Leetcode: longest substring without repeating characters</title>
-<!-- 2014-02-18 Tue 22:47 -->
+<title>Leetcode 003: longest substring without repeating characters</title>
+<!-- 2014-02-25 Tue 22:07 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -161,7 +161,7 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Leetcode: longest substring without repeating characters</h1>
+<h1 class="title">Leetcode 003: longest substring without repeating characters</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -216,10 +216,12 @@ Sample Output: 3
         <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">len</span> = 0;
         <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">max</span> = 0;
         <span style="color: #b48ead;">for</span> (<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">i</span> = 0; i &lt; s.length(); i++) {
-            <span style="color: #b48ead;">if</span> (index[(<span style="color: #c0c5ce;">int</span>)s.charAt(i)] != -1) {
+            <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">be careful not to use '&gt;0', as '==0' also valid,</span>
+            <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">so use '!=-1' or '&gt;=0' </span>
+            <span style="color: #b48ead;">if</span> (index[s.charAt(i)] != -1) {
                 max = Math.max(max, len);
                 len = 0;
-                <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">be careful to change i first, then reinitialize the array</span>
+                <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">be careful to change i first, then reinitialize the array</span>
                 i = index[(<span style="color: #c0c5ce;">int</span>)s.charAt(i)] + 1;
                 Arrays.fill(index, -1);
             }
