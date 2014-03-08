@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 003: longest substring without repeating characters</title>
-<!-- 2014-02-25 Tue 22:07 -->
+<!-- 2014-03-08 Sat 17:49 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -209,26 +209,26 @@ Sample Output: 3
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #b48ead;">public</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Solution</span> {
-    <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">lengthOfLongestSubstring</span>(<span style="color: #c0c5ce;">String</span> <span style="color: #bf616a;">s</span>) {
-        <span style="color: #c0c5ce;">int</span>[] <span style="color: #bf616a;">index</span> = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">int</span>[256];
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">lengthOfLongestSubstring</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>) {
+        <span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">index</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">int</span>[256];
         Arrays.fill(index, -1);
-        <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">len</span> = 0;
-        <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">max</span> = 0;
-        <span style="color: #b48ead;">for</span> (<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">i</span> = 0; i &lt; s.length(); i++) {
-            <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">be careful not to use '&gt;0', as '==0' also valid,</span>
-            <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">so use '!=-1' or '&gt;=0' </span>
-            <span style="color: #b48ead;">if</span> (index[s.charAt(i)] != -1) {
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">len</span> = 0;
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">max</span> = 0;
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; s.length(); i++) {
+            <span style="color: #586e75;">// </span><span style="color: #586e75;">be careful not to use '&gt;0', as '==0' also valid,</span>
+            <span style="color: #586e75;">// </span><span style="color: #586e75;">so use '!=-1' or '&gt;=0' </span>
+            <span style="color: #859900; font-weight: bold;">if</span> (index[s.charAt(i)] != -1) {
                 max = Math.max(max, len);
                 len = 0;
-                <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">be careful to change i first, then reinitialize the array</span>
-                i = index[(<span style="color: #c0c5ce;">int</span>)s.charAt(i)] + 1;
+                <span style="color: #586e75;">// </span><span style="color: #586e75;">be careful to change i first, then reinitialize the array</span>
+                i = index[(<span style="color: #b58900;">int</span>)s.charAt(i)] + 1;
                 Arrays.fill(index, -1);
             }
-            index[(<span style="color: #c0c5ce;">int</span>)s.charAt(i)] = i;
+            index[(<span style="color: #b58900;">int</span>)s.charAt(i)] = i;
             len++;
         }
-        <span style="color: #b48ead;">return</span> Math.max(max, len);
+        <span style="color: #859900; font-weight: bold;">return</span> Math.max(max, len);
     }
 }
 </pre>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 6</title>
-<!-- 2014-02-25 Tue 21:07 -->
+<!-- 2014-03-08 Sat 17:47 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -645,24 +645,24 @@ IO)统统都是synchronous IO. 只有Asynchrous IO符合asynchronous IO的定义
 <li>select的定义如下:
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;sys/select.h&gt;</span>
-<span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;sys/time.h&gt;</span>
+<pre class="src src-c"><span style="color: #268bd2;">#include</span> <span style="color: #2aa198;">&lt;sys/select.h&gt;</span>
+<span style="color: #268bd2;">#include</span> <span style="color: #2aa198;">&lt;sys/time.h&gt;</span>
 
-<span style="color: #c0c5ce;">/*************************************************/</span>
-<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">Returns: positive count of ready descriptors, </span><span style="color: #c0c5ce;">*/</span>
-<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">0 on timeout, -1 on error                     </span><span style="color: #c0c5ce;">*/</span>
-<span style="color: #c0c5ce;">/*************************************************/</span>
-<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">select</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">maxfdp1</span>, <span style="color: #c0c5ce;">fd_set</span>* <span style="color: #bf616a;">readset</span>, <span style="color: #c0c5ce;">fd_set</span>* <span style="color: #bf616a;">writeset</span>,
-           <span style="color: #c0c5ce;">fd_set</span>* <span style="color: #bf616a;">exceptset</span>, <span style="color: #b48ead;">const</span> <span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">timeval</span>* <span style="color: #bf616a;">timeout</span>);
+<span style="color: #586e75;">/*************************************************/</span>
+<span style="color: #586e75;">/* </span><span style="color: #586e75;">Returns: positive count of ready descriptors, </span><span style="color: #586e75;">*/</span>
+<span style="color: #586e75;">/* </span><span style="color: #586e75;">0 on timeout, -1 on error                     </span><span style="color: #586e75;">*/</span>
+<span style="color: #586e75;">/*************************************************/</span>
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">select</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">maxfdp1</span>, <span style="color: #b58900;">fd_set</span>* <span style="color: #268bd2;">readset</span>, <span style="color: #b58900;">fd_set</span>* <span style="color: #268bd2;">writeset</span>,
+           <span style="color: #b58900;">fd_set</span>* <span style="color: #268bd2;">exceptset</span>, <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">timeval</span>* <span style="color: #268bd2;">timeout</span>);
 </pre>
 </div>
 </li>
 <li>其中timeval的结构如下:
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">timeval</span> {
-    <span style="color: #c0c5ce;">long</span>   <span style="color: #bf616a;">tv_sec</span>;         <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">secondes </span><span style="color: #c0c5ce;">*/</span>
-    <span style="color: #c0c5ce;">long</span>   <span style="color: #bf616a;">tv_usec</span>;        <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">microseconds </span><span style="color: #c0c5ce;">*/</span>
+<pre class="src src-c"><span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">timeval</span> {
+    <span style="color: #b58900;">long</span>   <span style="color: #268bd2;">tv_sec</span>;         <span style="color: #586e75;">/* </span><span style="color: #586e75;">secondes </span><span style="color: #586e75;">*/</span>
+    <span style="color: #b58900;">long</span>   <span style="color: #268bd2;">tv_usec</span>;        <span style="color: #586e75;">/* </span><span style="color: #586e75;">microseconds </span><span style="color: #586e75;">*/</span>
 };
 </pre>
 </div>
@@ -701,10 +701,10 @@ descritpr为31,那么就是整形数组的第一个参数arr的最后一位bit,�
 宏,我们可以让fd_set跨平台
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">FD_ZERO</span>(<span style="color: #c0c5ce;">fd_set</span> *<span style="color: #bf616a;">fdset</span>);         <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">clear all bitst in fdset </span><span style="color: #c0c5ce;">*/</span>
-<span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">FD_SET</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">fd</span>, <span style="color: #c0c5ce;">fd_set</span> *<span style="color: #bf616a;">fdset</span>);  <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">turn on the bit for fd in fdset </span><span style="color: #c0c5ce;">*/</span>
-<span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">FD_CLR</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">fd</span>, <span style="color: #c0c5ce;">fd_set</span> *<span style="color: #bf616a;">fdset</span>);  <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">turn off the bit for fd in fdset </span><span style="color: #c0c5ce;">*/</span>
-<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">FD_ISSET</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">fd</span>, <span style="color: #c0c5ce;">fd_set</span> *<span style="color: #bf616a;">fdset</span>); <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">is the bit for fd on in fdset? </span><span style="color: #c0c5ce;">*/</span>
+<pre class="src src-c"><span style="color: #b58900;">void</span> <span style="color: #268bd2;">FD_ZERO</span>(<span style="color: #b58900;">fd_set</span> *<span style="color: #268bd2;">fdset</span>);         <span style="color: #586e75;">/* </span><span style="color: #586e75;">clear all bitst in fdset </span><span style="color: #586e75;">*/</span>
+<span style="color: #b58900;">void</span> <span style="color: #268bd2;">FD_SET</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">fd</span>, <span style="color: #b58900;">fd_set</span> *<span style="color: #268bd2;">fdset</span>);  <span style="color: #586e75;">/* </span><span style="color: #586e75;">turn on the bit for fd in fdset </span><span style="color: #586e75;">*/</span>
+<span style="color: #b58900;">void</span> <span style="color: #268bd2;">FD_CLR</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">fd</span>, <span style="color: #b58900;">fd_set</span> *<span style="color: #268bd2;">fdset</span>);  <span style="color: #586e75;">/* </span><span style="color: #586e75;">turn off the bit for fd in fdset </span><span style="color: #586e75;">*/</span>
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">FD_ISSET</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">fd</span>, <span style="color: #b58900;">fd_set</span> *<span style="color: #268bd2;">fdset</span>); <span style="color: #586e75;">/* </span><span style="color: #586e75;">is the bit for fd on in fdset? </span><span style="color: #586e75;">*/</span>
 </pre>
 </div>
 </li>
@@ -823,30 +823,30 @@ standard input才能发现socket descriptor的关闭.
 descriptor为其所关心,一旦哪个有可读的就返回.
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">"unp.h"</span>
+<pre class="src src-c"><span style="color: #268bd2;">#include</span> <span style="color: #2aa198;">"unp.h"</span>
 
-<span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">str_cli</span>(<span style="color: #c0c5ce;">FILE</span> *<span style="color: #bf616a;">fp</span>, <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">sockfd</span>) {
-    <span style="color: #c0c5ce;">int</span>    <span style="color: #bf616a;">maxfdp1</span>;
-    <span style="color: #c0c5ce;">fd_set</span> <span style="color: #bf616a;">reset</span>;
-    <span style="color: #c0c5ce;">char</span>   <span style="color: #bf616a;">sendline</span>[MAXLINE], <span style="color: #bf616a;">recvline</span>[MAXLINE];
+<span style="color: #b58900;">void</span> <span style="color: #268bd2;">str_cli</span>(<span style="color: #b58900;">FILE</span> *<span style="color: #268bd2;">fp</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">sockfd</span>) {
+    <span style="color: #b58900;">int</span>    <span style="color: #268bd2;">maxfdp1</span>;
+    <span style="color: #b58900;">fd_set</span> <span style="color: #268bd2;">reset</span>;
+    <span style="color: #b58900;">char</span>   <span style="color: #268bd2;">sendline</span>[MAXLINE], <span style="color: #268bd2;">recvline</span>[MAXLINE];
 
     FD_ZERO(&amp;rset);
-    <span style="color: #b48ead;">for</span>( ; ;) {
+    <span style="color: #859900; font-weight: bold;">for</span>( ; ;) {
         FD_SET(fileno(fp), &amp;rset);
         FD_SET(sockfd, &amp;rset);
         maxfdp1 = max(fileno(fp), sockfd) + 1;
-        Select(maxfdp1, &amp;rset, <span style="color: #d08770;">NULL</span>, <span style="color: #d08770;">NULL</span>, <span style="color: #d08770;">NULL</span>);
+        Select(maxfdp1, &amp;rset, <span style="color: #268bd2; font-weight: bold;">NULL</span>, <span style="color: #268bd2; font-weight: bold;">NULL</span>, <span style="color: #268bd2; font-weight: bold;">NULL</span>);
 
-        <span style="color: #b48ead;">if</span> (FD_ISSET(sockfd, &amp;rset)) { <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">socket is readable </span><span style="color: #c0c5ce;">*/</span>
-            <span style="color: #b48ead;">if</span> (Readline(sockfd, recvline, MAXLINE) == 0) {
-                err_quit(<span style="color: #a3be8c;">"str_cli: server terminated prematurely"</span>);
+        <span style="color: #859900; font-weight: bold;">if</span> (FD_ISSET(sockfd, &amp;rset)) { <span style="color: #586e75;">/* </span><span style="color: #586e75;">socket is readable </span><span style="color: #586e75;">*/</span>
+            <span style="color: #859900; font-weight: bold;">if</span> (Readline(sockfd, recvline, MAXLINE) == 0) {
+                err_quit(<span style="color: #2aa198;">"str_cli: server terminated prematurely"</span>);
             }
             Fputs(recvline, stdout);
         }
 
-        <span style="color: #b48ead;">if</span> (FD_ISSET(fileno(fp), &amp;rset)) { <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">input is readable </span><span style="color: #c0c5ce;">*/</span>
-            <span style="color: #b48ead;">if</span> (Fgets(sendline, MAXLINE, fp) == <span style="color: #d08770;">NULL</span>) {
-                <span style="color: #b48ead;">return</span>;    <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">all done </span><span style="color: #c0c5ce;">*/</span>
+        <span style="color: #859900; font-weight: bold;">if</span> (FD_ISSET(fileno(fp), &amp;rset)) { <span style="color: #586e75;">/* </span><span style="color: #586e75;">input is readable </span><span style="color: #586e75;">*/</span>
+            <span style="color: #859900; font-weight: bold;">if</span> (Fgets(sendline, MAXLINE, fp) == <span style="color: #268bd2; font-weight: bold;">NULL</span>) {
+                <span style="color: #859900; font-weight: bold;">return</span>;    <span style="color: #586e75;">/* </span><span style="color: #586e75;">all done </span><span style="color: #586e75;">*/</span>
             }
             Writen(sockfd, sendline, strlen(sendline));
         }
@@ -954,9 +954,9 @@ count,只有你的ref count到达0的时候,它才会真的发起"四次挥手",
 <li>shutdown函数声明如下:
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;sys/socket.h&gt;</span>
+<pre class="src src-c"><span style="color: #268bd2;">#include</span> <span style="color: #2aa198;">&lt;sys/socket.h&gt;</span>
 
-<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">shutdown</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">sockfd</span>, <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">howto</span>);
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">shutdown</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">sockfd</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">howto</span>);
 </pre>
 </div>
 </li>
@@ -988,41 +988,41 @@ SHUT_RD,一次用参数SHUT_WR
 <li>我们来看看引入了shutdonw和select之后的str_cli的代码
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">"unp.h"</span>
+<pre class="src src-c"><span style="color: #268bd2;">#include</span> <span style="color: #2aa198;">"unp.h"</span>
 
-<span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">str_cli</span>(<span style="color: #c0c5ce;">FILE</span> *<span style="color: #bf616a;">fp</span>, <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">sockfd</span>) {
-    <span style="color: #c0c5ce;">int</span>     <span style="color: #bf616a;">maxfdp1</span>, <span style="color: #bf616a;">stdineof</span>;
-    <span style="color: #c0c5ce;">fd_set</span>  <span style="color: #bf616a;">reset</span>;
-    <span style="color: #c0c5ce;">char</span>    <span style="color: #bf616a;">buf</span>[MAXLINE];
-    <span style="color: #c0c5ce;">int</span>     <span style="color: #bf616a;">n</span>;
+<span style="color: #b58900;">void</span> <span style="color: #268bd2;">str_cli</span>(<span style="color: #b58900;">FILE</span> *<span style="color: #268bd2;">fp</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">sockfd</span>) {
+    <span style="color: #b58900;">int</span>     <span style="color: #268bd2;">maxfdp1</span>, <span style="color: #268bd2;">stdineof</span>;
+    <span style="color: #b58900;">fd_set</span>  <span style="color: #268bd2;">reset</span>;
+    <span style="color: #b58900;">char</span>    <span style="color: #268bd2;">buf</span>[MAXLINE];
+    <span style="color: #b58900;">int</span>     <span style="color: #268bd2;">n</span>;
 
     stdineof = 0;
     FD_ZERO(&amp;rset);
-    <span style="color: #b48ead;">for</span> (; ;) {
-        <span style="color: #b48ead;">if</span> (stdineof == 0) {
+    <span style="color: #859900; font-weight: bold;">for</span> (; ;) {
+        <span style="color: #859900; font-weight: bold;">if</span> (stdineof == 0) {
             FD_SET(fileno(fp), &amp;rset);
         }
 
         FD_SET(sockfd, &amp;rset);
         maxfdp1 = max(fileno(fp), sockfd) + 1;
-        Select(maxfdp1, &amp;rset, <span style="color: #d08770;">NULL</span>, <span style="color: #d08770;">NULL</span>, <span style="color: #d08770;">NULL</span>);
+        Select(maxfdp1, &amp;rset, <span style="color: #268bd2; font-weight: bold;">NULL</span>, <span style="color: #268bd2; font-weight: bold;">NULL</span>, <span style="color: #268bd2; font-weight: bold;">NULL</span>);
 
-        <span style="color: #b48ead;">if</span> (FD_ISSET(sockfd, &amp;rset)) {   <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">socket is readable </span><span style="color: #c0c5ce;">*/</span>
-            <span style="color: #b48ead;">if</span> ((n = Read(sockfd, buf, MAXLINE)) == 0) {
-                <span style="color: #b48ead;">if</span> (stdineof == 1) {
-                    <span style="color: #b48ead;">return</span>;
-                } <span style="color: #b48ead;">else</span> {
-                    err_quit(<span style="color: #a3be8c;">"str_cli: server terminated prematurely"</span>);
+        <span style="color: #859900; font-weight: bold;">if</span> (FD_ISSET(sockfd, &amp;rset)) {   <span style="color: #586e75;">/* </span><span style="color: #586e75;">socket is readable </span><span style="color: #586e75;">*/</span>
+            <span style="color: #859900; font-weight: bold;">if</span> ((n = Read(sockfd, buf, MAXLINE)) == 0) {
+                <span style="color: #859900; font-weight: bold;">if</span> (stdineof == 1) {
+                    <span style="color: #859900; font-weight: bold;">return</span>;
+                } <span style="color: #859900; font-weight: bold;">else</span> {
+                    err_quit(<span style="color: #2aa198;">"str_cli: server terminated prematurely"</span>);
                 }
                 Write(fileno(stdout), buf, n);
             }
         }
-        <span style="color: #b48ead;">if</span> (FD_ISSET(fileno(fp), &amp;rset)) { <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">input is readable </span><span style="color: #c0c5ce;">*/</span>
-            <span style="color: #b48ead;">if</span> ((n = Read(fileno(fp), buf, MAXLINE)) == 0) {
+        <span style="color: #859900; font-weight: bold;">if</span> (FD_ISSET(fileno(fp), &amp;rset)) { <span style="color: #586e75;">/* </span><span style="color: #586e75;">input is readable </span><span style="color: #586e75;">*/</span>
+            <span style="color: #859900; font-weight: bold;">if</span> ((n = Read(fileno(fp), buf, MAXLINE)) == 0) {
                 stdineof = 1;
-                Shutdown(sockfd, SHUT_WR);  <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">send FIN ==&gt; half close </span><span style="color: #c0c5ce;">*/</span>
+                Shutdown(sockfd, SHUT_WR);  <span style="color: #586e75;">/* </span><span style="color: #586e75;">send FIN ==&gt; half close </span><span style="color: #586e75;">*/</span>
                 FD_CLR(fileno(fp), &amp;rset);
-                <span style="color: #b48ead;">continue</span>;
+                <span style="color: #859900; font-weight: bold;">continue</span>;
             }
             Writen(sockfd, buf, n);
         }
@@ -1053,86 +1053,86 @@ input的到来更早些,所以我们把它作为一个flag
 为socket本质上是file). 使用了select的话,多进程(fork)就变得不必要了
 <div class="org-src-container">
 
-<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #d08770;">#include</span>  <span style="color: #a3be8c;">"unp.h"</span>
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #268bd2;">#include</span>  <span style="color: #2aa198;">"unp.h"</span>
 <span class="linenr"> 2: </span>
-<span class="linenr"> 3: </span><span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">main</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">argc</span>, <span style="color: #c0c5ce;">char</span> *<span style="color: #bf616a;">argv</span>[])
+<span class="linenr"> 3: </span><span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">argv</span>[])
 <span class="linenr"> 4: </span>{
-<span class="linenr"> 5: </span>    <span style="color: #c0c5ce;">int</span>         <span style="color: #bf616a;">i</span>, <span style="color: #bf616a;">maxi</span>, <span style="color: #bf616a;">maxfd</span>, <span style="color: #bf616a;">listenfd</span>, <span style="color: #bf616a;">connfd</span>, <span style="color: #bf616a;">sockfd</span>;
-<span class="linenr"> 6: </span>    <span style="color: #c0c5ce;">int</span>         <span style="color: #bf616a;">nready</span>, <span style="color: #bf616a;">client</span>[FD_SETSIZE];
-<span class="linenr"> 7: </span>    <span style="color: #c0c5ce;">ssize_t</span>     <span style="color: #bf616a;">n</span>;
-<span class="linenr"> 8: </span>    <span style="color: #c0c5ce;">fd_set</span>      <span style="color: #bf616a;">rset</span>, <span style="color: #bf616a;">allset</span>;
-<span class="linenr"> 9: </span>    <span style="color: #c0c5ce;">char</span>        <span style="color: #bf616a;">buf</span>[MAXLINE];
-<span class="linenr">10: </span>    <span style="color: #c0c5ce;">socklen_t</span>   <span style="color: #bf616a;">clilen</span>;
-<span class="linenr">11: </span>    <span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">sockaddr_in</span> <span style="color: #bf616a;">cliaddr</span>, <span style="color: #bf616a;">servaddr</span>;
+<span class="linenr"> 5: </span>    <span style="color: #b58900;">int</span>         <span style="color: #268bd2;">i</span>, <span style="color: #268bd2;">maxi</span>, <span style="color: #268bd2;">maxfd</span>, <span style="color: #268bd2;">listenfd</span>, <span style="color: #268bd2;">connfd</span>, <span style="color: #268bd2;">sockfd</span>;
+<span class="linenr"> 6: </span>    <span style="color: #b58900;">int</span>         <span style="color: #268bd2;">nready</span>, <span style="color: #268bd2;">client</span>[FD_SETSIZE];
+<span class="linenr"> 7: </span>    <span style="color: #b58900;">ssize_t</span>     <span style="color: #268bd2;">n</span>;
+<span class="linenr"> 8: </span>    <span style="color: #b58900;">fd_set</span>      <span style="color: #268bd2;">rset</span>, <span style="color: #268bd2;">allset</span>;
+<span class="linenr"> 9: </span>    <span style="color: #b58900;">char</span>        <span style="color: #268bd2;">buf</span>[MAXLINE];
+<span class="linenr">10: </span>    <span style="color: #b58900;">socklen_t</span>   <span style="color: #268bd2;">clilen</span>;
+<span class="linenr">11: </span>    <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">sockaddr_in</span> <span style="color: #268bd2;">cliaddr</span>, <span style="color: #268bd2;">servaddr</span>;
 <span class="linenr">12: </span>
 <span class="linenr">13: </span>    listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 <span class="linenr">14: </span>
-<span class="linenr">15: </span>    bzero(servaddr, <span style="color: #b48ead;">sizeof</span>(servaddr));
+<span class="linenr">15: </span>    bzero(servaddr, <span style="color: #859900; font-weight: bold;">sizeof</span>(servaddr));
 <span class="linenr">16: </span>    servaddr.sin_family = AF_INET;
 <span class="linenr">17: </span>    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
 <span class="linenr">18: </span>    servaddr.sin_port = htons(SERV_PORT);
 <span class="linenr">19: </span>
-<span class="linenr">20: </span>    Bind(listenfd, (<span style="color: #c0c5ce;">SA</span>*)&amp;servaddr, <span style="color: #b48ead;">sizeof</span>(servaddr));
+<span class="linenr">20: </span>    Bind(listenfd, (<span style="color: #b58900;">SA</span>*)&amp;servaddr, <span style="color: #859900; font-weight: bold;">sizeof</span>(servaddr));
 <span class="linenr">21: </span>
 <span class="linenr">22: </span>    Listen(listenfd, LISTENQ);
 <span class="linenr">23: </span>
-<span class="linenr">24: </span>    maxfd = listenfd;           <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">initialize </span><span style="color: #c0c5ce;">*/</span>
-<span class="linenr">25: </span>    maxi = -1;                  <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">index into client[] array </span><span style="color: #c0c5ce;">*/</span>
-<span class="linenr">26: </span>    <span style="color: #b48ead;">for</span> (i = 0; i &lt; FD_SETSIZE; i++) {
-<span class="linenr">27: </span>        client[i] = -1;         <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">-1 indicates available entry </span><span style="color: #c0c5ce;">*/</span>
+<span class="linenr">24: </span>    maxfd = listenfd;           <span style="color: #586e75;">/* </span><span style="color: #586e75;">initialize </span><span style="color: #586e75;">*/</span>
+<span class="linenr">25: </span>    maxi = -1;                  <span style="color: #586e75;">/* </span><span style="color: #586e75;">index into client[] array </span><span style="color: #586e75;">*/</span>
+<span class="linenr">26: </span>    <span style="color: #859900; font-weight: bold;">for</span> (i = 0; i &lt; FD_SETSIZE; i++) {
+<span class="linenr">27: </span>        client[i] = -1;         <span style="color: #586e75;">/* </span><span style="color: #586e75;">-1 indicates available entry </span><span style="color: #586e75;">*/</span>
 <span class="linenr">28: </span>    }
 <span class="linenr">29: </span>    FD_ZERO(&amp;allset);
 <span class="linenr">30: </span>    FD_SET(listenfd, &amp;allset);
 <span class="linenr">31: </span>
-<span class="linenr">32: </span>    <span style="color: #b48ead;">for</span> (; :) {
-<span class="linenr">33: </span>        rset = allset;         <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">structure assignment </span><span style="color: #c0c5ce;">*/</span>
-<span class="linenr">34: </span>        nready = Select(maxfd + 1, &amp;rset, <span style="color: #d08770;">NULL</span>, <span style="color: #d08770;">NULL</span>, <span style="color: #d08770;">NULL</span>);
+<span class="linenr">32: </span>    <span style="color: #859900; font-weight: bold;">for</span> (; :) {
+<span class="linenr">33: </span>        rset = allset;         <span style="color: #586e75;">/* </span><span style="color: #586e75;">structure assignment </span><span style="color: #586e75;">*/</span>
+<span class="linenr">34: </span>        nready = Select(maxfd + 1, &amp;rset, <span style="color: #268bd2; font-weight: bold;">NULL</span>, <span style="color: #268bd2; font-weight: bold;">NULL</span>, <span style="color: #268bd2; font-weight: bold;">NULL</span>);
 <span class="linenr">35: </span>
-<span class="linenr">36: </span>        <span style="color: #b48ead;">if</span> (FD_ISSET(listenfd, &amp;rset)) {  <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">new client connection </span><span style="color: #c0c5ce;">*/</span>
-<span class="linenr">37: </span>            clilen = <span style="color: #b48ead;">sizeof</span>(cliaddr);
-<span class="linenr">38: </span>            connfd = Accept(listenfd, (<span style="color: #c0c5ce;">SA</span>*)&amp;cliaddr, &amp;clilen);
+<span class="linenr">36: </span>        <span style="color: #859900; font-weight: bold;">if</span> (FD_ISSET(listenfd, &amp;rset)) {  <span style="color: #586e75;">/* </span><span style="color: #586e75;">new client connection </span><span style="color: #586e75;">*/</span>
+<span class="linenr">37: </span>            clilen = <span style="color: #859900; font-weight: bold;">sizeof</span>(cliaddr);
+<span class="linenr">38: </span>            connfd = Accept(listenfd, (<span style="color: #b58900;">SA</span>*)&amp;cliaddr, &amp;clilen);
 <span class="linenr">39: </span>
-<span class="linenr">40: </span>            <span style="color: #b48ead;">for</span> (i = 0; i &lt; FD_SETSIZE; i++) {
-<span class="linenr">41: </span>                <span style="color: #b48ead;">if</span> (client[i] &lt; 0) {
-<span class="linenr">42: </span>                    client[i] = connfd;  <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">save descriptor </span><span style="color: #c0c5ce;">*/</span>
-<span class="linenr">43: </span>                    <span style="color: #b48ead;">break</span>;
+<span class="linenr">40: </span>            <span style="color: #859900; font-weight: bold;">for</span> (i = 0; i &lt; FD_SETSIZE; i++) {
+<span class="linenr">41: </span>                <span style="color: #859900; font-weight: bold;">if</span> (client[i] &lt; 0) {
+<span class="linenr">42: </span>                    client[i] = connfd;  <span style="color: #586e75;">/* </span><span style="color: #586e75;">save descriptor </span><span style="color: #586e75;">*/</span>
+<span class="linenr">43: </span>                    <span style="color: #859900; font-weight: bold;">break</span>;
 <span class="linenr">44: </span>                }
 <span class="linenr">45: </span>            }
-<span class="linenr">46: </span>            <span style="color: #b48ead;">if</span> (i == FD_SETSIZE) {
-<span class="linenr">47: </span>                err_quit(<span style="color: #a3be8c;">"too many clients"</span>);
+<span class="linenr">46: </span>            <span style="color: #859900; font-weight: bold;">if</span> (i == FD_SETSIZE) {
+<span class="linenr">47: </span>                err_quit(<span style="color: #2aa198;">"too many clients"</span>);
 <span class="linenr">48: </span>            }
-<span class="linenr">49: </span>            FD_SET(connfd, &amp;allset);       <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">add new descriptor to set </span><span style="color: #c0c5ce;">*/</span>
+<span class="linenr">49: </span>            FD_SET(connfd, &amp;allset);       <span style="color: #586e75;">/* </span><span style="color: #586e75;">add new descriptor to set </span><span style="color: #586e75;">*/</span>
 <span class="linenr">50: </span>
-<span class="linenr">51: </span>            <span style="color: #b48ead;">if</span> (connfd &gt; maxfd) {
+<span class="linenr">51: </span>            <span style="color: #859900; font-weight: bold;">if</span> (connfd &gt; maxfd) {
 <span class="linenr">52: </span>                maxfd = connfd;
 <span class="linenr">53: </span>            }
-<span class="linenr">54: </span>            <span style="color: #b48ead;">if</span> (i &gt; maxi) {
+<span class="linenr">54: </span>            <span style="color: #859900; font-weight: bold;">if</span> (i &gt; maxi) {
 <span class="linenr">55: </span>                maxi = i;
 <span class="linenr">56: </span>            }
-<span class="linenr">57: </span>            <span style="color: #b48ead;">if</span> (--nready &lt;= 0) {
-<span class="linenr">58: </span>                <span style="color: #b48ead;">continue</span>;
+<span class="linenr">57: </span>            <span style="color: #859900; font-weight: bold;">if</span> (--nready &lt;= 0) {
+<span class="linenr">58: </span>                <span style="color: #859900; font-weight: bold;">continue</span>;
 <span class="linenr">59: </span>            }
 <span class="linenr">60: </span>        }
 <span class="linenr">61: </span>
-<span class="linenr">62: </span>        <span style="color: #b48ead;">for</span> (i = 0; i &lt;= maxi; i++) {
-<span class="linenr">63: </span>            <span style="color: #b48ead;">if</span> ((sockfd = client[i]) &lt; 0) {
-<span class="linenr">64: </span>                <span style="color: #b48ead;">continue</span>;
+<span class="linenr">62: </span>        <span style="color: #859900; font-weight: bold;">for</span> (i = 0; i &lt;= maxi; i++) {
+<span class="linenr">63: </span>            <span style="color: #859900; font-weight: bold;">if</span> ((sockfd = client[i]) &lt; 0) {
+<span class="linenr">64: </span>                <span style="color: #859900; font-weight: bold;">continue</span>;
 <span class="linenr">65: </span>            }
-<span class="linenr">66: </span>            <span style="color: #b48ead;">if</span> (FD_ISSET(sockfd, &amp;rset)) {
-<span class="linenr">67: </span>                <span style="color: #b48ead;">if</span> ((n = Read(sockfd, buf, MAXLINE)) == 0) {
-<span class="linenr">68: </span>                    <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">connection closed by client </span><span style="color: #c0c5ce;">*/</span>
+<span class="linenr">66: </span>            <span style="color: #859900; font-weight: bold;">if</span> (FD_ISSET(sockfd, &amp;rset)) {
+<span class="linenr">67: </span>                <span style="color: #859900; font-weight: bold;">if</span> ((n = Read(sockfd, buf, MAXLINE)) == 0) {
+<span class="linenr">68: </span>                    <span style="color: #586e75;">/* </span><span style="color: #586e75;">connection closed by client </span><span style="color: #586e75;">*/</span>
 <span class="linenr">69: </span>                    Close(sockfd);
-<span class="linenr">70: </span>                } <span style="color: #b48ead;">else</span> {
+<span class="linenr">70: </span>                } <span style="color: #859900; font-weight: bold;">else</span> {
 <span class="linenr">71: </span>                    Writen(sockfd, buf, n);
 <span class="linenr">72: </span>                }
 <span class="linenr">73: </span>
-<span class="linenr">74: </span>                <span style="color: #b48ead;">if</span> (--nready &lt;= 0) {
-<span class="linenr">75: </span>                    <span style="color: #b48ead;">break</span>;
+<span class="linenr">74: </span>                <span style="color: #859900; font-weight: bold;">if</span> (--nready &lt;= 0) {
+<span class="linenr">75: </span>                    <span style="color: #859900; font-weight: bold;">break</span>;
 <span class="linenr">76: </span>                }
 <span class="linenr">77: </span>            }
 <span class="linenr">78: </span>        }
 <span class="linenr">79: </span>    }
-<span class="linenr">80: </span>    <span style="color: #b48ead;">return</span> 0;
+<span class="linenr">80: </span>    <span style="color: #859900; font-weight: bold;">return</span> 0;
 <span class="linenr">81: </span>}
 </pre>
 </div>
@@ -1246,15 +1246,15 @@ huang住无法为其他client提供服务"&#x2013;&gt;这就叫做denial-of-serv
 <li>POSIX发明了一个pselect,很多Unix系统已经支持它了
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;sys/select.h&gt;</span>
-<span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;signal.h&gt;</span>
-<span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;time.h&gt;</span>
+<pre class="src src-c"><span style="color: #268bd2;">#include</span> <span style="color: #2aa198;">&lt;sys/select.h&gt;</span>
+<span style="color: #268bd2;">#include</span> <span style="color: #2aa198;">&lt;signal.h&gt;</span>
+<span style="color: #268bd2;">#include</span> <span style="color: #2aa198;">&lt;time.h&gt;</span>
 
-<span style="color: #c0c5ce;">/*****************************************************************/</span>
-<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">Returns: count of ready descriptor, 0 on timeout, -1 on error </span><span style="color: #c0c5ce;">*/</span>
-<span style="color: #c0c5ce;">/*****************************************************************/</span>
-<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">pselect</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">maxfdp1</span>, <span style="color: #c0c5ce;">fd_set</span>* <span style="color: #bf616a;">readset</span>, <span style="color: #c0c5ce;">fd_set</span>* <span style="color: #bf616a;">writeset</span>, <span style="color: #c0c5ce;">fd_set</span>* <span style="color: #bf616a;">exceptset</span>,
-            <span style="color: #b48ead;">const</span> <span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">timespec</span>* <span style="color: #bf616a;">timeout</span>, <span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">sigset_t</span> *<span style="color: #bf616a;">sgmask</span>);
+<span style="color: #586e75;">/*****************************************************************/</span>
+<span style="color: #586e75;">/* </span><span style="color: #586e75;">Returns: count of ready descriptor, 0 on timeout, -1 on error </span><span style="color: #586e75;">*/</span>
+<span style="color: #586e75;">/*****************************************************************/</span>
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">pselect</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">maxfdp1</span>, <span style="color: #b58900;">fd_set</span>* <span style="color: #268bd2;">readset</span>, <span style="color: #b58900;">fd_set</span>* <span style="color: #268bd2;">writeset</span>, <span style="color: #b58900;">fd_set</span>* <span style="color: #268bd2;">exceptset</span>,
+            <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">timespec</span>* <span style="color: #268bd2;">timeout</span>, <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">sigset_t</span> *<span style="color: #268bd2;">sgmask</span>);
 </pre>
 </div>
 </li>
@@ -1263,9 +1263,9 @@ huang住无法为其他client提供服务"&#x2013;&gt;这就叫做denial-of-serv
 <li>使用了timespec,而不是timeval, tv_usec是纳秒级别,更加精确
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">timespec</span> {
-    <span style="color: #c0c5ce;">time_t</span>   <span style="color: #bf616a;">tv_sec</span>;           <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">seconds </span><span style="color: #c0c5ce;">*/</span>
-    <span style="color: #c0c5ce;">long</span>     <span style="color: #bf616a;">tv_nsec</span>;          <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">nanoseconds </span><span style="color: #c0c5ce;">*/</span>
+<pre class="src src-c"><span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">timespec</span> {
+    <span style="color: #b58900;">time_t</span>   <span style="color: #268bd2;">tv_sec</span>;           <span style="color: #586e75;">/* </span><span style="color: #586e75;">seconds </span><span style="color: #586e75;">*/</span>
+    <span style="color: #b58900;">long</span>     <span style="color: #268bd2;">tv_nsec</span>;          <span style="color: #586e75;">/* </span><span style="color: #586e75;">nanoseconds </span><span style="color: #586e75;">*/</span>
 };
 </pre>
 </div>
@@ -1276,14 +1276,14 @@ block的时候,可能会有signal丢失,或者signal会打扰select的block:
 <li>想要既不丢失signal,又不打扰我们的select,就要用到sigprocmask:
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">&#22914;&#26524;oset&#19981;&#26159;NULL&#25351;&#38024;&#30340;&#35805;&#65292;&#24403;&#21069;&#30340;signal mask&#20250;&#20445;&#23384;&#21040;&#36825;&#37324;  </span><span style="color: #c0c5ce;">*/</span>
-<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">&#22914;&#26524;set&#19981;&#26159;NULL&#25351;&#38024;&#30340;&#35805;&#65292;&#31532;&#19968;&#20010;&#21442;&#25968;how&#20915;&#23450;&#20102;&#24590;&#20040;&#22788;&#29702;set&#25152;&#21253;&#21547;&#30340;signal mask&#30340;&#22788;&#29702;&#26041;&#24335;  </span><span style="color: #c0c5ce;">*/</span>
-<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">how&#20849;&#26377;&#19977;&#20010;&#20540;:  </span><span style="color: #c0c5ce;">*/</span>
-<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">SIG_BLOCK &#35774;&#32622;&#24403;&#21069;&#30340;signal mask&#20026;set&#21644;&#21407;&#26377;signal mask&#30340;&#24182;&#38598;  </span><span style="color: #c0c5ce;">*/</span>
-<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">SIG_UNBLOCK set&#26159;&#25105;&#20204;&#24819;&#20174;&#21407;&#26377;signal mask&#20013;unblock&#25481;&#30340;&#20449;&#21495;  </span><span style="color: #c0c5ce;">*/</span>
-<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">SIG_SETMASK &#29992;set&#26469;&#26367;&#25442;&#21407;&#26377;&#30340;signal mask. </span><span style="color: #c0c5ce;">*/</span>
+<pre class="src src-c"><span style="color: #586e75;">/* </span><span style="color: #586e75;">&#22914;&#26524;oset&#19981;&#26159;NULL&#25351;&#38024;&#30340;&#35805;&#65292;&#24403;&#21069;&#30340;signal mask&#20250;&#20445;&#23384;&#21040;&#36825;&#37324;  </span><span style="color: #586e75;">*/</span>
+<span style="color: #586e75;">/* </span><span style="color: #586e75;">&#22914;&#26524;set&#19981;&#26159;NULL&#25351;&#38024;&#30340;&#35805;&#65292;&#31532;&#19968;&#20010;&#21442;&#25968;how&#20915;&#23450;&#20102;&#24590;&#20040;&#22788;&#29702;set&#25152;&#21253;&#21547;&#30340;signal mask&#30340;&#22788;&#29702;&#26041;&#24335;  </span><span style="color: #586e75;">*/</span>
+<span style="color: #586e75;">/* </span><span style="color: #586e75;">how&#20849;&#26377;&#19977;&#20010;&#20540;:  </span><span style="color: #586e75;">*/</span>
+<span style="color: #586e75;">/* </span><span style="color: #586e75;">SIG_BLOCK &#35774;&#32622;&#24403;&#21069;&#30340;signal mask&#20026;set&#21644;&#21407;&#26377;signal mask&#30340;&#24182;&#38598;  </span><span style="color: #586e75;">*/</span>
+<span style="color: #586e75;">/* </span><span style="color: #586e75;">SIG_UNBLOCK set&#26159;&#25105;&#20204;&#24819;&#20174;&#21407;&#26377;signal mask&#20013;unblock&#25481;&#30340;&#20449;&#21495;  </span><span style="color: #586e75;">*/</span>
+<span style="color: #586e75;">/* </span><span style="color: #586e75;">SIG_SETMASK &#29992;set&#26469;&#26367;&#25442;&#21407;&#26377;&#30340;signal mask. </span><span style="color: #586e75;">*/</span>
 
-sigprocmask(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">how</span>, <span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">sigset_t</span> *<span style="color: #b48ead;">restrict</span> <span style="color: #bf616a;">set</span>, <span style="color: #c0c5ce;">sigset_t</span> * <span style="color: #b48ead;">restrict</span> <span style="color: #bf616a;">oset</span>)
+sigprocmask(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">how</span>, <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">sigset_t</span> *<span style="color: #859900; font-weight: bold;">restrict</span> <span style="color: #268bd2;">set</span>, <span style="color: #b58900;">sigset_t</span> * <span style="color: #859900; font-weight: bold;">restrict</span> <span style="color: #268bd2;">oset</span>)
 </pre>
 </div>
 </li>
@@ -1291,12 +1291,12 @@ sigprocmask(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a
 <div class="org-src-container">
 
 <pre class="src src-c">ready = pselect(nfds, &amp;readfds, &amp;writefds, timeout, &amp;sigmask);
-<span style="color: #c0c5ce;">/************************************************************************/</span>
-<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">Previous line equals following three lines(timeout maybe different): </span><span style="color: #c0c5ce;">*/</span>
-<span style="color: #c0c5ce;">/************************************************************************/</span>
+<span style="color: #586e75;">/************************************************************************/</span>
+<span style="color: #586e75;">/* </span><span style="color: #586e75;">Previous line equals following three lines(timeout maybe different): </span><span style="color: #586e75;">*/</span>
+<span style="color: #586e75;">/************************************************************************/</span>
 sigprocmask(SIG_SETMASK, &amp;sigmask, &amp;origmask);
 ready = select(nfds, &amp;readfds, &amp;writefds, &amp;exceptfds, new_timeout);
-sigprocmask(SIG_SETMASK, &amp;origmask, <span style="color: #d08770;">NULL</span>);
+sigprocmask(SIG_SETMASK, &amp;origmask, <span style="color: #268bd2; font-weight: bold;">NULL</span>);
 </pre>
 </div>
 </li>
@@ -1317,22 +1317,22 @@ sigprocmask(SIG_SETMASK, &amp;origmask, <span style="color: #d08770;">NULL</span
 所淘汰), 以及没有FD_SETSIZE的限制
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;poll.h&gt;</span>
+<pre class="src src-c"><span style="color: #268bd2;">#include</span> <span style="color: #2aa198;">&lt;poll.h&gt;</span>
 
-<span style="color: #c0c5ce;">/******************************************************************/</span>
-<span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">Returns: count of ready descriptors, 0 on timeout, -1 on error </span><span style="color: #c0c5ce;">*/</span>
-<span style="color: #c0c5ce;">/******************************************************************/</span>
-<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">poll</span>(<span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">pollfd</span> *<span style="color: #bf616a;">fdarray</span>, <span style="color: #c0c5ce;">unsigned</span> <span style="color: #c0c5ce;">long</span> <span style="color: #bf616a;">nfds</span>, <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">timeout</span>);
+<span style="color: #586e75;">/******************************************************************/</span>
+<span style="color: #586e75;">/* </span><span style="color: #586e75;">Returns: count of ready descriptors, 0 on timeout, -1 on error </span><span style="color: #586e75;">*/</span>
+<span style="color: #586e75;">/******************************************************************/</span>
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">poll</span>(<span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">pollfd</span> *<span style="color: #268bd2;">fdarray</span>, <span style="color: #b58900;">unsigned</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">nfds</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">timeout</span>);
 </pre>
 </div>
 </li>
 <li>pollfd是一个新的自定义类型,集合了某一fd的所有condition
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">pollfd</span> {
-    <span style="color: #c0c5ce;">int</span>      <span style="color: #bf616a;">fd</span>;        <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">descriptor to check </span><span style="color: #c0c5ce;">*/</span>
-    <span style="color: #c0c5ce;">short</span>    <span style="color: #bf616a;">events</span>;    <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">events of interest on fd </span><span style="color: #c0c5ce;">*/</span>
-    <span style="color: #c0c5ce;">sthort</span>   <span style="color: #bf616a;">revents</span>;   <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">events that occurred on fd </span><span style="color: #c0c5ce;">*/</span>
+<pre class="src src-c"><span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">pollfd</span> {
+    <span style="color: #b58900;">int</span>      <span style="color: #268bd2;">fd</span>;        <span style="color: #586e75;">/* </span><span style="color: #586e75;">descriptor to check </span><span style="color: #586e75;">*/</span>
+    <span style="color: #b58900;">short</span>    <span style="color: #268bd2;">events</span>;    <span style="color: #586e75;">/* </span><span style="color: #586e75;">events of interest on fd </span><span style="color: #586e75;">*/</span>
+    <span style="color: #b58900;">sthort</span>   <span style="color: #268bd2;">revents</span>;   <span style="color: #586e75;">/* </span><span style="color: #586e75;">events that occurred on fd </span><span style="color: #586e75;">*/</span>
 };
 </pre>
 </div>
@@ -1522,87 +1522,87 @@ heap上面),当然不太大的时候,还是可以放到stack上面.
 其实现思路和select版本相似.
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #d08770;">#include</span>   <span style="color: #a3be8c;">"unp.h"</span>
-<span style="color: #d08770;">#include</span>   <span style="color: #a3be8c;">&lt;limits.h&gt;</span>          <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">for OPEN_MAX </span><span style="color: #c0c5ce;">*/</span>
+<pre class="src src-c"><span style="color: #268bd2;">#include</span>   <span style="color: #2aa198;">"unp.h"</span>
+<span style="color: #268bd2;">#include</span>   <span style="color: #2aa198;">&lt;limits.h&gt;</span>          <span style="color: #586e75;">/* </span><span style="color: #586e75;">for OPEN_MAX </span><span style="color: #586e75;">*/</span>
 
-<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">main</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">argc</span>, <span style="color: #c0c5ce;">char</span> *<span style="color: #bf616a;">argv</span>[])
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">argv</span>[])
 {
-    <span style="color: #c0c5ce;">int</span>       <span style="color: #bf616a;">i</span>, <span style="color: #bf616a;">maxi</span>, <span style="color: #bf616a;">listenfd</span>, <span style="color: #bf616a;">connfd</span>, <span style="color: #bf616a;">sockfd</span>;
-    <span style="color: #c0c5ce;">int</span>       <span style="color: #bf616a;">nready</span>;
-    <span style="color: #c0c5ce;">ssize_t</span>   <span style="color: #bf616a;">n</span>;
-    <span style="color: #c0c5ce;">char</span>      <span style="color: #bf616a;">buf</span>[MAXLINE];
-    <span style="color: #c0c5ce;">socklen_t</span> <span style="color: #bf616a;">clilen</span>;
-    <span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">pollfd</span> <span style="color: #bf616a;">client</span>[OPEN_MAX];
-    <span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">sockaddr_in</span> <span style="color: #bf616a;">cliaddr</span>, <span style="color: #bf616a;">servaddr</span>;
+    <span style="color: #b58900;">int</span>       <span style="color: #268bd2;">i</span>, <span style="color: #268bd2;">maxi</span>, <span style="color: #268bd2;">listenfd</span>, <span style="color: #268bd2;">connfd</span>, <span style="color: #268bd2;">sockfd</span>;
+    <span style="color: #b58900;">int</span>       <span style="color: #268bd2;">nready</span>;
+    <span style="color: #b58900;">ssize_t</span>   <span style="color: #268bd2;">n</span>;
+    <span style="color: #b58900;">char</span>      <span style="color: #268bd2;">buf</span>[MAXLINE];
+    <span style="color: #b58900;">socklen_t</span> <span style="color: #268bd2;">clilen</span>;
+    <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">pollfd</span> <span style="color: #268bd2;">client</span>[OPEN_MAX];
+    <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">sockaddr_in</span> <span style="color: #268bd2;">cliaddr</span>, <span style="color: #268bd2;">servaddr</span>;
 
     listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 
-    bzero(&amp;servaddr, <span style="color: #b48ead;">sizeof</span>(servaddr));
+    bzero(&amp;servaddr, <span style="color: #859900; font-weight: bold;">sizeof</span>(servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = htol(INADDR_ANY);
     servaddr.sin_port = htons(SERV_PORT);
 
-    Bind(listenfd, (<span style="color: #c0c5ce;">SA</span>*) &amp;servaddr. <span style="color: #b48ead;">sizeof</span>(servaddr));
+    Bind(listenfd, (<span style="color: #b58900;">SA</span>*) &amp;servaddr. <span style="color: #859900; font-weight: bold;">sizeof</span>(servaddr));
 
     Listen(listenfd, LISTENQ);
 
     client[0].fd = listenfd;
     client[0].events = POLLRDNORM;
-    <span style="color: #b48ead;">for</span> (i = 1; i &lt; OPEN_MAX; i++) {
+    <span style="color: #859900; font-weight: bold;">for</span> (i = 1; i &lt; OPEN_MAX; i++) {
         client[i].fd = -1;
     }
     maxi = 0;
-    <span style="color: #b48ead;">for</span> (; ;) {
+    <span style="color: #859900; font-weight: bold;">for</span> (; ;) {
         nready = Poll(client, maxi + 1, INFTIM);
-        <span style="color: #b48ead;">if</span> (client[0].revents &amp; POLLRDNORM) { <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">new client connection </span><span style="color: #c0c5ce;">*/</span>
-            clilen = <span style="color: #b48ead;">sizeof</span>(cliaddr);
-            connfd = Accept(listenfd, (<span style="color: #c0c5ce;">SA</span>*)&amp;cliaddr, &amp;clilen);
+        <span style="color: #859900; font-weight: bold;">if</span> (client[0].revents &amp; POLLRDNORM) { <span style="color: #586e75;">/* </span><span style="color: #586e75;">new client connection </span><span style="color: #586e75;">*/</span>
+            clilen = <span style="color: #859900; font-weight: bold;">sizeof</span>(cliaddr);
+            connfd = Accept(listenfd, (<span style="color: #b58900;">SA</span>*)&amp;cliaddr, &amp;clilen);
 
-            <span style="color: #b48ead;">for</span> (i = 1; i &lt; OPEN_MAX; i++) {
-                <span style="color: #b48ead;">if</span> (client[i].fd &lt; 0) {
-                    client[i].fd = connfd;  <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">save descriptor </span><span style="color: #c0c5ce;">*/</span>
-                    <span style="color: #b48ead;">break</span>;
+            <span style="color: #859900; font-weight: bold;">for</span> (i = 1; i &lt; OPEN_MAX; i++) {
+                <span style="color: #859900; font-weight: bold;">if</span> (client[i].fd &lt; 0) {
+                    client[i].fd = connfd;  <span style="color: #586e75;">/* </span><span style="color: #586e75;">save descriptor </span><span style="color: #586e75;">*/</span>
+                    <span style="color: #859900; font-weight: bold;">break</span>;
                 }
             }
-            <span style="color: #b48ead;">if</span> (i == OPEN_MAX) {
-                err_quit(<span style="color: #a3be8c;">"too many clients"</span>);
+            <span style="color: #859900; font-weight: bold;">if</span> (i == OPEN_MAX) {
+                err_quit(<span style="color: #2aa198;">"too many clients"</span>);
             }
             client[i].events = POLLRDNORM;
 
-            <span style="color: #b48ead;">if</span> (i &gt; maxi) {
+            <span style="color: #859900; font-weight: bold;">if</span> (i &gt; maxi) {
                 maxi = i;
             }
 
-            <span style="color: #b48ead;">if</span> (--nready &lt;= 0) {
-                <span style="color: #b48ead;">continue</span>;
+            <span style="color: #859900; font-weight: bold;">if</span> (--nready &lt;= 0) {
+                <span style="color: #859900; font-weight: bold;">continue</span>;
             }
         }
     }
 
-    <span style="color: #b48ead;">for</span> (i = 1; i &lt;= maxi; i++) {    <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">check all clients for data </span><span style="color: #c0c5ce;">*/</span>
-        <span style="color: #b48ead;">if</span> ((sockfd = client[i].fd) &lt; 0) {
-            <span style="color: #b48ead;">continue</span>;
+    <span style="color: #859900; font-weight: bold;">for</span> (i = 1; i &lt;= maxi; i++) {    <span style="color: #586e75;">/* </span><span style="color: #586e75;">check all clients for data </span><span style="color: #586e75;">*/</span>
+        <span style="color: #859900; font-weight: bold;">if</span> ((sockfd = client[i].fd) &lt; 0) {
+            <span style="color: #859900; font-weight: bold;">continue</span>;
         }
-        <span style="color: #b48ead;">if</span> (client[i].revents &amp; (POLLRDNORM | POLLERR)) {
-            <span style="color: #b48ead;">if</span> ((n = read(sokfd, buf, MAXLINE)) &lt; 0) {
-                <span style="color: #b48ead;">if</span> (errno == ECONNERESET) {
-                    <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">connection reset by client </span><span style="color: #c0c5ce;">*/</span>
+        <span style="color: #859900; font-weight: bold;">if</span> (client[i].revents &amp; (POLLRDNORM | POLLERR)) {
+            <span style="color: #859900; font-weight: bold;">if</span> ((n = read(sokfd, buf, MAXLINE)) &lt; 0) {
+                <span style="color: #859900; font-weight: bold;">if</span> (errno == ECONNERESET) {
+                    <span style="color: #586e75;">/* </span><span style="color: #586e75;">connection reset by client </span><span style="color: #586e75;">*/</span>
                     Close(sockf);
                     client[i].fd = -1;
-                } <span style="color: #b48ead;">else</span> <span style="color: #b48ead;">if</span> (n == 0) {
-                    <span style="color: #c0c5ce;">/* </span><span style="color: #65737e;">connection close by client </span><span style="color: #c0c5ce;">*/</span>
+                } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (n == 0) {
+                    <span style="color: #586e75;">/* </span><span style="color: #586e75;">connection close by client </span><span style="color: #586e75;">*/</span>
                     Close(sockfd);
                     client[i].fd = -1;
-                } <span style="color: #b48ead;">else</span> {
+                } <span style="color: #859900; font-weight: bold;">else</span> {
                     Writen(sockfd, buf, n);
                 }
-                <span style="color: #b48ead;">if</span> (--nready &lt;= 0) {
-                    <span style="color: #b48ead;">break</span>;
+                <span style="color: #859900; font-weight: bold;">if</span> (--nready &lt;= 0) {
+                    <span style="color: #859900; font-weight: bold;">break</span>;
                 }
             }
         }
     }
-    <span style="color: #b48ead;">return</span> 0;
+    <span style="color: #859900; font-weight: bold;">return</span> 0;
 }
 </pre>
 </div>

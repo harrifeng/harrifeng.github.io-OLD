@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode: Merge K Sorted Lists</title>
-<!-- 2014-02-18 Tue 22:47 -->
+<!-- 2014-03-08 Sat 17:49 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -204,49 +204,49 @@ Sample Output: {1, 2, 3, 4, 5, 6, 7}
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #c0c5ce;">/**</span>
-<span style="color: #65737e;"> * Definition for singly-linked list.</span>
-<span style="color: #65737e;"> * struct ListNode {</span>
-<span style="color: #65737e;"> *     int val;</span>
-<span style="color: #65737e;"> *     ListNode *next;</span>
-<span style="color: #65737e;"> *     ListNode(int x) : val(x), next(NULL) {}</span>
-<span style="color: #65737e;"> * };</span>
-<span style="color: #65737e;"> */</span>
-<span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Solution</span> {
-    <span style="color: #c0c5ce;">ListNode</span>* <span style="color: #8fa1b3;">mergeTwoLists</span>(<span style="color: #c0c5ce;">ListNode</span>* <span style="color: #bf616a;">lista</span>, <span style="color: #c0c5ce;">ListNode</span>* <span style="color: #bf616a;">listb</span>) {
-        <span style="color: #b48ead;">if</span> (lista == <span style="color: #d08770;">NULL</span>) {
-            <span style="color: #b48ead;">return</span> listb;
+<pre class="src src-c++"><span style="color: #586e75;">/**</span>
+<span style="color: #586e75;"> * Definition for singly-linked list.</span>
+<span style="color: #586e75;"> * struct ListNode {</span>
+<span style="color: #586e75;"> *     int val;</span>
+<span style="color: #586e75;"> *     ListNode *next;</span>
+<span style="color: #586e75;"> *     ListNode(int x) : val(x), next(NULL) {}</span>
+<span style="color: #586e75;"> * };</span>
+<span style="color: #586e75;"> */</span>
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
+    <span style="color: #b58900;">ListNode</span>* <span style="color: #268bd2;">mergeTwoLists</span>(<span style="color: #b58900;">ListNode</span>* <span style="color: #268bd2;">lista</span>, <span style="color: #b58900;">ListNode</span>* <span style="color: #268bd2;">listb</span>) {
+        <span style="color: #859900; font-weight: bold;">if</span> (lista == <span style="color: #268bd2; font-weight: bold;">NULL</span>) {
+            <span style="color: #859900; font-weight: bold;">return</span> listb;
         }
-        <span style="color: #b48ead;">if</span> (listb == <span style="color: #d08770;">NULL</span>) {
-            <span style="color: #b48ead;">return</span> lista;
+        <span style="color: #859900; font-weight: bold;">if</span> (listb == <span style="color: #268bd2; font-weight: bold;">NULL</span>) {
+            <span style="color: #859900; font-weight: bold;">return</span> lista;
         }
-        <span style="color: #c0c5ce;">ListNode</span>* <span style="color: #bf616a;">head</span> = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">ListNode</span>(INT_MIN);
-        <span style="color: #c0c5ce;">ListNode</span>* <span style="color: #bf616a;">ret</span> = head;
+        <span style="color: #b58900;">ListNode</span>* <span style="color: #268bd2;">head</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ListNode</span>(INT_MIN);
+        <span style="color: #b58900;">ListNode</span>* <span style="color: #268bd2;">ret</span> = head;
 
-        <span style="color: #b48ead;">while</span> (lista || listb) {
-            <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">va</span> = (lista != <span style="color: #d08770;">NULL</span>) ? lista-&gt;val : INT_MAX;
-            <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">vb</span> = (listb != <span style="color: #d08770;">NULL</span>) ? listb-&gt;val : INT_MAX;
-            <span style="color: #b48ead;">if</span> (va &lt; vb) {
+        <span style="color: #859900; font-weight: bold;">while</span> (lista || listb) {
+            <span style="color: #b58900;">int</span> <span style="color: #268bd2;">va</span> = (lista != <span style="color: #268bd2; font-weight: bold;">NULL</span>) ? lista-&gt;val : INT_MAX;
+            <span style="color: #b58900;">int</span> <span style="color: #268bd2;">vb</span> = (listb != <span style="color: #268bd2; font-weight: bold;">NULL</span>) ? listb-&gt;val : INT_MAX;
+            <span style="color: #859900; font-weight: bold;">if</span> (va &lt; vb) {
                 head -&gt; next = lista;
                 lista = lista-&gt;next;
                 head = head-&gt;next;
-            } <span style="color: #b48ead;">else</span> {
+            } <span style="color: #859900; font-weight: bold;">else</span> {
                 head-&gt;next = listb;
                 listb = listb-&gt;next;
                 head = head-&gt;next;
             }
         }
-        <span style="color: #b48ead;">delete</span> ret;
-        <span style="color: #b48ead;">return</span> ret-&gt;next;
+        <span style="color: #859900; font-weight: bold;">delete</span> ret;
+        <span style="color: #859900; font-weight: bold;">return</span> ret-&gt;next;
     }
-<span style="color: #b48ead;">public</span>:
-    <span style="color: #c0c5ce;">ListNode</span> *<span style="color: #8fa1b3;">mergeKLists</span>(<span style="color: #c0c5ce;">vector</span>&lt;<span style="color: #c0c5ce;">ListNode</span> *&gt; &amp;<span style="color: #bf616a;">lists</span>) {
-        <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">len</span> = lists.size();
-        <span style="color: #c0c5ce;">ListNode</span>* <span style="color: #bf616a;">ret</span>  = <span style="color: #d08770;">NULL</span>;
-        <span style="color: #b48ead;">for</span> (<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">i</span> = 0; i &lt; len; i++) {
-            ret = mergeTwoLists(ret, <span style="color: #c0c5ce;">lists</span>[i]);
+<span style="color: #859900; font-weight: bold;">public</span>:
+    <span style="color: #b58900;">ListNode</span> *<span style="color: #268bd2;">mergeKLists</span>(<span style="color: #b58900;">vector</span>&lt;<span style="color: #b58900;">ListNode</span> *&gt; &amp;<span style="color: #268bd2;">lists</span>) {
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">len</span> = lists.size();
+        <span style="color: #b58900;">ListNode</span>* <span style="color: #268bd2;">ret</span>  = <span style="color: #268bd2; font-weight: bold;">NULL</span>;
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; len; i++) {
+            ret = mergeTwoLists(ret, <span style="color: #b58900;">lists</span>[i]);
         }
-        <span style="color: #b48ead;">return</span> ret;
+        <span style="color: #859900; font-weight: bold;">return</span> ret;
     }
 };
 </pre>

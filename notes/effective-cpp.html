@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Effective C++</title>
-<!-- 2014-02-18 Tue 22:47 -->
+<!-- 2014-03-08 Sat 17:47 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -263,9 +263,9 @@ pass-by-reference-const.
 出了错误,你也就不知道在哪里去改
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #d08770;">#define</span> <span style="color: #bf616a;">ASPECT_RATIO</span> 1.653
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">Better Option</span>
-<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">double</span> <span style="color: #bf616a;">AspectRation</span> = 1.653
+<pre class="src src-c++"><span style="color: #268bd2;">#define</span> <span style="color: #268bd2;">ASPECT_RATIO</span> 1.653
+<span style="color: #586e75;">// </span><span style="color: #586e75;">Better Option</span>
+<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">double</span> <span style="color: #268bd2;">AspectRation</span> = 1.653
 </pre>
 </div>
 </li>
@@ -273,17 +273,17 @@ pass-by-reference-const.
 只需要分配一次
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #d08770;">#define</span> <span style="color: #bf616a;">STRING</span> <span style="color: #a3be8c;">"abcdefg\n"</span>
+<pre class="src src-c++"><span style="color: #268bd2;">#define</span> <span style="color: #268bd2;">STRING</span> <span style="color: #2aa198;">"abcdefg\n"</span>
 
-<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">char</span> <span style="color: #bf616a;">string</span>[] = <span style="color: #a3be8c;">"abcdefg"</span>;
+<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">char</span> <span style="color: #268bd2;">string</span>[] = <span style="color: #2aa198;">"abcdefg"</span>;
 
-printf(STRING); <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">Allocate memory for STRING</span>
+printf(STRING); <span style="color: #586e75;">// </span><span style="color: #586e75;">Allocate memory for STRING</span>
 
-printf(string); <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">Allocate memory for string, for the first and last time.</span>
+printf(string); <span style="color: #586e75;">// </span><span style="color: #586e75;">Allocate memory for string, for the first and last time.</span>
 
-<span style="color: #c0c5ce;">//</span><span style="color: #65737e;">....</span>
-printf(STRING); <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">Allocate memory for STRING again</span>
-printf(string); <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">No allocate memory here</span>
+<span style="color: #586e75;">//</span><span style="color: #586e75;">....</span>
+printf(STRING); <span style="color: #586e75;">// </span><span style="color: #586e75;">Allocate memory for STRING again</span>
+printf(string); <span style="color: #586e75;">// </span><span style="color: #586e75;">No allocate memory here</span>
 </pre>
 </div>
 </li>
@@ -293,11 +293,11 @@ printf(string); <span style="color: #c0c5ce;">// </span><span style="color: #657
 <li>#define实现宏函数, 问题非常多, 有时候加再多的括号也没办法解决:
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #d08770;">#define</span> <span style="color: #8fa1b3;">CALL_WITH_MAX</span>(<span style="color: #bf616a;">a</span>, <span style="color: #bf616a;">b</span>) f((a) &gt; (b)) ? (a) : (b)
-<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">a</span> = 5, <span style="color: #bf616a;">b</span> = 0;
+<pre class="src src-c++"><span style="color: #268bd2;">#define</span> <span style="color: #268bd2;">CALL_WITH_MAX</span>(<span style="color: #268bd2;">a</span>, <span style="color: #268bd2;">b</span>) f((a) &gt; (b)) ? (a) : (b)
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">a</span> = 5, <span style="color: #268bd2;">b</span> = 0;
 
-CALL_WITH_MAX(++a, b);  <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">a is incremented twice</span>
-CALL_WITH_MAX(++a, b);  <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">a is incremented once</span>
+CALL_WITH_MAX(++a, b);  <span style="color: #586e75;">// </span><span style="color: #586e75;">a is incremented twice</span>
+CALL_WITH_MAX(++a, b);  <span style="color: #586e75;">// </span><span style="color: #586e75;">a is incremented once</span>
 </pre>
 </div>
 </li>
@@ -320,25 +320,25 @@ CALL_WITH_MAX(++a, b);  <span style="color: #c0c5ce;">// </span><span style="col
 </ul>
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #c0c5ce;">char</span> <span style="color: #bf616a;">greeting</span>[] = <span style="color: #a3be8c;">"Hello"</span>;
-<span style="color: #c0c5ce;">char</span> *<span style="color: #bf616a;">p</span> = greeting;              <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">non-const pointer, non-const data</span>
+<pre class="src src-c++"><span style="color: #b58900;">char</span> <span style="color: #268bd2;">greeting</span>[] = <span style="color: #2aa198;">"Hello"</span>;
+<span style="color: #b58900;">char</span> *<span style="color: #268bd2;">p</span> = greeting;              <span style="color: #586e75;">//</span><span style="color: #586e75;">non-const pointer, non-const data</span>
 
-<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">char</span> *<span style="color: #bf616a;">p</span> = greeting;        <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">non-const pointer, const data</span>
-<span style="color: #c0c5ce;">char</span> <span style="color: #b48ead;">const</span> *<span style="color: #bf616a;">p</span> = greeting;        <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">same as above</span>
+<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">p</span> = greeting;        <span style="color: #586e75;">//</span><span style="color: #586e75;">non-const pointer, const data</span>
+<span style="color: #b58900;">char</span> <span style="color: #859900; font-weight: bold;">const</span> *<span style="color: #268bd2;">p</span> = greeting;        <span style="color: #586e75;">//</span><span style="color: #586e75;">same as above</span>
 
-<span style="color: #c0c5ce;">char</span> * <span style="color: #b48ead;">const</span> <span style="color: #bf616a;">p</span> = greeting;       <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">const pointer, non-const data</span>
+<span style="color: #b58900;">char</span> * <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">p</span> = greeting;       <span style="color: #586e75;">//</span><span style="color: #586e75;">const pointer, non-const data</span>
 
-<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">char</span> * <span style="color: #b48ead;">const</span> <span style="color: #bf616a;">p</span> = greeting; <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">const pointer, const data</span>
+<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">char</span> * <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">p</span> = greeting; <span style="color: #586e75;">//</span><span style="color: #586e75;">const pointer, const data</span>
 </pre>
 </div>
 </li>
 <li>const在STL里面的应用如下:
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #d08770;">std</span>::<span style="color: #c0c5ce;">vector</span>&lt;<span style="color: #c0c5ce;">int</span>&gt; <span style="color: #bf616a;">vec</span>;
-<span style="color: #b48ead;">const</span> <span style="color: #d08770;">std</span>::<span style="color: #d08770;">vector</span>&lt;<span style="color: #c0c5ce;">int</span>&gt;::<span style="color: #c0c5ce;">iterator</span> <span style="color: #bf616a;">iter</span> = vec.begin(); <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">iter acts like a T* const</span>
+<pre class="src src-c++"><span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #b58900;">vector</span>&lt;<span style="color: #b58900;">int</span>&gt; <span style="color: #268bd2;">vec</span>;
+<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #268bd2; font-weight: bold;">vector</span>&lt;<span style="color: #b58900;">int</span>&gt;::<span style="color: #b58900;">iterator</span> <span style="color: #268bd2;">iter</span> = vec.begin(); <span style="color: #586e75;">// </span><span style="color: #586e75;">iter acts like a T* const</span>
 
-<span style="color: #d08770;">std</span>:<span style="color: #d08770;">vector</span>&lt;<span style="color: #c0c5ce;">int</span>&gt;::<span style="color: #c0c5ce;">const_iterator</span> <span style="color: #bf616a;">cIter</span> = vec.begin(); <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">cIter acts like a const T*</span>
+<span style="color: #268bd2; font-weight: bold;">std</span>:<span style="color: #268bd2; font-weight: bold;">vector</span>&lt;<span style="color: #b58900;">int</span>&gt;::<span style="color: #b58900;">const_iterator</span> <span style="color: #268bd2;">cIter</span> = vec.begin(); <span style="color: #586e75;">// </span><span style="color: #586e75;">cIter acts like a const T*</span>
 </pre>
 </div>
 </li>
@@ -346,18 +346,18 @@ CALL_WITH_MAX(++a, b);  <span style="color: #c0c5ce;">// </span><span style="col
 函数operator[]的返回值为const, 那么x[const成员变量]的结果就无法被赋值.
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">TextBlock</span>
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">TextBlock</span>
 {
-<span style="color: #b48ead;">public</span>:
-    <span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">char</span>&amp; <span style="color: #b48ead;">operator</span><span style="color: #8fa1b3;">[]</span>(<span style="color: #d08770;">std</span>::<span style="color: #c0c5ce;">size_t</span> <span style="color: #bf616a;">position</span>) <span style="color: #b48ead;">const</span> {  <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">operator[] for</span>
-        <span style="color: #b48ead;">return</span> text[position];                            <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">const object</span>
+<span style="color: #859900; font-weight: bold;">public</span>:
+    <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">char</span>&amp; <span style="color: #859900; font-weight: bold;">operator</span><span style="color: #268bd2;">[]</span>(<span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #b58900;">size_t</span> <span style="color: #268bd2;">position</span>) <span style="color: #859900; font-weight: bold;">const</span> {  <span style="color: #586e75;">//</span><span style="color: #586e75;">operator[] for</span>
+        <span style="color: #859900; font-weight: bold;">return</span> text[position];                            <span style="color: #586e75;">//</span><span style="color: #586e75;">const object</span>
     }
 
-    <span style="color: #c0c5ce;">char</span>&amp; <span style="color: #b48ead;">operator</span><span style="color: #8fa1b3;">[]</span>(<span style="color: #d08770;">std</span>::<span style="color: #c0c5ce;">size_t</span> <span style="color: #bf616a;">position</span>) {              <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">operator[] for</span>
-        <span style="color: #b48ead;">return</span> text[position];                            <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">non-const object</span>
+    <span style="color: #b58900;">char</span>&amp; <span style="color: #859900; font-weight: bold;">operator</span><span style="color: #268bd2;">[]</span>(<span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #b58900;">size_t</span> <span style="color: #268bd2;">position</span>) {              <span style="color: #586e75;">//</span><span style="color: #586e75;">operator[] for</span>
+        <span style="color: #859900; font-weight: bold;">return</span> text[position];                            <span style="color: #586e75;">// </span><span style="color: #586e75;">non-const object</span>
     }
-<span style="color: #b48ead;">private</span>:
-    <span style="color: #d08770;">std</span>::<span style="color: #c0c5ce;">string</span> <span style="color: #bf616a;">text</span>;
+<span style="color: #859900; font-weight: bold;">private</span>:
+    <span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #b58900;">string</span> <span style="color: #268bd2;">text</span>;
 };
 </pre>
 </div>
@@ -456,8 +456,8 @@ c++中给他们了一个类型叫做"抽象基类(abstract base class)", 想让�
 语法比较不常见
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Base</span> {
-    <span style="color: #b48ead;">virtual</span>  <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">pure_virtual_example</span>() = 0;
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Base</span> {
+    <span style="color: #859900; font-weight: bold;">virtual</span>  <span style="color: #b58900;">void</span> <span style="color: #268bd2;">pure_virtual_example</span>() = 0;
 };
 </pre>
 </div>
@@ -467,38 +467,38 @@ c++中给他们了一个类型叫做"抽象基类(abstract base class)", 想让�
 需要注意的是,纯虚dtor需要一个定义
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;iostream&gt;</span>
-<span style="color: #b48ead;">using</span> <span style="color: #b48ead;">namespace</span> <span style="color: #d08770;">std</span>;
+<pre class="src src-c++"><span style="color: #268bd2;">#include</span> <span style="color: #2aa198;">&lt;iostream&gt;</span>
+<span style="color: #859900; font-weight: bold;">using</span> <span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #268bd2; font-weight: bold;">std</span>;
 
-<span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Base</span>
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Base</span>
 {
-<span style="color: #b48ead;">public</span>:
-    <span style="color: #8fa1b3;">Base</span>() {
-        cout &lt;&lt; <span style="color: #a3be8c;">"Base Ctor"</span> &lt;&lt; endl;
+<span style="color: #859900; font-weight: bold;">public</span>:
+    <span style="color: #268bd2;">Base</span>() {
+        cout &lt;&lt; <span style="color: #2aa198;">"Base Ctor"</span> &lt;&lt; endl;
     }
-    <span style="color: #b48ead;">virtual</span> ~<span style="color: #8fa1b3;">Base</span>() = 0;
-    <span style="color: #b48ead;">virtual</span> <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">speak</span>() = 0;
+    <span style="color: #859900; font-weight: bold;">virtual</span> ~<span style="color: #268bd2;">Base</span>() = 0;
+    <span style="color: #859900; font-weight: bold;">virtual</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">speak</span>() = 0;
 };
-<span style="color: #d08770;">Base</span>::~<span style="color: #8fa1b3;">Base</span>() {
-    cout &lt;&lt; <span style="color: #a3be8c;">"Pure Virtual Dtor Need One Difinition!"</span> &lt;&lt; endl;
+<span style="color: #268bd2; font-weight: bold;">Base</span>::~<span style="color: #268bd2;">Base</span>() {
+    cout &lt;&lt; <span style="color: #2aa198;">"Pure Virtual Dtor Need One Difinition!"</span> &lt;&lt; endl;
 }
 
-<span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">De</span> : <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">Base</span> {
-<span style="color: #b48ead;">public</span>:
-    <span style="color: #8fa1b3;">De</span>() {
-        cout &lt;&lt; <span style="color: #a3be8c;">"De Ctor"</span> &lt;&lt; endl;
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">De</span> : <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Base</span> {
+<span style="color: #859900; font-weight: bold;">public</span>:
+    <span style="color: #268bd2;">De</span>() {
+        cout &lt;&lt; <span style="color: #2aa198;">"De Ctor"</span> &lt;&lt; endl;
     }
-    <span style="color: #b48ead;">virtual</span> ~<span style="color: #8fa1b3;">De</span>() {
-        cout &lt;&lt; <span style="color: #a3be8c;">"De Dtor"</span> &lt;&lt; endl;
+    <span style="color: #859900; font-weight: bold;">virtual</span> ~<span style="color: #268bd2;">De</span>() {
+        cout &lt;&lt; <span style="color: #2aa198;">"De Dtor"</span> &lt;&lt; endl;
     }
-    <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">speak</span>() {}
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">speak</span>() {}
 };
 
-<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">main</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">argc</span>, <span style="color: #c0c5ce;">char</span> *<span style="color: #bf616a;">argv</span>[])
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">argv</span>[])
 {
-    <span style="color: #c0c5ce;">De</span> *<span style="color: #bf616a;">dd</span> = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">De</span>();
-    <span style="color: #b48ead;">delete</span> dd;
-    <span style="color: #b48ead;">return</span> 0;
+    <span style="color: #b58900;">De</span> *<span style="color: #268bd2;">dd</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">De</span>();
+    <span style="color: #859900; font-weight: bold;">delete</span> dd;
+    <span style="color: #859900; font-weight: bold;">return</span> 0;
 }
 </pre>
 </div>
@@ -539,7 +539,7 @@ c++中给他们了一个类型叫做"抽象基类(abstract base class)", 想让�
 <div class="org-src-container">
 
 <pre class="src src-c++">x = y = z = 15;
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">Following is the real order by default</span>
+<span style="color: #586e75;">// </span><span style="color: #586e75;">Following is the real order by default</span>
 x = (y = (z=15));
 </pre>
 </div>
@@ -547,11 +547,11 @@ x = (y = (z=15));
 <li>为了实现赋值连锁, 赋值操作符函数必须返回一个reference指向操作符的左侧实参
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Widget</span> {
-<span style="color: #b48ead;">public</span>:
-    <span style="color: #c0c5ce;">Widget</span>&amp; <span style="color: #b48ead;">operator</span><span style="color: #8fa1b3;">=</span>(<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Widget</span>&amp; <span style="color: #bf616a;">rhs</span>) {
-        <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">...</span>
-        <span style="color: #b48ead;">return</span> *<span style="color: #b48ead;">this</span>;
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Widget</span> {
+<span style="color: #859900; font-weight: bold;">public</span>:
+    <span style="color: #b58900;">Widget</span>&amp; <span style="color: #859900; font-weight: bold;">operator</span><span style="color: #268bd2;">=</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Widget</span>&amp; <span style="color: #268bd2;">rhs</span>) {
+        <span style="color: #586e75;">// </span><span style="color: #586e75;">...</span>
+        <span style="color: #859900; font-weight: bold;">return</span> *<span style="color: #859900; font-weight: bold;">this</span>;
     }
 };
 </pre>
@@ -569,20 +569,20 @@ x = (y = (z=15));
 能出现问题:
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Bitmap</span> {
-<span style="color: #c0c5ce;">//</span><span style="color: #65737e;">..</span>
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Bitmap</span> {
+<span style="color: #586e75;">//</span><span style="color: #586e75;">..</span>
 };
 
-<span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Widget</span> {
-<span style="color: #b48ead;">private</span>:
-    <span style="color: #c0c5ce;">Bitmap</span>* <span style="color: #bf616a;">pb</span>;
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Widget</span> {
+<span style="color: #859900; font-weight: bold;">private</span>:
+    <span style="color: #b58900;">Bitmap</span>* <span style="color: #268bd2;">pb</span>;
 };
 
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">Wrong Version!! what about if rhs is this</span>
-<span style="color: #c0c5ce;">Widget</span>&amp; <span style="color: #d08770;">Widget</span>::<span style="color: #b48ead;">operator</span><span style="color: #8fa1b3;">=</span>(<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Widget</span>&amp; <span style="color: #bf616a;">rhs</span>) {
-    <span style="color: #b48ead;">delete</span> pb;
-    pb = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">Bitmap</span>(*rhs.pb);
-    <span style="color: #b48ead;">return</span> *<span style="color: #b48ead;">this</span>;
+<span style="color: #586e75;">// </span><span style="color: #586e75;">Wrong Version!! what about if rhs is this</span>
+<span style="color: #b58900;">Widget</span>&amp; <span style="color: #268bd2; font-weight: bold;">Widget</span>::<span style="color: #859900; font-weight: bold;">operator</span><span style="color: #268bd2;">=</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Widget</span>&amp; <span style="color: #268bd2;">rhs</span>) {
+    <span style="color: #859900; font-weight: bold;">delete</span> pb;
+    pb = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Bitmap</span>(*rhs.pb);
+    <span style="color: #859900; font-weight: bold;">return</span> *<span style="color: #859900; font-weight: bold;">this</span>;
 }
 </pre>
 </div>
@@ -590,11 +590,11 @@ x = (y = (z=15));
 <li>破解"自我赋值"难题的方法是"证同测试(identity test)"
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #c0c5ce;">Widget</span>&amp; <span style="color: #d08770;">Widget</span>::<span style="color: #b48ead;">operator</span><span style="color: #8fa1b3;">=</span>(<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Widget</span>&amp; <span style="color: #bf616a;">rhs</span>) {
-    <span style="color: #b48ead;">if</span> (<span style="color: #b48ead;">this</span> == &amp;rhs) <span style="color: #b48ead;">return</span> *<span style="color: #b48ead;">this</span>; <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">identity test</span>
-    <span style="color: #b48ead;">delete</span> pb;
-    pb = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">Bitmap</span>(*rhs.pb);
-    <span style="color: #b48ead;">return</span> *<span style="color: #b48ead;">this</span>;
+<pre class="src src-c++"><span style="color: #b58900;">Widget</span>&amp; <span style="color: #268bd2; font-weight: bold;">Widget</span>::<span style="color: #859900; font-weight: bold;">operator</span><span style="color: #268bd2;">=</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Widget</span>&amp; <span style="color: #268bd2;">rhs</span>) {
+    <span style="color: #859900; font-weight: bold;">if</span> (<span style="color: #859900; font-weight: bold;">this</span> == &amp;rhs) <span style="color: #859900; font-weight: bold;">return</span> *<span style="color: #859900; font-weight: bold;">this</span>; <span style="color: #586e75;">// </span><span style="color: #586e75;">identity test</span>
+    <span style="color: #859900; font-weight: bold;">delete</span> pb;
+    pb = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Bitmap</span>(*rhs.pb);
+    <span style="color: #859900; font-weight: bold;">return</span> *<span style="color: #859900; font-weight: bold;">this</span>;
 }
 </pre>
 </div>
@@ -604,12 +604,12 @@ x = (y = (z=15));
 Bitmap之后再删除这个指针
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Widget</span> {
-    <span style="color: #c0c5ce;">Bitmap</span>* <span style="color: #bf616a;">pOrig</span> = pb; <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">remember previous pb</span>
-    <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">if exception here, the next line delete pOrig will not execute</span>
-    pb = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">Bitmap</span>(*rhs.pb);
-    <span style="color: #b48ead;">delete</span> pOrig;
-    <span style="color: #b48ead;">return</span> *<span style="color: #b48ead;">this</span>;
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Widget</span> {
+    <span style="color: #b58900;">Bitmap</span>* <span style="color: #268bd2;">pOrig</span> = pb; <span style="color: #586e75;">// </span><span style="color: #586e75;">remember previous pb</span>
+    <span style="color: #586e75;">// </span><span style="color: #586e75;">if exception here, the next line delete pOrig will not execute</span>
+    pb = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Bitmap</span>(*rhs.pb);
+    <span style="color: #859900; font-weight: bold;">delete</span> pOrig;
+    <span style="color: #859900; font-weight: bold;">return</span> *<span style="color: #859900; font-weight: bold;">this</span>;
 }
 </pre>
 </div>
@@ -628,24 +628,24 @@ copy assignment, 我们称之为copying函数
 <li>copying函数应该确保赋值"对象内部所有的成员变量", 和 "所有base class成员"
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Customer</span> {
-    <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">...</span>
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Customer</span> {
+    <span style="color: #586e75;">//</span><span style="color: #586e75;">...</span>
 };
 
-<span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">PriorityCustomer</span> : <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">Customer</span> {
-<span style="color: #b48ead;">public</span>:
-    <span style="color: #8fa1b3;">PriorityCustomer</span>(<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">PriorityCustomer</span>&amp; <span style="color: #bf616a;">rhs</span>);
-    <span style="color: #c0c5ce;">PriorityCustomer</span>&amp; <span style="color: #b48ead;">operator</span><span style="color: #8fa1b3;">=</span>(<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">PriorityCustomer</span>&amp; <span style="color: #bf616a;">rhs</span>);
-<span style="color: #b48ead;">private</span>:
-    <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">priority</span>;
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">PriorityCustomer</span> : <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Customer</span> {
+<span style="color: #859900; font-weight: bold;">public</span>:
+    <span style="color: #268bd2;">PriorityCustomer</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">PriorityCustomer</span>&amp; <span style="color: #268bd2;">rhs</span>);
+    <span style="color: #b58900;">PriorityCustomer</span>&amp; <span style="color: #859900; font-weight: bold;">operator</span><span style="color: #268bd2;">=</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">PriorityCustomer</span>&amp; <span style="color: #268bd2;">rhs</span>);
+<span style="color: #859900; font-weight: bold;">private</span>:
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">priority</span>;
 };
 
-<span style="color: #d08770;">PriorityCustomer</span>::<span style="color: #8fa1b3;">PriorityCustomer</span>(<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">PriorityCustomer</span>&amp; <span style="color: #bf616a;">rhs</span>)
+<span style="color: #268bd2; font-weight: bold;">PriorityCustomer</span>::<span style="color: #268bd2;">PriorityCustomer</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">PriorityCustomer</span>&amp; <span style="color: #268bd2;">rhs</span>)
     : Customer(rhs), priority(rhs.priority) {}
-<span style="color: #c0c5ce;">PriorityCustomer</span>&amp; <span style="color: #d08770;">PriorityCustomer</span>::<span style="color: #b48ead;">operator</span><span style="color: #8fa1b3;">=</span>(<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">PriorityCustomer</span>&amp; <span style="color: #bf616a;">rhs</span>) {
-    <span style="color: #d08770;">Customer</span>::<span style="color: #b48ead;">operator</span>=(rhs);
+<span style="color: #b58900;">PriorityCustomer</span>&amp; <span style="color: #268bd2; font-weight: bold;">PriorityCustomer</span>::<span style="color: #859900; font-weight: bold;">operator</span><span style="color: #268bd2;">=</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">PriorityCustomer</span>&amp; <span style="color: #268bd2;">rhs</span>) {
+    <span style="color: #268bd2; font-weight: bold;">Customer</span>::<span style="color: #859900; font-weight: bold;">operator</span>=(rhs);
     priority = rhs.priority;
-    <span style="color: #b48ead;">return</span> *<span style="color: #b48ead;">this</span>;
+    <span style="color: #859900; font-weight: bold;">return</span> *<span style="color: #859900; font-weight: bold;">this</span>;
 }
 </pre>
 </div>
@@ -670,8 +670,8 @@ copy assignment, 我们称之为copying函数
 <li>假设我们有一个投资的类如下:
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Investment</span> {
-    <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">...</span>
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Investment</span> {
+    <span style="color: #586e75;">//</span><span style="color: #586e75;">...</span>
 };
 </pre>
 </div>
@@ -679,8 +679,8 @@ copy assignment, 我们称之为copying函数
 <li>我们通过工厂模式来返回某个Investment对象
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #c0c5ce;">// </span><span style="color: #65737e;">&#36820;&#22238;&#25351;&#38024;,&#25351;&#21521;&#21160;&#24577;&#20998;&#37197;&#30340;&#20869;&#23384;(&#23384;&#20648;Investment&#23545;&#35937;),</span>
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">&#35843;&#29992;&#32773;&#26377;&#36131;&#20219;&#37322;&#25918;&#20182;&#20204;</span>
+<pre class="src src-c++"><span style="color: #586e75;">// </span><span style="color: #586e75;">&#36820;&#22238;&#25351;&#38024;,&#25351;&#21521;&#21160;&#24577;&#20998;&#37197;&#30340;&#20869;&#23384;(&#23384;&#20648;Investment&#23545;&#35937;),</span>
+<span style="color: #586e75;">// </span><span style="color: #586e75;">&#35843;&#29992;&#32773;&#26377;&#36131;&#20219;&#37322;&#25918;&#20182;&#20204;</span>
 Investment* createInvestment();
 </pre>
 </div>
@@ -688,10 +688,10 @@ Investment* createInvestment();
 <li>使用使用工厂模式返回的对象,我们可以用一下代码来释放它.
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">f</span>() {
-    <span style="color: #c0c5ce;">Investment</span>* <span style="color: #bf616a;">pInv</span> = createInvestment();
-    <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">...</span>
-    <span style="color: #b48ead;">delete</span> pInv;
+<pre class="src src-c++"><span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {
+    <span style="color: #b58900;">Investment</span>* <span style="color: #268bd2;">pInv</span> = createInvestment();
+    <span style="color: #586e75;">//</span><span style="color: #586e75;">...</span>
+    <span style="color: #859900; font-weight: bold;">delete</span> pInv;
 }
 </pre>
 </div>
@@ -708,10 +708,10 @@ Investment* createInvestment();
 <li>为了应对这种情况,c++设计了auto_ptr来管理资源
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">f</span>() {
-    <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">&#20250;&#22312;&#23545;&#35937;&#31163;&#24320;&#20316;&#29992;&#22495;&#30340;&#26102;&#20505;, &#33258;&#21160;&#35843;&#29992;&#26512;&#26500;&#20989;&#25968;&#20445;&#35777;&#36164;&#28304;&#37322;&#25918;</span>
-    <span style="color: #d08770;">std</span>::<span style="color: #c0c5ce;">auto_ptr</span>&lt;Investment&gt; <span style="color: #bf616a;">pInv</span>(<span style="color: #c0c5ce;">createInvestment</span>());
-    <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">...</span>
+<pre class="src src-c++"><span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {
+    <span style="color: #586e75;">//</span><span style="color: #586e75;">&#20250;&#22312;&#23545;&#35937;&#31163;&#24320;&#20316;&#29992;&#22495;&#30340;&#26102;&#20505;, &#33258;&#21160;&#35843;&#29992;&#26512;&#26500;&#20989;&#25968;&#20445;&#35777;&#36164;&#28304;&#37322;&#25918;</span>
+    <span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #b58900;">auto_ptr</span>&lt;Investment&gt; <span style="color: #268bd2;">pInv</span>(<span style="color: #b58900;">createInvestment</span>());
+    <span style="color: #586e75;">//</span><span style="color: #586e75;">...</span>
 }
 </pre>
 </div>
@@ -729,11 +729,11 @@ Investment* createInvestment();
 就把资源唯一的代理权给新的指针,自己变成null
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #c0c5ce;">// </span><span style="color: #65737e;">pInv1&#25351;&#21521;createInvestment&#30340;&#36820;&#22238;&#20540;</span>
-<span style="color: #d08770;">std</span>::<span style="color: #c0c5ce;">auto_ptr</span>&lt;Investment&gt; <span style="color: #8fa1b3;">pInv1</span>(<span style="color: #c0c5ce;">createInvestment</span>());
-<span style="color: #c0c5ce;">//</span><span style="color: #65737e;">&#29616;&#22312;pInv2&#25351;&#21521;&#23545;&#35937;, pInv1&#20026;null</span>
-<span style="color: #d08770;">std</span>::<span style="color: #c0c5ce;">auto_ptr</span>&lt;Investment&gt; <span style="color: #8fa1b3;">pInv2</span>(pInv1);
-<span style="color: #c0c5ce;">//</span><span style="color: #65737e;">&#29616;&#22312;pInv1&#25351;&#21521;&#23545;&#35937;, pInv2&#20026;null</span>
+<pre class="src src-c++"><span style="color: #586e75;">// </span><span style="color: #586e75;">pInv1&#25351;&#21521;createInvestment&#30340;&#36820;&#22238;&#20540;</span>
+<span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #b58900;">auto_ptr</span>&lt;Investment&gt; <span style="color: #268bd2;">pInv1</span>(<span style="color: #b58900;">createInvestment</span>());
+<span style="color: #586e75;">//</span><span style="color: #586e75;">&#29616;&#22312;pInv2&#25351;&#21521;&#23545;&#35937;, pInv1&#20026;null</span>
+<span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #b58900;">auto_ptr</span>&lt;Investment&gt; <span style="color: #268bd2;">pInv2</span>(pInv1);
+<span style="color: #586e75;">//</span><span style="color: #586e75;">&#29616;&#22312;pInv1&#25351;&#21521;&#23545;&#35937;, pInv2&#20026;null</span>
 pInv1 = pInv2
 </pre>
 </div>
@@ -752,9 +752,9 @@ pInv1 = pInv2
 都是错误的
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #c0c5ce;">// </span><span style="color: #65737e;">&#39306;&#20027;&#24847;,&#20250;&#29992;&#38169;&#35823;&#30340;delete&#24418;&#24335;</span>
-<span style="color: #d08770;">std</span>::<span style="color: #c0c5ce;">auto_ptr</span>&lt;<span style="color: #d08770;">std</span>::string&gt; <span style="color: #8fa1b3;">aps</span>(<span style="color: #b48ead;">new</span> <span style="color: #d08770;">std</span>::<span style="color: #c0c5ce;">string</span>[10]);
-<span style="color: #d08770;">std</span>::<span style="color: #d08770;">tr1</span>::<span style="color: #c0c5ce;">shared_ptr</span>&lt;<span style="color: #c0c5ce;">int</span>&gt; <span style="color: #8fa1b3;">spi</span>(<span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">int</span>[1024]);
+<pre class="src src-c++"><span style="color: #586e75;">// </span><span style="color: #586e75;">&#39306;&#20027;&#24847;,&#20250;&#29992;&#38169;&#35823;&#30340;delete&#24418;&#24335;</span>
+<span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #b58900;">auto_ptr</span>&lt;<span style="color: #268bd2; font-weight: bold;">std</span>::string&gt; <span style="color: #268bd2;">aps</span>(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #b58900;">string</span>[10]);
+<span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #268bd2; font-weight: bold;">tr1</span>::<span style="color: #b58900;">shared_ptr</span>&lt;<span style="color: #b58900;">int</span>&gt; <span style="color: #268bd2;">spi</span>(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">int</span>[1024]);
 </pre>
 </div>
 </li>
@@ -789,12 +789,12 @@ createInvestment的借口
 <li>显示转换, 智能指针提供的get函数
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #d08770;">std</span>::<span style="color: #d08770;">tr1</span>::<span style="color: #c0c5ce;">shared_ptr</span>&lt;Investment&gt; <span style="color: #8fa1b3;">pInv</span>(<span style="color: #c0c5ce;">createInvestment</span>());
+<pre class="src src-c++"><span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #268bd2; font-weight: bold;">tr1</span>::<span style="color: #b58900;">shared_ptr</span>&lt;Investment&gt; <span style="color: #268bd2;">pInv</span>(<span style="color: #b58900;">createInvestment</span>());
 
-<span style="color: #c0c5ce;">//</span><span style="color: #65737e;">declare</span>
-<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">dayHeld</span>(<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Investment</span>* <span style="color: #bf616a;">pi</span>);
-<span style="color: #c0c5ce;">//</span><span style="color: #65737e;">usage</span>
-<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">days</span> = dayHeld(pInv.get());
+<span style="color: #586e75;">//</span><span style="color: #586e75;">declare</span>
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">dayHeld</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Investment</span>* <span style="color: #268bd2;">pi</span>);
+<span style="color: #586e75;">//</span><span style="color: #586e75;">usage</span>
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">days</span> = dayHeld(pInv.get());
 </pre>
 </div>
 </li>
@@ -815,13 +815,13 @@ createInvestment的借口
 <li>如果typedef使用了的话, 那么delete的时候,要注意,不要被typedef的类型蒙蔽
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">typedef</span> <span style="color: #d08770;">std</span>::<span style="color: #c0c5ce;">string</span> <span style="color: #c0c5ce;">AddressLine</span>[4];
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">new Addressline&#36820;&#22238;&#19968;&#20010;new string[4]</span>
-<span style="color: #d08770;">std</span>::<span style="color: #c0c5ce;">string</span>* <span style="color: #bf616a;">pal</span> = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">AddressLine</span>;
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">typedef</span> <span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #b58900;">string</span> <span style="color: #b58900;">AddressLine</span>[4];
+<span style="color: #586e75;">// </span><span style="color: #586e75;">new Addressline&#36820;&#22238;&#19968;&#20010;new string[4]</span>
+<span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #b58900;">string</span>* <span style="color: #268bd2;">pal</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">AddressLine</span>;
 
-<span style="color: #c0c5ce;">//</span><span style="color: #65737e;">...</span>
-<span style="color: #b48ead;">delete</span> pal; <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">Not defined</span>
-<span style="color: #b48ead;">delete</span> []pal; <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">Good</span>
+<span style="color: #586e75;">//</span><span style="color: #586e75;">...</span>
+<span style="color: #859900; font-weight: bold;">delete</span> pal; <span style="color: #586e75;">//</span><span style="color: #586e75;">Not defined</span>
+<span style="color: #859900; font-weight: bold;">delete</span> []pal; <span style="color: #586e75;">//</span><span style="color: #586e75;">Good</span>
 </pre>
 </div>
 </li>
@@ -841,13 +841,13 @@ createInvestment的借口
 priority()的返回值作为priority的值. 某个new Widget的临时指针作为pw的值:
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">priority</span>();
+<pre class="src src-c++"><span style="color: #b58900;">int</span> <span style="color: #268bd2;">priority</span>();
 
-<span style="color: #c0c5ce;">//</span><span style="color: #65737e;">declaration for the function</span>
-<span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">processWidget</span>(<span style="color: #d08770;">std</span>::<span style="color: #d08770;">tr1</span>::<span style="color: #c0c5ce;">shared_ptr</span>&lt;Widget&gt;, <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">priority</span>);
+<span style="color: #586e75;">//</span><span style="color: #586e75;">declaration for the function</span>
+<span style="color: #b58900;">void</span> <span style="color: #268bd2;">processWidget</span>(<span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #268bd2; font-weight: bold;">tr1</span>::<span style="color: #b58900;">shared_ptr</span>&lt;Widget&gt;, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">priority</span>);
 
-<span style="color: #c0c5ce;">//</span><span style="color: #65737e;">usage fo the function</span>
-processWidget(<span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">Widget</span>, priority());
+<span style="color: #586e75;">//</span><span style="color: #586e75;">usage fo the function</span>
+processWidget(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Widget</span>, priority());
 </pre>
 </div>
 </li>
@@ -856,7 +856,7 @@ processWidget(<span style="color: #b48ead;">new</span> <span style="color: #c0c5
 转换的, 显示转换然后调用的代码如下
 <div class="org-src-container">
 
-<pre class="src src-c++">processWidget(<span style="color: #d08770;">std</span>::<span style="color: #d08770;">tr1</span>::<span style="color: #c0c5ce;">shared_ptr</span>&lt;Widget&gt;(<span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">Widget</span>), priority());
+<pre class="src src-c++">processWidget(<span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #268bd2; font-weight: bold;">tr1</span>::<span style="color: #b58900;">shared_ptr</span>&lt;Widget&gt;(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Widget</span>), priority());
 </pre>
 </div>
 </li>
@@ -888,7 +888,7 @@ processWidget(<span style="color: #b48ead;">new</span> <span style="color: #c0c5
 <li>解决的方法也很简单:使用分离的语句1,创建Widget. 2,讲Widget放入智能指针内部
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #d08770;">std</span>::<span style="color: #d08770;">tr1</span>::<span style="color: #c0c5ce;">shared_ptr</span>&lt;Widget&gt; <span style="color: #8fa1b3;">pw</span>(<span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">Widget</span>);
+<pre class="src src-c++"><span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #268bd2; font-weight: bold;">tr1</span>::<span style="color: #b58900;">shared_ptr</span>&lt;Widget&gt; <span style="color: #268bd2;">pw</span>(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Widget</span>);
 
 processWidget(pw, priority());
 </pre>
@@ -977,8 +977,8 @@ type的pass-by-value如何实现)
 <li>说到返回值,在c++中是可以返回一个对象的.方法入下,其实这就是最正常的写法
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">inline</span> <span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Rational</span> <span style="color: #b48ead;">operator</span><span style="color: #8fa1b3;">*</span>(<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Rational</span>&amp; <span style="color: #bf616a;">lhs</span>, <span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Rational</span>&amp; <span style="color: #bf616a;">rhs</span>) {
-    <span style="color: #b48ead;">return</span> Rational(lhs.n * rhs.n, lhs.d * rhs.d);
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">inline</span> <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Rational</span> <span style="color: #859900; font-weight: bold;">operator</span><span style="color: #268bd2;">*</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Rational</span>&amp; <span style="color: #268bd2;">lhs</span>, <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Rational</span>&amp; <span style="color: #268bd2;">rhs</span>) {
+    <span style="color: #859900; font-weight: bold;">return</span> Rational(lhs.n * rhs.n, lhs.d * rhs.d);
 }
 </pre>
 </div>
@@ -989,11 +989,11 @@ type的pass-by-value如何实现)
 已经销毁的,不存在的"实体"的reference是非常可怕的
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Rational</span>&amp; <span style="color: #b48ead;">operator</span><span style="color: #8fa1b3;">*</span> (<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Rational</span>&amp; <span style="color: #bf616a;">lhs</span>,
-                           <span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Rational</span>&amp; <span style="color: #bf616a;">rhs</span>) {
-    <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">&#35686;&#21578;!&#31967;&#31957;&#30340;&#20195;&#30721;!!</span>
-    <span style="color: #c0c5ce;">Rational</span> <span style="color: #bf616a;">result</span>(lhs.n * rhs.n, lhs.d * rhs.d);
-    <span style="color: #b48ead;">return</span> result;
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Rational</span>&amp; <span style="color: #859900; font-weight: bold;">operator</span><span style="color: #268bd2;">*</span> (<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Rational</span>&amp; <span style="color: #268bd2;">lhs</span>,
+                           <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Rational</span>&amp; <span style="color: #268bd2;">rhs</span>) {
+    <span style="color: #586e75;">//</span><span style="color: #586e75;">&#35686;&#21578;!&#31967;&#31957;&#30340;&#20195;&#30721;!!</span>
+    <span style="color: #b58900;">Rational</span> <span style="color: #268bd2;">result</span>(lhs.n * rhs.n, lhs.d * rhs.d);
+    <span style="color: #859900; font-weight: bold;">return</span> result;
 }
 </pre>
 </div>
@@ -1001,10 +1001,10 @@ type的pass-by-value如何实现)
 <li>我们稍微改变一下,在heap里面创建一个对象,然后返回,例子如下.
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Rational</span>&amp; <span style="color: #b48ead;">operator</span><span style="color: #8fa1b3;">*</span> (<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Rational</span>&amp; <span style="color: #bf616a;">lhs</span>,
-                           <span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Rational</span>&amp; <span style="color: #bf616a;">rhs</span>) {
-    <span style="color: #c0c5ce;">Rational</span>* <span style="color: #bf616a;">result</span> = <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">Rational</span>(lhs.n * rhs.n, lhs.d * rhs.d*);
-    <span style="color: #b48ead;">return</span> *result;
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Rational</span>&amp; <span style="color: #859900; font-weight: bold;">operator</span><span style="color: #268bd2;">*</span> (<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Rational</span>&amp; <span style="color: #268bd2;">lhs</span>,
+                           <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Rational</span>&amp; <span style="color: #268bd2;">rhs</span>) {
+    <span style="color: #b58900;">Rational</span>* <span style="color: #268bd2;">result</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Rational</span>(lhs.n * rhs.n, lhs.d * rhs.d*);
+    <span style="color: #859900; font-weight: bold;">return</span> *result;
 }
 </pre>
 </div>
@@ -1015,7 +1015,7 @@ type的pass-by-value如何实现)
 回的references背后隐藏的那个指针.
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #c0c5ce;">Rational</span> <span style="color: #bf616a;">w</span>, <span style="color: #bf616a;">x</span>, <span style="color: #bf616a;">y</span>, <span style="color: #bf616a;">z</span>;
+<pre class="src src-c++"><span style="color: #b58900;">Rational</span> <span style="color: #268bd2;">w</span>, <span style="color: #268bd2;">x</span>, <span style="color: #268bd2;">y</span>, <span style="color: #268bd2;">z</span>;
 w = x * y *z;
 </pre>
 </div>
@@ -1056,11 +1056,11 @@ w = x * y *z;
 可以用一个non-member, non-friend函数代替,这样就是增加了class的封装性
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">WebBrowser</span>{
-    <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">clearCache</span>();
-    <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">clearHistory</span>();
-    <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">removeCookies</span>();
-    <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">clearBrowser</span>() {
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">WebBrowser</span>{
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">clearCache</span>();
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">clearHistory</span>();
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">removeCookies</span>();
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">clearBrowser</span>() {
         clearCache();
         clearHistory();
         removeCookies();
@@ -1073,13 +1073,13 @@ w = x * y *z;
 c++常用的方法
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">namespace</span> <span style="color: #d08770;">WebBrowserStuff</span>{
-    <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">WebBrowser</span>{
-        <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">clearCache</span>();
-        <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">clearHistory</span>();
-        <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">removeCookies</span>();
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #268bd2; font-weight: bold;">WebBrowserStuff</span>{
+    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">WebBrowser</span>{
+        <span style="color: #b58900;">void</span> <span style="color: #268bd2;">clearCache</span>();
+        <span style="color: #b58900;">void</span> <span style="color: #268bd2;">clearHistory</span>();
+        <span style="color: #b58900;">void</span> <span style="color: #268bd2;">removeCookies</span>();
     };
-    <span style="color: #c0c5ce;">void</span>  <span style="color: #8fa1b3;">clearBrowser</span>(<span style="color: #c0c5ce;">WebBrowser</span>&amp; <span style="color: #bf616a;">wb</span>){
+    <span style="color: #b58900;">void</span>  <span style="color: #268bd2;">clearBrowser</span>(<span style="color: #b58900;">WebBrowser</span>&amp; <span style="color: #268bd2;">wb</span>){
         wb.clearCache();
         wb.clearHistory();
         wb.removeCookies();
@@ -1106,11 +1106,11 @@ c++常用的方法
 <li>错误的operator* 实现
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Rational</span> {
-<span style="color: #d08770;">pulic</span>:
-    <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">...</span>
-    <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">NOT work for result = 2 * oneHalf</span>
-    <span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Rational</span> <span style="color: #b48ead;">operator</span><span style="color: #8fa1b3;">*</span>(<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Rational</span>&amp; <span style="color: #bf616a;">rhs</span>) <span style="color: #b48ead;">const</span>;
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Rational</span> {
+<span style="color: #268bd2; font-weight: bold;">pulic</span>:
+    <span style="color: #586e75;">//</span><span style="color: #586e75;">...</span>
+    <span style="color: #586e75;">// </span><span style="color: #586e75;">NOT work for result = 2 * oneHalf</span>
+    <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Rational</span> <span style="color: #859900; font-weight: bold;">operator</span><span style="color: #268bd2;">*</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Rational</span>&amp; <span style="color: #268bd2;">rhs</span>) <span style="color: #859900; font-weight: bold;">const</span>;
 };
 </pre>
 </div>
@@ -1119,13 +1119,13 @@ c++常用的方法
 private值,而不是设计成有元函数
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Rational</span> {
-    <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">...</span>
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Rational</span> {
+    <span style="color: #586e75;">//</span><span style="color: #586e75;">...</span>
 };
 
-<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Rational</span> <span style="color: #b48ead;">operator</span><span style="color: #8fa1b3;">*</span>(lhs.numberator() * rhs.numberator(),
+<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Rational</span> <span style="color: #859900; font-weight: bold;">operator</span><span style="color: #268bd2;">*</span>(lhs.numberator() * rhs.numberator(),
                          lhs.denominator() * rhs.denominator()) {
-    <span style="color: #b48ead;">return</span> Rational(lhs.numberator() * rhs.numberator(),
+    <span style="color: #859900; font-weight: bold;">return</span> Rational(lhs.numberator() * rhs.numberator(),
                     lhs.denominator() * rhs.denominator());
 }
 </pre>
@@ -1149,18 +1149,18 @@ classes(而不是templates), 也请特化std::swap
 源于编译器对namespace的名字查找时, 遵循的一系列规则
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Widget</span> {
-<span style="color: #b48ead;">public</span>:
-    <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">...</span>
-    <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">swap</span>(<span style="color: #c0c5ce;">Widget</span>&amp; <span style="color: #bf616a;">other</span>) {
-        <span style="color: #b48ead;">using</span> <span style="color: #d08770;">std</span>::<span style="color: #c0c5ce;">swap</span>;
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Widget</span> {
+<span style="color: #859900; font-weight: bold;">public</span>:
+    <span style="color: #586e75;">//</span><span style="color: #586e75;">...</span>
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">swap</span>(<span style="color: #b58900;">Widget</span>&amp; <span style="color: #268bd2;">other</span>) {
+        <span style="color: #859900; font-weight: bold;">using</span> <span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #b58900;">swap</span>;
         swap(pImpl, other.pImpl);
     }
-    <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">...</span>
+    <span style="color: #586e75;">//</span><span style="color: #586e75;">...</span>
 };
-<span style="color: #b48ead;">namespace</span> <span style="color: #d08770;">std</span> {
-    <span style="color: #b48ead;">template</span>&lt;&gt;
-    <span style="color: #c0c5ce;">void</span> <span style="color: #c0c5ce;">swap</span>&lt;<span style="color: #c0c5ce;">Widget</span>&gt;(<span style="color: #c0c5ce;">Widget</span>&amp; <span style="color: #bf616a;">a</span>, <span style="color: #c0c5ce;">Widget</span>&amp; <span style="color: #bf616a;">b</span>) {
+<span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #268bd2; font-weight: bold;">std</span> {
+    <span style="color: #859900; font-weight: bold;">template</span>&lt;&gt;
+    <span style="color: #b58900;">void</span> <span style="color: #b58900;">swap</span>&lt;<span style="color: #b58900;">Widget</span>&gt;(<span style="color: #b58900;">Widget</span>&amp; <span style="color: #268bd2;">a</span>, <span style="color: #b58900;">Widget</span>&amp; <span style="color: #268bd2;">b</span>) {
         a.swap(b);
     }
 }
@@ -1194,18 +1194,18 @@ function开始的地方, 即便是C89/90, 把所有变量都定义在函数开�
 </ol>
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #c0c5ce;">// </span><span style="color: #65737e;">&#26041;&#27861;A, &#23450;&#20041;&#20110;&#24490;&#29615;&#22806;</span>
-<span style="color: #c0c5ce;">Widget</span> <span style="color: #bf616a;">w</span>;
+<pre class="src src-c++"><span style="color: #586e75;">// </span><span style="color: #586e75;">&#26041;&#27861;A, &#23450;&#20041;&#20110;&#24490;&#29615;&#22806;</span>
+<span style="color: #b58900;">Widget</span> <span style="color: #268bd2;">w</span>;
 
-<span style="color: #b48ead;">for</span> (<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">i</span> = 0; i &lt; n; ++i) {
+<span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; n; ++i) {
     w = &#21462;&#20915;&#20110;i&#30340;&#26576;&#20010;&#20540;;
-    <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">...</span>
+    <span style="color: #586e75;">//</span><span style="color: #586e75;">...</span>
 }
 
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">&#26041;&#27861;B, &#23450;&#20041;&#20110;&#24490;&#29615;&#20869;</span>
-<span style="color: #b48ead;">for</span> (<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">i</span> = 0; i &lt; n; ++i) {
-    <span style="color: #c0c5ce;">Widget</span> <span style="color: #bf616a;">w</span>(&#21462;&#20915;&#20110;i&#30340;&#26576;&#20010;&#20540;);
-    <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">...</span>
+<span style="color: #586e75;">// </span><span style="color: #586e75;">&#26041;&#27861;B, &#23450;&#20041;&#20110;&#24490;&#29615;&#20869;</span>
+<span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; n; ++i) {
+    <span style="color: #b58900;">Widget</span> <span style="color: #268bd2;">w</span>(&#21462;&#20915;&#20110;i&#30340;&#26576;&#20010;&#20540;);
+    <span style="color: #586e75;">//</span><span style="color: #586e75;">...</span>
 }
 </pre>
 </div>
@@ -1213,16 +1213,16 @@ function开始的地方, 即便是C89/90, 把所有变量都定义在函数开�
 <li>防止"定义了不使用"(由于异常的存在,当然异常现在不推荐使用)
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #d08770;">std</span>::<span style="color: #c0c5ce;">string</span> <span style="color: #8fa1b3;">encryptPassword</span>(<span style="color: #b48ead;">const</span> <span style="color: #d08770;">std</span>::<span style="color: #c0c5ce;">string</span>&amp; <span style="color: #bf616a;">password</span>) {
-    <span style="color: #b48ead;">using</span> <span style="color: #b48ead;">namespace</span> <span style="color: #d08770;">std</span>;
-    <span style="color: #c0c5ce;">string</span> <span style="color: #bf616a;">encrypted</span>;
+<pre class="src src-c++"><span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #b58900;">string</span> <span style="color: #268bd2;">encryptPassword</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #b58900;">string</span>&amp; <span style="color: #268bd2;">password</span>) {
+    <span style="color: #859900; font-weight: bold;">using</span> <span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #268bd2; font-weight: bold;">std</span>;
+    <span style="color: #b58900;">string</span> <span style="color: #268bd2;">encrypted</span>;
 
-    <span style="color: #b48ead;">if</span> (password.length() &lt; MinimumPasswordLength) {
-        <span style="color: #b48ead;">throw</span> logic_error(<span style="color: #a3be8c;">"Password is too short"</span>);
+    <span style="color: #859900; font-weight: bold;">if</span> (password.length() &lt; MinimumPasswordLength) {
+        <span style="color: #859900; font-weight: bold;">throw</span> logic_error(<span style="color: #2aa198;">"Password is too short"</span>);
     }
 
-    <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">...</span>
-    <span style="color: #b48ead;">return</span> encrypted; <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">May NOT be used!</span>
+    <span style="color: #586e75;">//</span><span style="color: #586e75;">...</span>
+    <span style="color: #859900; font-weight: bold;">return</span> encrypted; <span style="color: #586e75;">//</span><span style="color: #586e75;">May NOT be used!</span>
 }
 </pre>
 </div>
@@ -1232,12 +1232,12 @@ function开始的地方, 即便是C89/90, 把所有变量都定义在函数开�
 函数构造出一个对象,然后对它复制"效果好
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #d08770;">std</span>::<span style="color: #c0c5ce;">string</span> <span style="color: #8fa1b3;">encryptPassword</span>(<span style="color: #b48ead;">const</span> <span style="color: #d08770;">std</span>::<span style="color: #c0c5ce;">string</span>&amp; <span style="color: #bf616a;">password</span>) {
-    <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">&#26816;&#26597;&#38271;&#24230;</span>
-    <span style="color: #d08770;">std</span>::<span style="color: #c0c5ce;">string</span> <span style="color: #bf616a;">encrypted</span>(password);
+<pre class="src src-c++"><span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #b58900;">string</span> <span style="color: #268bd2;">encryptPassword</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #b58900;">string</span>&amp; <span style="color: #268bd2;">password</span>) {
+    <span style="color: #586e75;">// </span><span style="color: #586e75;">&#26816;&#26597;&#38271;&#24230;</span>
+    <span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #b58900;">string</span> <span style="color: #268bd2;">encrypted</span>(password);
 
     encrypt(encrypted);
-    <span style="color: #b48ead;">return</span> encrypted;
+    <span style="color: #859900; font-weight: bold;">return</span> encrypted;
 }
 </pre>
 </div>
@@ -1256,8 +1256,8 @@ function开始的地方, 即便是C89/90, 把所有变量都定义在函数开�
 式转型"(old-style casts)
 <div class="org-src-container">
 
-<pre class="src src-c">(<span style="color: #c0c5ce;">T</span>)<span style="color: #c0c5ce;">expression</span>   <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">&#23558;expression &#36716;&#22411;&#20026;T</span>
-<span style="color: #8fa1b3;">T</span>(<span style="color: #c0c5ce;">expression</span>)   <span style="color: #c0c5ce;">//</span><span style="color: #65737e;">&#23558;expression &#36716;&#22411;&#20026;T</span>
+<pre class="src src-c">(<span style="color: #b58900;">T</span>)<span style="color: #b58900;">expression</span>   <span style="color: #586e75;">//</span><span style="color: #586e75;">&#23558;expression &#36716;&#22411;&#20026;T</span>
+<span style="color: #268bd2;">T</span>(<span style="color: #b58900;">expression</span>)   <span style="color: #586e75;">//</span><span style="color: #586e75;">&#23558;expression &#36716;&#22411;&#20026;T</span>
 </pre>
 </div>
 </li>
@@ -1297,17 +1297,17 @@ class 对象身上执行derived class操作函数, 但是你手上却只有一�
 式转型"的情况(其实也可以使用新式转型):
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Widget</span> {
-<span style="color: #b48ead;">public</span>:
-    <span style="color: #b48ead;">explicit</span> <span style="color: #8fa1b3;">Widget</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">size</span>);
-    <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">...</span>
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Widget</span> {
+<span style="color: #859900; font-weight: bold;">public</span>:
+    <span style="color: #859900; font-weight: bold;">explicit</span> <span style="color: #268bd2;">Widget</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">size</span>);
+    <span style="color: #586e75;">// </span><span style="color: #586e75;">...</span>
 };
 
-<span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">doSomeWork</span>(<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Widget</span>&amp; <span style="color: #bf616a;">w</span>);
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">&#20197;&#19968;&#20010;int&#21152;&#19978;"&#26087;&#24335;&#20989;&#25968;&#39118;&#26684;"&#30340;&#36716;&#22411;&#21160;&#20316;&#21019;&#24314;&#20102;&#19968;&#20010;Widget</span>
+<span style="color: #b58900;">void</span> <span style="color: #268bd2;">doSomeWork</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Widget</span>&amp; <span style="color: #268bd2;">w</span>);
+<span style="color: #586e75;">// </span><span style="color: #586e75;">&#20197;&#19968;&#20010;int&#21152;&#19978;"&#26087;&#24335;&#20989;&#25968;&#39118;&#26684;"&#30340;&#36716;&#22411;&#21160;&#20316;&#21019;&#24314;&#20102;&#19968;&#20010;Widget</span>
 doSomeWork(Widget(15));
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">&#20197;&#19968;&#20010;int&#21152;&#19978;"&#26032;&#24335;C++&#39118;&#26684;"&#30340;&#36716;&#22411;&#21160;&#20316;&#21019;&#24314;&#20102;&#19968;&#20010;Widget</span>
-doSomeWork(<span style="color: #b48ead;">static_cast</span>&lt;Widget&gt;(15));
+<span style="color: #586e75;">// </span><span style="color: #586e75;">&#20197;&#19968;&#20010;int&#21152;&#19978;"&#26032;&#24335;C++&#39118;&#26684;"&#30340;&#36716;&#22411;&#21160;&#20316;&#21019;&#24314;&#20102;&#19968;&#20010;Widget</span>
+doSomeWork(<span style="color: #859900; font-weight: bold;">static_cast</span>&lt;Widget&gt;(15));
 </pre>
 </div>
 </li>
@@ -1316,9 +1316,9 @@ doSomeWork(<span style="color: #b48ead;">static_cast</span>&lt;Widget&gt;(15));
 些代码
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">x</span>, <span style="color: #bf616a;">y</span>;
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">...</span>
-<span style="color: #c0c5ce;">double</span> <span style="color: #bf616a;">d</span> = <span style="color: #b48ead;">static_cast</span>&lt;<span style="color: #c0c5ce;">double</span>&gt;(x) / y;
+<pre class="src src-c++"><span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span>, <span style="color: #268bd2;">y</span>;
+<span style="color: #586e75;">// </span><span style="color: #586e75;">...</span>
+<span style="color: #b58900;">double</span> <span style="color: #268bd2;">d</span> = <span style="color: #859900; font-weight: bold;">static_cast</span>&lt;<span style="color: #b58900;">double</span>&gt;(x) / y;
 </pre>
 </div>
 </li>
@@ -1327,46 +1327,46 @@ doSomeWork(<span style="color: #b48ead;">static_cast</span>&lt;Widget&gt;(15));
 中单继承一会出现一个Derived的对象拥有两个地址的奇怪景象!
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #d08770;">#include</span> <span style="color: #a3be8c;">&lt;iostream&gt;</span>
-<span style="color: #b48ead;">using</span> <span style="color: #b48ead;">namespace</span> <span style="color: #d08770;">std</span>;
+<pre class="src src-c++"><span style="color: #268bd2;">#include</span> <span style="color: #2aa198;">&lt;iostream&gt;</span>
+<span style="color: #859900; font-weight: bold;">using</span> <span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #268bd2; font-weight: bold;">std</span>;
 
-<span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">B1</span> {
-    <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">i</span>;
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">B1</span> {
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>;
 };
 
-<span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">B2</span> {
-    <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">i</span>;
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">B2</span> {
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>;
 };
 
-<span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">D</span> : <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">B1</span>, <span style="color: #b48ead;">public</span> <span style="color: #c0c5ce;">B2</span> {
-    <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">i</span>;
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">D</span> : <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">B1</span>, <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">B2</span> {
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>;
 };
 
-<span style="color: #c0c5ce;">int</span> <span style="color: #8fa1b3;">main</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">argc</span>, <span style="color: #c0c5ce;">char</span> *<span style="color: #bf616a;">argv</span>[])
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">argv</span>[])
 {
-    <span style="color: #c0c5ce;">D</span> <span style="color: #bf616a;">aD</span>;
-    <span style="color: #c0c5ce;">B1</span>* <span style="color: #bf616a;">pb1</span> = &amp;aD;
-    <span style="color: #c0c5ce;">B2</span>* <span style="color: #bf616a;">pb2</span> = &amp;aD;
+    <span style="color: #b58900;">D</span> <span style="color: #268bd2;">aD</span>;
+    <span style="color: #b58900;">B1</span>* <span style="color: #268bd2;">pb1</span> = &amp;aD;
+    <span style="color: #b58900;">B2</span>* <span style="color: #268bd2;">pb2</span> = &amp;aD;
 
     cout &lt;&lt; &amp;aD &lt;&lt; endl;
-    <span style="color: #c0c5ce;">//////////////////////////////////////////////////////</span>
-    <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">There's no possible way for the B1 sub-object to //</span>
-    <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">have the same address as the B2 sub-object.      //</span>
-    <span style="color: #c0c5ce;">//////////////////////////////////////////////////////</span>
+    <span style="color: #586e75;">//////////////////////////////////////////////////////</span>
+    <span style="color: #586e75;">// </span><span style="color: #586e75;">There's no possible way for the B1 sub-object to //</span>
+    <span style="color: #586e75;">// </span><span style="color: #586e75;">have the same address as the B2 sub-object.      //</span>
+    <span style="color: #586e75;">//////////////////////////////////////////////////////</span>
     cout &lt;&lt; pb1 &lt;&lt; endl;
     cout &lt;&lt; pb2 &lt;&lt; endl;
-    <span style="color: #b48ead;">return</span> 0;
+    <span style="color: #859900; font-weight: bold;">return</span> 0;
 }
 
-<span style="color: #c0c5ce;">///////////////////////////////////////////////</span>
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">&lt;==========running the test.out=========&gt; //</span>
-<span style="color: #c0c5ce;">//                                           </span><span style="color: #65737e;">//</span>
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">0x28fecc                                  //</span>
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">0x28fecc                                  //</span>
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">0x28fed0                                  //</span>
-<span style="color: #c0c5ce;">//                                           </span><span style="color: #65737e;">//</span>
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">&lt;==========test.out ends here===========&gt; //</span>
-<span style="color: #c0c5ce;">///////////////////////////////////////////////</span>
+<span style="color: #586e75;">///////////////////////////////////////////////</span>
+<span style="color: #586e75;">// </span><span style="color: #586e75;">&lt;==========running the test.out=========&gt; //</span>
+<span style="color: #586e75;">//                                           </span><span style="color: #586e75;">//</span>
+<span style="color: #586e75;">// </span><span style="color: #586e75;">0x28fecc                                  //</span>
+<span style="color: #586e75;">// </span><span style="color: #586e75;">0x28fecc                                  //</span>
+<span style="color: #586e75;">// </span><span style="color: #586e75;">0x28fed0                                  //</span>
+<span style="color: #586e75;">//                                           </span><span style="color: #586e75;">//</span>
+<span style="color: #586e75;">// </span><span style="color: #586e75;">&lt;==========test.out ends here===========&gt; //</span>
+<span style="color: #586e75;">///////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -1382,23 +1382,23 @@ doSomeWork(<span style="color: #b48ead;">static_cast</span>&lt;Widget&gt;(15));
 基础代码:
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Point</span> {
-<span style="color: #b48ead;">public</span>:
-    <span style="color: #8fa1b3;">Point</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">x</span>, <span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">y</span>);
-    <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">...</span>
-    <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">setX</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">newVal</span>);
-    <span style="color: #c0c5ce;">void</span> <span style="color: #8fa1b3;">setY</span>(<span style="color: #c0c5ce;">int</span> <span style="color: #bf616a;">newVal</span>);
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Point</span> {
+<span style="color: #859900; font-weight: bold;">public</span>:
+    <span style="color: #268bd2;">Point</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">y</span>);
+    <span style="color: #586e75;">// </span><span style="color: #586e75;">...</span>
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">setX</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">newVal</span>);
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">setY</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">newVal</span>);
 };
 
-<span style="color: #b48ead;">struct</span> <span style="color: #c0c5ce;">RectData</span> {
-    <span style="color: #c0c5ce;">Point</span> <span style="color: #bf616a;">ulhc</span>; <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">ulhc = "upper left-hand corner"</span>
-    <span style="color: #c0c5ce;">Point</span> <span style="color: #bf616a;">lrhc</span>; <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">lrhc = "lower right-hand corner"</span>
+<span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">RectData</span> {
+    <span style="color: #b58900;">Point</span> <span style="color: #268bd2;">ulhc</span>; <span style="color: #586e75;">// </span><span style="color: #586e75;">ulhc = "upper left-hand corner"</span>
+    <span style="color: #b58900;">Point</span> <span style="color: #268bd2;">lrhc</span>; <span style="color: #586e75;">// </span><span style="color: #586e75;">lrhc = "lower right-hand corner"</span>
 };
 
-<span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Rectangle</span> {
-    <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">...</span>
-<span style="color: #b48ead;">private</span>:
-    <span style="color: #d08770;">std</span>::<span style="color: #d08770;">tr1</span>::<span style="color: #c0c5ce;">shared_ptr</span>&lt;<span style="color: #c0c5ce;">RectData</span>&gt; <span style="color: #bf616a;">pData</span>;
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Rectangle</span> {
+    <span style="color: #586e75;">// </span><span style="color: #586e75;">...</span>
+<span style="color: #859900; font-weight: bold;">private</span>:
+    <span style="color: #268bd2; font-weight: bold;">std</span>::<span style="color: #268bd2; font-weight: bold;">tr1</span>::<span style="color: #b58900;">shared_ptr</span>&lt;<span style="color: #b58900;">RectData</span>&gt; <span style="color: #268bd2;">pData</span>;
 };
 </pre>
 </div>
@@ -1406,14 +1406,14 @@ doSomeWork(<span style="color: #b48ead;">static_cast</span>&lt;Widget&gt;(15));
 <li>函数需要对外公开"左上"和"右下"的数值, 所以有下面两个函数.
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Rectangle</span> {
-<span style="color: #b48ead;">public</span>:
-    <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">...</span>
-    <span style="color: #c0c5ce;">Point</span>&amp; <span style="color: #8fa1b3;">upperLeft</span>() <span style="color: #b48ead;">const</span> {
-        <span style="color: #b48ead;">return</span> pData-&gt;ulhc;
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Rectangle</span> {
+<span style="color: #859900; font-weight: bold;">public</span>:
+    <span style="color: #586e75;">// </span><span style="color: #586e75;">...</span>
+    <span style="color: #b58900;">Point</span>&amp; <span style="color: #268bd2;">upperLeft</span>() <span style="color: #859900; font-weight: bold;">const</span> {
+        <span style="color: #859900; font-weight: bold;">return</span> pData-&gt;ulhc;
     }
-    <span style="color: #c0c5ce;">Point</span>&amp; <span style="color: #8fa1b3;">lowerRight</span>() <span style="color: #b48ead;">const</span> {
-        <span style="color: #b48ead;">return</span> pData-&gt;lrhc;
+    <span style="color: #b58900;">Point</span>&amp; <span style="color: #268bd2;">lowerRight</span>() <span style="color: #859900; font-weight: bold;">const</span> {
+        <span style="color: #859900; font-weight: bold;">return</span> pData-&gt;lrhc;
     }
 };
 </pre>
@@ -1425,12 +1425,12 @@ const了么, 只有const对象可以调用这两个函数,为什么还破坏了�
 reference,可以利用这个reference来改动内部数据
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #c0c5ce;">Point</span> <span style="color: #8fa1b3;">coord1</span>(0.0);
-<span style="color: #c0c5ce;">Point</span> <span style="color: #8fa1b3;">coord2</span>(100, 100);
-<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Rectangle</span> <span style="color: #8fa1b3;">rec</span>(coord1, coord2);
+<pre class="src src-c++"><span style="color: #b58900;">Point</span> <span style="color: #268bd2;">coord1</span>(0.0);
+<span style="color: #b58900;">Point</span> <span style="color: #268bd2;">coord2</span>(100, 100);
+<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Rectangle</span> <span style="color: #268bd2;">rec</span>(coord1, coord2);
 
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">rec is const, but rec.upperLeft() is Point&amp;, and</span>
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">can be changed</span>
+<span style="color: #586e75;">// </span><span style="color: #586e75;">rec is const, but rec.upperLeft() is Point&amp;, and</span>
+<span style="color: #586e75;">// </span><span style="color: #586e75;">can be changed</span>
 rec.upperLeft().setX(50);
 </pre>
 </div>
@@ -1441,14 +1441,14 @@ rec.upperLeft().setX(50);
 <li>上面的例子,稍加修改(返回const reference)就可以保证其封装性.
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Rectangle</span> {
-<span style="color: #b48ead;">public</span>:
-    <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">...</span>
-    <span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Point</span>&amp; <span style="color: #8fa1b3;">upperLeft</span>() <span style="color: #b48ead;">const</span> {
-        <span style="color: #b48ead;">return</span> pData-&gt;ulhc;
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Rectangle</span> {
+<span style="color: #859900; font-weight: bold;">public</span>:
+    <span style="color: #586e75;">// </span><span style="color: #586e75;">...</span>
+    <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Point</span>&amp; <span style="color: #268bd2;">upperLeft</span>() <span style="color: #859900; font-weight: bold;">const</span> {
+        <span style="color: #859900; font-weight: bold;">return</span> pData-&gt;ulhc;
     }
-    <span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Point</span>&amp; <span style="color: #8fa1b3;">lowerRight</span>() <span style="color: #b48ead;">const</span> {
-        <span style="color: #b48ead;">return</span> pData-&gt;lrhc;
+    <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Point</span>&amp; <span style="color: #268bd2;">lowerRight</span>() <span style="color: #859900; font-weight: bold;">const</span> {
+        <span style="color: #859900; font-weight: bold;">return</span> pData-&gt;lrhc;
     }
 };
 </pre>
@@ -1463,17 +1463,17 @@ rec.upperLeft().setX(50);
 了一块已经析构了的内存地址!
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">GUIObject</span> {
-    <span style="color: #c0c5ce;">// </span><span style="color: #65737e;">...</span>
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">GUIObject</span> {
+    <span style="color: #586e75;">// </span><span style="color: #586e75;">...</span>
 };
 
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">&#20197; by value&#26041;&#24335;&#36820;&#22238;, &#19968;&#23450;&#35201;&#22768;&#26126;&#20026;const, &#21487;&#20197;&#38450;&#27490;&#19981;&#23567;&#24515;&#34987;'='&#36171;&#20540;</span>
-<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Rectangle</span> <span style="color: #8fa1b3;">boundingBox</span>(<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">GUIObject</span>&amp; <span style="color: #bf616a;">obj</span>);
+<span style="color: #586e75;">// </span><span style="color: #586e75;">&#20197; by value&#26041;&#24335;&#36820;&#22238;, &#19968;&#23450;&#35201;&#22768;&#26126;&#20026;const, &#21487;&#20197;&#38450;&#27490;&#19981;&#23567;&#24515;&#34987;'='&#36171;&#20540;</span>
+<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Rectangle</span> <span style="color: #268bd2;">boundingBox</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">GUIObject</span>&amp; <span style="color: #268bd2;">obj</span>);
 
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">&#29992;&#25143;&#21487;&#33021;&#20250;&#22914;&#19979;&#20351;&#29992;, &#22240;&#20026;&#20020;&#26102;&#23545;&#35937;&#30340;&#20135;&#29983;,&#25152;&#20197;&#20250;&#23548;&#33268;dangling handles</span>
-<span style="color: #c0c5ce;">GUIObject</span>* <span style="color: #bf616a;">pgo</span>;
-<span style="color: #c0c5ce;">// </span><span style="color: #65737e;">...</span>
-<span style="color: #b48ead;">const</span> <span style="color: #c0c5ce;">Points</span>* <span style="color: #bf616a;">pUpperLeft</span> = &amp;(boundingBox(*pgo).upperLeft());
+<span style="color: #586e75;">// </span><span style="color: #586e75;">&#29992;&#25143;&#21487;&#33021;&#20250;&#22914;&#19979;&#20351;&#29992;, &#22240;&#20026;&#20020;&#26102;&#23545;&#35937;&#30340;&#20135;&#29983;,&#25152;&#20197;&#20250;&#23548;&#33268;dangling handles</span>
+<span style="color: #b58900;">GUIObject</span>* <span style="color: #268bd2;">pgo</span>;
+<span style="color: #586e75;">// </span><span style="color: #586e75;">...</span>
+<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Points</span>* <span style="color: #268bd2;">pUpperLeft</span> = &amp;(boundingBox(*pgo).upperLeft());
 </pre>
 </div>
 </li>

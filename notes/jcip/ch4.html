@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 4</title>
-<!-- 2014-02-18 Tue 22:47 -->
+<!-- 2014-03-08 Sat 17:48 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -202,18 +202,18 @@ for the JavaScript code in this tag.
 的数据,所以这唯一的数据线程安全了,整个对象就线程安全了.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #d08770;">@ThreadSafe</span>
-<span style="color: #b48ead;">public</span> <span style="color: #b48ead;">final</span> <span style="color: #b48ead;">class</span> <span style="color: #c0c5ce;">Counter</span> {
-    <span style="color: #d08770;">@GuardedBy</span>(<span style="color: #a3be8c;">"this"</span>) <span style="color: #b48ead;">private</span> <span style="color: #c0c5ce;">long</span> <span style="color: #bf616a;">value</span> = 0;
+<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@ThreadSafe</span>
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Counter</span> {
+    <span style="color: #268bd2; font-weight: bold;">@GuardedBy</span>(<span style="color: #2aa198;">"this"</span>) <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">value</span> = 0;
 
-    <span style="color: #b48ead;">public</span> <span style="color: #b48ead;">synchronized</span> <span style="color: #c0c5ce;">long</span> <span style="color: #8fa1b3;">getValue</span>() {
-        <span style="color: #b48ead;">return</span> value;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">synchronized</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">getValue</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> value;
     }
-    <span style="color: #b48ead;">public</span> <span style="color: #b48ead;">synchronized</span> <span style="color: #c0c5ce;">long</span> <span style="color: #8fa1b3;">increment</span>() {
-        <span style="color: #b48ead;">if</span> (value == <span style="color: #d08770;">long</span>.MAX_VALUE) {
-            <span style="color: #b48ead;">throw</span> <span style="color: #b48ead;">new</span> <span style="color: #c0c5ce;">illegalStateException</span>(<span style="color: #a3be8c;">"counter overflow"</span>);
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">synchronized</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">increment</span>() {
+        <span style="color: #859900; font-weight: bold;">if</span> (value == <span style="color: #268bd2; font-weight: bold;">long</span>.MAX_VALUE) {
+            <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">illegalStateException</span>(<span style="color: #2aa198;">"counter overflow"</span>);
         }
-        <span style="color: #b48ead;">return</span> ++value;
+        <span style="color: #859900; font-weight: bold;">return</span> ++value;
     }
 }
 </pre>
