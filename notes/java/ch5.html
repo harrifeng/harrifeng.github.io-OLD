@@ -1,0 +1,1671 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 05: Initialization &amp; Cleanup</title>
+<!-- 2014-03-12 Wed 23:15 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/about.html">About</a></li>
+                    <li><a href="/atom.xml">RSS</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 05: Initialization &amp; Cleanup</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Initialization &amp; Cleanup</a>
+<ul>
+<li><a href="#sec-1-1">Method overloading</a></li>
+<li><a href="#sec-1-2">Distinguishing overloaded methods</a>
+<ul>
+<li><a href="#sec-1-2-1">Overloading with primitives</a></li>
+<li><a href="#sec-1-2-2">Overloading on return values</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">Default constructors</a></li>
+<li><a href="#sec-1-4">The this keyword</a>
+<ul>
+<li><a href="#sec-1-4-1">Calling constructors from constructors</a></li>
+<li><a href="#sec-1-4-2">The meaning of static</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-5">Cleanup: Finalization and garbage collection</a>
+<ul>
+<li><a href="#sec-1-5-1">What's finalize() for?</a></li>
+<li><a href="#sec-1-5-2">You must perform cleanup</a></li>
+<li><a href="#sec-1-5-3">The termination condition</a></li>
+<li><a href="#sec-1-5-4">How a garbage collector works</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-6">Member initialization</a>
+<ul>
+<li><a href="#sec-1-6-1">Specifying initialization</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-7">Constructor initialization</a>
+<ul>
+<li><a href="#sec-1-7-1">static data initialization</a></li>
+<li><a href="#sec-1-7-2">Explicit static initialization</a></li>
+<li><a href="#sec-1-7-3">Non-static instance initialization</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-8">Array initialization</a>
+<ul>
+<li><a href="#sec-1-8-1">Variable argument lists</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-9">Enumerated types</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Initialization &amp; Cleanup</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>java 继承了c++的ctor的概念,不过更简单.和c++一样,java保证在你使用之前,ctor已
+经完成它的工作了
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Rock</span> {
+    Rock() { <span style="color: #505C63;">// </span><span style="color: #505C63;">ctor</span>
+        System.out.printf(<span style="color: #F8F8F0;">"Rock "</span>);
+    }
+}
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">SimpleConstructor</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; 10; i++) {
+            <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Rock</span>();
+        }
+    }
+}
+<span style="color: #505C63;">///////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt;    //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Rock Rock Rock Rock Rock Rock Rock Rock Rock Rock //</span>
+<span style="color: #505C63;">///////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>上面的例子是default ctor, 你也可以创建带参数的ctor.如果你创建了带参数的ctor
+并且只有这一个ctor的话,那么只能用这个带参数的来创建类
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Rock2</span> {
+    Rock2(<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span>) {
+        System.out.printf(<span style="color: #F8F8F0;">"Rock "</span> + i + <span style="color: #F8F8F0;">" "</span>);
+    }
+}
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">SimpleConstructor2</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; 8; i++) {
+            <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Rock2</span>(i);
+        }
+    }
+}
+<span style="color: #505C63;">/////////////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt;          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Rock 0 Rock 1 Rock 2 Rock 3 Rock 4 Rock 5 Rock 6 Rock 7 //</span>
+<span style="color: #505C63;">/////////////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>仔细观察会发现ctor是一个特殊的function.因为它没有返回值(不是返回void,而是没有)
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Method overloading</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>一旦确定了ctor的实现方式,那么java使用overload那就是板上钉钉了.因为ctor不可
+能只有一种实现方式,但是ctor的名字只能是和类相同.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Tree</span> {
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">height</span>;
+    Tree() {
+        System.out.println(<span style="color: #F8F8F0;">"Planting a seedling"</span>);
+        height = 0;
+    }
+    Tree(<span style="color: #999999;">int</span> <span style="color: #FD971F;">initialHeight</span>) {
+        height = initialHeight;
+        System.out.println(<span style="color: #F8F8F0;">"Creating new Tree that is"</span> +
+                           height + <span style="color: #F8F8F0;">" feet tall"</span>);
+    }
+
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">info</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"Tree is "</span> + height + <span style="color: #F8F8F0;">" feet tall"</span>);
+    }
+
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">info</span>(<span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span>) {
+        System.out.println(s + <span style="color: #F8F8F0;">": Tree is "</span> + height + <span style="color: #F8F8F0;">" feet tall"</span>);
+    }
+}
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Overloading</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; 5; i++) {
+            <span style="color: #999999;">Tree</span> <span style="color: #FD971F;">t</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Tree</span>(i);
+            t.info();
+            t.info(<span style="color: #F8F8F0;">"overloaded method"</span>);
+        }
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">Overloaded ctor;</span>
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Tree</span>();
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating new Tree that is0 feet tall           //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Tree is 0 feet tall                            //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">overloaded method: Tree is 0 feet tall         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating new Tree that is1 feet tall           //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Tree is 1 feet tall                            //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">overloaded method: Tree is 1 feet tall         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating new Tree that is2 feet tall           //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Tree is 2 feet tall                            //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">overloaded method: Tree is 2 feet tall         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating new Tree that is3 feet tall           //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Tree is 3 feet tall                            //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">overloaded method: Tree is 3 feet tall         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating new Tree that is4 feet tall           //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Tree is 4 feet tall                            //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">overloaded method: Tree is 4 feet tall         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Planting a seedling                            //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Distinguishing overloaded methods</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>既然名字都相同了,那么函数参数至少"不能完全相同"
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">OverloadingOrder</span> {
+    <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">f</span>(<span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"String: "</span> + s + <span style="color: #F8F8F0;">", int:  "</span> + i);
+    }
+    <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">f</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span>, <span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"int: "</span> + i + <span style="color: #F8F8F0;">", String:"</span> + s);
+    }
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        f(<span style="color: #F8F8F0;">"String first"</span>, 11);
+        f(99, <span style="color: #F8F8F0;">"Int First"</span>);
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">String: String first, int:  11                 //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">int: 99, String:Int First                      //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">Overloading with primitives</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>primitive类型可能会自动的升级为较高精度的primitive(隐式转换),在这种情况下,
+选择overload 函数的顺序是:
+<ol class="org-ol">
+<li>如果有exact match的,那首选exact match
+</li>
+<li>如果没有exact match,那么就选精度升级最小的方法升级精度
+</li>
+<li>如果传入的参数是常数,那么如果有int,首选int,否则选择精度最小的格式
+</li>
+<li>如果传入的是char,如果没有char的话,会跳过byte和short,直接选择int
+</li>
+</ol>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">PrimitiveOverloading</span> {
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f1</span>(<span style="color: #999999;">char</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f1(char)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f1</span>(<span style="color: #999999;">byte</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f1(byte)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f1</span>(<span style="color: #999999;">short</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f1(short)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f1</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f1(int)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f1</span>(<span style="color: #999999;">long</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f1(long)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f1</span>(<span style="color: #999999;">float</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f1(float)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f1</span>(<span style="color: #999999;">double</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f1(double)"</span>);
+    }
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">----------------------------------</span>
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f2</span>(<span style="color: #999999;">byte</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f2(byte)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f2</span>(<span style="color: #999999;">short</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f2(short)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f2</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f2(int)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f2</span>(<span style="color: #999999;">long</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f2(long)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f2</span>(<span style="color: #999999;">float</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f2(float)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f2</span>(<span style="color: #999999;">double</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f2(double)"</span>);
+    }
+
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">----------------------------------</span>
+
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f3</span>(<span style="color: #999999;">short</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f3(short)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f3</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f3(int)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f3</span>(<span style="color: #999999;">long</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f3(long)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f3</span>(<span style="color: #999999;">float</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f3(float)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f3</span>(<span style="color: #999999;">double</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f3(double)"</span>);
+    }
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">----------------------------------</span>
+
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f4</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f4(int)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f4</span>(<span style="color: #999999;">long</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f4(long)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f4</span>(<span style="color: #999999;">float</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f4(float)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f4</span>(<span style="color: #999999;">double</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f4(double)"</span>);
+    }
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">----------------------------------</span>
+
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f5</span>(<span style="color: #999999;">long</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f5(long)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f5</span>(<span style="color: #999999;">float</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f5(float)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f5</span>(<span style="color: #999999;">double</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f5(double)"</span>);
+    }
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">----------------------------------</span>
+
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f6</span>(<span style="color: #999999;">float</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f6(float)"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f6</span>(<span style="color: #999999;">double</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f6(double)"</span>);
+    }
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">----------------------------------</span>
+
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f7</span>(<span style="color: #999999;">double</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f7(double)"</span>);
+    }
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">----------------------------------</span>
+
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">testConstVal</span>() {
+        System.out.print(<span style="color: #F8F8F0;">"5:"</span>);
+        f1(5);f2(5);f3(5);f4(5);f5(5);f6(5);f7(5);
+        System.out.println();
+    }
+
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">testChar</span>() {
+        <span style="color: #999999;">char</span> <span style="color: #FD971F;">x</span> = <span style="color: #F8F8F0;">'x'</span>;
+        System.out.print(<span style="color: #F8F8F0;">"char:"</span>);
+        f1(x);f2(x);f3(x);f4(x);f5(x);f6(x);f7(x);
+        System.out.println();
+    }
+
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">testByte</span>() {
+        <span style="color: #999999;">byte</span> <span style="color: #FD971F;">x</span> = <span style="color: #F8F8F0;">'0'</span>;
+        System.out.print(<span style="color: #F8F8F0;">"byte:"</span>);
+        f1(x);f2(x);f3(x);f4(x);f5(x);f6(x);f7(x);
+        System.out.println();
+    }
+
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">testShort</span>() {
+        <span style="color: #999999;">short</span> <span style="color: #FD971F;">x</span> = <span style="color: #F8F8F0;">'x'</span>;
+        System.out.print(<span style="color: #F8F8F0;">"short:"</span>);
+        f1(x);f2(x);f3(x);f4(x);f5(x);f6(x);f7(x);
+        System.out.println();
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">testInt</span>() {
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">x</span> = <span style="color: #F8F8F0;">'x'</span>;
+        System.out.print(<span style="color: #F8F8F0;">"int:"</span>);
+        f1(x);f2(x);f3(x);f4(x);f5(x);f6(x);f7(x);
+        System.out.println();
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">testLong</span>() {
+        <span style="color: #999999;">long</span> <span style="color: #FD971F;">x</span> = <span style="color: #F8F8F0;">'x'</span>;
+        System.out.print(<span style="color: #F8F8F0;">"long:"</span>);
+        f1(x);f2(x);f3(x);f4(x);f5(x);f6(x);f7(x);
+        System.out.println();
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">testFloat</span>() {
+        <span style="color: #999999;">float</span> <span style="color: #FD971F;">x</span> = <span style="color: #F8F8F0;">'x'</span>;
+        System.out.print(<span style="color: #F8F8F0;">"float:"</span>);
+        f1(x);f2(x);f3(x);f4(x);f5(x);f6(x);f7(x);
+        System.out.println();
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">testDouble</span>() {
+        <span style="color: #999999;">double</span> <span style="color: #FD971F;">x</span> = <span style="color: #F8F8F0;">'x'</span>;
+        System.out.print(<span style="color: #F8F8F0;">"double:"</span>);
+        f1(x);f2(x);f3(x);f4(x);f5(x);f6(x);f7(x);
+        System.out.println();
+    }
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">PrimitiveOverloading</span> <span style="color: #FD971F;">p</span> =
+            <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">PrimitiveOverloading</span>();
+        p.testConstVal();
+        p.testChar();
+        p.testByte();
+        p.testShort();
+        p.testInt();
+        p.testLong();
+        p.testFloat();
+        p.testDouble();
+    }
+}
+
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">5:f1(int)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f2(int)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f3(int)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f4(int)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f5(long)                                       //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f6(float)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f7(double)                                     //</span>
+<span style="color: #505C63;">//                                                </span><span style="color: #505C63;">//</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">char:f1(char)                                  //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f2(int)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f3(int)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f4(int)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f5(long)                                       //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f6(float)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f7(double)                                     //</span>
+<span style="color: #505C63;">//                                                </span><span style="color: #505C63;">//</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">byte:f1(byte)                                  //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f2(byte)                                       //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f3(short)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f4(int)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f5(long)                                       //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f6(float)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f7(double)                                     //</span>
+<span style="color: #505C63;">//                                                </span><span style="color: #505C63;">//</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">short:f1(short)                                //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f2(short)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f3(short)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f4(int)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f5(long)                                       //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f6(float)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f7(double)                                     //</span>
+<span style="color: #505C63;">//                                                </span><span style="color: #505C63;">//</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">int:f1(int)                                    //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f2(int)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f3(int)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f4(int)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f5(long)                                       //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f6(float)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f7(double)                                     //</span>
+<span style="color: #505C63;">//                                                </span><span style="color: #505C63;">//</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">long:f1(long)                                  //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f2(long)                                       //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f3(long)                                       //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f4(long)                                       //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f5(long)                                       //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f6(float)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f7(double)                                     //</span>
+<span style="color: #505C63;">//                                                </span><span style="color: #505C63;">//</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">float:f1(float)                                //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f2(float)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f3(float)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f4(float)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f5(float)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f6(float)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f7(double)                                     //</span>
+<span style="color: #505C63;">//                                                </span><span style="color: #505C63;">//</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">double:f1(double)                              //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f2(double)                                     //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f3(double)                                     //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f4(double)                                     //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f5(double)                                     //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f6(double)                                     //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f7(double)                                     //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>从精度低到精度高可以自动转换,反之则可能丢失数据,所以编译器会报错.当然如果
+你明确了cast的话,就可以pass了
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Demotion</span> {
+
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f7</span>(<span style="color: #999999;">char</span> <span style="color: #FD971F;">x</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f7(char)"</span>);
+    }
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">----------------------------------</span>
+
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">testDouble</span>() {
+        <span style="color: #999999;">double</span> <span style="color: #FD971F;">x</span> = 0;
+        System.out.println(<span style="color: #F8F8F0;">"double argument"</span>);
+        f7((<span style="color: #999999;">char</span>)x);
+    }
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">Demotion</span> <span style="color: #FD971F;">p</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Demotion</span>();
+        p.testDouble();
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">double argument                                //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f7(char)                                       //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2">Overloading on return values</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>和c++一样,java不能依靠返回值的不同来overload,原因是c-like的函数都可以直接
+调用,而不关心返回.比如int f(), 你也可以直接f()调用,那么和void f()就无法区
+分了.
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Default constructors</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>和C++一样,如果你不声明一个ctor的话,jvm会为你生成一个default ctor
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Bird</span>{}
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">DefaultConstructor</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">Bird</span> <span style="color: #FD971F;">b</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Bird</span>(); <span style="color: #505C63;">// </span><span style="color: #505C63;">Default</span>
+    }
+}
+</pre>
+</div>
+</li>
+<li>哪怕你是定义了任意一个ctor, jvm就不会再为你创建任何ctor了, 下面的例子如果你再
+输入new Bird2()的话,编译器会报错
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Bird2</span> {
+    Bird2(<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span>) {}
+    Bird2(<span style="color: #999999;">double</span> <span style="color: #FD971F;">d</span>) {}
+}
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">NoSynthesis</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #505C63;">//</span><span style="color: #505C63;">! Bird2 b = new Bird2(); // no deafult</span>
+        <span style="color: #999999;">Bird2</span> <span style="color: #FD971F;">b2</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Bird2</span>(1);
+        <span style="color: #999999;">Bird2</span> <span style="color: #FD971F;">b3</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Bird2</span>(1.0);
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">The this keyword</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>C++中有this指针,而在java中,this被改造成了reference,更加安全了.
+</li>
+<li>this一定要在"必要的的时候"使用,其他情况下不应该使用.this必要的情况,有如下两
+种(后面还有):
+<ul class="org-ul">
+<li>把自己作为返回值
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Leaf</span> {
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0;
+    <span style="color: #999999;">Leaf</span> <span style="color: #AEE239;">increment</span>() {
+        i++;
+        <span style="color: #A7DBD8;">return</span> <span style="color: #A7DBD8;">this</span>;
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">print</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"i = "</span> + i);
+    }
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">Leaf</span> <span style="color: #FD971F;">x</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Leaf</span>();
+        x.increment().increment().increment().print();
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">i = 3                                          //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>自己作为参数传递给"自己调用的函数"
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Person</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">eat</span>(<span style="color: #999999;">Apple</span> <span style="color: #FD971F;">apple</span>) {
+        <span style="color: #999999;">Apple</span> <span style="color: #FD971F;">peeled</span> = apple.getPeeled();
+        System.out.println(<span style="color: #F8F8F0;">"Yummy"</span>);
+    }
+}
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Peeler</span> {
+    <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">Apple</span> <span style="color: #AEE239;">peel</span>(<span style="color: #999999;">Apple</span> <span style="color: #FD971F;">apple</span>) {
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">.. remove peel</span>
+        <span style="color: #A7DBD8;">return</span> apple;
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Apple</span> {
+    <span style="color: #999999;">Apple</span> <span style="color: #AEE239;">getPeeled</span>() {
+        <span style="color: #A7DBD8;">return</span> Peeler.peel(<span style="color: #A7DBD8;">this</span>);
+    }
+}
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">PassingThis</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Person</span>().eat(<span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Apple</span>());
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Yummy                                          //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1">Calling constructors from constructors</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<ul class="org-ul">
+<li>this"必要"使用的情况还有如下两种(都是在ctor的情况下):
+<ul class="org-ul">
+<li>如果函数参数和类的data名字一样,那么为了防止歧义,我们一般使用下例中的写法
+(line 15)
+</li>
+<li>如果我们有多个ctor,想要在某个ctor里面调用另外的ctor(DRY原则),那么我们可以
+使用this, 这个时候this意义完全不一样了,它成了"另外的ctor"的化身,这用法
+只可以在ctor中使用
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="src src-java"><span class="linenr"> 1: </span><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Flower</span> {
+<span class="linenr"> 2: </span>    <span style="color: #999999;">int</span> <span style="color: #FD971F;">petalCount</span> = 0;
+<span class="linenr"> 3: </span>    <span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span> = <span style="color: #F8F8F0;">"initial value"</span>;
+<span class="linenr"> 4: </span>    Flower(<span style="color: #999999;">int</span> <span style="color: #FD971F;">petals</span>) {
+<span class="linenr"> 5: </span>        petalCount = petals;
+<span class="linenr"> 6: </span>        System.out.println(<span style="color: #F8F8F0;">"Ctor w/ int arg only, petalCount="</span> + petalCount);
+<span class="linenr"> 7: </span>    }
+<span class="linenr"> 8: </span>    Flower(<span style="color: #999999;">String</span> <span style="color: #FD971F;">ss</span>) {
+<span class="linenr"> 9: </span>        System.out.println(<span style="color: #F8F8F0;">"Ctor w/ String arg only, s ="</span> + ss);
+<span class="linenr">10: </span>        s = ss;
+<span class="linenr">11: </span>    }
+<span class="linenr">12: </span>    Flower(<span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">petals</span>) {
+<span class="linenr">13: </span>        <span style="color: #A7DBD8;">this</span>(petals);
+<span class="linenr">14: </span>        <span style="color: #505C63;">//</span><span style="color: #505C63;">! this(s);  // Can't call two!</span>
+<span class="linenr">15: </span>        <span style="color: #A7DBD8;">this</span>.s = s;   <span style="color: #505C63;">// </span><span style="color: #505C63;">Another use of "this"</span>
+<span class="linenr">16: </span>        System.out.println(<span style="color: #F8F8F0;">"String &amp; int args"</span>);
+<span class="linenr">17: </span>    }
+<span class="linenr">18: </span>    Flower() {
+<span class="linenr">19: </span>        <span style="color: #A7DBD8;">this</span>(<span style="color: #F8F8F0;">"hi"</span>, 47);
+<span class="linenr">20: </span>        System.out.println(<span style="color: #F8F8F0;">"default ctor(no args)"</span>);
+<span class="linenr">21: </span>    }
+<span class="linenr">22: </span>    <span style="color: #999999;">void</span> <span style="color: #AEE239;">printPetalCount</span>() {
+<span class="linenr">23: </span>        <span style="color: #505C63;">//</span><span style="color: #505C63;">! this(11); // Not inside non-ctor!</span>
+<span class="linenr">24: </span>        System.out.println(<span style="color: #F8F8F0;">"petalCount = "</span> + petalCount + <span style="color: #F8F8F0;">" s = "</span> + s);
+<span class="linenr">25: </span>    }
+<span class="linenr">26: </span>
+<span class="linenr">27: </span>    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+<span class="linenr">28: </span>        <span style="color: #999999;">Flower</span> <span style="color: #FD971F;">x</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Flower</span>();
+<span class="linenr">29: </span>        x.printPetalCount();
+<span class="linenr">30: </span>    }
+<span class="linenr">31: </span>}
+<span class="linenr">32: </span><span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span class="linenr">33: </span><span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span class="linenr">34: </span><span style="color: #505C63;">// </span><span style="color: #505C63;">Ctor w/ int arg only, petalCount=47            //</span>
+<span class="linenr">35: </span><span style="color: #505C63;">// </span><span style="color: #505C63;">String &amp; int args                              //</span>
+<span class="linenr">36: </span><span style="color: #505C63;">// </span><span style="color: #505C63;">default ctor(no args)                          //</span>
+<span class="linenr">37: </span><span style="color: #505C63;">// </span><span style="color: #505C63;">petalCount = 47 s = hi                         //</span>
+<span class="linenr">38: </span><span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2">The meaning of static</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<ul class="org-ul">
+<li>从this的角度上理解一下static函数就是,类的static函数是一群没有this的函数,没
+有this也就没有object,它们是class的附属.
+</li>
+<li>因为static函数里面没有this,所以你不可以直接在static函数里面调用non-static
+函数.
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Cleanup: Finalization and garbage collection</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>C++ 中有和new配合的delete,但是java采用了GC,所以没有delete,所有的对象都会由
+GC自己来回收. 但是,java的GC和C++的delete有显著不同. 因为在java中:
+<pre class="example">
+1. Your objects might not get garbage collected.
+2. Garbage collection is not destruction.
+</pre>
+</li>
+<li>java还提供了一个叫做finalize()的函数,这个函数会在jvm真正的调用GC之前,先执
+行这个命令,也就是说根据1.Your objects mingt not get garbage collected.你
+的finalize()可能永远都不会执行.
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1">What's finalize() for?</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<ul class="org-ul">
+<li>既然GC是用来回收内存的,虽然并不一定执行,但是执行了就可以替代delete了么,为
+什么还要finalize(). 那是因为GC的第三个特性:
+<pre class="example">
+3. Garbage collection is only about memory
+</pre>
+</li>
+<li>GC只是关于内存的.还有一些资源不是内存的,我们也要释放.比如下例中的数据库
+连接的资源conn需要在对象被销毁的时候先释放掉
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #FD971F;">MyClass</span> {
+    <span style="color: #999999;">Connection</span> <span style="color: #FD971F;">conn</span>;
+    <span style="color: #A7DBD8;">public</span> finalize() {
+        conn.close();
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5-2" class="outline-4">
+<h4 id="sec-1-5-2">You must perform cleanup</h4>
+<div class="outline-text-4" id="text-1-5-2">
+<ul class="org-ul">
+<li>finalize()使用的情况非常不常见,无论是GC还是finalize()都不一定保证执行,JVM
+在内存足够的情况下,不会有兴趣去做这些事情的
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5-3" class="outline-4">
+<h4 id="sec-1-5-3">The termination condition</h4>
+<div class="outline-text-4" id="text-1-5-3">
+<ul class="org-ul">
+<li>下面是一个finalize()的例子,Book要求在被GC的时候,所有的book都是被checkin状
+态的.finalize()用来在最后时刻检查book是不是已经checkin,我们调用了System.gc()
+来强制执行GC
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Book</span> {
+    <span style="color: #999999;">boolean</span> <span style="color: #FD971F;">checkedOut</span> = <span style="color: #AEE239;">false</span>;
+    Book(<span style="color: #999999;">boolean</span> <span style="color: #FD971F;">checkOut</span>) {
+        checkedOut = checkOut;
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">checkIn</span>() {
+        checkedOut = <span style="color: #AEE239;">false</span>;
+    }
+    <span style="color: #A7DBD8;">protected</span>  <span style="color: #999999;">void</span> <span style="color: #AEE239;">finalize</span>() {
+        <span style="color: #A7DBD8;">if</span> (checkedOut) {
+            System.out.println(<span style="color: #F8F8F0;">"Error: checked out"</span>);
+            <span style="color: #505C63;">// </span><span style="color: #505C63;">Normally you'll also do this:</span>
+            <span style="color: #505C63;">// </span><span style="color: #505C63;">super.finalize(); // Call the base-class version</span>
+        }
+    }
+}
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">TerminationCondition</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">Book</span> <span style="color: #FD971F;">novel</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Book</span>(<span style="color: #AEE239;">true</span>);
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">Proper cleanup</span>
+        novel.checkIn();
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">Drop the reference, forget to clean up</span>
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Book</span>(<span style="color: #AEE239;">true</span>);
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">Force garbage collection &amp; finalization</span>
+        System.gc();
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Error: checked out                             //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5-4" class="outline-4">
+<h4 id="sec-1-5-4">How a garbage collector works</h4>
+<div class="outline-text-4" id="text-1-5-4">
+<ul class="org-ul">
+<li>Java把所有的东西都放在heap上面,所以heap分配效率要提高,其所使用的方法就是分配
+一大块heap,然后用指针指到开始的地方,一旦有需求指针下移(这就和stack差不多了)
+</li>
+<li>一个经典的GC原型是reference counting: 每个objec都有一个ref count,每当被一个
+ref连接到这个object的时候ref count就加一.GC检查每个object的ref count,如果为
+0了,那么就回收这个块内存. 这个方法无法解决"循环引用"的问题,所以没有被JVM采用
+</li>
+<li>另外一个更快快速的策略就是,一个object如果被引用了,那么在stack或者在static storage
+里面,一定有和它联系的数据.然后从stack(或者static)上面开始遍历每个ref,每个ref
+里面还有其他ref,寻找一遍,没有被访问到的ref就自动被回收了
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Member initialization</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>java不会为一个函数的本地变量赋值(因为赋值的话,很可能会造成其错误),所以Java倾
+向于让这种错误第一时间跳出error
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #999999;">void</span> <span style="color: #AEE239;">f</span>() {
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">shouldBeTen</span>;
+    <span style="color: #505C63;">// </span><span style="color: #505C63;">Error -- i not initialized,if give it 0 by default, it would be wrong    </span>
+    i++;
+}
+</pre>
+</div>
+</li>
+<li>对于class里面的primitive来说,情况则不一样,所有primitive都会有default value
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">InitialValues</span> {
+    <span style="color: #999999;">boolean</span> <span style="color: #FD971F;">t</span>;
+    <span style="color: #999999;">char</span> <span style="color: #FD971F;">c</span>;
+    <span style="color: #999999;">byte</span> <span style="color: #FD971F;">b</span>;
+    <span style="color: #999999;">short</span> <span style="color: #FD971F;">s</span>;
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span>;
+    <span style="color: #999999;">long</span> <span style="color: #FD971F;">l</span>;
+    <span style="color: #999999;">float</span> <span style="color: #FD971F;">f</span>;
+    <span style="color: #999999;">double</span> <span style="color: #FD971F;">d</span>;
+    <span style="color: #999999;">InitialValues</span> <span style="color: #FD971F;">reference</span>;
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">printInitialValues</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"Data type       Initial Value"</span>);
+        System.out.println(<span style="color: #F8F8F0;">"boolean         "</span> + t);
+        System.out.println(<span style="color: #F8F8F0;">"char            ["</span> + c + <span style="color: #F8F8F0;">"]"</span> );
+        System.out.println(<span style="color: #F8F8F0;">"byte            "</span> + b);
+        System.out.println(<span style="color: #F8F8F0;">"short           "</span> + s);
+        System.out.println(<span style="color: #F8F8F0;">"int             "</span> + i);
+        System.out.println(<span style="color: #F8F8F0;">"long            "</span> + l);
+        System.out.println(<span style="color: #F8F8F0;">"float           "</span> + f);
+        System.out.println(<span style="color: #F8F8F0;">"double          "</span> + d);
+        System.out.println(<span style="color: #F8F8F0;">"reference       "</span> + reference);
+    }
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">InitialValues</span> <span style="color: #FD971F;">iv</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">InitialValues</span>();
+        iv.printInitialValues();
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Data type       Initial Value                  //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">boolean         false                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">char            [ ]                            //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">byte            0                              //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">short           0                              //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">int             0                              //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">long            0                              //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">float           0.0                            //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">double          0.0                            //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">reference       null                           //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1">Specifying initialization</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<ul class="org-ul">
+<li>java可以在你声明class变量的时候就赋值(这在c++里面是不行的)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">InitialValues2</span> {
+    <span style="color: #999999;">boolean</span> <span style="color: #FD971F;">bool</span> = <span style="color: #AEE239;">true</span>;
+    <span style="color: #999999;">char</span> <span style="color: #FD971F;">ch</span> = <span style="color: #F8F8F0;">'x'</span>;
+    <span style="color: #999999;">double</span> <span style="color: #FD971F;">d</span> = 3.14159;
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">Constructor initialization</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>c++是只可以在ctor里面赋值的.java改成了,既可以从ctor里面赋值(保持不同的初始
+化值需求),也可以在声明的时候直接赋值(虽然刻板,但是简单).
+</li>
+<li>java中如果同时在初始化时候赋值,同时在ctor里面也赋值(其实是重新赋值)的话,那么
+还是初始化的赋值先进行.换句话说,一个class实例话的时候,会先把所有的内部变量从
+头到尾过一遍(如果有赋值就赋值),然后才会轮到ctor
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Window</span> {
+    Window(<span style="color: #999999;">int</span> <span style="color: #FD971F;">marker</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"Window("</span> + marker + <span style="color: #F8F8F0;">")"</span>);
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">House</span> {
+    <span style="color: #999999;">Window</span> <span style="color: #FD971F;">w1</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Window</span>(1); <span style="color: #505C63;">// </span><span style="color: #505C63;">Before ctor</span>
+    House() {
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">show tat we're in the ctor</span>
+        System.out.println(<span style="color: #F8F8F0;">"House()"</span>);
+        w3 = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Window</span>(33); <span style="color: #505C63;">// </span><span style="color: #505C63;">Reinitialize w3</span>
+    }
+    <span style="color: #999999;">Window</span> <span style="color: #FD971F;">w2</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Window</span>(2); <span style="color: #505C63;">// </span><span style="color: #505C63;">After ctor</span>
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"f()"</span>);
+    }
+    <span style="color: #999999;">Window</span> <span style="color: #FD971F;">w3</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Window</span>(3); <span style="color: #505C63;">// </span><span style="color: #505C63;">At end</span>
+}
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">OrderOfInitialization</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">House</span> <span style="color: #FD971F;">h</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">House</span>();
+        h.f(); <span style="color: #505C63;">// </span><span style="color: #505C63;">Shows that construction is done</span>
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Window(1)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Window(2)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Window(3)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">House()                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Window(33)                                     //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f()                                            //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-7-1" class="outline-4">
+<h4 id="sec-1-7-1">static data initialization</h4>
+<div class="outline-text-4" id="text-1-7-1">
+<ul class="org-ul">
+<li>下面就是一个static data初始化的例子
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Bowl</span> {
+    Bowl(<span style="color: #999999;">int</span> <span style="color: #FD971F;">marker</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"Bowl("</span> + marker + <span style="color: #F8F8F0;">")"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f1</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">marker</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f1("</span> + marker + <span style="color: #F8F8F0;">")"</span>);
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Table</span> {
+    <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">Bowl</span> <span style="color: #FD971F;">bowl1</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Bowl</span>(1);
+    Table() {
+        System.out.println(<span style="color: #F8F8F0;">"Table()"</span>);
+        bowl2.f1(1);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f2</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">marker</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f2("</span> + marker + <span style="color: #F8F8F0;">")"</span>);
+    }
+    <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">Bowl</span> <span style="color: #FD971F;">bowl2</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Bowl</span>(2);
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Cupboard</span> {
+    <span style="color: #999999;">Bowl</span> <span style="color: #FD971F;">bowl3</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Bowl</span>(3);
+    <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">Bowl</span> <span style="color: #FD971F;">bowl4</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Bowl</span>(4);
+    Cupboard() {
+        System.out.println(<span style="color: #F8F8F0;">"Cupboard()"</span>);
+        bowl4.f1(2);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f3</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">marker</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f3("</span> + marker + <span style="color: #F8F8F0;">")"</span>);
+    }
+    <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">Bowl</span> <span style="color: #FD971F;">bowl5</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Bowl</span>(5);
+}
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">StaticInitialization</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"Creating new Cupboard() in main"</span>);
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Cupboard</span>();
+        System.out.println(<span style="color: #F8F8F0;">"Creating new Cupboard() in main"</span>);
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Cupboard</span>();
+        table.f2(1);
+        cupboard.f3(1);
+    }
+    <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">Table</span> <span style="color: #FD971F;">table</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Table</span>();
+    <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">Cupboard</span> <span style="color: #FD971F;">cupboard</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Cupboard</span>();
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Bowl(1)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Bowl(2)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Table()                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f1(1)                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Bowl(4)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Bowl(5)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Bowl(3)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Cupboard()                                     //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f1(2)                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating new Cupboard() in main                //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Bowl(3)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Cupboard()                                     //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f1(2)                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating new Cupboard() in main                //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Bowl(3)                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Cupboard()                                     //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f1(2)                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f2(1)                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f3(1)                                          //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>这个例子说明的比较多:
+<ul class="org-ul">
+<li>首先是刚才说了的:所有的class variable都会比函数首先开始initialize,这里
+所有的f()都是在最后的
+</li>
+<li>其次这里更进 一步的说明static variable会比普通variable更先初始化==&gt;Bowl(3)
+出现在Bowl(4)和Bowl(5)之后,虽然在他们前面.
+</li>
+<li>再次是Bowl(1),Bowl(2), Bowl(4), Bowl(5)都只初始化了一次. 这也符合static的
+特点:其是class的附属只需初始化一次.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7-2" class="outline-4">
+<h4 id="sec-1-7-2">Explicit static initialization</h4>
+<div class="outline-text-4" id="text-1-7-2">
+<ul class="org-ul">
+<li>java中可以使用static加{}的方法来定义static变量.用这种方法(叫做static clause, 
+或者static block)定义的static变量并不是"先于所有函数,先于所有变量"的调用,而是
+什么时候用到,什么时候调用
+</li>
+<li>下例中,如果我们把(2)解除注释,那会发生如下两个情况:
+<ul class="org-ul">
+<li>在main函数之前,cup1和cup2就会被产生,虽然定义在main后面
+</li>
+<li>cup1和cup2只会产生一次,虽然我们(2)里面创建了两次Cups
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Cup</span> {
+    Cup(<span style="color: #999999;">int</span> <span style="color: #FD971F;">marker</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"Cup("</span> + marker + <span style="color: #F8F8F0;">")"</span>);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">marker</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f("</span> + marker + <span style="color: #F8F8F0;">")"</span>);
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Cups</span> {
+    <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">Cup</span> <span style="color: #FD971F;">cup1</span>;
+    <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">Cup</span> <span style="color: #FD971F;">cup2</span>;
+    <span style="color: #A7DBD8;">static</span> {
+        cup1 = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Cup</span>(1);
+        cup2 = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Cup</span>(2);
+    }
+    Cups() {
+        System.out.println(<span style="color: #F8F8F0;">"Cups()"</span>);
+    }
+}
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">ExplicitStatic</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"Inside main()"</span>);
+        Cups.cup1.f(99);  <span style="color: #505C63;">// </span><span style="color: #505C63;">(1)</span>
+    }
+    <span style="color: #505C63;">// </span><span style="color: #505C63;">static Cups cups1 = new Cups();  // (2)</span>
+    <span style="color: #505C63;">// </span><span style="color: #505C63;">static Cups cups2 = new Cups();  // (2)</span>
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Inside main()                                  //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Cup(1)                                         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Cup(2)                                         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">f(99)                                          //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7-3" class="outline-4">
+<h4 id="sec-1-7-3">Non-static instance initialization</h4>
+<div class="outline-text-4" id="text-1-7-3">
+<ul class="org-ul">
+<li>我们还可以使用和上面类似的方法来在一个class里面,使用{}创建一个区域,这个区
+域里面的代码会早于所有的ctor执行(变量赋值本来早于所有函数的.但是下面的"mug1
+&amp; mug2 initialized"打印语句,如果不加{}是不会在ctor之前执行的
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Mug</span> {
+    Mug(<span style="color: #999999;">int</span> <span style="color: #FD971F;">marker</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"Mug("</span> + marker + <span style="color: #F8F8F0;">")"</span> );
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">f</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">marker</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"f("</span> + marker + <span style="color: #F8F8F0;">")"</span>);
+    }
+}
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Mugs</span> {
+    <span style="color: #999999;">Mug</span> <span style="color: #FD971F;">mug1</span>;
+    <span style="color: #999999;">Mug</span> <span style="color: #FD971F;">mug2</span>;
+    {
+        mug1 = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Mug</span>(1);
+        mug2 = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Mug</span>(2);
+        System.out.println(<span style="color: #F8F8F0;">"mug1 &amp; mug2 initialized"</span>);
+    }
+    Mugs() {
+        System.out.println(<span style="color: #F8F8F0;">"Mugs()"</span>);
+    }
+    Mugs(<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"Mugs(int)"</span>);
+    }
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"Inside main()"</span>);
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Mugs</span>();
+        System.out.println(<span style="color: #F8F8F0;">"new Mugs() complete"</span>);
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Mugs</span>(1);
+        System.out.println(<span style="color: #F8F8F0;">"new Mugs(1) complete"</span>);
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Inside main()                                  //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Mug(1)                                         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Mug(2)                                         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">mug1 &amp; mug2 initialized                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Mugs()                                         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">new Mugs() complete                            //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Mug(1)                                         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Mug(2)                                         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">mug1 &amp; mug2 initialized                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Mugs(int)                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">new Mugs(1) complete                           //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">Array initialization</h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>java里面一切皆是ref,所以数组也不过是个"指向数值的ref",在java里面申请数组的
+时候更倾向于使用int[] a , 因为它提示了我们array的本质
+</li>
+<li>因为我们所掌握的不过是ref,所以再申请一个ref然后相互赋值的结果就是两个ref指
+到了一块.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">ArraysOfPrimitives</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">int</span>[] <span style="color: #FD971F;">a1</span> = {1, 2, 3, 4, 5};
+        <span style="color: #999999;">int</span>[] <span style="color: #FD971F;">a2</span>;
+        a2 = a1;
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; a2.length; i++) {
+            a2[i] = a2[i] + 1;
+        }
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; a1.length; i++) {
+            System.out.println(<span style="color: #F8F8F0;">"a1["</span> + i + <span style="color: #F8F8F0;">"] = "</span> + a1[i]);
+        }
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">a1[0] = 2                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">a1[1] = 3                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">a1[2] = 4                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">a1[3] = 5                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">a1[4] = 6                                      //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>上例中我们看到java的数组有一个成员变量length来指示其有多少个成员.这是个成员
+变量不是函数.而String的长度却的确是使用的length()函数
+</li>
+<li>array也可以先申请ref, 然后runtime的时候再确定数组的大小
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">import</span> <span style="color: #AEE239;">java</span>.<span style="color: #AEE239;">util</span>.<span style="color: #999999;">Arrays</span>;
+<span style="color: #A7DBD8;">import</span> <span style="color: #AEE239;">java</span>.<span style="color: #AEE239;">util</span>.<span style="color: #999999;">Random</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">ArrayNew</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">int</span>[] <span style="color: #FD971F;">a</span>;
+        <span style="color: #999999;">Random</span> <span style="color: #FD971F;">rand</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Random</span>(47);
+        a = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">int</span>[rand.nextInt(20)];
+
+        System.out.println(<span style="color: #F8F8F0;">"length of a = "</span> + a.length);
+        System.out.println(Arrays.toString(a));
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt;         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">length of a = 18                                       //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>如果不是primitive类型,比如是int的wrapper类型,那么使用方法如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">import</span> <span style="color: #AEE239;">java</span>.<span style="color: #AEE239;">util</span>.<span style="color: #999999;">Arrays</span>;
+<span style="color: #A7DBD8;">import</span> <span style="color: #AEE239;">java</span>.<span style="color: #AEE239;">util</span>.<span style="color: #999999;">Random</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">ArrayClassObj</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">Random</span> <span style="color: #FD971F;">rand</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Random</span>(47);
+        <span style="color: #999999;">Integer</span>[] <span style="color: #FD971F;">a</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Integer</span>[rand.nextInt(20)];
+        System.out.println(<span style="color: #F8F8F0;">"length of a = "</span> + a.length);
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; a.length; i++) {
+            a[i] = rand.nextInt(500);  <span style="color: #505C63;">//</span><span style="color: #505C63;">Autoboxing</span>
+        }
+        System.out.println(Arrays.toString(a));
+    }
+}
+<span style="color: #505C63;">//////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt;   //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">[55, 193, 361, 461, 429, 368, 200, 22, 207, 288, //</span>
+<span style="color: #505C63;">//  </span><span style="color: #505C63;">128, 51, 89, 309, 278, 498, 361, 20]            //</span>
+<span style="color: #505C63;">//////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>也可以使用{}来初始化数组,但是因为事先要知道数组长度.所以不是特别好用. 记得{}后面
+是分号,而参数之间是逗号.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">import</span> <span style="color: #AEE239;">java</span>.<span style="color: #AEE239;">util</span>.<span style="color: #999999;">Arrays</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">ArrayInit</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">Integer</span>[] <span style="color: #FD971F;">a</span> = {
+                <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Integer</span>(1),
+                <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Integer</span>(2),
+                3, <span style="color: #505C63;">// </span><span style="color: #505C63;">Autoboxing</span>
+        };
+        <span style="color: #999999;">Integer</span>[] <span style="color: #FD971F;">b</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Integer</span>[] {
+                <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Integer</span>(1),
+                <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Integer</span>(2),
+                3, <span style="color: #505C63;">// </span><span style="color: #505C63;">Autoboxing</span>
+        };
+        System.out.println(Arrays.toString(a));
+        System.out.println(Arrays.toString(b));
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">[1, 2, 3]                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">[1, 2, 3]                                      //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>我们注意到过main函数的参数其实就是一个String数组,那么我们可以通过上面的{}初
+始化(cury brace-enclosed list)来给main一个初始化值
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">DynamicArray</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        Other.main(<span style="color: #A7DBD8;">new</span> <span style="color: #999999;">String</span>[] {<span style="color: #F8F8F0;">"fiddle"</span>, <span style="color: #F8F8F0;">"de"</span>, <span style="color: #F8F8F0;">"dum"</span>});
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Other</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #A7DBD8;">for</span>(<span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span> : args) {
+            System.out.print(s + <span style="color: #F8F8F0;">"  "</span>);
+        }
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">fiddle  de  dum                                //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-8-1" class="outline-4">
+<h4 id="sec-1-8-1">Variable argument lists</h4>
+<div class="outline-text-4" id="text-1-8-1">
+<ul class="org-ul">
+<li>如果我们申请了一个Object的数组,那么其内部每个成员可以是不同类型的变量(都是
+Object的derived变量)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">A</span> {
+}
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">VarArgs</span> {
+    <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">printArray</span>(<span style="color: #999999;">Object</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">Object</span> <span style="color: #FD971F;">obj</span> : args) {
+            System.out.print(obj + <span style="color: #F8F8F0;">" "</span>);
+        }
+        System.out.println();
+    }
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        printArray(<span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Object</span>[] { <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Integer</span>(47),
+                                  <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Float</span>(3.4),
+                                  <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Double</span>(11.11)});
+        printArray(<span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Object</span>[] { <span style="color: #F8F8F0;">"one"</span>, <span style="color: #F8F8F0;">"two"</span>, <span style="color: #F8F8F0;">"three"</span>});
+        printArray(<span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Object</span>[] {<span style="color: #A7DBD8;">new</span> <span style="color: #999999;">A</span>(), <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">A</span>(), <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">A</span>()});
+    }
+
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">47 3.4 11.11                                   //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">one two three                                  //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">lang.tij4.initialization.A@162b333             //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">lang.tij4.initialization.A@e2f8c1              //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">lang.tij4.initialization.A@13954b1             //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9">Enumerated types</h3>
+<div class="outline-text-3" id="text-1-9">
+<ul class="org-ul">
+<li>Java SE5 引入了enum的概念.在java里面enum和class一样,是一个类
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">enum</span> <span style="color: #999999;">Spiciness</span> {
+    <span style="color: #FD971F;">NOT</span>, <span style="color: #FD971F;">MILD</span>, <span style="color: #FD971F;">MEDIUM</span>, <span style="color: #FD971F;">HOT</span>, <span style="color: #FD971F;">FLAMING</span>
+}
+</pre>
+</div>
+</li>
+<li>使用这个enum的方法如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">SimpleEnumUse</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">Spiciness</span> <span style="color: #FD971F;">howHot</span> = <span style="color: #AEE239;">Spiciness</span>.MEDIUM;
+        System.out.println(howHot);
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">MEDIUM                                         //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>上面我们可以直接打印Enum,因为java为enum提供了toString()函数.同时jvm还为enum
+提供了ordinal()函数来排序,提供了values()函数来生成一个数组
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">EnumOrder</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">Spiciness</span> <span style="color: #FD971F;">s</span> : Spiciness.values()) {
+            System.out.println(s + <span style="color: #F8F8F0;">", ordinal: "</span> + s.ordinal());
+        }
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">NOT, ordinal: 0                                //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">MILD, ordinal: 1                               //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">MEDIUM, ordinal: 2                             //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">HOT, ordinal: 3                                //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">FLAMING, ordinal: 4                            //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>enum在其他语言的一大特点就是可以当作是int type从而可以在switch里面使用, java
+也不例外
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">initialization</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Burrito</span> {
+    <span style="color: #999999;">Spiciness</span> <span style="color: #FD971F;">degree</span>;
+    <span style="color: #A7DBD8;">public</span> Burrito(<span style="color: #999999;">Spiciness</span> <span style="color: #FD971F;">degree</span>) {
+        <span style="color: #A7DBD8;">this</span>.degree = degree;
+    }
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">describe</span>() {
+        System.out.print(<span style="color: #F8F8F0;">"This burrito is"</span>);
+        <span style="color: #A7DBD8;">switch</span>(degree) {
+            <span style="color: #A7DBD8;">case</span> NOT:
+                System.out.println(<span style="color: #F8F8F0;">"not spicy at all"</span>);
+                <span style="color: #A7DBD8;">break</span>;
+            <span style="color: #A7DBD8;">case</span> MILD:
+            <span style="color: #A7DBD8;">case</span> MEDIUM:
+                System.out.println(<span style="color: #F8F8F0;">" a little hot."</span>);
+                <span style="color: #A7DBD8;">break</span>;
+            <span style="color: #A7DBD8;">case</span> HOT:
+            <span style="color: #A7DBD8;">case</span> FLAMING:
+                System.out.println(<span style="color: #F8F8F0;">" may be too hot"</span>);
+            <span style="color: #A7DBD8;">default</span>:
+        }
+    }
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">Burrito</span>
+                <span style="color: #FD971F;">plain</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Burrito</span>(<span style="color: #AEE239;">Spiciness</span>.NOT),
+                <span style="color: #FD971F;">greenChile</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Burrito</span>(<span style="color: #AEE239;">Spiciness</span>.MEDIUM),
+                <span style="color: #FD971F;">jalapeno</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Burrito</span>(<span style="color: #AEE239;">Spiciness</span>.HOT);
+        plain.describe();
+        greenChile.describe();
+        jalapeno.describe();
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">This burrito isnot spicy at all                //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">This burrito is a little hot.                  //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">This burrito is may be too hot                 //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Duoshuo Comment BEGIN -->
+         <div class="ds-thread"></div>
+         <script type="text/javascript">
+             var duoshuoQuery = {short_name:"harrifeng"};
+             (function() {
+             var ds = document.createElement('script');
+             ds.type = 'text/javascript';ds.async = true;
+             ds.src = 'http://static.duoshuo.com/embed.js';
+             ds.charset = 'UTF-8';
+             (document.getElementsByTagName('head')[0]
+             || document.getElementsByTagName('body')[0]).appendChild(ds);
+             })();
+         </script>
+         <!-- Duoshuo Comment END -->
+</div>
+</body>
+</html>

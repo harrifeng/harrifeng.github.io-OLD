@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Leetcode 006: Zigzag Conversion</title>
+<title>Chapter 12</title>
 <!-- 2014-03-12 Wed 23:16 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
@@ -135,6 +135,48 @@ for the JavaScript code in this tag.
  }
 /*]]>*///-->
 </script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
 </head>
 <body>
 <div id="org-div-home-and-up">
@@ -161,89 +203,227 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Leetcode 006: Zigzag Conversion</h1>
+<h1 class="title">Chapter 12</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">题目</a></li>
-<li><a href="#sec-2">思路</a></li>
-<li><a href="#sec-3">解答</a></li>
+<li><a href="#sec-1">Customizing The Prompt</a>
+<ul>
+<li><a href="#sec-1-1">Anatomy of a Prompt</a></li>
+<li><a href="#sec-1-2">Trying Some Alternative Prompt Designs</a></li>
+<li><a href="#sec-1-3">Adding Color</a></li>
+<li><a href="#sec-1-4">Saving the Prompt</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">题目</h2>
+<h2 id="sec-1">Customizing The Prompt</h2>
 <div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Anatomy of a Prompt</h3>
+<div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
-<li>有如下字母以齿轮状的顺序排列.
-<pre class="example">
-P   A   H   N
-A P L S I I G
-Y   I   R
-</pre>
-</li>
-<li>输入是竖着给的,求横着的输出
-<pre class="example">
-Sample Input: "PAYPALISHIRING", 3
-Sample Output: "PAHNAPLSIIGYIR"
-</pre>
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">思路</h2>
-<div class="outline-text-2" id="text-2">
-<ul class="org-ul">
-<li>注意当列数为1的时候的特殊情况处理, 就算不会做这个题目,也首先要想到边缘情况.
-</li>
-<li>猛一看这题,就是操蛋的无病呻吟题.后来一想,其实是考察你对mod操作的理解.以三个一列
-为例, 后面中间那个就是四个一组. 四个的就是六个一组(总是因为锯齿形状,少两个)
-</li>
-<li>然后我们发现,最终的结果肯定是n个不同的字符串(n等于要求分成的行数)
-</li>
-<li>解法就是根据一列几个先mod成不同的小组, 小组里面前几个肯定是小于n的, 他们mod的结
-果是x,那么就加入到string[x], 如果mod的结果x大于n(但也肯定小于2*n-2),那么就是
-2*n-2-x, 你可以看看是不是这个规律
-</li>
-</ul>
-</div>
-</div>
-
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">解答</h2>
-<div class="outline-text-2" id="text-3">
+<li>默认情况下是如下的
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Solution</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">convert</span>(<span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">nRows</span>) {
-        <span style="color: #A7DBD8;">if</span> (nRows == 1) {
-            <span style="color: #A7DBD8;">return</span> s;
-        }
-        <span style="color: #999999;">StringBuffer</span>[] <span style="color: #FD971F;">sbuf</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">StringBuffer</span>[nRows];
-        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; nRows; i++) {
-            sbuf[i] = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">StringBuffer</span>();
-        }
-        <span style="color: #999999;">int</span> <span style="color: #FD971F;">group</span> = nRows * 2 - 2;
-        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; s.length(); i++) {
-            <span style="color: #999999;">int</span> <span style="color: #FD971F;">newi</span> = i % group;
-            <span style="color: #A7DBD8;">if</span> (newi &lt; nRows) {
-                sbuf[newi].append(s.charAt(i));
-            } <span style="color: #A7DBD8;">else</span> {
-                sbuf[group - newi].append(s.charAt(i));
-            }
-        }
-
-        <span style="color: #999999;">StringBuffer</span> <span style="color: #FD971F;">result</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">StringBuffer</span>();
-        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; nRows; i++) {
-            result.append(sbuf[i]);
-        }
-        <span style="color: #A7DBD8;">return</span> result.toString();
-    }
-}
+<pre class="src src-sh">lvtest@auto-inst:~$
 </pre>
+</div>
+</li>
+<li>prompt其实是环境变量PS1决定的
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ echo $<span style="color: #FD971F;">PS1</span>
+${<span style="color: #FD971F;">debian_chroot</span>:+($<span style="color: #FD971F;">debian_chroot</span>)}\u@\h:\w<span style="color: #F8F8F0;">\$</span>
+</pre>
+</div>
+</li>
+<li>PS可以使用如下的变量
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Sequence</th>
+<th scope="col" class="left">Value Displayed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">\a</td>
+<td class="left">ASCII bell</td>
+</tr>
+
+<tr>
+<td class="left">\d</td>
+<td class="left">Current date in day</td>
+</tr>
+
+<tr>
+<td class="left">\h</td>
+<td class="left">Hostname of the local machine minus the trailing domain</td>
+</tr>
+
+<tr>
+<td class="left">\H</td>
+<td class="left">Full hostname</td>
+</tr>
+
+<tr>
+<td class="left">\j</td>
+<td class="left">Number of jobs running in the current shell session</td>
+</tr>
+
+<tr>
+<td class="left">\l</td>
+<td class="left">Name of the current terminal device</td>
+</tr>
+
+<tr>
+<td class="left">\n</td>
+<td class="left">A newline character</td>
+</tr>
+
+<tr>
+<td class="left">\r</td>
+<td class="left">A carriage return</td>
+</tr>
+
+<tr>
+<td class="left">\s</td>
+<td class="left">Name of the shell program</td>
+</tr>
+
+<tr>
+<td class="left">\t</td>
+<td class="left">Current time in 24-hour</td>
+</tr>
+
+<tr>
+<td class="left">\T</td>
+<td class="left">Current time in 12-hour format</td>
+</tr>
+
+<tr>
+<td class="left">\@</td>
+<td class="left">Current time in 12-hour, AM/PM</td>
+</tr>
+
+<tr>
+<td class="left">\A</td>
+<td class="left">Current in 24-hour</td>
+</tr>
+
+<tr>
+<td class="left">\u</td>
+<td class="left">Username of the current user</td>
+</tr>
+
+<tr>
+<td class="left">\v</td>
+<td class="left">Version number of the shell</td>
+</tr>
+
+<tr>
+<td class="left">\V</td>
+<td class="left">Version and release numbers of the shell</td>
+</tr>
+
+<tr>
+<td class="left">\w</td>
+<td class="left">Name of the current working directory</td>
+</tr>
+
+<tr>
+<td class="left">\W</td>
+<td class="left">Last part of the current working directory name</td>
+</tr>
+
+<tr>
+<td class="left">\!</td>
+<td class="left">History number of the current command</td>
+</tr>
+
+<tr>
+<td class="left">\#</td>
+<td class="left">Number of commands entered during this shell session</td>
+</tr>
+
+<tr>
+<td class="left">\$</td>
+<td class="left">This display a "$" if you have superuser privilege</td>
+</tr>
+
+<tr>
+<td class="left">\[</td>
+<td class="left">This signals the start of a series of chars</td>
+</tr>
+
+<tr>
+<td class="left">\]</td>
+<td class="left">This signals the end of a non-printing char sequence</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Trying Some Alternative Prompt Designs</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>我们直接就可以定义PS1,然后回车一下就能看到改变了
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ <span style="color: #FD971F;">PS1</span>=<span style="color: #F8F8F0;">"&lt;\u@h \W&gt;\$"</span>
+&lt;lvtest@h ~&gt;$<span style="color: #FD971F;">pwd</span>
+/home/lvtest
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Adding Color</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>可以在PS里面加入ASNI color的值
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$<span style="color: #FD971F;">PS1</span>=<span style="color: #F8F8F0;">"\[\033[0;31m\]&lt;\u@\h \W&gt;\$ "</span>
+&lt;lvtest@auto-inst ~&gt;$ pwd
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Saving the Prompt</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>我们通过export来保存设置
+<div class="org-src-container">
+
+<pre class="src src-sh">&lt;lvtest@auto-inst ~&gt;$ <span style="color: #FD971F;">PS1</span>=<span style="color: #F8F8F0;">"\[\033[s\033[0;0H\033[0;41m\033[K\033[1;33m\t\033[0m\033[u\]&lt;\u@\h \W&gt;\$ "</span>
+17:39:02&lt;lvtest@auto-inst ~&gt;$ export PS1
+</pre>
+</div>
+</li>
+</ul>
 </div>
 </div>
 </div>

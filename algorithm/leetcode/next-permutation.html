@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Leetcode 030: Next Permutation</title>
+<!-- 2014-03-12 Wed 23:16 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/about.html">About</a></li>
+                    <li><a href="/atom.xml">RSS</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Leetcode 030: Next Permutation</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">题目</a></li>
+<li><a href="#sec-2">思路</a></li>
+<li><a href="#sec-3">解答</a></li>
+<li><a href="#sec-4">其他</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">题目</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>求当前排列的下一个排列(升序), stl里面的next_permutation实现
+</li>
+</ul>
+<pre class="example">
+Sample Input : 1, 2, 3
+Sample Output: 1, 3, 2
+
+Sample Input : 3, 2, 1
+Sample Output: 1, 2, 3
+
+Sample Input : 1, 1, 5
+Sample Output: 1, 5, 1
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">思路</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>首先要明白:什么是next permutation. 简单点说,如果输入的数字有大小的话,那么
+next permutation就是下一个大于它并"最接近"它的全排列. 比如123, 下一个使用
+这三个数字的排列就是132(213, 312虽然也是全排列,但是都比132大)
+</li>
+<li>如果这个全排列已经是最大的了(全部升序排列),那么它的next permutation就来一个
+"头尾想接"(就是最小的数字): 比如321的排列已经是最大的了,所以next permutation
+就是把321完全反转成最小的123
+</li>
+<li>理解完next permutation来看看实现.实现一般分下面四个步骤(对应图):
+<ol class="org-ol">
+<li>从后往前找,找到第一个array[i] &lt; array[i+1]的地方, 这个地方是整个字符串
+最晚的"升序"的地方,而且在数字尾端,更改的话最容易做到"最接近".通过从后往前
+逐个比较,我们发现8这个数字是一个分界线.8后面的数字都是降序的(也就是最大的了)
+</li>
+<li>我们如果直接把6和8一交换,肯定也会产生一个permutation,但是不是"最接近的",怎样
+找到"最接近"的呢,就要从1到8后面这端寻找一个比6大,并且和6差距最小的(也就是从
+后往前第一个比6大的数字),我们找到了是7
+</li>
+<li>7作为最佳选择,和6进行调换. 7后面肯定还是decrease的状态(也就是能组成的最大值)
+</li>
+<li>为了达到"最接近",我们在6变成7的情况下已经增长很多了.所以我们要把7后面的一系列
+decrease的数组反转(也就是能组成的最小值)
+</li>
+</ol>
+
+<div class="figure">
+<p><img src="../../static/images/sc1.png" alt="sc1.png" />
+</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">解答</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Solution</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">nextPermutation</span>(<span style="color: #999999;">int</span>[] <span style="color: #FD971F;">num</span>) {
+        <span style="color: #A7DBD8;">if</span> (num.length &lt;= 1) {
+            <span style="color: #A7DBD8;">return</span>;
+        }
+
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = num.length - 2; i &gt;= 0; i--) {
+            <span style="color: #A7DBD8;">if</span> (num[i] &lt; num[i+1]) {
+                <span style="color: #999999;">int</span> <span style="color: #FD971F;">j</span>;
+                <span style="color: #A7DBD8;">for</span> (j = num.length - 1; j &gt;= i; j--) {
+                    <span style="color: #A7DBD8;">if</span> (num[i] &lt; num[j]) {
+                        <span style="color: #A7DBD8;">break</span>;
+                    }
+                }
+                <span style="color: #505C63;">// </span><span style="color: #505C63;">swap the two numbres</span>
+                <span style="color: #999999;">int</span> <span style="color: #FD971F;">temp</span> = num[i];
+                num[i] = num[j];
+                num[j] = temp;
+
+                <span style="color: #505C63;">// </span><span style="color: #505C63;">sort the rest of arrays after the swap point</span>
+                Arrays.sort(num, i+1, num.length);
+                <span style="color: #A7DBD8;">return</span>;
+            }
+        }
+
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">if the whole array is all in descending order(can't become bigger),</span>
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">you have to reverse the array</span>
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; num.length / 2; i++) {
+            <span style="color: #999999;">int</span> <span style="color: #FD971F;">temp</span> = num[i];
+            num[i] = num[num.length - i - 1];
+            num[num.length - i - 1] = temp;
+        }
+        <span style="color: #A7DBD8;">return</span>;
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">其他</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>下例是c++的next_permutation函数使用方法
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;iostream&gt;</span>
+<span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;algorithm&gt;</span>
+
+<span style="color: #999999;">int</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">argc</span>, <span style="color: #999999;">char</span> *<span style="color: #FD971F;">argv</span>[])
+{
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">myints</span>[] = {1, 2, 3};
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">size</span> = <span style="color: #A7DBD8;">sizeof</span>(myints) / <span style="color: #A7DBD8;">sizeof</span>(<span style="color: #999999;">int</span>);
+    <span style="color: #AEE239;">std</span>::sort(myints, myints + size);
+
+    <span style="color: #A7DBD8;">do</span> {
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; size; i++) {
+            <span style="color: #AEE239;">std</span>::cout &lt;&lt; myints[i] &lt;&lt; <span style="color: #F8F8F0;">" "</span>;
+        }
+        <span style="color: #AEE239;">std</span>::cout &lt;&lt; <span style="color: #AEE239;">std</span>::endl;
+    } <span style="color: #A7DBD8;">while</span> (<span style="color: #AEE239;">std</span>::next_permutation(myints, myints + size));
+
+    <span style="color: #AEE239;">std</span>::cout &lt;&lt; <span style="color: #F8F8F0;">"After the whole permutation it becomes"</span> &lt;&lt; <span style="color: #AEE239;">std</span>::endl;
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; size; i++) {
+            <span style="color: #AEE239;">std</span>::cout &lt;&lt; myints[i] &lt;&lt; <span style="color: #F8F8F0;">" "</span>;
+        }
+    <span style="color: #A7DBD8;">return</span> 0;
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">1 2 3                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">1 3 2                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">2 1 3                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">2 3 1                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">3 1 2                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">3 2 1                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">After the whole permutation it becomes         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">1 2 3                                          //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Duoshuo Comment BEGIN -->
+         <div class="ds-thread"></div>
+         <script type="text/javascript">
+             var duoshuoQuery = {short_name:"harrifeng"};
+             (function() {
+             var ds = document.createElement('script');
+             ds.type = 'text/javascript';ds.async = true;
+             ds.src = 'http://static.duoshuo.com/embed.js';
+             ds.charset = 'UTF-8';
+             (document.getElementsByTagName('head')[0]
+             || document.getElementsByTagName('body')[0]).appendChild(ds);
+             })();
+         </script>
+         <!-- Duoshuo Comment END -->
+</div>
+</body>
+</html>
