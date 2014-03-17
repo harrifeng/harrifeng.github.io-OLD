@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode: Letter Combinations of a Phone Number</title>
-<!-- 2014-03-13 Thu 21:36 -->
+<!-- 2014-03-17 Mon 22:15 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -218,38 +218,38 @@ Sample Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
-    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">combine</span>(<span style="color: #b58900;">vector</span>&lt;<span style="color: #b58900;">string</span>&gt;&amp; <span style="color: #268bd2;">result</span>, <span style="color: #b58900;">string</span> <span style="color: #268bd2;">digits</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">level</span>,
-                 <span style="color: #b58900;">vector</span>&lt;<span style="color: #b58900;">string</span>&gt; <span style="color: #268bd2;">summary</span>, <span style="color: #b58900;">string</span> <span style="color: #268bd2;">tmp</span>) {
-        <span style="color: #859900; font-weight: bold;">if</span> (level == digits.size()) {
+<pre class="src src-c++"><span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Solution</span> {
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">combine</span>(<span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">string</span>&gt;&amp; <span style="color: #FD971F;">result</span>, <span style="color: #999999;">string</span> <span style="color: #FD971F;">digits</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">level</span>,
+                 <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">string</span>&gt; <span style="color: #FD971F;">summary</span>, <span style="color: #999999;">string</span> <span style="color: #FD971F;">tmp</span>) {
+        <span style="color: #A7DBD8;">if</span> (level == digits.size()) {
             result.push_back(tmp);
-            <span style="color: #859900; font-weight: bold;">return</span>;
+            <span style="color: #A7DBD8;">return</span>;
         }
-        <span style="color: #b58900;">string</span> <span style="color: #268bd2;">current_sum</span> = summary[digits[level] - <span style="color: #2aa198;">'2'</span>];
-        <span style="color: #859900; font-weight: bold;">for</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; current_sum.size(); i++) {
-            tmp.push_back(<span style="color: #b58900;">current_sum</span>[i]);
+        <span style="color: #999999;">string</span> <span style="color: #FD971F;">current_sum</span> = summary[digits[level] - <span style="color: #F8F8F0;">'2'</span>];
+        <span style="color: #A7DBD8;">for</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; current_sum.size(); i++) {
+            tmp.push_back(<span style="color: #999999;">current_sum</span>[i]);
             combine(result, digits, level + 1, summary, tmp);
-            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">c++ 11, used to be ==&gt; tmp.erase(tmp.size()-1);</span>
+            <span style="color: #505C63;">// </span><span style="color: #505C63;">c++ 11, used to be ==&gt; tmp.erase(tmp.size()-1);</span>
             tmp.pop_back();
         }
     }
-<span style="color: #859900; font-weight: bold;">public</span>:
-    <span style="color: #b58900;">vector</span>&lt;<span style="color: #b58900;">string</span>&gt; <span style="color: #268bd2;">letterCombinations</span>(<span style="color: #b58900;">string</span> <span style="color: #268bd2;">digits</span>) {
-        <span style="color: #b58900;">vector</span>&lt;<span style="color: #b58900;">string</span>&gt; <span style="color: #268bd2;">sum</span>;
-        sum.push_back(<span style="color: #2aa198;">"abc"</span>);
-        sum.push_back(<span style="color: #2aa198;">"def"</span>);
-        sum.push_back(<span style="color: #2aa198;">"ghi"</span>);
-        sum.push_back(<span style="color: #2aa198;">"jkl"</span>);
-        sum.push_back(<span style="color: #2aa198;">"mno"</span>);
-        sum.push_back(<span style="color: #2aa198;">"pqrs"</span>);
-        sum.push_back(<span style="color: #2aa198;">"tuv"</span>);
-        sum.push_back(<span style="color: #2aa198;">"wxyz"</span>);
+<span style="color: #A7DBD8;">public</span>:
+    <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">string</span>&gt; <span style="color: #AEE239;">letterCombinations</span>(<span style="color: #999999;">string</span> <span style="color: #FD971F;">digits</span>) {
+        <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">string</span>&gt; <span style="color: #FD971F;">sum</span>;
+        sum.push_back(<span style="color: #F8F8F0;">"abc"</span>);
+        sum.push_back(<span style="color: #F8F8F0;">"def"</span>);
+        sum.push_back(<span style="color: #F8F8F0;">"ghi"</span>);
+        sum.push_back(<span style="color: #F8F8F0;">"jkl"</span>);
+        sum.push_back(<span style="color: #F8F8F0;">"mno"</span>);
+        sum.push_back(<span style="color: #F8F8F0;">"pqrs"</span>);
+        sum.push_back(<span style="color: #F8F8F0;">"tuv"</span>);
+        sum.push_back(<span style="color: #F8F8F0;">"wxyz"</span>);
 
-        <span style="color: #b58900;">vector</span>&lt;<span style="color: #b58900;">string</span>&gt; <span style="color: #268bd2;">ret</span>;
-        <span style="color: #b58900;">string</span> <span style="color: #268bd2;">t</span>;
+        <span style="color: #999999;">vector</span>&lt;<span style="color: #999999;">string</span>&gt; <span style="color: #FD971F;">ret</span>;
+        <span style="color: #999999;">string</span> <span style="color: #FD971F;">t</span>;
 
         combine(ret, digits, 0, sum, t);
-        <span style="color: #859900; font-weight: bold;">return</span> ret;
+        <span style="color: #A7DBD8;">return</span> ret;
     }
 };
 </pre>

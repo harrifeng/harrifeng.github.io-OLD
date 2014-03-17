@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 005: Longest Palindromic ubstring</title>
-<!-- 2014-03-13 Thu 21:36 -->
+<!-- 2014-03-17 Mon 22:15 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -203,58 +203,58 @@ Sample Output: aaabaaa
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">insertSharp</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>) {
-        <span style="color: #b58900;">StringBuffer</span> <span style="color: #268bd2;">sb</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">StringBuffer</span>();
-        sb.append(<span style="color: #2aa198;">"^#"</span>);
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; s.length(); i++) {
+<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Solution</span> {
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">insertSharp</span>(<span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span>) {
+        <span style="color: #999999;">StringBuffer</span> <span style="color: #FD971F;">sb</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">StringBuffer</span>();
+        sb.append(<span style="color: #F8F8F0;">"^#"</span>);
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; s.length(); i++) {
             sb.append(s.charAt(i));
-            sb.append(<span style="color: #2aa198;">'#'</span>);
+            sb.append(<span style="color: #F8F8F0;">'#'</span>);
         }
-        sb.append(<span style="color: #2aa198;">'$'</span>);
+        sb.append(<span style="color: #F8F8F0;">'$'</span>);
 
-        <span style="color: #859900; font-weight: bold;">return</span> sb.toString();
+        <span style="color: #A7DBD8;">return</span> sb.toString();
     }
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">longestPalindrome</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>) {
-        <span style="color: #b58900;">String</span> <span style="color: #268bd2;">newStr</span> = insertSharp(s);
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">longestPalindrome</span>(<span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span>) {
+        <span style="color: #999999;">String</span> <span style="color: #FD971F;">newStr</span> = insertSharp(s);
 
-        <span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">index</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">int</span>[newStr.length()];
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">maxPos</span> = 0;
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">maxCenter</span> = 0;
+        <span style="color: #999999;">int</span>[] <span style="color: #FD971F;">index</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">int</span>[newStr.length()];
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">maxPos</span> = 0;
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">maxCenter</span> = 0;
 
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 1; i &lt; newStr.length() - 1; i++) {
-            <span style="color: #b58900;">int</span> <span style="color: #268bd2;">curV</span> = 0;
-            <span style="color: #859900; font-weight: bold;">if</span> (i &lt; maxPos) {
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 1; i &lt; newStr.length() - 1; i++) {
+            <span style="color: #999999;">int</span> <span style="color: #FD971F;">curV</span> = 0;
+            <span style="color: #A7DBD8;">if</span> (i &lt; maxPos) {
                 curV = Math.min(index[2 * maxCenter - i] , (maxPos - i));
             }
 
-            <span style="color: #859900; font-weight: bold;">while</span> (newStr.charAt(i + curV + 1) == newStr.charAt(i - curV - 1)) {
+            <span style="color: #A7DBD8;">while</span> (newStr.charAt(i + curV + 1) == newStr.charAt(i - curV - 1)) {
                 ++curV;
             }
             index[i] = curV;
 
-            <span style="color: #859900; font-weight: bold;">if</span> (i + curV &gt; maxPos) {
+            <span style="color: #A7DBD8;">if</span> (i + curV &gt; maxPos) {
                 maxPos = i + curV;
                 maxCenter = i;
             }
         }
 
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">maxIndex</span> = 0;
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 1; i &lt; index.length; i++) {
-            <span style="color: #859900; font-weight: bold;">if</span> (index[i] &gt; index[maxIndex]) {
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">maxIndex</span> = 0;
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 1; i &lt; index.length; i++) {
+            <span style="color: #A7DBD8;">if</span> (index[i] &gt; index[maxIndex]) {
                 maxIndex = i;
             }
         }
 
-        <span style="color: #b58900;">StringBuffer</span> <span style="color: #268bd2;">sb</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">StringBuffer</span>();
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = maxIndex - index[maxIndex]; i &lt;= maxIndex + index[maxIndex]; i++) {
-            <span style="color: #859900; font-weight: bold;">if</span> (newStr.charAt(i) != <span style="color: #2aa198;">'#'</span> &amp;&amp; newStr.charAt(i) != <span style="color: #2aa198;">'^'</span> &amp;&amp; newStr.charAt(i) != <span style="color: #2aa198;">'$'</span>) {
+        <span style="color: #999999;">StringBuffer</span> <span style="color: #FD971F;">sb</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">StringBuffer</span>();
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = maxIndex - index[maxIndex]; i &lt;= maxIndex + index[maxIndex]; i++) {
+            <span style="color: #A7DBD8;">if</span> (newStr.charAt(i) != <span style="color: #F8F8F0;">'#'</span> &amp;&amp; newStr.charAt(i) != <span style="color: #F8F8F0;">'^'</span> &amp;&amp; newStr.charAt(i) != <span style="color: #F8F8F0;">'$'</span>) {
                 sb.append(newStr.charAt(i));
             }
         }
 
-        System.out.println(<span style="color: #2aa198;">"Result is:"</span> + sb.toString());
-        <span style="color: #859900; font-weight: bold;">return</span> sb.toString();
+        System.out.println(<span style="color: #F8F8F0;">"Result is:"</span> + sb.toString());
+        <span style="color: #A7DBD8;">return</span> sb.toString();
     }
 }
 </pre>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 007: Reverse Integer</title>
-<!-- 2014-03-13 Thu 21:36 -->
+<!-- 2014-03-17 Mon 22:15 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -198,9 +198,9 @@ Sample Output: 54321
 <li>处理溢出的方法是提前判断
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">if</span> (result &gt; <span style="color: #268bd2; font-weight: bold;">Integer</span>.MAX_VALUE /10
-    || result == <span style="color: #268bd2; font-weight: bold;">Integer</span>.MAX_VALUE / 10
-    &amp;&amp; x / 10 &gt; <span style="color: #268bd2; font-weight: bold;">Integer</span>.MAX_VALUE % 10)
+<pre class="src src-java"><span style="color: #A7DBD8;">if</span> (result &gt; <span style="color: #AEE239;">Integer</span>.MAX_VALUE /10
+    || result == <span style="color: #AEE239;">Integer</span>.MAX_VALUE / 10
+    &amp;&amp; x / 10 &gt; <span style="color: #AEE239;">Integer</span>.MAX_VALUE % 10)
 </pre>
 </div>
 </li>
@@ -213,53 +213,53 @@ Sample Output: 54321
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">reverse</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span>) {
+<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Solution</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">reverse</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">x</span>) {
 
-        <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">negNum</span> = <span style="color: #268bd2; font-weight: bold;">false</span>;
-        <span style="color: #859900; font-weight: bold;">if</span> (x &lt; 0) {
-            negNum = <span style="color: #268bd2; font-weight: bold;">true</span>;
+        <span style="color: #999999;">boolean</span> <span style="color: #FD971F;">negNum</span> = <span style="color: #AEE239;">false</span>;
+        <span style="color: #A7DBD8;">if</span> (x &lt; 0) {
+            negNum = <span style="color: #AEE239;">true</span>;
         }
 
-        <span style="color: #93a1a1;">///////////////////////////////////////////////////////////////////////////////</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Integer.MIN_VALUE is -2,147,483,648, and its abs should be                //</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">+2,147,483,648, however, when using signed integers, the two's complement //</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">binary of +2,147,483,648 and -2,147,483,648 are the same.                 //</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">As +2,147,483,648 is out of range, the -2,147,483,648 is shown            //</span>
-        <span style="color: #93a1a1;">///////////////////////////////////////////////////////////////////////////////</span>
-        <span style="color: #859900; font-weight: bold;">if</span> (x == <span style="color: #268bd2; font-weight: bold;">Integer</span>.MIN_VALUE) {
-            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">Integer</span>.MIN_VALUE;
+        <span style="color: #505C63;">///////////////////////////////////////////////////////////////////////////////</span>
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">Integer.MIN_VALUE is -2,147,483,648, and its abs should be                //</span>
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">+2,147,483,648, however, when using signed integers, the two's complement //</span>
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">binary of +2,147,483,648 and -2,147,483,648 are the same.                 //</span>
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">As +2,147,483,648 is out of range, the -2,147,483,648 is shown            //</span>
+        <span style="color: #505C63;">///////////////////////////////////////////////////////////////////////////////</span>
+        <span style="color: #A7DBD8;">if</span> (x == <span style="color: #AEE239;">Integer</span>.MIN_VALUE) {
+            <span style="color: #A7DBD8;">return</span> <span style="color: #AEE239;">Integer</span>.MIN_VALUE;
         }
         x = Math.abs(x);
 
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">result</span> = 0;
-        <span style="color: #859900; font-weight: bold;">while</span> (x &gt; 0) {
-            <span style="color: #859900; font-weight: bold;">if</span> (result &gt; <span style="color: #268bd2; font-weight: bold;">Integer</span>.MAX_VALUE /10
-                || result == <span style="color: #268bd2; font-weight: bold;">Integer</span>.MAX_VALUE / 10
-                &amp;&amp; x / 10 &gt; <span style="color: #268bd2; font-weight: bold;">Integer</span>.MAX_VALUE % 10) {
-               <span style="color: #859900; font-weight: bold;">if</span> (negNum) {
-                   <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">Integer</span>.MIN_VALUE;
-               } <span style="color: #859900; font-weight: bold;">else</span> {
-                   <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">Integer</span>.MAX_VALUE;
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">result</span> = 0;
+        <span style="color: #A7DBD8;">while</span> (x &gt; 0) {
+            <span style="color: #A7DBD8;">if</span> (result &gt; <span style="color: #AEE239;">Integer</span>.MAX_VALUE /10
+                || result == <span style="color: #AEE239;">Integer</span>.MAX_VALUE / 10
+                &amp;&amp; x / 10 &gt; <span style="color: #AEE239;">Integer</span>.MAX_VALUE % 10) {
+               <span style="color: #A7DBD8;">if</span> (negNum) {
+                   <span style="color: #A7DBD8;">return</span> <span style="color: #AEE239;">Integer</span>.MIN_VALUE;
+               } <span style="color: #A7DBD8;">else</span> {
+                   <span style="color: #A7DBD8;">return</span> <span style="color: #AEE239;">Integer</span>.MAX_VALUE;
                }
             }
             result = result * 10 + x % 10;
             x = x / 10;
         }
-        <span style="color: #859900; font-weight: bold;">if</span> (negNum) {
-            <span style="color: #859900; font-weight: bold;">return</span> result * -1;
+        <span style="color: #A7DBD8;">if</span> (negNum) {
+            <span style="color: #A7DBD8;">return</span> result * -1;
         }
-        <span style="color: #859900; font-weight: bold;">return</span> result;
+        <span style="color: #A7DBD8;">return</span> result;
     }
 
-    <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">Following version reverse can not handle overlap</span>
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">reverseSimple</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span>) {
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">result</span> = 0;
-        <span style="color: #859900; font-weight: bold;">while</span> (x != 0) {
+    <span style="color: #505C63;">//</span><span style="color: #505C63;">Following version reverse can not handle overlap</span>
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">reverseSimple</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">x</span>) {
+        <span style="color: #999999;">int</span> <span style="color: #FD971F;">result</span> = 0;
+        <span style="color: #A7DBD8;">while</span> (x != 0) {
             result = result * 10 + x % 10;
             x = x / 10;
         }
-        <span style="color: #859900; font-weight: bold;">return</span> result;
+        <span style="color: #A7DBD8;">return</span> result;
     }
 }
 </pre>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 030: Next Permutation</title>
-<!-- 2014-03-13 Thu 21:36 -->
+<!-- 2014-03-17 Mon 22:15 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -222,7 +222,7 @@ decrease的数组反转(也就是能组成的最小值)
 </ol>
 
 <div class="figure">
-<p><img src="../../static/images/sc1.png" alt="sc1.png" />
+<p><img src="../../static/images/np.png" alt="np.png" />
 </p>
 </div>
 </li>
@@ -234,39 +234,39 @@ decrease的数组反转(也就是能组成的最小值)
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">nextPermutation</span>(<span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">num</span>) {
-        <span style="color: #859900; font-weight: bold;">if</span> (num.length &lt;= 1) {
-            <span style="color: #859900; font-weight: bold;">return</span>;
+<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Solution</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">nextPermutation</span>(<span style="color: #999999;">int</span>[] <span style="color: #FD971F;">num</span>) {
+        <span style="color: #A7DBD8;">if</span> (num.length &lt;= 1) {
+            <span style="color: #A7DBD8;">return</span>;
         }
 
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = num.length - 2; i &gt;= 0; i--) {
-            <span style="color: #859900; font-weight: bold;">if</span> (num[i] &lt; num[i+1]) {
-                <span style="color: #b58900;">int</span> <span style="color: #268bd2;">j</span>;
-                <span style="color: #859900; font-weight: bold;">for</span> (j = num.length - 1; j &gt;= i; j--) {
-                    <span style="color: #859900; font-weight: bold;">if</span> (num[i] &lt; num[j]) {
-                        <span style="color: #859900; font-weight: bold;">break</span>;
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = num.length - 2; i &gt;= 0; i--) {
+            <span style="color: #A7DBD8;">if</span> (num[i] &lt; num[i+1]) {
+                <span style="color: #999999;">int</span> <span style="color: #FD971F;">j</span>;
+                <span style="color: #A7DBD8;">for</span> (j = num.length - 1; j &gt;= i; j--) {
+                    <span style="color: #A7DBD8;">if</span> (num[i] &lt; num[j]) {
+                        <span style="color: #A7DBD8;">break</span>;
                     }
                 }
-                <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">swap the two numbres</span>
-                <span style="color: #b58900;">int</span> <span style="color: #268bd2;">temp</span> = num[i];
+                <span style="color: #505C63;">// </span><span style="color: #505C63;">swap the two numbres</span>
+                <span style="color: #999999;">int</span> <span style="color: #FD971F;">temp</span> = num[i];
                 num[i] = num[j];
                 num[j] = temp;
 
-                <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">sort the rest of arrays after the swap point</span>
+                <span style="color: #505C63;">// </span><span style="color: #505C63;">sort the rest of arrays after the swap point</span>
                 Arrays.sort(num, i+1, num.length);
-                <span style="color: #859900; font-weight: bold;">return</span>;
+                <span style="color: #A7DBD8;">return</span>;
             }
         }
 
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">if the whole array is all in descending order(can't become bigger),</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">you have to reverse the array</span>
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; num.length / 2; i++) {
-            <span style="color: #b58900;">int</span> <span style="color: #268bd2;">temp</span> = num[i];
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">if the whole array is all in descending order(can't become bigger),</span>
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">you have to reverse the array</span>
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; num.length / 2; i++) {
+            <span style="color: #999999;">int</span> <span style="color: #FD971F;">temp</span> = num[i];
             num[i] = num[num.length - i - 1];
             num[num.length - i - 1] = temp;
         }
-        <span style="color: #859900; font-weight: bold;">return</span>;
+        <span style="color: #A7DBD8;">return</span>;
     }
 }
 </pre>
@@ -281,39 +281,39 @@ decrease的数组反转(也就是能组成的最小值)
 <li>下例是c++的next_permutation函数使用方法
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;iostream&gt;</span>
-<span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;algorithm&gt;</span>
+<pre class="src src-c++"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;iostream&gt;</span>
+<span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;algorithm&gt;</span>
 
-<span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">argv</span>[])
+<span style="color: #999999;">int</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">argc</span>, <span style="color: #999999;">char</span> *<span style="color: #FD971F;">argv</span>[])
 {
-    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">myints</span>[] = {1, 2, 3};
-    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">size</span> = <span style="color: #859900; font-weight: bold;">sizeof</span>(myints) / <span style="color: #859900; font-weight: bold;">sizeof</span>(<span style="color: #b58900;">int</span>);
-    <span style="color: #268bd2; font-weight: bold;">std</span>::sort(myints, myints + size);
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">myints</span>[] = {1, 2, 3};
+    <span style="color: #999999;">int</span> <span style="color: #FD971F;">size</span> = <span style="color: #A7DBD8;">sizeof</span>(myints) / <span style="color: #A7DBD8;">sizeof</span>(<span style="color: #999999;">int</span>);
+    <span style="color: #AEE239;">std</span>::sort(myints, myints + size);
 
-    <span style="color: #859900; font-weight: bold;">do</span> {
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; size; i++) {
-            <span style="color: #268bd2; font-weight: bold;">std</span>::cout &lt;&lt; myints[i] &lt;&lt; <span style="color: #2aa198;">" "</span>;
+    <span style="color: #A7DBD8;">do</span> {
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; size; i++) {
+            <span style="color: #AEE239;">std</span>::cout &lt;&lt; myints[i] &lt;&lt; <span style="color: #F8F8F0;">" "</span>;
         }
-        <span style="color: #268bd2; font-weight: bold;">std</span>::cout &lt;&lt; <span style="color: #268bd2; font-weight: bold;">std</span>::endl;
-    } <span style="color: #859900; font-weight: bold;">while</span> (<span style="color: #268bd2; font-weight: bold;">std</span>::next_permutation(myints, myints + size));
+        <span style="color: #AEE239;">std</span>::cout &lt;&lt; <span style="color: #AEE239;">std</span>::endl;
+    } <span style="color: #A7DBD8;">while</span> (<span style="color: #AEE239;">std</span>::next_permutation(myints, myints + size));
 
-    <span style="color: #268bd2; font-weight: bold;">std</span>::cout &lt;&lt; <span style="color: #2aa198;">"After the whole permutation it becomes"</span> &lt;&lt; <span style="color: #268bd2; font-weight: bold;">std</span>::endl;
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; size; i++) {
-            <span style="color: #268bd2; font-weight: bold;">std</span>::cout &lt;&lt; myints[i] &lt;&lt; <span style="color: #2aa198;">" "</span>;
+    <span style="color: #AEE239;">std</span>::cout &lt;&lt; <span style="color: #F8F8F0;">"After the whole permutation it becomes"</span> &lt;&lt; <span style="color: #AEE239;">std</span>::endl;
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; size; i++) {
+            <span style="color: #AEE239;">std</span>::cout &lt;&lt; myints[i] &lt;&lt; <span style="color: #F8F8F0;">" "</span>;
         }
-    <span style="color: #859900; font-weight: bold;">return</span> 0;
+    <span style="color: #A7DBD8;">return</span> 0;
 }
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1 2 3                                          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1 3 2                                          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">2 1 3                                          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">2 3 1                                          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">3 1 2                                          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">3 2 1                                          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">After the whole permutation it becomes         //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1 2 3                                          //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">1 2 3                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">1 3 2                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">2 1 3                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">2 3 1                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">3 1 2                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">3 2 1                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">After the whole permutation it becomes         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">1 2 3                                          //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>

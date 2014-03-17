@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>KMP算法</title>
-<!-- 2014-03-13 Thu 21:36 -->
+<!-- 2014-03-17 Mon 22:16 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -364,38 +364,38 @@ text序列加1, pattern从头开始,整个过程下来,复杂度就是O(mn)
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">compute_prefix_function</span>(p):
-    <span style="color: #268bd2;">m</span> = <span style="color: #657b83; font-weight: bold;">len</span>(p)
-    <span style="color: #268bd2;">pre</span> = [-1] * m
-    <span style="color: #268bd2;">k</span> = -1
-    <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(1, m):
-        <span style="color: #859900; font-weight: bold;">while</span> k &gt; -1 <span style="color: #859900; font-weight: bold;">and</span> p[k+1] != p[i]:
-            <span style="color: #268bd2;">k</span> = pre[k]
-        <span style="color: #859900; font-weight: bold;">if</span> p[k+1] == p[i]:
+<pre class="src src-python"><span style="color: #A7DBD8;">def</span> <span style="color: #AEE239;">compute_prefix_function</span>(p):
+    <span style="color: #FD971F;">m</span> = <span style="color: #F38630;">len</span>(p)
+    <span style="color: #FD971F;">pre</span> = [-1] * m
+    <span style="color: #FD971F;">k</span> = -1
+    <span style="color: #A7DBD8;">for</span> i <span style="color: #A7DBD8;">in</span> <span style="color: #F38630;">range</span>(1, m):
+        <span style="color: #A7DBD8;">while</span> k &gt; -1 <span style="color: #A7DBD8;">and</span> p[k+1] != p[i]:
+            <span style="color: #FD971F;">k</span> = pre[k]
+        <span style="color: #A7DBD8;">if</span> p[k+1] == p[i]:
             k += 1
         pre[i] = k
-    <span style="color: #859900; font-weight: bold;">return</span> pre
+    <span style="color: #A7DBD8;">return</span> pre
 
-<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">kmp_matcher</span>(t, p):
-    n = <span style="color: #657b83; font-weight: bold;">len</span>(t)
-    m = <span style="color: #657b83; font-weight: bold;">len</span>(p)
+<span style="color: #A7DBD8;">def</span> <span style="color: #AEE239;">kmp_matcher</span>(t, p):
+    n = <span style="color: #F38630;">len</span>(t)
+    m = <span style="color: #F38630;">len</span>(p)
     pre = compute_prefix_function(p)
-    <span style="color: #859900; font-weight: bold;">print</span> pre
+    <span style="color: #A7DBD8;">print</span> pre
     q = -1
-    <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(n):
-        <span style="color: #859900; font-weight: bold;">while</span> q &gt; -1 <span style="color: #859900; font-weight: bold;">and</span> p[q+1] != t[i]:
+    <span style="color: #A7DBD8;">for</span> i <span style="color: #A7DBD8;">in</span> <span style="color: #F38630;">range</span>(n):
+        <span style="color: #A7DBD8;">while</span> q &gt; -1 <span style="color: #A7DBD8;">and</span> p[q+1] != t[i]:
             q = pre[q]
-        <span style="color: #859900; font-weight: bold;">if</span> p[q+1] == t[i]:
+        <span style="color: #A7DBD8;">if</span> p[q+1] == t[i]:
             q += 1
-        <span style="color: #859900; font-weight: bold;">if</span> q == (m - 1) :
-            <span style="color: #859900; font-weight: bold;">print</span> i
-            <span style="color: #859900; font-weight: bold;">print</span> m
-            <span style="color: #859900; font-weight: bold;">print</span> <span style="color: #2aa198;">"Pattern occurs with shift %s"</span> % (i - m)
+        <span style="color: #A7DBD8;">if</span> q == (m - 1) :
+            <span style="color: #A7DBD8;">print</span> i
+            <span style="color: #A7DBD8;">print</span> m
+            <span style="color: #A7DBD8;">print</span> <span style="color: #F8F8F0;">"Pattern occurs with shift %s"</span> % (i - m)
             q = pre[q]
 
 
-<span style="color: #859900; font-weight: bold;">if</span> <span style="color: #657b83; font-weight: bold;">__name__</span> == <span style="color: #2aa198;">'__main__'</span>:
-    kmp_matcher(<span style="color: #2aa198;">"1234545234545454"</span>, <span style="color: #2aa198;">"45454"</span>)
+<span style="color: #A7DBD8;">if</span> <span style="color: #F38630;">__name__</span> == <span style="color: #F8F8F0;">'__main__'</span>:
+    kmp_matcher(<span style="color: #F8F8F0;">"1234545234545454"</span>, <span style="color: #F8F8F0;">"45454"</span>)
 </pre>
 </div>
 </div>
