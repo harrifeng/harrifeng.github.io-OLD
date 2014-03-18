@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Chapter 5</title>
-<!-- 2014-03-17 Mon 22:14 -->
+<title>Chapter 5: TCP Client/Server Example</title>
+<!-- 2014-03-18 Tue 08:19 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -152,8 +152,8 @@ for the JavaScript code in this tag.
                 <ul>
                     <li><a href="/">首页</a></li>
                     <li><a href="/notes.html">读书笔记</a></li>
-                    <li><a href="/about.html">About</a></li>
-                    <li><a href="/atom.xml">RSS</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
                     <li>
                     </li>
                 </ul>
@@ -161,45 +161,52 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Chapter 5</h1>
+<h1 class="title">Chapter 5: TCP Client/Server Example</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">Introduction</a></li>
-<li><a href="#sec-2">TCP Echo Server: main Function</a></li>
-<li><a href="#sec-3">TCP Echo Server: str_echo Function</a></li>
-<li><a href="#sec-4">TCP Echo Client: main Function</a></li>
-<li><a href="#sec-5">TCP Echo Client: str_cli Function</a></li>
-<li><a href="#sec-6">Normal Startup</a></li>
-<li><a href="#sec-7">Normal Termination</a></li>
-<li><a href="#sec-8">POSIX Signal Handling</a>
+<li><a href="#sec-1">TCP Client/Server Example</a>
 <ul>
-<li><a href="#sec-8-1">signal Function</a></li>
-<li><a href="#sec-8-2">POSIX Signal Semantics</a></li>
+<li><a href="#sec-1-1">Introduction</a></li>
+<li><a href="#sec-1-2">TCP Echo Server: main Function</a></li>
+<li><a href="#sec-1-3">TCP Echo Server: str_echo Function</a></li>
+<li><a href="#sec-1-4">TCP Echo Client: main Function</a></li>
+<li><a href="#sec-1-5">TCP Echo Client: str_cli Function</a></li>
+<li><a href="#sec-1-6">Normal Startup</a></li>
+<li><a href="#sec-1-7">Normal Termination</a></li>
+<li><a href="#sec-1-8">POSIX Signal Handling</a>
+<ul>
+<li><a href="#sec-1-8-1">signal Function</a></li>
+<li><a href="#sec-1-8-2">POSIX Signal Semantics</a></li>
 </ul>
 </li>
-<li><a href="#sec-9">Handling SIGCHLD Signals</a>
+<li><a href="#sec-1-9">Handling SIGCHLD Signals</a>
 <ul>
-<li><a href="#sec-9-1">Handling Zombies</a></li>
-<li><a href="#sec-9-2">Handling Interrupted System Calls</a></li>
+<li><a href="#sec-1-9-1">Handling Zombies</a></li>
+<li><a href="#sec-1-9-2">Handling Interrupted System Calls</a></li>
 </ul>
 </li>
-<li><a href="#sec-10">wait and waitpid Function</a></li>
-<li><a href="#sec-11">Connetion Abort before accept Returns</a></li>
-<li><a href="#sec-12">Termination of Server Processs</a></li>
-<li><a href="#sec-13">SIGPIPE Signal</a></li>
-<li><a href="#sec-14">Crashing of Server Host</a></li>
-<li><a href="#sec-15">Crashing and Rebooting of Server Host</a></li>
-<li><a href="#sec-16">Shutdown of Server Host</a></li>
-<li><a href="#sec-17">Summary of TCP Example</a></li>
-<li><a href="#sec-18">Data format</a></li>
+<li><a href="#sec-1-10">wait and waitpid Function</a></li>
+<li><a href="#sec-1-11">Connetion Abort before accept Returns</a></li>
+<li><a href="#sec-1-12">Termination of Server Processs</a></li>
+<li><a href="#sec-1-13">SIGPIPE Signal</a></li>
+<li><a href="#sec-1-14">Crashing of Server Host</a></li>
+<li><a href="#sec-1-15">Crashing and Rebooting of Server Host</a></li>
+<li><a href="#sec-1-16">Shutdown of Server Host</a></li>
+<li><a href="#sec-1-17">Summary of TCP Example</a></li>
+<li><a href="#sec-1-18">Data format</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">Introduction</h2>
+<h2 id="sec-1">TCP Client/Server Example</h2>
 <div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Introduction</h3>
+<div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
 <li>这一章我们主要讲一个echo server的例子, 所谓echo several就是:
 <ol class="org-ol">
@@ -215,43 +222,43 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">TCP Echo Server: main Function</h2>
-<div class="outline-text-2" id="text-2">
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">TCP Echo Server: main Function</h3>
+<div class="outline-text-3" id="text-1-2">
 <ul class="org-ul">
 <li>下面就是我们server的main函数
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span>   <span style="color: #F8F8F0;">"unp.h"</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span>   <span style="color: #2aa198;">"unp.h"</span>
 
-<span style="color: #999999;">int</span>
-<span style="color: #AEE239;">main</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">argc</span>, <span style="color: #999999;">char</span> **<span style="color: #FD971F;">argv</span>) {
-    <span style="color: #999999;">int</span>         <span style="color: #FD971F;">listenfd</span>, <span style="color: #FD971F;">connfd</span>;
-    <span style="color: #999999;">pid_t</span>       <span style="color: #FD971F;">childpid</span>;
-    <span style="color: #999999;">socklen_t</span>   <span style="color: #FD971F;">clilen</span>;
-    <span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">sockaddr_in</span> <span style="color: #FD971F;">cliaddr</span>, <span style="color: #FD971F;">servaddr</span>;
+<span style="color: #b58900;">int</span>
+<span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> **<span style="color: #268bd2;">argv</span>) {
+    <span style="color: #b58900;">int</span>         <span style="color: #268bd2;">listenfd</span>, <span style="color: #268bd2;">connfd</span>;
+    <span style="color: #b58900;">pid_t</span>       <span style="color: #268bd2;">childpid</span>;
+    <span style="color: #b58900;">socklen_t</span>   <span style="color: #268bd2;">clilen</span>;
+    <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">sockaddr_in</span> <span style="color: #268bd2;">cliaddr</span>, <span style="color: #268bd2;">servaddr</span>;
 
     listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 
-    bzero(&amp;servaddr, <span style="color: #A7DBD8;">sizeof</span>(servaddr));
+    bzero(&amp;servaddr, <span style="color: #859900; font-weight: bold;">sizeof</span>(servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
     servaddr.sin_port = htons(SERV_PORT);
 
-    Bind(listenfd, (<span style="color: #999999;">SA</span>*)&amp;servaddr, <span style="color: #A7DBD8;">sizeof</span>(servaddr));
+    Bind(listenfd, (<span style="color: #b58900;">SA</span>*)&amp;servaddr, <span style="color: #859900; font-weight: bold;">sizeof</span>(servaddr));
 
     Listen(listenfd, LISTENQ);
 
-    <span style="color: #A7DBD8;">for</span> (; ;) {
-        clilen = <span style="color: #A7DBD8;">sizeof</span>(cliaddr);
-        connfd = Accept(listenfd, (<span style="color: #999999;">SA</span>*)&amp;cliaddr, &amp;clilen);
+    <span style="color: #859900; font-weight: bold;">for</span> (; ;) {
+        clilen = <span style="color: #859900; font-weight: bold;">sizeof</span>(cliaddr);
+        connfd = Accept(listenfd, (<span style="color: #b58900;">SA</span>*)&amp;cliaddr, &amp;clilen);
 
-        <span style="color: #A7DBD8;">if</span> ((childpid = Fork()) == 0) { <span style="color: #505C63;">/* </span><span style="color: #505C63;">child process </span><span style="color: #505C63;">*/</span>
-            Close(listenfd);            <span style="color: #505C63;">/* </span><span style="color: #505C63;">close listening socket </span><span style="color: #505C63;">*/</span>
-            str_echo(connfd);           <span style="color: #505C63;">/* </span><span style="color: #505C63;">process the request </span><span style="color: #505C63;">*/</span>
+        <span style="color: #859900; font-weight: bold;">if</span> ((childpid = Fork()) == 0) { <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">child process </span><span style="color: #93a1a1;">*/</span>
+            Close(listenfd);            <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">close listening socket </span><span style="color: #93a1a1;">*/</span>
+            str_echo(connfd);           <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">process the request </span><span style="color: #93a1a1;">*/</span>
             exit(0);
         }
-        Close(connfd);                  <span style="color: #505C63;">/* </span><span style="color: #505C63;">parent closes connected socket </span><span style="color: #505C63;">*/</span>
+        Close(connfd);                  <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">parent closes connected socket </span><span style="color: #93a1a1;">*/</span>
     }
 }
 </pre>
@@ -261,29 +268,29 @@ for the JavaScript code in this tag.
 </div>
 </div>
 
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">TCP Echo Server: str_echo Function</h2>
-<div class="outline-text-2" id="text-3">
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">TCP Echo Server: str_echo Function</h3>
+<div class="outline-text-3" id="text-1-3">
 <ul class="org-ul">
 <li>具体的问题,是在str_echo里面处理的.
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span>   <span style="color: #F8F8F0;">"unp.h"</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span>   <span style="color: #2aa198;">"unp.h"</span>
 
-<span style="color: #999999;">void</span>
-<span style="color: #AEE239;">str_echo</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">sockfd</span>) {
-    <span style="color: #999999;">ssize_t</span>    <span style="color: #FD971F;">n</span>;
-    <span style="color: #999999;">char</span>       <span style="color: #FD971F;">buf</span>[MAXLINE];
+<span style="color: #b58900;">void</span>
+<span style="color: #268bd2;">str_echo</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">sockfd</span>) {
+    <span style="color: #b58900;">ssize_t</span>    <span style="color: #268bd2;">n</span>;
+    <span style="color: #b58900;">char</span>       <span style="color: #268bd2;">buf</span>[MAXLINE];
 
 again:
-    <span style="color: #A7DBD8;">while</span> ((n = read(sockfd, buf, MAXLINE)) &gt; 0) {
+    <span style="color: #859900; font-weight: bold;">while</span> ((n = read(sockfd, buf, MAXLINE)) &gt; 0) {
         Writen(sockfd, buf, n);
     }
 
-    <span style="color: #A7DBD8;">if</span> (n &lt; 0 &amp;&amp; errno == EINTR) {
-        <span style="color: #A7DBD8;">goto</span> <span style="color: #AEE239;">again</span>;
-    } <span style="color: #A7DBD8;">else</span> <span style="color: #A7DBD8;">if</span> (n &lt; 0) {
-        err_sys(<span style="color: #F8F8F0;">"str_echo: read error"</span>);
+    <span style="color: #859900; font-weight: bold;">if</span> (n &lt; 0 &amp;&amp; errno == EINTR) {
+        <span style="color: #859900; font-weight: bold;">goto</span> <span style="color: #268bd2; font-weight: bold;">again</span>;
+    } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (n &lt; 0) {
+        err_sys(<span style="color: #2aa198;">"str_echo: read error"</span>);
     }
 }
 </pre>
@@ -293,32 +300,32 @@ again:
 </div>
 </div>
 
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4">TCP Echo Client: main Function</h2>
-<div class="outline-text-2" id="text-4">
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">TCP Echo Client: main Function</h3>
+<div class="outline-text-3" id="text-1-4">
 <ul class="org-ul">
 <li>client端的代码如下
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">"unp.h"</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">"unp.h"</span>
 
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">argc</span>, <span style="color: #999999;">char</span> **<span style="color: #FD971F;">argv</span>) {
-    <span style="color: #999999;">int</span>        <span style="color: #FD971F;">sockfd</span>;
-    <span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">sockaddr_in</span> <span style="color: #FD971F;">servaddr</span>;
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> **<span style="color: #268bd2;">argv</span>) {
+    <span style="color: #b58900;">int</span>        <span style="color: #268bd2;">sockfd</span>;
+    <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">sockaddr_in</span> <span style="color: #268bd2;">servaddr</span>;
 
-    <span style="color: #A7DBD8;">if</span> (argc != 2) {
-        err_quit(<span style="color: #F8F8F0;">"usage: tcp cli &lt;IPaddress&gt;"</span>);
+    <span style="color: #859900; font-weight: bold;">if</span> (argc != 2) {
+        err_quit(<span style="color: #2aa198;">"usage: tcp cli &lt;IPaddress&gt;"</span>);
     }
     sockfd = Socket(AF_INET, SOCK_STREAM, 0);
 
-    bzero(&amp;servaddr, <span style="color: #A7DBD8;">sizeof</span>(servaddr));
+    bzero(&amp;servaddr, <span style="color: #859900; font-weight: bold;">sizeof</span>(servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons(SERV_PORT);
     Inet_pton(AF_INET, argv[1], &amp;servaddr.sin_addr);
 
-    Connect(sockfd, (<span style="color: #999999;">SA</span>*) &amp;servaddr, <span style="color: #A7DBD8;">sizeof</span>(servaddr));
+    Connect(sockfd, (<span style="color: #b58900;">SA</span>*) &amp;servaddr, <span style="color: #859900; font-weight: bold;">sizeof</span>(servaddr));
 
-    str_cli(stdin, sockfd);    <span style="color: #505C63;">/* </span><span style="color: #505C63;">do it all </span><span style="color: #505C63;">*/</span>
+    str_cli(stdin, sockfd);    <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">do it all </span><span style="color: #93a1a1;">*/</span>
     exit(0);
 }
 </pre>
@@ -328,23 +335,23 @@ again:
 </div>
 </div>
 
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5">TCP Echo Client: str_cli Function</h2>
-<div class="outline-text-2" id="text-5">
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">TCP Echo Client: str_cli Function</h3>
+<div class="outline-text-3" id="text-1-5">
 <ul class="org-ul">
 <li>client main里面除了socket以外的实际工作都是在str_cli里面完成的
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span>    <span style="color: #F8F8F0;">"unp.h"</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span>    <span style="color: #2aa198;">"unp.h"</span>
 
-<span style="color: #999999;">void</span> <span style="color: #AEE239;">str_cli</span>(<span style="color: #999999;">FILE</span> *<span style="color: #FD971F;">fp</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">sockfd</span>) {
-    <span style="color: #999999;">char</span>         <span style="color: #FD971F;">sendline</span>[MAXLINE], <span style="color: #FD971F;">recvline</span>[MAXLINE];
+<span style="color: #b58900;">void</span> <span style="color: #268bd2;">str_cli</span>(<span style="color: #b58900;">FILE</span> *<span style="color: #268bd2;">fp</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">sockfd</span>) {
+    <span style="color: #b58900;">char</span>         <span style="color: #268bd2;">sendline</span>[MAXLINE], <span style="color: #268bd2;">recvline</span>[MAXLINE];
 
-    <span style="color: #A7DBD8;">while</span> (Fgets(sendline, MAXLINE, fp) != <span style="color: #AEE239;">NULL</span>) {
+    <span style="color: #859900; font-weight: bold;">while</span> (Fgets(sendline, MAXLINE, fp) != <span style="color: #268bd2; font-weight: bold;">NULL</span>) {
         Writen(sockfd, sendline, strlen(sendline));
 
-        <span style="color: #A7DBD8;">if</span> (Readline(sockfd, recvline, MAXLINE) == 0) {
-            err_quit(<span style="color: #F8F8F0;">"str_cli: server terminated permaturely"</span>);
+        <span style="color: #859900; font-weight: bold;">if</span> (Readline(sockfd, recvline, MAXLINE) == 0) {
+            err_quit(<span style="color: #2aa198;">"str_cli: server terminated permaturely"</span>);
         }
 
         Fputs(recvline, stdout);
@@ -357,9 +364,9 @@ again:
 </div>
 </div>
 
-<div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6">Normal Startup</h2>
-<div class="outline-text-2" id="text-6">
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Normal Startup</h3>
+<div class="outline-text-3" id="text-1-6">
 <ul class="org-ul">
 <li>虽然我们的例子很小,但是却很完整,可以帮助我们了解一些边界情况: 比如客户端host
 崩溃, 客户端process崩溃, 网络连接消失等等
@@ -454,10 +461,9 @@ tcp         0       0  *:9877              *:*                LISTEN
 
 
 
-
-<div id="outline-container-sec-7" class="outline-2">
-<h2 id="sec-7">Normal Termination</h2>
-<div class="outline-text-2" id="text-7">
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">Normal Termination</h3>
+<div class="outline-text-3" id="text-1-7">
 <ul class="org-ul">
 <li>紧接着上面的操作,建立好连接以后,我们的client端可以开始发送数据, 我们发送发
 送什么, server就会返回什么.最后以control+D的方式来结束.
@@ -531,9 +537,9 @@ socket, 这个时候会完成TCP connection termination的后半部分,之后cli
 </div>
 </div>
 
-<div id="outline-container-sec-8" class="outline-2">
-<h2 id="sec-8">POSIX Signal Handling</h2>
-<div class="outline-text-2" id="text-8">
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">POSIX Signal Handling</h3>
+<div class="outline-text-3" id="text-1-8">
 <ul class="org-ul">
 <li>所谓signal,也叫做software interrupts就是通知process某个event发生了.
 </li>
@@ -553,9 +559,9 @@ socket, 这个时候会完成TCP connection termination的后半部分,之后cli
 </li>
 </ul>
 </div>
-<div id="outline-container-sec-8-1" class="outline-3">
-<h3 id="sec-8-1">signal Function</h3>
-<div class="outline-text-3" id="text-8-1">
+<div id="outline-container-sec-1-8-1" class="outline-4">
+<h4 id="sec-1-8-1">signal Function</h4>
+<div class="outline-text-4" id="text-1-8-1">
 <ul class="org-ul">
 <li>POSIX对于signal的标准处理方法是sigaction函数,但是这个函数有两个structure来
 进行初始化,非常的麻烦.POSIX时代之前的做法是signal, 这个函数的参数就很友好.
@@ -563,29 +569,29 @@ socket, 这个时候会完成TCP connection termination的后半部分,之后cli
 实现:
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span>   <span style="color: #F8F8F0;">"unp.h"</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span>   <span style="color: #2aa198;">"unp.h"</span>
 
-<span style="color: #999999;">Sigfunc</span> *
-<span style="color: #AEE239;">signal</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">signo</span>, <span style="color: #999999;">Sigfunc</span> *<span style="color: #FD971F;">func</span>) {
-    <span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">sigaction</span> <span style="color: #FD971F;">act</span>, <span style="color: #FD971F;">oact</span>;
+<span style="color: #b58900;">Sigfunc</span> *
+<span style="color: #268bd2;">signal</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">signo</span>, <span style="color: #b58900;">Sigfunc</span> *<span style="color: #268bd2;">func</span>) {
+    <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">sigaction</span> <span style="color: #268bd2;">act</span>, <span style="color: #268bd2;">oact</span>;
 
     act.sa_handler = func;
     sigemptyset(&amp;act.sa_mask);
     act.sa_flags = 0;
-    <span style="color: #A7DBD8;">if</span> (signo == SIGALRM) {
-<span style="color: #F38630;">        #ifdef</span> SA_INTERRUPT
-        act.sa_flags |= SA_INTERRUPT;   <span style="color: #505C63;">/* </span><span style="color: #505C63;">SunOS 4.x </span><span style="color: #505C63;">*/</span>
-<span style="color: #F38630;">        #endif</span>
-    } <span style="color: #A7DBD8;">else</span> {
-<span style="color: #F38630;">        #ifdef</span> SA_RESTART
-        act.sa_flags |= SA_RESTART;     <span style="color: #505C63;">/* </span><span style="color: #505C63;">SVR4, 4.4BSD </span><span style="color: #505C63;">*/</span>
-<span style="color: #F38630;">        #endif</span>
+    <span style="color: #859900; font-weight: bold;">if</span> (signo == SIGALRM) {
+<span style="color: #268bd2; font-weight: bold;">        #ifdef</span> SA_INTERRUPT
+        act.sa_flags |= SA_INTERRUPT;   <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">SunOS 4.x </span><span style="color: #93a1a1;">*/</span>
+<span style="color: #268bd2; font-weight: bold;">        #endif</span>
+    } <span style="color: #859900; font-weight: bold;">else</span> {
+<span style="color: #268bd2; font-weight: bold;">        #ifdef</span> SA_RESTART
+        act.sa_flags |= SA_RESTART;     <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">SVR4, 4.4BSD </span><span style="color: #93a1a1;">*/</span>
+<span style="color: #268bd2; font-weight: bold;">        #endif</span>
     }
 
-    <span style="color: #A7DBD8;">if</span> (sigaction(signo, &amp;act, &amp;oact) &lt; 0) {
-        <span style="color: #A7DBD8;">return</span> (SIG_ERR);
+    <span style="color: #859900; font-weight: bold;">if</span> (sigaction(signo, &amp;act, &amp;oact) &lt; 0) {
+        <span style="color: #859900; font-weight: bold;">return</span> (SIG_ERR);
     }
-    <span style="color: #A7DBD8;">return</span> (oact.sa_handler);
+    <span style="color: #859900; font-weight: bold;">return</span> (oact.sa_handler);
 }
 </pre>
 </div>
@@ -594,14 +600,14 @@ socket, 这个时候会完成TCP connection termination的后半部分,之后cli
 回值为空的函数指针"
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #999999;">void</span> (*<span style="color: #AEE239;">signal</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">signo</span>, <span style="color: #999999;">void</span>(*<span style="color: #FD971F;">func</span>)(<span style="color: #999999;">int</span>)))(<span style="color: #999999;">int</span>);
+<pre class="src src-c"><span style="color: #b58900;">void</span> (*<span style="color: #268bd2;">signal</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">signo</span>, <span style="color: #b58900;">void</span>(*<span style="color: #268bd2;">func</span>)(<span style="color: #b58900;">int</span>)))(<span style="color: #b58900;">int</span>);
 </pre>
 </div>
 </li>
 <li>为了简化,我们设计了下面的typedef
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #A7DBD8;">typedef</span> <span style="color: #999999;">void</span> <span style="color: #999999;">Sigfunc</span>(<span style="color: #999999;">int</span>);
+<pre class="src src-c"><span style="color: #859900; font-weight: bold;">typedef</span> <span style="color: #b58900;">void</span> <span style="color: #b58900;">Sigfunc</span>(<span style="color: #b58900;">int</span>);
 </pre>
 </div>
 </li>
@@ -619,9 +625,9 @@ socket, 这个时候会完成TCP connection termination的后半部分,之后cli
 </div>
 </div>
 
-<div id="outline-container-sec-8-2" class="outline-3">
-<h3 id="sec-8-2">POSIX Signal Semantics</h3>
-<div class="outline-text-3" id="text-8-2">
+<div id="outline-container-sec-1-8-2" class="outline-4">
+<h4 id="sec-1-8-2">POSIX Signal Semantics</h4>
+<div class="outline-text-4" id="text-1-8-2">
 <ul class="org-ul">
 <li>一旦一个signal handler 被安装了,就一直是安装状态
 </li>
@@ -636,9 +642,9 @@ signal也会block
 </div>
 </div>
 
-<div id="outline-container-sec-9" class="outline-2">
-<h2 id="sec-9">Handling SIGCHLD Signals</h2>
-<div class="outline-text-2" id="text-9">
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9">Handling SIGCHLD Signals</h3>
+<div class="outline-text-3" id="text-1-9">
 <ul class="org-ul">
 <li>zombie state存在的理由是它可以保存子进程的一些信息(父进程可能会想知道):
 <ul class="org-ul">
@@ -652,9 +658,9 @@ signal也会block
 </li>
 </ul>
 </div>
-<div id="outline-container-sec-9-1" class="outline-3">
-<h3 id="sec-9-1">Handling Zombies</h3>
-<div class="outline-text-3" id="text-9-1">
+<div id="outline-container-sec-1-9-1" class="outline-4">
+<h4 id="sec-1-9-1">Handling Zombies</h4>
+<div class="outline-text-4" id="text-1-9-1">
 <ul class="org-ul">
 <li>zombie不能总是留在系统里面,因为它会占据kernel的空间,如果不清理,会导致process
 descriptor用尽,我们需要用wait来防止子进程变成zombie,并且用下面的代码来指定
@@ -668,16 +674,16 @@ descriptor用尽,我们需要用wait来防止子进程变成zombie,并且用下�
 <li>下面就是处理sig_chld的代码
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span>   <span style="color: #F8F8F0;">"unp.h"</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span>   <span style="color: #2aa198;">"unp.h"</span>
 
-<span style="color: #999999;">void</span>
-<span style="color: #AEE239;">sig_chld</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">signo</span>) {
-    <span style="color: #999999;">pid_t</span>    <span style="color: #FD971F;">pid</span>;
-    <span style="color: #999999;">int</span>      <span style="color: #FD971F;">stat</span>;
+<span style="color: #b58900;">void</span>
+<span style="color: #268bd2;">sig_chld</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">signo</span>) {
+    <span style="color: #b58900;">pid_t</span>    <span style="color: #268bd2;">pid</span>;
+    <span style="color: #b58900;">int</span>      <span style="color: #268bd2;">stat</span>;
 
     pid = wait(&amp;stat);
-    printf(<span style="color: #F8F8F0;">"child %d terminated\n"</span>, pid);
-    <span style="color: #A7DBD8;">return</span>;
+    printf(<span style="color: #2aa198;">"child %d terminated\n"</span>, pid);
+    <span style="color: #859900; font-weight: bold;">return</span>;
 }
 </pre>
 </div>
@@ -686,9 +692,9 @@ descriptor用尽,我们需要用wait来防止子进程变成zombie,并且用下�
 </div>
 </div>
 
-<div id="outline-container-sec-9-2" class="outline-3">
-<h3 id="sec-9-2">Handling Interrupted System Calls</h3>
-<div class="outline-text-3" id="text-9-2">
+<div id="outline-container-sec-1-9-2" class="outline-4">
+<h4 id="sec-1-9-2">Handling Interrupted System Calls</h4>
+<div class="outline-text-4" id="text-1-9-2">
 <ul class="org-ul">
 <li>accept被我们称作"slow system call", 因为它可能一直等待着connection queue里
 面的成员,而一直不返回.相似的system call还有read
@@ -715,13 +721,13 @@ EINTR告诉用户,我们这次返回了负数,但是我们不是真的失败,我
 请再次调用我们吧!
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #A7DBD8;">for</span> (; ;) {
-    clilen = <span style="color: #A7DBD8;">sizeof</span>(cliaddr);
-    <span style="color: #A7DBD8;">if</span> ( (connfd = accept(listenfd, (<span style="color: #999999;">SA</span>*)&amp;cliaddr, &amp;clilen)) &lt; 0) {
-        <span style="color: #A7DBD8;">if</span> (errno == EINTR) {
-            <span style="color: #A7DBD8;">continue</span>;
-        } <span style="color: #A7DBD8;">else</span> {
-            err_sys(<span style="color: #F8F8F0;">"accept error"</span>);
+<pre class="src src-c"><span style="color: #859900; font-weight: bold;">for</span> (; ;) {
+    clilen = <span style="color: #859900; font-weight: bold;">sizeof</span>(cliaddr);
+    <span style="color: #859900; font-weight: bold;">if</span> ( (connfd = accept(listenfd, (<span style="color: #b58900;">SA</span>*)&amp;cliaddr, &amp;clilen)) &lt; 0) {
+        <span style="color: #859900; font-weight: bold;">if</span> (errno == EINTR) {
+            <span style="color: #859900; font-weight: bold;">continue</span>;
+        } <span style="color: #859900; font-weight: bold;">else</span> {
+            err_sys(<span style="color: #2aa198;">"accept error"</span>);
         }
     }
 }
@@ -734,56 +740,56 @@ EINTR告诉用户,我们这次返回了负数,但是我们不是真的失败,我
 种设置sgaction的sa_flags的方法来让刚才被中断的slow system call重新执行:
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;signal.h&gt;</span>
-<span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;stdio.h&gt;</span>
-<span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;stdlib.h&gt;</span>
-<span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;error.h&gt;</span>
-<span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;string.h&gt;</span>
-<span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;unistd.h&gt;</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;signal.h&gt;</span>
+<span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;stdio.h&gt;</span>
+<span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;stdlib.h&gt;</span>
+<span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;error.h&gt;</span>
+<span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;string.h&gt;</span>
+<span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;unistd.h&gt;</span>
 
-<span style="color: #999999;">void</span> <span style="color: #AEE239;">sig_handler</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">signum</span>)
+<span style="color: #b58900;">void</span> <span style="color: #268bd2;">sig_handler</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">signum</span>)
 {
-    printf(<span style="color: #F8F8F0;">"in handler\n"</span>);
+    printf(<span style="color: #2aa198;">"in handler\n"</span>);
     sleep(1);
-    printf(<span style="color: #F8F8F0;">"handler return\n"</span>);
+    printf(<span style="color: #2aa198;">"handler return\n"</span>);
 }
 
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">argc</span>, <span style="color: #999999;">char</span> **<span style="color: #FD971F;">argv</span>)
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> **<span style="color: #268bd2;">argv</span>)
 {
-    <span style="color: #999999;">char</span> <span style="color: #FD971F;">buf</span>[100];
-    <span style="color: #999999;">int</span> <span style="color: #FD971F;">ret</span>;
-    <span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">sigaction</span> <span style="color: #FD971F;">action</span>, <span style="color: #FD971F;">old_action</span>;
+    <span style="color: #b58900;">char</span> <span style="color: #268bd2;">buf</span>[100];
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">ret</span>;
+    <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">sigaction</span> <span style="color: #268bd2;">action</span>, <span style="color: #268bd2;">old_action</span>;
 
     action.sa_handler = sig_handler;
     sigemptyset(&amp;action.sa_mask);
     action.sa_flags = 0;
 
-    <span style="color: #505C63;">/********************************/</span>
-    <span style="color: #505C63;">/* </span><span style="color: #505C63;">version 1: set this flag     </span><span style="color: #505C63;">*/</span>
-    <span style="color: #505C63;">/* </span><span style="color: #505C63;">version 2: NOT set this flag </span><span style="color: #505C63;">*/</span>
-    <span style="color: #505C63;">/********************************/</span>
+    <span style="color: #93a1a1;">/********************************/</span>
+    <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">version 1: set this flag     </span><span style="color: #93a1a1;">*/</span>
+    <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">version 2: NOT set this flag </span><span style="color: #93a1a1;">*/</span>
+    <span style="color: #93a1a1;">/********************************/</span>
     action.sa_flags |= SA_RESTART;
 
 
-    <span style="color: #505C63;">/**************************/</span>
-    <span style="color: #505C63;">/* </span><span style="color: #505C63;">ctrl + c is for SIGINT </span><span style="color: #505C63;">*/</span>
-    <span style="color: #505C63;">/**************************/</span>
-    sigaction(SIGINT, <span style="color: #AEE239;">NULL</span>, &amp;old_action);
-    <span style="color: #A7DBD8;">if</span> (old_action.sa_handler != SIG_IGN) {
-        sigaction(SIGINT, &amp;action, <span style="color: #AEE239;">NULL</span>);
+    <span style="color: #93a1a1;">/**************************/</span>
+    <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">ctrl + c is for SIGINT </span><span style="color: #93a1a1;">*/</span>
+    <span style="color: #93a1a1;">/**************************/</span>
+    sigaction(SIGINT, <span style="color: #268bd2; font-weight: bold;">NULL</span>, &amp;old_action);
+    <span style="color: #859900; font-weight: bold;">if</span> (old_action.sa_handler != SIG_IGN) {
+        sigaction(SIGINT, &amp;action, <span style="color: #268bd2; font-weight: bold;">NULL</span>);
     }
 
     bzero(buf, 100);
 
     ret = read(0, buf, 100);
-    <span style="color: #A7DBD8;">if</span> (ret == -1) {
-        perror(<span style="color: #F8F8F0;">"read"</span>);
+    <span style="color: #859900; font-weight: bold;">if</span> (ret == -1) {
+        perror(<span style="color: #2aa198;">"read"</span>);
     }
 
-    printf(<span style="color: #F8F8F0;">"read %d bytes:\n"</span>, ret);
-    printf(<span style="color: #F8F8F0;">"%s\n"</span>, buf);
+    printf(<span style="color: #2aa198;">"read %d bytes:\n"</span>, ret);
+    printf(<span style="color: #2aa198;">"%s\n"</span>, buf);
 
-    <span style="color: #A7DBD8;">return</span> 0;
+    <span style="color: #859900; font-weight: bold;">return</span> 0;
 }
 </pre>
 </div>
@@ -794,11 +800,11 @@ EINTR告诉用户,我们这次返回了负数,但是我们不是真的失败,我
 <pre class="src src-sh">lvtest@auto-inst:~/tmp$ ./a.out
 ^Cin handler
 ^Chandler return
-<span style="color: #A7DBD8;">in</span> handler
+<span style="color: #859900; font-weight: bold;">in</span> handler
 handler return
 ^Cin handler
 handler return
-<span style="color: #F38630;">read</span> 0 bytes:
+<span style="color: #657b83; font-weight: bold;">read</span> 0 bytes:
 </pre>
 </div>
 </li>
@@ -808,8 +814,8 @@ handler return
 <pre class="src src-sh">lvtest@auto-inst:~/tmp$ ./a.out
 ^Cin handler
 handler return
-<span style="color: #F38630;">read</span>: Interrupted system call
-<span style="color: #F38630;">read</span> -1 bytes:
+<span style="color: #657b83; font-weight: bold;">read</span>: Interrupted system call
+<span style="color: #657b83; font-weight: bold;">read</span> -1 bytes:
 </pre>
 </div>
 </li>
@@ -822,17 +828,17 @@ select的帮助),所以需要跨平台的程序还是要用循环来重新调用
 </div>
 </div>
 
-<div id="outline-container-sec-10" class="outline-2">
-<h2 id="sec-10">wait and waitpid Function</h2>
-<div class="outline-text-2" id="text-10">
+<div id="outline-container-sec-1-10" class="outline-3">
+<h3 id="sec-1-10">wait and waitpid Function</h3>
+<div class="outline-text-3" id="text-1-10">
 <ul class="org-ul">
 <li>在Unix-like的系统中,使用wait和waitpid来处理已经结束了的子进程
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;sys/wait.h&gt;</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;sys/wait.h&gt;</span>
 
-<span style="color: #999999;">pid_t</span> <span style="color: #AEE239;">wait</span>(<span style="color: #999999;">int</span> *<span style="color: #FD971F;">statloc</span>);
-<span style="color: #999999;">pid_t</span> <span style="color: #AEE239;">waitpid</span>(<span style="color: #999999;">pid_t</span> <span style="color: #FD971F;">pid</span>, <span style="color: #999999;">int</span> *<span style="color: #FD971F;">statloc</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">options</span>);
+<span style="color: #b58900;">pid_t</span> <span style="color: #268bd2;">wait</span>(<span style="color: #b58900;">int</span> *<span style="color: #268bd2;">statloc</span>);
+<span style="color: #b58900;">pid_t</span> <span style="color: #268bd2;">waitpid</span>(<span style="color: #b58900;">pid_t</span> <span style="color: #268bd2;">pid</span>, <span style="color: #b58900;">int</span> *<span style="color: #268bd2;">statloc</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">options</span>);
 </pre>
 </div>
 </li>
@@ -871,26 +877,26 @@ options添加一个设置WNOHANG来让函数watipid马上返回.
 <li>client端一次就要求五个socket,server端也就要fork五次来满足
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span>   <span style="color: #F8F8F0;">"unp.h"</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span>   <span style="color: #2aa198;">"unp.h"</span>
 
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">argc</span>, <span style="color: #999999;">char</span> *<span style="color: #FD971F;">argv</span>[])
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">argv</span>[])
 {
-    <span style="color: #999999;">int</span>                <span style="color: #FD971F;">i</span>, <span style="color: #FD971F;">sockfd</span>[5];
-    <span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">sockadr_in</span>  <span style="color: #FD971F;">servaddr</span>;
+    <span style="color: #b58900;">int</span>                <span style="color: #268bd2;">i</span>, <span style="color: #268bd2;">sockfd</span>[5];
+    <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">sockadr_in</span>  <span style="color: #268bd2;">servaddr</span>;
 
-    <span style="color: #A7DBD8;">if</span> (argc != 2) {
-        err_quit(<span style="color: #F8F8F0;">"usage: tcpcli &lt;IPaddress&gt;"</span>);
+    <span style="color: #859900; font-weight: bold;">if</span> (argc != 2) {
+        err_quit(<span style="color: #2aa198;">"usage: tcpcli &lt;IPaddress&gt;"</span>);
     }
 
-    <span style="color: #A7DBD8;">for</span> (i = 0; i &lt; 5; i++) {
+    <span style="color: #859900; font-weight: bold;">for</span> (i = 0; i &lt; 5; i++) {
         sockfd[i] = Socket(AF_INET, SOCK_STREAM, 0);
 
-        bzero(&amp;servadr, <span style="color: #A7DBD8;">sizeof</span>(servaddr));
+        bzero(&amp;servadr, <span style="color: #859900; font-weight: bold;">sizeof</span>(servaddr));
         servaddr.sin_family = AF_INET;
         servaddr.sin_port = htons(SERV_PORT);
         Inet_pton(AF_INET, argv[1], &amp;servaddr.sin_addr);
 
-        Connect(sockfd[i], (<span style="color: #999999;">SA</span>*)&amp;servadr, <span style="color: #A7DBD8;">sizeof</span>(servaddr));
+        Connect(sockfd[i], (<span style="color: #b58900;">SA</span>*)&amp;servadr, <span style="color: #859900; font-weight: bold;">sizeof</span>(servaddr));
     }
     str_cli(stdin, sockfd[0]);
 
@@ -937,16 +943,16 @@ child 20426 terminated
 进程的时候, 马上退出
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span>  <span style="color: #F8F8F0;">"unp.h"</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span>  <span style="color: #2aa198;">"unp.h"</span>
 
-<span style="color: #999999;">void</span> <span style="color: #AEE239;">sig_chld</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">signo</span>) {
-    <span style="color: #999999;">pid_t</span>   <span style="color: #FD971F;">pid</span>;
-    <span style="color: #999999;">int</span>     <span style="color: #FD971F;">stat</span>;
+<span style="color: #b58900;">void</span> <span style="color: #268bd2;">sig_chld</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">signo</span>) {
+    <span style="color: #b58900;">pid_t</span>   <span style="color: #268bd2;">pid</span>;
+    <span style="color: #b58900;">int</span>     <span style="color: #268bd2;">stat</span>;
 
-    <span style="color: #A7DBD8;">while</span>((pid = waitpid(-1, &amp;stat, WNOHANG)) &gt; 0) {
-        printf(<span style="color: #F8F8F0;">"child %d terminated\n"</span>, pid);
+    <span style="color: #859900; font-weight: bold;">while</span>((pid = waitpid(-1, &amp;stat, WNOHANG)) &gt; 0) {
+        printf(<span style="color: #2aa198;">"child %d terminated\n"</span>, pid);
     }
-    <span style="color: #A7DBD8;">return</span>;
+    <span style="color: #859900; font-weight: bold;">return</span>;
 }
 </pre>
 </div>
@@ -955,47 +961,47 @@ child 20426 terminated
 所以就有了下面的最"正确"的版本:
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span>   <span style="color: #F8F8F0;">"unp.h"</span>
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">argc</span>, <span style="color: #999999;">char</span> *<span style="color: #FD971F;">argv</span>[])
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span>   <span style="color: #2aa198;">"unp.h"</span>
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">argv</span>[])
 {
-    <span style="color: #999999;">int</span>                 <span style="color: #FD971F;">listenfd</span>, <span style="color: #FD971F;">connfd</span>;
-    <span style="color: #999999;">pid_t</span>               <span style="color: #FD971F;">childpid</span>;
-    <span style="color: #999999;">socklen_t</span>           <span style="color: #FD971F;">chilen</span>;
-    <span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">sockaddr_in</span>  <span style="color: #FD971F;">cliaddr</span>, <span style="color: #FD971F;">servaddr</span>;
+    <span style="color: #b58900;">int</span>                 <span style="color: #268bd2;">listenfd</span>, <span style="color: #268bd2;">connfd</span>;
+    <span style="color: #b58900;">pid_t</span>               <span style="color: #268bd2;">childpid</span>;
+    <span style="color: #b58900;">socklen_t</span>           <span style="color: #268bd2;">chilen</span>;
+    <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">sockaddr_in</span>  <span style="color: #268bd2;">cliaddr</span>, <span style="color: #268bd2;">servaddr</span>;
 
-    <span style="color: #999999;">void</span>  <span style="color: #FD971F;">sig_chld</span>(<span style="color: #999999;">int</span>);
+    <span style="color: #b58900;">void</span>  <span style="color: #268bd2;">sig_chld</span>(<span style="color: #b58900;">int</span>);
 
     listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 
-    bzero(&amp;servaddr, <span style="color: #A7DBD8;">sizeof</span>(servaddr));
+    bzero(&amp;servaddr, <span style="color: #859900; font-weight: bold;">sizeof</span>(servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
     servaddr.sin_port = htons(SERV_PORT);
 
-    Bind(listenfd, (<span style="color: #999999;">SA</span>*)&amp;servaddr, <span style="color: #A7DBD8;">sizeof</span>(servaddr));
+    Bind(listenfd, (<span style="color: #b58900;">SA</span>*)&amp;servaddr, <span style="color: #859900; font-weight: bold;">sizeof</span>(servaddr));
 
     Listen(Listenfd, LISTENQ);
 
-    Signal(SIGCHLD, sig_chld); <span style="color: #505C63;">/* </span><span style="color: #505C63;">must call waitpid() </span><span style="color: #505C63;">*/</span>
+    Signal(SIGCHLD, sig_chld); <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">must call waitpid() </span><span style="color: #93a1a1;">*/</span>
 
-    <span style="color: #A7DBD8;">for</span> (;;) {
-        clilen = <span style="color: #A7DBD8;">sizeof</span>(cliaddr);
-        <span style="color: #A7DBD8;">if</span> ((connfd = accept(listenfd, (<span style="color: #999999;">SA</span>*)&amp;cliaddr, &amp;clilen)) &lt; 0) {
-            <span style="color: #A7DBD8;">if</span> (errno == EINTR) {
-                <span style="color: #A7DBD8;">continue</span>;
-            } <span style="color: #A7DBD8;">else</span> {
-                err_sys(<span style="color: #F8F8F0;">"accept error"</span>);
+    <span style="color: #859900; font-weight: bold;">for</span> (;;) {
+        clilen = <span style="color: #859900; font-weight: bold;">sizeof</span>(cliaddr);
+        <span style="color: #859900; font-weight: bold;">if</span> ((connfd = accept(listenfd, (<span style="color: #b58900;">SA</span>*)&amp;cliaddr, &amp;clilen)) &lt; 0) {
+            <span style="color: #859900; font-weight: bold;">if</span> (errno == EINTR) {
+                <span style="color: #859900; font-weight: bold;">continue</span>;
+            } <span style="color: #859900; font-weight: bold;">else</span> {
+                err_sys(<span style="color: #2aa198;">"accept error"</span>);
             }
         }
 
-        <span style="color: #A7DBD8;">if</span> ((childpid = Fork()) == 0) { <span style="color: #505C63;">/* </span><span style="color: #505C63;">child process </span><span style="color: #505C63;">*/</span>
-            Close(listenfd);            <span style="color: #505C63;">/* </span><span style="color: #505C63;">close litening socket </span><span style="color: #505C63;">*/</span>
+        <span style="color: #859900; font-weight: bold;">if</span> ((childpid = Fork()) == 0) { <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">child process </span><span style="color: #93a1a1;">*/</span>
+            Close(listenfd);            <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">close litening socket </span><span style="color: #93a1a1;">*/</span>
             str_echo(connfd);
             exit(0);
         }
         Close(connfd);
     }
-    <span style="color: #A7DBD8;">return</span> 0;
+    <span style="color: #859900; font-weight: bold;">return</span> 0;
 }
 </pre>
 </div>
@@ -1006,9 +1012,9 @@ child 20426 terminated
 </div>
 </div>
 
-<div id="outline-container-sec-11" class="outline-2">
-<h2 id="sec-11">Connetion Abort before accept Returns</h2>
-<div class="outline-text-2" id="text-11">
+<div id="outline-container-sec-1-11" class="outline-3">
+<h3 id="sec-1-11">Connetion Abort before accept Returns</h3>
+<div class="outline-text-3" id="text-1-11">
 <ul class="org-ul">
 <li>前面说过,为了给handler让路所以system call会return, 让handler运行. 这种
 interrupted system call 的情况其实不是fatal的错误,所以会设置errno为EINTR,
@@ -1031,9 +1037,9 @@ softeare caused connection abor")的话.说明这不是一个fatal的错误,我�
 </div>
 </div>
 
-<div id="outline-container-sec-12" class="outline-2">
-<h2 id="sec-12">Termination of Server Processs</h2>
-<div class="outline-text-2" id="text-12">
+<div id="outline-container-sec-1-12" class="outline-3">
+<h3 id="sec-1-12">Termination of Server Processs</h3>
+<div class="outline-text-3" id="text-1-12">
 <ul class="org-ul">
 <li>首先开启client和server, 然后kill掉server的一个子进程.这就模仿了"server进程"
 崩溃的情况(注意这里是"server进程"崩溃, "server的主机"并没有崩溃):
@@ -1090,9 +1096,9 @@ tcp     0      0   localhost:43604loca   lhost:9877       CLOSE_WAIT
 </div>
 </div>
 
-<div id="outline-container-sec-13" class="outline-2">
-<h2 id="sec-13">SIGPIPE Signal</h2>
-<div class="outline-text-2" id="text-13">
+<div id="outline-container-sec-1-13" class="outline-3">
+<h3 id="sec-1-13">SIGPIPE Signal</h3>
+<div class="outline-text-3" id="text-1-13">
 <ul class="org-ul">
 <li>上面的例子中,如果我们的client忽略了readline返回的错误,一意孤行的往socket里
 面写呢?答案是:如果进程朝一个已经设置为RST的socket里面写入数据的话. SIGPIPE
@@ -1107,18 +1113,18 @@ tcp     0      0   localhost:43604loca   lhost:9877       CLOSE_WAIT
 负责产生SIGPIPE
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span>    <span style="color: #F8F8F0;">"unp.h"</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span>    <span style="color: #2aa198;">"unp.h"</span>
 
-<span style="color: #999999;">void</span> <span style="color: #AEE239;">str_cli</span>(<span style="color: #999999;">FILE</span> *<span style="color: #FD971F;">fp</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">sockfd</span>) {
-    <span style="color: #999999;">char</span>     <span style="color: #FD971F;">sendline</span>[MAXLINE], <span style="color: #FD971F;">recvline</span>[MAXLINE];
+<span style="color: #b58900;">void</span> <span style="color: #268bd2;">str_cli</span>(<span style="color: #b58900;">FILE</span> *<span style="color: #268bd2;">fp</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">sockfd</span>) {
+    <span style="color: #b58900;">char</span>     <span style="color: #268bd2;">sendline</span>[MAXLINE], <span style="color: #268bd2;">recvline</span>[MAXLINE];
 
-    <span style="color: #A7DBD8;">while</span>(Fgets(sendline, MAXLINE, fp) != <span style="color: #AEE239;">NULL</span>) {
+    <span style="color: #859900; font-weight: bold;">while</span>(Fgets(sendline, MAXLINE, fp) != <span style="color: #268bd2; font-weight: bold;">NULL</span>) {
         Writen(sockfd, sendline, 1);
         sleep(1);
         Writen(sockfd, sendline + 1, strlen(sendline) - 1);
 
-        <span style="color: #A7DBD8;">if</span> (Readline(sockfd, recvline, MAXLINE) == 0) {
-            err_quit(<span style="color: #F8F8F0;">"str_cli: server terminated prematurely"</span>);
+        <span style="color: #859900; font-weight: bold;">if</span> (Readline(sockfd, recvline, MAXLINE) == 0) {
+            err_quit(<span style="color: #2aa198;">"str_cli: server terminated prematurely"</span>);
         }
 
         Fputs(recvline, stdout);
@@ -1154,9 +1160,9 @@ ignore了SIGPIPE,也可以通过EPIPE来发现错误
 </div>
 </div>
 
-<div id="outline-container-sec-14" class="outline-2">
-<h2 id="sec-14">Crashing of Server Host</h2>
-<div class="outline-text-2" id="text-14">
+<div id="outline-container-sec-1-14" class="outline-3">
+<h3 id="sec-1-14">Crashing of Server Host</h3>
+<div class="outline-text-3" id="text-1-14">
 <ul class="org-ul">
 <li>说完了server process崩溃,这里讲讲server host崩溃:我们首先开启server和client,
 然后输入一些字符串表示成功建立connection,最后把server的网线拔掉:拔掉就是最
@@ -1192,9 +1198,9 @@ Berkeley的实现会尝试12次重传等待9分钟之后,放弃.然后发送一�
 </div>
 </div>
 
-<div id="outline-container-sec-15" class="outline-2">
-<h2 id="sec-15">Crashing and Rebooting of Server Host</h2>
-<div class="outline-text-2" id="text-15">
+<div id="outline-container-sec-1-15" class="outline-3">
+<h3 id="sec-1-15">Crashing and Rebooting of Server Host</h3>
+<div class="outline-text-3" id="text-1-15">
 <ul class="org-ul">
 <li>server host崩溃之后又重启的话,其实和前面差不多,因为原来的connection已经全部
 都丢失了,所以server还是会返回RST:
@@ -1217,9 +1223,9 @@ ECONNRESET
 </div>
 </div>
 
-<div id="outline-container-sec-16" class="outline-2">
-<h2 id="sec-16">Shutdown of Server Host</h2>
-<div class="outline-text-2" id="text-16">
+<div id="outline-container-sec-1-16" class="outline-3">
+<h3 id="sec-1-16">Shutdown of Server Host</h3>
+<div class="outline-text-3" id="text-1-16">
 <ul class="org-ul">
 <li>前面我讨论了1)关闭server进程2)关闭server主机两种方式,这里我们讨论的是server
 用shutdown的正常方式关机:
@@ -1239,9 +1245,9 @@ ECONNRESET
 </div>
 </div>
 
-<div id="outline-container-sec-17" class="outline-2">
-<h2 id="sec-17">Summary of TCP Example</h2>
-<div class="outline-text-2" id="text-17">
+<div id="outline-container-sec-1-17" class="outline-3">
+<h3 id="sec-1-17">Summary of TCP Example</h3>
+<div class="outline-text-3" id="text-1-17">
 <ul class="org-ul">
 <li>在client和server通信之前,他们都要指定两对儿socket地址:
 <ul class="org-ul">
@@ -1277,14 +1283,15 @@ getpeername().
 </div>
 </div>
 
-<div id="outline-container-sec-18" class="outline-2">
-<h2 id="sec-18">Data format</h2>
-<div class="outline-text-2" id="text-18">
+<div id="outline-container-sec-1-18" class="outline-3">
+<h3 id="sec-1-18">Data format</h3>
+<div class="outline-text-3" id="text-1-18">
 <ul class="org-ul">
 <li>由于不同的体系结构(big endian, small endian)上面传递二进制数据,会造成错误,这
 本质上是由于不同体系对于内存的解释不同.
 </li>
 </ul>
+</div>
 </div>
 </div>
 </div>

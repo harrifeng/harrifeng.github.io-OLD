@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>KMP算法</title>
+<!-- 2014-03-18 Tue 08:19 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">KMP算法</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">原理</a></li>
+<li><a href="#sec-2">实现</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">原理</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>字符串匹配,是计算机的基本功能之一. 从字符串T中寻找P, 从直观上来讲有如下解法.
+<ol class="org-ol">
+<li>首先用pattern取匹配text的第一个字符串,不成功, 转到下一个
+
+
+<div class="figure">
+<p><img src="../../static/images/sc1.png" alt="sc1.png" />
+</p>
+</div>
+</li>
+
+<li>然后匹配第二个,还是不成功
+
+
+<div class="figure">
+<p><img src="../../static/images/sc2.png" alt="sc2.png" />
+</p>
+</div>
+</li>
+
+<li>第三个第四个&#x2026;.
+
+
+<div class="figure">
+<p><img src="../../static/images/sc3.png" alt="sc3.png" />
+</p>
+</div>
+</li>
+
+<li>直到第五个,终于成功了,然后开始往后比较&#x2026;结果,功亏一篑
+
+
+<div class="figure">
+<p><img src="../../static/images/sc4.png" alt="sc4.png" />
+</p>
+</div>
+</li>
+
+<li>功亏一篑之后,就要完全从头开始对比,也就是pattern又回到第一个字符, 而text
+也只向后移动了一个位置. 效率非常低
+
+
+<div class="figure">
+<p><img src="../../static/images/sc5.png" alt="sc5.png" />
+</p>
+</div>
+</li>
+</ol>
+</li>
+
+<li>上面的过程简言之就是长度为m的pattern从头开始匹配长度为n的text,一旦有不合适的情况, 
+text序列加1, pattern从头开始,整个过程下来,复杂度就是O(mn)
+</li>
+<li>上面算法最直观的感受,就是每次只text移动一个下标, 会有很多不必要的比较, 比如上面已经匹
+配了六个,我肯定知道下一个text肯定不是A, 那么我pattern仅仅匹配text的下一位就显得很没
+必要
+</li>
+<li>能够让pattern放弃一些不必要的比较(不可能全部免除,但至少尽可能的减少不必要的比较), 从
+而达到快速匹配目的的算法,就是KMP
+</li>
+<li>pattern能够减少比较的原因,是由于其自身字符串的特点, 某些字符串即是字符的前缀,又是字符
+串的后缀. 如下, ABCDAB最长的公共前缀加后缀就是AB. 
+<pre class="example">
+      字符串 : "ABCDAB"
+      前缀: [A, AB, ABC, ABCD, ABCDA]
+      后缀: [BCDAB, CDAB, AB, B]
+</pre>
+</li>
+<li>最长前缀加后缀,换句话说,就是以AB开头, 还以AB结尾, 那么刚才后面的AB已经成功匹配了,再次
+匹配就可以把前面的AB往后移动到后面的AB的位置, 我们子所以能够这样放心大胆的掠过中间的BCD,
+是因为我们对pattern进行了分析,知道ABCDAB这个字符串有AB这个公共前(后)缀
+
+
+<div class="figure">
+<p><img src="../../static/images/sc-kmp.png" alt="sc-kmp.png" />
+</p>
+</div>
+</li>
+
+<li>核心思想的难点,其实就是算出pattern的公共前(后)缀, 也就是下面的compute_prefix_function
+<ol class="org-ol">
+<li>开始时候的状态:此时是比较Pattern0和Pattern1, 不相等,只能增加i
+
+
+<div class="figure">
+<p><img src="../../static/images/cpf1.png" alt="cpf1.png" />
+</p>
+</div>
+</li>
+
+<li>i到了2, k+1还在0, 比较Pattern0和Pattern2,相等, k会增加, i 自动增加
+
+
+<div class="figure">
+<p><img src="../../static/images/cpf2.png" alt="cpf2.png" />
+</p>
+</div>
+</li>
+
+<li>i到了3, k+1在1, 比较Pattern1和Pattern3,相等, k会增加, i 自动增加
+
+
+<div class="figure">
+<p><img src="../../static/images/cpf3.png" alt="cpf3.png" />
+</p>
+</div>
+</li>
+
+<li>i到了4, k+1在2, 比较Pattern2和Pattern4,相等, k会增加, i 自动增加
+
+
+<div class="figure">
+<p><img src="../../static/images/cpf4.png" alt="cpf4.png" />
+</p>
+</div>
+</li>
+
+<li>i到了5, k+1在3, 比较Pattern3和Pattern5,相等, k会增加, i 自动增加
+
+
+<div class="figure">
+<p><img src="../../static/images/cpf5.png" alt="cpf5.png" />
+</p>
+</div>
+</li>
+
+<li>i到了6, k+1在4, 比较Pattern4和Pattern6,相等, k会增加, i 自动增加
+
+
+<div class="figure">
+<p><img src="../../static/images/cpf6.png" alt="cpf6.png" />
+</p>
+</div>
+</li>
+
+<li>i到了7, k+1在5, 比较Pattern5和Pattern7,相等, k会增加, i 自动增加
+
+
+<div class="figure">
+<p><img src="../../static/images/cpf7.png" alt="cpf7.png" />
+</p>
+</div>
+</li>
+
+<li>i到了8, k+1在6, 比较Pattern6和Pattern8,不相等, k会退回到pre[k]也就是3, i 保持不变
+
+
+<div class="figure">
+<p><img src="../../static/images/cpf8.png" alt="cpf8.png" />
+</p>
+</div>
+</li>
+
+<li>i还在8, k+1在4, 比较Pattern4和Pattern8,不相等, k会退回到pre[k]也就是-1, i 保持不变
+
+
+<div class="figure">
+<p><img src="../../static/images/cpf9.png" alt="cpf9.png" />
+</p>
+</div>
+</li>
+
+<li>i还在8, k+1在1, 比较Pattern1和Pattern8,不相等, pre[i]=-1, 然后i可以增加了
+
+
+<div class="figure">
+<p><img src="../../static/images/cpf10.png" alt="cpf10.png" />
+</p>
+</div>
+</li>
+
+<li>i在9, k+1在1, 比较Pattern1和Pattern9,相等, pre[i]=0, 整个过程结束
+
+
+<div class="figure">
+<p><img src="../../static/images/cpf11.png" alt="cpf11.png" />
+</p>
+</div>
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">实现</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">compute_prefix_function</span>(p):
+    <span style="color: #268bd2;">m</span> = <span style="color: #657b83; font-weight: bold;">len</span>(p)
+    <span style="color: #268bd2;">pre</span> = [-1] * m
+    <span style="color: #268bd2;">k</span> = -1
+    <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(1, m):
+        <span style="color: #859900; font-weight: bold;">while</span> k &gt; -1 <span style="color: #859900; font-weight: bold;">and</span> p[k+1] != p[i]:
+            <span style="color: #268bd2;">k</span> = pre[k]
+        <span style="color: #859900; font-weight: bold;">if</span> p[k+1] == p[i]:
+            k += 1
+        pre[i] = k
+    <span style="color: #859900; font-weight: bold;">return</span> pre
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">kmp_matcher</span>(t, p):
+    n = <span style="color: #657b83; font-weight: bold;">len</span>(t)
+    m = <span style="color: #657b83; font-weight: bold;">len</span>(p)
+    pre = compute_prefix_function(p)
+    <span style="color: #859900; font-weight: bold;">print</span> pre
+    q = -1
+    <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(n):
+        <span style="color: #859900; font-weight: bold;">while</span> q &gt; -1 <span style="color: #859900; font-weight: bold;">and</span> p[q+1] != t[i]:
+            q = pre[q]
+        <span style="color: #859900; font-weight: bold;">if</span> p[q+1] == t[i]:
+            q += 1
+        <span style="color: #859900; font-weight: bold;">if</span> q == (m - 1) :
+            <span style="color: #859900; font-weight: bold;">print</span> i
+            <span style="color: #859900; font-weight: bold;">print</span> m
+            <span style="color: #859900; font-weight: bold;">print</span> <span style="color: #2aa198;">"Pattern occurs with shift %s"</span> % (i - m)
+            q = pre[q]
+
+
+<span style="color: #859900; font-weight: bold;">if</span> <span style="color: #657b83; font-weight: bold;">__name__</span> == <span style="color: #2aa198;">'__main__'</span>:
+    kmp_matcher(<span style="color: #2aa198;">"1234545234545454"</span>, <span style="color: #2aa198;">"45454"</span>)
+</pre>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Duoshuo Comment BEGIN -->
+         <div class="ds-thread"></div>
+         <script type="text/javascript">
+             var duoshuoQuery = {short_name:"harrifeng"};
+             (function() {
+             var ds = document.createElement('script');
+             ds.type = 'text/javascript';ds.async = true;
+             ds.src = 'http://static.duoshuo.com/embed.js';
+             ds.charset = 'UTF-8';
+             (document.getElementsByTagName('head')[0]
+             || document.getElementsByTagName('body')[0]).appendChild(ds);
+             })();
+         </script>
+         <!-- Duoshuo Comment END -->
+</div>
+</body>
+</html>

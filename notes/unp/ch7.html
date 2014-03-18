@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Chapter 7</title>
-<!-- 2014-03-17 Mon 22:13 -->
+<title>Chapter 7: Socket Options</title>
+<!-- 2014-03-18 Tue 08:18 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -152,8 +152,8 @@ for the JavaScript code in this tag.
                 <ul>
                     <li><a href="/">首页</a></li>
                     <li><a href="/notes.html">读书笔记</a></li>
-                    <li><a href="/about.html">About</a></li>
-                    <li><a href="/atom.xml">RSS</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
                     <li>
                     </li>
                 </ul>
@@ -161,7 +161,7 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Chapter 7</h1>
+<h1 class="title">Chapter 7: Socket Options</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -246,11 +246,11 @@ for the JavaScript code in this tag.
 <li>两个函数的声明如下:
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;syt/socket.h&gt;</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;syt/socket.h&gt;</span>
 
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">getsockopt</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">sockfd</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">level</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">optname</span>, <span style="color: #999999;">void</span> *<span style="color: #FD971F;">optval</span>, <span style="color: #999999;">socklen_t</span>* <span style="color: #FD971F;">optlen</span>);
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">getsockopt</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">sockfd</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">level</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">optname</span>, <span style="color: #b58900;">void</span> *<span style="color: #268bd2;">optval</span>, <span style="color: #b58900;">socklen_t</span>* <span style="color: #268bd2;">optlen</span>);
 
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">setsockopt</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">sockfd</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">level</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">optname</span>, <span style="color: #A7DBD8;">const</span> <span style="color: #999999;">void</span>* <span style="color: #FD971F;">optval</span>, <span style="color: #999999;">socklen_t</span> <span style="color: #FD971F;">optlen</span>);
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">setsockopt</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">sockfd</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">level</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">optname</span>, <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">void</span>* <span style="color: #268bd2;">optval</span>, <span style="color: #b58900;">socklen_t</span> <span style="color: #268bd2;">optlen</span>);
 </pre>
 </div>
 </li>
@@ -278,60 +278,60 @@ for the JavaScript code in this tag.
 其默认值.
 <div class="org-src-container">
 
-<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #F38630;">#include</span>   <span style="color: #F8F8F0;">"unp.h"</span>
-<span class="linenr"> 2: </span><span style="color: #F38630;">#include</span>   <span style="color: #F8F8F0;">&lt;netinet/tcp.h&gt;</span>     <span style="color: #505C63;">/* </span><span style="color: #505C63;">for TCP_xxx defines </span><span style="color: #505C63;">*/</span>
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #268bd2; font-weight: bold;">#include</span>   <span style="color: #2aa198;">"unp.h"</span>
+<span class="linenr"> 2: </span><span style="color: #268bd2; font-weight: bold;">#include</span>   <span style="color: #2aa198;">&lt;netinet/tcp.h&gt;</span>     <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">for TCP_xxx defines </span><span style="color: #93a1a1;">*/</span>
 <span class="linenr"> 3: </span>
-<span class="linenr"> 4: </span><span style="color: #A7DBD8;">union</span> <span style="color: #999999;">val</span> {
-<span class="linenr"> 5: </span>    <span style="color: #999999;">int</span>                  <span style="color: #FD971F;">i_val</span>;
-<span class="linenr"> 6: </span>    <span style="color: #999999;">long</span>                 <span style="color: #FD971F;">l_val</span>;
-<span class="linenr"> 7: </span>    <span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">linger</span>        <span style="color: #FD971F;">linger_val</span>;
-<span class="linenr"> 8: </span>    <span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">timeval</span>       <span style="color: #FD971F;">timeval_val</span>;
-<span class="linenr"> 9: </span>}<span style="color: #FD971F;">val</span>;
+<span class="linenr"> 4: </span><span style="color: #859900; font-weight: bold;">union</span> <span style="color: #b58900;">val</span> {
+<span class="linenr"> 5: </span>    <span style="color: #b58900;">int</span>                  <span style="color: #268bd2;">i_val</span>;
+<span class="linenr"> 6: </span>    <span style="color: #b58900;">long</span>                 <span style="color: #268bd2;">l_val</span>;
+<span class="linenr"> 7: </span>    <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">linger</span>        <span style="color: #268bd2;">linger_val</span>;
+<span class="linenr"> 8: </span>    <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">timeval</span>       <span style="color: #268bd2;">timeval_val</span>;
+<span class="linenr"> 9: </span>}<span style="color: #268bd2;">val</span>;
 <span class="linenr">10: </span>
-<span class="linenr">11: </span><span style="color: #A7DBD8;">static</span> <span style="color: #999999;">char</span> *<span style="color: #AEE239;">sock_str_flag</span>(<span style="color: #A7DBD8;">union</span> <span style="color: #999999;">val</span>*, <span style="color: #999999;">int</span>);
-<span class="linenr">12: </span><span style="color: #A7DBD8;">static</span> <span style="color: #999999;">char</span> *<span style="color: #AEE239;">sock_str_int</span>(<span style="color: #A7DBD8;">union</span> <span style="color: #999999;">val</span>*, <span style="color: #999999;">int</span>);
-<span class="linenr">13: </span><span style="color: #A7DBD8;">static</span> <span style="color: #999999;">char</span> *<span style="color: #AEE239;">sock_str_linger</span>(<span style="color: #A7DBD8;">union</span> <span style="color: #999999;">val</span>*, <span style="color: #999999;">int</span>);
-<span class="linenr">14: </span><span style="color: #A7DBD8;">static</span> <span style="color: #999999;">char</span> *<span style="color: #AEE239;">sock_str_timeval</span>(<span style="color: #A7DBD8;">union</span> <span style="color: #999999;">val</span>*, <span style="color: #999999;">int</span>);
+<span class="linenr">11: </span><span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">sock_str_flag</span>(<span style="color: #859900; font-weight: bold;">union</span> <span style="color: #b58900;">val</span>*, <span style="color: #b58900;">int</span>);
+<span class="linenr">12: </span><span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">sock_str_int</span>(<span style="color: #859900; font-weight: bold;">union</span> <span style="color: #b58900;">val</span>*, <span style="color: #b58900;">int</span>);
+<span class="linenr">13: </span><span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">sock_str_linger</span>(<span style="color: #859900; font-weight: bold;">union</span> <span style="color: #b58900;">val</span>*, <span style="color: #b58900;">int</span>);
+<span class="linenr">14: </span><span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">sock_str_timeval</span>(<span style="color: #859900; font-weight: bold;">union</span> <span style="color: #b58900;">val</span>*, <span style="color: #b58900;">int</span>);
 <span class="linenr">15: </span>
-<span class="linenr">16: </span><span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">sock_opts</span>{
-<span class="linenr">17: </span>    <span style="color: #A7DBD8;">const</span>  <span style="color: #999999;">char</span>*   <span style="color: #FD971F;">opt_str</span>;
-<span class="linenr">18: </span>    <span style="color: #999999;">int</span>            <span style="color: #FD971F;">opt_level</span>;
-<span class="linenr">19: </span>    <span style="color: #999999;">int</span>            <span style="color: #FD971F;">opt_name</span>;
-<span class="linenr">20: </span>    <span style="color: #999999;">char</span>           *(*<span style="color: #AEE239;">opt_val_str</span>) (<span style="color: #A7DBD8;">union</span> <span style="color: #999999;">val</span> *, <span style="color: #999999;">int</span>);
-<span class="linenr">21: </span>} <span style="color: #FD971F;">sock_opts</span>[] = {
-<span class="linenr">22: </span>    { <span style="color: #F8F8F0;">"SO_BROADCAST"</span>,        SOL_SOCKET, SO_BROADCAST,   sock_str_flag },
-<span class="linenr">23: </span>    { <span style="color: #F8F8F0;">"SO_DEBUG"</span>,            SOL_SOCKET, SO_DEBUG,       sock_str_flag },
-<span class="linenr">24: </span>    { <span style="color: #F8F8F0;">"SO_DONTROUTE"</span>,        SOL_SOCKET, SO_DONTROUTE,   sock_str_flag },
-<span class="linenr">25: </span>    { <span style="color: #F8F8F0;">"SO_ERROR"</span>,            SOL_SOCKET, SO_ERROR,       sock_str_int },
-<span class="linenr">26: </span>    { <span style="color: #F8F8F0;">"SO_KEEPALIVE"</span>,        SOL_SOCKET, SO_KEEPALIVE,   sock_str_flag },
-<span class="linenr">27: </span>    { <span style="color: #F8F8F0;">"SO_LINGER"</span>,           SOL_SOCKET, SO_LINGER,      sock_str_linger },
-<span class="linenr">28: </span>    { <span style="color: #F8F8F0;">"SO_OOBINLINE"</span>,        SOL_SOCKET, SO_OOBINLINE,   sock_str_flag },
-<span class="linenr">29: </span>    { <span style="color: #F8F8F0;">"SO_RCVBUF"</span>,           SOL_SOCKET, SO_RCVBUF,      sock_str_int },
-<span class="linenr">30: </span>    { <span style="color: #F8F8F0;">"SO_SNDBUF"</span>,           SOL_SOCKET, SO_SNDBUF,      sock_str_int },
-<span class="linenr">31: </span>    { <span style="color: #F8F8F0;">"SO_RCVLOWAT"</span>,         SOL_SOCKET, SO_RCVLOWAT,    sock_str_int },
-<span class="linenr">32: </span>    { <span style="color: #F8F8F0;">"SO_SNDLOWAT"</span>,         SOL_SOCKET, SO_SNDLOWAT,    sock_str_int },
-<span class="linenr">33: </span>    { <span style="color: #F8F8F0;">"SO_RCVTIMEO"</span>,         SOL_SOCKET, SO_RCVTIMEO,    sock_str_timeval },
-<span class="linenr">34: </span>    { <span style="color: #F8F8F0;">"SO_SNDTIMEO"</span>,         SOL_SOCKET, SO_SNDTIMEO,    sock_str_timeval },
-<span class="linenr">35: </span>    { <span style="color: #F8F8F0;">"SO_REUSEADDR"</span>,        SOL_SOCKET, SO_REUSEADDR,   sock_str_flag },
-<span class="linenr">36: </span><span style="color: #F38630;">#ifdef</span> SO_REUSEPORT
-<span class="linenr">37: </span>    { <span style="color: #F8F8F0;">"SO_REUSEPORT"</span>,        SOL_SOCKET, SO_REUSEPORT,   sock_str_flag },
-<span class="linenr">38: </span><span style="color: #F38630;">#else</span>
-<span class="linenr">39: </span>    { <span style="color: #F8F8F0;">"SO_REUSEPORT"</span>,        0,          0,              <span style="color: #AEE239;">NULL</span> },
-<span class="linenr">40: </span><span style="color: #F38630;">#endif</span>
-<span class="linenr">41: </span>    { <span style="color: #F8F8F0;">"SO_TYPE"</span>,             SOL_SOCKET, SO_TYPE,        sock_str_int },
-<span class="linenr">42: </span>    { <span style="color: #F8F8F0;">"SO_USELOOPBACK"</span>,      SOL_SOCKET, SO_USELOOPBACK, sock_str_flag },
-<span class="linenr">43: </span>    { <span style="color: #F8F8F0;">"IP_TOS"</span>,              IPPROTO_IP, IP_TOS,         sock_str_int },
-<span class="linenr">44: </span>    { <span style="color: #F8F8F0;">"IP_TTL"</span>,              IPPROTO_IP, IP_TTL,         sock_str_int },
-<span class="linenr">45: </span>    { <span style="color: #F8F8F0;">"IPV6_DONTFRAG"</span>,       IPPROTO_IPV6,IPV6_DONTFRAG, sock_str_flag },
-<span class="linenr">46: </span>    { <span style="color: #F8F8F0;">"IPV6_UNICAST_HOPS"</span>,   IPPROTO_IPV6,IPV6_UNICAST_HOPS,sock_str_int },
-<span class="linenr">47: </span>    { <span style="color: #F8F8F0;">"IPV6_V6ONLY"</span>,         IPPROTO_IPV6,IPV6_V6ONLY,   sock_str_flag },
-<span class="linenr">48: </span>    { <span style="color: #F8F8F0;">"TCP_MAXSEG"</span>,          IPPROTO_TCP,TCP_MAXSEG,     sock_str_int },
-<span class="linenr">49: </span>    { <span style="color: #F8F8F0;">"TCP_NODELAY"</span>,         IPPROTO_TCP,TCP_NODELAY,    sock_str_flag },
-<span class="linenr">50: </span>    { <span style="color: #F8F8F0;">"SCTP_AUTOCLOSE"</span>,      IPPROTO_SCTP,SCTP_AUTOCLOSE,sock_str_int },
-<span class="linenr">51: </span>    { <span style="color: #F8F8F0;">"SCTP_MAXBURST"</span>,       IPPROTO_SCTP,SCTP_MAXBURST, sock_str_int },
-<span class="linenr">52: </span>    { <span style="color: #F8F8F0;">"SCTP_MAXSEG"</span>,         IPPROTO_SCTP,SCTP_MAXSEG,   sock_str_int },
-<span class="linenr">53: </span>    { <span style="color: #F8F8F0;">"SCTP_NODELAY"</span>,        IPPROTO_SCTP,SCTP_NODELAY,  sock_str_flag },
-<span class="linenr">54: </span>    { <span style="color: #AEE239;">NULL</span>,                  0,          0,              <span style="color: #AEE239;">NULL</span> }
+<span class="linenr">16: </span><span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">sock_opts</span>{
+<span class="linenr">17: </span>    <span style="color: #859900; font-weight: bold;">const</span>  <span style="color: #b58900;">char</span>*   <span style="color: #268bd2;">opt_str</span>;
+<span class="linenr">18: </span>    <span style="color: #b58900;">int</span>            <span style="color: #268bd2;">opt_level</span>;
+<span class="linenr">19: </span>    <span style="color: #b58900;">int</span>            <span style="color: #268bd2;">opt_name</span>;
+<span class="linenr">20: </span>    <span style="color: #b58900;">char</span>           *(*<span style="color: #268bd2;">opt_val_str</span>) (<span style="color: #859900; font-weight: bold;">union</span> <span style="color: #b58900;">val</span> *, <span style="color: #b58900;">int</span>);
+<span class="linenr">21: </span>} <span style="color: #268bd2;">sock_opts</span>[] = {
+<span class="linenr">22: </span>    { <span style="color: #2aa198;">"SO_BROADCAST"</span>,        SOL_SOCKET, SO_BROADCAST,   sock_str_flag },
+<span class="linenr">23: </span>    { <span style="color: #2aa198;">"SO_DEBUG"</span>,            SOL_SOCKET, SO_DEBUG,       sock_str_flag },
+<span class="linenr">24: </span>    { <span style="color: #2aa198;">"SO_DONTROUTE"</span>,        SOL_SOCKET, SO_DONTROUTE,   sock_str_flag },
+<span class="linenr">25: </span>    { <span style="color: #2aa198;">"SO_ERROR"</span>,            SOL_SOCKET, SO_ERROR,       sock_str_int },
+<span class="linenr">26: </span>    { <span style="color: #2aa198;">"SO_KEEPALIVE"</span>,        SOL_SOCKET, SO_KEEPALIVE,   sock_str_flag },
+<span class="linenr">27: </span>    { <span style="color: #2aa198;">"SO_LINGER"</span>,           SOL_SOCKET, SO_LINGER,      sock_str_linger },
+<span class="linenr">28: </span>    { <span style="color: #2aa198;">"SO_OOBINLINE"</span>,        SOL_SOCKET, SO_OOBINLINE,   sock_str_flag },
+<span class="linenr">29: </span>    { <span style="color: #2aa198;">"SO_RCVBUF"</span>,           SOL_SOCKET, SO_RCVBUF,      sock_str_int },
+<span class="linenr">30: </span>    { <span style="color: #2aa198;">"SO_SNDBUF"</span>,           SOL_SOCKET, SO_SNDBUF,      sock_str_int },
+<span class="linenr">31: </span>    { <span style="color: #2aa198;">"SO_RCVLOWAT"</span>,         SOL_SOCKET, SO_RCVLOWAT,    sock_str_int },
+<span class="linenr">32: </span>    { <span style="color: #2aa198;">"SO_SNDLOWAT"</span>,         SOL_SOCKET, SO_SNDLOWAT,    sock_str_int },
+<span class="linenr">33: </span>    { <span style="color: #2aa198;">"SO_RCVTIMEO"</span>,         SOL_SOCKET, SO_RCVTIMEO,    sock_str_timeval },
+<span class="linenr">34: </span>    { <span style="color: #2aa198;">"SO_SNDTIMEO"</span>,         SOL_SOCKET, SO_SNDTIMEO,    sock_str_timeval },
+<span class="linenr">35: </span>    { <span style="color: #2aa198;">"SO_REUSEADDR"</span>,        SOL_SOCKET, SO_REUSEADDR,   sock_str_flag },
+<span class="linenr">36: </span><span style="color: #268bd2; font-weight: bold;">#ifdef</span> SO_REUSEPORT
+<span class="linenr">37: </span>    { <span style="color: #2aa198;">"SO_REUSEPORT"</span>,        SOL_SOCKET, SO_REUSEPORT,   sock_str_flag },
+<span class="linenr">38: </span><span style="color: #268bd2; font-weight: bold;">#else</span>
+<span class="linenr">39: </span>    { <span style="color: #2aa198;">"SO_REUSEPORT"</span>,        0,          0,              <span style="color: #268bd2; font-weight: bold;">NULL</span> },
+<span class="linenr">40: </span><span style="color: #268bd2; font-weight: bold;">#endif</span>
+<span class="linenr">41: </span>    { <span style="color: #2aa198;">"SO_TYPE"</span>,             SOL_SOCKET, SO_TYPE,        sock_str_int },
+<span class="linenr">42: </span>    { <span style="color: #2aa198;">"SO_USELOOPBACK"</span>,      SOL_SOCKET, SO_USELOOPBACK, sock_str_flag },
+<span class="linenr">43: </span>    { <span style="color: #2aa198;">"IP_TOS"</span>,              IPPROTO_IP, IP_TOS,         sock_str_int },
+<span class="linenr">44: </span>    { <span style="color: #2aa198;">"IP_TTL"</span>,              IPPROTO_IP, IP_TTL,         sock_str_int },
+<span class="linenr">45: </span>    { <span style="color: #2aa198;">"IPV6_DONTFRAG"</span>,       IPPROTO_IPV6,IPV6_DONTFRAG, sock_str_flag },
+<span class="linenr">46: </span>    { <span style="color: #2aa198;">"IPV6_UNICAST_HOPS"</span>,   IPPROTO_IPV6,IPV6_UNICAST_HOPS,sock_str_int },
+<span class="linenr">47: </span>    { <span style="color: #2aa198;">"IPV6_V6ONLY"</span>,         IPPROTO_IPV6,IPV6_V6ONLY,   sock_str_flag },
+<span class="linenr">48: </span>    { <span style="color: #2aa198;">"TCP_MAXSEG"</span>,          IPPROTO_TCP,TCP_MAXSEG,     sock_str_int },
+<span class="linenr">49: </span>    { <span style="color: #2aa198;">"TCP_NODELAY"</span>,         IPPROTO_TCP,TCP_NODELAY,    sock_str_flag },
+<span class="linenr">50: </span>    { <span style="color: #2aa198;">"SCTP_AUTOCLOSE"</span>,      IPPROTO_SCTP,SCTP_AUTOCLOSE,sock_str_int },
+<span class="linenr">51: </span>    { <span style="color: #2aa198;">"SCTP_MAXBURST"</span>,       IPPROTO_SCTP,SCTP_MAXBURST, sock_str_int },
+<span class="linenr">52: </span>    { <span style="color: #2aa198;">"SCTP_MAXSEG"</span>,         IPPROTO_SCTP,SCTP_MAXSEG,   sock_str_int },
+<span class="linenr">53: </span>    { <span style="color: #2aa198;">"SCTP_NODELAY"</span>,        IPPROTO_SCTP,SCTP_NODELAY,  sock_str_flag },
+<span class="linenr">54: </span>    { <span style="color: #268bd2; font-weight: bold;">NULL</span>,                  0,          0,              <span style="color: #268bd2; font-weight: bold;">NULL</span> }
 <span class="linenr">55: </span>};
 </pre>
 </div>
@@ -344,14 +344,14 @@ linger{},所以我们的union也设置成这四种类型,一旦指针指向对�
 转换成易读的字符串, 下面是其中sock_str_flag的实现
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #A7DBD8;">static</span> <span style="color: #999999;">char</span> <span style="color: #FD971F;">strres</span>[128];
+<pre class="src src-c"><span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">char</span> <span style="color: #268bd2;">strres</span>[128];
 
-<span style="color: #A7DBD8;">static</span> <span style="color: #999999;">char</span>* <span style="color: #AEE239;">sock_str_flag</span>(<span style="color: #A7DBD8;">union</span> <span style="color: #999999;">val</span>* <span style="color: #FD971F;">ptr</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">len</span>) {
-    <span style="color: #A7DBD8;">if</span> (len != <span style="color: #A7DBD8;">sizeof</span>(<span style="color: #999999;">int</span>)) {
-        snprintf(strres, <span style="color: #A7DBD8;">sizeof</span>(strres), <span style="color: #F8F8F0;">"size (%d) ont sizeof(int)"</span>, len);
-    } <span style="color: #A7DBD8;">else</span> {
-        snprintf(strres, <span style="color: #A7DBD8;">sizeof</span>(strres),
-                 <span style="color: #F8F8F0;">"%s"</span>, (ptr-&gt;i_val == 0) ? <span style="color: #F8F8F0;">"off"</span> : <span style="color: #F8F8F0;">"on"</span>);
+<span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">char</span>* <span style="color: #268bd2;">sock_str_flag</span>(<span style="color: #859900; font-weight: bold;">union</span> <span style="color: #b58900;">val</span>* <span style="color: #268bd2;">ptr</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">len</span>) {
+    <span style="color: #859900; font-weight: bold;">if</span> (len != <span style="color: #859900; font-weight: bold;">sizeof</span>(<span style="color: #b58900;">int</span>)) {
+        snprintf(strres, <span style="color: #859900; font-weight: bold;">sizeof</span>(strres), <span style="color: #2aa198;">"size (%d) ont sizeof(int)"</span>, len);
+    } <span style="color: #859900; font-weight: bold;">else</span> {
+        snprintf(strres, <span style="color: #859900; font-weight: bold;">sizeof</span>(strres),
+                 <span style="color: #2aa198;">"%s"</span>, (ptr-&gt;i_val == 0) ? <span style="color: #2aa198;">"off"</span> : <span style="color: #2aa198;">"on"</span>);
     }
 }
 </pre>
@@ -362,54 +362,54 @@ fd)都写到这个结构体里面,注意,最后一行我们设置了全NULL,为�
 知道"结构体到头了"
 <div class="org-src-container">
 
-<pre class="src src-c">{ <span style="color: #AEE239;">NULL</span>,                  0,          0,              <span style="color: #AEE239;">NULL</span> }
+<pre class="src src-c">{ <span style="color: #268bd2; font-weight: bold;">NULL</span>,                  0,          0,              <span style="color: #268bd2; font-weight: bold;">NULL</span> }
 </pre>
 </div>
 </li>
 <li>我们使用这个上面结构体的main代码如下:
 <div class="org-src-container">
 
-<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #999999;">int</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">argc</span>, <span style="color: #999999;">char</span> *<span style="color: #FD971F;">argv</span>[])
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">argv</span>[])
 <span class="linenr"> 2: </span>{
-<span class="linenr"> 3: </span>    <span style="color: #999999;">int</span>       <span style="color: #FD971F;">fd</span>;
-<span class="linenr"> 4: </span>    <span style="color: #999999;">socklen_t</span> <span style="color: #FD971F;">len</span>;
-<span class="linenr"> 5: </span>    <span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">sock_opts</span>* <span style="color: #FD971F;">ptr</span>;
+<span class="linenr"> 3: </span>    <span style="color: #b58900;">int</span>       <span style="color: #268bd2;">fd</span>;
+<span class="linenr"> 4: </span>    <span style="color: #b58900;">socklen_t</span> <span style="color: #268bd2;">len</span>;
+<span class="linenr"> 5: </span>    <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">sock_opts</span>* <span style="color: #268bd2;">ptr</span>;
 <span class="linenr"> 6: </span>
-<span class="linenr"> 7: </span>    <span style="color: #A7DBD8;">for</span> (ptr = sock_opts; ptr-&gt;opt_str != <span style="color: #AEE239;">NULL</span>; ptr++) {
-<span class="linenr"> 8: </span>        printf(<span style="color: #F8F8F0;">"%s: "</span>, ptr-&gt;opt_str);
-<span class="linenr"> 9: </span>        <span style="color: #A7DBD8;">if</span> (ptr-&gt;opt_val_str == <span style="color: #AEE239;">NULL</span>) {
-<span class="linenr">10: </span>            printf(<span style="color: #F8F8F0;">"(undefined) \n"</span>);
-<span class="linenr">11: </span>        } <span style="color: #A7DBD8;">else</span> {
-<span class="linenr">12: </span>            <span style="color: #A7DBD8;">switch</span>(ptr-&gt;opt_level) {
-<span class="linenr">13: </span>            <span style="color: #A7DBD8;">case</span> SOL_SOCKET:
-<span class="linenr">14: </span>            <span style="color: #A7DBD8;">case</span> IPPROTO_IP:
-<span class="linenr">15: </span>            <span style="color: #A7DBD8;">case</span> IPPROTO_TCP:
+<span class="linenr"> 7: </span>    <span style="color: #859900; font-weight: bold;">for</span> (ptr = sock_opts; ptr-&gt;opt_str != <span style="color: #268bd2; font-weight: bold;">NULL</span>; ptr++) {
+<span class="linenr"> 8: </span>        printf(<span style="color: #2aa198;">"%s: "</span>, ptr-&gt;opt_str);
+<span class="linenr"> 9: </span>        <span style="color: #859900; font-weight: bold;">if</span> (ptr-&gt;opt_val_str == <span style="color: #268bd2; font-weight: bold;">NULL</span>) {
+<span class="linenr">10: </span>            printf(<span style="color: #2aa198;">"(undefined) \n"</span>);
+<span class="linenr">11: </span>        } <span style="color: #859900; font-weight: bold;">else</span> {
+<span class="linenr">12: </span>            <span style="color: #859900; font-weight: bold;">switch</span>(ptr-&gt;opt_level) {
+<span class="linenr">13: </span>            <span style="color: #859900; font-weight: bold;">case</span> SOL_SOCKET:
+<span class="linenr">14: </span>            <span style="color: #859900; font-weight: bold;">case</span> IPPROTO_IP:
+<span class="linenr">15: </span>            <span style="color: #859900; font-weight: bold;">case</span> IPPROTO_TCP:
 <span class="linenr">16: </span>                fd = Socket(AF_INET, SOCK_STREAM, 0);
-<span class="linenr">17: </span>                <span style="color: #A7DBD8;">break</span>;
-<span class="linenr">18: </span><span style="color: #F38630;">#ifdef</span> IPV6
-<span class="linenr">19: </span>            <span style="color: #A7DBD8;">case</span> IPPROTO_IPV6:
+<span class="linenr">17: </span>                <span style="color: #859900; font-weight: bold;">break</span>;
+<span class="linenr">18: </span><span style="color: #268bd2; font-weight: bold;">#ifdef</span> IPV6
+<span class="linenr">19: </span>            <span style="color: #859900; font-weight: bold;">case</span> IPPROTO_IPV6:
 <span class="linenr">20: </span>                fd = Socket(AF_INET6, SOCK_STREAM, 0);
-<span class="linenr">21: </span>                <span style="color: #A7DBD8;">break</span>;
-<span class="linenr">22: </span><span style="color: #F38630;">#endif</span>
-<span class="linenr">23: </span><span style="color: #F38630;">#ifdef</span> IPPROTO_SCTP
-<span class="linenr">24: </span>            <span style="color: #A7DBD8;">case</span> IPPROTO_SCTP:
+<span class="linenr">21: </span>                <span style="color: #859900; font-weight: bold;">break</span>;
+<span class="linenr">22: </span><span style="color: #268bd2; font-weight: bold;">#endif</span>
+<span class="linenr">23: </span><span style="color: #268bd2; font-weight: bold;">#ifdef</span> IPPROTO_SCTP
+<span class="linenr">24: </span>            <span style="color: #859900; font-weight: bold;">case</span> IPPROTO_SCTP:
 <span class="linenr">25: </span>                fd = Socket(AF_INET, SOCK_SEQPACKET, IPPROTO_SCTP);
-<span class="linenr">26: </span>                <span style="color: #A7DBD8;">break</span>;
-<span class="linenr">27: </span><span style="color: #F38630;">#endif</span>
-<span class="linenr">28: </span>            <span style="color: #A7DBD8;">default</span>:
-<span class="linenr">29: </span>                err_quit(<span style="color: #F8F8F0;">"Can't create fd for level %d\n"</span>, ptr-&gt;opt_level);
+<span class="linenr">26: </span>                <span style="color: #859900; font-weight: bold;">break</span>;
+<span class="linenr">27: </span><span style="color: #268bd2; font-weight: bold;">#endif</span>
+<span class="linenr">28: </span>            <span style="color: #859900; font-weight: bold;">default</span>:
+<span class="linenr">29: </span>                err_quit(<span style="color: #2aa198;">"Can't create fd for level %d\n"</span>, ptr-&gt;opt_level);
 <span class="linenr">30: </span>            }
-<span class="linenr">31: </span>            len = <span style="color: #A7DBD8;">sizeof</span>(val);
-<span class="linenr">32: </span>            <span style="color: #A7DBD8;">if</span> (getsockopt(fd, ptr-&gt;opt_level, ptr-&gt;opt_name,
+<span class="linenr">31: </span>            len = <span style="color: #859900; font-weight: bold;">sizeof</span>(val);
+<span class="linenr">32: </span>            <span style="color: #859900; font-weight: bold;">if</span> (getsockopt(fd, ptr-&gt;opt_level, ptr-&gt;opt_name,
 <span class="linenr">33: </span>                           &amp;val, &amp;len) == -1) {
-<span class="linenr">34: </span>                err_ret(<span style="color: #F8F8F0;">"getsockopt error"</span>);
-<span class="linenr">35: </span>            } <span style="color: #A7DBD8;">else</span> {
-<span class="linenr">36: </span>                printf(<span style="color: #F8F8F0;">"default = %s\n"</span>, (*ptr-&gt;opt_val_str) (&amp;val, len));
+<span class="linenr">34: </span>                err_ret(<span style="color: #2aa198;">"getsockopt error"</span>);
+<span class="linenr">35: </span>            } <span style="color: #859900; font-weight: bold;">else</span> {
+<span class="linenr">36: </span>                printf(<span style="color: #2aa198;">"default = %s\n"</span>, (*ptr-&gt;opt_val_str) (&amp;val, len));
 <span class="linenr">37: </span>            }
 <span class="linenr">38: </span>            close(fd);
 <span class="linenr">39: </span>        }
 <span class="linenr">40: </span>    }
-<span class="linenr">41: </span>    <span style="color: #A7DBD8;">return</span> 0;
+<span class="linenr">41: </span>    <span style="color: #859900; font-weight: bold;">return</span> 0;
 <span class="linenr">42: </span>}
 </pre>
 </div>
@@ -597,9 +597,9 @@ Exxx value.这叫做socket's pending error.进程会马上以如下两种方式�
 <li>调用setsockopt的时候会设置linger结构体的两个部分:
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">linger</span> {
-    <span style="color: #999999;">int</span>  <span style="color: #FD971F;">l_onof</span>;         <span style="color: #505C63;">/* </span><span style="color: #505C63;">0=off, nonzero=on </span><span style="color: #505C63;">*/</span>
-    <span style="color: #999999;">int</span>  <span style="color: #FD971F;">l_linger</span>;       <span style="color: #505C63;">/* </span><span style="color: #505C63;">linger time, POSIX specifies units as seconds </span><span style="color: #505C63;">*/</span>
+<pre class="src src-c"><span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">linger</span> {
+    <span style="color: #b58900;">int</span>  <span style="color: #268bd2;">l_onof</span>;         <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">0=off, nonzero=on </span><span style="color: #93a1a1;">*/</span>
+    <span style="color: #b58900;">int</span>  <span style="color: #268bd2;">l_linger</span>;       <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">linger time, POSIX specifies units as seconds </span><span style="color: #93a1a1;">*/</span>
 };
 </pre>
 </div>
@@ -1171,12 +1171,12 @@ file descriptor,所以fcntl也可以对它
 <li>下面来看看fcntl的定义
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;fcntl.h&gt;</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;fcntl.h&gt;</span>
 
-<span style="color: #505C63;">/**********************************************/</span>
-<span style="color: #505C63;">/* </span><span style="color: #505C63;">Returns: depends on cmd if OK, -1 on error </span><span style="color: #505C63;">*/</span>
-<span style="color: #505C63;">/**********************************************/</span>
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">fcntl</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">fd</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">cmd</span>, ...<span style="color: #505C63;">/*</span><span style="color: #505C63;">int arg</span><span style="color: #505C63;">*/</span>);
+<span style="color: #93a1a1;">/**********************************************/</span>
+<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">Returns: depends on cmd if OK, -1 on error </span><span style="color: #93a1a1;">*/</span>
+<span style="color: #93a1a1;">/**********************************************/</span>
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">fcntl</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">fd</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">cmd</span>, ...<span style="color: #93a1a1;">/*</span><span style="color: #93a1a1;">int arg</span><span style="color: #93a1a1;">*/</span>);
 </pre>
 </div>
 </li>
@@ -1186,15 +1186,15 @@ F_SETFL)或者读取(F_GETFL)
 <li>下面是设置O_NONBLOCK的例子
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #999999;">int</span>   <span style="color: #FD971F;">flags</span>;
+<pre class="src src-c"><span style="color: #b58900;">int</span>   <span style="color: #268bd2;">flags</span>;
 
-<span style="color: #A7DBD8;">if</span> ((flags = fcntl(fd, F_GETFL,0)) &lt; 0) {
-    err_sys(<span style="color: #F8F8F0;">"F_GETFL error"</span>);
+<span style="color: #859900; font-weight: bold;">if</span> ((flags = fcntl(fd, F_GETFL,0)) &lt; 0) {
+    err_sys(<span style="color: #2aa198;">"F_GETFL error"</span>);
 }
 
 flags |= O_NONBLOCK;
-<span style="color: #A7DBD8;">if</span> (fcntl(fd, F_SETFL, flags) &lt; 0) {
-    err_sys(<span style="color: #F8F8F0;">"F_SETFL error"</span>);
+<span style="color: #859900; font-weight: bold;">if</span> (fcntl(fd, F_SETFL, flags) &lt; 0) {
+    err_sys(<span style="color: #2aa198;">"F_SETFL error"</span>);
 }
 </pre>
 </div>
@@ -1203,9 +1203,9 @@ flags |= O_NONBLOCK;
 nonblocking成功,但同时也就把原来的参数都清零了
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #505C63;">/* </span><span style="color: #505C63;">!! Wrong way to set a socket as non blocking !! </span><span style="color: #505C63;">*/</span>
-<span style="color: #A7DBD8;">if</span> (fcntl(fd, F_SETFL, O_NONBLOCK) &lt; 0) {
-    err_sys(<span style="color: #F8F8F0;">"F_SETFL error"</span>);
+<pre class="src src-c"><span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">!! Wrong way to set a socket as non blocking !! </span><span style="color: #93a1a1;">*/</span>
+<span style="color: #859900; font-weight: bold;">if</span> (fcntl(fd, F_SETFL, O_NONBLOCK) &lt; 0) {
+    err_sys(<span style="color: #2aa198;">"F_SETFL error"</span>);
 }
 </pre>
 </div>
@@ -1214,15 +1214,15 @@ nonblocking成功,但同时也就把原来的参数都清零了
 的设置)
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #999999;">int</span>   <span style="color: #FD971F;">flags</span>;
+<pre class="src src-c"><span style="color: #b58900;">int</span>   <span style="color: #268bd2;">flags</span>;
 
-<span style="color: #A7DBD8;">if</span> ((flags = fcntl(fd, F_GETFL,0)) &lt; 0) {
-    err_sys(<span style="color: #F8F8F0;">"F_GETFL error"</span>);
+<span style="color: #859900; font-weight: bold;">if</span> ((flags = fcntl(fd, F_GETFL,0)) &lt; 0) {
+    err_sys(<span style="color: #2aa198;">"F_GETFL error"</span>);
 }
 
 flags &amp;= ~O_NONBLOCK;
-<span style="color: #A7DBD8;">if</span> (fcntl(fd, F_SETFL, flags) &lt; 0) {
-    err_sys(<span style="color: #F8F8F0;">"F_SETFL error"</span>);
+<span style="color: #859900; font-weight: bold;">if</span> (fcntl(fd, F_SETFL, flags) &lt; 0) {
+    err_sys(<span style="color: #2aa198;">"F_SETFL error"</span>);
 }
 </pre>
 </div>

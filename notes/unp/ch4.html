@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Chapter 4</title>
-<!-- 2014-03-17 Mon 22:14 -->
+<title>Chapter 4: Elementary TCP Sockets</title>
+<!-- 2014-03-18 Tue 08:19 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -152,8 +152,8 @@ for the JavaScript code in this tag.
                 <ul>
                     <li><a href="/">首页</a></li>
                     <li><a href="/notes.html">读书笔记</a></li>
-                    <li><a href="/about.html">About</a></li>
-                    <li><a href="/atom.xml">RSS</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
                     <li>
                     </li>
                 </ul>
@@ -161,7 +161,7 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Chapter 4</h1>
+<h1 class="title">Chapter 4: Elementary TCP Sockets</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -217,9 +217,9 @@ for the JavaScript code in this tag.
 <li>所有网络IO的开始,都是首先使用socket函数,创建的时候,就要指定通信协议的类型
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;sys/socket.h&gt;</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;sys/socket.h&gt;</span>
 
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">socket</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">family</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">type</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">protocol</span>);
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">socket</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">family</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">type</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">protocol</span>);
 </pre>
 </div>
 </li>
@@ -366,9 +366,9 @@ protocol family设计成可以支持多个address families. 所以PF_用来在so
 <li>TCP client使用connect来连接远方的TCP server
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;sys/socket.h&gt;</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;sys/socket.h&gt;</span>
 
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">connect</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">socfd</span>, <span style="color: #A7DBD8;">const</span> <span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">sockaddr</span> *<span style="color: #FD971F;">servaddr</span>, <span style="color: #999999;">socklen_t</span> <span style="color: #FD971F;">addrlen</span>);
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">connect</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">socfd</span>, <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">sockaddr</span> *<span style="color: #268bd2;">servaddr</span>, <span style="color: #b58900;">socklen_t</span> <span style="color: #268bd2;">addrlen</span>);
 </pre>
 </div>
 </li>
@@ -407,9 +407,9 @@ protocol family设计成可以支持多个address families. 所以PF_用来在so
 address 就是一个IP地址(IPv4或者IPv6) + 一个TCP或者UDP 端口号
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;sys/socket.h&gt;</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;sys/socket.h&gt;</span>
 
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">bind</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">sockfd</span>, <span style="color: #A7DBD8;">const</span> <span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">sockaddr</span> *<span style="color: #FD971F;">myaddr</span>, <span style="color: #999999;">socklen_t</span> <span style="color: #FD971F;">addrlen</span>);
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">bind</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">sockfd</span>, <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">sockaddr</span> *<span style="color: #268bd2;">myaddr</span>, <span style="color: #b58900;">socklen_t</span> <span style="color: #268bd2;">addrlen</span>);
 </pre>
 </div>
 </li>
@@ -501,9 +501,9 @@ LISTEN.
 </ul>
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;sys/socket.h&gt;</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;sys/socket.h&gt;</span>
 
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">listen</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">sockfd</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">backlog</span>);
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">listen</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">sockfd</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">backlog</span>);
 </pre>
 </div>
 </li>
@@ -547,17 +547,17 @@ client的最好方法是close the listening socket
 现了动态改变backlog的值,我们自己实现的Listen做到了这一点
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #999999;">void</span>
-<span style="color: #AEE239;">Listen</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">fd</span>, <span style="color: #999999;">int</span> <span style="color: #FD971F;">backlog</span>) {
-    <span style="color: #999999;">char</span>   *<span style="color: #FD971F;">ptr</span>;
+<pre class="src src-c"><span style="color: #b58900;">void</span>
+<span style="color: #268bd2;">Listen</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">fd</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">backlog</span>) {
+    <span style="color: #b58900;">char</span>   *<span style="color: #268bd2;">ptr</span>;
 
-    <span style="color: #505C63;">/* </span><span style="color: #505C63;">can override 2nd argument with environment variable </span><span style="color: #505C63;">*/</span>
-    <span style="color: #A7DBD8;">if</span> ((ptr = getenv(<span style="color: #F8F8F0;">"LISTENQ"</span>)) != <span style="color: #AEE239;">NULL</span>) {
+    <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">can override 2nd argument with environment variable </span><span style="color: #93a1a1;">*/</span>
+    <span style="color: #859900; font-weight: bold;">if</span> ((ptr = getenv(<span style="color: #2aa198;">"LISTENQ"</span>)) != <span style="color: #268bd2; font-weight: bold;">NULL</span>) {
         backlog = atoi(ptr);
     }
 
-    <span style="color: #A7DBD8;">if</span> (listen(fd, backlog) &lt; 0) {
-        err_sys(<span style="color: #F8F8F0;">"listen error"</span>);
+    <span style="color: #859900; font-weight: bold;">if</span> (listen(fd, backlog) &lt; 0) {
+        err_sys(<span style="color: #2aa198;">"listen error"</span>);
     }
 }
 </pre>
@@ -600,9 +600,9 @@ buffer缓存.
 (如果我们的socket的blocking socket的话)
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;sys/socket.h&gt;</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;sys/socket.h&gt;</span>
 
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">accept</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">sockfd</span>, <span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">sockaddr</span> *<span style="color: #FD971F;">cliaddr</span>, <span style="color: #999999;">socklen_t</span> *<span style="color: #FD971F;">addrlen</span>);
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">accept</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">sockfd</span>, <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">sockaddr</span> *<span style="color: #268bd2;">cliaddr</span>, <span style="color: #b58900;">socklen_t</span> *<span style="color: #268bd2;">addrlen</span>);
 </pre>
 </div>
 </li>
@@ -628,42 +628,42 @@ completed queue里面取的entry), 而且会为每一个client创建一个connec
 <li>下面一个例子展示了我们如何使用后两个参数来得到对方client的信息
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">"unp.h"</span>
-<span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;time.h&gt;</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">"unp.h"</span>
+<span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;time.h&gt;</span>
 
-<span style="color: #999999;">int</span>
-<span style="color: #AEE239;">main</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">argc</span>, <span style="color: #999999;">char</span> *<span style="color: #FD971F;">argv</span>) {
-    <span style="color: #999999;">int</span>          <span style="color: #FD971F;">listenfd</span>, <span style="color: #FD971F;">confd</span>;
-    <span style="color: #999999;">socklen_t</span>    <span style="color: #FD971F;">len</span>;
-    <span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">sockaddr_in</span> <span style="color: #FD971F;">servaddr</span>, <span style="color: #FD971F;">cliaddr</span>;
-    <span style="color: #999999;">char</span>         <span style="color: #FD971F;">buff</span>[MAXLINE];
-    <span style="color: #999999;">time_t</span>       <span style="color: #FD971F;">ticks</span>;
+<span style="color: #b58900;">int</span>
+<span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">argv</span>) {
+    <span style="color: #b58900;">int</span>          <span style="color: #268bd2;">listenfd</span>, <span style="color: #268bd2;">confd</span>;
+    <span style="color: #b58900;">socklen_t</span>    <span style="color: #268bd2;">len</span>;
+    <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">sockaddr_in</span> <span style="color: #268bd2;">servaddr</span>, <span style="color: #268bd2;">cliaddr</span>;
+    <span style="color: #b58900;">char</span>         <span style="color: #268bd2;">buff</span>[MAXLINE];
+    <span style="color: #b58900;">time_t</span>       <span style="color: #268bd2;">ticks</span>;
 
     listenfd = Socket(AF_INET, SOCK_STRAM, 0);
 
-    bzero(&amp;servaddr, <span style="color: #A7DBD8;">sizeof</span>(servaddr));
+    bzero(&amp;servaddr, <span style="color: #859900; font-weight: bold;">sizeof</span>(servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    servaddr.sin_port = htons(13);   <span style="color: #505C63;">/* </span><span style="color: #505C63;">daytime server </span><span style="color: #505C63;">*/</span>
+    servaddr.sin_port = htons(13);   <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">daytime server </span><span style="color: #93a1a1;">*/</span>
 
-    Bind(listenfd, (<span style="color: #999999;">SA</span>*)&amp;servaddr, <span style="color: #A7DBD8;">sizeof</span>(servaddr));
+    Bind(listenfd, (<span style="color: #b58900;">SA</span>*)&amp;servaddr, <span style="color: #859900; font-weight: bold;">sizeof</span>(servaddr));
 
     Listen(listenfd, LISTENQ);
 
-    <span style="color: #A7DBD8;">for</span> ( ; ;) {
-        len = <span style="color: #A7DBD8;">sizeof</span>(cliaddr);
-        connfd = Accept(listenfd, (<span style="color: #999999;">SA</span> *) &amp;cliaddr, &amp;len);
-        printf(<span style="color: #F8F8F0;">"connection from %s, port %d\n"</span>,
-               Inet_ntop(AF_INET, &amp;cliaddr.sin_addr, buff, <span style="color: #A7DBD8;">sizeof</span>(buff)),
+    <span style="color: #859900; font-weight: bold;">for</span> ( ; ;) {
+        len = <span style="color: #859900; font-weight: bold;">sizeof</span>(cliaddr);
+        connfd = Accept(listenfd, (<span style="color: #b58900;">SA</span> *) &amp;cliaddr, &amp;len);
+        printf(<span style="color: #2aa198;">"connection from %s, port %d\n"</span>,
+               Inet_ntop(AF_INET, &amp;cliaddr.sin_addr, buff, <span style="color: #859900; font-weight: bold;">sizeof</span>(buff)),
                ntohs(cliaddr.sin_port));
 
-        ticks = time(<span style="color: #AEE239;">NULL</span>);
-        snprintf(buff, <span style="color: #A7DBD8;">sizeof</span>(buff), <span style="color: #F8F8F0;">"%.24s\r\n"</span>, ctime(&amp;ticks));
+        ticks = time(<span style="color: #268bd2; font-weight: bold;">NULL</span>);
+        snprintf(buff, <span style="color: #859900; font-weight: bold;">sizeof</span>(buff), <span style="color: #2aa198;">"%.24s\r\n"</span>, ctime(&amp;ticks));
         Write(connfd, buff, strlen(buff));
 
         Close(connfd);
     }
-    <span style="color: #505C63;">//</span><span style="color: #505C63;">listening socket will be close at last with exit()</span>
+    <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">listening socket will be close at last with exit()</span>
 }
 </pre>
 </div>
@@ -679,9 +679,9 @@ completed queue里面取的entry), 而且会为每一个client创建一个connec
 <li>在Unix-like系统中创建process的唯一方法就是fork
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;unistd.h&gt;</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;unistd.h&gt;</span>
 
-<span style="color: #999999;">pid_t</span> <span style="color: #AEE239;">fork</span>(<span style="color: #999999;">void</span>);
+<span style="color: #b58900;">pid_t</span> <span style="color: #268bd2;">fork</span>(<span style="color: #b58900;">void</span>);
 </pre>
 </div>
 </li>
@@ -721,20 +721,20 @@ exec来替代(主要是替代映像里面的运行代码),进而执行
 函数. 有错误,exec才会返回给caller.否则不返回.
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;unistd.h&gt;</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;unistd.h&gt;</span>
 
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">execl</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">char</span> *<span style="color: #FD971F;">pathname</span>, <span style="color: #A7DBD8;">const</span> <span style="color: #999999;">char</span> *<span style="color: #FD971F;">arg0</span>, ...<span style="color: #505C63;">/* </span><span style="color: #505C63;">(char*) 0 </span><span style="color: #505C63;">*/</span>);
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">execl</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">pathname</span>, <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">arg0</span>, ...<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">(char*) 0 </span><span style="color: #93a1a1;">*/</span>);
 
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">execv</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">char</span> *<span style="color: #FD971F;">pathname</span>, <span style="color: #999999;">char</span> *<span style="color: #A7DBD8;">const</span> <span style="color: #FD971F;">argv</span>[]);
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">execv</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">pathname</span>, <span style="color: #b58900;">char</span> *<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">argv</span>[]);
 
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">execle</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">char</span> *<span style="color: #FD971F;">pathname</span>, <span style="color: #A7DBD8;">const</span> <span style="color: #999999;">char</span> *<span style="color: #FD971F;">arg0</span>, ...
-           <span style="color: #505C63;">/* </span><span style="color: #505C63;">(char *)0, char *const envp[] </span><span style="color: #505C63;">*/</span>);
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">execle</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">pathname</span>, <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">arg0</span>, ...
+           <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">(char *)0, char *const envp[] </span><span style="color: #93a1a1;">*/</span>);
 
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">execve</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">char</span>  *<span style="color: #FD971F;">pathname</span>, <span style="color: #999999;">char</span> *<span style="color: #A7DBD8;">const</span> <span style="color: #FD971F;">argv</span>[], <span style="color: #999999;">char</span> *<span style="color: #A7DBD8;">const</span> <span style="color: #FD971F;">envp</span>[]);
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">execve</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">char</span>  *<span style="color: #268bd2;">pathname</span>, <span style="color: #b58900;">char</span> *<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">argv</span>[], <span style="color: #b58900;">char</span> *<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">envp</span>[]);
 
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">execlp</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">char</span> *<span style="color: #FD971F;">filename</span>, <span style="color: #A7DBD8;">const</span> <span style="color: #999999;">char</span> *<span style="color: #FD971F;">arg0</span>, ...<span style="color: #505C63;">/* </span><span style="color: #505C63;">(char *) 0 </span><span style="color: #505C63;">*/</span>);
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">execlp</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">filename</span>, <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">arg0</span>, ...<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">(char *) 0 </span><span style="color: #93a1a1;">*/</span>);
 
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">execvp</span>(<span style="color: #A7DBD8;">const</span> <span style="color: #999999;">char</span> *<span style="color: #FD971F;">filename</span>, <span style="color: #999999;">char</span> *<span style="color: #A7DBD8;">const</span> *<span style="color: #A7DBD8;">const</span> <span style="color: #FD971F;">argv</span>[]);
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">execvp</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">filename</span>, <span style="color: #b58900;">char</span> *<span style="color: #859900; font-weight: bold;">const</span> *<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #268bd2;">argv</span>[]);
 </pre>
 </div>
 </li>
@@ -749,36 +749,36 @@ exec来替代(主要是替代映像里面的运行代码),进而执行
 <li>下面我们就来看看用fork来组织的server
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #999999;">pid_t</span> <span style="color: #FD971F;">pid</span>;
-<span style="color: #999999;">int</span>   <span style="color: #FD971F;">listenfd</span>,  <span style="color: #FD971F;">connfd</span>;
+<pre class="src src-c"><span style="color: #b58900;">pid_t</span> <span style="color: #268bd2;">pid</span>;
+<span style="color: #b58900;">int</span>   <span style="color: #268bd2;">listenfd</span>,  <span style="color: #268bd2;">connfd</span>;
 
-listenfd = Socket(<span style="color: #505C63;">/*</span><span style="color: #505C63;">...</span><span style="color: #505C63;">*/</span>);
+listenfd = Socket(<span style="color: #93a1a1;">/*</span><span style="color: #93a1a1;">...</span><span style="color: #93a1a1;">*/</span>);
 
-Bind(listenfd, <span style="color: #505C63;">/*</span><span style="color: #505C63;">...</span><span style="color: #505C63;">*/</span>);
+Bind(listenfd, <span style="color: #93a1a1;">/*</span><span style="color: #93a1a1;">...</span><span style="color: #93a1a1;">*/</span>);
 Listen(listenfd, LISTENQ);
 
-<span style="color: #A7DBD8;">for</span> ( ; ;) {
+<span style="color: #859900; font-weight: bold;">for</span> ( ; ;) {
     connfd = Accept(listenfd, ...);
 
-    <span style="color: #A7DBD8;">if</span> ((pid = Fork()) == 0) {
-        <span style="color: #505C63;">/* </span><span style="color: #505C63;">child closes listenindg socket</span>
-<span style="color: #505C63;">           as this listenfd is copied from</span>
-<span style="color: #505C63;">           parent, ref count will be 2, this</span>
-<span style="color: #505C63;">           close minus it to 1, and the parent</span>
-<span style="color: #505C63;">           copy will be used normally.</span>
-<span style="color: #505C63;">         </span><span style="color: #505C63;">*/</span>
+    <span style="color: #859900; font-weight: bold;">if</span> ((pid = Fork()) == 0) {
+        <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">child closes listenindg socket</span>
+<span style="color: #93a1a1;">           as this listenfd is copied from</span>
+<span style="color: #93a1a1;">           parent, ref count will be 2, this</span>
+<span style="color: #93a1a1;">           close minus it to 1, and the parent</span>
+<span style="color: #93a1a1;">           copy will be used normally.</span>
+<span style="color: #93a1a1;">         </span><span style="color: #93a1a1;">*/</span>
         Close(litenfd);
-        doit(connfd);         <span style="color: #505C63;">/* </span><span style="color: #505C63;">process the request </span><span style="color: #505C63;">*/</span>
-        Close(connfd);        <span style="color: #505C63;">/* </span><span style="color: #505C63;">done with this client </span><span style="color: #505C63;">*/</span>
-        exit(0);              <span style="color: #505C63;">/* </span><span style="color: #505C63;">child terminates </span><span style="color: #505C63;">*/</span>
+        doit(connfd);         <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">process the request </span><span style="color: #93a1a1;">*/</span>
+        Close(connfd);        <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">done with this client </span><span style="color: #93a1a1;">*/</span>
+        exit(0);              <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">child terminates </span><span style="color: #93a1a1;">*/</span>
     }
-    <span style="color: #505C63;">/* </span><span style="color: #505C63;">parent closes connected socket</span>
-<span style="color: #505C63;">       as this connfd is copied to child,</span>
-<span style="color: #505C63;">       ref count will be 2, this close</span>
-<span style="color: #505C63;">       minus it to 1, and the child copy</span>
-<span style="color: #505C63;">       close will finally cause the four-way</span>
-<span style="color: #505C63;">       wave</span>
-<span style="color: #505C63;">       </span><span style="color: #505C63;">*/</span>
+    <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">parent closes connected socket</span>
+<span style="color: #93a1a1;">       as this connfd is copied to child,</span>
+<span style="color: #93a1a1;">       ref count will be 2, this close</span>
+<span style="color: #93a1a1;">       minus it to 1, and the child copy</span>
+<span style="color: #93a1a1;">       close will finally cause the four-way</span>
+<span style="color: #93a1a1;">       wave</span>
+<span style="color: #93a1a1;">       </span><span style="color: #93a1a1;">*/</span>
     Close(connfd);
 }
 </pre>
@@ -801,9 +801,9 @@ Listen(listenfd, LISTENQ);
 在read或者write了, 但是TCP会发送已经queued的数据给对方
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">&lt;unisd.h&gt;</span>
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;unisd.h&gt;</span>
 
-<span style="color: #999999;">int</span> <span style="color: #AEE239;">close</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">sockfd</span>);
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">close</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">sockfd</span>);
 </pre>
 </div>
 </li>
@@ -840,7 +840,7 @@ Listen(listenfd, LISTENQ);
 <li>getsockname的作用是找到本地protocol address的内容
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #999999;">int</span> <span style="color: #AEE239;">getsockname</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">sockfd</span>, <span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">sockaddr</span>* <span style="color: #FD971F;">localaddr</span>, <span style="color: #999999;">socklen_t</span>* <span style="color: #FD971F;">addrlen</span>);
+<pre class="src src-c"><span style="color: #b58900;">int</span> <span style="color: #268bd2;">getsockname</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">sockfd</span>, <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">sockaddr</span>* <span style="color: #268bd2;">localaddr</span>, <span style="color: #b58900;">socklen_t</span>* <span style="color: #268bd2;">addrlen</span>);
 </pre>
 </div>
 <ul class="org-ul">
@@ -857,17 +857,17 @@ descriptor)来做参数, 因为没有connect的话,无法确定使用了哪个IP
 <li>getsockname还能获取socket的address family
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #F38630;">#include</span> <span style="color: #F8F8F0;">"unp.h"</span>
-<span style="color: #999999;">int</span>
-<span style="color: #AEE239;">sockfd_to_family</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">sockfd</span>) {
-    <span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">sockaddr_storage</span> <span style="color: #FD971F;">ss</span>;
-    <span style="color: #999999;">socklen_t</span> <span style="color: #FD971F;">len</span>;
+<pre class="src src-c"><span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">"unp.h"</span>
+<span style="color: #b58900;">int</span>
+<span style="color: #268bd2;">sockfd_to_family</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">sockfd</span>) {
+    <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">sockaddr_storage</span> <span style="color: #268bd2;">ss</span>;
+    <span style="color: #b58900;">socklen_t</span> <span style="color: #268bd2;">len</span>;
 
-    len = <span style="color: #A7DBD8;">sizeof</span>(ss);
-    <span style="color: #A7DBD8;">if</span> (getsockname(sockfd, (<span style="color: #999999;">SA</span>*) &amp;ss, &amp;len) &lt; 0) {
-        <span style="color: #A7DBD8;">return</span> (-1);
+    len = <span style="color: #859900; font-weight: bold;">sizeof</span>(ss);
+    <span style="color: #859900; font-weight: bold;">if</span> (getsockname(sockfd, (<span style="color: #b58900;">SA</span>*) &amp;ss, &amp;len) &lt; 0) {
+        <span style="color: #859900; font-weight: bold;">return</span> (-1);
     }
-    <span style="color: #A7DBD8;">return</span> (ss.ss_family);
+    <span style="color: #859900; font-weight: bold;">return</span> (ss.ss_family);
 }
 </pre>
 </div>
@@ -877,7 +877,7 @@ descriptor)来做参数, 因为没有connect的话,无法确定使用了哪个IP
 <li>getpeername的作用是找到socket连接的另一方的protocol address的内容
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #999999;">int</span> <span style="color: #AEE239;">getpeername</span>(<span style="color: #999999;">int</span> <span style="color: #FD971F;">sockfd</span>, <span style="color: #A7DBD8;">struct</span> <span style="color: #999999;">sockaddr</span> *<span style="color: #FD971F;">peeraddr</span>, <span style="color: #999999;">socklen_t</span> *<span style="color: #FD971F;">addrlen</span>);
+<pre class="src src-c"><span style="color: #b58900;">int</span> <span style="color: #268bd2;">getpeername</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">sockfd</span>, <span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">sockaddr</span> *<span style="color: #268bd2;">peeraddr</span>, <span style="color: #b58900;">socklen_t</span> *<span style="color: #268bd2;">addrlen</span>);
 </pre>
 </div>
 <ul class="org-ul">

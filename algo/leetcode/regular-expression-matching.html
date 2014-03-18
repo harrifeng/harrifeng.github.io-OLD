@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Sitemap</title>
-<!-- 2014-03-18 Tue 08:24 -->
+<title>Leetcode 010: Regular Expression Matching</title>
+<!-- 2014-03-18 Tue 08:19 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -161,161 +161,117 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Sitemap</h1>
-<ul class="org-ul">
-<li>algo
-<ul class="org-ul">
-<li>aha
-<ul class="org-ul">
-<li><a href="algo/aha/binary-search-find-first-and-last-occurrence.html">二分查找法查找数字首次末次出现位置</a>
-</li>
-<li><a href="algo/aha/strip-extra-spaces.html">删除字符中多余的空格</a>
-</li>
+<h1 class="title">Leetcode 010: Regular Expression Matching</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">题目</a></li>
+<li><a href="#sec-2">思路</a></li>
+<li><a href="#sec-3">解答</a></li>
 </ul>
-</li>
-<li>classic
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">题目</h2>
+<div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li><a href="algo/classic/kmp.html">KMP算法</a>
-</li>
-<li><a href="algo/classic/dynamic-programming.html">动态规划</a>
-</li>
-<li><a href="algo/classic/heap-sort.html">堆排序</a>
-</li>
-<li><a href="algo/classic/quick-sort.html">快速排序</a>
-</li>
-<li><a href="algo/classic/reverse-polish-notation.html">逆波兰式的生成和计算</a>
-</li>
-<li><a href="algo/classic/random-shuffle.html">随机数列</a>
-</li>
-</ul>
-</li>
-<li>leetcode
+<li>判断给出的正则表达式是否能适配,这里正则表达式的适配规则是:
 <ul class="org-ul">
-<li><a href="algo/leetcode/two-sum.html">Leetcode 001: Two Sum</a>
+<li>"." 适配任意单个字符
 </li>
-<li><a href="algo/leetcode/median-of-two-sorted-arrays.html">Leetcode 002: Median of Two Sorted Arrays</a>
-</li>
-<li><a href="algo/leetcode/longest-substring-without-repeating-characters.html">Leetcode 003: longest substring without repeating characters</a>
-</li>
-<li><a href="algo/leetcode/add-two-number.html">Leetcode 004: Add Two Numbers</a>
-</li>
-<li><a href="algo/leetcode/longest-palindromic-substring.html">Leetcode 005: Longest Palindromic ubstring</a>
-</li>
-<li><a href="algo/leetcode/zigzag-conversion.html">Leetcode 006: Zigzag Conversion</a>
-</li>
-<li><a href="algo/leetcode/reverse-integer.html">Leetcode 007: Reverse Integer</a>
-</li>
-<li><a href="algo/leetcode/string-to-integer-atoi.html">Leetcode 008: String to Integer(atoi)</a>
-</li>
-<li><a href="algo/leetcode/palindrome-number.html">Leetcode 009: Palindrome Number</a>
-</li>
-<li><a href="algo/leetcode/regular-expression-matching.html">Leetcode 010: Regular Expression Matching</a>
-</li>
-<li><a href="algo/leetcode/next-permutation.html">Leetcode 030: Next Permutation</a>
-</li>
-<li><a href="algo/leetcode/container-with-most-water.html">Leetcode: Container With Most Water</a>
-</li>
-<li><a href="algo/leetcode/divide-two-integers.html">Leetcode: Divide Two Integers</a>
-</li>
-<li><a href="algo/leetcode/integer-to-roman.html">Leetcode: Integger to Roman</a>
-</li>
-<li><a href="algo/leetcode/letter-combinations-of-a-phone-number.html">Leetcode: Letter Combinations of a Phone Number</a>
-</li>
-<li><a href="algo/leetcode/merge-k-sorted-lists.html">Leetcode: Merge K Sorted Lists</a>
-</li>
-<li><a href="algo/leetcode/roman-to-integer.html">Leetcode: Roman to Integger</a>
-</li>
-<li><a href="algo/leetcode/valid-parentheses.html">Leetcode: Valid Parentheses</a>
+<li>"x*" 适配0个或者多个x字符
 </li>
 </ul>
 </li>
 </ul>
-</li>
-<li>notes
+<pre class="example">
+isMatch("aa","a") → false
+isMatch("aa","aa") → true
+isMatch("aaa","aa") → false
+isMatch("aa", "a*") → true
+isMatch("aa", ".*") → true
+isMatch("ab", ".*") → true
+isMatch("aab", "c*a*b") → true
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">思路</h2>
+<div class="outline-text-2" id="text-2">
 <ul class="org-ul">
-<li>bash
+<li>首先要理解题意:
 <ul class="org-ul">
-<li><a href="notes/bash/part1.html">Part 1: Learning The Shell</a>
+<li>"a"对应"a", 这种匹配不解释了
 </li>
-<li><a href="notes/bash/part2.html">Part 2: Configuration And The Environment</a>
+<li>任意字母对应".", 这也是正则常见
 </li>
-<li><a href="notes/bash/part3.html">Part 3: Common Tasks And Essential Tools</a>
+<li>0到多个相同字符x,对应"x*", 比起普通正则,这个地方多出来一个前缀x. x代表的是
+相同的字符中取一个,比如"aaaab"对应是"a*b"
 </li>
-</ul>
-</li>
-<li>cpp
-<ul class="org-ul">
-<li><a href="notes/cpp/effective-cpp.html">Effective C++</a>
+<li>"*"还有一个易于疏忽的地方就是它的"贪婪性"要有一个限度.比如"aaa"对应"a*a",
+代码逻辑不能一路贪婪到底
 </li>
 </ul>
 </li>
-<li>java
-<ul class="org-ul">
-<li><a href="notes/java/ch1.html">Chapter 01: Introduction to Objects</a>
+<li>正则表达式如果期望着一个字符一个字符的匹配,是非常不现实的.而"匹配"这个问题,非
+常容易转换成"匹配了一部分",整个匹配不匹配,要看"剩下的匹配"情况.这就很好的把
+一个大的问题转换成了规模较小的问题:递归
 </li>
-<li><a href="notes/java/ch2.html">Chapter 02: Everything Is an Object</a>
+<li>确定了递归以后,使用java来实现这个问题,会遇到很多和c不一样的地方,因为java对字符
+的控制不像c语言指针那么灵活charAt一定要确定某个位置存在才可以使用.
 </li>
-<li><a href="notes/java/ch3.html">Chapter 03: Operators</a>
-</li>
-<li><a href="notes/java/ch4.html">Chapter 04: Controlling Execution</a>
-</li>
-<li><a href="notes/java/ch5.html">Chapter 05: Initialization &amp; Cleanup</a>
-</li>
-<li><a href="notes/java/ch6.html">Chapter 06: Access Control</a>
+<li>如果pattern是"x*"类型的话,那么pattern每次要两个两个的减少.否则,就是一个一个
+的减少. 无论怎样减少,都要保证pattern有那么多个.比如s.substring(n), 其中n
+最大也就是s.length()
 </li>
 </ul>
-</li>
-<li>jcip
-<ul class="org-ul">
-<li><a href="notes/jcip/ch1.html">Chapter 1</a>
-</li>
-<li><a href="notes/jcip/ch2.html">Chapter 2</a>
-</li>
-<li><a href="notes/jcip/ch3.html">Chapter 3</a>
-</li>
-<li><a href="notes/jcip/ch4.html">Chapter 4</a>
-</li>
-</ul>
-</li>
-<li>tips
-<ul class="org-ul">
-<li><a href="notes/tips/bash-sum.html">bash 常用命令总结</a>
-</li>
-<li><a href="notes/tips/macro-one-two-pound.html">井号(#)和双井号(##)在C语言中的作用</a>
-</li>
-</ul>
-</li>
-<li>unp
-<ul class="org-ul">
-<li><a href="notes/unp/ch1.html">Chapter 1: Introduction</a>
-</li>
-<li><a href="notes/unp/ch2.html">Chapter 2: The Transport Layer: TCP, UPD, and SCTP</a>
-</li>
-<li><a href="notes/unp/ch3.html">Chapter 3: Sockets Introduction</a>
-</li>
-<li><a href="notes/unp/ch4.html">Chapter 4: Elementary TCP Sockets</a>
-</li>
-<li><a href="notes/unp/ch5.html">Chapter 5: TCP Client/Server Example</a>
-</li>
-<li><a href="notes/unp/ch6.html">Chapter 6:  I/O Multiplexing: The select and poll Functions</a>
-</li>
-<li><a href="notes/unp/ch7.html">Chapter 7: Socket Options</a>
-</li>
-<li><a href="notes/unp/ch8.html">Chapter 8: Elementary UDP Socket</a>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="about.html">About</a>
-</li>
-<li><a href="algo.html">算法</a>
-</li>
-<li><a href="notes.html">读书笔记</a>
-</li>
-<li><a href="index.html">首页</a>
-</li>
-</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">解答</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">isMatch</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>, <span style="color: #b58900;">String</span> <span style="color: #268bd2;">p</span>) {
+        <span style="color: #859900; font-weight: bold;">if</span> (p.length() == 0) {
+            <span style="color: #859900; font-weight: bold;">return</span> s.length() == 0;
+        }
+
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">length == 1 is the case that is easy to forget.</span>
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">as p is subtracted 2 each time, so if original</span>
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">p is odd, then finally it will face the length 1</span>
+        <span style="color: #859900; font-weight: bold;">if</span> (p.length() == 1) {
+            <span style="color: #859900; font-weight: bold;">return</span> (s.length() == 1)
+                    &amp;&amp; (p.charAt(0) == s.charAt(0) || p.charAt(0) == <span style="color: #2aa198;">'.'</span>);
+        }
+
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">next char is not '*': must match current character</span>
+        <span style="color: #859900; font-weight: bold;">if</span> (p.charAt(1) != <span style="color: #2aa198;">'*'</span>) {
+            <span style="color: #859900; font-weight: bold;">if</span> (s.length() &lt; 1) {
+                <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">false</span>;
+            } <span style="color: #859900; font-weight: bold;">else</span> {
+                <span style="color: #859900; font-weight: bold;">return</span> (s.charAt(0) == p.charAt(0) || p.charAt(0) == <span style="color: #2aa198;">'.'</span>)
+                        &amp;&amp; isMatch(s.substring(1), p.substring(1));
+            }
+        }
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">next char is *</span>
+        <span style="color: #859900; font-weight: bold;">while</span> (s.length() &gt; 0
+               &amp;&amp; (p.charAt(0) == s.charAt(0) || p.charAt(0) == <span style="color: #2aa198;">'.'</span>)) {
+            <span style="color: #859900; font-weight: bold;">if</span> (isMatch(s, p.substring(2))) {
+                <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">true</span>;
+            }
+            s = s.substring(1);
+        }
+        <span style="color: #859900; font-weight: bold;">return</span> isMatch(s, p.substring(2));
+    }
+}
+</pre>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 
