@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Leetcode: Integger to Roman</title>
-<!-- 2014-03-18 Tue 08:19 -->
+<title>Leetcode 012: Integger to Roman</title>
+<!-- 2014-03-20 Thu 21:30 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -161,7 +161,7 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Leetcode: Integger to Roman</h1>
+<h1 class="title">Leetcode 012: Integger to Roman</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -234,7 +234,7 @@ Sample Output: MCMLXXX
 </li>
 <li>难点在于数字的位置不同代表不同的结果,比如IV和VI的值是不一样的. 所以要分成一下四个段进行考虑:
 <ul class="org-ul">
-<li>小于4
+<li>小于4 (不要想成小于3,那就遗漏了3)
 </li>
 <li>等于4
 </li>
@@ -269,58 +269,45 @@ Sample Output: MCMLXXX
 <div class="org-src-container">
 
 <pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
-    <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">num is suppose to be 1 to 3999</span>
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">romeN</span> = <span style="color: #2aa198;">"IVXLCDM"</span>;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">ROMA_NUM</span> = <span style="color: #2aa198;">"IVXLCDM"</span>;
 
     <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">intToRoman</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">num</span>) {
-        <span style="color: #b58900;">StringBuffer</span> <span style="color: #268bd2;">sb</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">StringBuffer</span>(<span style="color: #2aa198;">""</span>);
+        <span style="color: #859900; font-weight: bold;">if</span> (num &lt; 0) {
+            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">null</span>;
+        }
+        <span style="color: #b58900;">StringBuffer</span> <span style="color: #268bd2;">sb</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">StringBuffer</span>();
         <span style="color: #b58900;">int</span> <span style="color: #268bd2;">size</span> = 1000;
-        <span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">digits</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">int</span>[4];
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0;
-        <span style="color: #859900; font-weight: bold;">while</span> (num != 0) {
-            digits[i] = num / size;
-            num %= size;
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 6; i &gt;= 0; i = i - 2) {
+            <span style="color: #b58900;">int</span> <span style="color: #268bd2;">dig</span> = num / size;
+            sb.append(dToR(dig, i));
+            num = num % size;
             size /= 10;
-            i++;
         }
-
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">j</span> = 0; j &lt; digits.length; j++) {
-            <span style="color: #859900; font-weight: bold;">if</span> (digits[j] &gt; 0) {
-                sb.append(dToR(digits[j], 3-j));
-            }
-        }
-
         <span style="color: #859900; font-weight: bold;">return</span> sb.toString();
     }
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">dToR</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">digit</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">index</span>) {
+        <span style="color: #b58900;">StringBuffer</span> <span style="color: #268bd2;">sbf</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">StringBuffer</span>();
 
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">dToR</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">lev</span>) {
-        <span style="color: #859900; font-weight: bold;">if</span> (i &gt; 9 || i &lt; 1) {
-            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">""</span>;
-        }
-        <span style="color: #b58900;">StringBuffer</span> <span style="color: #268bd2;">sbuf</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">StringBuffer</span>(<span style="color: #2aa198;">""</span>);
-        <span style="color: #859900; font-weight: bold;">if</span> (i &lt; 4) {
-            <span style="color: #859900; font-weight: bold;">while</span> (i &gt; 0) {
-                sbuf.append(romeN.charAt(lev * 2));
-                i--;
+        <span style="color: #859900; font-weight: bold;">if</span> (digit &lt;= 3) {
+            <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; digit; i++) {
+                sbf.append(ROMA_NUM.charAt(index));
             }
-            <span style="color: #859900; font-weight: bold;">return</span> sbuf.toString();
-        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (i == 4) {
-            sbuf.append(romeN.charAt(lev * 2));
-            sbuf.append(romeN.charAt(lev * 2 + 1));
-            <span style="color: #859900; font-weight: bold;">return</span> sbuf.toString();
-        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (i &gt; 4 &amp;&amp; i &lt;= 8) {
-            sbuf.append(romeN.charAt(lev * 2 + 1));
-            <span style="color: #859900; font-weight: bold;">while</span> (i &gt; 5) {
-                sbuf.append(romeN.charAt(lev * 2));
-                i--;
-            }
-            <span style="color: #859900; font-weight: bold;">return</span> sbuf.toString();
-        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (i == 9) {
-            sbuf.append(romeN.charAt(lev * 2 ));
-            sbuf.append(romeN.charAt(lev * 2 + 2));
-            <span style="color: #859900; font-weight: bold;">return</span> sbuf.toString();
         }
-        <span style="color: #859900; font-weight: bold;">return</span> sbuf.toString();
+        <span style="color: #859900; font-weight: bold;">if</span> (digit == 4) {
+            sbf.append(ROMA_NUM.charAt(index));
+            sbf.append(ROMA_NUM.charAt(index+1));
+        }
+        <span style="color: #859900; font-weight: bold;">if</span> (digit &gt;=5 &amp;&amp; digit &lt;= 8 ) {
+            sbf.append(ROMA_NUM.charAt(index+1));
+            <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; digit - 5; i++) {
+                sbf.append(ROMA_NUM.charAt(index));
+            }
+        }
+        <span style="color: #859900; font-weight: bold;">if</span> (digit == 9) {
+            sbf.append(ROMA_NUM.charAt(index));
+            sbf.append(ROMA_NUM.charAt(index+2));
+        }
+        <span style="color: #859900; font-weight: bold;">return</span> sbf.toString();
     }
 }
 </pre>
@@ -330,20 +317,22 @@ Sample Output: MCMLXXX
 </div>
 <div id="postamble" class="status">
 
-         <!-- Duoshuo Comment BEGIN -->
-         <div class="ds-thread"></div>
-         <script type="text/javascript">
-             var duoshuoQuery = {short_name:"harrifeng"};
-             (function() {
-             var ds = document.createElement('script');
-             ds.type = 'text/javascript';ds.async = true;
-             ds.src = 'http://static.duoshuo.com/embed.js';
-             ds.charset = 'UTF-8';
-             (document.getElementsByTagName('head')[0]
-             || document.getElementsByTagName('body')[0]).appendChild(ds);
-             })();
-         </script>
-         <!-- Duoshuo Comment END -->
+         <!-- Disqus Comment BEGIN -->
+          <script type="text/javascript">
+              /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+              var disqus_shortname = 'harrifeng'; // required: replace example with your forum shortname
+          
+              /* * * DON'T EDIT BELOW THIS LINE * * */
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+          <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+         <!-- Disqus Comment END -->
 </div>
 </body>
 </html>
