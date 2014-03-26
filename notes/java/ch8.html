@@ -1,0 +1,1275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 08: Polymorphism</title>
+<!-- 2014-03-26 Wed 08:26 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 08: Polymorphism</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Polymorphism</a>
+<ul>
+<li><a href="#sec-1-1">Upcasting revisited</a></li>
+<li><a href="#sec-1-2">Forgetting the object type</a></li>
+<li><a href="#sec-1-3">The twist</a>
+<ul>
+<li><a href="#sec-1-3-1">Method-call binding</a></li>
+<li><a href="#sec-1-3-2">Producing the right behavior</a></li>
+<li><a href="#sec-1-3-3">Extensibility</a></li>
+<li><a href="#sec-1-3-4">Pitfall: "overriding" private methods</a></li>
+<li><a href="#sec-1-3-5">Pitfall: fields and static methods</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">Constructors and polymorphism</a>
+<ul>
+<li><a href="#sec-1-4-1">Order of constructor calls</a></li>
+<li><a href="#sec-1-4-2">Inheritance and cleanup</a></li>
+<li><a href="#sec-1-4-3">Behavior of polymorphic methods inside constructors</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-5">Covariant return types</a></li>
+<li><a href="#sec-1-6">Designing with inheritance</a>
+<ul>
+<li><a href="#sec-1-6-1">Substitution vs. extension</a></li>
+<li><a href="#sec-1-6-2">Downcasting and runtime type information</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Polymorphism</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>OOP编程语音的三大支柱:
+<ol class="org-ol">
+<li>data abstraction &amp; encapsulation(封装)
+</li>
+<li>inheritance (继承)
+</li>
+<li>polymorphism (多肽)
+</li>
+</ol>
+</li>
+<li>多肽的引入让"接口"和"实现"完成了分离.
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Upcasting revisited</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>下面就是一个upcasting的例子.虽然tune定义的是使用Instrument对象,但是任何derived
+from Instrument的对象(比如Wind)都可以传入. 这里就是把Wind upcasting成了Instrument
+虽然损失了一些东西,但对于这个函数来说,是没有影响的
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">music</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">enum</span> <span style="color: #999999;">Note</span> {
+    <span style="color: #FD971F;">MIDDLE_C</span>, <span style="color: #FD971F;">C_SHARP</span>, <span style="color: #FD971F;">B_FLAT</span>;
+}
+
+<span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">music</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Instrument</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">play</span>(<span style="color: #999999;">Note</span> <span style="color: #FD971F;">n</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"Instrument.play()"</span>);
+    }
+}
+
+<span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">music</span>;
+
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Wind objects are instruments</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">because they have the same interface</span>
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Wind</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Instrument</span>{
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">play</span>(<span style="color: #999999;">Note</span> <span style="color: #FD971F;">n</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"Wind.play() "</span> + n);
+    }
+}
+
+<span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">music</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Music</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">tune</span>(<span style="color: #999999;">Instrument</span> <span style="color: #FD971F;">i</span>) {
+        i.play(<span style="color: #AEE239;">Note</span>.MIDDLE_C);
+    }
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">Wind</span> <span style="color: #FD971F;">flute</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Wind</span>();
+        tune(flute); <span style="color: #505C63;">// </span><span style="color: #505C63;">Upcasting</span>
+    }
+}
+
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Wind.play() MIDDLE_C                           //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Forgetting the object type</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>上面例子中,把Instrument(而不是Wind)作为参数的原因,是这样写可以让写出一个所有
+Instrument都适用的tune. 如果不实用upcasting,而使用overload,也可以实现,但是
+却要为每一种Instrument都实现一个tune函数
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">music</span>;
+
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Overloading instead of upcasting</span>
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Stringed</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Instrument</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">play</span>(<span style="color: #999999;">Note</span> <span style="color: #FD971F;">n</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"Stringed.play() "</span> + n);
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Brass</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Instrument</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">play</span>(<span style="color: #999999;">Note</span> <span style="color: #FD971F;">n</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"Brass.play() "</span> + n);
+    }
+}
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Music2</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">tune</span>(<span style="color: #999999;">Wind</span> <span style="color: #FD971F;">i</span>) {
+        i.play(<span style="color: #AEE239;">Note</span>.MIDDLE_C);
+    }
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">tune</span>(<span style="color: #999999;">Stringed</span> <span style="color: #FD971F;">i</span>) {
+        i.play(<span style="color: #AEE239;">Note</span>.MIDDLE_C);
+    }
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">tune</span>(<span style="color: #999999;">Brass</span> <span style="color: #FD971F;">i</span>) {
+        i.play(<span style="color: #AEE239;">Note</span>.MIDDLE_C);
+    }
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">Wind</span> <span style="color: #FD971F;">flute</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Wind</span>();
+        <span style="color: #999999;">Stringed</span> <span style="color: #FD971F;">violin</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Stringed</span>();
+        <span style="color: #999999;">Brass</span> <span style="color: #FD971F;">frenchHorn</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Brass</span>();
+        tune(flute);  <span style="color: #505C63;">// </span><span style="color: #505C63;">No upcasting</span>
+        tune(violin);
+        tune(frenchHorn);
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Wind.play() MIDDLE_C                           //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Stringed.play() MIDDLE_C                       //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Brass.play() MIDDLE_C                          //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>看起来还是"写一个函数,参数传入base"的方法更可人.这也就是多肽的来历.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">The twist</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>下面是tune()函数的实现,奇妙的地方在于编译器如何知道我们这个时候传入的是Wind,
+而不是Brass或者Stringed?
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">tune</span>(<span style="color: #999999;">Instrument</span> <span style="color: #FD971F;">i</span>) {
+    i.play(<span style="color: #AEE239;">Note</span>.MIDDLE_C);
+}
+</pre>
+</div>
+</li>
+<li>答案是编译器不知道, 是一种叫做binding的机制让程序找到对应的object
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">Method-call binding</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>在非OOP语言里面binding这个术语显得没有必要, 因为只有一种bing,那就是early 
+binding
+<pre class="example">
+        把一个method call和method boty联系起来,叫做binding
+        在程序运行以前,通过compiler和linker的帮助进行的联系方法叫做early binding
+</pre>
+</li>
+<li>在OOP语言里面,binding就又多了一种了,叫做late-binding(别名dynamic binding,
+runtime binding)
+<pre class="example">
+        在运行时(run time)通过某种机制来判断object的类型,从而调用对应的函数的
+        联系方法叫做late binding
+</pre>
+</li>
+<li>在Java中,除了static 或者final(private函数自带final)以外的所有的函数都应用
+了late binding
+</li>
+<li>final的使用可以拒绝产生late binding,所以从某种意义上来说,可能会提高函数的
+性能(因为不必要考虑late binding),但在实际应用中,反而没有那么明显.所以不要
+只因为性能原因来调用final, 而要从设计的角度(不允许override这个函数)来使用
+final
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2">Producing the right behavior</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li>下面的例子部分和我们前面介绍的一样:首先在Shape里面定义两个函数,然后让所有的
+其他形状来重新定义(override)这两个函数
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">shape</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Shape</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">draw</span>() {}
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">erase</span>() {}
+}
+<span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">shape</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Circle</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Shape</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">draw</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"Circle.draw()"</span>);
+    }
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">erase</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"Circle.erase()"</span>);
+    }
+}
+<span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">shape</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Square</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Shape</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">draw</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"Square.draw()"</span>);
+    }
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">erase</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"Square.erase()"</span>);
+    }
+}
+<span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">shape</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Triangle</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Shape</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">draw</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"Triangle.draw()"</span>);
+    }
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">erase</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"Triangle.erase()"</span>);
+    }
+}
+<span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">shape</span>;
+
+<span style="color: #A7DBD8;">import</span> <span style="color: #AEE239;">java</span>.<span style="color: #AEE239;">util</span>.<span style="color: #999999;">Random</span>;
+
+<span style="color: #505C63;">// </span><span style="color: #505C63;">A "factory" that randomly creates shapes</span>
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">RandomShapeGenerator</span> {
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Random</span> <span style="color: #FD971F;">rand</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Random</span>(47);
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">Shape</span> <span style="color: #AEE239;">next</span>() {
+        <span style="color: #A7DBD8;">switch</span>(rand.nextInt(3)) {
+            <span style="color: #A7DBD8;">default</span>:
+            <span style="color: #A7DBD8;">case</span> 0:
+                <span style="color: #A7DBD8;">return</span> <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Circle</span>();
+            <span style="color: #A7DBD8;">case</span> 1:
+                <span style="color: #A7DBD8;">return</span> <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Square</span>();
+            <span style="color: #A7DBD8;">case</span> 2:
+                <span style="color: #A7DBD8;">return</span> <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Triangle</span>();
+        }
+    }
+}
+<span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">shape</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Shapes</span> {
+    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">RandomShapeGenerator</span> <span style="color: #FD971F;">gen</span> =
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">RandomShapeGenerator</span>();
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">Shape</span>[] <span style="color: #FD971F;">s</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Shape</span>[9];
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">Fill up the array with shapes</span>
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; s.length; i++) {
+            s[i] = gen.next();
+        }
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">Make polymorphic method calls</span>
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">Shape</span> <span style="color: #FD971F;">shp</span> : s) {
+            shp.draw();
+        }
+    }
+
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Triangle.draw()                                //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Triangle.draw()                                //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Square.draw()                                  //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Triangle.draw()                                //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Square.draw()                                  //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Triangle.draw()                                //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Square.draw()                                  //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Triangle.draw()                                //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Circle.draw()                                  //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>例子中不同的是我们引入了一个叫做RandomShapeGenerator的东西.这是一个工厂
+模式, "随机"的提供一些object reference(使用随机的原因,是为了demo: 编译器
+真的对对象类型一无所知,这些对象都是在run time的时候随机产生的)
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3">Extensibility</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<ul class="org-ul">
+<li>多肽的还有的一个重要作用是"区分开变的部分和不变的部分":"seperate the things
+that change from the things tha stay the same"
+</li>
+<li>在原有的程序继承上增加新的feature,并不会改变原来的代码,原来的功能也依然可用.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4">Pitfall: "overriding" private methods</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<ul class="org-ul">
+<li>有些时候,你可能会想到去override private的函数,但是你会发现最后你不会如愿,
+比如下面不会打印public f(), 因为private的函数自动加了final, Derived根本
+看不到它,更不要提什么override, 或者overload
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">PrivateOverride</span> {
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">f</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"private f()"</span>);
+    }
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">PrivateOverride</span> <span style="color: #FD971F;">po</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Derived</span>();
+        po.f();
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Derived</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">PrivateOverride</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">f</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"public f()"</span>);
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">private f()                                    //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3-5" class="outline-4">
+<h4 id="sec-1-3-5">Pitfall: fields and static methods</h4>
+<div class="outline-text-4" id="text-1-3-5">
+<ul class="org-ul">
+<li>下面这个例子高速我们了,为什么要使用private的数据,然后使用getter函数,而不是
+直接调用. 当然这个例子稍有特别, 它在同时犯下面三个错误:
+<ol class="org-ol">
+<li>public的data
+</li>
+<li>直接访问data,没有使用getter
+</li>
+<li>derived和base拥有同样的field (所以要使用super.field来访问base的field)
+</li>
+</ol>
+</li>
+<li>下面这个例子的结果就是如果你直接访问一个field(sup.field)的话,编译器是不知道
+对应的object的(late binding只对method有效)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Super</span> {
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #FD971F;">field</span> = 0;
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">getField</span>() {
+        <span style="color: #A7DBD8;">return</span> field;
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Sub</span> <span style="color: #A7DBD8;">extends</span>  <span style="color: #999999;">Super</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #FD971F;">field</span> = 1;
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">getField</span>() {
+        <span style="color: #A7DBD8;">return</span> field;
+    }
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">getSuperField</span>() {
+        <span style="color: #A7DBD8;">return</span> <span style="color: #A7DBD8;">super</span>.field;
+    }
+}
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">FieldAccess</span> {
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">Super</span> <span style="color: #FD971F;">sup</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Sub</span>(); <span style="color: #505C63;">// </span><span style="color: #505C63;">Upcast</span>
+        System.out.println(<span style="color: #F8F8F0;">"sup.field = "</span> + sup.field +
+        <span style="color: #F8F8F0;">", sup.getField() = "</span> + sup.getField());
+        <span style="color: #999999;">Sub</span> <span style="color: #FD971F;">sub</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Sub</span>();
+        System.out.println(<span style="color: #F8F8F0;">"sub.field = "</span> + sub.field +
+        <span style="color: #F8F8F0;">", sub.getField() = "</span> + sub.getField() +
+        <span style="color: #F8F8F0;">", sub.getSuperField() = "</span> + sub.getSuperField());
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt;             //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">sup.field = 0, sup.getField() = 1                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">sub.field = 1, sub.getField() = 1, sub.getSuperField() = 0 //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>static 函数压根就没有polymorphic功能(static函数其实是class的一部分,而不是
+object)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">StaticSuper</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">staticGet</span>() {
+        <span style="color: #A7DBD8;">return</span> <span style="color: #F8F8F0;">"Base staticGet()"</span>;
+    }
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">dynamicGet</span>() {
+        <span style="color: #A7DBD8;">return</span> <span style="color: #F8F8F0;">"base dynamicGet()"</span>;
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">StaticSub</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">StaticSuper</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">staticGet</span>() {
+        <span style="color: #A7DBD8;">return</span> <span style="color: #F8F8F0;">"Derived staticGet()"</span>;
+    }
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">dynamicGet</span>() {
+        <span style="color: #A7DBD8;">return</span> <span style="color: #F8F8F0;">"Derived dynamicGet()"</span>;
+    }
+}
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">StaticPolymorphism</span> {
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">StaticSuper</span> <span style="color: #FD971F;">sup</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">StaticSub</span>();
+        System.out.println(sup.staticGet());
+        System.out.println(sup.dynamicGet());
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Base staticGet()                               //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Derived dynamicGet()                           //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Constructors and polymorphism</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>ctor还是和其他的函数不同,而且ctor不具备late binding的特点
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1">Order of constructor calls</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<ul class="org-ul">
+<li>把继承,组合以及多肽都考虑进来,就形成了下面的ctor的例子
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Meal</span> {
+    Meal() {
+        System.out.println(<span style="color: #F8F8F0;">"Meal()"</span>);
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Bread</span> {
+    Bread() {
+        System.out.println(<span style="color: #F8F8F0;">"Bread()"</span>);
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Cheese</span> {
+    Cheese() {
+        System.out.println(<span style="color: #F8F8F0;">"Cheese()"</span>);
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Lettuce</span> {
+    Lettuce() {
+        System.out.println(<span style="color: #F8F8F0;">"Lettuce()"</span>);
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Lunch</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Meal</span> {
+    Lunch() {
+        System.out.println(<span style="color: #F8F8F0;">"Lunch()"</span>);
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">PortableLunch</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Lunch</span> {
+    PortableLunch() {
+        System.out.println(<span style="color: #F8F8F0;">"PortableLunch()"</span>);
+    }
+}
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Sandwich</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">PortableLunch</span>{
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Bread</span> <span style="color: #FD971F;">b</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Bread</span>();
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Cheese</span> <span style="color: #FD971F;">c</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Cheese</span>();
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Lettuce</span> <span style="color: #FD971F;">l</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Lettuce</span>();
+
+    <span style="color: #A7DBD8;">public</span> Sandwich() {
+        System.out.println(<span style="color: #F8F8F0;">"Sandwich()"</span>);
+    }
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Sandwich</span>();
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Meal()                                         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Lunch()                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">PortableLunch()                                //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Bread()                                        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Cheese()                                       //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Lettuce()                                      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Sandwich()                                     //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>上面的例子是Meal-&gt;Lunch-&gt;PortableLunch-&gt;Sandwich这个继承的顺序,然后还有一
+些其他的类,我们来看看ctor的调用顺序:
+<ol class="org-ol">
+<li>base-class ctor首先按顺序调用. (Meal(), Lunch(), PortableLunch())
+</li>
+<li>成员变量初始化, 如果有ctor,那肯定会调用(Bread(), Cheese(), Lettuce())
+</li>
+<li>最后才是最derived的类的ctor调用(Sandwich())
+</li>
+</ol>
+</li>
+<li>base class先与dervied进行ctor易于理解,而derived member先于derived ctor调用
+的原因可以理解如下:
+<pre class="example">
+        在ctor里面,所有的member都是valid,所以必须先初始化完成
+</pre>
+</li>
+<li>这也是为什么推荐定义的时候就初始化member,而不是在ctor里面初始化(这种情况下所有
+member会先zero化): 让ctor开始的时候,所有的member都是valid
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2">Inheritance and cleanup</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<ul class="org-ul">
+<li>java不需要进行cleanup,但是如果需要的话,你需要自己创建一个函数来释放,并且逐层
+overrid他们. 这里使用的是dispose(),这个不是固定的,你可以自己选择自己的名字
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Characteristic</span> {
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span>;
+    Characteristic(<span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span>) {
+        <span style="color: #A7DBD8;">this</span>.s = s;
+        System.out.println(<span style="color: #F8F8F0;">"Creating Characteristic"</span> + s);
+    }
+    <span style="color: #A7DBD8;">protected</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">dispose</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"disposing Characteristic"</span> + s);
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Description</span> {
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span>;
+    Description(<span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span>) {
+        <span style="color: #A7DBD8;">this</span>.s = s;
+        System.out.println(<span style="color: #F8F8F0;">"Creating Description"</span> + s);
+    }
+    <span style="color: #A7DBD8;">protected</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">dispose</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"disposing Description"</span> + s);
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">LivingCreature</span> {
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Characteristic</span> <span style="color: #FD971F;">p</span> =
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Characteristic</span>(<span style="color: #F8F8F0;">"is alive"</span>);
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Description</span> <span style="color: #FD971F;">t</span> =
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Description</span>(<span style="color: #F8F8F0;">"Basic Living Creature"</span>);
+    LivingCreature() {
+        System.out.println(<span style="color: #F8F8F0;">"LivingCreature()"</span>);
+    }
+    <span style="color: #A7DBD8;">protected</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">dispose</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"LivingCreature dispose"</span>);
+        t.dispose();
+        p.dispose();
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Animal</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">LivingCreature</span> {
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Characteristic</span> <span style="color: #FD971F;">p</span> =
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Characteristic</span>(<span style="color: #F8F8F0;">"has heart"</span>);
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Description</span> <span style="color: #FD971F;">t</span> =
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Description</span>(<span style="color: #F8F8F0;">"Animal not Vegetable"</span>);
+    Animal() {
+        System.out.println(<span style="color: #F8F8F0;">"Animal()"</span>);
+    }
+    <span style="color: #A7DBD8;">protected</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">dispose</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"Animal dispose"</span>);
+        t.dispose();
+        p.dispose();
+        <span style="color: #A7DBD8;">super</span>.dispose();
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Amphibian</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Animal</span> {
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Characteristic</span> <span style="color: #FD971F;">p</span> =
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Characteristic</span>(<span style="color: #F8F8F0;">"can live in water"</span>);
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Description</span> <span style="color: #FD971F;">t</span> =
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Description</span>(<span style="color: #F8F8F0;">"Both water and land"</span>);
+    Amphibian() {
+        System.out.println(<span style="color: #F8F8F0;">"Amphibian()"</span>);
+    }
+    <span style="color: #A7DBD8;">protected</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">dispose</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"Amphibian dispose"</span>);
+        t.dispose();
+        p.dispose();
+        <span style="color: #A7DBD8;">super</span>.dispose();
+    }
+}
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Frog</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Amphibian</span> {
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Characteristic</span> <span style="color: #FD971F;">p</span> =
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Characteristic</span>(<span style="color: #F8F8F0;">" Croaks"</span>);
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Description</span> <span style="color: #FD971F;">t</span> =
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Description</span>(<span style="color: #F8F8F0;">" Eats Bugs"</span>);
+    <span style="color: #A7DBD8;">public</span> Frog() {
+        System.out.println(<span style="color: #F8F8F0;">"Frog()"</span>);
+    }
+    <span style="color: #A7DBD8;">protected</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">dispose</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"Frog dispose"</span>);
+        t.dispose();
+        p.dispose();
+        <span style="color: #A7DBD8;">super</span>.dispose();
+    }
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">Frog</span> <span style="color: #FD971F;">frog</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Frog</span>();
+        System.out.println(<span style="color: #F8F8F0;">"Bye!"</span>);
+        frog.dispose();
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Characteristicis alive                //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating DescriptionBasic Living Creature      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">LivingCreature()                               //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Characteristichas heart               //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating DescriptionAnimal not Vegetable       //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Animal()                                       //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Characteristiccan live in water       //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating DescriptionBoth water and land        //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Amphibian()                                    //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Characteristic Croaks                 //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Description Eats Bugs                 //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Frog()                                         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Bye!                                           //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Frog dispose                                   //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Description Eats Bugs                //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Characteristic Croaks                //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Amphibian dispose                              //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing DescriptionBoth water and land       //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Characteristiccan live in water      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Animal dispose                                 //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing DescriptionAnimal not Vegetable      //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Characteristichas heart              //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">LivingCreature dispose                         //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing DescriptionBasic Living Creature     //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Characteristicis alive               //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>从这个例子来看,cleanup其实还是很麻烦的.需要自己很小心的设计(先derived,然后
+base的顺序析构.
+</li>
+<li>如果你share了数据,而这些数据还要cleanup,那么你就要时刻记录着有多少数据被share
+然后再所有数据都已经被回收的情况下在cleanup share数据.下面就是这个例子,从这
+个例子中可以再次看到,java中的dtor其实都是完全自己实现的,要非常小心.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Shared</span> {
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">int</span> <span style="color: #FD971F;">refcount</span> = 0;
+    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">long</span> <span style="color: #FD971F;">counter</span> = 0;
+    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">final</span> <span style="color: #999999;">long</span> <span style="color: #FD971F;">id</span> = counter++;
+    <span style="color: #A7DBD8;">public</span> Shared() {
+        System.out.println(<span style="color: #F8F8F0;">"Creating "</span> + <span style="color: #A7DBD8;">this</span>);
+    }
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">addRef</span>() {
+        refcount++;
+    }
+    <span style="color: #A7DBD8;">protected</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">dispose</span>() {
+        <span style="color: #A7DBD8;">if</span> (--refcount == 0) {
+            System.out.println(<span style="color: #F8F8F0;">"Disposing "</span> + <span style="color: #A7DBD8;">this</span>);
+        }
+    }
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">toString</span>() {
+        <span style="color: #A7DBD8;">return</span> <span style="color: #F8F8F0;">"Shared "</span> + id;
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Composing</span> {
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Shared</span> <span style="color: #FD971F;">shared</span>;
+    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">long</span> <span style="color: #FD971F;">counter</span> = 0;
+    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">final</span> <span style="color: #999999;">long</span> <span style="color: #FD971F;">id</span> = counter++;
+    <span style="color: #A7DBD8;">public</span> Composing(<span style="color: #999999;">Shared</span> <span style="color: #FD971F;">shared</span>) {
+        System.out.println(<span style="color: #F8F8F0;">"Creating "</span> + <span style="color: #A7DBD8;">this</span>);
+        <span style="color: #A7DBD8;">this</span>.shared = shared;
+        <span style="color: #A7DBD8;">this</span>.shared.addRef();
+    }
+    <span style="color: #A7DBD8;">protected</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">dispose</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"disposing "</span> + <span style="color: #A7DBD8;">this</span>);
+        shared.dispose();
+    }
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">toString</span>() {
+        <span style="color: #A7DBD8;">return</span> <span style="color: #F8F8F0;">"Composing "</span> + id;
+    }
+}
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">ReferenceCounting</span> {
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">Shared</span> <span style="color: #FD971F;">shared</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Shared</span>();
+        <span style="color: #999999;">Composing</span>[] <span style="color: #FD971F;">composing</span> = {
+            <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Composing</span>(shared),
+            <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Composing</span>(shared),
+            <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Composing</span>(shared),
+            <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Composing</span>(shared),
+            <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Composing</span>(shared),
+        };
+
+        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">Composing</span> <span style="color: #FD971F;">c</span>: composing) {
+            c.dispose();
+        }
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Shared 0                              //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Composing 0                           //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Composing 1                           //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Composing 2                           //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Composing 3                           //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Composing 4                           //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Composing 0                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Composing 1                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Composing 2                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Composing 3                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Composing 4                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Disposing Shared 0                             //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3">Behavior of polymorphic methods inside constructors</h4>
+<div class="outline-text-4" id="text-1-4-3">
+<ul class="org-ul">
+<li>在ctor里面调用多肽的函数,这从逻辑上看,就不是一个好主意:ctor是要保证所有的数
+据都准备好的,在数据准备好之前就调用override的函数显然不合理.(函数其实还是对
+数据的操作么)
+</li>
+<li>下面这个例子就是在base class里面调用override函数.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Glyph</span> {
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">draw</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"Glyph.draw()"</span>);
+    }
+    Glyph() {
+        System.out.println(<span style="color: #F8F8F0;">"Glyph() before draw()"</span>);
+        draw();
+        System.out.println(<span style="color: #F8F8F0;">"Glyph() after draw()"</span>);
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">RoundGlyph</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Glyph</span> {
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">int</span> <span style="color: #FD971F;">radius</span> = 1;
+    RoundGlyph(<span style="color: #999999;">int</span> <span style="color: #FD971F;">r</span>) {
+        radius = r;
+        System.out.println(<span style="color: #F8F8F0;">"RoundGlyph.RoundGlyph(), radius = "</span> + radius);
+    }
+    <span style="color: #999999;">void</span> <span style="color: #AEE239;">draw</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"RoundGlyph.draw(), radius = "</span> + radius);
+    }
+}
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">PolyConstructors</span> {
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">RoundGlyph</span>(5);
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Glyph() before draw()                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">RoundGlyph.draw(), radius = 0                  //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Glyph() after draw()                           //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">RoundGlyph.RoundGlyph(), radius = 5            //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>有两个地方非常奇怪:
+<ol class="org-ol">
+<li>base ctor里面还是调用了derivde的函数
+</li>
+<li>base ctor里面调用的时候radius的值甚至不是默认值1,而是0 (刚刚zero化完)
+</li>
+</ol>
+</li>
+<li>综上所述,在ctor里面要做尽可能少的事情:只要把object设置到正确的state就可以
+了,尽可能避免的在ctor里面调用函数
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Covariant return types</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>Java SE5 引入了一个新的feature,就是你override了一个函数,那么这个函数的返回
+值可以不一样(但必须是相互继承的), 具体就是base返回了b1类型,你是derived,那么
+你可以返回d1类型.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Grain</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">toString</span>() {
+        <span style="color: #A7DBD8;">return</span> <span style="color: #F8F8F0;">"Grain"</span>;
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Wheat</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Grain</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">toString</span>() {
+        <span style="color: #A7DBD8;">return</span> <span style="color: #F8F8F0;">"Wheat"</span>;
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Mill</span> {
+    <span style="color: #999999;">Grain</span> <span style="color: #AEE239;">process</span>() {
+        <span style="color: #A7DBD8;">return</span> <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Grain</span>();
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">WheatMill</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Mill</span> {
+    <span style="color: #999999;">Wheat</span> <span style="color: #AEE239;">process</span>() {
+        <span style="color: #A7DBD8;">return</span> <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Wheat</span>();
+    }
+}
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">CovariantReturn</span> {
+
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">Mill</span> <span style="color: #FD971F;">m</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Mill</span>();
+        <span style="color: #999999;">Grain</span> <span style="color: #FD971F;">g</span> = m.process();
+        System.out.println(g);
+        m = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">WheatMill</span>();
+        g = m.process();
+        System.out.println(g);
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Grain                                          //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">Wheat                                          //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Designing with inheritance</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>虽然继承在OOP里面如此的重要,但是设计的时候首先想到使用继承是不好的.因为继承
+要在设计角度上强制实现层级关系,而组合就没有这个负担
+</li>
+<li>所以更应该开始就考虑组合,特别是在不是很明确设计方案的情况下
+</li>
+<li>下面的例子是组合和继承的组合使用:两个类通过继承来表达了行为(behavior)上面的
+不同,而Stage通过composition两个不同的类,来达到了切换状态(state)的目的
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Actor</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">act</span>() {}
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">HappyActor</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Actor</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">act</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"HappyActor"</span>);
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">SadActor</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Actor</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">act</span>() {
+        System.out.println(<span style="color: #F8F8F0;">"SadActor"</span>);
+    }
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Stage</span> {
+    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Actor</span> <span style="color: #FD971F;">actor</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">HappyActor</span>();
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">change</span>() {
+        actor = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">SadActor</span>();
+    }
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">performPlay</span>() {
+        actor.act();
+    }
+}
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Transmogrify</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">Stage</span> <span style="color: #FD971F;">stage</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Stage</span>();
+        stage.performPlay();
+        stage.change();
+        stage.performPlay();
+    }
+}
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">HappyActor                                     //</span>
+<span style="color: #505C63;">// </span><span style="color: #505C63;">SadActor                                       //</span>
+<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1">Substitution vs. extension</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<ul class="org-ul">
+<li>一个清晰的实现继承的方法就是:纯净继承
+<pre class="example">
+        只有在父类里面定义的函数才会在子类里面进行覆写(override)
+</pre>
+</li>
+<li>下面图中的继承就是一个纯净继承,也叫pure "is-a" relationship,这种继承保证了
+derived类的接口和base类是一样的.
+
+
+<div class="figure">
+<p><img src="../../static/images/shape.png" alt="shape.png" />
+</p>
+</div>
+</li>
+
+<li>这种纯净继承的好处就是当你使用的时候,你完全不必了解subclass的其他信息:base
+class可以接收任何你传递给derived class的信息.你所要做的就是把derived upcast
+成base的,然后调用函数
+
+
+<div class="figure">
+<p><img src="../../static/images/shape_talk.png" alt="shape_talk.png" />
+</p>
+</div>
+</li>
+
+<li>当然,纯净继承如果真这么所向披靡的话,derived类也就不需要其他函数了.如果derived
+跟base"不那么"像的话,就需要一个"is-like-a"的关系,接口就不能完全一样了.derived
+会多出来一些
+
+
+<div class="figure">
+<p><img src="../../static/images/useful.png" alt="useful.png" />
+</p>
+</div>
+</li>
+
+<li>既然多出来一些接口,那么在upcast调用的时候,base根本就没这些method,如下图:
+MoreUseful part的函数是base所不知道的,所以自动的upcast无法实现.使用的方法
+就是下一节要讲到的Downcasting
+
+
+<div class="figure">
+<p><img src="../../static/images/usefule_talk.png" alt="usefule_talk.png" />
+</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6-2" class="outline-4">
+<h4 id="sec-1-6-2">Downcasting and runtime type information</h4>
+<div class="outline-text-4" id="text-1-6-2">
+<ul class="org-ul">
+<li>upcast是从超集的cast成其中一个集合,而downcast则是反过来.upcast总是成功,但是
+downcast却不一定,不一定没关系,每次失败了,java都会告诉我们:通过ClassCastException
+这种run time检查类型的做法叫做RTTI(runtime type identification)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Useful</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">f</span>() {}
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">g</span>() {}
+}
+
+<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">MoreUseful</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Useful</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">f</span>() {}
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">g</span>() {}
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">u</span>() {}
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">v</span>() {}
+    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">w</span>() {}
+}
+
+<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">RTTI</span> {
+    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
+        <span style="color: #999999;">Useful</span>[] <span style="color: #FD971F;">x</span> = {
+            <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Useful</span>(),
+            <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">MoreUseful</span>()
+        };
+        x[0].f();
+        x[1].g();
+        <span style="color: #505C63;">// </span><span style="color: #505C63;">Compile time: method not found in Useful:</span>
+        <span style="color: #505C63;">//</span><span style="color: #505C63;">! x[1].u();</span>
+        ((<span style="color: #999999;">MoreUseful</span>)x[1]).u(); <span style="color: #505C63;">// </span><span style="color: #505C63;">Downcast/RTTi</span>
+        ((<span style="color: #999999;">MoreUseful</span>)x[0]).u(); <span style="color: #505C63;">// </span><span style="color: #505C63;">Exception thrown</span>
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng'; 
+          
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>
