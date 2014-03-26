@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 08: Polymorphism</title>
-<!-- 2014-03-26 Wed 08:26 -->
+<!-- 2014-03-26 Wed 08:32 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -225,48 +225,48 @@ from Instrument的对象(比如Wind)都可以传入. 这里就是把Wind upcasti
 虽然损失了一些东西,但对于这个函数来说,是没有影响的
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">music</span>;
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.polymorphism.<span style="color: #268bd2; font-weight: bold;">music</span>;
 
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">enum</span> <span style="color: #999999;">Note</span> {
-    <span style="color: #FD971F;">MIDDLE_C</span>, <span style="color: #FD971F;">C_SHARP</span>, <span style="color: #FD971F;">B_FLAT</span>;
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">enum</span> <span style="color: #b58900;">Note</span> {
+    <span style="color: #268bd2;">MIDDLE_C</span>, <span style="color: #268bd2;">C_SHARP</span>, <span style="color: #268bd2;">B_FLAT</span>;
 }
 
-<span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">music</span>;
+<span style="color: #859900; font-weight: bold;">package</span> lang.tij4.polymorphism.<span style="color: #268bd2; font-weight: bold;">music</span>;
 
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Instrument</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">play</span>(<span style="color: #999999;">Note</span> <span style="color: #FD971F;">n</span>) {
-        System.out.println(<span style="color: #F8F8F0;">"Instrument.play()"</span>);
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Instrument</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">play</span>(<span style="color: #b58900;">Note</span> <span style="color: #268bd2;">n</span>) {
+        System.out.println(<span style="color: #2aa198;">"Instrument.play()"</span>);
     }
 }
 
-<span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">music</span>;
+<span style="color: #859900; font-weight: bold;">package</span> lang.tij4.polymorphism.<span style="color: #268bd2; font-weight: bold;">music</span>;
 
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Wind objects are instruments</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">because they have the same interface</span>
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Wind</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Instrument</span>{
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Wind objects are instruments</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">because they have the same interface</span>
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Wind</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Instrument</span>{
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">play</span>(<span style="color: #999999;">Note</span> <span style="color: #FD971F;">n</span>) {
-        System.out.println(<span style="color: #F8F8F0;">"Wind.play() "</span> + n);
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">play</span>(<span style="color: #b58900;">Note</span> <span style="color: #268bd2;">n</span>) {
+        System.out.println(<span style="color: #2aa198;">"Wind.play() "</span> + n);
     }
 }
 
-<span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">music</span>;
+<span style="color: #859900; font-weight: bold;">package</span> lang.tij4.polymorphism.<span style="color: #268bd2; font-weight: bold;">music</span>;
 
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Music</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">tune</span>(<span style="color: #999999;">Instrument</span> <span style="color: #FD971F;">i</span>) {
-        i.play(<span style="color: #AEE239;">Note</span>.MIDDLE_C);
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Music</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">tune</span>(<span style="color: #b58900;">Instrument</span> <span style="color: #268bd2;">i</span>) {
+        i.play(<span style="color: #268bd2; font-weight: bold;">Note</span>.MIDDLE_C);
     }
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
-        <span style="color: #999999;">Wind</span> <span style="color: #FD971F;">flute</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Wind</span>();
-        tune(flute); <span style="color: #505C63;">// </span><span style="color: #505C63;">Upcasting</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Wind</span> <span style="color: #268bd2;">flute</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Wind</span>();
+        tune(flute); <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Upcasting</span>
     }
 }
 
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Wind.play() MIDDLE_C                           //</span>
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Wind.play() MIDDLE_C                           //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -283,47 +283,47 @@ Instrument都适用的tune. 如果不实用upcasting,而使用overload,也可以
 却要为每一种Instrument都实现一个tune函数
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">music</span>;
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.polymorphism.<span style="color: #268bd2; font-weight: bold;">music</span>;
 
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Overloading instead of upcasting</span>
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Stringed</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Instrument</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">play</span>(<span style="color: #999999;">Note</span> <span style="color: #FD971F;">n</span>) {
-        System.out.println(<span style="color: #F8F8F0;">"Stringed.play() "</span> + n);
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Overloading instead of upcasting</span>
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Stringed</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Instrument</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">play</span>(<span style="color: #b58900;">Note</span> <span style="color: #268bd2;">n</span>) {
+        System.out.println(<span style="color: #2aa198;">"Stringed.play() "</span> + n);
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Brass</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Instrument</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">play</span>(<span style="color: #999999;">Note</span> <span style="color: #FD971F;">n</span>) {
-        System.out.println(<span style="color: #F8F8F0;">"Brass.play() "</span> + n);
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Brass</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Instrument</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">play</span>(<span style="color: #b58900;">Note</span> <span style="color: #268bd2;">n</span>) {
+        System.out.println(<span style="color: #2aa198;">"Brass.play() "</span> + n);
     }
 }
 
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Music2</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">tune</span>(<span style="color: #999999;">Wind</span> <span style="color: #FD971F;">i</span>) {
-        i.play(<span style="color: #AEE239;">Note</span>.MIDDLE_C);
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Music2</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">tune</span>(<span style="color: #b58900;">Wind</span> <span style="color: #268bd2;">i</span>) {
+        i.play(<span style="color: #268bd2; font-weight: bold;">Note</span>.MIDDLE_C);
     }
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">tune</span>(<span style="color: #999999;">Stringed</span> <span style="color: #FD971F;">i</span>) {
-        i.play(<span style="color: #AEE239;">Note</span>.MIDDLE_C);
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">tune</span>(<span style="color: #b58900;">Stringed</span> <span style="color: #268bd2;">i</span>) {
+        i.play(<span style="color: #268bd2; font-weight: bold;">Note</span>.MIDDLE_C);
     }
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">tune</span>(<span style="color: #999999;">Brass</span> <span style="color: #FD971F;">i</span>) {
-        i.play(<span style="color: #AEE239;">Note</span>.MIDDLE_C);
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">tune</span>(<span style="color: #b58900;">Brass</span> <span style="color: #268bd2;">i</span>) {
+        i.play(<span style="color: #268bd2; font-weight: bold;">Note</span>.MIDDLE_C);
     }
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
-        <span style="color: #999999;">Wind</span> <span style="color: #FD971F;">flute</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Wind</span>();
-        <span style="color: #999999;">Stringed</span> <span style="color: #FD971F;">violin</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Stringed</span>();
-        <span style="color: #999999;">Brass</span> <span style="color: #FD971F;">frenchHorn</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Brass</span>();
-        tune(flute);  <span style="color: #505C63;">// </span><span style="color: #505C63;">No upcasting</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Wind</span> <span style="color: #268bd2;">flute</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Wind</span>();
+        <span style="color: #b58900;">Stringed</span> <span style="color: #268bd2;">violin</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Stringed</span>();
+        <span style="color: #b58900;">Brass</span> <span style="color: #268bd2;">frenchHorn</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Brass</span>();
+        tune(flute);  <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">No upcasting</span>
         tune(violin);
         tune(frenchHorn);
     }
 }
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Wind.play() MIDDLE_C                           //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Stringed.play() MIDDLE_C                       //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Brass.play() MIDDLE_C                          //</span>
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Wind.play() MIDDLE_C                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Stringed.play() MIDDLE_C                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Brass.play() MIDDLE_C                          //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -341,8 +341,8 @@ Instrument都适用的tune. 如果不实用upcasting,而使用overload,也可以
 而不是Brass或者Stringed?
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">tune</span>(<span style="color: #999999;">Instrument</span> <span style="color: #FD971F;">i</span>) {
-    i.play(<span style="color: #AEE239;">Note</span>.MIDDLE_C);
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">tune</span>(<span style="color: #b58900;">Instrument</span> <span style="color: #268bd2;">i</span>) {
+    i.play(<span style="color: #268bd2; font-weight: bold;">Note</span>.MIDDLE_C);
 }
 </pre>
 </div>
@@ -355,7 +355,7 @@ Instrument都适用的tune. 如果不实用upcasting,而使用overload,也可以
 <h4 id="sec-1-3-1">Method-call binding</h4>
 <div class="outline-text-4" id="text-1-3-1">
 <ul class="org-ul">
-<li>在非OOP语言里面binding这个术语显得没有必要, 因为只有一种bing,那就是early 
+<li>在非OOP语言里面binding这个术语显得没有必要, 因为只有一种bing,那就是early
 binding
 <pre class="example">
         把一个method call和method boty联系起来,叫做binding
@@ -389,94 +389,94 @@ final
 其他形状来重新定义(override)这两个函数
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">shape</span>;
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.polymorphism.<span style="color: #268bd2; font-weight: bold;">shape</span>;
 
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Shape</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">draw</span>() {}
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">erase</span>() {}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Shape</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">draw</span>() {}
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">erase</span>() {}
 }
-<span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">shape</span>;
+<span style="color: #859900; font-weight: bold;">package</span> lang.tij4.polymorphism.<span style="color: #268bd2; font-weight: bold;">shape</span>;
 
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Circle</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Shape</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">draw</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"Circle.draw()"</span>);
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Circle</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Shape</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">draw</span>() {
+        System.out.println(<span style="color: #2aa198;">"Circle.draw()"</span>);
     }
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">erase</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"Circle.erase()"</span>);
-    }
-}
-<span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">shape</span>;
-
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Square</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Shape</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">draw</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"Square.draw()"</span>);
-    }
-
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">erase</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"Square.erase()"</span>);
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">erase</span>() {
+        System.out.println(<span style="color: #2aa198;">"Circle.erase()"</span>);
     }
 }
-<span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">shape</span>;
+<span style="color: #859900; font-weight: bold;">package</span> lang.tij4.polymorphism.<span style="color: #268bd2; font-weight: bold;">shape</span>;
 
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Triangle</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Shape</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">draw</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"Triangle.draw()"</span>);
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Square</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Shape</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">draw</span>() {
+        System.out.println(<span style="color: #2aa198;">"Square.draw()"</span>);
     }
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">erase</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"Triangle.erase()"</span>);
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">erase</span>() {
+        System.out.println(<span style="color: #2aa198;">"Square.erase()"</span>);
     }
 }
-<span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">shape</span>;
+<span style="color: #859900; font-weight: bold;">package</span> lang.tij4.polymorphism.<span style="color: #268bd2; font-weight: bold;">shape</span>;
 
-<span style="color: #A7DBD8;">import</span> <span style="color: #AEE239;">java</span>.<span style="color: #AEE239;">util</span>.<span style="color: #999999;">Random</span>;
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Triangle</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Shape</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">draw</span>() {
+        System.out.println(<span style="color: #2aa198;">"Triangle.draw()"</span>);
+    }
 
-<span style="color: #505C63;">// </span><span style="color: #505C63;">A "factory" that randomly creates shapes</span>
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">RandomShapeGenerator</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Random</span> <span style="color: #FD971F;">rand</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Random</span>(47);
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">Shape</span> <span style="color: #AEE239;">next</span>() {
-        <span style="color: #A7DBD8;">switch</span>(rand.nextInt(3)) {
-            <span style="color: #A7DBD8;">default</span>:
-            <span style="color: #A7DBD8;">case</span> 0:
-                <span style="color: #A7DBD8;">return</span> <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Circle</span>();
-            <span style="color: #A7DBD8;">case</span> 1:
-                <span style="color: #A7DBD8;">return</span> <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Square</span>();
-            <span style="color: #A7DBD8;">case</span> 2:
-                <span style="color: #A7DBD8;">return</span> <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Triangle</span>();
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">erase</span>() {
+        System.out.println(<span style="color: #2aa198;">"Triangle.erase()"</span>);
+    }
+}
+<span style="color: #859900; font-weight: bold;">package</span> lang.tij4.polymorphism.<span style="color: #268bd2; font-weight: bold;">shape</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Random</span>;
+
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">A "factory" that randomly creates shapes</span>
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">RandomShapeGenerator</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Random</span> <span style="color: #268bd2;">rand</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Random</span>(47);
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Shape</span> <span style="color: #268bd2;">next</span>() {
+        <span style="color: #859900; font-weight: bold;">switch</span>(rand.nextInt(3)) {
+            <span style="color: #859900; font-weight: bold;">default</span>:
+            <span style="color: #859900; font-weight: bold;">case</span> 0:
+                <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Circle</span>();
+            <span style="color: #859900; font-weight: bold;">case</span> 1:
+                <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Square</span>();
+            <span style="color: #859900; font-weight: bold;">case</span> 2:
+                <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Triangle</span>();
         }
     }
 }
-<span style="color: #A7DBD8;">package</span> lang.tij4.polymorphism.<span style="color: #AEE239;">shape</span>;
+<span style="color: #859900; font-weight: bold;">package</span> lang.tij4.polymorphism.<span style="color: #268bd2; font-weight: bold;">shape</span>;
 
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Shapes</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">RandomShapeGenerator</span> <span style="color: #FD971F;">gen</span> =
-        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">RandomShapeGenerator</span>();
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Shapes</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">RandomShapeGenerator</span> <span style="color: #268bd2;">gen</span> =
+        <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">RandomShapeGenerator</span>();
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
-        <span style="color: #999999;">Shape</span>[] <span style="color: #FD971F;">s</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Shape</span>[9];
-        <span style="color: #505C63;">// </span><span style="color: #505C63;">Fill up the array with shapes</span>
-        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">int</span> <span style="color: #FD971F;">i</span> = 0; i &lt; s.length; i++) {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Shape</span>[] <span style="color: #268bd2;">s</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Shape</span>[9];
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Fill up the array with shapes</span>
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; s.length; i++) {
             s[i] = gen.next();
         }
-        <span style="color: #505C63;">// </span><span style="color: #505C63;">Make polymorphic method calls</span>
-        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">Shape</span> <span style="color: #FD971F;">shp</span> : s) {
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Make polymorphic method calls</span>
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">Shape</span> <span style="color: #268bd2;">shp</span> : s) {
             shp.draw();
         }
     }
 
 }
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Triangle.draw()                                //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Triangle.draw()                                //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Square.draw()                                  //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Triangle.draw()                                //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Square.draw()                                  //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Triangle.draw()                                //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Square.draw()                                  //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Triangle.draw()                                //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Circle.draw()                                  //</span>
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Triangle.draw()                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Triangle.draw()                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Square.draw()                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Triangle.draw()                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Square.draw()                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Triangle.draw()                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Square.draw()                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Triangle.draw()                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Circle.draw()                                  //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -510,28 +510,28 @@ that change from the things tha stay the same"
 看不到它,更不要提什么override, 或者overload
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">polymorphism</span>;
 
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">PrivateOverride</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">f</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"private f()"</span>);
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">PrivateOverride</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {
+        System.out.println(<span style="color: #2aa198;">"private f()"</span>);
     }
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
-        <span style="color: #999999;">PrivateOverride</span> <span style="color: #FD971F;">po</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Derived</span>();
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">PrivateOverride</span> <span style="color: #268bd2;">po</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Derived</span>();
         po.f();
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Derived</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">PrivateOverride</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">f</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"public f()"</span>);
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Derived</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">PrivateOverride</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {
+        System.out.println(<span style="color: #2aa198;">"public f()"</span>);
     }
 }
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">private f()                                    //</span>
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">private f()                                    //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -558,43 +558,43 @@ that change from the things tha stay the same"
 对应的object的(late binding只对method有效)
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">polymorphism</span>;
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Super</span> {
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Super</span> {
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #FD971F;">field</span> = 0;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">field</span> = 0;
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">getField</span>() {
-        <span style="color: #A7DBD8;">return</span> field;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">getField</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> field;
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Sub</span> <span style="color: #A7DBD8;">extends</span>  <span style="color: #999999;">Super</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #FD971F;">field</span> = 1;
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">getField</span>() {
-        <span style="color: #A7DBD8;">return</span> field;
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Sub</span> <span style="color: #859900; font-weight: bold;">extends</span>  <span style="color: #b58900;">Super</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">field</span> = 1;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">getField</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> field;
     }
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">int</span> <span style="color: #AEE239;">getSuperField</span>() {
-        <span style="color: #A7DBD8;">return</span> <span style="color: #A7DBD8;">super</span>.field;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">getSuperField</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">super</span>.field;
     }
 }
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">FieldAccess</span> {
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">FieldAccess</span> {
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
-        <span style="color: #999999;">Super</span> <span style="color: #FD971F;">sup</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Sub</span>(); <span style="color: #505C63;">// </span><span style="color: #505C63;">Upcast</span>
-        System.out.println(<span style="color: #F8F8F0;">"sup.field = "</span> + sup.field +
-        <span style="color: #F8F8F0;">", sup.getField() = "</span> + sup.getField());
-        <span style="color: #999999;">Sub</span> <span style="color: #FD971F;">sub</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Sub</span>();
-        System.out.println(<span style="color: #F8F8F0;">"sub.field = "</span> + sub.field +
-        <span style="color: #F8F8F0;">", sub.getField() = "</span> + sub.getField() +
-        <span style="color: #F8F8F0;">", sub.getSuperField() = "</span> + sub.getSuperField());
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Super</span> <span style="color: #268bd2;">sup</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Sub</span>(); <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Upcast</span>
+        System.out.println(<span style="color: #2aa198;">"sup.field = "</span> + sup.field +
+        <span style="color: #2aa198;">", sup.getField() = "</span> + sup.getField());
+        <span style="color: #b58900;">Sub</span> <span style="color: #268bd2;">sub</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Sub</span>();
+        System.out.println(<span style="color: #2aa198;">"sub.field = "</span> + sub.field +
+        <span style="color: #2aa198;">", sub.getField() = "</span> + sub.getField() +
+        <span style="color: #2aa198;">", sub.getSuperField() = "</span> + sub.getSuperField());
     }
 }
-<span style="color: #505C63;">////////////////////////////////////////////////////////////////</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt;             //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">sup.field = 0, sup.getField() = 1                          //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">sub.field = 1, sub.getField() = 1, sub.getSuperField() = 0 //</span>
-<span style="color: #505C63;">////////////////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">sup.field = 0, sup.getField() = 1                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">sub.field = 1, sub.getField() = 1, sub.getSuperField() = 0 //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -602,39 +602,39 @@ that change from the things tha stay the same"
 object)
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">polymorphism</span>;
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">StaticSuper</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">staticGet</span>() {
-        <span style="color: #A7DBD8;">return</span> <span style="color: #F8F8F0;">"Base staticGet()"</span>;
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">StaticSuper</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">staticGet</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Base staticGet()"</span>;
     }
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">dynamicGet</span>() {
-        <span style="color: #A7DBD8;">return</span> <span style="color: #F8F8F0;">"base dynamicGet()"</span>;
-    }
-}
-
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">StaticSub</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">StaticSuper</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">staticGet</span>() {
-        <span style="color: #A7DBD8;">return</span> <span style="color: #F8F8F0;">"Derived staticGet()"</span>;
-    }
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">dynamicGet</span>() {
-        <span style="color: #A7DBD8;">return</span> <span style="color: #F8F8F0;">"Derived dynamicGet()"</span>;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">dynamicGet</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"base dynamicGet()"</span>;
     }
 }
 
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">StaticPolymorphism</span> {
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">StaticSub</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">StaticSuper</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">staticGet</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Derived staticGet()"</span>;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">dynamicGet</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Derived dynamicGet()"</span>;
+    }
+}
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
-        <span style="color: #999999;">StaticSuper</span> <span style="color: #FD971F;">sup</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">StaticSub</span>();
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">StaticPolymorphism</span> {
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">StaticSuper</span> <span style="color: #268bd2;">sup</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">StaticSub</span>();
         System.out.println(sup.staticGet());
         System.out.println(sup.dynamicGet());
     }
 }
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Base staticGet()                               //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Derived dynamicGet()                           //</span>
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Base staticGet()                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Derived dynamicGet()                           //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -658,66 +658,66 @@ object)
 <li>把继承,组合以及多肽都考虑进来,就形成了下面的ctor的例子
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">polymorphism</span>;
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Meal</span> {
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Meal</span> {
     Meal() {
-        System.out.println(<span style="color: #F8F8F0;">"Meal()"</span>);
+        System.out.println(<span style="color: #2aa198;">"Meal()"</span>);
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Bread</span> {
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Bread</span> {
     Bread() {
-        System.out.println(<span style="color: #F8F8F0;">"Bread()"</span>);
+        System.out.println(<span style="color: #2aa198;">"Bread()"</span>);
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Cheese</span> {
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Cheese</span> {
     Cheese() {
-        System.out.println(<span style="color: #F8F8F0;">"Cheese()"</span>);
+        System.out.println(<span style="color: #2aa198;">"Cheese()"</span>);
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Lettuce</span> {
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Lettuce</span> {
     Lettuce() {
-        System.out.println(<span style="color: #F8F8F0;">"Lettuce()"</span>);
+        System.out.println(<span style="color: #2aa198;">"Lettuce()"</span>);
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Lunch</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Meal</span> {
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Lunch</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Meal</span> {
     Lunch() {
-        System.out.println(<span style="color: #F8F8F0;">"Lunch()"</span>);
+        System.out.println(<span style="color: #2aa198;">"Lunch()"</span>);
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">PortableLunch</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Lunch</span> {
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">PortableLunch</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Lunch</span> {
     PortableLunch() {
-        System.out.println(<span style="color: #F8F8F0;">"PortableLunch()"</span>);
+        System.out.println(<span style="color: #2aa198;">"PortableLunch()"</span>);
     }
 }
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Sandwich</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">PortableLunch</span>{
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Bread</span> <span style="color: #FD971F;">b</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Bread</span>();
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Cheese</span> <span style="color: #FD971F;">c</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Cheese</span>();
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Lettuce</span> <span style="color: #FD971F;">l</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Lettuce</span>();
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Sandwich</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">PortableLunch</span>{
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Bread</span> <span style="color: #268bd2;">b</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Bread</span>();
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Cheese</span> <span style="color: #268bd2;">c</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Cheese</span>();
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Lettuce</span> <span style="color: #268bd2;">l</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Lettuce</span>();
 
-    <span style="color: #A7DBD8;">public</span> Sandwich() {
-        System.out.println(<span style="color: #F8F8F0;">"Sandwich()"</span>);
+    <span style="color: #859900; font-weight: bold;">public</span> Sandwich() {
+        System.out.println(<span style="color: #2aa198;">"Sandwich()"</span>);
     }
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
-        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Sandwich</span>();
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Sandwich</span>();
     }
 }
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Meal()                                         //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Lunch()                                        //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">PortableLunch()                                //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Bread()                                        //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Cheese()                                       //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Lettuce()                                      //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Sandwich()                                     //</span>
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Meal()                                         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Lunch()                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">PortableLunch()                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Bread()                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Cheese()                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Lettuce()                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Sandwich()                                     //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -753,125 +753,125 @@ member会先zero化): 让ctor开始的时候,所有的member都是valid
 overrid他们. 这里使用的是dispose(),这个不是固定的,你可以自己选择自己的名字
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">polymorphism</span>;
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Characteristic</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span>;
-    Characteristic(<span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span>) {
-        <span style="color: #A7DBD8;">this</span>.s = s;
-        System.out.println(<span style="color: #F8F8F0;">"Creating Characteristic"</span> + s);
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Characteristic</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>;
+    Characteristic(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.s = s;
+        System.out.println(<span style="color: #2aa198;">"Creating Characteristic"</span> + s);
     }
-    <span style="color: #A7DBD8;">protected</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">dispose</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"disposing Characteristic"</span> + s);
+    <span style="color: #859900; font-weight: bold;">protected</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">dispose</span>() {
+        System.out.println(<span style="color: #2aa198;">"disposing Characteristic"</span> + s);
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Description</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span>;
-    Description(<span style="color: #999999;">String</span> <span style="color: #FD971F;">s</span>) {
-        <span style="color: #A7DBD8;">this</span>.s = s;
-        System.out.println(<span style="color: #F8F8F0;">"Creating Description"</span> + s);
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Description</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>;
+    Description(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.s = s;
+        System.out.println(<span style="color: #2aa198;">"Creating Description"</span> + s);
     }
-    <span style="color: #A7DBD8;">protected</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">dispose</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"disposing Description"</span> + s);
+    <span style="color: #859900; font-weight: bold;">protected</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">dispose</span>() {
+        System.out.println(<span style="color: #2aa198;">"disposing Description"</span> + s);
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">LivingCreature</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Characteristic</span> <span style="color: #FD971F;">p</span> =
-        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Characteristic</span>(<span style="color: #F8F8F0;">"is alive"</span>);
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Description</span> <span style="color: #FD971F;">t</span> =
-        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Description</span>(<span style="color: #F8F8F0;">"Basic Living Creature"</span>);
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">LivingCreature</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Characteristic</span> <span style="color: #268bd2;">p</span> =
+        <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Characteristic</span>(<span style="color: #2aa198;">"is alive"</span>);
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Description</span> <span style="color: #268bd2;">t</span> =
+        <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Description</span>(<span style="color: #2aa198;">"Basic Living Creature"</span>);
     LivingCreature() {
-        System.out.println(<span style="color: #F8F8F0;">"LivingCreature()"</span>);
+        System.out.println(<span style="color: #2aa198;">"LivingCreature()"</span>);
     }
-    <span style="color: #A7DBD8;">protected</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">dispose</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"LivingCreature dispose"</span>);
+    <span style="color: #859900; font-weight: bold;">protected</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">dispose</span>() {
+        System.out.println(<span style="color: #2aa198;">"LivingCreature dispose"</span>);
         t.dispose();
         p.dispose();
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Animal</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">LivingCreature</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Characteristic</span> <span style="color: #FD971F;">p</span> =
-        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Characteristic</span>(<span style="color: #F8F8F0;">"has heart"</span>);
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Description</span> <span style="color: #FD971F;">t</span> =
-        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Description</span>(<span style="color: #F8F8F0;">"Animal not Vegetable"</span>);
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Animal</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">LivingCreature</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Characteristic</span> <span style="color: #268bd2;">p</span> =
+        <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Characteristic</span>(<span style="color: #2aa198;">"has heart"</span>);
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Description</span> <span style="color: #268bd2;">t</span> =
+        <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Description</span>(<span style="color: #2aa198;">"Animal not Vegetable"</span>);
     Animal() {
-        System.out.println(<span style="color: #F8F8F0;">"Animal()"</span>);
+        System.out.println(<span style="color: #2aa198;">"Animal()"</span>);
     }
-    <span style="color: #A7DBD8;">protected</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">dispose</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"Animal dispose"</span>);
+    <span style="color: #859900; font-weight: bold;">protected</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">dispose</span>() {
+        System.out.println(<span style="color: #2aa198;">"Animal dispose"</span>);
         t.dispose();
         p.dispose();
-        <span style="color: #A7DBD8;">super</span>.dispose();
+        <span style="color: #859900; font-weight: bold;">super</span>.dispose();
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Amphibian</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Animal</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Characteristic</span> <span style="color: #FD971F;">p</span> =
-        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Characteristic</span>(<span style="color: #F8F8F0;">"can live in water"</span>);
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Description</span> <span style="color: #FD971F;">t</span> =
-        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Description</span>(<span style="color: #F8F8F0;">"Both water and land"</span>);
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Amphibian</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Animal</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Characteristic</span> <span style="color: #268bd2;">p</span> =
+        <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Characteristic</span>(<span style="color: #2aa198;">"can live in water"</span>);
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Description</span> <span style="color: #268bd2;">t</span> =
+        <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Description</span>(<span style="color: #2aa198;">"Both water and land"</span>);
     Amphibian() {
-        System.out.println(<span style="color: #F8F8F0;">"Amphibian()"</span>);
+        System.out.println(<span style="color: #2aa198;">"Amphibian()"</span>);
     }
-    <span style="color: #A7DBD8;">protected</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">dispose</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"Amphibian dispose"</span>);
+    <span style="color: #859900; font-weight: bold;">protected</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">dispose</span>() {
+        System.out.println(<span style="color: #2aa198;">"Amphibian dispose"</span>);
         t.dispose();
         p.dispose();
-        <span style="color: #A7DBD8;">super</span>.dispose();
+        <span style="color: #859900; font-weight: bold;">super</span>.dispose();
     }
 }
 
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Frog</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Amphibian</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Characteristic</span> <span style="color: #FD971F;">p</span> =
-        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Characteristic</span>(<span style="color: #F8F8F0;">" Croaks"</span>);
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Description</span> <span style="color: #FD971F;">t</span> =
-        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Description</span>(<span style="color: #F8F8F0;">" Eats Bugs"</span>);
-    <span style="color: #A7DBD8;">public</span> Frog() {
-        System.out.println(<span style="color: #F8F8F0;">"Frog()"</span>);
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Frog</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Amphibian</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Characteristic</span> <span style="color: #268bd2;">p</span> =
+        <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Characteristic</span>(<span style="color: #2aa198;">" Croaks"</span>);
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Description</span> <span style="color: #268bd2;">t</span> =
+        <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Description</span>(<span style="color: #2aa198;">" Eats Bugs"</span>);
+    <span style="color: #859900; font-weight: bold;">public</span> Frog() {
+        System.out.println(<span style="color: #2aa198;">"Frog()"</span>);
     }
-    <span style="color: #A7DBD8;">protected</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">dispose</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"Frog dispose"</span>);
+    <span style="color: #859900; font-weight: bold;">protected</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">dispose</span>() {
+        System.out.println(<span style="color: #2aa198;">"Frog dispose"</span>);
         t.dispose();
         p.dispose();
-        <span style="color: #A7DBD8;">super</span>.dispose();
+        <span style="color: #859900; font-weight: bold;">super</span>.dispose();
     }
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
-        <span style="color: #999999;">Frog</span> <span style="color: #FD971F;">frog</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Frog</span>();
-        System.out.println(<span style="color: #F8F8F0;">"Bye!"</span>);
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Frog</span> <span style="color: #268bd2;">frog</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Frog</span>();
+        System.out.println(<span style="color: #2aa198;">"Bye!"</span>);
         frog.dispose();
     }
 }
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Characteristicis alive                //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating DescriptionBasic Living Creature      //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">LivingCreature()                               //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Characteristichas heart               //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating DescriptionAnimal not Vegetable       //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Animal()                                       //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Characteristiccan live in water       //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating DescriptionBoth water and land        //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Amphibian()                                    //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Characteristic Croaks                 //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Description Eats Bugs                 //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Frog()                                         //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Bye!                                           //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Frog dispose                                   //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Description Eats Bugs                //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Characteristic Croaks                //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Amphibian dispose                              //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing DescriptionBoth water and land       //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Characteristiccan live in water      //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Animal dispose                                 //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing DescriptionAnimal not Vegetable      //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Characteristichas heart              //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">LivingCreature dispose                         //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing DescriptionBasic Living Creature     //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Characteristicis alive               //</span>
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Creating Characteristicis alive                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Creating DescriptionBasic Living Creature      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">LivingCreature()                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Creating Characteristichas heart               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Creating DescriptionAnimal not Vegetable       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Animal()                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Creating Characteristiccan live in water       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Creating DescriptionBoth water and land        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Amphibian()                                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Creating Characteristic Croaks                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Creating Description Eats Bugs                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Frog()                                         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Bye!                                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Frog dispose                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">disposing Description Eats Bugs                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">disposing Characteristic Croaks                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Amphibian dispose                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">disposing DescriptionBoth water and land       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">disposing Characteristiccan live in water      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Animal dispose                                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">disposing DescriptionAnimal not Vegetable      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">disposing Characteristichas heart              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">LivingCreature dispose                         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">disposing DescriptionBasic Living Creature     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">disposing Characteristicis alive               //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -883,77 +883,77 @@ base的顺序析构.
 个例子中可以再次看到,java中的dtor其实都是完全自己实现的,要非常小心.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">polymorphism</span>;
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Shared</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">int</span> <span style="color: #FD971F;">refcount</span> = 0;
-    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">long</span> <span style="color: #FD971F;">counter</span> = 0;
-    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">final</span> <span style="color: #999999;">long</span> <span style="color: #FD971F;">id</span> = counter++;
-    <span style="color: #A7DBD8;">public</span> Shared() {
-        System.out.println(<span style="color: #F8F8F0;">"Creating "</span> + <span style="color: #A7DBD8;">this</span>);
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Shared</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">refcount</span> = 0;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">counter</span> = 0;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">id</span> = counter++;
+    <span style="color: #859900; font-weight: bold;">public</span> Shared() {
+        System.out.println(<span style="color: #2aa198;">"Creating "</span> + <span style="color: #859900; font-weight: bold;">this</span>);
     }
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">addRef</span>() {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">addRef</span>() {
         refcount++;
     }
-    <span style="color: #A7DBD8;">protected</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">dispose</span>() {
-        <span style="color: #A7DBD8;">if</span> (--refcount == 0) {
-            System.out.println(<span style="color: #F8F8F0;">"Disposing "</span> + <span style="color: #A7DBD8;">this</span>);
+    <span style="color: #859900; font-weight: bold;">protected</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">dispose</span>() {
+        <span style="color: #859900; font-weight: bold;">if</span> (--refcount == 0) {
+            System.out.println(<span style="color: #2aa198;">"Disposing "</span> + <span style="color: #859900; font-weight: bold;">this</span>);
         }
     }
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">toString</span>() {
-        <span style="color: #A7DBD8;">return</span> <span style="color: #F8F8F0;">"Shared "</span> + id;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Shared "</span> + id;
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Composing</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Shared</span> <span style="color: #FD971F;">shared</span>;
-    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">long</span> <span style="color: #FD971F;">counter</span> = 0;
-    <span style="color: #A7DBD8;">private</span> <span style="color: #A7DBD8;">final</span> <span style="color: #999999;">long</span> <span style="color: #FD971F;">id</span> = counter++;
-    <span style="color: #A7DBD8;">public</span> Composing(<span style="color: #999999;">Shared</span> <span style="color: #FD971F;">shared</span>) {
-        System.out.println(<span style="color: #F8F8F0;">"Creating "</span> + <span style="color: #A7DBD8;">this</span>);
-        <span style="color: #A7DBD8;">this</span>.shared = shared;
-        <span style="color: #A7DBD8;">this</span>.shared.addRef();
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Composing</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Shared</span> <span style="color: #268bd2;">shared</span>;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">counter</span> = 0;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">id</span> = counter++;
+    <span style="color: #859900; font-weight: bold;">public</span> Composing(<span style="color: #b58900;">Shared</span> <span style="color: #268bd2;">shared</span>) {
+        System.out.println(<span style="color: #2aa198;">"Creating "</span> + <span style="color: #859900; font-weight: bold;">this</span>);
+        <span style="color: #859900; font-weight: bold;">this</span>.shared = shared;
+        <span style="color: #859900; font-weight: bold;">this</span>.shared.addRef();
     }
-    <span style="color: #A7DBD8;">protected</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">dispose</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"disposing "</span> + <span style="color: #A7DBD8;">this</span>);
+    <span style="color: #859900; font-weight: bold;">protected</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">dispose</span>() {
+        System.out.println(<span style="color: #2aa198;">"disposing "</span> + <span style="color: #859900; font-weight: bold;">this</span>);
         shared.dispose();
     }
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">toString</span>() {
-        <span style="color: #A7DBD8;">return</span> <span style="color: #F8F8F0;">"Composing "</span> + id;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Composing "</span> + id;
     }
 }
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">ReferenceCounting</span> {
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ReferenceCounting</span> {
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
-        <span style="color: #999999;">Shared</span> <span style="color: #FD971F;">shared</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Shared</span>();
-        <span style="color: #999999;">Composing</span>[] <span style="color: #FD971F;">composing</span> = {
-            <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Composing</span>(shared),
-            <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Composing</span>(shared),
-            <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Composing</span>(shared),
-            <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Composing</span>(shared),
-            <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Composing</span>(shared),
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Shared</span> <span style="color: #268bd2;">shared</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Shared</span>();
+        <span style="color: #b58900;">Composing</span>[] <span style="color: #268bd2;">composing</span> = {
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Composing</span>(shared),
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Composing</span>(shared),
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Composing</span>(shared),
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Composing</span>(shared),
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Composing</span>(shared),
         };
 
-        <span style="color: #A7DBD8;">for</span> (<span style="color: #999999;">Composing</span> <span style="color: #FD971F;">c</span>: composing) {
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">Composing</span> <span style="color: #268bd2;">c</span>: composing) {
             c.dispose();
         }
     }
 }
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Shared 0                              //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Composing 0                           //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Composing 1                           //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Composing 2                           //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Composing 3                           //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Creating Composing 4                           //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Composing 0                          //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Composing 1                          //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Composing 2                          //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Composing 3                          //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">disposing Composing 4                          //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Disposing Shared 0                             //</span>
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Creating Shared 0                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Creating Composing 0                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Creating Composing 1                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Creating Composing 2                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Creating Composing 3                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Creating Composing 4                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">disposing Composing 0                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">disposing Composing 1                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">disposing Composing 2                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">disposing Composing 3                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">disposing Composing 4                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Disposing Shared 0                             //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -972,43 +972,43 @@ base的顺序析构.
 <li>下面这个例子就是在base class里面调用override函数.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">polymorphism</span>;
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Glyph</span> {
-    <span style="color: #999999;">void</span> <span style="color: #AEE239;">draw</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"Glyph.draw()"</span>);
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Glyph</span> {
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">draw</span>() {
+        System.out.println(<span style="color: #2aa198;">"Glyph.draw()"</span>);
     }
     Glyph() {
-        System.out.println(<span style="color: #F8F8F0;">"Glyph() before draw()"</span>);
+        System.out.println(<span style="color: #2aa198;">"Glyph() before draw()"</span>);
         draw();
-        System.out.println(<span style="color: #F8F8F0;">"Glyph() after draw()"</span>);
+        System.out.println(<span style="color: #2aa198;">"Glyph() after draw()"</span>);
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">RoundGlyph</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Glyph</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">int</span> <span style="color: #FD971F;">radius</span> = 1;
-    RoundGlyph(<span style="color: #999999;">int</span> <span style="color: #FD971F;">r</span>) {
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">RoundGlyph</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Glyph</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">radius</span> = 1;
+    RoundGlyph(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">r</span>) {
         radius = r;
-        System.out.println(<span style="color: #F8F8F0;">"RoundGlyph.RoundGlyph(), radius = "</span> + radius);
+        System.out.println(<span style="color: #2aa198;">"RoundGlyph.RoundGlyph(), radius = "</span> + radius);
     }
-    <span style="color: #999999;">void</span> <span style="color: #AEE239;">draw</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"RoundGlyph.draw(), radius = "</span> + radius);
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">draw</span>() {
+        System.out.println(<span style="color: #2aa198;">"RoundGlyph.draw(), radius = "</span> + radius);
     }
 }
 
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">PolyConstructors</span> {
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">PolyConstructors</span> {
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
-        <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">RoundGlyph</span>(5);
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">RoundGlyph</span>(5);
     }
 }
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Glyph() before draw()                          //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">RoundGlyph.draw(), radius = 0                  //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Glyph() after draw()                           //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">RoundGlyph.RoundGlyph(), radius = 5            //</span>
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Glyph() before draw()                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">RoundGlyph.draw(), radius = 0                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Glyph() after draw()                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">RoundGlyph.RoundGlyph(), radius = 5            //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -1037,47 +1037,47 @@ base的顺序析构.
 你可以返回d1类型.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">polymorphism</span>;
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Grain</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">toString</span>() {
-        <span style="color: #A7DBD8;">return</span> <span style="color: #F8F8F0;">"Grain"</span>;
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Grain</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Grain"</span>;
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Wheat</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Grain</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">String</span> <span style="color: #AEE239;">toString</span>() {
-        <span style="color: #A7DBD8;">return</span> <span style="color: #F8F8F0;">"Wheat"</span>;
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Wheat</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Grain</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Wheat"</span>;
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Mill</span> {
-    <span style="color: #999999;">Grain</span> <span style="color: #AEE239;">process</span>() {
-        <span style="color: #A7DBD8;">return</span> <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Grain</span>();
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Mill</span> {
+    <span style="color: #b58900;">Grain</span> <span style="color: #268bd2;">process</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Grain</span>();
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">WheatMill</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Mill</span> {
-    <span style="color: #999999;">Wheat</span> <span style="color: #AEE239;">process</span>() {
-        <span style="color: #A7DBD8;">return</span> <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Wheat</span>();
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">WheatMill</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Mill</span> {
+    <span style="color: #b58900;">Wheat</span> <span style="color: #268bd2;">process</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Wheat</span>();
     }
 }
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">CovariantReturn</span> {
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">CovariantReturn</span> {
 
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
-        <span style="color: #999999;">Mill</span> <span style="color: #FD971F;">m</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Mill</span>();
-        <span style="color: #999999;">Grain</span> <span style="color: #FD971F;">g</span> = m.process();
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Mill</span> <span style="color: #268bd2;">m</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Mill</span>();
+        <span style="color: #b58900;">Grain</span> <span style="color: #268bd2;">g</span> = m.process();
         System.out.println(g);
-        m = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">WheatMill</span>();
+        m = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">WheatMill</span>();
         g = m.process();
         System.out.println(g);
     }
 }
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Grain                                          //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">Wheat                                          //</span>
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Grain                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Wheat                                          //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -1107,47 +1107,47 @@ base的顺序析构.
 不同,而Stage通过composition两个不同的类,来达到了切换状态(state)的目的
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">polymorphism</span>;
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Actor</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">act</span>() {}
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Actor</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">act</span>() {}
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">HappyActor</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Actor</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">act</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"HappyActor"</span>);
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">HappyActor</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Actor</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">act</span>() {
+        System.out.println(<span style="color: #2aa198;">"HappyActor"</span>);
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">SadActor</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Actor</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">act</span>() {
-        System.out.println(<span style="color: #F8F8F0;">"SadActor"</span>);
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">SadActor</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Actor</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">act</span>() {
+        System.out.println(<span style="color: #2aa198;">"SadActor"</span>);
     }
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Stage</span> {
-    <span style="color: #A7DBD8;">private</span> <span style="color: #999999;">Actor</span> <span style="color: #FD971F;">actor</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">HappyActor</span>();
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">change</span>() {
-        actor = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">SadActor</span>();
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Stage</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Actor</span> <span style="color: #268bd2;">actor</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">HappyActor</span>();
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">change</span>() {
+        actor = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">SadActor</span>();
     }
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">performPlay</span>() {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">performPlay</span>() {
         actor.act();
     }
 }
 
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Transmogrify</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
-        <span style="color: #999999;">Stage</span> <span style="color: #FD971F;">stage</span> = <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Stage</span>();
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Transmogrify</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Stage</span> <span style="color: #268bd2;">stage</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Stage</span>();
         stage.performPlay();
         stage.change();
         stage.performPlay();
     }
 }
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">HappyActor                                     //</span>
-<span style="color: #505C63;">// </span><span style="color: #505C63;">SadActor                                       //</span>
-<span style="color: #505C63;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">HappyActor                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">SadActor                                       //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -1216,33 +1216,33 @@ downcast却不一定,不一定没关系,每次失败了,java都会告诉我们:�
 这种run time检查类型的做法叫做RTTI(runtime type identification)
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #A7DBD8;">package</span> lang.tij4.<span style="color: #AEE239;">polymorphism</span>;
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">polymorphism</span>;
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">Useful</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">f</span>() {}
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">g</span>() {}
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Useful</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">g</span>() {}
 }
 
-<span style="color: #A7DBD8;">class</span> <span style="color: #999999;">MoreUseful</span> <span style="color: #A7DBD8;">extends</span> <span style="color: #999999;">Useful</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">f</span>() {}
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">g</span>() {}
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">u</span>() {}
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">v</span>() {}
-    <span style="color: #A7DBD8;">public</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">w</span>() {}
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MoreUseful</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Useful</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">g</span>() {}
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">u</span>() {}
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">v</span>() {}
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">w</span>() {}
 }
 
-<span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">class</span> <span style="color: #999999;">RTTI</span> {
-    <span style="color: #A7DBD8;">public</span> <span style="color: #A7DBD8;">static</span> <span style="color: #999999;">void</span> <span style="color: #AEE239;">main</span>(<span style="color: #999999;">String</span>[] <span style="color: #FD971F;">args</span>) {
-        <span style="color: #999999;">Useful</span>[] <span style="color: #FD971F;">x</span> = {
-            <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">Useful</span>(),
-            <span style="color: #A7DBD8;">new</span> <span style="color: #999999;">MoreUseful</span>()
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">RTTI</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Useful</span>[] <span style="color: #268bd2;">x</span> = {
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Useful</span>(),
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">MoreUseful</span>()
         };
         x[0].f();
         x[1].g();
-        <span style="color: #505C63;">// </span><span style="color: #505C63;">Compile time: method not found in Useful:</span>
-        <span style="color: #505C63;">//</span><span style="color: #505C63;">! x[1].u();</span>
-        ((<span style="color: #999999;">MoreUseful</span>)x[1]).u(); <span style="color: #505C63;">// </span><span style="color: #505C63;">Downcast/RTTi</span>
-        ((<span style="color: #999999;">MoreUseful</span>)x[0]).u(); <span style="color: #505C63;">// </span><span style="color: #505C63;">Exception thrown</span>
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Compile time: method not found in Useful:</span>
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! x[1].u();</span>
+        ((<span style="color: #b58900;">MoreUseful</span>)x[1]).u(); <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Downcast/RTTi</span>
+        ((<span style="color: #b58900;">MoreUseful</span>)x[0]).u(); <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Exception thrown</span>
     }
 }
 </pre>
