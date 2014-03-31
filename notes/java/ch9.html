@@ -1,0 +1,1409 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 09: Interfaces</title>
+<!-- 2014-03-31 Mon 22:12 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 09: Interfaces</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Interfaces</a>
+<ul>
+<li><a href="#sec-1-1">Abstract classes and methods</a></li>
+<li><a href="#sec-1-2">Interfaces</a></li>
+<li><a href="#sec-1-3">Complete decoupling</a></li>
+<li><a href="#sec-1-4">"Multiple inheritance" in Java</a></li>
+<li><a href="#sec-1-5">Extending an interface with inheritance</a>
+<ul>
+<li><a href="#sec-1-5-1">Name collisions when combining Interfaces</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-6">Adapting to an interface</a></li>
+<li><a href="#sec-1-7">Fields int interfaces</a>
+<ul>
+<li><a href="#sec-1-7-1">Initializing fields in interfaces</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-8">Nesting interfaces</a></li>
+<li><a href="#sec-1-9">Interfaces and factories</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Interfaces</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>在java中, interface和abstract class的设计,提供了更好的将"接口"和"实现"分离的
+方式
+</li>
+<li>abstract其实是介于普通class和interface之间的一种"半class半interface"
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Abstract classes and methods</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>要说起来abstract是"半class半interface":
+<ul class="org-ul">
+<li>这个"半class"是说它长得像class, 因为用class关键字么
+</li>
+<li>这个"半interface"是说它的实际想要做的事情: abstract class么,其实就是想在
+根儿上定义出接口来,而不是实现
+</li>
+</ul>
+</li>
+<li>java中为那些只提供接口的函数起了个名字叫abstract method, 需要abstract修饰
+</li>
+<li>包含一个abstract method的类就叫做abstract class,也需要abstract修饰
+</li>
+<li>既然abstract class包含了没有实现体的abastract method,那么对abstract class
+的对象化也是没有意义的.会最终失败.
+</li>
+<li>下面是一个abstract class的例子,并不是所有的abstract class的成员函数都必须是
+abstract的. 但是abstract class的第一层的继承者们,必须实现所有的abstract函数
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.interfaces.<span style="color: #268bd2; font-weight: bold;">music4</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">lang</span>.<span style="color: #268bd2; font-weight: bold;">tij4</span>.<span style="color: #268bd2; font-weight: bold;">polymorphism</span>.<span style="color: #268bd2; font-weight: bold;">music</span>.<span style="color: #b58900;">Note</span>;
+
+<span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Instrument</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Storage allocated for each</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">play</span>(<span style="color: #b58900;">Note</span> <span style="color: #268bd2;">n</span>);
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">what</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Instrument"</span>;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">adjust</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Wind</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Instrument</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">play</span>(<span style="color: #b58900;">Note</span> <span style="color: #268bd2;">n</span>) {
+        System.out.println(<span style="color: #2aa198;">"Wind.play()"</span> + n);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">what</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Wind"</span>;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">adjust</span>() {}
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Percussion</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Instrument</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">play</span>(<span style="color: #b58900;">Note</span> <span style="color: #268bd2;">n</span>) {
+        System.out.println(<span style="color: #2aa198;">"Percussion.play()"</span> + n);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">what</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Percussion"</span>;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">adjust</span>() {}
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Stringed</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Instrument</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">play</span>(<span style="color: #b58900;">Note</span> <span style="color: #268bd2;">n</span>) {
+        System.out.println(<span style="color: #2aa198;">"Stringed.play()"</span> + n);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">what</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Stringed"</span>;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">adjust</span>() {}
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Brass</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Wind</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">play</span>(<span style="color: #b58900;">Note</span> <span style="color: #268bd2;">n</span>) {
+        System.out.println(<span style="color: #2aa198;">"Brass.play() "</span> + n);
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Woodwind</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Wind</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">play</span>(<span style="color: #b58900;">Note</span> <span style="color: #268bd2;">n</span>) {
+        System.out.println(<span style="color: #2aa198;">"Woodwind.play() "</span> + n);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span>  <span style="color: #b58900;">String</span> <span style="color: #268bd2;">what</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Woodwind"</span>;
+    }
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Music4</span> {
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Doesn't care about type, so new types</span>
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">added to the system still work right</span>
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">tune</span>(<span style="color: #b58900;">Instrument</span> <span style="color: #268bd2;">i</span>) {
+        i.play(<span style="color: #268bd2; font-weight: bold;">Note</span>.MIDDLE_C);
+    }
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">tuneAll</span>(<span style="color: #b58900;">Instrument</span>[] <span style="color: #268bd2;">e</span>) {
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">Instrument</span> <span style="color: #268bd2;">i</span> : e) {
+            tune(i);
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Upcasting during addition to the array</span>
+        <span style="color: #b58900;">Instrument</span>[] <span style="color: #268bd2;">orchestra</span> = {
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Wind</span>(),
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Percussion</span>(),
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Stringed</span>(),
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Brass</span>(),
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Woodwind</span>()
+        };
+        tuneAll(orchestra);
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Wind.play()MIDDLE_C                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Percussion.play()MIDDLE_C                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Stringed.play()MIDDLE_C                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Brass.play() MIDDLE_C                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Woodwind.play() MIDDLE_C                       //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Interfaces</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>interface比abstract class更近了一步: abstract class还可以有一部分非abstract
+的函数,但是interface的所有成员都自动是abstract method
+</li>
+<li>interface要求使用它的类,必须完成某些函数的函数体部分,这是一种强制protocol式设计
+</li>
+<li>interface也可以有field,但是都"暗中"加了static和final
+</li>
+<li>interface当然要有method,而且所有的method都"暗中"加了public(否则人家怎么使用)
+</li>
+<li>interface使用implements而不是extends
+</li>
+<li>下面的例子赤裸裸的揭露了其实class-&gt;abstract class-&gt;interface其实没有所谓的类
+型的不同,他们只是分离"接口"和"实现"力度不同的类!,他们都是类, interface也是可以
+被upcast的
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.interfaces.<span style="color: #268bd2; font-weight: bold;">music5</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">lang</span>.<span style="color: #268bd2; font-weight: bold;">tij4</span>.<span style="color: #268bd2; font-weight: bold;">polymorphism</span>.<span style="color: #268bd2; font-weight: bold;">music</span>.<span style="color: #b58900;">Note</span>;
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">Instrument</span> {
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Compile-time constant;</span>
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">VALUE</span> = 5; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">static &amp; final</span>
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Cannot have method definitions:</span>
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">play</span>(<span style="color: #b58900;">Note</span> <span style="color: #268bd2;">n</span>); <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Automatically public</span>
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">adjust</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Wind</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Instrument</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">play</span>(<span style="color: #b58900;">Note</span> <span style="color: #268bd2;">n</span>) {
+        System.out.println(<span style="color: #859900; font-weight: bold;">this</span> + <span style="color: #2aa198;">".play() "</span> + n);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Wind"</span>;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">adjust</span>() {
+        System.out.println(<span style="color: #859900; font-weight: bold;">this</span> + <span style="color: #2aa198;">".adjust()"</span>);
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Percussion</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Instrument</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">play</span>(<span style="color: #b58900;">Note</span> <span style="color: #268bd2;">n</span>) {
+        System.out.println(<span style="color: #859900; font-weight: bold;">this</span> + <span style="color: #2aa198;">".play() "</span> + n);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Percussion"</span>;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">adjust</span>() {
+        System.out.println(<span style="color: #859900; font-weight: bold;">this</span> + <span style="color: #2aa198;">".adjust()"</span>);
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Stringed</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Instrument</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">play</span>(<span style="color: #b58900;">Note</span> <span style="color: #268bd2;">n</span>) {
+        System.out.println(<span style="color: #859900; font-weight: bold;">this</span> + <span style="color: #2aa198;">".play() "</span> + n);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Stringed"</span>;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">adjust</span>() {
+        System.out.println(<span style="color: #859900; font-weight: bold;">this</span> + <span style="color: #2aa198;">".adjust()"</span>);
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Brass</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Wind</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Brass"</span>;
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Woodwind</span> <span style="color: #859900; font-weight: bold;">extends</span>  <span style="color: #b58900;">Wind</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Woodwind"</span>;
+    }
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Music5</span> {
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Doesn't care about type, so new types</span>
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">added to the system still work right</span>
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">tune</span>(<span style="color: #b58900;">Instrument</span> <span style="color: #268bd2;">i</span>) {
+        i.play(<span style="color: #268bd2; font-weight: bold;">Note</span>.MIDDLE_C);
+    }
+
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">tuneAll</span>(<span style="color: #b58900;">Instrument</span>[] <span style="color: #268bd2;">e</span>) {
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">Instrument</span> <span style="color: #268bd2;">i</span> : e) {
+            tune(i);
+        }
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Upcasting during addition to the array</span>
+        <span style="color: #b58900;">Instrument</span>[] <span style="color: #268bd2;">orchestra</span> = {
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Wind</span>(),
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Percussion</span>(),
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Stringed</span>(),
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Brass</span>(),
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Woodwind</span>()
+        };
+        tuneAll(orchestra);
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Wind.play() MIDDLE_C                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Percussion.play() MIDDLE_C                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Stringed.play() MIDDLE_C                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Brass.play() MIDDLE_C                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Woodwind.play() MIDDLE_C                       //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Complete decoupling</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>如果你决定了使用继承,那么你有很多的烦恼: 比被限制使用这条线上的class或者
+subclass, 如果你使用了不是override的函数,那么很多magic就无法实现了
+</li>
+<li>而接口则是大救星,它可以说极大的解除了继承的这种限制,让你写出复用性更强的代
+码, 为了说明接口的这个特性,我们先看一个例子
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.interfaces.<span style="color: #268bd2; font-weight: bold;">classprocessor</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Arrays</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Processor</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">name</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> getClass().getSimpleName();
+    }
+    <span style="color: #b58900;">Object</span> <span style="color: #268bd2;">process</span>(<span style="color: #b58900;">Object</span> <span style="color: #268bd2;">input</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> input;
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Upcase</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Processor</span> {
+    <span style="color: #b58900;">String</span> <span style="color: #268bd2;">process</span>(<span style="color: #b58900;">Object</span> <span style="color: #268bd2;">input</span>) { <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Covariant return</span>
+        <span style="color: #859900; font-weight: bold;">return</span> ((<span style="color: #b58900;">String</span>)input).toUpperCase();
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Downcase</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Processor</span> {
+    <span style="color: #b58900;">String</span> <span style="color: #268bd2;">process</span>(<span style="color: #b58900;">Object</span> <span style="color: #268bd2;">input</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> ((<span style="color: #b58900;">String</span>)input).toLowerCase();
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Splitter</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Processor</span> {
+    <span style="color: #b58900;">String</span> <span style="color: #268bd2;">process</span>(<span style="color: #b58900;">Object</span> <span style="color: #268bd2;">input</span>) {
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">The split() argument divides a String into pieces:</span>
+        <span style="color: #859900; font-weight: bold;">return</span> Arrays.toString(((<span style="color: #b58900;">String</span>)input).split(<span style="color: #2aa198;">" "</span>));
+    }
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Apply</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">process</span>(<span style="color: #b58900;">Processor</span> <span style="color: #268bd2;">p</span>, <span style="color: #b58900;">Object</span> <span style="color: #268bd2;">s</span>) {
+        System.out.println(<span style="color: #2aa198;">"Using Processor "</span> + p.name());
+        System.out.println(p.process(s));
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span> =
+        <span style="color: #2aa198;">"Disagreement with beliefs is by definition incorrect"</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        process(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Upcase</span>(), s);
+        process(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Downcase</span>(), s);
+        process(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Splitter</span>(), s);
+    }
+}
+<span style="color: #93a1a1;">//////////////////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Using Processor Upcase                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">DISAGREEMENT WITH BELIEFS IS BY DEFINITION INCORRECT         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Using Processor Downcase                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">disagreement with beliefs is by definition incorrect         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Using Processor Splitter                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">[Disagreement, with, beliefs, is, by, definition, incorrect] //</span>
+<span style="color: #93a1a1;">//////////////////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>在这个例子中基类Processor中有name()和process()两个函数:
+<ul class="org-ul">
+<li>name()来返回实际调用的类是哪个类
+</li>
+<li>process()是接收一个数据(Object类型),处理一下然后返回(还是Object类型).
+</li>
+</ul>
+</li>
+<li>Processor的所有的子类都覆写了process()这个函数(但是返回值变成了String,而不
+再是Object,这是允许的,这叫covariant)
+</li>
+<li>Apply.process()的用法很特别,它根据传入的class不同(都是Processor的子类),而有
+不同的行为. 这种用法叫做Strategy design pattern. Upcase, Downcase, Splitter
+都叫做一中"Strategy', 并且他们都自带"解决方案": process()
+<pre class="example">
+A method that behaves differently depending on the argument object that
+you pass it
+</pre>
+</li>
+<li>下面,我们继续深化这例子,比如我下面的例子就介绍了一个Filter类，这个类的函数和
+Processor类是一样的(都是name(), process())
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.interfaces.<span style="color: #268bd2; font-weight: bold;">filters</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Waveform</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">counter</span>;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">id</span> = counter++;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Waveform "</span> + id;
+    }
+
+}
+<span style="color: #859900; font-weight: bold;">package</span> lang.tij4.interfaces.<span style="color: #268bd2; font-weight: bold;">filters</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Filter</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">name</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> getClass().getSimpleName();
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Waveform</span> <span style="color: #268bd2;">process</span>(<span style="color: #b58900;">Waveform</span> <span style="color: #268bd2;">input</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> input;
+    }
+
+}
+<span style="color: #859900; font-weight: bold;">package</span> lang.tij4.interfaces.<span style="color: #268bd2; font-weight: bold;">filters</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">LowPass</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Filter</span> {
+    <span style="color: #b58900;">double</span> <span style="color: #268bd2;">cutoff</span>;
+    <span style="color: #859900; font-weight: bold;">public</span> LowPass(<span style="color: #b58900;">double</span> <span style="color: #268bd2;">cutoff</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.cutoff = cutoff;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Waveform</span> <span style="color: #268bd2;">process</span>(<span style="color: #b58900;">Waveform</span> <span style="color: #268bd2;">input</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> input; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Dummy processing</span>
+    }
+}
+<span style="color: #859900; font-weight: bold;">package</span> lang.tij4.interfaces.<span style="color: #268bd2; font-weight: bold;">filters</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">HighPass</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Filter</span> {
+    <span style="color: #b58900;">double</span> <span style="color: #268bd2;">cutoff</span>;
+    <span style="color: #859900; font-weight: bold;">public</span> HighPass(<span style="color: #b58900;">double</span> <span style="color: #268bd2;">cutoff</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.cutoff = cutoff;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Waveform</span> <span style="color: #268bd2;">process</span>(<span style="color: #b58900;">Waveform</span> <span style="color: #268bd2;">input</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> input;
+    }
+}
+<span style="color: #859900; font-weight: bold;">package</span> lang.tij4.interfaces.<span style="color: #268bd2; font-weight: bold;">filters</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">BandPass</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Filter</span> {
+    <span style="color: #b58900;">double</span> <span style="color: #268bd2;">lowCutoff</span>, <span style="color: #268bd2;">highCutoff</span>;
+    <span style="color: #859900; font-weight: bold;">public</span> BandPass(<span style="color: #b58900;">double</span> <span style="color: #268bd2;">lowCut</span>, <span style="color: #b58900;">double</span> <span style="color: #268bd2;">highCut</span>) {
+        lowCutoff = lowCut;
+        highCutoff = highCut;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Waveform</span> <span style="color: #268bd2;">process</span>(<span style="color: #b58900;">Waveform</span> <span style="color: #268bd2;">input</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> input;
+    }
+}
+</pre>
+</div>
+</li>
+<li>Apply.process()可以处理Processor类,那么可不可以处理Filter类呢?答案肯定是不可以
+Apply.process()的参数明确的指出了其第一个必须是Processor类型,而Filter和
+Processor只是接口一样,没有共同的继承关系,所以Filter类无法使用Apply.process()
+</li>
+<li>这就是使用继承的坏处,使用继承,就把Processor的作用限制死了,别的拥有相同接口的
+类必须继承你,才能使用你的一些便利措施(比如Apply.process()). 而interface就没有
+这个限制, 下例中,我们将Processor使用接口重写,如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.interfaces.<span style="color: #268bd2; font-weight: bold;">interfaceprocessor</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">Processor</span> {
+    <span style="color: #b58900;">String</span> <span style="color: #268bd2;">name</span>();
+    <span style="color: #b58900;">Object</span> <span style="color: #268bd2;">process</span>(<span style="color: #b58900;">Object</span> <span style="color: #268bd2;">input</span>);
+}
+<span style="color: #859900; font-weight: bold;">package</span> lang.tij4.interfaces.<span style="color: #268bd2; font-weight: bold;">interfaceprocessor</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Apply</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">process</span>(<span style="color: #b58900;">Processor</span> <span style="color: #268bd2;">p</span>, <span style="color: #b58900;">Object</span> <span style="color: #268bd2;">s</span>) {
+        System.out.println(<span style="color: #2aa198;">"Using Processor "</span> + p.name());
+        System.out.println(p.process(s));
+    }
+}
+</pre>
+</div>
+</li>
+<li>你会发现,interface的可用性比继承强很多.写成接口以后,首先可以让client端只要
+"implements Processor",就可以使用Apply.process(), 如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.interfaces.<span style="color: #268bd2; font-weight: bold;">interfaceprocessor</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Arrays</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">StringProcessor</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Processor</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">name</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> getClass().getSimpleName();
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">process</span>(<span style="color: #b58900;">Object</span> <span style="color: #268bd2;">input</span>);
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span> =
+        <span style="color: #2aa198;">"If she weighs the same as a duck, she's made of wood"</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        Apply.process(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Upcase</span>(), s);
+        Apply.process(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Downcase</span>(), s);
+        Apply.process(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Splitter</span>(), s);
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Upcase</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">StringProcessor</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">process</span>(<span style="color: #b58900;">Object</span> <span style="color: #268bd2;">input</span>){ <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Covariant return</span>
+        <span style="color: #859900; font-weight: bold;">return</span> ((<span style="color: #b58900;">String</span>)input).toUpperCase();
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Downcase</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">StringProcessor</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">process</span>(<span style="color: #b58900;">Object</span> <span style="color: #268bd2;">input</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> ((<span style="color: #b58900;">String</span>)input).toLowerCase();
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Splitter</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">StringProcessor</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">process</span>(<span style="color: #b58900;">Object</span> <span style="color: #268bd2;">input</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> Arrays.toString(((<span style="color: #b58900;">String</span>) input).split(<span style="color: #2aa198;">" "</span>));
+    }
+}
+
+<span style="color: #93a1a1;">///////////////////////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Using Processor Upcase                                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">IF SHE WEIGHS THE SAME AS A DUCK, SHE'S MADE OF WOOD              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Using Processor Downcase                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">if she weighs the same as a duck, she's made of wood              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Using Processor Splitter                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">[If, she, weighs, the, same, as, a, duck,, she's, made, of, wood] //</span>
+<span style="color: #93a1a1;">///////////////////////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>如果你的代码无法"implements Processor"(比如代码来自某个lib, 而不是你自己创
+造的), 那么写成Processor接口以后,你可以把你的Filter接口转换成Processor接口
+这叫做Adapter design pattern
+<pre class="example">
+In Adapter desin pattern, you write code to take the interface that
+you have and produce the interface that your need
+</pre>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.interfaces.<span style="color: #268bd2; font-weight: bold;">interfaceprocessor</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">lang</span>.<span style="color: #268bd2; font-weight: bold;">tij4</span>.<span style="color: #268bd2; font-weight: bold;">interfaces</span>.<span style="color: #268bd2; font-weight: bold;">filters</span>.<span style="color: #b58900;">BandPass</span>;
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">lang</span>.<span style="color: #268bd2; font-weight: bold;">tij4</span>.<span style="color: #268bd2; font-weight: bold;">interfaces</span>.<span style="color: #268bd2; font-weight: bold;">filters</span>.<span style="color: #b58900;">Filter</span>;
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">lang</span>.<span style="color: #268bd2; font-weight: bold;">tij4</span>.<span style="color: #268bd2; font-weight: bold;">interfaces</span>.<span style="color: #268bd2; font-weight: bold;">filters</span>.<span style="color: #b58900;">HighPass</span>;
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">lang</span>.<span style="color: #268bd2; font-weight: bold;">tij4</span>.<span style="color: #268bd2; font-weight: bold;">interfaces</span>.<span style="color: #268bd2; font-weight: bold;">filters</span>.<span style="color: #b58900;">LowPass</span>;
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">lang</span>.<span style="color: #268bd2; font-weight: bold;">tij4</span>.<span style="color: #268bd2; font-weight: bold;">interfaces</span>.<span style="color: #268bd2; font-weight: bold;">filters</span>.<span style="color: #b58900;">Waveform</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">FilterAdapter</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Processor</span> {
+    <span style="color: #b58900;">Filter</span> <span style="color: #268bd2;">filter</span>;
+    <span style="color: #859900; font-weight: bold;">public</span> FilterAdapter(<span style="color: #b58900;">Filter</span> <span style="color: #268bd2;">filter</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.filter = filter;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">name</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> filter.name();
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Waveform</span> <span style="color: #268bd2;">process</span>(<span style="color: #b58900;">Object</span> <span style="color: #268bd2;">input</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> filter.process((<span style="color: #b58900;">Waveform</span>)input);
+    }
+
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">FilterProcessor</span> {
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Waveform</span> <span style="color: #268bd2;">w</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Waveform</span>();
+        Apply.process(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">FilterAdapter</span>(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">LowPass</span>(1.0)), w);
+        Apply.process(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">FilterAdapter</span>(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">HighPass</span>(2.0)), w);
+        Apply.process(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">FilterAdapter</span>(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">BandPass</span>(3.0, 4.0)), w);
+    }
+}
+
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Using Processor LowPass                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Waveform 0                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Using Processor HighPass                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Waveform 0                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Using Processor BandPass                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Waveform 0                                     //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">"Multiple inheritance" in Java</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>java中因为有了interface,就不用在受c++里面的多重继承之苦了: 只继承一个base 
+class, 其他的接口可以通过interface来继承
+
+
+<div class="figure">
+<p><img src="../../static/images/mult_inheritance_java.png" alt="mult_inheritance_java.png" />
+</p>
+</div>
+</li>
+
+<li>下面我们来看一个多个interface的例子
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">interfaces</span>;
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">CanFight</span> {
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">fight</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">CanSwim</span> {
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">swim</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">CanFly</span> {
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">fly</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ActionCharacter</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">fight</span>() {}
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Hero</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">ActionCharacter</span>
+    <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">CanFight</span>, <span style="color: #b58900;">CanSwim</span>, <span style="color: #b58900;">CanFly</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">swim</span>() {}
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">fly</span>() {}
+}
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Adventure</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">t</span>(<span style="color: #b58900;">CanFight</span> <span style="color: #268bd2;">x</span>) {
+        x.fight();
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">u</span>(<span style="color: #b58900;">CanSwim</span> <span style="color: #268bd2;">x</span>) {
+        x.swim();
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">v</span>(<span style="color: #b58900;">CanFly</span> <span style="color: #268bd2;">x</span>) {
+        x.fly();
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">w</span>(<span style="color: #b58900;">ActionCharacter</span> <span style="color: #268bd2;">x</span>) {
+        x.fight();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Hero</span> <span style="color: #268bd2;">h</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Hero</span>();
+        t(h); <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Treat it as a CanFight</span>
+        u(h); <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Treat it as a CanSwim</span>
+        v(h); <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Treat it as a CanFly</span>
+        w(h); <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Treat it as an ActionCharacter</span>
+    }
+}
+</pre>
+</div>
+</li>
+<li>我们可以看到ActionCharacter里面有fight()的定义和CanFight里面的是一样的,所以
+即便Hero没有自己实现一个fight(),因为CanFight里面的存在,导致了它可以初始化
+</li>
+<li>从上面的例子来看,h可以被upcast成非常多种的类型,这正是拜interface所赐, 一般来
+说interface有两个重要作用:
+<ol class="org-ol">
+<li>就是可以用来"多继承', upcast成多种类型
+</li>
+<li>像abstract class一样,防止client用户生成object
+</li>
+</ol>
+</li>
+<li>除非base class里面一定要有一个定义,否则,我们尽量选择使用interface而不是abstract
+class
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Extending an interface with inheritance</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>interface之间,也可以相互的继承,从而提供更复杂的接口
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">interfaces</span>;
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">Monster</span> {
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">menace</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">DangerousMonster</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Monster</span> {
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">destroy</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">Lethal</span> {
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">kill</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">DragonZilla</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">DangerousMonster</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">menace</span>() {}
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">destroy</span>() {}
+}
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">Vampire</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">DangerousMonster</span>, <span style="color: #b58900;">Lethal</span> {
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">drinkBlood</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">VeryBadVampire</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Vampire</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">menace</span>() {}
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">destroy</span>() {}
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">kill</span>() {}
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">drinkBlood</span>() {}
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">HorrorShow</span> {
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">u</span>(<span style="color: #b58900;">Monster</span> <span style="color: #268bd2;">b</span>) {
+        b.menace();
+    }
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">v</span>(<span style="color: #b58900;">DangerousMonster</span> <span style="color: #268bd2;">d</span>) {
+        d.menace();
+        d.destroy();
+    }
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">w</span>(<span style="color: #b58900;">Lethal</span> <span style="color: #268bd2;">l</span>) {
+        l.kill();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">DangerousMonster</span> <span style="color: #268bd2;">barney</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">DragonZilla</span>();
+        u(barney);
+        v(barney);
+        <span style="color: #b58900;">Vampire</span> <span style="color: #268bd2;">vlad</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">VeryBadVampire</span>();
+        u(vlad);
+        v(vlad);
+        w(vlad);
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1">Name collisions when combining Interfaces</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<ul class="org-ul">
+<li>前面的例子中CanFight和ActionCharacter都有fight()但是接口定义一致,
+所以也没有什么大的问题. 如果接口定义不一致,那么就会引入很多问题,如下
+例. 我们一定要尽量规避这种情况的发生
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">interfaces</span>;
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">I1</span> {<span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>();}
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">I2</span> {<span style="color: #b58900;">int</span> <span style="color: #268bd2;">f</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>);}
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">I3</span> {<span style="color: #b58900;">int</span> <span style="color: #268bd2;">f</span>();}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">C</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">f</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> 1;
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">C2</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">I1</span>, <span style="color: #b58900;">I2</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">f</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>){ <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">overloaded</span>
+        <span style="color: #859900; font-weight: bold;">return</span> 1;
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">C3</span> <span style="color: #859900; font-weight: bold;">extends</span>  <span style="color: #b58900;">C</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">I2</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">f</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) { <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">overloaded</span>
+        <span style="color: #859900; font-weight: bold;">return</span> 1;
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">C4</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">C</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">I3</span> {
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Identical, no problem:</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">f</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> 1;
+    }
+}
+
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Method differ only by return type:</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">NOT work: attempting to use incompatible return type</span>
+<span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! class C5 extends C implements I1 {}</span>
+<span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! interface I4 extends I1, I3 {}</span>
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">InterfaceCollision</span> {
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Adapting to an interface</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>interface的一个巨大好处就是:可以允许对某个interface能同时有许多不同的实现,
+这样以来method的参数可以设成一个interface,你implement了这个interface就可以
+利用这个method的价值:这也就是Strategy design pattern的精髓
+</li>
+<li>下面的例子中Scanner class把Readable interface作为一个参数,这个参赛在jdk的
+其他地方都没有用到,它的唯一作用就是Scanner想让自己变的更加通用,你只需要让你的
+class implements Readable,那么就能使用Scanner的功能
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">interfaces</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">nio</span>.<span style="color: #b58900;">CharBuffer</span>;
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Random</span>;
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Scanner</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">RandomWords</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Readable</span> {
+
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">Random</span> <span style="color: #268bd2;">rand</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Random</span>(47);
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">char</span>[] <span style="color: #268bd2;">capitals</span> =
+        <span style="color: #2aa198;">"ABCDEFGHIJKLMNOPQRSTUVWXYZ"</span>.toCharArray();
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">char</span>[] <span style="color: #268bd2;">lowers</span> =
+        <span style="color: #2aa198;">"abcdefghijklmnopqrstuvwxyz"</span>.toCharArray();
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">char</span>[] <span style="color: #268bd2;">vowels</span> =
+        <span style="color: #2aa198;">"aeiou"</span>.toCharArray();
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">count</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> RandomWords(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">count</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.count = count;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">read</span>(<span style="color: #b58900;">CharBuffer</span> <span style="color: #268bd2;">cb</span>) {
+        <span style="color: #859900; font-weight: bold;">if</span> (count-- == 0) {
+            <span style="color: #859900; font-weight: bold;">return</span> -1; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Indicates end of input</span>
+        }
+        cb.append(capitals[rand.nextInt(capitals.length)]);
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; 4; i++) {
+            cb.append(vowels[rand.nextInt(vowels.length)]);
+            cb.append(lowers[rand.nextInt(lowers.length)]);
+        }
+        cb.append(<span style="color: #2aa198;">" "</span>);
+        <span style="color: #859900; font-weight: bold;">return</span> 10; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Number of characters appended</span>
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Scanner</span> <span style="color: #268bd2;">s</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Scanner</span>(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">RandomWords</span>(10));
+        <span style="color: #859900; font-weight: bold;">while</span> (s.hasNext()) {
+            System.out.println(s.next());
+        }
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Yazeruyac                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Fowenucor                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Goeazimom                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Raeuuacio                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Nuoadesiw                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Hageaikux                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Ruqicibui                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Numasetih                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Kuuuuozog                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Waqizeyoy                                      //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>如果你已经有如下的一个函数RandomDoubles,其并没有实现接口Readable
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">interfaces</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Random</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">RandomDoubles</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">Random</span> <span style="color: #268bd2;">rand</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Random</span>(47);
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">double</span> <span style="color: #268bd2;">next</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> rand.nextDouble();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">RandomDoubles</span> <span style="color: #268bd2;">rd</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">RandomDoubles</span>();
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; 7; i++) {
+            System.out.println(rd.next() + <span style="color: #2aa198;">" "</span>);
+        }
+    }
+
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.7271157860730044                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.5309454508634242                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.16020656493302599                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.18847866977771732                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.5166020801268457                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.2678662084200585                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.2613610344283964                             //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>想让这个RandomDoubles能够为Scanner所用,所要做的也不过是将已有的interface
+转换成自己想要的interface,也就是Adapter design pattern的精髓, 前面我们只是
+让一个新的AdapterInterface implements了老的interface, 如果我们想利用RandomDoubles
+的功能,那么我们可以设计一个类extends RandomDoubles并且implements Readable
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">interfaces</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">nio</span>.<span style="color: #b58900;">CharBuffer</span>;
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Scanner</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">AdaptedRandomDoubles</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">RandomDoubles</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Readable</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">count</span>;
+    <span style="color: #859900; font-weight: bold;">public</span> AdaptedRandomDoubles(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">count</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.count = count;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">read</span>(<span style="color: #b58900;">CharBuffer</span> <span style="color: #268bd2;">cb</span>) {
+        <span style="color: #859900; font-weight: bold;">if</span> (count-- == 0) {
+            <span style="color: #859900; font-weight: bold;">return</span> -1;
+        }
+        <span style="color: #b58900;">String</span> <span style="color: #268bd2;">result</span> = Double.toString(next()) + <span style="color: #2aa198;">" "</span>;
+        cb.append(result);
+        <span style="color: #859900; font-weight: bold;">return</span> result.length();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Scanner</span> <span style="color: #268bd2;">s</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Scanner</span>(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">AdaptedRandomDoubles</span>(7));
+        <span style="color: #859900; font-weight: bold;">while</span> (s.hasNextDouble()) {
+            System.out.println(s.nextDouble() + <span style="color: #2aa198;">" "</span>);
+        }
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.7271157860730044                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.5309454508634242                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.16020656493302599                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.18847866977771732                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.5166020801268457                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.2678662084200585                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.2613610344283964                             //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">Fields int interfaces</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>只需要记住在interface里面的data都是"暗中"加了如下:
+<ol class="org-ol">
+<li>public
+</li>
+<li>static:所以这些数据不是interface的一部分,它们存在static storage
+</li>
+<li>final
+</li>
+</ol>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-7-1" class="outline-4">
+<h4 id="sec-1-7-1">Initializing fields in interfaces</h4>
+<div class="outline-text-4" id="text-1-7-1">
+<ul class="org-ul">
+<li>interface里面的data不能不初始化,但是可以使用non-constant expression来进行初始化
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">interfaces</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Random</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">RandVals</span> {
+    <span style="color: #b58900;">Random</span> <span style="color: #268bd2;">RAND</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Random</span>(47);
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">RANDOM_INT</span> = RAND.nextInt(10);
+    <span style="color: #b58900;">long</span> <span style="color: #268bd2;">RANDOM_LONG</span> = RAND.nextLong() * 10;
+    <span style="color: #b58900;">float</span> <span style="color: #268bd2;">RANDOM_FLOAT</span> = RAND.nextLong() * 10;
+    <span style="color: #b58900;">double</span> <span style="color: #268bd2;">RANDOM_DOUBLE</span> = RAND.nextDouble() * 10;
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">Nesting interfaces</h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>interface 也可以内嵌到其他的class里面,并且声明为private. 这种private的interface
+外界除了使用getter,是无法访问的
+</li>
+<li>还有很多其他的特性,看下例
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.interfaces.<span style="color: #268bd2; font-weight: bold;">nesting</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">A</span> {
+    <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">B</span> {
+        <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>();
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">BImp</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">B</span> {
+        <span style="color: #859900; font-weight: bold;">public</span>  <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">BImp2</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">B</span>  {
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">C</span> {
+        <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>();
+    }
+    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">CImp</span> <span style="color: #859900; font-weight: bold;">implements</span>  <span style="color: #b58900;">C</span> {
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+    }
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">CImp2</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">C</span> {
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+    }
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">D</span> {
+        <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>();
+    }
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">DImpl</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">D</span> {
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">DImpl2</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">D</span> {
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">D</span> <span style="color: #268bd2;">getD</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">DImpl2</span>();
+    }
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">D</span> <span style="color: #268bd2;">dRdf</span>;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">receiveD</span>(<span style="color: #b58900;">D</span> <span style="color: #268bd2;">d</span>) {
+        dRdf = d;
+        dRdf.f();
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">E</span> {
+    <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">G</span> {
+        <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>();
+    }
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Redundant "public"</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">H</span> {
+        <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>();
+    }
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">g</span>();
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Can nt be private within an interface:</span>
+    <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! private inferface I {}</span>
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">NestingInterfaces</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">BImp</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #268bd2; font-weight: bold;">A</span>.<span style="color: #b58900;">B</span> {
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+    }
+
+    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">CImp</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #268bd2; font-weight: bold;">A</span>.<span style="color: #b58900;">C</span> {
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+    }
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Cannot implement a private interface except</span>
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">within that interface's defining class:</span>
+    <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! class DImpl implements A.D {</span>
+    <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">!    public void f() {}</span>
+    <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! }</span>
+    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">EImp</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">E</span> {
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">g</span>() {}
+    }
+    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">EGImp</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #268bd2; font-weight: bold;">E</span>.<span style="color: #b58900;">G</span> {
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+    }
+    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">EImp2</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">E</span> {
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">g</span>() {}
+        <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">EG</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #268bd2; font-weight: bold;">E</span>.<span style="color: #b58900;">G</span> {
+            <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">A</span> <span style="color: #268bd2;">a</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">A</span>();
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Can't access A.D</span>
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! A.D ad = a.getD();</span>
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Doesn't return anything but A.D</span>
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! A.DImpl2 di2 = a.getD();</span>
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Cannot access a member of the interface</span>
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! a.gtD().f();</span>
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Only another A can do anything with getD():</span>
+        <span style="color: #b58900;">A</span> <span style="color: #268bd2;">a2</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">A</span>();
+        a2.receiveD(a.getD());
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9">Interfaces and factories</h3>
+<div class="outline-text-3" id="text-1-9">
+<ul class="org-ul">
+<li>interface和工厂模式是绝配,所谓工厂模式就是:不是直接调用ctor来产生object,而是使用factory
+对象的一个函数来取得相应的object, 这样做的目的是为了隔离接口和实现. 如果没有工厂模式,那么
+在定义的时候就要写上具体是哪种service,现在就可以写一个工厂,然后工厂返回什么就可以再替换:
+<pre class="example">
+In factory design pattern, instead of calling a constructor directly, you
+call a creation method on a factory object which produces an implementation
+of the interface
+</pre>
+</li>
+<li>在java中,factory的"返回实现"的函数在定义的时候开业是interface,返回的时候再返回
+implementation(这是covariant). 比如下面例子中Implementattion1Factory里面实
+现的getService()在定义的时候是返回interface Service, 结果实现的时候,返回了class
+Implementation1
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">interfaces</span>;
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">Service</span> {
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">method1</span>();
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">method2</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">ServiceFactory</span> {
+    <span style="color: #b58900;">Service</span> <span style="color: #268bd2;">getService</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Implementation1</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Service</span> {
+    Implementation1() {} <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Package access</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">method1</span>() {
+        System.out.println(<span style="color: #2aa198;">"Implementation1 method1"</span>);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">method2</span>() {
+        System.out.println(<span style="color: #2aa198;">"Implementation1 method2"</span>);
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Implementation1Factory</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">ServiceFactory</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Service</span> <span style="color: #268bd2;">getService</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Implementation1</span>();
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Implementation2</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Service</span> {
+    Implementation2() {} <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Package access</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">method1</span>() {
+        System.out.println(<span style="color: #2aa198;">"Implementation2 method1"</span>);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">method2</span>() {
+        System.out.println(<span style="color: #2aa198;">"Implementation2 method2"</span>);
+    }
+}
+
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Implementation2Factory</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">ServiceFactory</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Service</span> <span style="color: #268bd2;">getService</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Implementation2</span>();
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Factories</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">serviceConsumer</span>(<span style="color: #b58900;">ServiceFactory</span> <span style="color: #268bd2;">fact</span>) {
+        <span style="color: #b58900;">Service</span> <span style="color: #268bd2;">s</span> = fact.getService();
+        s.method1();
+        s.method2();
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        serviceConsumer(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Implementation1Factory</span>());
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Implementations are completely interchangeable</span>
+        serviceConsumer(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Implementation2Factory</span>());
+    }
+}
+
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Implementation1 method1                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Implementation1 method2                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Implementation2 method1                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Implementation2 method2                        //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>工厂模式还可以提高代码复用,比如下例中,如果Games里面是非常复杂的逻辑,那么使用工厂模式
+可以大大的减少代码量,提高代码复用
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">interfaces</span>;
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">A Game framework using Factory Methods</span>
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">Game</span> {
+    <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">move</span>();
+}
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">GameFactory</span> {
+    <span style="color: #b58900;">Game</span> <span style="color: #268bd2;">getGame</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Checkers</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Game</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">moves</span> = 0;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">MOVES</span> = 3;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">move</span>() {
+        System.out.println(<span style="color: #2aa198;">"Checkers move "</span> + moves);
+        <span style="color: #859900; font-weight: bold;">return</span> ++moves != MOVES;
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">CheckersFactory</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">GameFactory</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Game</span> <span style="color: #268bd2;">getGame</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Checkers</span>();
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Chess</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Game</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">moves</span> = 0;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">MOVES</span> = 4;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">move</span>() {
+        System.out.println(<span style="color: #2aa198;">"Chess move "</span> + moves);
+        <span style="color: #859900; font-weight: bold;">return</span> ++moves != MOVES;
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ChessFactory</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">GameFactory</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Game</span> <span style="color: #268bd2;">getGame</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Chess</span>();
+    }
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Games</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">playGame</span>(<span style="color: #b58900;">GameFactory</span> <span style="color: #268bd2;">factory</span>) {
+        <span style="color: #b58900;">Game</span> <span style="color: #268bd2;">s</span> = factory.getGame();
+        <span style="color: #859900; font-weight: bold;">while</span>(s.move()) {
+            ;
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        playGame(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">CheckersFactory</span>());
+        playGame(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ChessFactory</span>());
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Checkers move 0                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Checkers move 1                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Checkers move 2                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Chess move 0                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Chess move 1                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Chess move 2                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Chess move 3                                   //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng'; 
+          
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

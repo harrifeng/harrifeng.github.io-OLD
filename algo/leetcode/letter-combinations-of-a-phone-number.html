@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Leetcode: Letter Combinations of a Phone Number</title>
-<!-- 2014-03-23 Sun 18:38 -->
+<title>Leetcode 018: Letter Combinations of a Phone Number</title>
+<!-- 2014-03-31 Mon 22:12 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -161,7 +161,7 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Leetcode: Letter Combinations of a Phone Number</h1>
+<h1 class="title">Leetcode 018: Letter Combinations of a Phone Number</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -207,7 +207,9 @@ Sample Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
 <li>回溯法最重要的就是要"先加再减"
 </li>
 <li>回溯法函数参数的设计是把结果当成参数(此处是用参数引用), 返回值返回一个void. 
-这样容易设计递归. 
+这样容易设计递归.
+</li>
+<li>java的做法会比c++看起来麻烦一点, 而且java是无法做到真的const String数组
 </li>
 </ul>
 </div>
@@ -252,6 +254,35 @@ Sample Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
         <span style="color: #859900; font-weight: bold;">return</span> ret;
     }
 };
+</pre>
+</div>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">ArrayList</span>&lt;String&gt; letterCombinations(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">digits</span>) {
+        ArrayList&lt;String&gt; ret = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ArrayList</span>&lt;String&gt;();
+        <span style="color: #b58900;">StringBuffer</span> <span style="color: #268bd2;">tmpString</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">StringBuffer</span>();
+        letterCom(digits, 0, tmpString, ret);
+        <span style="color: #859900; font-weight: bold;">return</span> ret;
+    }
+
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">num_letter</span> = {<span style="color: #2aa198;">""</span>, <span style="color: #2aa198;">""</span>, <span style="color: #2aa198;">"abc"</span>, <span style="color: #2aa198;">"def"</span>, <span style="color: #2aa198;">"ghi"</span>, <span style="color: #2aa198;">"jkl"</span>,
+            <span style="color: #2aa198;">"mno"</span>, <span style="color: #2aa198;">"pqrs"</span>, <span style="color: #2aa198;">"tuv"</span>, <span style="color: #2aa198;">"wxyz"</span>};
+
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">letterCom</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">digits</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">level</span>, <span style="color: #b58900;">StringBuffer</span> <span style="color: #268bd2;">tmpS</span>,
+                           ArrayList&lt;String&gt; result) {
+        <span style="color: #859900; font-weight: bold;">if</span> (level == digits.length()) {
+            result.add(tmpS.toString());
+            <span style="color: #859900; font-weight: bold;">return</span>;
+        }
+        <span style="color: #b58900;">String</span> <span style="color: #268bd2;">nowStr</span> = num_letter[digits.charAt(level) - <span style="color: #2aa198;">'0'</span>];
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; nowStr.length(); i++) {
+            tmpS.append(nowStr.charAt(i));
+            letterCom(digits, level + 1, tmpS, result);
+            tmpS.deleteCharAt(tmpS.length() - 1);
+        }
+    }
+}
 </pre>
 </div>
 </div>
