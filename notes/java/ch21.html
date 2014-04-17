@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Sitemap</title>
-<!-- 2014-04-17 Thu 22:47 -->
+<title>Chapter 21: Concurrency</title>
+<!-- 2014-04-17 Thu 22:42 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -161,183 +161,132 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Sitemap</h1>
-<ul class="org-ul">
-<li>algo
-<ul class="org-ul">
-<li>aha
-<ul class="org-ul">
-<li><a href="algo/aha/binary-search-find-first-and-last-occurrence.html">二分查找法查找数字首次末次出现位置</a>
-</li>
-<li><a href="algo/aha/strip-extra-spaces.html">删除字符中多余的空格</a>
-</li>
+<h1 class="title">Chapter 21: Concurrency</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Concurrency</a>
+<ul>
+<li><a href="#sec-1-1">The many faces of concurrency</a>
+<ul>
+<li><a href="#sec-1-1-1">Faster execution</a></li>
+<li><a href="#sec-1-1-2">Improving code design</a></li>
 </ul>
 </li>
-<li>classic
-<ul class="org-ul">
-<li><a href="algo/classic/kmp.html">KMP算法</a>
-</li>
-<li><a href="algo/classic/dynamic-programming.html">动态规划</a>
-</li>
-<li><a href="algo/classic/heap-sort.html">堆排序</a>
-</li>
-<li><a href="algo/classic/quick-sort.html">快速排序</a>
-</li>
-<li><a href="algo/classic/reverse-polish-notation.html">逆波兰式的生成和计算</a>
-</li>
-<li><a href="algo/classic/random-shuffle.html">随机数列</a>
-</li>
-</ul>
-</li>
-<li>leetcode
-<ul class="org-ul">
-<li><a href="algo/leetcode/two-sum.html">Leetcode 001: Two Sum</a>
-</li>
-<li><a href="algo/leetcode/median-of-two-sorted-arrays.html">Leetcode 002: Median of Two Sorted Arrays</a>
-</li>
-<li><a href="algo/leetcode/longest-substring-without-repeating-characters.html">Leetcode 003: longest substring without repeating characters</a>
-</li>
-<li><a href="algo/leetcode/add-two-number.html">Leetcode 004: Add Two Numbers</a>
-</li>
-<li><a href="algo/leetcode/longest-palindromic-substring.html">Leetcode 005: Longest Palindromic Substring</a>
-</li>
-<li><a href="algo/leetcode/zigzag-conversion.html">Leetcode 006: Zigzag Conversion</a>
-</li>
-<li><a href="algo/leetcode/reverse-integer.html">Leetcode 007: Reverse Integer</a>
-</li>
-<li><a href="algo/leetcode/string-to-integer-atoi.html">Leetcode 008: String to Integer(atoi)</a>
-</li>
-<li><a href="algo/leetcode/palindrome-number.html">Leetcode 009: Palindrome Number</a>
-</li>
-<li><a href="algo/leetcode/regular-expression-matching.html">Leetcode 010: Regular Expression Matching</a>
-</li>
-<li><a href="algo/leetcode/container-with-most-water.html">Leetcode 011: Container With Most Water</a>
-</li>
-<li><a href="algo/leetcode/integer-to-roman.html">Leetcode 012: Integger to Roman</a>
-</li>
-<li><a href="algo/leetcode/roman-to-integer.html">Leetcode 013: Roman to Integger</a>
-</li>
-<li><a href="algo/leetcode/longest-common-prefix.html">Leetcode 014: Longest Common String</a>
-</li>
-<li><a href="algo/leetcode/3sum.html">Leetcode 015: 3Sum</a>
-</li>
-<li><a href="algo/leetcode/3sum-closest.html">Leetcode 016: 3Sum Closest</a>
-</li>
-<li><a href="algo/leetcode/4sum.html">Leetcode 017: 4Sum</a>
-</li>
-<li><a href="algo/leetcode/letter-combinations-of-a-phone-number.html">Leetcode 018: Letter Combinations of a Phone Number</a>
-</li>
-<li><a href="algo/leetcode/remove-nth-node-from-end-of-list.html">Leetcode 019: Remove Nth Node From End of List</a>
-</li>
-<li><a href="algo/leetcode/valid-parentheses.html">Leetcode 020: Valid Parentheses</a>
-</li>
-<li><a href="algo/leetcode/merge-k-sorted-lists.html">Leetcode 022: Merge K Sorted Lists</a>
-</li>
-<li><a href="algo/leetcode/divide-two-integers.html">Leetcode 028: Divide Two Integers</a>
-</li>
-<li><a href="algo/leetcode/next-permutation.html">Leetcode 030: Next Permutation</a>
-</li>
+<li><a href="#sec-1-2">Basic threading</a>
+<ul>
+<li><a href="#sec-1-2-1">Defining tasks</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li>notes
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Concurrency</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">The many faces of concurrency</h3>
+<div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
-<li>bash
+<li>使用并发来解决一个问题,有很多种方式,必须都了解才能解决问题
+</li>
+<li>并发编程,说白了是平衡一下两个特性:
 <ul class="org-ul">
-<li><a href="notes/bash/part1.html">Part 1: Learning The Shell</a>
+<li>速度(speed)
 </li>
-<li><a href="notes/bash/part2.html">Part 2: Configuration And The Environment</a>
-</li>
-<li><a href="notes/bash/part3.html">Part 3: Common Tasks And Essential Tools</a>
+<li>设计的可管理性(design manageablity)
 </li>
 </ul>
 </li>
-<li>cpp
+</ul>
+</div>
+<div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1">Faster execution</h4>
+<div class="outline-text-4" id="text-1-1-1">
 <ul class="org-ul">
-<li><a href="notes/cpp/effective-cpp.html">Effective C++</a>
+<li>速度问题看起来很简单: 把一个程序分成n快,跑在n个cpu核心上,显然会提高运行的
+速度
+</li>
+<li>但是在只有一个核心的cpu上,并发编程也会提高程序的性能, 这是由于PC IO的存在
+一旦程序需要等到IO,如果有并发设计的化,不需要IO的部分可以继续运行,而如果没
+有并发设计,那么在等待IO的过程中,cpu计算就被浪费掉了
+</li>
+<li>有些语言设计成把不同的task都相互孤立,比如Erlang,这样task之间就可以安全的
+交流
+</li>
+<li>java的并发并不是在操作系统层面上面fork出多个process来,而是在一个process
+内部创建新的thread
 </li>
 </ul>
-</li>
-<li>java
+</div>
+</div>
+
+<div id="outline-container-sec-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2">Improving code design</h4>
+<div class="outline-text-4" id="text-1-1-2">
 <ul class="org-ul">
-<li><a href="notes/java/ch1.html">Chapter 01: Introduction to Objects</a>
+<li>现代操作系统或者说JVM一般来说只支持几百个thread,所以有时候无法为每一个抽象
+提供一个thread
 </li>
-<li><a href="notes/java/ch2.html">Chapter 02: Everything Is an Object</a>
+<li>Java的线程是preemptive(抢占性)的,也就说存在一个"调度器"会不停的分配大家的
+cpu使用时间.
 </li>
-<li><a href="notes/java/ch3.html">Chapter 03: Operators</a>
-</li>
-<li><a href="notes/java/ch4.html">Chapter 04: Controlling Execution</a>
-</li>
-<li><a href="notes/java/ch5.html">Chapter 05: Initialization &amp; Cleanup</a>
-</li>
-<li><a href="notes/java/ch6.html">Chapter 06: Access Control</a>
-</li>
-<li><a href="notes/java/ch7.html">Chapter 07: Reusing Classes</a>
-</li>
-<li><a href="notes/java/ch8.html">Chapter 08: Polymorphism</a>
-</li>
-<li><a href="notes/java/ch9.html">Chapter 09: Interfaces</a>
-</li>
-<li><a href="notes/java/ch10.html">Chapter 10: Inner Classes</a>
-</li>
-<li><a href="notes/java/ch11.html">Chapter 11: Holding Your Objects</a>
-</li>
-<li><a href="notes/java/ch21.html">Chapter 21: Concurrency</a>
+<li>与preemptive相对应的是cooperative的系统,在这种系统中,cpu使用时间是thread
+之间商量着来的,不会有一个"调度器"来强制停止你的运行.你只要想运行,可以一直
+运行下去.cpu都是自愿放弃的.
 </li>
 </ul>
-</li>
-<li>jcip
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Basic threading</h3>
+<div class="outline-text-3" id="text-1-2">
 <ul class="org-ul">
-<li><a href="notes/jcip/ch1.html">Chapter 1</a>
-</li>
-<li><a href="notes/jcip/ch2.html">Chapter 2</a>
-</li>
-<li><a href="notes/jcip/ch3.html">Chapter 3</a>
-</li>
-<li><a href="notes/jcip/ch4.html">Chapter 4</a>
+<li>使用thread是一个非常好的创建"可扩展性"程序的办法: 如果一个程序运行的过慢,你
+可以采用增加cpu核心的事情来提高速度
 </li>
 </ul>
-</li>
-<li>tips
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">Defining tasks</h4>
+<div class="outline-text-4" id="text-1-2-1">
 <ul class="org-ul">
-<li><a href="notes/tips/bash-sum.html">bash 常用命令总结</a>
-</li>
-<li><a href="notes/tips/macro-one-two-pound.html">井号(#)和双井号(##)在C语言中的作用</a>
-</li>
-</ul>
-</li>
-<li>unp
-<ul class="org-ul">
-<li><a href="notes/unp/ch1.html">Chapter 1: Introduction</a>
-</li>
-<li><a href="notes/unp/ch2.html">Chapter 2: The Transport Layer: TCP, UPD, and SCTP</a>
-</li>
-<li><a href="notes/unp/ch3.html">Chapter 3: Sockets Introduction</a>
-</li>
-<li><a href="notes/unp/ch4.html">Chapter 4: Elementary TCP Sockets</a>
-</li>
-<li><a href="notes/unp/ch5.html">Chapter 5: TCP Client/Server Example</a>
-</li>
-<li><a href="notes/unp/ch6.html">Chapter 6:  I/O Multiplexing: The select and poll Functions</a>
-</li>
-<li><a href="notes/unp/ch7.html">Chapter 7: Socket Options</a>
-</li>
-<li><a href="notes/unp/ch8.html">Chapter 8: Elementary UDP Socket</a>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="about.html">About</a>
-</li>
-<li><a href="algo.html">算法</a>
-</li>
-<li><a href="notes.html">读书笔记</a>
-</li>
-<li><a href="index.html">首页</a>
+<li><div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">concurrency</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">LiftOff</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Runnable</span>{
+    <span style="color: #859900; font-weight: bold;">protected</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">countDown</span> = 10 ; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Default</span>
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">taskCount</span> = 0;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">id</span> = taskCount++;
+    <span style="color: #859900; font-weight: bold;">public</span> LiftOff() {}
+    <span style="color: #859900; font-weight: bold;">public</span> LiftOff(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">countDown</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.countDown = countDown;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">status</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"#"</span> + id + <span style="color: #2aa198;">"("</span> +
+               (countDown &gt; 0 ? countDown : <span style="color: #2aa198;">"Liftoff"</span>) + <span style="color: #2aa198;">"), "</span>;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">run</span>() {
+        <span style="color: #859900; font-weight: bold;">while</span> (countDown-- &gt; 0) {
+            System.out.print(status());
+            Thread.yield();
+        }
+    }
+}
+</pre>
+</div>
 </li>
 </ul>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 

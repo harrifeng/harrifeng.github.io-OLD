@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 09: Interfaces</title>
-<!-- 2014-03-31 Mon 22:12 -->
+<!-- 2014-04-17 Thu 22:42 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -185,6 +185,12 @@ for the JavaScript code in this tag.
 </li>
 <li><a href="#sec-1-8">Nesting interfaces</a></li>
 <li><a href="#sec-1-9">Interfaces and factories</a></li>
+<li><a href="#sec-1-10">Nested classes</a>
+<ul>
+<li><a href="#sec-1-10-1">classes inside interfaces</a></li>
+<li><a href="#sec-1-10-2">Reaching outward from a multiply nested class</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -726,7 +732,7 @@ you have and produce the interface that your need
 <h3 id="sec-1-4">"Multiple inheritance" in Java</h3>
 <div class="outline-text-3" id="text-1-4">
 <ul class="org-ul">
-<li>java中因为有了interface,就不用在受c++里面的多重继承之苦了: 只继承一个base 
+<li>java中因为有了interface,就不用在受c++里面的多重继承之苦了: 只继承一个base
 class, 其他的接口可以通过interface来继承
 
 
@@ -1384,6 +1390,153 @@ Implementation1
 </div>
 </li>
 </ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-10" class="outline-3">
+<h3 id="sec-1-10">Nested classes</h3>
+<div class="outline-text-3" id="text-1-10">
+<ul class="org-ul">
+<li>如果我们的inner class不想和包括它的class进行联系,那么我们可以把inner class
+声明称static, 声明成static以后,就不叫inner class了而叫nested classes
+</li>
+<li>声明成static就改名是因为,一旦把inner class声明为static后,就不在保有"reference
+to object of the outer classs". 那么就会导致如下两条新的特
+性:
+<ol class="org-ol">
+<li>你不再需要outer class作为你的scope+"."来创建你的class
+</li>
+<li>你不再有权利访问非static的outer class的成员变量成员函数
+</li>
+</ol>
+</li>
+<li>inner class是不能有static成员的,nested则不同,它本身就是static的,肯定可以有
+static的
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Parcel11</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ParcelContents</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Contents</span> {
+        <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 11;
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">value</span>() {
+            <span style="color: #859900; font-weight: bold;">return</span> i;
+        }
+    }
+    <span style="color: #859900; font-weight: bold;">protected</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ParcelDestination</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Destination</span> {
+        <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">label</span>;
+        <span style="color: #859900; font-weight: bold;">private</span> ParcelDestination(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">whereTo</span>) {
+            label = whereTo;
+        }
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">readLabel</span>() {
+            <span style="color: #859900; font-weight: bold;">return</span> label;
+        }
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Nested classes can contains other static elements:</span>
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+        <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span> = 10;
+        <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">AnotherLevel</span> {
+            <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+            <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span> = 10;
+        }
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">Destination</span> <span style="color: #268bd2;">destination</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ParcelDestination</span>(s);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">Contents</span> <span style="color: #268bd2;">contents</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ParcelContents</span>();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Contents</span> <span style="color: #268bd2;">c</span> = contents();
+        <span style="color: #b58900;">Destination</span> <span style="color: #268bd2;">d</span> = destination(<span style="color: #2aa198;">"Tasmania"</span>);
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-10-1" class="outline-4">
+<h4 id="sec-1-10-1">classes inside interfaces</h4>
+<div class="outline-text-4" id="text-1-10-1">
+<ul class="org-ul">
+<li>我们前面说过,一个interface里面的所有的变量函数都默认public的
+</li>
+<li>现在加上一条,interface内部的class都会加上static的, 所以interface里面声明的
+class都是nested class. 声明成static是有道理的,因为interface里面是不能有实
+现的.而static的部分只是使用了其namespace, 存放还是会放到static区域的
+</li>
+<li>我们甚至可以在interface里面使用一个nested class,让这个nested class来implements
+接口
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">ClassInInterface</span> {
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">howdy</span>();
+    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Test</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">ClassInInterface</span> {
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">howdy</span>() {
+            System.out.println(<span style="color: #2aa198;">"Howdy!"</span>);
+        }
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Test</span>().howdy();
+        }
+    }
+}
+<span style="color: #93a1a1;">/////////////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">bash-3.2$ ./runj.sh innerclasses/ClassInInterface\$Test //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">--------Begin----------                                 //</span>
+<span style="color: #93a1a1;">//                                                         </span><span style="color: #93a1a1;">//</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Howdy!                                                  //</span>
+<span style="color: #93a1a1;">//                                                         </span><span style="color: #93a1a1;">//</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">--------End------------                                 //</span>
+<span style="color: #93a1a1;">/////////////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>我们可以看到,使用的时候是A$B,而且在bash里面要写成A\$B
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-10-2" class="outline-4">
+<h4 id="sec-1-10-2">Reaching outward from a multiply nested class</h4>
+<div class="outline-text-4" id="text-1-10-2">
+<ul class="org-ul">
+<li>inner class嵌套的层次没有限制
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MNA</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">A</span> {
+        <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">g</span>() {}
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">B</span> {
+            <span style="color: #b58900;">void</span> <span style="color: #268bd2;">h</span>() {
+                g();
+                f();
+            }
+        }
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MultiNestingAccess</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">MNA</span> <span style="color: #268bd2;">mna</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">MNA</span>();
+        <span style="color: #268bd2; font-weight: bold;">MNA</span>.<span style="color: #b58900;">A</span> <span style="color: #268bd2;">mnaa</span> = mna.<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">A</span>();
+        <span style="color: #268bd2; font-weight: bold;">MNA</span>.<span style="color: #268bd2; font-weight: bold;">A</span>.<span style="color: #b58900;">B</span> <span style="color: #268bd2;">mnaab</span> = mnaa.<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">B</span>();
+        mnaab.h();
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
