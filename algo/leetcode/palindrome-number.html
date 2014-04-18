@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 009: Palindrome Number</title>
-<!-- 2014-03-23 Sun 18:38 -->
+<!-- 2014-04-18 Fri 19:29 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -194,6 +194,12 @@ Sample Output: True
 </li>
 <li>另外要注意的就是,负数不是回文
 </li>
+<li>首先会有一个循环来判断tmp的"长度", 循环的condition是tmp &gt;= 10, 这是合理的因
+为除法总会保留第一个数字,10091最后才会除到第一个"1"
+</li>
+<li>但是在第二个比对的循环中,就不能再使用x &gt;= 10这种condition了, 比如10091"掐头
+去尾"之后,就不再是009了,而是9! 009不是palindrome的,但是9却是!
+</li>
 </ul>
 </div>
 </div>
@@ -203,25 +209,37 @@ Sample Output: True
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span>:
-    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">@return a boolean</span>
-    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">isPalindrome</span>(<span style="color: #859900; font-weight: bold;">self</span>, x):
-        <span style="color: #859900; font-weight: bold;">if</span> x &lt; 0:
-            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">False</span>
-        <span style="color: #657b83; font-weight: bold;">len</span> = 1
-        <span style="color: #268bd2;">tmp</span> = x
-        <span style="color: #859900; font-weight: bold;">while</span> tmp &gt;= 10:
-            <span style="color: #268bd2;">tmp</span> /= 10
-            <span style="color: #657b83; font-weight: bold;">len</span> *= 10
+<pre class="src src-python">public <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
 
-        <span style="color: #859900; font-weight: bold;">while</span> x &gt;= 10:
-            <span style="color: #268bd2;">first</span> = x / <span style="color: #657b83; font-weight: bold;">len</span>
-            <span style="color: #268bd2;">last</span> = x % 10
-            <span style="color: #859900; font-weight: bold;">if</span> first != last:
-                <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">False</span>
-            <span style="color: #268bd2;">x</span> = x % <span style="color: #657b83; font-weight: bold;">len</span> / 10
-            <span style="color: #657b83; font-weight: bold;">len</span> /= 100
-        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">True</span>
+    public boolean isPalindrome(<span style="color: #657b83; font-weight: bold;">int</span> x) {
+        <span style="color: #859900; font-weight: bold;">if</span> (x &lt; 0) {
+            <span style="color: #859900; font-weight: bold;">return</span> false;
+        }
+        <span style="color: #859900; font-weight: bold;">if</span> (x &lt; 10) {
+            <span style="color: #859900; font-weight: bold;">return</span> true;
+        }
+        <span style="color: #657b83; font-weight: bold;">int</span> numLen = 1;
+        <span style="color: #657b83; font-weight: bold;">int</span> tmp = x;
+        <span style="color: #859900; font-weight: bold;">while</span> (tmp &gt;= 10) {
+            numLen *= 10;
+            tmp /= 10;
+        }
+
+        // We should <span style="color: #859900; font-weight: bold;">not</span> use x &gt;= 10 <span style="color: #859900; font-weight: bold;">as</span> the condition
+        // Consider 100091, it will reach x = 9 <span style="color: #859900; font-weight: bold;">and</span> leave
+        // the loop without returning false.
+        <span style="color: #859900; font-weight: bold;">while</span> (x != 0) {
+            <span style="color: #657b83; font-weight: bold;">int</span> beg = x / numLen;
+            <span style="color: #657b83; font-weight: bold;">int</span> end = x % 10;
+            <span style="color: #859900; font-weight: bold;">if</span> (beg != end) {
+                <span style="color: #859900; font-weight: bold;">return</span> false;
+            }
+            x = x % numLen / 10;
+            numLen = numLen / 100;
+        }
+        <span style="color: #859900; font-weight: bold;">return</span> true;
+    }
+}
 </pre>
 </div>
 </div>
