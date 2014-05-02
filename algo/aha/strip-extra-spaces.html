@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>删除字符中多余的空格</title>
-<!-- 2014-05-02 Fri 08:19 -->
+<!-- 2014-05-02 Fri 14:19 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -209,83 +209,74 @@ Sample Output: AB_C_D_E
 </li>
 <li>上面所说的两指针法的详细步骤如下
 <ol class="org-ol">
-<li>开始的时候指针x(后指针)和i(前指针)都指向开头
+<li>开始的时候指针pre(后指针)和i(前指针)都指向开头
 
-<div class="figure">
-<p><img src="../../static/images/ses1.png" alt="ses1.png" />
+<div id="Phase1" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/aha/phase_1.png" alt="phase_1.png" />
 </p>
+<p><span class="figure-number">Figure 1:</span> Phase1</p>
 </div>
 </li>
+<li>往前走,遇到了一个空格的情况,也是没有问题的.
 
-<li>x, i同时增加, 不是空格,都继续增加
-
-<div class="figure">
-<p><img src="../../static/images/ses2.png" alt="ses2.png" />
+<div id="Phase2" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/aha/phase_2.png" alt="phase_2.png" />
 </p>
+<p><span class="figure-number">Figure 2:</span> Phase2</p>
 </div>
 </li>
+<li>常规字符,依然没问题,两个指针当前还是指向同一个位置
 
-<li>x, i 同时指向空格, 单个空格也没关系,继续增加, 增加到"一个空格的前一个也是一个空格"的时候
-
-<div class="figure">
-<p><img src="../../static/images/ses3.png" alt="ses3.png" />
+<div id="Phase3" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/aha/phase_3.png" alt="phase_3.png" />
 </p>
+<p><span class="figure-number">Figure 3:</span> Phase3</p>
 </div>
 </li>
+<li>多余空格的组合来了,但是遇到多个连续空格的第一位的时候,由于对后面的情况不知
+晓,我们还是指向同一个位置
 
-<li>同时增加到了"一个空格的前一个也是一个空格", 这个时候,两个指针终于要分家了, x会殿后, i会继续
-往前走,找到一个不是空格的数字来填补x
-
-<div class="figure">
-<p><img src="../../static/images/ses4.png" alt="ses4.png" />
+<div id="Phase4" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/aha/phase_4.png" alt="phase_4.png" />
 </p>
+<p><span class="figure-number">Figure 4:</span> Phase4</p>
 </div>
 </li>
+<li>遇到了多余空格的非第一位置了(有点拗口,判断多余空格存在的逻辑是:当前位置是
+空格,而且当前位置的前一个位置,也是空格), 这个时候pre留在原地,而i继续向前
 
-<li>i找到了一个不再是空格的位置, 于是我们整个数组就等于去掉了两个空格, 所以我们要全体往前
-移动两位一直到最后&#x2026;且慢!前面说过, 两个指针的解法,两指针之间的数据是"脏数据"(图中灰色
-的部分), 不要着急去写他们, 因为他们的值说不定很快就会被覆盖.
-
-<div class="figure">
-<p><img src="../../static/images/ses5.png" alt="ses5.png" />
+<div id="Phase5" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/aha/phase_5.png" alt="phase_5.png" />
 </p>
+<p><span class="figure-number">Figure 5:</span> Phase5</p>
 </div>
 </li>
+<li>i找到了后面的不是多余空格的字符C
 
-<li>i继续增加后,i找到一个符合项,来填充灰色地带的第一个字符, 虽然是空格替换空格,但是只是巧合.
-
-<div class="figure">
-<p><img src="../../static/images/ses6.png" alt="ses6.png" />
+<div id="Phase6" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/aha/phase_6.png" alt="phase_6.png" />
 </p>
+<p><span class="figure-number">Figure 6:</span> Phase6</p>
 </div>
 </li>
+<li>C会被拷贝到pre的位置, 后面的那个C就无效了.
 
-<li>因为前面x和i找到了符合项, x, i继续增加,下一个反而不符合预期,所以x留在原地, i继续增加
-
-<div class="figure">
-<p><img src="../../static/images/ses7.png" alt="ses7.png" />
+<div id="Phase7" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/aha/phase_7.png" alt="phase_7.png" />
 </p>
+<p><span class="figure-number">Figure 7:</span> Phase7</p>
 </div>
 </li>
+<li>由于C是最后一个位置,所以加上字符串结束符$
 
-<li>最后i到了符合前面预期的一个地方, 所以就取替换str[x]
-
-<div class="figure">
-<p><img src="../../static/images/ses8.png" alt="ses8.png" />
+<div id="Phase8" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/aha/phase_8.png" alt="phase_8.png" />
 </p>
-</div>
-</li>
-
-<li>最后不要忘了, str[x]就是字符串的结尾,因为后面都是"脏数据"
-
-<div class="figure">
-<p><img src="../../static/images/ses9.png" alt="ses9.png" />
-</p>
+<p><span class="figure-number">Figure 8:</span> Phase8</p>
 </div>
 </li>
 </ol>
 </li>
-
 <li>上面把算法罗列的很清楚了, 但是实际编码的时候,不是想象的那么简单, 因为什么时候应该替换
 逻辑非常复杂, 而且想起来就麻烦, 于是就掉进了圈套, 要替换成一个空格的情况:
 <ul class="org-ul">
@@ -324,18 +315,29 @@ Sample Output: AB_C_D_E
 </ul>
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">strip_extra_spaces</span>(<span style="color: #657b83; font-weight: bold;">str</span>):
-    <span style="color: #268bd2;">sl</span> = <span style="color: #657b83; font-weight: bold;">list</span>(<span style="color: #657b83; font-weight: bold;">str</span>)
-    <span style="color: #268bd2;">x</span> = 0
-    <span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">xrange</span>(<span style="color: #657b83; font-weight: bold;">len</span>(sl)):
-        <span style="color: #859900; font-weight: bold;">if</span> sl[i] != <span style="color: #2aa198;">' '</span> <span style="color: #859900; font-weight: bold;">or</span> i &gt; 1 <span style="color: #859900; font-weight: bold;">and</span> sl[i-1] != <span style="color: #2aa198;">' '</span>:
-            <span style="color: #268bd2;">sl</span>[x] = sl[i]
-            <span style="color: #268bd2;">x</span> += 1
-    <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">""</span>.join(sl[:x])
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> algo.aha.<span style="color: #268bd2; font-weight: bold;">ses</span>;
 
-<span style="color: #859900; font-weight: bold;">if</span> <span style="color: #657b83; font-weight: bold;">__name__</span> == <span style="color: #2aa198;">'__main__'</span>:
-    saying = <span style="color: #2aa198;">"People are  strange   when   they are     stranger"</span>
-    <span style="color: #859900; font-weight: bold;">print</span> strip_extra_spaces(<span style="color: #657b83; font-weight: bold;">list</span>(saying))
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Arrays</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
+    <span style="color: #b58900;">String</span> <span style="color: #268bd2;">stripExtraSpaces</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">str</span>) {
+        <span style="color: #859900; font-weight: bold;">if</span> (str.length() == 0) {
+            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">""</span>;
+        }
+
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">prev</span> = 0;
+        <span style="color: #b58900;">char</span>[] <span style="color: #268bd2;">chArr</span> = str.toCharArray();
+
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; chArr.length; i++) {
+            <span style="color: #859900; font-weight: bold;">if</span> (chArr[i] != <span style="color: #2aa198;">' '</span> || (i &gt; 0 &amp;&amp; chArr[i-1] != <span style="color: #2aa198;">' '</span>)) {
+                chArr[prev] = chArr[i];
+                prev++;
+            }
+        }
+
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">String</span>(chArr, 0, prev);
+    }
+}
 </pre>
 </div>
 </li>
