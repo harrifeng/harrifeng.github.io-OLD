@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>bash 常用命令总结</title>
-<!-- 2014-05-02 Fri 08:18 -->
+<title>Use Regular Expression to find and replace</title>
+<!-- 2014-05-02 Fri 08:19 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -163,133 +163,43 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">bash 常用命令总结</h1>
+<h1 class="title">Use Regular Expression to find and replace</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">uniq</a></li>
-<li><a href="#sec-2">find</a></li>
-<li><a href="#sec-3">sed</a></li>
-<li><a href="#sec-4">ls</a></li>
+<li><a href="#sec-1">Use Regular Expression to find and replace</a></li>
 </ul>
 </div>
 </div>
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">uniq</h2>
+<h2 id="sec-1">Use Regular Expression to find and replace</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li>uniq可以把重复的字符串去重输出, 注意,它只能判断挨着的是不是重复的,
-所以我们很可以把它和sort一起联合起来使用
+<li>这两天一直在用graphviz来画图,画图的时候,每个部分会有一个id,由于越画越大,最后
+id多少位的都有,比如f1, f12, f1234, 然后后来就惆怅了,想把这些id都清零!
 </li>
-<li>应用举例:如何找出某一行在某个文件中出现的次数
+<li>一开始是一个一个的替换.好麻烦.后来想到用正则表达式
 <div class="org-src-container">
 
-<pre class="src src-sh">[~/bash] &gt; cat uniq.txt
-a
-ab
-a
-bbb
-bbb
-ab
-ab
-b
-b
-[~/bash] &gt; uniq uniq.txt
-a
-ab
-a
-bbb
-ab
-b
-[~/bash] &gt; sort uniq.txt | uniq
-a
-ab
-b
-bbb
-[~/bash] &gt; sort uniq.txt | uniq -c
-   2 a
-   3 ab
-   2 b
-   2 bbb
+<pre class="src src-lisp">M-x replace-regexp
 </pre>
 </div>
 </li>
-</ul>
-</div>
-</div>
-<div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">find</h2>
-<div class="outline-text-2" id="text-2">
-<ul class="org-ul">
-<li>应用举例:如何找出某个文件夹下面大于20M的文件
+<li>但是苦于自己正则表达式功底不佳,总是写不准正则表达式,难不成还要去找个firefox
+插件?
+</li>
+<li>经过Google的帮助,我们找到了能够实时查询当前buffer里面符合某个正则表达式的方法
 <div class="org-src-container">
 
-<pre class="src src-sh">[/usr/local/Cellar] &gt; find /usr/local/Cellar/ -size +20M -print
-/usr/local/Cellar//mongodb/2.4.5/bin/bsondump
-/usr/local/Cellar//mongodb/2.4.5/bin/mongodump
-/usr/local/Cellar//mongodb/2.4.5/bin/mongoexport
-/usr/local/Cellar//mongodb/2.4.5/bin/mongofiles
-/usr/local/Cellar//mongodb/2.4.5/bin/mongoimport
-/usr/local/Cellar//mongodb/2.4.5/bin/mongooplog
-/usr/local/Cellar//mongodb/2.4.5/bin/mongoperf
-/usr/local/Cellar//mongodb/2.4.5/bin/mongorestore
-/usr/local/Cellar//mongodb/2.4.5/bin/mongosniff
-/usr/local/Cellar//mongodb/2.4.5/bin/mongostat
-/usr/local/Cellar//mongodb/2.4.5/bin/mongotop
-/usr/local/Cellar//mongodb/2.4.5/mongod
-/usr/local/Cellar//mysql/5.6.13/lib/libmysqld.a
+<pre class="src src-lisp">isearch-forward-regexp
 </pre>
 </div>
 </li>
-</ul>
-</div>
-</div>
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">sed</h2>
-<div class="outline-text-2" id="text-3">
-<ul class="org-ul">
-<li>应用举例:如何替换一个文件中的某些字符串为新的字符串(解法和vim的替换
-很像啊)
+<li>通过查询,胜利的找到了正确的正则表达式
 <div class="org-src-container">
 
-<pre class="src src-sh">sed -i <span style="color: #2aa198;">'s/old-word/new-word/g'</span> *.txt
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Mac bash</span>
-sed -ig <span style="color: #2aa198;">'s/old-word/new-word/g'</span> *.txt
-</pre>
-</div>
-</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4">ls</h2>
-<div class="outline-text-2" id="text-4">
-<ul class="org-ul">
-<li>应用举例:列出当前文件夹下的所有文件夹. 这个问题很细节, "*/"是bash里面指代文
-件夹的方式. 
-<div class="org-src-container">
-
-<pre class="src src-sh">ls -d */
-</pre>
-</div>
-</li>
-<li>"*/"也可以关联全路径,比如
-<div class="org-src-container">
-
-<pre class="src src-sh">ls -d /etc/*/
-</pre>
-</div>
-</li>
-<li>需要注意的是,"<b>/"不要和"/</b>"混淆,如果你只想列出当前文件夹下的文件夹, 没有用"<b>/",
-而用了"/</b>", 就会列出根目录下的所有文件,如下
-<div class="org-src-container">
-
-<pre class="src src-sh"><span style="color: #93a1a1;">#########################################################</span>
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">NOT disbplay the all the folder PWD, will display the #</span>
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">folders under / (root)                                #</span>
-<span style="color: #93a1a1;">#########################################################</span>
-ls -d /*
+<pre class="src src-lisp">(default <span style="color: #2aa198;">"f\w+"</span> -&gt; <span style="color: #2aa198;">"f0000"</span>):
 </pre>
 </div>
 </li>

@@ -1,0 +1,1326 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 04: Containers, Blocks, and Iterators</title>
+<!-- 2014-05-02 Fri 08:18 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 04: Containers, Blocks, and Iterators</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Containers, Blocks, and Iterators</a>
+<ul>
+<li><a href="#sec-1-1">Arrays</a></li>
+<li><a href="#sec-1-2">Hashes</a>
+<ul>
+<li><a href="#sec-1-2-1">Word Frequency: Using Hashes and Arrays</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">Blocks and Iterators</a>
+<ul>
+<li><a href="#sec-1-3-1">Blocks</a></li>
+<li><a href="#sec-1-3-2">Implementing Iterators</a></li>
+<li><a href="#sec-1-3-3">Enumerators&#x2013;External Iterators</a></li>
+<li><a href="#sec-1-3-4">Enumerators Are Objects</a></li>
+<li><a href="#sec-1-3-5">Enumerators Are Generators and Filters</a></li>
+<li><a href="#sec-1-3-6">Lazy Enumerators in Ruby 2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Containers, Blocks, and Iterators</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Arrays</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>Array的创建可以是通过常规的new,或者是直接[]加内容
+<div class="org-src-container">
+
+<pre class="src src-ruby">a = [3.14159, <span style="color: #2aa198;">"pie"</span>, 99]
+p a.class
+p a.length
+p a[0]
+p a[1]
+p a[2]
+p a[3]
+
+b = <span style="color: #b58900;">Array</span>.new
+p b.class
+p b.length
+b[0] = <span style="color: #2aa198;">"second"</span>
+b[1] = <span style="color: #2aa198;">"array"</span>
+p b
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Array                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">3                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">3.14159                                        #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"pie"                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">99                                             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">nil                                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Array                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">0                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">["second", "array"]                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>Array可说的最重要的部分就是其[] operator, 这个显然是一个函数,机制应该和c++
+里面的operator[]相似. 在ruby中[]的功能无限的灵活:
+<ul class="org-ul">
+<li>可以引用负数的index,最后一个成员的index用负数表示就是-1 (这样就和0连起来了撒)
+<div class="org-src-container">
+
+<pre class="src src-ruby">a = [1, 3, 5, 7, 9]
+p a[-1]
+p a[-2]
+p a[-99]
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">9                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">7                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">nil                                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>子数组这个概念也可以靠[start, count]完成, 注意,第二个参数是count,不是end
+<div class="org-src-container">
+
+<pre class="src src-ruby">a = [1, 3, 5, 7, 9]
+p a[1, 3]
+p a[3, 1]
+p a[-3, 2]
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[3, 5, 7]                                      #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[7]                                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[5, 7]                                         #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>如果你想要[start, end]的效果,那么ruby其实是用的[start..end], 注意这是两
+个点. 三个点也有, 其效果是[start, end), 你懂的
+<div class="org-src-container">
+
+<pre class="src src-ruby">a = [1, 3, 5, 7, 9]
+p a[1..3]
+p a[1...3]
+p a[3..3]
+p a[3...3]
+p a[-3..-1]
+p a[-3...-1]
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[3, 5, 7]                                      #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[3, 5]                                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[7]                                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[]                                             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[5, 7, 9]                                      #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[5, 7]                                         #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>[] operator还衍生出了[]= operator,可以让你给数组成员赋值的
+<div class="org-src-container">
+
+<pre class="src src-ruby">a = [1, 3, 5, 7, 9]
+p a
+
+a[1] = <span style="color: #2aa198;">'bat'</span>
+p a
+a[-3] = <span style="color: #2aa198;">'cat'</span>
+p a
+a[3] = [9, 8]
+p a
+a[6] = 99
+p a
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[1, 3, 5, 7, 9]                                #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[1, "bat", 5, 7, 9]                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[1, "bat", "cat", 7, 9]                        #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[1, "bat", "cat", [9, 8], 9]                   #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[1, "bat", "cat", [9, 8], 9, nil, 99]          #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>[]= operator也可以使用两参数,和[]operator一样. 两个参数的赋值就和一个参数
+的不太一样, 如果认真看会发现[]=的右边被当作了一个数组"参与"到左边的数组里面,比
+如a[1, 1] = [9, 8, 7], 是把1到2这个区间换成另外的三个值(9,8,7), 而如果是
+a= [9, 8, 7], 那么就是成员1从一个数字,变成了一个数组
+<div class="org-src-container">
+
+<pre class="src src-ruby">a = [1, 3, 5, 7, 9]
+p a
+a[2, 2] = <span style="color: #2aa198;">'cat'</span>
+p a
+a[2, 0] = <span style="color: #2aa198;">'dog'</span>
+p a
+a[1, 1] = [9, 8, 7]
+p a
+a[0..3] = []
+p a
+a[5..6] = []
+p a
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[1, 3, 5, 7, 9]                                #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[1, 3, "cat", 9]                               #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[1, 3, "dog", "cat", 9]                        #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[1, 9, 8, 7, "dog", "cat", 9]                  #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">["dog", "cat", 9]                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">["dog", "cat", 9, nil, nil]                    #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>由于数组的极端灵活性,你完全可以把它当作是一个stack
+<div class="org-src-container">
+
+<pre class="src src-ruby">stack = []
+stack.push <span style="color: #2aa198;">"red"</span>
+stack.push <span style="color: #2aa198;">"green"</span>
+stack.push <span style="color: #2aa198;">"blue"</span>
+
+p stack
+
+p stack.pop
+p stack.pop
+p stack.pop
+p stack
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">["red", "green", "blue"]                       #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"blue"                                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"green"                                        #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"red"                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[]                                             #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>push和shift的组合,又能把数组当作是一个queue
+<div class="org-src-container">
+
+<pre class="src src-ruby">queue = []
+queue.push <span style="color: #2aa198;">"red"</span>
+queue.push <span style="color: #2aa198;">"green"</span>
+p queue.shift
+p queue.shift
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"red"                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"green"                                        #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>还有first和last函数来取得最开头和最结尾,但是不移除
+<div class="org-src-container">
+
+<pre class="src src-ruby">array = [1, 2, 3, 4, 5, 6, 7]
+p array.first(4)
+p array.last(4)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[1, 2, 3, 4]                                   #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[4, 5, 6, 7]                                   #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Hashes</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>Array是以integer作为index,而Hash则是以object作为index.
+<div class="org-src-container">
+
+<pre class="src src-ruby">h = {<span style="color: #2aa198;">'dog'</span> =&gt; <span style="color: #2aa198;">'canine'</span>, <span style="color: #2aa198;">'cat'</span> =&gt; <span style="color: #2aa198;">'feline'</span>, <span style="color: #2aa198;">'donkey'</span> =&gt; <span style="color: #2aa198;">'asinine'</span>}
+p h
+p h.length
+p h[<span style="color: #2aa198;">'dog'</span>]
+
+h[<span style="color: #2aa198;">'cow'</span>] = <span style="color: #2aa198;">'bovine'</span>
+h[12] = <span style="color: #2aa198;">'dodecine'</span>
+
+h[<span style="color: #2aa198;">'cat'</span>] = 99
+p h
+
+<span style="color: #93a1a1;">###########################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">{"dog"=&gt;"canine", "cat"=&gt;"feline", "donkey"=&gt;"asinine"} #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">3                                                       #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"canine"                                                #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">{"dog"=&gt;"canine", "cat"=&gt;99, "donkey"=&gt;"asinine",\      #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"cow"=&gt;"bovine", 12=&gt;"dodecine"}                        #</span>
+<span style="color: #93a1a1;">###########################################################</span>
+</pre>
+</div>
+</li>
+<li>从1.9开始,symbol作为hash的index的情况下,可以简化hash的创建
+<div class="org-src-container">
+
+<pre class="src src-ruby">h = {<span style="color: #268bd2; font-weight: bold;">:dog</span> =&gt; <span style="color: #2aa198;">'canine'</span>, <span style="color: #268bd2; font-weight: bold;">:cat</span> =&gt; <span style="color: #2aa198;">'feline'</span>, <span style="color: #268bd2; font-weight: bold;">:donkey</span> =&gt; <span style="color: #2aa198;">'asinine'</span>}
+</pre>
+</div>
+</li>
+<li>更近一步的,你可以放弃=&gt;, 让代码更简洁(是的,ruby就是有这么多做事情的方法)
+<div class="org-src-container">
+
+<pre class="src src-ruby">h = {<span style="color: #268bd2; font-weight: bold;">dog</span>: <span style="color: #2aa198;">'canine'</span>, <span style="color: #268bd2; font-weight: bold;">cat</span>: <span style="color: #2aa198;">'feline'</span>, <span style="color: #268bd2; font-weight: bold;">donkey</span>: <span style="color: #2aa198;">'asinine'</span>}
+</pre>
+</div>
+</li>
+<li>ruby的hash有自己的重要特性(不同于hash的学术定义):
+<pre class="example">
+Ruby remembers the order in which you add items to hash
+</pre>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">Word Frequency: Using Hashes and Arrays</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>下面我们实现一个小的程序,目的是从一个文章中找出每个单词出现的次数
+</li>
+<li>第一步,我们先将文章token化, scan是将字符串按照给定pattern进行切割,然后返回
+数组, 这里的[\w']的意思是,所有的char以及单引号(did'nt里面就有):
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">words_from_string</span>(string)
+  string.downcase.scan(<span style="color: #2aa198;">/[\w']+/</span>)
+<span style="color: #859900; font-weight: bold;">end</span>
+
+p words_from_string(<span style="color: #2aa198;">"But I didn't inhale, he said (emphatically)"</span>)
+
+<span style="color: #93a1a1;">##################################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;                 #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">["but", "i", "didn't", "inhale", "he", "said", "emphatically"] #</span>
+<span style="color: #93a1a1;">##################################################################</span>
+</pre>
+</div>
+</li>
+<li>下一步就是对这个数组里面的数进行次数的统计, 利用了Hash可以使用任何object作
+为index的功能,把每个word作为一个index, 并且初始化每个word为0
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">count_frequency</span>(word_list)
+  counts = <span style="color: #b58900;">Hash</span>.new(0)
+  <span style="color: #859900; font-weight: bold;">for</span> word <span style="color: #859900; font-weight: bold;">in</span> word_list
+    counts[word] += 1
+  <span style="color: #859900; font-weight: bold;">end</span>
+  counts
+<span style="color: #859900; font-weight: bold;">end</span>
+
+
+p count_frequency([<span style="color: #2aa198;">"sparky"</span>, <span style="color: #2aa198;">"the"</span>, <span style="color: #2aa198;">"cat"</span>, <span style="color: #2aa198;">"sat"</span>, <span style="color: #2aa198;">"on"</span>, <span style="color: #2aa198;">"the"</span>, <span style="color: #2aa198;">"mat"</span>])
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">you can see the order is the same with the one you add them to hash</span>
+<span style="color: #93a1a1;">##################################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;                 #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">{"sparky"=&gt;1, "the"=&gt;2, "cat"=&gt;1, "sat"=&gt;1, "on"=&gt;1, "mat"=&gt;1} #</span>
+<span style="color: #93a1a1;">##################################################################</span>
+</pre>
+</div>
+</li>
+<li>剩下最后一步,就是按照频率高低把结果排序并打印. 注意这里sort_by是先分割|word,
+count|, 然后按照某个顺序count排序(这里是hash才有|word, count|,如果只是个数
+组sort_by的话,可能只需要|word|)
+<div class="org-src-container">
+
+<pre class="src src-ruby">require_relative <span style="color: #2aa198;">"words_from_string.rb"</span>
+require_relative <span style="color: #2aa198;">"count_frequency.rb"</span>
+
+raw_text  = <span style="color: #2aa198;">%{The problem breaks down into two parts. First, given some text</span>
+<span style="color: #2aa198;">as a string, return a list of words. That sounds like an array. Then, build</span>
+<span style="color: #2aa198;">a count for each distinct word. That sounds like a use for a hash---we can</span>
+<span style="color: #2aa198;">index it with the word and use the corresponding entry to keep a count.}</span>
+
+word_list = words_from_string(raw_text)
+counts    = count_frequency(word_list)
+sorted    = counts.sort_by {|word, count| count}
+top_five  = sorted.last(5)
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">This is ugly code, will improve later</span>
+<span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> 0...5
+  word = top_five[i][0]
+  count = top_five[i][1]
+  puts <span style="color: #268bd2;">"#{word}</span><span style="color: #2aa198;">:</span><span style="color: #268bd2;"> #{count}</span><span style="color: #2aa198;">"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">that: 2                                        #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">sounds: 2                                      #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">like: 2                                        #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">the: 3                                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">a: 6                                           #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>上面我们就成功创建了一个计数程序,下面我们要对程序进行测试. ruby本身就自带
+一个单元测试框架,一个测试用例来测试words_from_string的写法如下
+<div class="org-src-container">
+
+<pre class="src src-ruby">require_relative <span style="color: #2aa198;">'words_from_string'</span>
+require <span style="color: #2aa198;">'test/unit'</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">TestWordsFromString</span> &lt; <span style="color: #b58900;">Test</span>::<span style="color: #b58900;">Unit</span>::<span style="color: #b58900;">TestCase</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">test_empty_string</span>
+    assert_equal([], words_from_string(<span style="color: #2aa198;">""</span>))
+    assert_equal([], words_from_string(<span style="color: #2aa198;">"   "</span>))
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">test_single_word</span>
+    assert_equal([<span style="color: #2aa198;">"cat"</span>], words_from_string(<span style="color: #2aa198;">"cat"</span>))
+    assert_equal([<span style="color: #2aa198;">"cat"</span>], words_from_string(<span style="color: #2aa198;">"   cat  "</span>))
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">test_many_words</span>
+    assert_equal([<span style="color: #2aa198;">"the"</span>, <span style="color: #2aa198;">"cat"</span>, <span style="color: #2aa198;">"sat"</span>, <span style="color: #2aa198;">"on"</span>, <span style="color: #2aa198;">"the"</span>,<span style="color: #2aa198;">"mat"</span>],
+                 words_from_string(<span style="color: #2aa198;">"the cat sat on the mat"</span>))
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">test_ignores_punctuation</span>
+    assert_equal([<span style="color: #2aa198;">"the"</span>, <span style="color: #2aa198;">"cat's"</span>, <span style="color: #2aa198;">"mat"</span>],
+                 words_from_string(<span style="color: #2aa198;">"&lt;the!&gt; cat's, -mat"</span>))
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">##########################################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Run options:                                                           #</span>
+<span style="color: #93a1a1;">#                                                                        </span><span style="color: #93a1a1;">#</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;"># Running tests:                                                       #</span>
+<span style="color: #93a1a1;">#                                                                        </span><span style="color: #93a1a1;">#</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Finished tests in 0.005396s, 741.2898 tests/s, 1111.9348 assertions/s. #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">4 tests, 6 assertions, 0 failures, 0 errors, 0 skips                   #</span>
+<span style="color: #93a1a1;">#                                                                        </span><span style="color: #93a1a1;">#</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">ruby -v: ruby 2.0.0p247 (2013-06-27 revision 41674) \                  #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[universal.x86_64-darwin13]                                            #</span>
+<span style="color: #93a1a1;">##########################################################################</span>
+</pre>
+</div>
+</li>
+<li>下面是测试函数count_frequency的代码
+<div class="org-src-container">
+
+<pre class="src src-ruby">require_relative <span style="color: #2aa198;">'count_frequency'</span>
+require <span style="color: #2aa198;">'test/unit'</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">TestCountFrequencey</span> &lt; <span style="color: #b58900;">Test</span>::<span style="color: #b58900;">Unit</span>::<span style="color: #b58900;">TestCase</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">test_empty_list</span>
+    assert_equal({}, count_frequency([]))
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">test_single_word</span>
+    assert_equal({<span style="color: #2aa198;">"cat"</span> =&gt; 1}, count_frequency([<span style="color: #2aa198;">"cat"</span>]))
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">test_two_different_words</span>
+    assert_equal({<span style="color: #2aa198;">"cat"</span> =&gt; 2, <span style="color: #2aa198;">"sat"</span> =&gt; 1},
+                 count_frequency([<span style="color: #2aa198;">"cat"</span>, <span style="color: #2aa198;">"cat"</span>, <span style="color: #2aa198;">"sat"</span>]))
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">test_two_words_with_non_adjacent_repeat</span>
+    assert_equal({<span style="color: #2aa198;">"cat"</span> =&gt; 2, <span style="color: #2aa198;">"sat"</span> =&gt; 1},
+                 count_frequency([<span style="color: #2aa198;">"cat"</span>, <span style="color: #2aa198;">"sat"</span>, <span style="color: #2aa198;">"cat"</span>]))
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">#########################################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;                        #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Run options:                                                          #</span>
+<span style="color: #93a1a1;">#                                                                       </span><span style="color: #93a1a1;">#</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;"># Running tests:                                                      #</span>
+<span style="color: #93a1a1;">#                                                                       </span><span style="color: #93a1a1;">#</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Finished tests in 0.006311s, 633.8140 tests/s, 633.8140 assertions/s. #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">4 tests, 4 assertions, 0 failures, 0 errors, 0 skips                  #</span>
+<span style="color: #93a1a1;">#                                                                       </span><span style="color: #93a1a1;">#</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">ruby -v: ruby 2.0.0p247 (2013-06-27 revision 41674)\                  #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[universal.x86_64-darwin13]                                           #</span>
+<span style="color: #93a1a1;">#########################################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Blocks and Iterators</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>上面我的例子中,有这么一段遍历并打印数组的代码
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">for</span> <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #859900; font-weight: bold;">in</span> 0..4
+  word = top_five[i][0]
+  count = top_five[i][1]
+  puts <span style="color: #268bd2;">"#{word}</span><span style="color: #2aa198;">:</span><span style="color: #268bd2;"> #{count}</span><span style="color: #2aa198;">"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>从传统高级语言看来,这段代码没有什么问题. 但是问题就出在,对于ruby来说,它太麻
+烦了. 由于Array和Hash是仅有的两种Collection,而且数组和遍历的关系是如此的紧
+密,所以ruby专门又对数组的遍历,做了简化
+<div class="org-src-container">
+
+<pre class="src src-ruby">top_five.each <span style="color: #859900; font-weight: bold;">do</span> |word, count|
+  puts <span style="color: #268bd2;">"#{word}</span><span style="color: #2aa198;">:</span><span style="color: #268bd2;"> #{count}</span><span style="color: #2aa198;">"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>上面例子中的each就是ruby简化的手段: iterator + code block, 你可能第一时间问
+"哪里有code block?", 回想我们对code block进行学习的第二章. code block可以以
+两种形式出现:
+<ul class="org-ul">
+<li>do + end的组合, 上个例子each后面,恰恰是do&#x2026;.end. 通常在多行的情况下使用
+</li>
+<li>{} 包括的代码, 这种情况其实也有iterator的实例代码. 通常在单行的情况下使用
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts top_five.map { |word, count| <span style="color: #268bd2;">"#{word}</span><span style="color: #2aa198;">:</span><span style="color: #268bd2;"> #{count}</span><span style="color: #2aa198;">"</span>}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">Blocks</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>上面两个例子中,均出现了|word, count|的组合, 这是因为ruby把code block看作是
+一个method, 而一个method也就必然会有输入参数, |word, count|就是输入的参数.
+为了更好的理解这个问题,我们可以再次的把介绍code block时候的一段代码写出来
+来更好的理解iterator + code block的行为. 
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">who_says_what</span>
+  <span style="color: #859900; font-weight: bold;">yield</span>(<span style="color: #2aa198;">"Dave"</span>, <span style="color: #2aa198;">"hello"</span>)
+  <span style="color: #859900; font-weight: bold;">yield</span>(<span style="color: #2aa198;">"Andy"</span>, <span style="color: #2aa198;">"goodbye"</span>)
+<span style="color: #859900; font-weight: bold;">end</span>
+
+who_says_what{|person, phrase| puts <span style="color: #268bd2;">"#{person}</span><span style="color: #2aa198;"> says</span><span style="color: #268bd2;"> #{phrase}</span><span style="color: #2aa198;">"</span>}
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Dave says hello                                #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Andy says goodbye                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+
+<li>其实从另一个角度上来说,我们可以把do + end里面或者{}里面的数据都看成一个大
+的参数,传递给iterator method
+</li>
+<li>ruby在设计iterarot的时候,虽然灵活,但是会有一些意想不到的问题,比如下面这个例子
+<div class="org-src-container">
+
+<pre class="src src-ruby">sum = 0
+[1, 2, 3, 4].each <span style="color: #859900; font-weight: bold;">do</span> |value|
+  square = value * value
+  sum += square
+<span style="color: #859900; font-weight: bold;">end</span>
+
+puts sum
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">30                                             #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>我们在循环里面把结果存在了一个叫做sum的变量里面.这个sum是前面定义过的一个
+变量. 也就是说,如果在code block里面出现了一个变量,之前使用过的话,那么我们
+使用的,就还是那个变量.这样非常不好!因为这里sum没有其他用处,但是却可能在其他
+的例子中sum本来指向另外的数据.而你在each的block里面使用了sum,把它的默认值
+给取消了.
+</li>
+<li>ruby的回答是:
+<pre class="example">
+        在code block里面请只使用定义在||之间的变量,他们是local的,
+        跟全局的其他变量不会有关联
+</pre>
+</li>
+<li>我们来看看两个应对的方法:
+<ul class="org-ul">
+<li>||里面的参数,重名没关系
+<div class="org-src-container">
+
+<pre class="src src-ruby">value = <span style="color: #2aa198;">"some shape"</span>
+[1, 2].each {|value| puts value}
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2                                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>除了||里面的已有参数,如果实在还需要其他的参数,请也写到||里面,用分号和"正
+规参数"隔离开. 这里还是使用了sum, 这个没办法,因为我们要统计总和.
+<div class="org-src-container">
+
+<pre class="src src-ruby">square = <span style="color: #2aa198;">"some shape"</span>
+
+sum = 0
+[1, 2, 3, 4].each <span style="color: #859900; font-weight: bold;">do</span> |value; square|
+  square = value * value
+  sum += square
+<span style="color: #859900; font-weight: bold;">end</span>
+
+puts sum
+puts square
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">30                                             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">some shape                                     #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2">Implementing Iterators</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li>能够让code block 多次运行的这种函数,我们叫做iterator
+</li>
+<li>iterator行起来的时候,让后面的code block感觉自己也是iterator函数的一部分.这
+种功能依靠的是yield
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">two_times</span>
+  <span style="color: #859900; font-weight: bold;">yield</span>
+  <span style="color: #859900; font-weight: bold;">yield</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+two_times {puts <span style="color: #2aa198;">"Hello"</span>}
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Hello                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Hello                                          #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>最著名的iterator选手each, 执行的时候,还可以传参数的.其原理如下
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">fib_up_to</span>(max)
+  i1, i2 = 1, 1
+  <span style="color: #859900; font-weight: bold;">while</span> i1 &lt;= max
+    <span style="color: #859900; font-weight: bold;">yield</span> i1
+    i1, i2 = i2, i1 + i2
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+
+fib_up_to(1000) { |f| print f, <span style="color: #2aa198;">" "</span>}
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987 #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>each是最简单,也是最根基的iterator, array和hash都有each, 对于array的iterator
+来说,其功能非常简单:就是打印数组成员
+<div class="org-src-container">
+
+<pre class="src src-ruby">[1, 3, 5, 7, 9].each {|i| puts i}
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">3                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">5                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">7                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">9                                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>each是很多功能的基石,所以你自己创造class的时候,如果能加上一个each,那么会自
+然的增加很多功能.比如array的find功能就是以each为基础构造的, 先来看看find如
+何使用.
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts [1, 3, 5, 7, 9].find {|v| v * v &gt; 30}
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">7                                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>我们可以自己重新实现一遍find,对的,你没有看错,ruby可以更改内置函数
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Array</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">my_find</span>
+    each <span style="color: #859900; font-weight: bold;">do</span> |value|
+      <span style="color: #859900; font-weight: bold;">return</span> 100 + value  <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #859900; font-weight: bold;">yield</span>(value)
+    <span style="color: #859900; font-weight: bold;">end</span>
+    <span style="color: #268bd2;">nil</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+puts [1, 3, 5, 7, 9].my_find {|v| v * v &gt; 30}
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">107                                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>从上面的实现我们可以看出. code block的返回值(也就是最后一行) v * v 会返回给
+yield函数,作为其参数.所以上面才能使用if yield(value)的结构
+</li>
+<li>另外一个经常使用的iterator就是collect(另外一个名字叫做map), 它的行为也很特
+别:
+<ul class="org-ul">
+<li>首先把collection里面的每一个参数的值赋给code block
+</li>
+<li>然后再把每一次code block的返回值都记录起来,组成一个array返回
+</li>
+<li>例子如下
+<div class="org-src-container">
+
+<pre class="src src-ruby">p [<span style="color: #2aa198;">"H"</span>, <span style="color: #2aa198;">"A"</span>, <span style="color: #2aa198;">"L"</span>].collect {|x| x.succ}
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">["I", "B", "M"]                                #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>iterator既可以处理数组,同时还可以处理文件(其实就是class File也实现了each函
+数)
+<div class="org-src-container">
+
+<pre class="src src-ruby">f = <span style="color: #b58900;">File</span>.open(<span style="color: #2aa198;">"testfile.txt"</span>)
+f.each <span style="color: #859900; font-weight: bold;">do</span> |line|
+  puts <span style="color: #2aa198;">"The line is:</span><span style="color: #268bd2;"> #{line}</span><span style="color: #2aa198;">"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+f.close
+
+<span style="color: #93a1a1;">#################################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;                #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">c:/ttmp/ruby_in_action/pickaxe/misc &gt;&gt;&gt; ruby tut_iterator.rb  #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">The line is: The line is: This is line one                    #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">The line is: The line is: This is line two                    #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">The line is: The line is: This is line three                  #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">The line is: The line is: And so on...                        #</span>
+<span style="color: #93a1a1;">#################################################################</span>
+</pre>
+</div>
+</li>
+<li>each函数的缺点是没有index,无法知道序列号. ruby的应对是,each的"子函数"==&gt;
+with_index. 当你需要序列号的时候,再引入它
+<div class="org-src-container">
+
+<pre class="src src-ruby">f = <span style="color: #b58900;">File</span>.open(<span style="color: #2aa198;">"testfile.txt"</span>)
+f.each.with_index <span style="color: #859900; font-weight: bold;">do</span> |line, index|
+  puts <span style="color: #2aa198;">"Line</span><span style="color: #268bd2;"> #{index}</span><span style="color: #2aa198;"> is:</span><span style="color: #268bd2;"> #{line}</span><span style="color: #2aa198;">"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+f.close
+
+<span style="color: #93a1a1;">##################################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;                 #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">c:/ttmp/ruby_in_action/pickaxe/misc &gt;&gt;&gt; ruby tut_iter_index.rb #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Line 0 is: The line is: This is line one                       #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Line 1 is: The line is: This is line two                       #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Line 2 is: The line is: This is line three                     #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Line 3 is: The line is: And so on...                           #</span>
+<span style="color: #93a1a1;">##################################################################</span>
+</pre>
+</div>
+</li>
+<li>还有一些很有用(也很麻烦)的iterator, 比如inject
+<div class="org-src-container">
+
+<pre class="src src-ruby">p [1, 3, 5, 7].inject(0) {|sum, element| sum + element}
+p [1, 3, 5, 7].inject(1) {|product, element| product * element}
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">16                                             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">105                                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>inject有两个参数|first,second|:
+<ul class="org-ul">
+<li>第一次进入code block的时候,first会被设置为inject函数括号里面的数字,而second
+则是前面数组里面的第一个成员
+</li>
+<li>第N次以后进入code block的时候,first会被设置为上次code block的返回值,而
+second会被设置为数组里面的第N个成员
+</li>
+</ul>
+</li>
+<li>值得注意的是,如果inject函数没有参数的话,那么|first, second|里面的first就会
+采用数组里面的第一个成员,然后second从第二个成员开始轮换.所以上面的例子可以
+改写成
+<div class="org-src-container">
+
+<pre class="src src-ruby">p [1,3, 5, 7].inject {|sum, element| sum + element}
+p [1,3, 5, 7].inject {|product, element| product * element}
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">16                                             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">105                                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>ruby对简短代码的苛求没有限制,上面的例子还能更进一步的简化成如下
+<div class="org-src-container">
+
+<pre class="src src-ruby">p [1, 3, 5, 7].inject(<span style="color: #268bd2; font-weight: bold;">:+</span>)
+p [1, 3, 5, 7].inject(<span style="color: #268bd2; font-weight: bold;">:*</span>)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">16                                             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">105                                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3">Enumerators&#x2013;External Iterators</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<ul class="org-ul">
+<li>让我们先来回顾一下ruby的循环策略:ruby中的循环依赖的都是iterator函数,他们和
+其他class函数没有区别,只不过碰巧内部调用了yield而已.
+</li>
+<li>在其他语言中,每个类自己并不拥有自己的iterator(比如java,它是自己创建iterator
+对象,通过iterator interface,来完成从头到尾的循环工作)
+</li>
+<li>但是iterator在class内部的这个方法也不是最好的.因为有很多种情况下必须要使用
+外部的iterator:
+<ul class="org-ul">
+<li>比如,你要把iterator当作一个object传递给某个函数
+</li>
+<li>再比如,ruby内置iterator的方法,很难遍历两个collection
+</li>
+</ul>
+</li>
+<li>为了应对这种困境, ruby发明了built-in的Enumerator类
+<div class="org-src-container">
+
+<pre class="src src-ruby">a = [1, 3, <span style="color: #2aa198;">"cat"</span>]
+h = {<span style="color: #268bd2; font-weight: bold;">dog</span>: <span style="color: #2aa198;">"canine"</span>, <span style="color: #268bd2; font-weight: bold;">fox</span>: <span style="color: #2aa198;">"vulpine"</span>}
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Create Enumerators</span>
+
+enum_a = a.to_enum
+enum_h = h.to_enum
+
+p enum_a.next
+p enum_h.next
+p enum_a.next
+p enum_h.next
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[:dog, "canine"]                               #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">3                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[:fox, "vulpine"]                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>大部分的iterator函数(就是内部调用yield, 把collection从头到尾都遍历的)会在
+后面没有code block的情况下,返回一个Enumerator
+<div class="org-src-container">
+
+<pre class="src src-ruby">a = [1, 3, <span style="color: #2aa198;">"cat"</span>]
+
+enum_a = a.each
+
+p enum_a.next
+p enum_a.next
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">3                                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>ruby里面还有一个叫做loop的函数,其实就是while的改版,会在conditon不符合的时
+候退出,当loop和iterator配合起来的时候,loop就很智能,知道什么时候退出
+<div class="org-src-container">
+
+<pre class="src src-ruby">short_enum = [1, 2, 3].to_enum
+long_enum = (<span style="color: #2aa198;">'a'</span>..<span style="color: #2aa198;">'z'</span>).to_enum
+
+loop <span style="color: #859900; font-weight: bold;">do</span>
+  puts <span style="color: #268bd2;">"#{short_enum.next}</span><span style="color: #2aa198;"> -</span><span style="color: #268bd2;"> #{long_enum.next}</span><span style="color: #2aa198;">"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1 - a                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2 - b                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">3 - c                                          #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4">Enumerators Are Objects</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<ul class="org-ul">
+<li>Enumerator一般都会把一些循环的过程转换成一个object.因为它是一个对象,那么就
+有自己的函数,而且可以作为参数传递给其他函数
+</li>
+<li>Enumerator最重要的一个函数要数each_with_index了,我们上面讲过iterator后面调用
+一个each_with_index,之所以能这么用,就是因为:
+<ul class="org-ul">
+<li>iterator(each)和code block被.with_index分开了.那么iterator返回的是一个Enumerator,
+</li>
+<li>Enumerator是一个对象了, 就可以调用函数with_index, 这个也是一个iterator,
+后面又可以跟code block了.
+</li>
+<li>而且with_index这个iterator里面还多yield了index,所以就可以使用了.更难得的
+是为了省事. ruby把each.with_index直接替换成了一个函数叫做each_with_index
+<div class="org-src-container">
+
+<pre class="src src-ruby">result = []
+[<span style="color: #2aa198;">'a'</span>, <span style="color: #2aa198;">'b'</span>, <span style="color: #2aa198;">'c'</span>].each_with_index {|item, index| result &lt;&lt; [item, index]}
+p result
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[["a", 0], ["b", 1], ["c", 2]]                 #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>each_with_index在数组中非常好用,String其实是一个char的数组,所以ruby也设计了
+一个each_with_index的string版本,有多种用法:
+<ul class="org-ul">
+<li>先把string转换成char数组然后each_with_index
+<div class="org-src-container">
+
+<pre class="src src-ruby">result = []
+<span style="color: #2aa198;">"cat"</span>.each_char.each_with_index {|item, index| result &lt;&lt; [item, index]}
+p result
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[["c", 0], ["a", 1], ["t", 2]]                 #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+
+<li>还可以直接把字符串转化成Enumerator
+<div class="org-src-container">
+
+<pre class="src src-ruby">enum = <span style="color: #2aa198;">"cat"</span>.enum_for(<span style="color: #268bd2; font-weight: bold;">:each_char</span>)
+p enum.to_a
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">["c", "a", "t"]                                #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>转成Enumerator的过程中,可以更凶残的传入一个函数,加上这个函数的参数
+<div class="org-src-container">
+
+<pre class="src src-ruby">enum_in_threes = (1..10).enum_for(<span style="color: #268bd2; font-weight: bold;">:each_slice</span>, 3)
+p enum_in_threes.to_a
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[[1, 2, 3], [4, 5, 6], [7, 8, 9], [10]]        #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-5" class="outline-4">
+<h4 id="sec-1-3-5">Enumerators Are Generators and Filters</h4>
+<div class="outline-text-4" id="text-1-3-5">
+<ul class="org-ul">
+<li>iterator的返回值都是Enumerator, 但是Enumerator其实也就是一个普通的类,你也
+可以自己"凭空"创建一个Enumerator. 然后把它作为code block的一部分进行使用.
+下面的这个例子,我们创建了trigngular_number以后.什么时候需要就直接调用next
+就可以了.调用几次就会出现几次的value. 
+<div class="org-src-container">
+
+<pre class="src src-ruby">triangular_numbers = <span style="color: #b58900;">Enumerator</span>.new <span style="color: #859900; font-weight: bold;">do</span> |yielder|
+  number = 0
+  count = 1
+  loop <span style="color: #859900; font-weight: bold;">do</span>
+    number += count
+    count += 1
+    yielder.yield number
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+5.times { print triangular_numbers.next, <span style="color: #2aa198;">" "</span>}
+puts
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1 3 6 10 15                                    #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>Enumerator object是enumerable的,它完全可以使用Enumerable自己的函数. 比如
+first
+<div class="org-src-container">
+
+<pre class="src src-ruby">triangular_numbers = <span style="color: #b58900;">Enumerator</span>.new <span style="color: #859900; font-weight: bold;">do</span> |yielder|
+  number = 0
+  count = 1
+  loop <span style="color: #859900; font-weight: bold;">do</span>
+    number += count
+    count += 1
+    yielder.yield number
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+p triangular_numbers.first(5)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[1, 3, 6, 10, 15]                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>如果一个Enumerator可以产生无线循环,那么你要特别的注意, 要自己写select.
+比如下面的例子(我已经有点开始看不懂了&#x2026;), infinite_select的第二个参数是
+&amp;block, 这个参数就是代表后面将会使用的code block
+<div class="org-src-container">
+
+<pre class="src src-ruby">triangular_numbers = <span style="color: #b58900;">Enumerator</span>.new <span style="color: #859900; font-weight: bold;">do</span> |yielder|
+  number = 0
+  count = 1
+  loop <span style="color: #859900; font-weight: bold;">do</span>
+    number += count
+    count += 1
+    yielder.yield number
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">infinite_select</span>(enum, &amp;block)
+  <span style="color: #b58900;">Enumerator</span>.new <span style="color: #859900; font-weight: bold;">do</span> |yielder|
+    enum.each <span style="color: #859900; font-weight: bold;">do</span> |value|
+      yielder.yield(value) <span style="color: #859900; font-weight: bold;">if</span> block.call(value)
+    <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+p infinite_select(triangular_numbers) {|val| val % 10 == 0}.first(5)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[10, 120, 190, 210, 300]                       #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-6" class="outline-4">
+<h4 id="sec-1-3-6">Lazy Enumerators in Ruby 2</h4>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng'; 
+          
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

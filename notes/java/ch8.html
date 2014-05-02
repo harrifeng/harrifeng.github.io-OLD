@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 08: Polymorphism</title>
-<!-- 2014-03-26 Wed 08:32 -->
+<!-- 2014-05-02 Fri 08:18 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -55,6 +55,8 @@
   pre.src-sql:before   { content: 'SQL'; }
 
   table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
   td, th { vertical-align:top;  }
   th.right  { text-align: center;  }
   th.left   { text-align: center;   }
@@ -273,7 +275,6 @@ from Instrument的对象(比如Wind)都可以传入. 这里就是把Wind upcasti
 </ul>
 </div>
 </div>
-
 <div id="outline-container-sec-1-2" class="outline-3">
 <h3 id="sec-1-2">Forgetting the object type</h3>
 <div class="outline-text-3" id="text-1-2">
@@ -332,7 +333,6 @@ Instrument都适用的tune. 如果不实用upcasting,而使用overload,也可以
 </ul>
 </div>
 </div>
-
 <div id="outline-container-sec-1-3" class="outline-3">
 <h3 id="sec-1-3">The twist</h3>
 <div class="outline-text-3" id="text-1-3">
@@ -380,7 +380,6 @@ final
 </ul>
 </div>
 </div>
-
 <div id="outline-container-sec-1-3-2" class="outline-4">
 <h4 id="sec-1-3-2">Producing the right behavior</h4>
 <div class="outline-text-4" id="text-1-3-2">
@@ -487,7 +486,6 @@ final
 </ul>
 </div>
 </div>
-
 <div id="outline-container-sec-1-3-3" class="outline-4">
 <h4 id="sec-1-3-3">Extensibility</h4>
 <div class="outline-text-4" id="text-1-3-3">
@@ -500,7 +498,6 @@ that change from the things tha stay the same"
 </ul>
 </div>
 </div>
-
 <div id="outline-container-sec-1-3-4" class="outline-4">
 <h4 id="sec-1-3-4">Pitfall: "overriding" private methods</h4>
 <div class="outline-text-4" id="text-1-3-4">
@@ -538,7 +535,6 @@ that change from the things tha stay the same"
 </ul>
 </div>
 </div>
-
 <div id="outline-container-sec-1-3-5" class="outline-4">
 <h4 id="sec-1-3-5">Pitfall: fields and static methods</h4>
 <div class="outline-text-4" id="text-1-3-5">
@@ -642,7 +638,6 @@ object)
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-1-4" class="outline-3">
 <h3 id="sec-1-4">Constructors and polymorphism</h3>
 <div class="outline-text-3" id="text-1-4">
@@ -744,7 +739,6 @@ member会先zero化): 让ctor开始的时候,所有的member都是valid
 </ul>
 </div>
 </div>
-
 <div id="outline-container-sec-1-4-2" class="outline-4">
 <h4 id="sec-1-4-2">Inheritance and cleanup</h4>
 <div class="outline-text-4" id="text-1-4-2">
@@ -960,7 +954,6 @@ base的顺序析构.
 </ul>
 </div>
 </div>
-
 <div id="outline-container-sec-1-4-3" class="outline-4">
 <h4 id="sec-1-4-3">Behavior of polymorphic methods inside constructors</h4>
 <div class="outline-text-4" id="text-1-4-3">
@@ -1027,7 +1020,6 @@ base的顺序析构.
 </div>
 </div>
 </div>
-
 <div id="outline-container-sec-1-5" class="outline-3">
 <h3 id="sec-1-5">Covariant return types</h3>
 <div class="outline-text-3" id="text-1-5">
@@ -1084,6 +1076,7 @@ base的顺序析构.
 </ul>
 </div>
 </div>
+
 
 
 
@@ -1165,7 +1158,6 @@ base的顺序析构.
 <li>下面图中的继承就是一个纯净继承,也叫pure "is-a" relationship,这种继承保证了
 derived类的接口和base类是一样的.
 
-
 <div class="figure">
 <p><img src="../../static/images/shape.png" alt="shape.png" />
 </p>
@@ -1175,7 +1167,6 @@ derived类的接口和base类是一样的.
 <li>这种纯净继承的好处就是当你使用的时候,你完全不必了解subclass的其他信息:base
 class可以接收任何你传递给derived class的信息.你所要做的就是把derived upcast
 成base的,然后调用函数
-
 
 <div class="figure">
 <p><img src="../../static/images/shape_talk.png" alt="shape_talk.png" />
@@ -1187,7 +1178,6 @@ class可以接收任何你传递给derived class的信息.你所要做的就是�
 跟base"不那么"像的话,就需要一个"is-like-a"的关系,接口就不能完全一样了.derived
 会多出来一些
 
-
 <div class="figure">
 <p><img src="../../static/images/useful.png" alt="useful.png" />
 </p>
@@ -1198,7 +1188,6 @@ class可以接收任何你传递给derived class的信息.你所要做的就是�
 MoreUseful part的函数是base所不知道的,所以自动的upcast无法实现.使用的方法
 就是下一节要讲到的Downcasting
 
-
 <div class="figure">
 <p><img src="../../static/images/usefule_talk.png" alt="usefule_talk.png" />
 </p>
@@ -1207,6 +1196,7 @@ MoreUseful part的函数是base所不知道的,所以自动的upcast无法实现
 </ul>
 </div>
 </div>
+
 <div id="outline-container-sec-1-6-2" class="outline-4">
 <h4 id="sec-1-6-2">Downcasting and runtime type information</h4>
 <div class="outline-text-4" id="text-1-6-2">
