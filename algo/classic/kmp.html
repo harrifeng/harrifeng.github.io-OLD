@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>KMP算法</title>
-<!-- 2014-05-02 Fri 08:19 -->
+<!-- 2014-05-15 Thu 19:22 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -179,44 +179,45 @@ for the JavaScript code in this tag.
 <ul class="org-ul">
 <li>字符串匹配,是计算机的基本功能之一. 从字符串T中寻找P, 从直观上来讲有如下解法.
 <ol class="org-ol">
-<li>首先用pattern取匹配text的第一个字符串,不成功, 转到下一个
+<li>首先用pattern取匹配text的第一个字符串,不成功, 转到下一个    
 
-<div class="figure">
-<p><img src="../../static/images/sc1.png" alt="sc1.png" />
+<div id="Phase1" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/kmp/phase_1.png" alt="phase_1.png" />
 </p>
+<p><span class="figure-number">Figure 1:</span> Phase1</p>
 </div>
 </li>
-
 <li>然后匹配第二个,还是不成功
 
-<div class="figure">
-<p><img src="../../static/images/sc2.png" alt="sc2.png" />
+<div id="Phase2" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/kmp/phase_2.png" alt="phase_2.png" />
 </p>
+<p><span class="figure-number">Figure 2:</span> Phase2</p>
 </div>
 </li>
-
 <li>第三个第四个&#x2026;.
 
-<div class="figure">
-<p><img src="../../static/images/sc3.png" alt="sc3.png" />
+<div id="Phase3" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/kmp/phase_3.png" alt="phase_3.png" />
 </p>
+<p><span class="figure-number">Figure 3:</span> Phase3</p>
 </div>
 </li>
-
 <li>直到第五个,终于成功了,然后开始往后比较&#x2026;结果,功亏一篑
 
-<div class="figure">
-<p><img src="../../static/images/sc4.png" alt="sc4.png" />
+<div id="Phase4" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/kmp/phase_4.png" alt="phase_4.png" />
 </p>
+<p><span class="figure-number">Figure 4:</span> Phase4</p>
 </div>
 </li>
-
 <li>功亏一篑之后,就要完全从头开始对比,也就是pattern又回到第一个字符, 而text
 也只向后移动了一个位置. 效率非常低
 
-<div class="figure">
-<p><img src="../../static/images/sc5.png" alt="sc5.png" />
+<div id="Phase5" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/kmp/phase_5.png" alt="phase_5.png" />
 </p>
+<p><span class="figure-number">Figure 5:</span> Phase5</p>
 </div>
 </li>
 </ol>
@@ -244,9 +245,10 @@ text序列加1, pattern从头开始,整个过程下来,复杂度就是O(mn)
 匹配就可以把前面的AB往后移动到后面的AB的位置, 我们子所以能够这样放心大胆的掠过中间的BCD,
 是因为我们对pattern进行了分析,知道ABCDAB这个字符串有AB这个公共前(后)缀
 
-<div class="figure">
-<p><img src="../../static/images/sc-kmp.png" alt="sc-kmp.png" />
+<div id="Phase-KMP-0" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/kmp/phase_kmp_0.png" alt="phase_kmp_0.png" />
 </p>
+<p><span class="figure-number">Figure 6:</span> Phase KMP 0</p>
 </div>
 </li>
 
@@ -254,89 +256,90 @@ text序列加1, pattern从头开始,整个过程下来,复杂度就是O(mn)
 <ol class="org-ol">
 <li>开始时候的状态:此时是比较Pattern0和Pattern1, 不相等,只能增加i
 
-<div class="figure">
-<p><img src="../../static/images/cpf1.png" alt="cpf1.png" />
+<div id="Phase-KMP-1" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/kmp/phase_kmp_1.png" alt="phase_kmp_1.png" />
 </p>
+<p><span class="figure-number">Figure 7:</span> Phase KMP 1</p>
 </div>
 </li>
-
 <li>i到了2, k+1还在0, 比较Pattern0和Pattern2,相等, k会增加, i 自动增加
 
-<div class="figure">
-<p><img src="../../static/images/cpf2.png" alt="cpf2.png" />
+<div id="Phase-KMP-2" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/kmp/phase_kmp_2.png" alt="phase_kmp_2.png" />
 </p>
+<p><span class="figure-number">Figure 8:</span> Phase KMP 2</p>
 </div>
 </li>
-
 <li>i到了3, k+1在1, 比较Pattern1和Pattern3,相等, k会增加, i 自动增加
 
-<div class="figure">
-<p><img src="../../static/images/cpf3.png" alt="cpf3.png" />
+<div id="Phase-KMP-3" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/kmp/phase_kmp_3.png" alt="phase_kmp_3.png" />
 </p>
+<p><span class="figure-number">Figure 9:</span> Phase KMP 3</p>
 </div>
 </li>
-
 <li>i到了4, k+1在2, 比较Pattern2和Pattern4,相等, k会增加, i 自动增加
 
-<div class="figure">
-<p><img src="../../static/images/cpf4.png" alt="cpf4.png" />
+<div id="Phase-KMP-4" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/kmp/phase_kmp_4.png" alt="phase_kmp_4.png" />
 </p>
+<p><span class="figure-number">Figure 10:</span> Phase KMP 4</p>
 </div>
 </li>
-
 <li>i到了5, k+1在3, 比较Pattern3和Pattern5,相等, k会增加, i 自动增加
 
-<div class="figure">
-<p><img src="../../static/images/cpf5.png" alt="cpf5.png" />
+<div id="Phase-KMP-5" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/kmp/phase_kmp_5.png" alt="phase_kmp_5.png" />
 </p>
+<p><span class="figure-number">Figure 11:</span> Phase KMP 5</p>
 </div>
 </li>
-
 <li>i到了6, k+1在4, 比较Pattern4和Pattern6,相等, k会增加, i 自动增加
 
-<div class="figure">
-<p><img src="../../static/images/cpf6.png" alt="cpf6.png" />
+<div id="Phase-KMP-6" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/kmp/phase_kmp_6.png" alt="phase_kmp_6.png" />
 </p>
+<p><span class="figure-number">Figure 12:</span> Phase KMP 6</p>
 </div>
 </li>
-
 <li>i到了7, k+1在5, 比较Pattern5和Pattern7,相等, k会增加, i 自动增加
 
-<div class="figure">
-<p><img src="../../static/images/cpf7.png" alt="cpf7.png" />
+<div id="Phase-KMP-7" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/kmp/phase_kmp_7.png" alt="phase_kmp_7.png" />
 </p>
+<p><span class="figure-number">Figure 13:</span> Phase KMP 7</p>
 </div>
 </li>
-
 <li>i到了8, k+1在6, 比较Pattern6和Pattern8,不相等, k会退回到pre[k]也就是3, i 保持不变
 
-<div class="figure">
-<p><img src="../../static/images/cpf8.png" alt="cpf8.png" />
+<div id="Phase-KMP-8" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/kmp/phase_kmp_8.png" alt="phase_kmp_8.png" />
 </p>
+<p><span class="figure-number">Figure 14:</span> Phase KMP 8</p>
 </div>
 </li>
-
 <li>i还在8, k+1在4, 比较Pattern4和Pattern8,不相等, k会退回到pre[k]也就是-1, i 保持不变
 
-<div class="figure">
-<p><img src="../../static/images/cpf9.png" alt="cpf9.png" />
+<div id="Phase-KMP-9" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/kmp/phase_kmp_9.png" alt="phase_kmp_9.png" />
 </p>
+<p><span class="figure-number">Figure 15:</span> Phase KMP 9</p>
 </div>
 </li>
-
 <li>i还在8, k+1在1, 比较Pattern1和Pattern8,不相等, pre[i]=-1, 然后i可以增加了
 
-<div class="figure">
-<p><img src="../../static/images/cpf10.png" alt="cpf10.png" />
+<div id="Phase-KMP-10" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/kmp/phase_kmp_10.png" alt="phase_kmp_10.png" />
 </p>
+<p><span class="figure-number">Figure 16:</span> Phase KMP 10</p>
 </div>
 </li>
-
 <li>i在9, k+1在1, 比较Pattern1和Pattern9,相等, pre[i]=0, 整个过程结束
 
-<div class="figure">
-<p><img src="../../static/images/cpf11.png" alt="cpf11.png" />
+<div id="Phase-KMP-11" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/kmp/phase_kmp_11.png" alt="phase_kmp_11.png" />
 </p>
+<p><span class="figure-number">Figure 17:</span> Phase KMP 11</p>
 </div>
 </li>
 </ol>
@@ -344,7 +347,6 @@ text序列加1, pattern从头开始,整个过程下来,复杂度就是O(mn)
 </ul>
 </div>
 </div>
-
 <div id="outline-container-sec-2" class="outline-2">
 <h2 id="sec-2">实现</h2>
 <div class="outline-text-2" id="text-2">

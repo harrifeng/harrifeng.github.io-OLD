@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 10: Exceptions, catch, and throw</title>
+<!-- 2014-05-15 Thu 19:20 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 10: Exceptions, catch, and throw</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">The Exception Class</a></li>
+<li><a href="#sec-2">Handling Exceptions</a>
+<ul>
+<li><a href="#sec-2-1">System Erros</a></li>
+<li><a href="#sec-2-2">Tidying Up</a></li>
+<li><a href="#sec-2-3">Play It Again</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">Raising Exceptions</a>
+<ul>
+<li><a href="#sec-3-1">Adding Information to Exceptions</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">catch and throw</a></li>
+</ul>
+</div>
+</div>
+<ul class="org-ul">
+<li>和java一样,ruby是使用exception来判断错误的. exception的策略和c语言的返回值是不
+一样的. exception原理是把错误包装一下,然后组成一个object, 抛给上层,然后直到有
+谁知道能如何处理这个exception object
+</li>
+</ul>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">The Exception Class</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>所有以Exception class为root的class创建的object都是exception object
+</li>
+<li>你可以使用内置Exception类其中的一个,或者继承其中的某一个.不然的话,无法抛出
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Handling Exceptions</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>下面这个例子是从网络上面下载某个网页的程序
+<div class="org-src-container">
+
+<pre class="src src-ruby">require <span style="color: #2aa198;">'open-uri'</span>
+web_page = open(<span style="color: #2aa198;">"http://pragprog.com/podcasts"</span>)
+output = <span style="color: #b58900;">File</span>.open(<span style="color: #2aa198;">"podcasts.html"</span>, <span style="color: #2aa198;">"w"</span>)
+<span style="color: #859900; font-weight: bold;">while</span> line = web_page.gets
+  output.puts line
+<span style="color: #859900; font-weight: bold;">end</span>
+output.close
+</pre>
+</div>
+</li>
+<li>网络是不稳定的,我们要给上面这段代码加上exception处理
+<div class="org-src-container">
+
+<pre class="src src-ruby">require <span style="color: #2aa198;">'open-uri'</span>
+page = <span style="color: #2aa198;">"podcasts"</span>
+file_name = <span style="color: #268bd2;">"#{page}</span><span style="color: #2aa198;">.html"</span>
+web_page = open(<span style="color: #2aa198;">"http://pragprog.com</span><span style="color: #268bd2;">/#{page}</span><span style="color: #2aa198;">"</span>)
+output = <span style="color: #b58900;">File</span>.open(file_name, <span style="color: #2aa198;">"w"</span>)
+
+<span style="color: #859900; font-weight: bold;">begin</span>
+  <span style="color: #859900; font-weight: bold;">while</span> line = web_page.gets
+    output.puts line
+  <span style="color: #859900; font-weight: bold;">end</span>
+  output.close
+<span style="color: #859900; font-weight: bold;">rescue</span> <span style="color: #b58900;">Exception</span>
+  <span style="color: #b58900;">STDERR</span>.puts <span style="color: #2aa198;">"Failed to downlead</span><span style="color: #268bd2;"> #{page}</span><span style="color: #2aa198;">:</span><span style="color: #268bd2;"> #{$!}</span><span style="color: #2aa198;">"</span>
+  output.close
+  <span style="color: #b58900;">File</span>.delete(file_name)
+  <span style="color: #859900; font-weight: bold;">raise</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>上面的代码我们会发现,一旦出现了exception, ruby会把错误放到全局变量$!里面.
+</li>
+<li>当我们遇到了错误,关闭了stream,然后删除了文件以后.再次调用了raise.这次调用
+raise没有任何参数,默认的话,就是$!里面的值.这是一种非常有用的技能,因为它可以
+让你处理自己能处理的Exception,然后raise自己不能处理的给更高层代码
+<pre class="example">
+It allows you to write code that filters exceptions, passing
+on those you can't handle to higher levels.
+</pre>
+</li>
+<li>你还可以rescue多个语句(就像try catch,catch多个语句一样)
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">begin</span>
+  eval string
+<span style="color: #859900; font-weight: bold;">rescue</span> <span style="color: #b58900;">SyntaxError</span>, <span style="color: #b58900;">NameError</span> =&gt; boom
+  print <span style="color: #2aa198;">"String doesn't compile:"</span> + boom
+<span style="color: #859900; font-weight: bold;">rescue</span> <span style="color: #b58900;">StandardError</span> =&gt; bang
+  print <span style="color: #2aa198;">"Error running script: "</span> + bang
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>上例中,如果rescue后面没有跟具体的Error,那么就是StandardError
+</li>
+<li>rescue的比较,使用的是 xxError === $!, 如果$!是xxError(superclass)的实例的话,
+就会是true
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">System Erros</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>Ruby把Unix的经典系统错误都包装成了Class(而且是SystemCallError的子类). 并且
+把这些常见错误,都定义在了Module Errno里面(也就是可以这样写Errno:EAGIN,
+Errno::EIO).这些class内部还有一个class constant,也叫Errno
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts <span style="color: #b58900;">Errno</span>::<span style="color: #b58900;">EAGAIN</span>::<span style="color: #b58900;">Errno</span>
+puts <span style="color: #b58900;">Errno</span>::<span style="color: #b58900;">EPERM</span>::<span style="color: #b58900;">Errno</span>
+puts <span style="color: #b58900;">Errno</span>::<span style="color: #b58900;">EWOULDBLOCK</span>::<span style="color: #b58900;">Errno</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">11                                             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">10035                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">TODO on Unix                                   #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">Tidying Up</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>有时候你要确保某些代码"必须执行", 无论是否出现了exception.比如你打开了文件,
+而你无论如何都要把文件close掉(类似java的finally),下面就是一个例子.需要注意
+的是.open要写在begin前面.因为如果open出现了exception是不会产生file的,也就
+不需要close
+<div class="org-src-container">
+
+<pre class="src src-ruby">f = <span style="color: #b58900;">File</span>.open(<span style="color: #2aa198;">"testfile"</span>)
+<span style="color: #859900; font-weight: bold;">begin</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">.. process</span>
+<span style="color: #859900; font-weight: bold;">rescue</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">.. handle error</span>
+<span style="color: #859900; font-weight: bold;">ensure</span>
+  f.close
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>ruby处理exception的时候,还有else,类似于default的情况吧.反正前面没抛出,就运
+行这句, 当然最后的ensure还是肯定会运行的
+<div class="org-src-container">
+
+<pre class="src src-ruby">f = <span style="color: #b58900;">File</span>.open(<span style="color: #2aa198;">"testfile"</span>)
+<span style="color: #859900; font-weight: bold;">begin</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">.. process</span>
+<span style="color: #859900; font-weight: bold;">rescue</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">.. handle error</span>
+<span style="color: #859900; font-weight: bold;">else</span>
+  puts <span style="color: #2aa198;">"Congratulations-- no errors!"</span>
+<span style="color: #859900; font-weight: bold;">ensure</span>
+  f.close
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">Play It Again</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li>如果有些时候,你再当前的context就可以修复问题,那么立马retry是个好主意.但是要
+非常小心的使用
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #268bd2;">@esmtp</span> = <span style="color: #268bd2;">true</span>
+
+<span style="color: #859900; font-weight: bold;">begin</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">First try an extended login. If it fails, fall back to a normal login</span>
+  <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #268bd2;">@esmtp</span> <span style="color: #859900; font-weight: bold;">then</span> <span style="color: #268bd2;">@command</span>.ehlo(helodom)
+  <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #268bd2;">@command</span>.helo(helodom)
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">rescue</span> <span style="color: #b58900;">ProtocolError</span>
+  <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #268bd2;">@esmtp</span> <span style="color: #859900; font-weight: bold;">then</span>
+    <span style="color: #268bd2;">@esmtp</span> = <span style="color: #268bd2;">false</span>
+    <span style="color: #859900; font-weight: bold;">retry</span>
+  <span style="color: #859900; font-weight: bold;">else</span>
+    <span style="color: #859900; font-weight: bold;">raise</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Raising Exceptions</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>抛出异常的方法是在自己的代码里面使用Object#raise函数
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span class="linenr">1: </span><span style="color: #859900; font-weight: bold;">raise</span>
+<span class="linenr">2: </span><span style="color: #859900; font-weight: bold;">raise</span> <span style="color: #2aa198;">"bad mp3 encoding"</span>
+<span class="linenr">3: </span><span style="color: #859900; font-weight: bold;">raise</span> <span style="color: #b58900;">InterfaceException</span>, <span style="color: #2aa198;">"Keyboard failure"</span>, caller
+</pre>
+</div>
+</li>
+<li>上面的例子中:
+<ol class="org-ol">
+<li>会抛出当前exception(如果在exception handler里面的话), 或者没有当前
+exception的话,就抛出RuntimeError
+</li>
+<li>中的情况是创建一个新的RuntimeError object, 把"bad mp3 encoding"作为参数
+传递进去
+</li>
+<li>中的情况是创建一个新的xxException object, "Keyboard failure"作为object
+的参数.然后stack trace传入到caller
+</li>
+</ol>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">Adding Information to Exceptions</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>Exception也是class,当然可以有自己的变量
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">RetryException</span> &lt; <span style="color: #b58900;">RuntimeError</span>
+  attr <span style="color: #268bd2; font-weight: bold;">:ok_to_retry</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>(ok_to_retry)
+    <span style="color: #268bd2;">@ok_to_retry</span> = ok_to_retry
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">catch and throw</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>前面的raise + rescue的做法其实核心是放弃当前的执行.
+</li>
+<li>而catch + throw,则是把问题交给更上层的context去处理
+<div class="org-src-container">
+
+<pre class="src src-ruby">word_list = <span style="color: #b58900;">File</span>.open(<span style="color: #2aa198;">"wordlist"</span>)
+<span style="color: #859900; font-weight: bold;">catch</span> (<span style="color: #268bd2; font-weight: bold;">:done</span>) <span style="color: #859900; font-weight: bold;">do</span>
+  result = []
+  <span style="color: #859900; font-weight: bold;">while</span> line = word_list.gets
+    word = line.chomp
+    <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #268bd2; font-weight: bold;">:done</span> <span style="color: #859900; font-weight: bold;">unless</span> word =~<span style="color: #2aa198;">/^\w+$/</span>
+    result &lt;&lt; word
+  <span style="color: #859900; font-weight: bold;">end</span>
+  puts result.reverse
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng'; 
+          
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

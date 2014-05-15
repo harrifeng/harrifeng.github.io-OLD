@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 4</title>
-<!-- 2014-05-02 Fri 08:18 -->
+<!-- 2014-05-15 Thu 19:21 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -177,6 +177,19 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1-1-3">State Ownership</a></li>
 </ul>
 </li>
+<li><a href="#sec-1-2">Instance Confinement</a>
+<ul>
+<li><a href="#sec-1-2-1">The Java Monitor Pattern</a></li>
+<li><a href="#sec-1-2-2">Example: Tracking Fleet Vehicles</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">Delegating Thread Safety</a>
+<ul>
+<li><a href="#sec-1-3-1">Vehicle Tracker Using Delegation</a></li>
+<li><a href="#sec-1-3-2">Independent State Variables</a></li>
+<li><a href="#sec-1-3-3">When Delegation Fails</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -325,6 +338,228 @@ LinkedList包含很多node,那么他的state就包括这些node的state
 </li>
 </ul>
 </div>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Instance Confinement</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>如果一个object不是thread-safe的,那么你依然可以通过如下的手段,使其在多线程的
+环境中使用:
+<ul class="org-ul">
+<li>只能通过一个thread访问
+</li>
+<li>访问这个"线程不安全"的object的时候,一定记得加锁
+</li>
+</ul>
+</li>
+<li>我们也可以把一个线程不安全的object放入到另外的一个object里面
+<pre class="example">
+Encapsulating data within an object confines access to the data
+to the object's methods, making it easier to ensure that the datat
+is always accessed with the appropriate lock held
+</pre>
+</li>
+<li>下面的例子中HashSet是线程不安全的, 但是通过把它设置为private, 而且把仅有的能
+访问private变量的函数, addPersion和containsPerson进行lock
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@ThreadSafe</span>
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">PersonSet</span> {
+    <span style="color: #268bd2; font-weight: bold;">@GuardedBy</span>(<span style="color: #2aa198;">"this"</span>)
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">Set</span>&lt;Person&gt; mySet = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">HashSet</span>&lt;Person&gt;();
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">synchronized</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">addPerson</span>(<span style="color: #b58900;">Person</span> <span style="color: #268bd2;">p</span>) {
+        mySet.add(p);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">synchronized</span> <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">containsPerson</span>(<span style="color: #b58900;">Person</span> <span style="color: #268bd2;">p</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> mySet.contains(p);
+    }
+}
+</pre>
+</div>
+</li>
+<li>上例中的Person类需要threadsafe
+</li>
+<li>要注意不要泄漏哪怕是iterator给外界,这也会造成state escape,然后线程不再安全
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">The Java Monitor Pattern</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>Java monitor pattern仅仅是一种"约定俗成". 只要你使用lock把自己的state锁住
+就可以了.用什么锁,无所谓. 比如下面,就是使用了一个private lock
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">PrivateLock</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">object</span> <span style="color: #268bd2;">myLock</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Object</span>();
+    <span style="color: #268bd2; font-weight: bold;">@GuardedBy</span>(<span style="color: #2aa198;">"myLock"</span>) <span style="color: #b58900;">Widget</span> <span style="color: #268bd2;">widget</span>;
+
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">someMethod</span>() {
+        <span style="color: #859900; font-weight: bold;">synchronized</span>(myLock){
+            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Access or modify the state of widget</span>
+        }
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2">Example: Tracking Fleet Vehicles</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>我们来看一个"追踪汽车位置"的应用:
+<ul class="org-ul">
+<li>VehicleTracker类用来把汽车id和他的位置进行包装
+</li>
+<li>view thread会取出某个汽车id,和他的位置,然后传递给显示器
+<div class="org-src-container">
+
+<pre class="src src-java">Map&lt;String, Point&gt; locations = vehicles.getLocations();
+<span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">String</span> <span style="color: #268bd2;">key</span> : locations.keySet()) {
+    renderVehicle(key, locations.get(key));
+}
+</pre>
+</div>
+</li>
+<li>updater threads会从GPS(或者死机手动输入)取得汽车的新位置,然后更改
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #b58900;">void</span> <span style="color: #268bd2;">vehicleMoved</span>(<span style="color: #b58900;">VehicleMovedEvent</span> <span style="color: #268bd2;">evt</span>) {
+    <span style="color: #b58900;">Point</span> <span style="color: #268bd2;">loc</span> = evt.getNewLocation();
+    vehicles.setLocation(evt.getVehicleId(), loc.x, loc.y);
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>由于view thread和updater thread都会同时访问data model, 所以thread safe对它
+来说,是必须的.
+</li>
+<li>虽然内部的MutablePointer不是线程安全的, 但是我们只要包成tracker class线程
+安全就可以了,因为所有的访问都是通过tracker class
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Delegating Thread Safety</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>Java monitor pattern的核心是,我们private所有的线程不安全的成员变量,然后"限制
+并且lock"所有触及这些变量的函数
+</li>
+<li>但是如果一个class所有的变量都线程安全呢?答案是:在某些情况下,所有成员都线程安
+全,合起来线程不安全&#x2026;
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">Vehicle Tracker Using Delegation</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>我们下面实现一个通过代理来"线程安全" 的例子. 所谓代理,就是把自己所有的state
+不管线程安全不安全,都代理给一个"线程安全的state". 这样就可以保证万无一失了
+</li>
+<li>使用Immutable的Point, 这样,返回位置的时候,就不需要deepcopy了.直接返回就行,
+因为immutable,也不怕被改
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@Immutable</span>
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Point</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span>, <span style="color: #268bd2;">y</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> Point(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">y</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.x = x;
+        <span style="color: #859900; font-weight: bold;">this</span>.y = y;
+    }
+}
+</pre>
+</div>
+</li>
+<li>下面就是代理版本的"追踪汽车位置"应用.需要深刻理解的是,我们返回的不再是一个,
+个的snaphot(还是deepcopy的), 我们返回的是live的点(通过getLocations),会随着
+我们内容的改变,而动态改变的
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@ThreadSafe</span>
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">DelegatingVehicleTracker</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">ConcurrentMap</span>&lt;String, Point&gt; locations;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">Map</span>&lt;String, Point&gt; unmodifiableMap;
+
+    <span style="color: #859900; font-weight: bold;">public</span> DelegatingVehicleTracker(Map&lt;String, Point&gt; points) {
+        locations = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ConcurrentHashMap</span>&lt;String, Point&gt;(points);
+        unmodifiableMap = Collections.unmodifiableMap(locations);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Map</span>&lt;String, Point&gt; getLocations() {
+        <span style="color: #859900; font-weight: bold;">return</span> unmodifiableMap;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Point</span> <span style="color: #268bd2;">getLocation</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">id</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> locations.get(id);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">setLocation</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">id</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">y</span>) {
+        <span style="color: #859900; font-weight: bold;">if</span> (locations.replace(id, <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Point</span>(x, y)) == <span style="color: #268bd2; font-weight: bold;">null</span>) {
+            <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">IllegalArgumentException</span>(<span style="color: #2aa198;">"invaid vehicle name: "</span> + id);
+        }
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2">Independent State Variables</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li>前面讲的代理是说,多个state代理给"一个线程安全的state". 如果你想的话,你也可
+以把你的多个state代理给"多个相互之间没有关系的states"
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">VisualComponent</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">List</span>&lt;KeyListener&gt; keyListeners
+        = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">CopyOnWriteArrayList</span>&lt;KeyListener&gt;();
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">List</span>&lt;MouseListener&gt; mouseListeners
+        = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">CopyOnWriteArrayList</span>&lt;MouseListener&gt;();
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">addKeyListener</span>(<span style="color: #b58900;">KeyListener</span> <span style="color: #268bd2;">listener</span>) {
+        keyListeners.add(listener);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">addMouseListener</span>(<span style="color: #b58900;">MouseListener</span> <span style="color: #268bd2;">listener</span>) {
+        mouseListeners.add(listener);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">removeKeyListener</span>(<span style="color: #b58900;">KeyListener</span> <span style="color: #268bd2;">listener</span>) {
+        keyListeners.remove(listener);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">removeMouseListener</span>(<span style="color: #b58900;">MouseListener</span> <span style="color: #268bd2;">listener</span>) {
+        mouseListeners.remove(listener);
+    }
+}
+</pre>
+</div>
+</li>
+<li>上例中使用的CopyOnWriteArrayList是一种thread-safe的List实现.其所有的可变操
+作（add、set 等）都是通过对底层数组进行一次新的复制来实现的，代价昂贵.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3">When Delegation Fails</h4>
 </div>
 </div>
 </div>

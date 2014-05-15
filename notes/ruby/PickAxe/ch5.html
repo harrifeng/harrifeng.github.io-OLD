@@ -1,0 +1,834 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 05: Sharing Functionality: Inheritance, Modules, and Mixins</title>
+<!-- 2014-05-15 Thu 19:20 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 05: Sharing Functionality: Inheritance, Modules, and Mixins</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Sharing Functionality: Inheritance, Modules, and Mixins</a>
+<ul>
+<li><a href="#sec-1-1">Inheritance and Messages</a></li>
+<li><a href="#sec-1-2">Modules</a>
+<ul>
+<li><a href="#sec-1-2-1">Namespaces</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">Mixins</a></li>
+<li><a href="#sec-1-4">Iterators and the Numerable Module</a></li>
+<li><a href="#sec-1-5">Composing Modules</a>
+<ul>
+<li><a href="#sec-1-5-1">Instance Variables in Mixins</a></li>
+<li><a href="#sec-1-5-2">Resolving Ambiguous Method Names</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-6">Inheritance, Mixins, and Design</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Sharing Functionality: Inheritance, Modules, and Mixins</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>一个良好设计最简单的一点就是要做到"Don't repeat yourself"
+</li>
+<li>class的设计可以自动的被class的instance所利用, 除了class以外,还有很多其他的方
+法来避免代码重复,提高代码重用
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Inheritance and Messages</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>继承,就是子函数继承父函数的所有函数, 这个和其他高级语言一样
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Parent</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">say_hello</span>
+    puts <span style="color: #2aa198;">"Hello from</span><span style="color: #268bd2;"> #{self}</span><span style="color: #2aa198;">"</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+p = <span style="color: #b58900;">Parent</span>.new
+p.say_hello
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Subclass the parent...</span>
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Child</span> &lt; <span style="color: #b58900;">Parent</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+c = <span style="color: #b58900;">Child</span>.new
+c.say_hello
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Hello from #&lt;Parent:0x007f8f3c078b18&gt;          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Hello from #&lt;Child:0x007f8f3c078a00&gt;           #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>Ruby内置了一个叫做superclass的函数, 返回当前class的parent class. 所有的class
+的root都是Object,所以没得显示了,就现实Object
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Parent</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Child</span> &lt; <span style="color: #b58900;">Parent</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+p <span style="color: #b58900;">Child</span>.superclass
+
+p <span style="color: #b58900;">Parent</span>.superclass
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Parent                                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Object                                         #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>当然下面是语言基础继承方式,Object-&gt;BasicObject-&gt;nil
+<div class="org-src-container">
+
+<pre class="src src-ruby">p <span style="color: #b58900;">Object</span>.superclass
+p <span style="color: #b58900;">Object</span>.superclass.superclass
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">BasicObject                                    #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">nil                                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>之所以每个函数都可以使用to_s,因为to_s是Object的函数,所以你肯定可以调用的到
+它,只不过,输出不一定友好(注意puts才是返回to_s, p返回inspect)
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Person</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>(name)
+    <span style="color: #268bd2;">@name</span> = name
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+p = <span style="color: #b58900;">Person</span>.new(<span style="color: #2aa198;">"Michael"</span>)
+puts p
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">#&lt;Person:0x007f8f3c86eb38&gt;                     #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>想让显示好看一点,可以覆写to_s
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Person</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>(name)
+    <span style="color: #268bd2;">@name</span> = name
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">to_s</span>
+    <span style="color: #2aa198;">"Person named</span><span style="color: #268bd2;"> #{@name}</span><span style="color: #2aa198;">"</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+p = <span style="color: #b58900;">Person</span>.new(<span style="color: #2aa198;">"Michael"</span>)
+puts p
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Person named Michael                           #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>下面我们来看看一个GServer的例子. 我们自己设计一个叫做LogServer的类, 继承自
+GServer.
+<div class="org-src-container">
+
+<pre class="src src-ruby">require <span style="color: #2aa198;">'gserver'</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">LogServer</span> &lt; <span style="color: #b58900;">GServer</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>
+    <span style="color: #859900; font-weight: bold;">super</span>(12345)
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">serve</span>(client)
+    client.puts get_end_of_log_file
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">private</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">get_end_of_log_file</span>
+    <span style="color: #b58900;">File</span>.open(<span style="color: #2aa198;">"/var/log/system.log"</span>) <span style="color: #859900; font-weight: bold;">do</span> |log|
+      log.seek(-500, <span style="color: #b58900;">IO</span>::<span style="color: #b58900;">SEEK_END</span>) <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">bak up 500 characters from end</span>
+      log.gets                     <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">ignore partial line</span>
+      log.read                     <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">returned value</span>
+    <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+server = <span style="color: #b58900;">LogServer</span>.new
+server.start.join
+</pre>
+</div>
+</li>
+<li>其运行结果如下
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ telnet 127.0.0.1 12345
+Trying 127.0.0.1...
+Connected to localhost.
+Escape character is <span style="color: #2aa198;">'^]'</span>.
+May  7 21:52:50 hfengdeMacBook-Air kernel[0]: wl0: Roamed or switched channel, reason <span style="color: #93a1a1;">#</span><span style="color: #93a1a1;">4, bssid d4:ee:07:02:41:ca</span>
+May  7 21:52:50 hfengdeMacBook-Air kernel[0]: en0: BSSID changed to d4:ee:07:02:41:ca
+May  7 21:52:50 hfengdeMacBook-Air kernel[0]: AirPort: RSN handshake complete on en0
+May  7 21:52:53 hfengdeMacBook-Air.local login[1086]: USER_PROCESS: 1086 ttys005
+May  7 21:54:23 hfengdeMacBook-Air.local apsd[81]: Unrecognized leaf certificate
+Connection closed by foreign host.
+</pre>
+</div>
+</li>
+<li>super(12345)就是在TCP的12345端口建立链接
+</li>
+<li>get_end_of_log_file会返回最后一行log.read 就是log文件的最后500个字符.
+</li>
+<li>serve()这个函数,会在start()中被调用.所以在serve里面的打印会被在start调用的
+时候显示
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Modules</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>ruby中的module的作用是把method, class,constant集合到一块的一个用法, 其给我
+们提供了如下的两种便利:
+<ul class="org-ul">
+<li>提供了命名空间(namespace), 防止了名字冲突
+</li>
+<li>还提供了mixin功能.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">Namespaces</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>class本身是一种命名空间,但是class本身要求其组成部分本身具有一定的逻辑相关
+性.如果你想把一些没有逻辑没有关系的成员聚集起来的话,就不能再使用. 所以ruby
+引入了module这个概念
+</li>
+<li>简单一句话概括就是:module让你使用多个class里面的内容. 如果说class跟object
+更相关的话,module跟function更相关.
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">class</th>
+<th scope="col" class="left">module</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">instantiation</td>
+<td class="left">can be instantiated</td>
+<td class="left">can <b>not</b> be instantiated</td>
+</tr>
+
+<tr>
+<td class="left">usage</td>
+<td class="left">object creation</td>
+<td class="left">mixin facility, namespace</td>
+</tr>
+
+<tr>
+<td class="left">superclass</td>
+<td class="left">module</td>
+<td class="left">object</td>
+</tr>
+
+<tr>
+<td class="left">consists of</td>
+<td class="left">methods, constants, variables</td>
+<td class="left">methods, constants, classes</td>
+</tr>
+
+<tr>
+<td class="left">methods</td>
+<td class="left">class methods,  instantce methods</td>
+<td class="left">module methods, instance methods</td>
+</tr>
+
+<tr>
+<td class="left">inheritance</td>
+<td class="left">inherits behavior and inheritance</td>
+<td class="left">No inheritance</td>
+</tr>
+
+<tr>
+<td class="left">inclusion</td>
+<td class="left">cannot be included</td>
+<td class="left">can be included in class</td>
+</tr>
+
+<tr>
+<td class="left">extension</td>
+<td class="left">can not extend with extend</td>
+<td class="left">can extend</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>先看一个Module提供namespace的例子
+<ul class="org-ul">
+<li>首先定义tut_modules/trig.rb文件
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">module</span> <span style="color: #b58900;">Trig</span>
+  <span style="color: #b58900;">PI</span> = 3.1415926
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">Trig.sin</span>(x)
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">..</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">Trig.cos</span>(x)
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">..</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>然后定义tut_modules/moral.rb文件
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">module</span> <span style="color: #b58900;">Moral</span>
+  <span style="color: #b58900;">VERY_BAD</span> = 0
+  <span style="color: #b58900;">BAD</span> = 1
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">Moral.sin</span>(badness)
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">..</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>当我们想使用两者的时候,直接在文件tut_modules/pin_head.rb里面如下调用(::)
+<div class="org-src-container">
+
+<pre class="src src-ruby">require_relative <span style="color: #2aa198;">'trig'</span>
+require_relative <span style="color: #2aa198;">'moral'</span>
+y = <span style="color: #b58900;">Trig</span>.sin(<span style="color: #b58900;">Trig</span>::<span style="color: #b58900;">PI</span>/4)
+wrongdoing = <span style="color: #b58900;">Moral</span>.sin(<span style="color: #b58900;">Moral</span>::<span style="color: #b58900;">VERY_BAD</span>)
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Mixins</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>我们知道java中,其实inheritance用的不多的, 因为composition显然能解决更多的问
+题.在ruby中,避免使用继承的方法是mixin
+</li>
+<li>mixin粗略来看,其实就是一种"不需要在类内部创建其他类实例的"composition
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">module</span> <span style="color: #b58900;">Debug</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">who_am_i?</span>
+    <span style="color: #268bd2;">"#{self.class.name}</span><span style="color: #2aa198;"> (id:</span><span style="color: #268bd2;"> #{self.object_id}</span><span style="color: #2aa198;">):</span><span style="color: #268bd2;"> #{self.name}</span><span style="color: #2aa198;">"</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Phonograph</span>
+  include <span style="color: #b58900;">Debug</span>
+  attr_reader <span style="color: #268bd2; font-weight: bold;">:name</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>(name)
+    <span style="color: #268bd2;">@name</span> = name
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">EightTrack</span>
+  include <span style="color: #b58900;">Debug</span>
+  attr_reader <span style="color: #268bd2; font-weight: bold;">:name</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>(name)
+    <span style="color: #268bd2;">@name</span> = name
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+ph = <span style="color: #b58900;">Phonograph</span>.new(<span style="color: #2aa198;">"West End Blues"</span>)
+et = <span style="color: #b58900;">EightTrack</span>.new(<span style="color: #2aa198;">"Surrealistic Pillow"</span>)
+
+p ph.who_am_i?
+p et.who_am_i?
+
+<span style="color: #93a1a1;">####################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;   #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"Phonograph (id: 20528256): West End Blues"      #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"EightTrack (id: 20528232): Surrealistic Pillow" #</span>
+<span style="color: #93a1a1;">####################################################</span>
+</pre>
+</div>
+</li>
+<li>前面的例子中Module只能含有class类,而且调用的时候也只能调用class函数. 这个例子
+中Module有了自己的instance函数, 但是Module自己又不能被instance化,所以,这些
+instance函数都是为那些个include我们Module的class们准备哒!
+</li>
+<li>ruby里面的include跟c不一样,更类似于java在class内部声明了另外一个class的instance
+而且ruby里面的include的Module如果在另外的一个文件,那么需要require把文件先加
+进来, 换句话说,require是文件级别的引用. include只有object级别的引用
+</li>
+<li>ruby的动态性体现在,被引用的module行为在运行时改变了,那么引用这些module的其他
+class的行为也随之改变.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Person</span>
+  include <span style="color: #b58900;">Comparable</span>
+  attr_reader <span style="color: #268bd2; font-weight: bold;">:name</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>(name)
+    <span style="color: #268bd2;">@name</span> = name
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">to_s</span>
+    <span style="color: #268bd2;">"#{@name}</span><span style="color: #2aa198;">"</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">&lt;=&gt;</span>(other)
+    <span style="color: #268bd2;">self</span>.name &lt;=&gt; other.name
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+p1 = <span style="color: #b58900;">Person</span>.new(<span style="color: #2aa198;">"Matz"</span>)
+p2 = <span style="color: #b58900;">Person</span>.new(<span style="color: #2aa198;">"Guido"</span>)
+p3 = <span style="color: #b58900;">Person</span>.new(<span style="color: #2aa198;">"Larry"</span>)
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Compare a couple of names</span>
+<span style="color: #859900; font-weight: bold;">if</span> p1 &gt; p2
+  puts <span style="color: #268bd2;">"#{p1.name}</span><span style="color: #2aa198;">'s name &gt;</span><span style="color: #268bd2;"> #{p2.name}</span><span style="color: #2aa198;">'s name"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Sort an array of Person objects</span>
+puts <span style="color: #2aa198;">"Sorted list:"</span>
+puts [p1, p2, p3].sort
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Matz's name &gt; Guido's name                     #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Sorted list:                                   #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Guido                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Larry                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Matz                                           #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Iterators and the Numerable Module</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>Ruby的Collection(Array, Hash)支持一系列的遍历,排序等等.这些功能都被集成到了
+Enumerable module, 你只需要:
+<ul class="org-ul">
+<li>实现一个each函数,依次返回你的成员
+</li>
+<li>mix这个module,这些功能就全都有了
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Composing Modules</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>Enumerable里面有一个我们的老相好:inject. 其功能就是把某个操作(比如下面的加法),
+先运用到前两个成员,然后和第三个,第四个&#x2026;.等等.
+<div class="org-src-container">
+
+<pre class="src src-ruby">p [1, 2, 3, 4, 5].inject(<span style="color: #268bd2; font-weight: bold;">:+</span>)
+p (<span style="color: #2aa198;">'a'</span>..<span style="color: #2aa198;">'m'</span>).inject(<span style="color: #268bd2; font-weight: bold;">:+</span>)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">15                                             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"abcdefghijklm"                                #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>下面看一个自己书写的函数如何获取Enumerable的功能(这里只列举了inject)的例子.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">VowelFinder</span>
+  include <span style="color: #b58900;">Enumerable</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>(string)
+    <span style="color: #268bd2;">@string</span> = string
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">each</span>
+    <span style="color: #268bd2;">@string</span>.scan(<span style="color: #2aa198;">/[aeiou]/</span>) <span style="color: #859900; font-weight: bold;">do</span> |vowel|
+      <span style="color: #859900; font-weight: bold;">yield</span> vowel
+    <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+vf = <span style="color: #b58900;">VowelFinder</span>.new(<span style="color: #2aa198;">"the quick brown fox jumped"</span>)
+vf.inject(<span style="color: #268bd2; font-weight: bold;">:+</span>)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"euiooue"                                      #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1">Instance Variables in Mixins</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<ul class="org-ul">
+<li>Module自己要存储自己的state,那么,肯定要有自己的变量.但是,非常非常不幸的是,
+由于mixin的存在. Module自己的instance variable也会和instance一起,被导入到
+include它们的class里面.如果include他们的class刚巧也有同名的instance variable
+那么就惨了.这会导致非常非常隐蔽的错误, 比如下面的例子中,使用Module Observable
+的函数有个一模一样的@observer_list.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">module</span> <span style="color: #b58900;">Observable</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">observers</span>
+    <span style="color: #268bd2;">@observer_list</span> ||= []
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">add_observer</span>(obj)
+    observers &lt;&lt; obj
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">notify_observers</span>
+    observers.each {|o| o.update}
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">TelescopeScheduler</span>
+  include <span style="color: #b58900;">Observable</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>
+    <span style="color: #268bd2;">@observer_list</span>= []          <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">error! already has the same name</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">....</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>所以Module一定要定义自己instance 变量的时候,要时刻注意这个问题.有两种解决的
+办法:
+<ul class="org-ul">
+<li>instance变量都加写前缀,比如"modulename_"
+</li>
+<li>上述方法还是不保险,因为也很有可能使用modulename_的前缀.所以,更保险的方法
+是使用module-level的哈希来替代instance变量. 让instance变量永远不出现在
+Module里面! 当然了,这样写也有风险因为一个为某个object保留了变量,但是这个
+object已经不再的时候,这个变量说不定还在. 一般来说"如果一个mixin需要自己
+的state,那么它其实应该是个class,而不是mixin"
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">module</span> <span style="color: #b58900;">Test</span>
+  <span style="color: #b58900;">State</span> = {}
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">state=</span>(value)
+    <span style="color: #b58900;">State</span>[object_id] = value
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">state</span>
+    <span style="color: #b58900;">State</span>[object_id]
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Client</span>
+  include <span style="color: #b58900;">Test</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+c1 = <span style="color: #b58900;">Client</span>.new
+c2 = <span style="color: #b58900;">Client</span>.new
+c1.state = <span style="color: #2aa198;">'cat'</span>
+c2.state = <span style="color: #2aa198;">'dog'</span>
+p c1.state
+p c2.state
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"cat"                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"dog"                                          #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5-2" class="outline-4">
+<h4 id="sec-1-5-2">Resolving Ambiguous Method Names</h4>
+<div class="outline-text-4" id="text-1-5-2">
+<ul class="org-ul">
+<li>最后一个问题就是如果在如下的几个地方都用重名的函数的话,那么寻找的顺序如下:
+<ol class="org-ol">
+<li>immediate calss of an object
+</li>
+<li>mixin included into that class (same name in difference mixin: last
+included is searched first)
+</li>
+<li>superclass
+</li>
+<li>superclass's mixin(same name in difference mixin: last included is
+searched first)
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Inheritance, Mixins, and Design</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>继承(inheritance)和模块混入(mixin)都能把代码注入到多个class里面,但是使用的
+时候各有千秋:
+<ul class="org-ul">
+<li>如果是严格的is-a关系,那么就使用inheritnce
+</li>
+<li>如果是has-a, use-a, 甚至是某些is-a都必须使用mixin(也就是java里面的composition)
+因为这个世界没有那么多的is-a, 而且is-a实在太重了.它承担了太多了历史包袱.
+</li>
+</ul>
+</li>
+<li>Rails里面的经典错误就是让Person继承自DataWrapper, 我们应该使用mixin
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Person</span>
+  include <span style="color: #b58900;">Persistable</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Instead of</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Person</span> &lt; <span style="color: #b58900;">DataWrapper</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng'; 
+          
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

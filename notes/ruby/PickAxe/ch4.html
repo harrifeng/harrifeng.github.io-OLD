@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 04: Containers, Blocks, and Iterators</title>
-<!-- 2014-05-02 Fri 08:18 -->
+<!-- 2014-05-15 Thu 19:20 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -226,8 +226,14 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1-3-4">Enumerators Are Objects</a></li>
 <li><a href="#sec-1-3-5">Enumerators Are Generators and Filters</a></li>
 <li><a href="#sec-1-3-6">Lazy Enumerators in Ruby 2</a></li>
+<li><a href="#sec-1-3-7">Blocks for Transactions</a></li>
+<li><a href="#sec-1-3-8">Blocks Can Be Objects</a></li>
+<li><a href="#sec-1-3-9">Blocks Can Be Closures</a></li>
+<li><a href="#sec-1-3-10">An Alternative Notation</a></li>
+<li><a href="#sec-1-3-11">Block Parameter Lists</a></li>
 </ul>
 </li>
+<li><a href="#sec-1-4">Containers Everywhere</a></li>
 </ul>
 </li>
 </ul>
@@ -726,7 +732,7 @@ require <span style="color: #2aa198;">'test/unit'</span>
 <li>上面两个例子中,均出现了|word, count|的组合, 这是因为ruby把code block看作是
 一个method, 而一个method也就必然会有输入参数, |word, count|就是输入的参数.
 为了更好的理解这个问题,我们可以再次的把介绍code block时候的一段代码写出来
-来更好的理解iterator + code block的行为. 
+来更好的理解iterator + code block的行为.
 <div class="org-src-container">
 
 <pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">who_says_what</span>
@@ -1218,7 +1224,7 @@ p enum_in_threes.to_a
 <li>iterator的返回值都是Enumerator, 但是Enumerator其实也就是一个普通的类,你也
 可以自己"凭空"创建一个Enumerator. 然后把它作为code block的一部分进行使用.
 下面的这个例子,我们创建了trigngular_number以后.什么时候需要就直接调用next
-就可以了.调用几次就会出现几次的value. 
+就可以了.调用几次就会出现几次的value.
 <div class="org-src-container">
 
 <pre class="src src-ruby">triangular_numbers = <span style="color: #b58900;">Enumerator</span>.new <span style="color: #859900; font-weight: bold;">do</span> |yielder|
@@ -1301,6 +1307,408 @@ p infinite_select(triangular_numbers) {|val| val % 10 == 0}.first(5)
 </div>
 <div id="outline-container-sec-1-3-6" class="outline-4">
 <h4 id="sec-1-3-6">Lazy Enumerators in Ruby 2</h4>
+<div class="outline-text-4" id="text-1-3-6">
+<ul class="org-ul">
+<li>前面我们讲过了, 使用enumerator产生无限循环序列,需要你自己书写select, 如果你
+使用了2.0版本的ruby会有buildin的支持o#TODO#
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-7" class="outline-4">
+<h4 id="sec-1-3-7">Blocks for Transactions</h4>
+<div class="outline-text-4" id="text-1-3-7">
+<ul class="org-ul">
+<li>虽然block最常用的地方是为iterator指明要做的事情,但是它还有很多其他的用处,
+比如你可以使用block将一组操作变成一个block.比如你要打开数据库,进行操作.打开
+数据库的后,为了防止忘了关闭,我们要把打开-关闭数据库做成一个"事务", block就
+可以大展身手了
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">File</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">self.open_and_process</span>(*args)
+    f = <span style="color: #b58900;">File</span>.open(*args)
+    <span style="color: #859900; font-weight: bold;">yield</span> f
+    f.close()
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+
+<span style="color: #b58900;">File</span>.open_and_process(<span style="color: #2aa198;">"testfile.txt"</span>, <span style="color: #2aa198;">"r"</span>) <span style="color: #859900; font-weight: bold;">do</span> |file|
+  <span style="color: #859900; font-weight: bold;">while</span> line = file.gets
+    puts line
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">###########################################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">c:/ttmp/ruby_in_action/pickaxe/misc &gt;&gt;&gt; ruby tut_block_transactions.rb  #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">The line is: This is line one                                           #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">The line is: This is line two                                           #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">The line is: This is line three                                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">The line is: And so on...                                               #</span>
+<span style="color: #93a1a1;">###########################################################################</span>
+</pre>
+</div>
+</li>
+<li>这里我们第一次看到了class method, 也就是高级语言里面的static函数, 这种函数
+的特点是:被class调用,而不是被instance调用.这种函数参数的设计在语法上,就是多
+了一个self比如这里函数名字定义的时候是self.open_and_process,使用的时候是直
+接使用类名调用.
+</li>
+<li>这个函数不仅仅是一个class method, 其参数设计也很特别. 由于我们不太关心参数
+到底是什么,我们就设置了一个叫做*args的参数,其背后的意思是"所有传给这个函数的
+参数都给我记录下来,然后转换成一个叫做args的数组"
+</li>
+<li>然后File通过这个*args参数来打开文件, 下面就是见证奇迹的时刻!:
+<ul class="org-ul">
+<li>首先通过yield 将文件句柄(file descriptor)传给了code block
+</li>
+<li>然后调用了f.close(), 也就是说yield将f的"指挥权"转移走了.但是f的"释放权"还
+紧紧的在我手中.f被block利用完之后,我始终会记得close文件
+</li>
+</ul>
+</li>
+<li>这种防止忘记关闭文件的做法非常的有效,有用,以至于ruby直接在语言内部在Open函
+数中进行了类似支持(ruby老是这样..觉得好用,就自己收下了&#x2026;),对于File.open
+这个函数来说:
+<ul class="org-ul">
+<li>如果open后面没有使用block的话,那么就是一个"正常的和其他语言无异的"返回fd
+的函数. 你后面要记得close自己的fd
+</li>
+<li>如果open后面使用了block的话,open会把fd先交给code block运行,而且在code block
+结束的时候,自己close掉fd. 下面我们来模仿一下ruby是如何实现这种情况的.注意
+result是返回值.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">File</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">self.my_open</span>(*args)
+    result = file = <span style="color: #b58900;">File</span>.new(*args)
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">If there's a block, pass in the file and close the file when</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">it returns</span>
+    <span style="color: #859900; font-weight: bold;">if</span> block_given?
+      result = <span style="color: #859900; font-weight: bold;">yield</span> file
+      file.close
+    <span style="color: #859900; font-weight: bold;">end</span>
+    result
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-8" class="outline-4">
+<h4 id="sec-1-3-8">Blocks Can Be Objects</h4>
+<div class="outline-text-4" id="text-1-3-8">
+<ul class="org-ul">
+<li>Block有点类似java里面的匿名函数(anoymous method), 但是ruby赋予了他更多:你
+可以把block转换成object:有成员变量,可以传递给其他函数,以后还可以来使用.
+</li>
+<li>先来看看ruby是如何把一个block转换成函数的参数的(会转换成Proc类型的参数)
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ProcExample</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">pass_in_block</span>(&amp;action)
+    <span style="color: #268bd2;">@stored_proc</span> = action
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">use_proc</span>(parameter)
+    <span style="color: #268bd2;">@stored_proc</span>.call(parameter)
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+eg = <span style="color: #b58900;">ProcExample</span>.new
+eg.pass_in_block {|param| puts <span style="color: #2aa198;">"The parameter is</span><span style="color: #268bd2;"> #{param}</span><span style="color: #2aa198;">"</span>}
+eg.use_proc(99)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">The parameter is 99                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>我们会发现上面利用block的方式是两步:
+<ul class="org-ul">
+<li>pass_in_block先把block传入到自己内部, 使用了符号"&amp;", 把block存成了变量
+stored_proc
+</li>
+<li>然后调用use_proc来进行使用, 其内部过程就是stored_proc调用call, 参数为
+use_proc的参数.
+</li>
+</ul>
+</li>
+<li>上述使用方法,广泛存在于ruby代码中,用来实现callback等功能.当然了你可以再进
+一步.比如下面的这个方法create_block_object,做法很简单:就是把一个block整理
+一下,然后返回成object. 这个object类型为Proc, 直接可以调用call等函数.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">create_block_object</span>(&amp;block)
+  block
+<span style="color: #859900; font-weight: bold;">end</span>
+
+bo = create_block_object{ |param| puts <span style="color: #2aa198;">"You called me with</span><span style="color: #268bd2;"> #{param}</span><span style="color: #2aa198;">"</span>}
+bo.call 99
+bo.call <span style="color: #2aa198;">"cat"</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">You called me with 99                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">You called me with cat                         #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>ruby一看,这个block转换成objec的需求如此强劲, 直接推出了两种将block转成object
+的方式:
+<ul class="org-ul">
+<li>Proc.new, block作为参数,返回Proc类型的变量
+</li>
+<li>lambda:
+<div class="org-src-container">
+
+<pre class="src src-ruby">bo = lambda { |param| puts <span style="color: #2aa198;">"You called me with</span><span style="color: #268bd2;"> #{param}</span><span style="color: #2aa198;">"</span>}
+bo.call 99
+bo.call <span style="color: #2aa198;">"cat"</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">You called me with 99                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">You called me with cat                         #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-9" class="outline-4">
+<h4 id="sec-1-3-9">Blocks Can Be Closures</h4>
+<div class="outline-text-4" id="text-1-3-9">
+<ul class="org-ul">
+<li>下面这个例子, n_times从thing里面取得一个参数,然后改装成了Proc类型的object
+返回回去.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">n_times</span>(thing)
+  lambda {|n| thing * n}
+<span style="color: #859900; font-weight: bold;">end</span>
+
+p1 = n_times(23)
+p p1.call(3)
+p p1.call(4)
+p2 = n_times(<span style="color: #2aa198;">"Hello "</span>)
+p p2.call(3)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">69                                             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">92                                             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"Hello Hello Hello "                           #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>从结果我们可以看到,虽然,当我们的Proc类型的object调用call的时候,thing已经不
+在自己的scope了,但是Proc类型的object竟然还能利用他. 这种功能叫做closure
+<pre class="example">
+Variables in the surrounding scope that are referenced in a block
+remain accessible for the life of that block and the life of any
+Proc object created from that block
+</pre>
+</li>
+<li>下面这个例子,能够返回2的乘方,细细品味一下是如何做到的.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">power_proc_generator</span>
+  value = 1
+  lambda { value += value}
+<span style="color: #859900; font-weight: bold;">end</span>
+
+power_proc = power_proc_generator
+
+puts power_proc.call
+puts power_proc.call
+puts power_proc.call
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">4                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">8                                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-10" class="outline-4">
+<h4 id="sec-1-3-10">An Alternative Notation</h4>
+<div class="outline-text-4" id="text-1-3-10">
+<ul class="org-ul">
+<li>我们的lambda可以有如下变体
+<div class="org-src-container">
+
+<pre class="src src-ruby">lambda {|params| ...}
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">is equal to following</span>
+-&gt; params {...}
+</pre>
+</div>
+</li>
+<li>然后看看新的写法的例子
+<div class="org-src-container">
+
+<pre class="src src-ruby">proc1 = -&gt; arg {puts <span style="color: #2aa198;">"In proc1 with</span><span style="color: #268bd2;"> #{arg}</span><span style="color: #2aa198;">"</span>}
+proc2 = -&gt; arg1, arg2 {puts <span style="color: #2aa198;">"In proc2 with</span><span style="color: #268bd2;"> #{arg1}</span><span style="color: #2aa198;"> and</span><span style="color: #268bd2;"> #{arg2}</span><span style="color: #2aa198;">"</span>}
+proc3 = -&gt; (arg1, arg2) {puts <span style="color: #2aa198;">"In proc3 with</span><span style="color: #268bd2;"> #{arg1}</span><span style="color: #2aa198;"> and</span><span style="color: #268bd2;"> #{arg2}</span><span style="color: #2aa198;">"</span>}
+
+proc1.call <span style="color: #2aa198;">"ant"</span>
+proc2.call <span style="color: #2aa198;">"bee"</span>, <span style="color: #2aa198;">"cat"</span>
+proc3.call <span style="color: #2aa198;">"dog"</span>, <span style="color: #2aa198;">"elk"</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">In proc1 with ant                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">In proc2 with bee and cat                      #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">In proc3 with dog and elk                      #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>新写法的有点是易于传递, 比如把一整个code block作为参数传入
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">my_if</span>(condition, then_clause, else_clause)
+  <span style="color: #859900; font-weight: bold;">if</span> condition
+    then_clause.call
+  <span style="color: #859900; font-weight: bold;">else</span>
+    else_clause.call
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+5.times <span style="color: #859900; font-weight: bold;">do</span> |val|
+  my_if val &lt; 2,
+  -&gt; {puts <span style="color: #268bd2;">"#{val}</span><span style="color: #2aa198;"> is small"</span>},
+  -&gt; {puts <span style="color: #268bd2;">"#{val}</span><span style="color: #2aa198;"> is big"</span>}
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">0 is small                                     #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1 is small                                     #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2 is big                                       #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">3 is big                                       #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">4 is big                                       #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>传入一个code block给一个函数的另外一个优点是,这个block可以不断
+的被计算
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">my_while</span>(cond, &amp;body)
+  <span style="color: #859900; font-weight: bold;">while</span> cond.call
+    body.call
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+a = 0
+
+my_while -&gt; {a &lt; 3} <span style="color: #859900; font-weight: bold;">do</span>
+  puts a
+  a += 1
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">0                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2                                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-11" class="outline-4">
+<h4 id="sec-1-3-11">Block Parameter Lists</h4>
+<div class="outline-text-4" id="text-1-3-11">
+<ul class="org-ul">
+<li>我们在来回忆一下code block的两种模式:
+<ul class="org-ul">
+<li>一种是{}负责单行
+</li>
+<li>一种是do-end负责多行
+</li>
+</ul>
+</li>
+<li>我们前面的lambda的用法都是单行的,也可以转换成多行:
+<ul class="org-ul">
+<li>lambda可以写成如下的:
+<div class="org-src-container">
+
+<pre class="src src-ruby"> <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">previous usage : lambda {|n| thing * n}</span>
+ <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">{} is equal to beg ... end</span>
+ proc1 = lambda <span style="color: #859900; font-weight: bold;">do</span> |a, *b, &amp;block|
+   puts <span style="color: #2aa198;">"a =</span><span style="color: #268bd2;"> #{a.inspect}</span><span style="color: #2aa198;">"</span>
+   puts <span style="color: #2aa198;">"b =</span><span style="color: #268bd2;"> #{b.inspect}</span><span style="color: #2aa198;">"</span>
+   block.call
+ <span style="color: #859900; font-weight: bold;">end</span>
+
+ proc1.call(1, 2, 3, 4) {puts <span style="color: #2aa198;">"in block1"</span>}
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">a = 1                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">b = [2, 3, 4]                                  #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">in block1                                      #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>-&gt;notation可以写成如下的
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">previous usage : -&gt; arg {puts "In proc1 with #{arg}"}</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">{} is equal to beg ... end</span>
+proc2 = -&gt; a, *b, &amp;block <span style="color: #859900; font-weight: bold;">do</span>
+  puts <span style="color: #2aa198;">"a =</span><span style="color: #268bd2;"> #{a.inspect}</span><span style="color: #2aa198;">"</span>
+  puts <span style="color: #2aa198;">"b =</span><span style="color: #268bd2;"> #{b.inspect}</span><span style="color: #2aa198;">"</span>
+  block.call
+<span style="color: #859900; font-weight: bold;">end</span>
+
+proc2.call(1, 2, 3, 4) {puts <span style="color: #2aa198;">"in block2"</span>}
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">a = 1                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">b = [2, 3, 4]                                  #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">in block2                                      #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Containers Everywhere</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>Containers, block, iterator是Ruby的核心中的核心.经过一段时间的训练,你会发现
+书写一个支持iterator的class会带来很多强劲的功能.
+</li>
+</ul>
 </div>
 </div>
 </div>

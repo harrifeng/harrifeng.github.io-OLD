@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 2</title>
-<!-- 2014-05-02 Fri 08:18 -->
+<!-- 2014-05-15 Thu 19:21 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -200,7 +200,7 @@ for the JavaScript code in this tag.
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>有点令人出乎意料的是, 并发编程,并不是一直都和线程或者锁有关.写出线程安全代码
-更重奥的是管理"状态的准入"(accesss to state), 特别是对共享的可变状态
+更重的是管理"状态的准入"(accesss to state), 特别是对共享的可变状态
 </li>
 <li>一般来说,一个对象的状态就是数据. 一个对象的状态有时候也会和其他对象有关,这要
 看是哪种数据结构:比如HashMap的状态一部分存在HashMap中,另一部分存在成员对象
@@ -209,14 +209,7 @@ for the JavaScript code in this tag.
 只能找到foo1这个object, foo的val值是多少,hashmap不会存储的
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #93a1a1;">///////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">output        //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1 15          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">2 35          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">[1=115, 2=35] //</span>
-<span style="color: #93a1a1;">///////////////////</span>
-
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">TestCode</span> {
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">TestCode</span> {
     <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
         HashMap&lt;Integer, Foo&gt; hm = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">HashMap</span>&lt;Integer, Foo&gt;();
         <span style="color: #b58900;">Foo</span> <span style="color: #268bd2;">foo</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Foo</span>(15);
@@ -246,10 +239,17 @@ for the JavaScript code in this tag.
         <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">""</span> + val;
     }
 }
+
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1 15                                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">2 35                                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">[1=115, 2=35]                                  //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
-<li>所谓"共享",是说一个变量可以被多个线程访问到,所谓"可变醒"是说一个变量的值是可
+<li>所谓"共享",是说一个变量可以被多个线程访问到,所谓"可变性"是说一个变量的值是可
 以改变的.所谓线程安全,就是要防止数据被"无法控制的并发访问"
 </li>
 <li>一个对象是否需要线程安全,就是看他是否是被多个线程访问到.
@@ -293,12 +293,13 @@ for the JavaScript code in this tag.
 <ul class="org-ul">
 <li>如果一个类能在多个线程同时调用,且不管运行时如何调度其他线程, 都可以在调用代
 码不用附加任何同步机制的情况下, 行为正常的运行
-</li>
-<li>A class is thread-safe if it behaves correctly when accessed 
+<pre class="example">
+A class is thread-safe if it behaves correctly when accessed 
 from multiple threads, regardless of the scheduling or interlevaing 
 of the execution of thosed threads by the runtime environment, and 
 with no additional synchronization other coordination on the part 
 of the calling code
+</pre>
 </li>
 </ul>
 </div>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 3</title>
-<!-- 2014-05-02 Fri 08:18 -->
+<!-- 2014-05-15 Thu 19:21 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -772,6 +772,9 @@ Connectivity): 在一个服务器端, 一个线程会从connection 池中请求�
 <ul class="org-ul">
 <li>同步的对象是"共享的变量", 我们打完"共享"的主意,现在是打"变量"主意的时候了,
 把"变量"变成"常量"是一个更简单的注意:常量天生就线程安全
+<pre class="example">
+Immutable objects are always thread-safe
+</pre>
 </li>
 <li>当然我们这里的常量是immutable objects: 就是在构造之后就无法改变的对象
 </li>
@@ -785,9 +788,15 @@ Connectivity): 在一个服务器端, 一个线程会从connection 池中请求�
 </li>
 </ul>
 </li>
-<li>Immutable对象的内部还是可以使用mutable,只是要好好设计.比如下面这个例子, Set
-是可以改变的,但是下面的设计让构造之后,就只有final且private的stooges才可以
-接触到这个Set
+<li>如果细心会发现,Immutable对象的构建过程并没有要求自己所有的成员都是immutable
+的, 如果那样要求的话,java除了final static的内置类型,和本身就不可变的String
+就没其他候选了.
+</li>
+<li>下面就是一个Immutable对象的内部使用mutable的例子,这里的Set类型肯定是可以改
+变的.(内容改变), 因为java里面final 修饰的只不过是stooges本事, 它无法再指向
+其他的Set类(或者Set的子类)了, 但是你final了stooges, 它内部的数据还是可以不
+停的增加的. 我们通过将这个类的Set成员设计成private,那么别人就不可能看到它,也
+就不可能再给它增加新的内容了!
 <div class="org-src-container">
 
 <pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ThreeStooges</span> {
@@ -807,8 +816,9 @@ Connectivity): 在一个服务器端, 一个线程会从connection 池中请求�
 </pre>
 </div>
 </li>
-<li>即便是使用了immutable的对象,其实也是可以"改变"它的值的:使用一个新的对象
-只不过值不同(allocation比你想象的要高效, immutable会带来更多的优势)
+<li>即便是使用了immutable的对象,其实也是可以"改变"它的值的,方法就是:"使用一个新
+的内容不一样的对象", 不要害怕创建新对象,多余的空间换取immutablity还是非常值
+得的
 </li>
 </ul>
 </div>
@@ -838,9 +848,18 @@ Connectivity): 在一个服务器端, 一个线程会从connection 池中请求�
 <li>如果用mutable holder object,你必须使用lock. 下面的immutable object
 一旦创建就无法更改. 如果想要更改变量,那么就要创建一个新的immutable 
 object.
+</li>
+<li>下面这个例子能够成功也要得益于在ctor和返回值里面都用到的java6的新特性, 
+Arrays.copyOf. 虽然没有使用任何的lock手段,但由于对象是immutable的,所以可以
+成功的保证值在设置以后马上就能被其他函数"看到"
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">OneValueCache</span> {
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> tmp.<span style="color: #268bd2; font-weight: bold;">util</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">math</span>.<span style="color: #b58900;">BigInteger</span>;
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Arrays</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">OneValueCache</span> {
     <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">BigInteger</span> <span style="color: #268bd2;">lastNumber</span>;
     <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">BigInteger</span>[] <span style="color: #268bd2;">lastFactors</span>;
 
@@ -849,14 +868,26 @@ object.
         lastFactors = Arrays.copyOf(factors, factors.length);
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">BigInteger</span>[] <span style="color: #268bd2;">getLastFactors</span>(<span style="color: #b58900;">BigInteger</span> <span style="color: #268bd2;">i</span>) {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">BigInteger</span>[] <span style="color: #268bd2;">getFactors</span>(<span style="color: #b58900;">BigInteger</span> <span style="color: #268bd2;">i</span>) {
         <span style="color: #859900; font-weight: bold;">if</span> (lastNumber == <span style="color: #268bd2; font-weight: bold;">null</span> || <span style="color: #b58900; font-weight: bold;">!</span>lastNumber.equals(i)) {
             <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">null</span>;
         } <span style="color: #859900; font-weight: bold;">else</span> {
             <span style="color: #859900; font-weight: bold;">return</span> Arrays.copyOf(lastFactors, lastFactors.length);
         }
     }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">BigInteger</span>[] <span style="color: #268bd2;">tmpB</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">BigInteger</span>[] {<span style="color: #268bd2; font-weight: bold;">BigInteger</span>.ONE, <span style="color: #268bd2; font-weight: bold;">BigInteger</span>.TEN};
+        <span style="color: #b58900;">OneValueCache</span> <span style="color: #268bd2;">ovc</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">OneValueCache</span>(<span style="color: #268bd2; font-weight: bold;">BigInteger</span>.ONE, tmpB);
+
+        System.out.println(Arrays.toString(ovc.getFactors(<span style="color: #268bd2; font-weight: bold;">BigInteger</span>.ONE)));
+    }
 }
+
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">[1, 10]                                        //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -864,14 +895,6 @@ object.
 </div>
 </div>
 </div>
-
-
-
-
-
-
-
-
 <div id="outline-container-sec-1-5" class="outline-3">
 <h3 id="sec-1-5">Safe Publication</h3>
 <div class="outline-text-3" id="text-1-5">

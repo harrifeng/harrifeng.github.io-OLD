@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>快速排序</title>
-<!-- 2014-05-02 Fri 08:19 -->
+<!-- 2014-05-15 Thu 19:22 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -184,74 +184,90 @@ pivot之前的数字小于pivot, 而pivot之后的数字大于pivot
 swap，这里j和i+1是同一个数字，后面我们会看到， i和j之间其实是维护了一个小的区域，他们大于pivot，每次会
 派出i+1也就是区域里面第一个数字和j进行swap，来保护(i,j]之间的属性（大于pivot)
 
-<div class="figure">
-<p><img src="../../static/images/qs1.png" alt="qs1.png" />
+<div id="Phase1" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/quick-sort/phase_1.png" alt="phase_1.png" />
 </p>
+<p><span class="figure-number">Figure 1:</span> Phase1</p>
 </div>
 </li>
-
 <li>6大于pviot就不需要swap，同时(i,j]区域也扩大了（绿色部分）
 
-<div class="figure">
-<p><img src="../../static/images/qs2.png" alt="qs2.png" />
+<div id="Phase2" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/quick-sort/phase_2.png" alt="phase_2.png" />
 </p>
+<p><span class="figure-number">Figure 2:</span> Phase2</p>
 </div>
 </li>
-
 <li>1小于pivot，所以要swap，(i,j]保持不变
 
-<div class="figure">
-<p><img src="../../static/images/qs3.png" alt="qs3.png" />
+<div id="Phase3" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/quick-sort/phase_3.png" alt="phase_3.png" />
 </p>
+<p><span class="figure-number">Figure 3:</span> Phase3</p>
 </div>
 </li>
-
 <li>3, 4, 5都大于2, 所以j一路向前(i,j]不断扩大
 
-<div class="figure">
-<p><img src="../../static/images/qs4.png" alt="qs4.png" />
+<div id="Phase4" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/quick-sort/phase_4.png" alt="phase_4.png" />
 </p>
+<p><span class="figure-number">Figure 4:</span> Phase4</p>
 </div>
 </li>
-
 <li>最后把pivot和value[i+1]， swap， 然后返回i+1，因为这个是数组两个部分的分解点
 
-<div class="figure">
-<p><img src="../../static/images/qs5.png" alt="qs5.png" />
+<div id="Phase5" class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/algo/classic/quick-sort/phase_5.png" alt="phase_5.png" />
 </p>
+<p><span class="figure-number">Figure 5:</span> Phase5</p>
 </div>
 </li>
 </ul>
 </div>
 </div>
-
-
 <div id="outline-container-sec-2" class="outline-2">
 <h2 id="sec-2">实现</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">partition</span>(A, p, r):
-    <span style="color: #268bd2;">x</span> = A[r]
-    <span style="color: #268bd2;">i</span> = p - 1
-    <span style="color: #859900; font-weight: bold;">for</span> j <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #657b83; font-weight: bold;">range</span>(p, r):
-        <span style="color: #859900; font-weight: bold;">if</span> A[j] &lt;= x:
-            <span style="color: #268bd2;">i</span> += 1
-            A[i], <span style="color: #268bd2;">A</span>[j] = A[j], A[i]
-    A[i+1], <span style="color: #268bd2;">A</span>[r] = A[r], A[i+1]
-    <span style="color: #859900; font-weight: bold;">return</span> i+1
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> algo.<span style="color: #268bd2; font-weight: bold;">classic</span>;
 
-<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">qsort</span>(A, p, r):
-    <span style="color: #859900; font-weight: bold;">if</span> p &lt; r:
-        <span style="color: #268bd2;">q</span> = partition(A, p, r)
-        qsort(A, p, q-1)
-        qsort(A, q+1, r)
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Arrays</span>;
 
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">QuickSort</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">quickSort</span>(<span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">array</span>) {
+        <span style="color: #859900; font-weight: bold;">if</span> (array.length &lt;= 1) {
+            <span style="color: #859900; font-weight: bold;">return</span>;
+        }
+        sort(array, 0, array.length - 1);
+    }
 
-<span style="color: #859900; font-weight: bold;">if</span> <span style="color: #657b83; font-weight: bold;">__name__</span> == <span style="color: #2aa198;">'__main__'</span>:
-    arr = [1, 8, 7, 3, 2, 5, 6, 4]
-    qsort(arr, 0, <span style="color: #657b83; font-weight: bold;">len</span>(arr)-1)
-    <span style="color: #859900; font-weight: bold;">print</span> arr
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">partition</span>(<span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">array</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">beg</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">end</span>) {
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">pivot</span> = array[end];
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = beg - 1;
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">j</span> = beg;
+        <span style="color: #859900; font-weight: bold;">for</span> (; j &lt; end; j++) {
+            <span style="color: #859900; font-weight: bold;">if</span> (array[j] &lt; pivot) {
+                i++;
+                <span style="color: #b58900;">int</span> <span style="color: #268bd2;">tmp</span> = array[j];
+                array[j] = array[i];
+                array[i] = tmp;
+            }
+        }
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">tmp</span> = array[j];
+        array[j] = array[i + 1];
+        array[i + 1] = tmp;
+        <span style="color: #859900; font-weight: bold;">return</span> i + 1;
+    }
+
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">sort</span>(<span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">array</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">beg</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">end</span>) {
+        <span style="color: #859900; font-weight: bold;">if</span> (beg &lt; end) {
+            <span style="color: #b58900;">int</span> <span style="color: #268bd2;">mid</span> = partition(array, beg, end);
+            sort(array, beg, mid - 1);
+            sort(array, mid + 1, end);
+        }
+    }
+}
 </pre>
 </div>
 </div>

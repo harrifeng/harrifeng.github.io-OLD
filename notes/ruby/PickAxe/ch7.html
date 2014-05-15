@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>bash 常用命令总结</title>
+<title>Chapter 07: Regular Expressions</title>
 <!-- 2014-05-15 Thu 19:20 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
@@ -163,133 +163,154 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">bash 常用命令总结</h1>
+<h1 class="title">Chapter 07: Regular Expressions</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">uniq</a>
+<li><a href="#sec-1">What Regular Expressions Let You Do</a></li>
+<li><a href="#sec-2">Ruby's Regular Expressions</a>
 <ul>
-<li><a href="#sec-1-1">简介</a></li>
+<li><a href="#sec-2-1">Matching Strings with Patterns</a></li>
+<li><a href="#sec-2-2">Changing Strings with Patterns</a></li>
 </ul>
 </li>
-<li><a href="#sec-2">find</a>
-<ul>
-<li><a href="#sec-2-1">简介</a></li>
-<li><a href="#sec-2-2">应用举例</a></li>
-</ul>
-</li>
-<li><a href="#sec-3">sed</a>
-<ul>
-<li><a href="#sec-3-1">简介</a></li>
-<li><a href="#sec-3-2">应用举例</a></li>
-</ul>
-</li>
-<li><a href="#sec-4">ls</a>
-<ul>
-<li><a href="#sec-4-1">应用举例</a></li>
-</ul>
-</li>
-<li><a href="#sec-5">df</a>
-<ul>
-<li><a href="#sec-5-1">应用举例</a></li>
-</ul>
-</li>
-<li><a href="#sec-6">du</a>
-<ul>
-<li><a href="#sec-6-1">应用举例</a></li>
-</ul>
-</li>
+<li><a href="#sec-3">Digging Deeper</a></li>
 </ul>
 </div>
 </div>
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">uniq</h2>
+<h2 id="sec-1">What Regular Expressions Let You Do</h2>
 <div class="outline-text-2" id="text-1">
-</div><div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1">简介</h3>
-<div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
-<li>uniq可以把重复的字符串去重输出, 注意,它只能判断挨着的是不是重复的,
-所以我们很可以把它和sort一起联合起来使用
+<li>正则表达式我们很常见了,它就是用来匹配字符串的.一般来说,正则表达式能做到如下:
+<ul class="org-ul">
+<li>测试一个字符串是否符合一个pattern
 </li>
-<li>应用举例:如何找出某一行在某个文件中出现的次数
-<div class="org-src-container">
-
-<pre class="src src-sh">[~/bash] &gt; cat uniq.txt
-a
-ab
-a
-bbb
-bbb
-ab
-ab
-b
-b
-[~/bash] &gt; uniq uniq.txt
-a
-ab
-a
-bbb
-ab
-b
-[~/bash] &gt; sort uniq.txt | uniq
-a
-ab
-b
-bbb
-[~/bash] &gt; sort uniq.txt | uniq -c
-   2 a
-   3 ab
-   2 b
-   2 bbb
-</pre>
-</div>
+<li>从一个字符串李立明找到符合某个字符串的所有结果
+</li>
+<li>查找并替换符合某个pattern的结果(query-replace)
+</li>
+</ul>
 </li>
 </ul>
 </div>
 </div>
-</div>
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">find</h2>
+<h2 id="sec-2">Ruby's Regular Expressions</h2>
 <div class="outline-text-2" id="text-2">
-</div><div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1">简介</h3>
+<ul class="org-ul">
+<li>ruby对正则表达式是内置的支持,所以专门使用两个斜杠(/)来保护正则表达式,所以/cat/
+就是一个正则表达式.
+</li>
+<li>反斜杠(\)通常是提到转义字符的作用.在正则表达式里面也是/\*/就是表示匹配任何一个*
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Matching Strings with Patterns</h3>
 <div class="outline-text-3" id="text-2-1">
 <ul class="org-ul">
-<li>找出当前文件夹下的所有文件
+<li>ruby还慷慨的提供了一个操作符=~来选择返回匹配字符的位置. pattern和字符传放在
+前后都没有关系的.
+<div class="org-src-container">
+
+<pre class="src src-ruby">p /cat/ =~ <span style="color: #2aa198;">"dog and cat"</span>
+p /cat/ =~ <span style="color: #2aa198;">"catch"</span>
+p /cat/ =~ <span style="color: #2aa198;">"Cat"</span>
+
+p  <span style="color: #2aa198;">"dog and cat"</span> =~ <span style="color: #2aa198;">/cat/</span> 
+p  <span style="color: #2aa198;">"catch"</span> =~ <span style="color: #2aa198;">/cat/</span> 
+p  <span style="color: #2aa198;">"Cat"</span>=~ <span style="color: #2aa198;">/cat/</span> 
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">8                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">0                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">nil                                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">8                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">0                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">nil                                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>找不到会返回nil,在逻辑控制里面, nil表示false, =~表示符合, 那么不符合的也有
+一个操作符!~
+<div class="org-src-container">
+
+<pre class="src src-ruby">str = <span style="color: #2aa198;">"cat and dog"</span>
+
+<span style="color: #859900; font-weight: bold;">if</span> str =~ <span style="color: #2aa198;">/cat/</span>
+  puts <span style="color: #2aa198;">"There's a cat here somewhere'"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">if</span> str =~ <span style="color: #2aa198;">/dog/</span>
+  puts <span style="color: #2aa198;">"There's a dog here somewhere'"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">if</span> str !~ <span style="color: #2aa198;">/tiger/</span>
+  puts <span style="color: #2aa198;">"There's NOT a tiger here somewhere'"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">There's a cat here somewhere'                  #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">There's a dog here somewhere'                  #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">There's NOT a tiger here somewhere'            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
 </li>
 </ul>
 </div>
 </div>
 <div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2">应用举例</h3>
+<h3 id="sec-2-2">Changing Strings with Patterns</h3>
 <div class="outline-text-3" id="text-2-2">
 <ul class="org-ul">
-<li>如何找出某个文件夹下面大于20M的文件
+<li>我们可以使用正则表达式把某个字符串里面所有的"某一类字符"换成"一种特定的字符"
 <div class="org-src-container">
 
-<pre class="src src-sh">[/usr/local/Cellar] &gt; find /usr/local/Cellar/ -size +20M -print
-/usr/local/Cellar//mongodb/2.4.5/bin/bsondump
-/usr/local/Cellar//mongodb/2.4.5/bin/mongodump
-/usr/local/Cellar//mongodb/2.4.5/bin/mongoexport
-/usr/local/Cellar//mongodb/2.4.5/bin/mongofiles
-/usr/local/Cellar//mongodb/2.4.5/bin/mongoimport
-/usr/local/Cellar//mongodb/2.4.5/bin/mongooplog
-/usr/local/Cellar//mongodb/2.4.5/bin/mongoperf
-/usr/local/Cellar//mongodb/2.4.5/bin/mongorestore
-/usr/local/Cellar//mongodb/2.4.5/bin/mongosniff
-/usr/local/Cellar//mongodb/2.4.5/bin/mongostat
-/usr/local/Cellar//mongodb/2.4.5/bin/mongotop
-/usr/local/Cellar//mongodb/2.4.5/mongod
-/usr/local/Cellar//mysql/5.6.13/lib/libmysqld.a
+<pre class="src src-ruby">str = <span style="color: #2aa198;">"hello world"</span>
+new_str = str.sub(<span style="color: #2aa198;">/world/</span>, <span style="color: #2aa198;">"America"</span>)
+puts new_str
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">hello America                                  #</span>
+<span style="color: #93a1a1;">##################################################</span>
 </pre>
 </div>
 </li>
-<li>递归删除目录下所有指定的文件
+<li>sub只替换第一次出现,gsub替换所有(global)的出现
 <div class="org-src-container">
 
-<pre class="src src-sh">find . -name <span style="color: #2aa198;">'*.exe'</span> -type f -print -exec rm -rf {} <span style="color: #2aa198;">\;</span>
+<pre class="src src-ruby">str = <span style="color: #2aa198;">"Dog and Cat"</span>
+puts str.gsub(<span style="color: #2aa198;">/a/</span>, <span style="color: #2aa198;">"*"</span>)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Dog *nd C*t                                    #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>sub 和 gsub都是返回一个新的字符串. 这在java里面很常见,因为string不可改变,
+ruby的字符串是可变的.所以ruby提供了两个直接修改字符串的sub版本 sub!和gsub!
+需要注意的是,如果sub!或者gsub!没有发现合适的"需要被替换的字符串的话", 他们会
+返回nil. 因此也可以使用在condition判断中
+<div class="org-src-container">
+
+<pre class="src src-ruby">str = <span style="color: #2aa198;">"now is the time"</span>
+str.sub!(<span style="color: #2aa198;">/i/</span>, <span style="color: #2aa198;">"*"</span>)
+str.gsub!(<span style="color: #2aa198;">/t/</span>, <span style="color: #2aa198;">"T"</span>)
+puts str
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">now *s The Time                                #</span>
+<span style="color: #93a1a1;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -298,109 +319,12 @@ bbb
 </div>
 </div>
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">sed</h2>
+<h2 id="sec-3">Digging Deeper</h2>
 <div class="outline-text-2" id="text-3">
-</div><div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1">简介</h3>
-<div class="outline-text-3" id="text-3-1">
 <ul class="org-ul">
-<li>sed 是一种在线编辑器，它一次处理一行内容。处理时，把当前处理的行存储在临时
-缓冲区中，称为“模式空间”（pattern space），接着用sed命令处理缓冲区中
-的内容，处理完成后，把缓冲区的内容送往屏幕。接着处理下一行，这样不断重复，直到文件末尾。
+<li>TODO
 </li>
 </ul>
-</div>
-</div>
-<div id="outline-container-sec-3-2" class="outline-3">
-<h3 id="sec-3-2">应用举例</h3>
-<div class="outline-text-3" id="text-3-2">
-<ul class="org-ul">
-<li>如何替换一个文件中的某些字符串为新的字符串(解法和vim的替换
-很像啊)
-<div class="org-src-container">
-
-<pre class="src src-sh">sed -i <span style="color: #2aa198;">'s/old-word/new-word/g'</span> *.txt
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Mac bash</span>
-sed -ig <span style="color: #2aa198;">'s/old-word/new-word/g'</span> *.txt
-</pre>
-</div>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4">ls</h2>
-<div class="outline-text-2" id="text-4">
-</div><div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1">应用举例</h3>
-<div class="outline-text-3" id="text-4-1">
-<ul class="org-ul">
-<li>列出当前文件夹下的所有文件夹. 这个问题很细节, "*/"是bash里面指代文
-件夹的方式.
-<div class="org-src-container">
-
-<pre class="src src-sh">ls -d */
-</pre>
-</div>
-</li>
-<li>"*/"也可以关联全路径,比如
-<div class="org-src-container">
-
-<pre class="src src-sh">ls -d /etc/*/
-</pre>
-</div>
-</li>
-<li>需要注意的是,"<b>/"不要和"/</b>"混淆,如果你只想列出当前文件夹下的文件夹, 没有用"<b>/",
-而用了"/</b>", 就会列出根目录下的所有文件,如下
-<div class="org-src-container">
-
-<pre class="src src-sh"><span style="color: #93a1a1;">#########################################################</span>
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">NOT disbplay the all the folder PWD, will display the #</span>
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">folders under / (root)                                #</span>
-<span style="color: #93a1a1;">#########################################################</span>
-ls -d /*
-</pre>
-</div>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5">df</h2>
-<div class="outline-text-2" id="text-5">
-</div><div id="outline-container-sec-5-1" class="outline-3">
-<h3 id="sec-5-1">应用举例</h3>
-<div class="outline-text-3" id="text-5-1">
-<ul class="org-ul">
-<li>查看所有硬盘的使用情况(百分比)
-<div class="org-src-container">
-
-<pre class="src src-sh">df -hl
-</pre>
-</div>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6">du</h2>
-<div class="outline-text-2" id="text-6">
-</div><div id="outline-container-sec-6-1" class="outline-3">
-<h3 id="sec-6-1">应用举例</h3>
-<div class="outline-text-3" id="text-6-1">
-<ul class="org-ul">
-<li>应用举例.查看当前文件夹所有内容占用硬盘的情况
-<div class="org-src-container">
-
-<pre class="src src-sh">du -h --max-depth=1
-</pre>
-</div>
-</li>
-</ul>
-</div>
 </div>
 </div>
 </div>

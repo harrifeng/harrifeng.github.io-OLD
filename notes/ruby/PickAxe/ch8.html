@@ -1,0 +1,756 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 08: More About Methods</title>
+<!-- 2014-05-15 Thu 19:20 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 08: More About Methods</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">More About Methods</a>
+<ul>
+<li><a href="#sec-1-1">Defining a Method</a>
+<ul>
+<li><a href="#sec-1-1-1">Variable-Length Argument Lists</a></li>
+<li><a href="#sec-1-1-2">Methods and Blocks</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-2">Calling a Method</a>
+<ul>
+<li><a href="#sec-1-2-1">Passing Parameters to a Method</a></li>
+<li><a href="#sec-1-2-2">Method Return Values</a></li>
+<li><a href="#sec-1-2-3">Splat! Expanding Collections in Method Calls</a></li>
+<li><a href="#sec-1-2-4">Making Blocks More Synamic</a></li>
+<li><a href="#sec-1-2-5">Hash and Keyword Arguments</a></li>
+<li><a href="#sec-1-2-6">Keyword Argument Lists</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">More About Methods</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Defining a Method</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>前面我们对method的知识停留在两点上:
+<ul class="org-ul">
+<li>使用def定义
+</li>
+<li>小写字母开头
+</li>
+</ul>
+</li>
+<li>method其实还有其他的命名方式,比如:
+<ul class="org-ul">
+<li>method可以以?结尾的,通常返回boolean值
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts 1.even?
+puts 2.even?
+puts 1.instance_of?(<span style="color: #b58900;">Fixnum</span>)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">false                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">true                                           #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">true                                           #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>method也可以以!结尾,这通常都意味着是危险的,或者会改变调用它的object值的函
+数.比如String有chop和chop!两个函数,后者是危险的,因为其会改变调用者的值
+</li>
+<li>method还可以以=结尾,这样的话,这个函数可以被当作是一个"值", 从而函数可以出
+现在"="的左边.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">BookInStock</span>
+  attr_reader <span style="color: #268bd2; font-weight: bold;">:price</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>(price)
+    <span style="color: #268bd2;">@price</span> = <span style="color: #b58900;">Float</span>(price)
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">price=</span>(new_prie)
+    <span style="color: #268bd2;">@price</span> = new_prie
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+book = <span style="color: #b58900;">BookInStock</span>.new(33.5)
+puts book.price
+book.price = book.price + 100
+puts book.price
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">33.5                                           #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">133.5                                          #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>函数的的参数是一系列的本地变量.用括号包围. ruby中的参数括号是可以省略的,我们
+现在的做法是有参数采用括号,没有参数不用括号.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">my_new_method</span>(arg1, arg2, arg3)
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Code for the method would go here</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">my_new_method</span>               <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">No arguments</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Code for the method would go here</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>ruby当然允许设置函数参数默认值
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">cool_dude</span>(arg1=<span style="color: #2aa198;">"Miles"</span>, arg2=<span style="color: #2aa198;">"Coltrane"</span>, arg3=<span style="color: #2aa198;">"Roach"</span>)
+  <span style="color: #268bd2;">"#{arg1}</span><span style="color: #2aa198;">,</span><span style="color: #268bd2;"> #{arg2}</span><span style="color: #2aa198;">,</span><span style="color: #268bd2;"> #{arg3}</span><span style="color: #2aa198;">"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+puts cool_dude
+puts cool_dude(<span style="color: #2aa198;">"Bart"</span>)
+puts cool_dude(<span style="color: #2aa198;">"Bart"</span>, <span style="color: #2aa198;">"Elwood"</span>)
+puts cool_dude(<span style="color: #2aa198;">"Bart"</span>, <span style="color: #2aa198;">"Elwood"</span>, <span style="color: #2aa198;">"Linus"</span>)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Miles, Coltrane, Roach                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Bart, Coltrane, Roach                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Bart, Elwood, Roach                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Bart, Elwood, Linus                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>default value还可以"后面的参数使用前面的参数"
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">surround</span>(word, pad_width = word.length / 2)
+  <span style="color: #2aa198;">"["</span> * pad_width + word + <span style="color: #2aa198;">"]"</span> * pad_width
+<span style="color: #859900; font-weight: bold;">end</span>
+
+puts surround(<span style="color: #2aa198;">"elephant"</span>)
+puts surround(<span style="color: #2aa198;">"fox"</span>)
+puts surround(<span style="color: #2aa198;">"fox"</span>, 10)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[[[[elephant]]]]                               #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[fox]                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[[[[[[[[[[fox]]]]]]]]]]                        #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1">Variable-Length Argument Lists</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<ul class="org-ul">
+<li>ruby还支持"不定参数"的函数定义方式, 方法就是参数加"*", 那么剩下的参数都会
+以Array的形式存放在*参数里面.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">varargs</span>(arg1, *rest)
+  <span style="color: #2aa198;">"arg1</span><span style="color: #268bd2;">=#{arg1}</span><span style="color: #2aa198;">.   rest</span><span style="color: #268bd2;">=#{rest.inspect}</span><span style="color: #2aa198;">"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+puts varargs(<span style="color: #2aa198;">"one"</span>)
+puts varargs(<span style="color: #2aa198;">"one"</span>, <span style="color: #2aa198;">"two"</span>)
+puts varargs <span style="color: #2aa198;">"one"</span>, <span style="color: #2aa198;">"two"</span>, <span style="color: #2aa198;">"three"</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">arg1=one.   rest=[]                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">arg1=one.   rest=["two"]                       #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">arg1=one.   rest=["two", "three"]              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>上面的这种用法,升华开来,出现了一种方法参数加"*", 但是它自己不用,而是给其
+superclass来用.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Child</span> &lt; <span style="color: #b58900;">Parent</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">do_something</span>(*not_used)
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">our process</span>
+    <span style="color: #859900; font-weight: bold;">super</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>这种方法由于太广泛的存在,而参数又不会使用.所以最后出现了下面的简化方式:只
+有*,没有参数
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Child</span> &lt; <span style="color: #b58900;">Parent</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">do_something</span>(*)
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">our processing</span>
+    <span style="color: #859900; font-weight: bold;">super</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>千万以为ruby的不定参数和c一样只能放到最后,也可以放到中间!
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">split_apart</span>(first, *splat, last)
+  puts <span style="color: #2aa198;">"First:</span><span style="color: #268bd2;"> #{first.inspect}</span><span style="color: #2aa198;">, splat:</span><span style="color: #268bd2;"> #{splat.inspect}</span><span style="color: #2aa198;">, "</span> +
+    <span style="color: #2aa198;">"last:</span><span style="color: #268bd2;"> #{last.inspect}</span><span style="color: #2aa198;">"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+split_apart(1, 2)
+split_apart(1, 2, 3)
+split_apart(1, 2, 3, 4)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">First: 1, splat: [], last: 2                   #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">First: 1, splat: [2], last: 3                  #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">First: 1, splat: [2, 3], last: 4               #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2">Methods and Blocks</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<ul class="org-ul">
+<li>前面我没说过,函数里面yield的话,后面调用这个函数的时候,要紧接着跟着一个block
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">double</span>(p1)
+  <span style="color: #859900; font-weight: bold;">yield</span> (p1 * 2)
+<span style="color: #859900; font-weight: bold;">end</span>
+
+puts double(3) {|val| <span style="color: #2aa198;">"I got</span><span style="color: #268bd2;"> #{val}</span><span style="color: #2aa198;">"</span>}
+puts double(<span style="color: #2aa198;">"tom"</span>) {|val| <span style="color: #2aa198;">"Then I got</span><span style="color: #268bd2;"> #{val}</span><span style="color: #2aa198;">"</span>}
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">I got 6                                        #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Then I got tomtom                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>如果最后一个参数被设置成带(&amp;)号的话,那么整个code block会被存储成为Proc类型
+的object, 以便后面使用
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">TaxCalculator</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>(name, &amp;block)
+    <span style="color: #268bd2;">@name</span>, <span style="color: #268bd2;">@block</span> = name, block
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">get_tax</span>(amount)
+    <span style="color: #268bd2;">"#@name</span><span style="color: #2aa198;"> on</span><span style="color: #268bd2;"> #{amount}</span><span style="color: #2aa198;"> =</span><span style="color: #268bd2;"> #{@block.call(amount)}</span><span style="color: #2aa198;">"</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+tc = <span style="color: #b58900;">TaxCalculator</span>.new(<span style="color: #2aa198;">"Sales tax"</span>) {|amt| amt * 0.075}
+puts tc.get_tax(100)
+puts tc.get_tax(250)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Sales tax on 100 = 7.5                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Sales tax on 250 = 18.75                       #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Calling a Method</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>ruby的函数调用还有一个receiver的概念, 比如下例中connection就是receiver
+<div class="org-src-container">
+
+<pre class="src src-ruby">connection.download_mp3(<span style="color: #2aa198;">"jitterbug"</span>) {|p| show_progress(p)}
+</pre>
+</div>
+</li>
+<li>ruby在调用函数的时候,首先把receiver设置成自己(self), 然后再把自己传递给receiver,
+比如使用当前class创建的新的object
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts <span style="color: #b58900;">Math</span>.sin(<span style="color: #b58900;">Math</span>::<span style="color: #b58900;">PI</span>/4)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">0.7071067811865475                             #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>如果函数没有指定reciver, 那么receiver就是自己(self), 也就是当前的object
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">InvoiceWriter</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>(order)
+    <span style="color: #268bd2;">@order</span> = order
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">write_on</span>(output)
+    write_header_on(output)     <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">called on current object</span>
+    write_body_on(output)       <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">self is not changd, as</span>
+    write_totals_on(output)     <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">there is no receiver</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">write_header_on</span>(output)
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">write_body_on</span>(output)
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">write_totals_on</span>(output)
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>上面的那些helper函数,只有被自己调用的份,应该设置为private(这样一来,使用此类
+创建的object就无法调用他们了)
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">InvoiceWriter</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>(order)
+    <span style="color: #268bd2;">@order</span> = order
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">....</span>
+  <span style="color: #859900; font-weight: bold;">private</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">write_header_on</span>(output)
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">write_body_on</span>(output)
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">write_totals_on</span>(output)
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">Passing Parameters to a Method</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>ruby参数是可以没有括号的.但是除了没有参数的情况,我们不推荐大家这样做
+<div class="org-src-container">
+
+<pre class="src src-ruby">obj.some_method <span style="color: #2aa198;">"Arg1"</span>, arg2, arg3  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Same thing as</span>
+obj.some_method(<span style="color: #2aa198;">"Arg1"</span>, arg2, arg3) <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">with parentheses</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2">Method Return Values</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>ruby的最后一行就是return value, 可以省事,不写return
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">meth_one</span>
+  <span style="color: #2aa198;">"one"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+puts meth_one
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">one                                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>return这个关键字也有,可以在不到最后一行的情况下,返回某一行.
+</li>
+<li>也可以返回多个值,这个有点像python的tuple,只是没有括号
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">meth_three</span>
+  100.times <span style="color: #859900; font-weight: bold;">do</span> |num|
+    square = num * num
+    <span style="color: #859900; font-weight: bold;">return</span> num, square <span style="color: #859900; font-weight: bold;">if</span> square &gt; 1000
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+puts meth_three
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">32                                             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1024                                           #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3">Splat! Expanding Collections in Method Calls</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<ul class="org-ul">
+<li>前面说了:
+<ul class="org-ul">
+<li>如果你在"实现(implement)"某个函数的时候,可以把参数某一部分设置成*arg, 然后用户传入
+的几个参数被解析成一个数组
+</li>
+<li>同样的,你在"使用(use as lib)"某个函数的时候,也可以传入一个数组的参数,然
+后让函数自己去解析
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">five</span>(a, b, c, d, e)
+  puts <span style="color: #2aa198;">"I was passed</span><span style="color: #268bd2;"> #{a}</span><span style="color: #2aa198;">,</span><span style="color: #268bd2;"> #{b}</span><span style="color: #2aa198;">,</span><span style="color: #268bd2;"> #{c}</span><span style="color: #2aa198;">,</span><span style="color: #268bd2;"> #{d}</span><span style="color: #2aa198;">,</span><span style="color: #268bd2;"> #{e}</span><span style="color: #2aa198;">"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+five(1, 2, 3, 4, 5)
+five(1, 2, 3, *[<span style="color: #2aa198;">'a'</span>, <span style="color: #2aa198;">'b'</span>])
+five(*[<span style="color: #2aa198;">'a'</span>, <span style="color: #2aa198;">'b'</span>], 1, 2, 3)
+five(*(10..14))
+five(*[1,2], 3, *(4..5))
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1, 2, 3, 4, 5                                  #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">I was passed 1, 2, 3, a, b                     #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">I was passed a, b, 1, 2, 3                     #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">I was passed 10, 11, 12, 13, 14                #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">I was passed 1, 2, 3, 4, 5                     #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2-4" class="outline-4">
+<h4 id="sec-1-2-4">Making Blocks More Synamic</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<ul class="org-ul">
+<li>前面,我们已经学过了,如何吧一个code blcok和一个method call联系起来
+<div class="org-src-container">
+
+<pre class="src src-ruby">collection.each <span style="color: #859900; font-weight: bold;">do</span> |member|
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>通常来说,这已经够了.但是,我们想要更灵活一点, 比如我们有如下的一个例子: 给
+一个数字,根据用户的选择来决定是"连续加1到10"还是"连续乘1到10"
+<div class="org-src-container">
+
+<pre class="src src-ruby">print <span style="color: #2aa198;">"(t)imes or (p)lus "</span>
+operator = gets
+print <span style="color: #2aa198;">"number: "</span>
+number = <span style="color: #b58900;">Integer</span>(gets)
+
+<span style="color: #859900; font-weight: bold;">if</span> operator =~ <span style="color: #2aa198;">/^t/</span>
+  puts((1..10).collect {|n| n * number}.join(<span style="color: #2aa198;">", "</span>))
+<span style="color: #859900; font-weight: bold;">else</span>
+  puts((1..10).collect {|n| n + number}.join(<span style="color: #2aa198;">", "</span>))
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">bash-3.2$ ruby tut_method_block.rb             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">(t)imes or (p)lus t                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">number: 3                                      #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">3, 6, 9, 12, 15, 18, 21, 24, 27, 30            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">bash-3.2$ ruby tut_method_block.rb             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">(t)imes or (p)lus p                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">number: 3                                      #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">4, 5, 6, 7, 8, 9, 10, 11, 12, 13               #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>上面的例子非常普通,简练,但是对于ruby来说,还是不够好,因为相加和相乘的逻辑十
+分相似, ruby能够"更加generic"的处理这个问题:把唯一不同的地方(就是相加还是
+相乘)做成code block, 然后传入到collect后面(本来要跟block,现在跟Proc对象)
+<div class="org-src-container">
+
+<pre class="src src-ruby">print <span style="color: #2aa198;">"(t)imes or (p)lus "</span>
+operator = gets
+print <span style="color: #2aa198;">"number: "</span>
+number = <span style="color: #b58900;">Integer</span>(gets)
+<span style="color: #859900; font-weight: bold;">if</span> operator =~ <span style="color: #2aa198;">/^t/</span>
+  calc = lambda {|n| n * number}
+<span style="color: #859900; font-weight: bold;">else</span>
+  calc = lambda {|n| n + number}
+<span style="color: #859900; font-weight: bold;">end</span>
+puts((1..10).collect(&amp;calc).join(<span style="color: #2aa198;">", "</span>))
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">bash-3.2$ ruby tut_method_block2.rb            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">(t)imes or (p)lus t                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">number: 2                                      #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2, 4, 6, 8, 10, 12, 14, 16, 18, 20             #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>也就是说,函数里面如果某个参数是加&amp;的(也就是c++里面的引用传递), 那么函数就把
+这个参数当作Proc object来看待.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-5" class="outline-4">
+<h4 id="sec-1-2-5">Hash and Keyword Arguments</h4>
+<div class="outline-text-4" id="text-1-2-5">
+<ul class="org-ul">
+<li>在ruby中,hash可以作为optional的参数传递给函数,比如下面的例子,我们想要找某个
+符合:类型是jazz, 长度地狱270秒的歌曲的名字(title)
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Songlist</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">search</span>(field, params)
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+list = <span style="color: #b58900;">SongList</span>.new
+list.search(<span style="color: #268bd2; font-weight: bold;">:title</span>, {<span style="color: #268bd2; font-weight: bold;">genre</span>: <span style="color: #2aa198;">"jazz"</span>, <span style="color: #268bd2; font-weight: bold;">duration_less_than</span>: 270})
+</pre>
+</div>
+</li>
+<li>需要注意的是,第一个参数title肯定是存在的.而后面的累死"duration_less_than"
+的参数是我们"仿造"出来的, 数据库中并不存在这种数据名称.
+</li>
+<li>但是,这还不够简洁(ruby要求实在是&#x2026;), 当然,更主要的问题是hash和code block
+都使用{}, 这里的hash会被误认为是code block, 所以我们可以简化上面的代码为
+<div class="org-src-container">
+
+<pre class="src src-ruby">list.search(<span style="color: #268bd2; font-weight: bold;">:titles</span>, <span style="color: #268bd2; font-weight: bold;">genre</span>: <span style="color: #2aa198;">"jazz"</span>, <span style="color: #268bd2; font-weight: bold;">duration_less_than</span>: 270)
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-6" class="outline-4">
+<h4 id="sec-1-2-6">Keyword Argument Lists</h4>
+<div class="outline-text-4" id="text-1-2-6">
+<ul class="org-ul">
+<li>#TODO# new in ruby 2.0
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng'; 
+          
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

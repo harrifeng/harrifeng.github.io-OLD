@@ -1,0 +1,1559 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 09: Expressions</title>
+<!-- 2014-05-15 Thu 19:20 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 09: Expressions</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Expressions</a>
+<ul>
+<li><a href="#sec-1-1">Operator Expressions</a></li>
+<li><a href="#sec-1-2">Miscellaneous Expressions</a>
+<ul>
+<li><a href="#sec-1-2-1">Command Expansion</a></li>
+<li><a href="#sec-1-2-2">Redefining Backquotes</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">Assignment</a>
+<ul>
+<li><a href="#sec-1-3-1">Parallel Assignment</a></li>
+<li><a href="#sec-1-3-2">Splats and Assignment</a></li>
+<li><a href="#sec-1-3-3">Nested Assignments</a></li>
+<li><a href="#sec-1-3-4">Other Forms of Assignment</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">Conditional Execution</a>
+<ul>
+<li><a href="#sec-1-4-1">Boolean Expressions</a></li>
+<li><a href="#sec-1-4-2">And, Or, and Not</a></li>
+<li><a href="#sec-1-4-3">defined?</a></li>
+<li><a href="#sec-1-4-4">Comparing objects</a></li>
+<li><a href="#sec-1-4-5">if and unless Expressions</a></li>
+<li><a href="#sec-1-4-6">if and unless Modifiers</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-5">case Expressions</a></li>
+<li><a href="#sec-1-6">Loops</a>
+<ul>
+<li><a href="#sec-1-6-1">Iterators</a></li>
+<li><a href="#sec-1-6-2">for &#x2026; in</a></li>
+<li><a href="#sec-1-6-3">break, redo, and next</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-7">Variable Scope</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Expressions</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>许多在java和c中是statement的东西,在ruby里面是expression,比如if和case的最后一
+句statement,都会当作返回值返回(是一个expression)
+<div class="org-src-container">
+
+<pre class="src src-ruby">songt_type = <span style="color: #859900; font-weight: bold;">if</span> song.mp3_type == <span style="color: #b58900;">MP3</span>::<span style="color: #b58900;">JAZZ</span>
+               <span style="color: #859900; font-weight: bold;">if</span> song.written &lt; <span style="color: #b58900;">Date</span>.new(1935, 1, 1)
+                 <span style="color: #b58900;">Song</span>::<span style="color: #b58900;">TardJazz</span>
+               <span style="color: #859900; font-weight: bold;">else</span>
+                 <span style="color: #b58900;">Song</span>::<span style="color: #b58900;">JAZZ</span>
+               <span style="color: #859900; font-weight: bold;">end</span>
+             <span style="color: #859900; font-weight: bold;">else</span>
+               <span style="color: #b58900;">Song</span>::<span style="color: #b58900;">Other</span>
+             <span style="color: #859900; font-weight: bold;">end</span>
+
+rating = <span style="color: #859900; font-weight: bold;">case</span> votes_cast
+         <span style="color: #859900; font-weight: bold;">when</span> 0...10 <span style="color: #859900; font-weight: bold;">then</span> <span style="color: #b58900;">Rating</span>::<span style="color: #b58900;">SkipThisOne</span>
+         <span style="color: #859900; font-weight: bold;">when</span> 10...50 <span style="color: #859900; font-weight: bold;">then</span> <span style="color: #b58900;">Rating</span>::<span style="color: #b58900;">CouldDoBetter</span>
+         <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #b58900;">Rating</span>::<span style="color: #b58900;">Rave</span>
+         <span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Operator Expressions</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>ruby中,符号其实是一种函数调用(这个跟c++里面有一点像), 比如a*b,其实就是object
+a调用它的函数*, 传入参数object b
+<div class="org-src-container">
+
+<pre class="src src-ruby">a, b, c = 1, 2, 3
+puts a * b + c
+puts (a.*(b)).+(c)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">5                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">5                                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>既然operator都是函数,那么我们也可以实现自己的operator(像c++一样), ruby更灵
+活的特性表现在,你甚至可以更改build-in的operator行为.比如我们更改+为"加上下一
+个数的successor"
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Fixnum</span>
+  <span style="color: #859900; font-weight: bold;">alias</span> old_plus +    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">backup original '+' as 'old_plus'</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">+</span>(other)
+    old_plus(other).succ
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+puts 1 + 2
+a = 3
+puts a += 4
+puts a + a + a
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">4                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">8                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">26                                             #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>当然,更改现有类的operator行为不是我们想要的,我们想要的是"自己创建的新class
+具有像build-in类一样的功能", 比如&lt;&lt;在ruby里面是append的功能, array都支持
+<div class="org-src-container">
+
+<pre class="src src-ruby">a = [1, 2, 3, 4]
+a &lt;&lt; 4
+p a
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[1, 2, 3, 4, 4]                                #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>我们自己设计个类ScoreKeeper,也让它支持&lt;&lt;
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ScoreKeeper</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>
+    <span style="color: #268bd2;">@total_score</span> = <span style="color: #268bd2;">@count</span> = 0
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">&lt;&lt;</span>(score)
+    <span style="color: #268bd2;">@total_score</span> += score
+    <span style="color: #268bd2;">@count</span> += 1
+    <span style="color: #268bd2;">self</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">average</span>
+    <span style="color: #859900; font-weight: bold;">fail</span> <span style="color: #2aa198;">"No scores"</span> <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #268bd2;">@count</span>.zero?
+    <span style="color: #b58900;">Float</span>(<span style="color: #268bd2;">@total_score</span>) / <span style="color: #268bd2;">@count</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+scores = <span style="color: #b58900;">ScoreKeeper</span>.new
+scores &lt;&lt; 10 &lt;&lt; 20 &lt;&lt; 40
+puts <span style="color: #2aa198;">"Average =</span><span style="color: #268bd2;"> #{scores.average}</span><span style="color: #2aa198;">"</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Average = 23.333333333333332                   #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>我们可以看到,由于operator&lt;&lt;函数还返回了self, 所以&lt;&lt;操作是可以线性的连接起来
+的.
+</li>
+<li>下面我们再来看一个operator[]=的例子. 这个例子中传入的是一个array的参数params,
+然后最后一个成成员(pop出来的,所以是尾端的)作为index, 后面的成员作为[index]
+的内容
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Someclass</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">[]=</span> (*params)
+    value = params.pop
+    puts <span style="color: #2aa198;">"Indexed with</span><span style="color: #268bd2;"> #{params.join(', ')}</span><span style="color: #2aa198;">"</span>
+    puts <span style="color: #2aa198;">"value =</span><span style="color: #268bd2;"> #{value.inspect}</span><span style="color: #2aa198;">"</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+s = <span style="color: #b58900;">Someclass</span>.new
+s[1] = 2
+s[<span style="color: #2aa198;">'cat'</span>, <span style="color: #2aa198;">'dog'</span>] = <span style="color: #2aa198;">'enemies'</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Indexed with 1                                 #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">value = 2                                      #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Indexed with cat, dog                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">value = "enemies"                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Miscellaneous Expressions</h3>
+<div class="outline-text-3" id="text-1-2">
+</div><div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">Command Expansion</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>有时候,我们也想使用当前操作系统的命令行里面的功能(命令), 那么有两种方式: TODO
+<ul class="org-ul">
+<li>反引号(backquotes), 在键盘~的下面
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #2aa198;">`date`</span>
+<span style="color: #2aa198;">`ls`</span>.split[34]
+</pre>
+</div>
+</li>
+<li>使用%x加{}
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #2aa198;">%x{echo "hello there"}</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>还可以 TODO
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> 0..3
+  status = <span style="color: #2aa198;">`dbmanager status id</span><span style="color: #268bd2;">=#{i}</span><span style="color: #2aa198;">`</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">...</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2">Redefining Backquotes</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>TODO
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">alias</span> old_backquote <span style="color: #2aa198;">`</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Assignment</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>ruby中的assignment,再赋值之后,还会返回"右值(rvalue)",而且赋值是可以chain的
+<div class="org-src-container">
+
+<pre class="src src-ruby">a = b = 1 + 2 + 3
+puts a
+puts b
+a = (b = 1 + 2) +3
+puts a
+puts b
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">6                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">6                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">6                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">3                                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>ruby中赋值其实分成了两类:
+<ul class="org-ul">
+<li>语言内置的赋值:
+<div class="org-src-container">
+
+<pre class="src src-ruby">instrument = <span style="color: #2aa198;">"piano"</span>
+<span style="color: #b58900;">MIDDLE_A</span> = 440
+</pre>
+</div>
+</li>
+<li>对象的属性,或者引用赋值.其实是object的函数operator=调用,你可以改写他们
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ProjectList</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>
+    <span style="color: #268bd2;">@projects</span> = []
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">projects=</span>(list)
+    <span style="color: #268bd2;">@projects</span> = list.map(&amp;<span style="color: #268bd2; font-weight: bold;">:upcase</span>) <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">store list of names in uppercase</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">[]</span>(offset)
+    <span style="color: #268bd2;">@projects</span>[offset]
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+list = <span style="color: #b58900;">ProjectList</span>.new
+list.projects = <span style="color: #2aa198;">%w{ strip sand prime sand paint sand paint rub paint}</span>
+puts list[3]
+puts list[4]
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>需要注意的是,1.8版本以前的ruby在返回值方面和1.9以后的ruby有所不同.下面这个
+例子中. 1.8版本的ruby会返回99, 而新版本ruby会返回2
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Test</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">val=</span>(val)
+    <span style="color: #268bd2;">@val</span> = val
+    <span style="color: #859900; font-weight: bold;">return</span> 99
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+t = <span style="color: #b58900;">Test</span>.new
+result = (t.val = 2)
+puts result
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2                                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">Parallel Assignment</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>ruby的swap和python一样简介(比起java哪更是清新飘逸)
+<div class="org-src-container">
+
+<pre class="src src-ruby">a, b = 1, 2
+puts a, b
+puts <span style="color: #2aa198;">"---------------"</span>
+a, b = b, a
+puts a, b
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">---------------                                #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>不要把上面的例子理解成是ruby语言为了swap而专门进行的优化,实际上的处理过程是:
+<ul class="org-ul">
+<li>首先,所有的右值都会被转换成数组
+</li>
+<li>其次,处理左值,如果左值是一个变量的话(没有逗号), 那么就直接赋值给左值
+<div class="org-src-container">
+
+<pre class="src src-ruby">a = 1, 2, 3, 4
+b = [1, 2, 3, 4]
+
+p a, b
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[1, 2, 3, 4]                                   #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[1, 2, 3, 4]                                   #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>如果左值不是一个变量(有逗号), 那么也转换成左值数组,然后按照刚才右值数组
+的顺序依次进行匹配,赋值.如果有多余的,就丢弃掉
+<div class="org-src-container">
+
+<pre class="src src-ruby">a, b = 1, 2, 3, 4
+puts a, b
+puts <span style="color: #2aa198;">"--------------"</span>
+c, = 1, 2, 3, 4
+puts c
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">--------------                                 #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2">Splats and Assignment</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li>在ruby里面,所谓splat就是星号(*) + 一个数组或者range
+</li>
+<li>如果splat出现在operator=的右边,那么就要先把它分解出来,然后再赋值
+<div class="org-src-container">
+
+<pre class="src src-ruby">a, b, c, d, e = *(1..2), 3, *[4, 5]
+
+puts a, b, c, d, e
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">3                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">4                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">5                                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>如果splat出现在operator=的左边,那么就只能有一个splat,而且其扩展方法是贪心的
+<div class="org-src-container">
+
+<pre class="src src-ruby">a, *b = 1, 2, 3
+p a, b
+puts <span style="color: #2aa198;">"--------------"</span>
+a, *b = 1
+p a, b
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[2, 3]                                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">--------------                                 #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[]                                             #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>上面是splat在最后的情况,如果不再最后,在中间的话,那么它会优先让左右同伴偶能
+得到赋值. 剩下自己,照单全收
+<div class="org-src-container">
+
+<pre class="src src-ruby">*a, b = 1, 2, 3, 4
+p a, b
+puts <span style="color: #2aa198;">"----------"</span>
+
+c, *d, e = 1, 2, 3, 4
+p c, d, e
+puts <span style="color: #2aa198;">"----------"</span>
+
+f, *g, h, i, j = 1, 2, 3, 4
+p f, g, h, i, j
+puts <span style="color: #2aa198;">"----------"</span>
+
+k, *l, m, n, o, p = 1, 2, 3
+p k, l, m, n, o, p
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[1, 2, 3]                                      #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">4                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">----------                                     #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[2, 3]                                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">4                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">----------                                     #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[]                                             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">3                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">4                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">----------                                     #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[]                                             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">3                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">nil                                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">nil                                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>所以,星号(*)可以用来忽略某些你不想要的右值(rvalue)
+<div class="org-src-container">
+
+<pre class="src src-ruby">first, *, last = 1, 2, 3, 4, 5, 6
+puts first, last
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">6                                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3">Nested Assignments</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<ul class="org-ul">
+<li>如果左值里面有括号,那么括号会被认为是一个个体, 然后个体内部再进行二次赋值
+<div class="org-src-container">
+
+<pre class="src src-ruby">a, (b, c), d = 1, 2, 3, 4
+p a, b, c, d
+puts <span style="color: #2aa198;">"-------------------"</span>
+
+a, (b, c), d = [1, 2, 3, 4]
+p a, b, c, d
+puts <span style="color: #2aa198;">"-------------------"</span>
+
+a, (b, c), d = 1, [2, 3], 4
+p a, b, c, d
+puts <span style="color: #2aa198;">"-------------------"</span>
+
+a, (b, c), d = 1, [2, 3, 4], 5
+p a, b, c, d
+puts <span style="color: #2aa198;">"-------------------"</span>
+
+a, (b, *c), d = 1, [2, 3, 4], 5
+p a, b, c, d
+puts <span style="color: #2aa198;">"-------------------"</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">nil                                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">3                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">-------------------                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">nil                                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">3                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">-------------------                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">3                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">4                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">-------------------                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">3                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">5                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">-------------------                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">2                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">[3, 4]                                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">5                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">-------------------                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4">Other Forms of Assignment</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<ul class="org-ul">
+<li>和python不同, ruby选择了支持c语言的经典+=, 你自己写的object如果需要像内置
+类型一样,需要自己写这个函数
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Bowdlerize</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>(string)
+    <span style="color: #268bd2;">@value</span> = string.gsub(<span style="color: #2aa198;">/[aeiou]/</span>, <span style="color: #2aa198;">'*'</span>)
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">+</span>(other)
+    <span style="color: #b58900;">Bowdlerize</span>.new(<span style="color: #268bd2;">self</span>.to_s + other.to_s)
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">to_s</span>
+    <span style="color: #268bd2;">@value</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+a = <span style="color: #b58900;">Bowdlerize</span>.new(<span style="color: #2aa198;">"damn "</span>)
+puts a
+a += <span style="color: #2aa198;">"shame"</span>
+puts a
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">d*mn                                           #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">d*mn sh*m*                                     #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>ruby没有选择支持c里面的经典++, &#x2013;
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Conditional Execution</h3>
+<div class="outline-text-3" id="text-1-4">
+</div><div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1">Boolean Expressions</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<ul class="org-ul">
+<li>ruby对待boolean的态度也很简单, 和java不一样,和c很类似(不完全一样)
+<ul class="org-ul">
+<li>常量false 肯定是 否
+</li>
+<li>nil 表示 否
+</li>
+<li>其他一切都是 真
+</li>
+</ul>
+</li>
+<li>nil作为否,可以让IO#gets实现变得简单, 它最后返回nil就可以了
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">while</span> line = gets
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">process line</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>0, 以及zero-length的字符是"真"!!
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2">And, Or, and Not</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<ul class="org-ul">
+<li>ruby在逻辑"与"方面,有"and" 和"&amp;&amp;"两个选项
+</li>
+<li>ruby在逻辑"或"方面,有"or" 和"||"两个选择
+</li>
+<li>ruby神奇的地方出现了:
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #2aa198;">"and"</span> <span style="color: #859900; font-weight: bold;">and</span> <span style="color: #2aa198;">"or"</span> have the sam precedence,
+but <span style="color: #2aa198;">"&amp;&amp;"</span> has a higher precedence than <span style="color: #2aa198;">"||"</span>
+</pre>
+</div>
+</li>
+<li>ruby还根据+=, -= 发明了 ||=
+<div class="org-src-container">
+
+<pre class="src src-ruby">var ||= <span style="color: #2aa198;">"dfault value"</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">can be though as, only if var is false, could it gets value "default value"</span>
+var = var || <span style="color: #2aa198;">"default value"</span>
+</pre>
+</div>
+</li>
+<li>ruby也是支持"not"和"!"的
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3">defined?</h4>
+<div class="outline-text-4" id="text-1-4-3">
+<ul class="org-ul">
+<li>如果某个expression没有被定义,那么defined?会返回nil (yield如果有相应关联的
+code block, 那么就任务是"已定义", 否则是"没定义"). 如果定义了,会返回其
+description(对于ruby这种函数没括号的语言,这个十分重要)
+<div class="org-src-container">
+
+<pre class="src src-ruby">p <span style="color: #859900; font-weight: bold;">defined?</span> 1
+p <span style="color: #859900; font-weight: bold;">defined?</span> dummy
+p <span style="color: #859900; font-weight: bold;">defined?</span> printf
+p <span style="color: #859900; font-weight: bold;">defined?</span> <span style="color: #b58900;">String</span>
+p <span style="color: #859900; font-weight: bold;">defined?</span> <span style="color: #268bd2;">$_</span>
+p <span style="color: #859900; font-weight: bold;">defined?</span> <span style="color: #b58900;">Math</span>::<span style="color: #b58900;">PI</span>
+p <span style="color: #859900; font-weight: bold;">defined?</span> a = 1
+p <span style="color: #859900; font-weight: bold;">defined?</span> 42.abs
+p <span style="color: #859900; font-weight: bold;">defined?</span> <span style="color: #268bd2;">nil</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"expression"                                   #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">nil                                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"method"                                       #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"constant"                                     #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"global-variable"                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"constant"                                     #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"assignment"                                   #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"method"                                       #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"nil"                                          #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-4" class="outline-4">
+<h4 id="sec-1-4-4">Comparing objects</h4>
+<div class="outline-text-4" id="text-1-4-4">
+<ul class="org-ul">
+<li>在比较对象方面,ruby有如下的操作符
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Operator</th>
+<th scope="col" class="left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">==</td>
+<td class="left">Test for equal value</td>
+</tr>
+
+<tr>
+<td class="left">===</td>
+<td class="left">Used to compare each of the items with the target in the "when" clause of a case satement</td>
+</tr>
+
+<tr>
+<td class="left">&lt;=&gt;</td>
+<td class="left">return -1, 0, 1 with less than, equal to, greater than</td>
+</tr>
+
+<tr>
+<td class="left">&lt;,&lt;=,</td>
+<td class="left">less than, or equal</td>
+</tr>
+
+<tr>
+<td class="left">&gt;,&gt;=</td>
+<td class="left">greater than, or equal</td>
+</tr>
+
+<tr>
+<td class="left">=~</td>
+<td class="left">Regular Expression pattern match</td>
+</tr>
+
+<tr>
+<td class="left">eql?</td>
+<td class="left">True if both "value" and "type" are the same. 1.eql?(1.0) is false</td>
+</tr>
+
+<tr>
+<td class="left">equal?</td>
+<td class="left">True if both have the same object ID</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>其中==的判断"不相等"的伙伴!=, 而且=~也有自己判断"不匹配"的伙伴!~. ruby对他
+们的判断很有趣, 当两个object进行"不相等(匹配)"判断的时候:
+<ul class="org-ul">
+<li>首先看调用的object有没有定义!=(!~), 如果定义了,就调用之
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">T</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">==</span>(other)
+    puts <span style="color: #2aa198;">"Comparing self ==</span><span style="color: #268bd2;"> #{other}</span><span style="color: #2aa198;">"</span>
+    other == <span style="color: #2aa198;">"value"</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">!=</span>(other)
+    puts <span style="color: #2aa198;">"Comparing self !=</span><span style="color: #268bd2;"> #{other}</span><span style="color: #2aa198;">"</span>
+    other != <span style="color: #2aa198;">"value"</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+t = <span style="color: #b58900;">T</span>.new
+p(t == <span style="color: #2aa198;">"value"</span>)
+p(t != <span style="color: #2aa198;">"value"</span>)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Comparing self == value                        #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">true                                           #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Comparing self != value                        #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">false                                          #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+
+<li>如果object没有定义!=(!~), 那么先调用==(=~), 然后结果取反.下面的object没有
+定义!=, 却依然可以调用
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">T</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">==</span>(other)
+    puts <span style="color: #2aa198;">"Comparing self ==</span><span style="color: #268bd2;"> #{other}</span><span style="color: #2aa198;">"</span>
+    other == <span style="color: #2aa198;">"value"</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+t = <span style="color: #b58900;">T</span>.new
+p(t == <span style="color: #2aa198;">"value"</span>)
+p(t != <span style="color: #2aa198;">"value"</span>)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Comparing self == value                        #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">true                                           #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Comparing self == value                        #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">false                                          #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-5" class="outline-4">
+<h4 id="sec-1-4-5">if and unless Expressions</h4>
+<div class="outline-text-4" id="text-1-4-5">
+<ul class="org-ul">
+<li>ruby的if非常简略
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">if</span> artist == <span style="color: #2aa198;">"Gillespie"</span> <span style="color: #859900; font-weight: bold;">then</span>
+  handle = <span style="color: #2aa198;">"Dizzy"</span>
+<span style="color: #859900; font-weight: bold;">elsif</span> artist == <span style="color: #2aa198;">"Parker"</span> <span style="color: #859900; font-weight: bold;">then</span>
+  handle = <span style="color: #2aa198;">"Bird"</span>
+<span style="color: #859900; font-weight: bold;">else</span>
+  handle = <span style="color: #2aa198;">"unknown"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>如果你打算把if语句分成多行,then可以省略
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">if</span> artist == <span style="color: #2aa198;">"Gillespie"</span>
+  handle = <span style="color: #2aa198;">"Dizzy"</span>
+<span style="color: #859900; font-weight: bold;">elsif</span> artist == <span style="color: #2aa198;">"Parker"</span>
+  handle = <span style="color: #2aa198;">"Bird"</span>
+<span style="color: #859900; font-weight: bold;">else</span>
+  handle = <span style="color: #2aa198;">"unknown"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>如果你不打算换号,那为了能够分清楚谁是逻辑,then肯定得有
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">if</span> artist == <span style="color: #2aa198;">"Gillespie"</span> <span style="color: #859900; font-weight: bold;">then</span> handle = <span style="color: #2aa198;">"Dizzy"</span>
+<span style="color: #859900; font-weight: bold;">elsif</span> artist == <span style="color: #2aa198;">"Parker"</span> <span style="color: #859900; font-weight: bold;">then</span> handle = <span style="color: #2aa198;">"Bird"</span>
+<span style="color: #859900; font-weight: bold;">else</span> handle = <span style="color: #2aa198;">"unknown"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>我们前面讲过,一个expression的最后一个statement会作为返回值,所以其实你可以
+如下写前面的"根据情况赋值"
+<div class="org-src-container">
+
+<pre class="src src-ruby">handle = <span style="color: #859900; font-weight: bold;">if</span> artist == <span style="color: #2aa198;">"Gillespie"</span>
+           <span style="color: #2aa198;">"Dizzy"</span>
+         <span style="color: #859900; font-weight: bold;">elsif</span> artist == <span style="color: #2aa198;">"Parker"</span>
+           <span style="color: #2aa198;">"Bird"</span>
+         <span style="color: #859900; font-weight: bold;">else</span>
+           <span style="color: #2aa198;">"unknown"</span>
+         <span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>unless其实是"If NOT"的意思, 下面整个逻辑是"除非" duration大于180. "否则",
+我就调用end前面的代码.
+<div class="org-src-container">
+
+<pre class="src src-ruby">duration = 100
+<span style="color: #859900; font-weight: bold;">unless</span> duration &gt; 180
+  puts <span style="color: #2aa198;">"duration is too short"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">duration is too short                          #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>ruby也支持经典的c 的 ?:
+<div class="org-src-container">
+
+<pre class="src src-ruby">cost = duration &gt; 180 ? 0.35 : 0.25
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-6" class="outline-4">
+<h4 id="sec-1-4-6">if and unless Modifiers</h4>
+<div class="outline-text-4" id="text-1-4-6">
+<ul class="org-ul">
+<li>所谓if modifier,就是不用end了,直接最后来个条件判断,后面的为true了, 前面的
+expression才会进行
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">date = "(09)-(15)-(12)"</span>
+date = <span style="color: #2aa198;">"09-15-12"</span>
+mon, day, year = <span style="color: #268bd2;">$1</span>, <span style="color: #268bd2;">$2</span>, <span style="color: #268bd2;">$3</span> <span style="color: #859900; font-weight: bold;">if</span> date =~<span style="color: #2aa198;">/(\d\d)-(\d\d)-(\d\d)/</span>
+
+puts mon, day, year
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">09                                             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">15                                             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">12                                             #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>unless modifier如下, 它是后面为false了,才进行expression
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #b58900;">File</span>.foreach(<span style="color: #2aa198;">"/etc/passwd"</span>) <span style="color: #859900; font-weight: bold;">do</span> |line|
+  <span style="color: #859900; font-weight: bold;">next</span> <span style="color: #859900; font-weight: bold;">if</span> line =~ <span style="color: #2aa198;">/^#/</span>            <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">skip comments</span>
+  parse(line) <span style="color: #859900; font-weight: bold;">unless</span> line =~ <span style="color: #2aa198;">/^$/</span> <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">don't prse empty line</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">case Expressions</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>case 有两种表现形式
+<ul class="org-ul">
+<li>case后面没有表达式, 看起来if 的变体
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">case</span>
+<span style="color: #859900; font-weight: bold;">when</span> song.name == <span style="color: #2aa198;">"Misty"</span>
+  puts <span style="color: #2aa198;">"Not again!"</span>
+<span style="color: #859900; font-weight: bold;">when</span> song.duration &gt; 120
+  puts <span style="color: #2aa198;">"Too long!"</span>
+<span style="color: #859900; font-weight: bold;">when</span> <span style="color: #b58900;">Time</span>.now.hour &gt; 21
+  puts <span style="color: #2aa198;">"It's too late"</span>
+<span style="color: #859900; font-weight: bold;">else</span>
+  song.play
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>case 后面有表达式
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">case</span> command
+<span style="color: #859900; font-weight: bold;">when</span> <span style="color: #2aa198;">"debug"</span>
+  dump_debug_info
+  dump_symbols
+<span style="color: #859900; font-weight: bold;">when</span> <span style="color: #2aa198;">/p\s+(\w+)/</span>
+  dump_variables(<span style="color: #268bd2;">$1</span>)
+<span style="color: #859900; font-weight: bold;">when</span> <span style="color: #2aa198;">"quit"</span>, <span style="color: #2aa198;">"exit"</span>
+  exit
+<span style="color: #859900; font-weight: bold;">else</span>
+  print <span style="color: #2aa198;">"Illegal command:</span><span style="color: #268bd2;"> #{command}</span><span style="color: #2aa198;">"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>和if一样,我们也可以把整个case 表达式赋给一个值
+<div class="org-src-container">
+
+<pre class="src src-ruby">kind = <span style="color: #859900; font-weight: bold;">case</span> year
+       <span style="color: #859900; font-weight: bold;">when</span> 1850..1889 <span style="color: #859900; font-weight: bold;">then</span> <span style="color: #2aa198;">"Blues"</span>
+       <span style="color: #859900; font-weight: bold;">when</span> 1890..1909 <span style="color: #859900; font-weight: bold;">then</span> <span style="color: #2aa198;">"Ragtime"</span>
+       <span style="color: #859900; font-weight: bold;">when</span> 1910..1929 <span style="color: #859900; font-weight: bold;">then</span> <span style="color: #2aa198;">"New Orleans Jazz"</span>
+       <span style="color: #859900; font-weight: bold;">when</span> 1930..1939 <span style="color: #859900; font-weight: bold;">then</span> <span style="color: #2aa198;">"Swing"</span>
+       <span style="color: #859900; font-weight: bold;">else</span>                 <span style="color: #2aa198;">"Jazz"</span>
+</pre>
+</div>
+</li>
+<li>我们前面讲过"==="有两种意义:
+<ul class="org-ul">
+<li>如果是对象调用,那么就和"=="一样(或者=~)
+</li>
+<li>如果是类调用(类在===前面),那么就是判断某个对象是不是某个类的实例
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Test</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+t = <span style="color: #b58900;">Test</span>.new()
+p t === <span style="color: #b58900;">Test</span>
+p <span style="color: #b58900;">Test</span> === t
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">false                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">true                                           #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>case + when的组合当中,比较的时候就是使用的===啦,所以可以通过如下代码来判
+断某个object是什么类型的(注意when后面的是调用===的)
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Test</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+t = <span style="color: #b58900;">Test</span>.new()
+
+<span style="color: #859900; font-weight: bold;">case</span> t
+<span style="color: #859900; font-weight: bold;">when</span> <span style="color: #b58900;">Test</span>
+  puts <span style="color: #2aa198;">"t is Test class object"</span>
+<span style="color: #859900; font-weight: bold;">when</span> <span style="color: #b58900;">Integer</span>
+  puts <span style="color: #2aa198;">"t is Integer class object"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">t is Test class object                         #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>也只有在case when的when后面===的"寻找是否是实例"的意义才会凸显.因为很多时
+候, === 都是被重新定义的.比如在正则表达式里面===就被实际定义成类=~
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Loops</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>前面讲过if 和 unless, 在循环里面有他们俩的counterpart
+<ul class="org-ul">
+<li>if 对应 while:
+<ol class="org-ol">
+<li>都是expression为true的时候执行
+</li>
+<li>也可以作为modifier
+<div class="org-src-container">
+
+<pre class="src src-ruby">a = 1
+a *= 2 <span style="color: #859900; font-weight: bold;">while</span> a &lt; 100
+puts a
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">128                                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ol>
+</li>
+<li>unless 对应until
+<ol class="org-ol">
+<li>都是expression第一次变为false的时候执行, 还要执行一次!
+</li>
+<li>也可以昨晚modifier
+<div class="org-src-container">
+
+<pre class="src src-ruby">a = 128
+a -= 10 <span style="color: #859900; font-weight: bold;">until</span> a &lt; 100
+puts a
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">98                                             #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1">Iterators</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<ul class="org-ul">
+<li>ruby没有像其他语言一样内置的for, 而是"一切皆对象"的概念,把循环直接放到了数
+字类里面
+<div class="org-src-container">
+
+<pre class="src src-ruby">3.times <span style="color: #859900; font-weight: bold;">do</span>
+  print <span style="color: #2aa198;">"Ho! "</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Ho! Ho! Ho!                                    #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>当然了,for的灵活性非常的大. ruby不支持for, 就得找一堆函数来替代它.追求的,
+就是一个简单明了:
+<ul class="org-ul">
+<li>需要index的情况
+<div class="org-src-container">
+
+<pre class="src src-ruby">0.upto(9) <span style="color: #859900; font-weight: bold;">do</span> |x|
+  print x, <span style="color: #2aa198;">" "</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">0 1 2 3 4 5 6 7 8 9                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>每次的step不是1的情况
+<div class="org-src-container">
+
+<pre class="src src-ruby">0.step(12, 3) {|x| print x, <span style="color: #2aa198;">" "</span>}
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">0 3 6 9 12                                     #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>遍历数组的情况
+<div class="org-src-container">
+
+<pre class="src src-ruby">[1, 1, 2, 3, 5].each {|val| print val, <span style="color: #2aa198;">" "</span>}
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">1 1 2 3 5                                      #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>遍历数组还想要index
+<div class="org-src-container">
+
+<pre class="src src-ruby">[1, 20, 300, 5000].each_with_index {|val, ind| puts <span style="color: #2aa198;">"The</span><span style="color: #268bd2;"> #{ind}</span><span style="color: #2aa198;"> number is:-&gt;</span><span style="color: #268bd2;"> #{val}</span><span style="color: #2aa198;">"</span>}
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">The 0 number is:-&gt; 1                           #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">The 1 number is:-&gt; 20                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">The 2 number is:-&gt; 300                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">The 3 number is:-&gt; 5000                        #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>ruby还是有一个最继承的loop的方法的(不过要你自己从中间break)
+<div class="org-src-container">
+
+<pre class="src src-ruby">loop <span style="color: #859900; font-weight: bold;">do</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">block...</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6-2" class="outline-4">
+<h4 id="sec-1-6-2">for &#x2026; in</h4>
+<div class="outline-text-4" id="text-1-6-2">
+<ul class="org-ul">
+<li>我们原来说了ruby没有for.其实意思是没有内置的for&#x2026;.说白了,就是你一旦调用
+for,就会被转换成each,如下
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">for</span> song <span style="color: #859900; font-weight: bold;">in</span> playlist
+  song.play
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Will be translated into something like this</span>
+playlist.each <span style="color: #859900; font-weight: bold;">do</span> |song|
+  song.play
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>换句话说,如果你的object不支持each,就没法调用for. 而while until这种内置的循
+环方法,是不需要这些先决条件的
+</li>
+<li>所有数组都内置each的,所以你可以这没用
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> [<span style="color: #2aa198;">'fee'</span>, <span style="color: #2aa198;">'fi'</span>, <span style="color: #2aa198;">'fo'</span>, <span style="color: #2aa198;">'fum'</span>]
+  print i, <span style="color: #2aa198;">" "</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">for</span> i <span style="color: #859900; font-weight: bold;">in</span> 1..3
+  print i, <span style="color: #2aa198;">" "</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">fee fi fo fum 1 2 3                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>我们自己的object,定义了each的话,就能用for
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Periods</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">each</span>
+    <span style="color: #859900; font-weight: bold;">yield</span> <span style="color: #2aa198;">"Classical"</span>
+    <span style="color: #859900; font-weight: bold;">yield</span> <span style="color: #2aa198;">"Jazz"</span>
+    <span style="color: #859900; font-weight: bold;">yield</span> <span style="color: #2aa198;">"Rock"</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+periods = <span style="color: #b58900;">Periods</span>.new
+<span style="color: #859900; font-weight: bold;">for</span> genre <span style="color: #859900; font-weight: bold;">in</span> periods
+  print genre, <span style="color: #2aa198;">" "</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Classical Jazz Rock                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6-3" class="outline-4">
+<h4 id="sec-1-6-3">break, redo, and next</h4>
+<div class="outline-text-4" id="text-1-6-3">
+<ul class="org-ul">
+<li>break是结束当前的loop,转向loop的下一个语句
+</li>
+<li>next跳过剩下的语句,进行下一次循环(类似continue)
+</li>
+<li>redo就是重新进行当前这次循环!(不要再次做condition判断)
+</li>
+<li>下面的例子反映了三个关键字的作用
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">while</span> line = gets
+  <span style="color: #859900; font-weight: bold;">next</span>  <span style="color: #859900; font-weight: bold;">if</span> line =~ <span style="color: #2aa198;">/^\s*#/</span>       <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">skip comments</span>
+  <span style="color: #859900; font-weight: bold;">break</span> <span style="color: #859900; font-weight: bold;">if</span> line =~ <span style="color: #2aa198;">/^END/</span>        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">stop at end</span>
+
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">substitute stuff in backticks and try again</span>
+  <span style="color: #859900; font-weight: bold;">redo</span> <span style="color: #859900; font-weight: bold;">if</span> line.gsub!(<span style="color: #2aa198;">/'(.*?)'/</span>) { eval(<span style="color: #268bd2;">$1</span>)}
+
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">process line ...</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">Variable Scope</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>如果一个local variable紧紧是定义在 code block里面, 那么当code block返回的时
+候,就不能使用这个local variable, 这个是所有语言都一样的行为.变量有作用域嘛
+<div class="org-src-container">
+
+<pre class="src src-ruby">[1, 2, 3].each <span style="color: #859900; font-weight: bold;">do</span> |x|
+  y = x + 1
+<span style="color: #859900; font-weight: bold;">end</span>
+puts [x, y]
+
+<span style="color: #93a1a1;">#####################################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;                    #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">NameError: undefined local variable or method `x' for main:Object #</span>
+<span style="color: #93a1a1;">#####################################################################</span>
+</pre>
+</div>
+</li>
+<li>ruby邪门就邪门在,如果这个变量之前定义过,那么ruby在code block里面,就直接使用
+它了. 这个规则只适合常规变量. block的parameter(也就是x),就不适用了.
+<div class="org-src-container">
+
+<pre class="src src-ruby">x = <span style="color: #2aa198;">"initial value"</span>
+y = <span style="color: #2aa198;">"another value"</span>
+[1, 2, 3].each <span style="color: #859900; font-weight: bold;">do</span> |x|
+  y = x + 1
+<span style="color: #859900; font-weight: bold;">end</span>
+puts [x, y]
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">initial value                                  #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">4                                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>block的parameter受保护这一点,我们可以拿来大做文章!,比如首先看下面的例子.明
+显的, square和total都被code block里面的代码更改了其原始值(这在普通编程语言
+里面, 是非法的)
+<div class="org-src-container">
+
+<pre class="src src-ruby">square = <span style="color: #2aa198;">"yes"</span>
+total = 0
+
+[1, 2, 3].each <span style="color: #859900; font-weight: bold;">do</span> |val|
+  square = val * val
+  total += square
+<span style="color: #859900; font-weight: bold;">end</span>
+
+puts <span style="color: #2aa198;">"Total =</span><span style="color: #268bd2;"> #{total}</span><span style="color: #2aa198;">, square =</span><span style="color: #268bd2;"> #{square}</span><span style="color: #2aa198;">"</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Total = 14, square = 9                         #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>怎样避免这种明显的有违常理的行为呢? 当然是block的parameter list!, 使用一个
+分号(;)就可以定义一些虽然不能作为code block的每次改变的那个,但是却可以防止不
+小心使用使用了其他已经定义的变量. 下面的square就是正面例子, Total是反面例子
+<div class="org-src-container">
+
+<pre class="src src-ruby">square = <span style="color: #2aa198;">"yes"</span>
+total = 0
+
+[1, 2, 3].each <span style="color: #859900; font-weight: bold;">do</span> |val; square|
+  square = val * val
+  total += square
+<span style="color: #859900; font-weight: bold;">end</span>
+
+puts <span style="color: #2aa198;">"Total =</span><span style="color: #268bd2;"> #{total}</span><span style="color: #2aa198;">, square =</span><span style="color: #268bd2;"> #{square}</span><span style="color: #2aa198;">"</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Total = 14, square = yes                       #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng'; 
+          
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>
