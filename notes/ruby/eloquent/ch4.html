@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 04: Take Advantage of Ruby's Smart Strings</title>
+<!-- 2014-07-18 Fri 16:03 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 04: Take Advantage of Ruby's Smart Strings</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Take Advantage of Ruby's Smart Strings</a>
+<ul>
+<li><a href="#sec-1-1">Coming Up with a String</a></li>
+<li><a href="#sec-1-2">Another API to Master</a></li>
+<li><a href="#sec-1-3">The String: A Place for Your Lines, Characters, and Bytes</a></li>
+<li><a href="#sec-1-4">In the Wild</a></li>
+<li><a href="#sec-1-5">Staying Out of Trouble</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Take Advantage of Ruby's Smart Strings</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Coming Up with a String</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>和python一样,ruby支持单引号和双引号两种方法创建字符串. 这种做法的好处是因为
+单引号双引号相互之间不是特殊字符,我们可以在需要其中一种时候,在外面包裹另外
+一种,比如
+<div class="org-src-container">
+
+<pre class="src src-ruby">str = <span style="color: #A2925E;">"\"Stop\", she said, \"I cannot deal with the backslashes.\""</span>
+puts str
+
+str2 = <span style="color: #A2925E;">'"Stop", she said, "I cannot deal with the backslashes."'</span>
+puts str2
+
+<span style="color: #ed5b15;">###########################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt;          #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"Stop", she said, "I cannot deal with the backslashes." #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"Stop", she said, "I cannot deal with the backslashes." #</span>
+<span style="color: #ed5b15;">###########################################################</span>
+</pre>
+</div>
+</li>
+<li>如果双引号,单引号,双引号交替三次以上出现,那么就得使用%q了
+<div class="org-src-container">
+
+<pre class="src src-ruby">str = <span style="color: #A2925E;">%q{"Stop", she said, "I can't live without 's and "s."}</span>
+
+puts str
+
+<span style="color: #ed5b15;">#######################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt;      #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"Stop", she said, "I can't live without 's and "s." #</span>
+<span style="color: #ed5b15;">#######################################################</span>
+</pre>
+</div>
+</li>
+
+<li>#{}加变量的方法是ruby独有的
+<div class="org-src-container">
+
+<pre class="src src-ruby">author = <span style="color: #A2925E;">"Ben Bova"</span>
+title = <span style="color: #A2925E;">"Mars"</span>
+puts <span style="color: #C1C144;">"#{title}</span><span style="color: #A2925E;"> is written by</span><span style="color: #C1C144;"> #{author}</span><span style="color: #A2925E;">"</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Mars is written by Ben Bova                    #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>还有和python""""""对应的多行输入.注意大写字母是任意的,只要对称就可以
+<div class="org-src-container">
+
+<pre class="src src-ruby">heres_one = <span style="color: #A2925E;">&lt;&lt;EOF</span>
+<span style="color: #A2925E;">This is the beginning of my here document.</span>
+<span style="color: #A2925E;">And this is the end.</span>
+<span style="color: #A2925E;">EOF</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Another API to Master</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>String系列API是我们必须要掌握的:
+<ul class="org-ul">
+<li>lstrip, rstrip是去除左右空格的
+</li>
+<li>chomp去掉尾部的一个换行(如果有三个剩下两个,如果一个没有,就不去)
+</li>
+<li>chop去掉尾部一个char,不管是什么
+</li>
+<li>把字符串和数组完美结合的是split, 参数会显示依靠"什么"来分割这些字符串
+<div class="org-src-container">
+
+<pre class="src src-ruby">p <span style="color: #A2925E;">'It was a dark and stormy night'</span>.split
+p <span style="color: #A2925E;">'Bill:Shakespeare:Playwright:Globe'</span>.split( <span style="color: #A2925E;">':'</span> )
+
+<span style="color: #ed5b15;">########################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt;       #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["It", "was", "a", "dark", "and", "stormy", "night"] #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["Bill", "Shakespeare", "Playwright", "Globe"]       #</span>
+<span style="color: #ed5b15;">########################################################</span>
+</pre>
+</div>
+</li>
+<li>index函数是寻找某个字符串在原字符串的位置
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">The String: A Place for Your Lines, Characters, and Bytes</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>array的话,因为在定义的时候就有分割,所以很容易使用each来"个个"输出, 而string
+在ruby里面是没有明显的输出的.换句话说,你可以使用多种方法来"分割"他们:
+<ul class="org-ul">
+<li>by char: 这个是和c语言一样了
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #A2925E;">"Clarke"</span>.each_char {|c| puts c}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">C                                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">l                                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">a                                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">r                                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">k                                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">e                                              #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>by byte: 每个char其实也是一个byte
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #A2925E;">"Clarke"</span>.each_byte {|b| puts b}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">67                                             #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">108                                            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">97                                             #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">114                                            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">107                                            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">101                                            #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>by line: 这个很好理解,就是通过newline来区分
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">In the Wild</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>ruby的很多操作都是针对字符串的,所以字符串的理解无比重要
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Staying Out of Trouble</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>Ruby字符串是mutable的,这个是跟Java完全相反的!
+</li>
+<li>Ruby的字符串也是class,也分ref和object,所以下面的两个字符串其实是一个
+<div class="org-src-container">
+
+<pre class="src src-ruby">first_name = <span style="color: #A2925E;">'Karen'</span>
+given_name = first_name
+
+p first_name
+p given_name
+
+first_name[0] = <span style="color: #A2925E;">'D'</span>
+
+p first_name
+p given_name
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"Karen"                                        #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"Karen"                                        #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"Daren"                                        #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"Daren"                                        #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>所以把ruby看成是和collection一样的,可更改的数据集合.因为是可更改的,所以是可
+以被赋值的. 赋值的用法也更为便于阅读和理解
+<div class="org-src-container">
+
+<pre class="src src-ruby">first_name = first_name.upcase
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Instead of</span>
+first_name.upcase!
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

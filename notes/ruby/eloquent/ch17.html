@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 17: Use Blocks to Iterate</title>
+<!-- 2014-07-18 Fri 16:03 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 17: Use Blocks to Iterate</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Use Blocks to Iterate</a>
+<ul>
+<li><a href="#sec-1-1">A Quick Review of Code Blocks</a></li>
+<li><a href="#sec-1-2">One Word after Another</a></li>
+<li><a href="#sec-1-3">As Many Iterators as You Like</a></li>
+<li><a href="#sec-1-4">Iterating over the Ethereal</a></li>
+<li><a href="#sec-1-5">Enumerable: Your Iterator on Steroids</a></li>
+<li><a href="#sec-1-6">Staying Out of Trouble</a></li>
+<li><a href="#sec-1-7">In the Wild</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Use Blocks to Iterate</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>code block是Ruby的瑞士军刀,基本上到处都会有code block的影子
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">A Quick Review of Code Blocks</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>在Ruby中,你可以把code block放到一个函数的后面,像如下一样使用
+<div class="org-src-container">
+
+<pre class="src src-ruby">do_domething <span style="color: #4856F7; font-weight: bold;">do</span>
+  puts <span style="color: #A2925E;">"Hello from inside the block"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>或者使用一个{}来替代do/end
+<div class="org-src-container">
+
+<pre class="src src-ruby">do_something {puts <span style="color: #A2925E;">"Hello from inside the block"</span>}
+</pre>
+</div>
+</li>
+<li>其原理简单点说,就是每当你把一个code block "附着"在某个函数的后面的时候,其实
+Ruby解释器内部是把这个code block包裹成一个"秘密参数", 然后把"秘密参数"发送
+给这个函数.
+</li>
+<li>这个秘密参数也可以再函数内部,通过block_gen?来判断
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">do_something</span>
+  <span style="color: #4856F7; font-weight: bold;">yield</span> <span style="color: #4856F7; font-weight: bold;">if</span> block_given?
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+do_something {puts <span style="color: #A2925E;">"testing"</span>}
+puts <span style="color: #A2925E;">"-----------------------&gt;"</span>
+do_something
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">testing                                        #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">-----------------------&gt;                       #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>code block和函数之间是可以相互交流数据的:
+<ul class="org-ul">
+<li>从函数到code block这个方向的交流方式是"参数":函数可以再yield后面加一个参
+数,然后这个参数就可以在code block里面使用了
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">do_something_with_an_arg</span>
+  <span style="color: #4856F7; font-weight: bold;">yield</span>(<span style="color: #A2925E;">"Hello World"</span>) <span style="color: #4856F7; font-weight: bold;">if</span> block_given?
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+do_something_with_an_arg <span style="color: #4856F7; font-weight: bold;">do</span> |message|
+  puts <span style="color: #A2925E;">"The message is</span><span style="color: #C1C144;"> #{message}</span><span style="color: #A2925E;">"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The message is Hello World                     #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>从code block到函数这个方向的交流方式是"返回值":code block的最后一行(或者
+return的数据)会作为yield函数的返回值在method里面有所体现
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">print_the_value_returned_by_the_block</span>
+  <span style="color: #4856F7; font-weight: bold;">if</span> block_given?
+    value = <span style="color: #4856F7; font-weight: bold;">yield</span>
+    puts <span style="color: #A2925E;">"The block returned</span><span style="color: #C1C144;"> #{value}</span><span style="color: #A2925E;">"</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+print_the_value_returned_by_the_block {3.14159 / 4.0}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">0.7853975                                      #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>从code block和函数的相互交流方式来看. yield就是code block的代表:
+<ul class="org-ul">
+<li>yield函数的参数,会作为code block的变量
+</li>
+<li>code block的返回值,会作为yield函数的返回值
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">One Word after Another</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>我们可以试着给自己的Document类添加一个遍历的函数each_word, 其也是把每一个元
+素都作为yield的参数,yield的参数也就是code block的变量啦
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  attr_accessor <span style="color: #DF7921; font-weight: bold;">:content</span>, <span style="color: #DF7921; font-weight: bold;">:words</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(content)
+    <span style="color: #C1C144;">@content</span> = content
+    <span style="color: #C1C144;">@words</span> = content.split
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each_word</span>
+    word_array = words
+    index = 0
+    <span style="color: #4856F7; font-weight: bold;">while</span> index &lt; words.size
+      <span style="color: #4856F7; font-weight: bold;">yield</span>(word_array[index])
+      index += 1
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+d = <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">'Life is like a box of ...'</span>)
+d.each_word {|word| puts word}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Life                                           #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">is                                             #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">like                                           #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">a                                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">box                                            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">of                                             #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...                                            #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>当然了,我们真正实现each_word的方法是依赖已经存在的Array#each函数
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each_word</span>
+  words.each {|word| <span style="color: #4856F7; font-weight: bold;">yield</span>(word)}
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">As Many Iterators as You Like</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>除了each_word,我们还可以有很多很多的iterator, 因为这种函数总是很受欢迎,但是
+命名规则一定是each_xxx
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Iterating over the Ethereal</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>Ruby的iterator甚至可以在"不创建collection"的情况下,就打印出"某个臆想的
+collection"所有的数据
+<div class="org-src-container">
+
+<pre class="src src-ruby">12.times {|x| puts <span style="color: #A2925E;">"The number is</span><span style="color: #C1C144;"> #{x}</span><span style="color: #A2925E;">"</span>}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 0                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 1                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 2                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 3                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 4                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 5                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 6                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 7                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 8                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 9                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 10                               #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 11                               #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>我们也可以通过code block来创建这种"虚拟的collection",比如Document中,我们想
+把所有的单词"两两"结合的打印出来.于是就有了下面的代码.可是我们从来没有创建
+过这种"两个"单词为一组的,长度为4的array
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(content)
+    <span style="color: #C1C144;">@content</span> = content
+    <span style="color: #C1C144;">@words</span> = content.split
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each_word_pair</span>
+    word_array = words
+    index = 0
+    <span style="color: #4856F7; font-weight: bold;">while</span> index &lt; (word_array.size-1)
+      <span style="color: #4856F7; font-weight: bold;">yield</span> word_array[index], word_array[index+1]
+      index += 1
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+doc = <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">'I love donuts mmmm donuts'</span>)
+doc.each_word_pair{|first, second| puts <span style="color: #C1C144;">"#{first} #{second}</span><span style="color: #A2925E;">"</span>}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">I love                                         #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">love donuts                                    #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">donuts mmmm                                    #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">mmmm donuts                                    #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Enumerable: Your Iterator on Steroids</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>前面说过,你的iterator最好是以each_xx命名,而最重要的那个iterator,一定要以each
+来命名,这是有原因的:因为Ruby有一个很好用的Module Enumerable, 它可以mix in到
+一个class起作用,前提是:这个class的iterator的名字是each!(因为each已经写死在
+Enumerable的代码里面了)
+</li>
+<li>Enumerable的功能代码非常的多,比如, each实现之后,再加include Enumerable就能
+使用Enumerable提供的helper函数
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  include <span style="color: #DADADA;">Enumerable</span>
+
+  attr_accessor <span style="color: #DF7921; font-weight: bold;">:words</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(content)
+    <span style="color: #C1C144;">@content</span> = content
+    <span style="color: #C1C144;">@words</span> = content.split
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each</span>
+    words.each {|word| <span style="color: #4856F7; font-weight: bold;">yield</span>(word)}
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+doc = <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">'Go ahead make my day'</span>)
+puts doc.include?(<span style="color: #A2925E;">"make"</span>)
+puts doc.include?(<span style="color: #A2925E;">"Punk"</span>)
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">true                                           #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">false                                          #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>Enumerable还提供了each_cons, 也就是会把相邻的n个参数组成数组,并返回
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  include <span style="color: #DADADA;">Enumerable</span>
+
+  attr_accessor <span style="color: #DF7921; font-weight: bold;">:words</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(content)
+    <span style="color: #C1C144;">@content</span> = content
+    <span style="color: #C1C144;">@words</span> = content.split
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each</span>
+    words.each {|word| <span style="color: #4856F7; font-weight: bold;">yield</span>(word)}
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+doc = <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">'Go ahead make my day'</span>)
+doc.each_cons(2) {|array| p array}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["Go", "ahead"]                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["ahead", "make"]                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["make", "my"]                                 #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["my", "day"]                                  #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>如果你提供了&lt;=&gt;操作函数的话(也就是你的instance可以比较大小),那么你还可以使
+用sort函数
+</li>
+<li>Array其实也include Enumerable,所以上面的这些method,它都有.
+</li>
+<li>除了提供函数, Enumerable还在内部实现了Enumerator class
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  include <span style="color: #DADADA;">Enumerable</span>
+
+  attr_accessor <span style="color: #DF7921; font-weight: bold;">:words</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(content)
+    <span style="color: #C1C144;">@content</span> = content
+    <span style="color: #C1C144;">@words</span> = content.split
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each</span>
+    words.each {|word| <span style="color: #4856F7; font-weight: bold;">yield</span> word}
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each_characters</span>
+    index = 0
+    <span style="color: #4856F7; font-weight: bold;">while</span> index &lt; <span style="color: #C1C144;">@content</span>.size
+      <span style="color: #4856F7; font-weight: bold;">yield</span>(<span style="color: #C1C144;">@content</span>[index])
+      index += 1
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+doc = <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">'hello world, american'</span>)
+enum = <span style="color: #DADADA;">Enumerator</span>.new(doc, <span style="color: #DF7921; font-weight: bold;">:each</span>)
+p enum.sort
+enum = <span style="color: #DADADA;">Enumerator</span>.new(doc, <span style="color: #DF7921; font-weight: bold;">:each_characters</span>)
+p enum.sort
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["american", "hello", "world,"]                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">[" ", " ", ",", "a", "a", "c", "d", "e", "e",  #</span>
+<span style="color: #ed5b15;">#  </span><span style="color: #ed5b15;">"h", "i", "l", "l", "l", "m", "n", "o", "o",  #</span>
+<span style="color: #ed5b15;">#  </span><span style="color: #ed5b15;">"r", "r", "w"]                                #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>我们可以从上面的例子看到Enumerator class的初始化方法是提供两个参数:
+<ol class="org-ol">
+<li>collection: 把我们的Document的实例化成员doc看成是一个我们自己customize的
+collection.
+</li>
+<li>遍历方法: 提供了collection,我们还可以提供默认的遍历方法: each_xx
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Staying Out of Trouble</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>自己书写的iterator是为code block服务的,但是code block很可能是其他人的code,
+如何保证你的代码不会被别人中断(比如通过exception). 下面的例子就是这种情况,
+我们再iterator申请了某个资源,但是code block使用的时候就直接exception了(去了
+其他不知道哪里的代码流程)
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">iterator code in one place</span>
+
+<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each_name</span>
+  name_server = open_name_server <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Get some expensive resource</span>
+  <span style="color: #4856F7; font-weight: bold;">while</span> name_server.has_more?
+    <span style="color: #4856F7; font-weight: bold;">yield</span> name_server.read_name
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+  name_server.close             <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">may never closed</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">code bloc code in somewhere else</span>
+doc.each_word <span style="color: #4856F7; font-weight: bold;">do</span> |word|
+  <span style="color: #4856F7; font-weight: bold;">raise</span> <span style="color: #A2925E;">'boom'</span> <span style="color: #4856F7; font-weight: bold;">if</span> word == <span style="color: #A2925E;">'now'</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>解决的办法当然有: ensure
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each_name</span>
+  name_server = open_name_server <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Get some expensive resouce</span>
+  <span style="color: #4856F7; font-weight: bold;">begin</span>
+    <span style="color: #4856F7; font-weight: bold;">while</span> name_server.has_more?
+      <span style="color: #4856F7; font-weight: bold;">yield</span> name_server.read_name
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4856F7; font-weight: bold;">ensure</span>
+    name_server.close           <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Close the expensive resource</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>不止exception, break 和显式的return都会触发ensure.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">In the Wild</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>Array和Hash有each不奇怪,奇怪的是Dir也有each函数
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts <span style="color: #A2925E;">"Contents of /etc directory:"</span>
+etc_dir = <span style="color: #DADADA;">Dir</span>.new(<span style="color: #A2925E;">"/Users/hfeng/tmp"</span>)
+etc_dir.each {|entry| puts entry}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Contents of /etc directory:                    #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">.                                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">..                                             #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">passwd.txt                                     #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">sel-intro.txt                                  #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>还有一个非常有趣的函数, Resolv#each_address:能够找出某个域名的所有的ip地址
+<div class="org-src-container">
+
+<pre class="src src-ruby">require <span style="color: #A2925E;">'resolv'</span>
+<span style="color: #DADADA;">Resolv</span>.each_address(<span style="color: #A2925E;">"www.google.com"</span>) {|x| puts x}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">173.194.127.179                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">173.194.127.180                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">173.194.127.176                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">173.194.127.177                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">173.194.127.178                                #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

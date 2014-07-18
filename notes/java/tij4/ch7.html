@@ -1,0 +1,1672 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 07: Reusing Classes</title>
+<!-- 2014-07-18 Fri 16:14 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 07: Reusing Classes</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Reusing Classes</a>
+<ul>
+<li><a href="#sec-1-1">Composition syntax</a></li>
+<li><a href="#sec-1-2">Inheritance syntax</a>
+<ul>
+<li><a href="#sec-1-2-1">Initializing the base class</a></li>
+<li><a href="#sec-1-2-2">Constructors with arguments</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">Delegation</a></li>
+<li><a href="#sec-1-4">Combining composition and inheritance</a>
+<ul>
+<li><a href="#sec-1-4-1">Guaranteeing proper cleanup</a></li>
+<li><a href="#sec-1-4-2">Name hiding</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-5">Choosing composition vs. inheritance</a></li>
+<li><a href="#sec-1-6">protected</a></li>
+<li><a href="#sec-1-7">Upcasting</a>
+<ul>
+<li><a href="#sec-1-7-1">Why "upcasting"?</a></li>
+<li><a href="#sec-1-7-2">Composition vs. inheritance revisited</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-8">The final keyword</a>
+<ul>
+<li><a href="#sec-1-8-1">final data</a></li>
+<li><a href="#sec-1-8-2">Blank finals</a></li>
+<li><a href="#sec-1-8-3">final arguments</a></li>
+<li><a href="#sec-1-8-4">final method</a></li>
+<li><a href="#sec-1-8-5">final and private</a></li>
+<li><a href="#sec-1-8-6">final classes</a></li>
+<li><a href="#sec-1-8-7">final caution</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-9">Initialization and class loading</a>
+<ul>
+<li><a href="#sec-1-9-1">Initialization with inheritance</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Reusing Classes</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Composition syntax</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>java的关系中,composition(composition的翻译比较难,可以暂记成"组合")是一种
+"has-a"的关系.就是说一个object里面含有另外一个object(其实只是reference).
+</li>
+<li>在java中:
+<ul class="org-ul">
+<li>如果遇到了primitive类型,那么是有一份拷贝的
+</li>
+<li>如果是遇到了class类型,那么仅仅拥有一个reference
+</li>
+</ul>
+</li>
+<li>composition就是把一个"非primitive"类型的对象插入到另一个对象里面
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">WaterSource</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>;
+    WaterSource() {
+        System.out.println(<span style="color: #2aa198;">"WaterSource()"</span>);
+        s = <span style="color: #2aa198;">"Constructed"</span>;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> s;
+    }
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">SprinklerSystem</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">value1</span>, <span style="color: #268bd2;">value2</span>, <span style="color: #268bd2;">value3</span>, <span style="color: #268bd2;">value4</span>;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">WaterSource</span> <span style="color: #268bd2;">source</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">WaterSource</span>();
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">float</span> <span style="color: #268bd2;">f</span>;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span>
+            <span style="color: #2aa198;">"value 1 = "</span> + value1 + <span style="color: #2aa198;">" "</span> +
+            <span style="color: #2aa198;">"value 2 = "</span> + value2 + <span style="color: #2aa198;">" "</span> +
+            <span style="color: #2aa198;">"value 3 = "</span> + value3 + <span style="color: #2aa198;">" "</span> +
+            <span style="color: #2aa198;">"value 4 = "</span> + value4 + <span style="color: #2aa198;">"\n"</span> +
+            <span style="color: #2aa198;">"i = "</span> + i + <span style="color: #2aa198;">" "</span> + <span style="color: #2aa198;">"f = "</span> + f + <span style="color: #2aa198;">" "</span> +
+            <span style="color: #2aa198;">"source = "</span> + source;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">SprinklerSystem</span> <span style="color: #268bd2;">sprinkler</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">SprinklerSystem</span>();
+        System.out.println(sprinkler);
+    }
+}
+<span style="color: #93a1a1;">/////////////////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">WaterSource()                                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value 1 = null value 2 = null value 3 = null value 4 = null //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 0 f = 0.0 source = Constructed                          //</span>
+<span style="color: #93a1a1;">/////////////////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>从上面例子中,我们可以看到toString()应用在所有"非primitive"的类型里面.实际上
+一旦有字符串参与, toString函数就非常的有市场,比如下面这个例子,其实java就是调
+用了source的toString()函数
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #2aa198;">"source ="</span> + source
+</pre>
+</div>
+</li>
+<li>所有primitive的变量都被初始化为0(int, float等), 所有reference都初始化为null
+如果直接调用,就会发生exception, 但是为了方便你可以打印出null来.
+</li>
+<li>在c++中,所有的内嵌class类型都会被默认构造一遍.java给了你选择:
+<ol class="org-ol">
+<li>在object定义的时候,直接赋值.这样的话,这些object每次都会在ctor调用之前被赋值
+</li>
+<li>在ctor里面赋值
+</li>
+<li>直到你用的时候再赋值:lazy initialization
+</li>
+<li>使用instance initialization
+</li>
+</ol>
+</li>
+<li>下面是四种赋值的举例:
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Soap</span> {
+
+  <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>;
+
+  Soap() {
+    System.out.println(<span style="color: #2aa198;">"Soap()"</span>);
+    s = <span style="color: #2aa198;">"Constructed"</span>;
+  }
+
+  <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+    <span style="color: #859900; font-weight: bold;">return</span> s;
+  }
+}
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Bath</span> {
+
+  <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Initializing at point of definition:</span>
+  <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">s1</span> = <span style="color: #2aa198;">"Happy"</span>, <span style="color: #268bd2;">s2</span> = <span style="color: #2aa198;">"Happy"</span>;
+  <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">s3</span>, <span style="color: #268bd2;">s4</span>;
+  <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Soap</span> <span style="color: #268bd2;">castille</span>;
+  <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>;
+  <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">float</span> <span style="color: #268bd2;">toy</span>;
+
+  <span style="color: #859900; font-weight: bold;">public</span> Bath() {
+    System.out.println(<span style="color: #2aa198;">"Inside Bath()"</span>);
+    s3 = <span style="color: #2aa198;">"Joy"</span>;
+    toy = 3.14f;
+    castille = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Soap</span>();
+  }
+
+  <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Instance initialization:</span>
+  {
+    i = 47;
+  }
+
+  <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+    <span style="color: #859900; font-weight: bold;">if</span> (s4 == <span style="color: #268bd2; font-weight: bold;">null</span>) {
+      <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Delayed initialization:</span>
+      s4 = <span style="color: #2aa198;">"Joy"</span>;
+    }
+    <span style="color: #859900; font-weight: bold;">return</span>
+        <span style="color: #2aa198;">"s1 = "</span> + s1 + <span style="color: #2aa198;">"\n"</span> +
+        <span style="color: #2aa198;">"s2 = "</span> + s2 + <span style="color: #2aa198;">"\n"</span> +
+        <span style="color: #2aa198;">"s3 = "</span> + s3 + <span style="color: #2aa198;">"\n"</span> +
+        <span style="color: #2aa198;">"s4 = "</span> + s4 + <span style="color: #2aa198;">"\n"</span> +
+        <span style="color: #2aa198;">"i = "</span> + i + <span style="color: #2aa198;">"\n"</span> +
+        <span style="color: #2aa198;">"toy ="</span> + toy + <span style="color: #2aa198;">"\n"</span> +
+        <span style="color: #2aa198;">"castille = "</span> + castille;
+  }
+
+  <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+    <span style="color: #b58900;">Bath</span> <span style="color: #268bd2;">b</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Bath</span>();
+    System.out.println(b);
+  }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Inside Bath()                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Soap()                                         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">s1 = Happy                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">s2 = Happy                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">s3 = Joy                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">s4 = Joy                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 47                                         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">toy =3.14                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">castille = Constructed                         //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Inheritance syntax</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>java的关系中,和composition(has-a)关系不同的是, inheritance代表了一种叫做
+"is-a"的关系
+</li>
+<li>java中所有class的根class都是Object
+</li>
+<li>使用extends来继承, 下例展示了一个基本的继承,以及如何调用base的函数, 如何overload
+甚至是定义自己的函数,比如foam()
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Cleanser</span> {
+  <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span> = <span style="color: #2aa198;">"Cleanser"</span>;
+  <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">append</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">a</span>) {
+    s += a;
+  }
+  <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">dilute</span>() {
+    append(<span style="color: #2aa198;">" dilute() "</span>);
+  }
+  <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">apply</span>() {
+    append(<span style="color: #2aa198;">" apply() "</span>);
+  }
+  <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">scrub</span>() {
+    append(<span style="color: #2aa198;">" scrub() "</span>);
+  }
+  <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+    <span style="color: #859900; font-weight: bold;">return</span> s;
+  }
+
+  <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+    <span style="color: #b58900;">Cleanser</span> <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Cleanser</span>();
+    x.dilute();
+    x.apply();
+    x.scrub();
+    System.out.println(x);
+  }
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Detergent</span>  <span style="color: #859900; font-weight: bold;">extends</span>  <span style="color: #b58900;">Cleanser</span>{
+  <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">change a method:</span>
+  <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">scrub</span>() {
+    append(<span style="color: #2aa198;">"Detergent.scrub() "</span>);
+    <span style="color: #859900; font-weight: bold;">super</span>.scrub();
+  }
+  <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Add methods to the interface:</span>
+  <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">foam</span>() {
+    append(<span style="color: #2aa198;">" foam() "</span>);
+  }
+  <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Test the new class:</span>
+  <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+    <span style="color: #b58900;">Detergent</span> <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Detergent</span>();
+    x.dilute();
+    x.apply();
+    x.scrub();
+    x.foam();
+    System.out.println(x);
+    System.out.println(<span style="color: #2aa198;">"Testing base class:"</span>);
+    Cleanser.main(args);
+  }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Cleanser dilute()  apply() Detergent.scrub()  scrub()  foam()  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Testing base class:                                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Cleanser dilute()  apply()  scrub()                            //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">Initializing the base class</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>和c++一样， java也会依次调用ctor来实例化base先,derived后.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Art</span> {
+    Art() {
+        System.out.println(<span style="color: #2aa198;">"Art ctor"</span>);
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Drawing</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Art</span> {
+    Drawing() {
+        System.out.println(<span style="color: #2aa198;">"Drawing ctor"</span>);
+    }
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Cartoon</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Drawing</span>{
+    <span style="color: #859900; font-weight: bold;">public</span> Cartoon() {
+        System.out.println(<span style="color: #2aa198;">"Cartoon ctor"</span>);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Cartoon</span> <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Cartoon</span>();
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Art ctor                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Drawing ctor                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Cartoon ctor                                   //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2">Constructors with arguments</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>前面的例子是default ctor,如果是带参数的ctor实现方法是使用super关键字来调用
+base的ctor
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Delegation</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>所谓代理模式:是composition和inheritance的一种混合体:
+<ul class="org-ul">
+<li>使用composition的表象(实际上就是把一个object嵌入到另一个对象里面,作为其
+private的成员变量)
+</li>
+<li>达到inheritance的目的(继承其实就是想函数复用, 嵌入private object进去以后,
+用一个个代理函数把"嵌入的private object"的函数都"暴露"出来
+</li>
+</ul>
+</li>
+<li>下面是一个控制飞船的类SpaceShipControl
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">SpaceShipControls</span> {
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">up</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">velocity</span>) {}
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">down</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">velocity</span>) {}
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">left</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">velocity</span>) {}
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">right</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">velocity</span>) {}
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">forward</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">velocity</span>) {}
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">back</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">velocity</span>) {}
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">turboBoost</span>() {}
+}
+</pre>
+</div>
+</li>
+<li>如果想使用SpaceShipControl的内部成员函数(他们不是public的),我们可以继承(inherit)
+这个函数
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">inheritance, not good idea.</span>
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">SpaceShip</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">SpaceShipControls</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">name</span>;
+    <span style="color: #859900; font-weight: bold;">public</span> SpaceShip(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">name</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.name = name;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> name;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">SpaceShip</span> <span style="color: #268bd2;">protector</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">SpaceShip</span>(<span style="color: #2aa198;">"NSEA Protector"</span>);
+        protector.forward(100);
+    }
+}
+</pre>
+</div>
+</li>
+<li>但是继承会有一个很大的问题,因为一个SpaceShip并"不是"一个SpaceShipControl,这个时候
+我们就可以使用代理了! 代理的好处是一来可以使用某个类的函数了, 二来不用继承这个类(继承
+通常意味着很多的责任)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">SpaceShipDelegation</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">name</span>;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">SpaceShipControls</span> <span style="color: #268bd2;">controls</span> =
+        <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">SpaceShipControls</span>();
+
+    <span style="color: #859900; font-weight: bold;">public</span> SpaceShipDelegation(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">name</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.name = name;
+    }
+
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Delegated methods</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">back</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">velocity</span>) {
+        controls.back(velocity);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">down</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">velocity</span>) {
+        controls.down(velocity);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">forward</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">velocity</span>) {
+        controls.forward(velocity);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">left</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">velocity</span>) {
+        controls.left(velocity);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">right</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">velocity</span>) {
+        controls.right(velocity);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">turboBoost</span>(){
+        controls.turboBoost();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">SpaceShipDelegation</span> <span style="color: #268bd2;">protector</span> =
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">SpaceShipDelegation</span>(<span style="color: #2aa198;">"NSEA Protector"</span>);
+        protector.forward(100);
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Combining composition and inheritance</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>下面是一个composition和inheritance混合使用的例子. 必须要说明的是java不会去
+check你是否"正确的初始化了成员变量"(因为它会zero化), 所以你要自己初始化他们
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Plate</span> {
+
+    Plate(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+        System.out.println(<span style="color: #2aa198;">"Plate ctor"</span>);
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">DinnerPlate</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Plate</span> {
+
+    DinnerPlate(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+        <span style="color: #859900; font-weight: bold;">super</span>(i);
+        System.out.println(<span style="color: #2aa198;">"DinnerPlate ctor"</span>);
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Utensil</span> {
+
+    Utensil(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+        System.out.println(<span style="color: #2aa198;">"Utensil ctor"</span>);
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Spoon</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Utensil</span> {
+
+    Spoon(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+        <span style="color: #859900; font-weight: bold;">super</span>(i);
+        System.out.println(<span style="color: #2aa198;">"Spoon ctor"</span>);
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Fork</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Utensil</span> {
+    Fork(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+        <span style="color: #859900; font-weight: bold;">super</span>(i);
+        System.out.println(<span style="color: #2aa198;">"Fork ctor"</span>);
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Knife</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Utensil</span> {
+    Knife(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+        <span style="color: #859900; font-weight: bold;">super</span>(i);
+        System.out.println(<span style="color: #2aa198;">"Knife ctor"</span>);
+    }
+}
+
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">A cultural way of doing something:</span>
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Custom</span> {
+    Custom(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+        System.out.println(<span style="color: #2aa198;">"Custom ctor"</span>);
+    }
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">PlaceSetting</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Custom</span>{
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Spoon</span> <span style="color: #268bd2;">sp</span>;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Fork</span> <span style="color: #268bd2;">frk</span>;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Knife</span> <span style="color: #268bd2;">kn</span>;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">DinnerPlate</span> <span style="color: #268bd2;">pl</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> PlaceSetting(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+        <span style="color: #859900; font-weight: bold;">super</span>(i + 1);
+        sp = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Spoon</span>(i + 2);
+        frk = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Fork</span>(i + 3);
+        kn = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Knife</span>(i + 4);
+        pl = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">DinnerPlate</span>(i + 5);
+        System.out.println(<span style="color: #2aa198;">"PlaceStting ctor"</span>);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">PlaceSetting</span> <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">PlaceSetting</span>(9);
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Custom ctor                                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Utensil ctor                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Spoon ctor                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Utensil ctor                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Fork ctor                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Utensil ctor                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Knife ctor                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Plate ctor                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">DinnerPlate ctor                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">PlaceStting ctor                               //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1">Guaranteeing proper cleanup</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<ul class="org-ul">
+<li>java里面是没有dtor的,但是如果你想清理一些其他的东西,那么你可以在finally的
+帮助下完成. finally是try的一部分.它保证无论try{}里面执行结果怎样, finally
+里面的内容一定执行.如下例. x.dispose()一定会执行
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Shape</span> {
+    Shape(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+        System.out.println(<span style="color: #2aa198;">"Shape ctor"</span>);
+    }
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">dispose</span>() {
+        System.out.println(<span style="color: #2aa198;">"Shape dispose"</span>);
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Circle</span> <span style="color: #859900; font-weight: bold;">extends</span>  <span style="color: #b58900;">Shape</span> {
+    Circle(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+        <span style="color: #859900; font-weight: bold;">super</span>(i);
+        System.out.println(<span style="color: #2aa198;">"Drawing Circle"</span>);
+    }
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">dispose</span>() {
+        System.out.println(<span style="color: #2aa198;">"Erasing Circle"</span>);
+        <span style="color: #859900; font-weight: bold;">super</span>.dispose();
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Triangle</span> <span style="color: #859900; font-weight: bold;">extends</span>  <span style="color: #b58900;">Shape</span> {
+    Triangle(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+        <span style="color: #859900; font-weight: bold;">super</span>(i);
+        System.out.println(<span style="color: #2aa198;">"Drawing Triangle"</span>);
+    }
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">dispose</span>() {
+        System.out.println(<span style="color: #2aa198;">"Erasing Triangle"</span>);
+        <span style="color: #859900; font-weight: bold;">super</span>.dispose();
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Line</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Shape</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">start</span>, <span style="color: #268bd2;">end</span>;
+    Line(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">start</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">end</span>) {
+        <span style="color: #859900; font-weight: bold;">super</span>(start);
+        <span style="color: #859900; font-weight: bold;">this</span>.start = start;
+        <span style="color: #859900; font-weight: bold;">this</span>.end = end;
+        System.out.println(<span style="color: #2aa198;">"Drawing line: "</span> + start + <span style="color: #2aa198;">", "</span> + end);
+    }
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">dispose</span>() {
+        System.out.println(<span style="color: #2aa198;">"Erasing Line: "</span> + start + <span style="color: #2aa198;">", "</span> + end);
+        <span style="color: #859900; font-weight: bold;">super</span>.dispose();
+    }
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">CADSystem</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Shape</span>{
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Circle</span> <span style="color: #268bd2;">c</span>;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Triangle</span> <span style="color: #268bd2;">t</span>;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Line</span>[] <span style="color: #268bd2;">lines</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Line</span>[3];
+    <span style="color: #859900; font-weight: bold;">public</span> CADSystem(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+        <span style="color: #859900; font-weight: bold;">super</span>(i + 1);
+        <span style="color: #859900; font-weight: bold;">for</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">j</span> = 0; j &lt; lines.length; j++) {
+            lines[j] = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Line</span>(j, j*j);
+        }
+        c = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Circle</span>(1);
+        t = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Triangle</span>(1);
+        System.out.println(<span style="color: #2aa198;">"Combined ctor"</span>);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">CADSystem</span> <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">CADSystem</span>(47);
+        <span style="color: #859900; font-weight: bold;">try</span> {
+            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Code and exception handling...</span>
+        } <span style="color: #859900; font-weight: bold;">finally</span> {
+            x.dispose();
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">dispose</span>() {
+        System.out.println(<span style="color: #2aa198;">"CADSystem.dispose()"</span>);
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">The order of cleanup is the reverse</span>
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">of the order of initialization</span>
+        t.dispose();
+        c.dispose();
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = lines.length - 1; i &gt;= 0; i--) {
+            lines[i].dispose();
+        }
+        <span style="color: #859900; font-weight: bold;">super</span>.dispose();
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Shape ctor                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Shape ctor                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Drawing line: 0, 0                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Shape ctor                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Drawing line: 1, 1                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Shape ctor                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Drawing line: 2, 4                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Shape ctor                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Drawing Circle                                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Shape ctor                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Drawing Triangle                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Combined ctor                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">CADSystem.dispose()                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Erasing Triangle                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Shape dispose                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Erasing Circle                                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Shape dispose                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Erasing Line: 2, 4                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Shape dispose                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Erasing Line: 1, 1                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Shape dispose                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Erasing Line: 0, 0                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Shape dispose                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Shape dispose                                  //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2">Name hiding</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<ul class="org-ul">
+<li>首先,对比三个c++里面的概念: overload, override,和name hide
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">Overload</th>
+<th scope="col" class="left">Override</th>
+<th scope="col" class="left">Name Hiding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">NAME</td>
+<td class="left">Same</td>
+<td class="left">Same</td>
+<td class="left">Same</td>
+</tr>
+
+<tr>
+<td class="left">RANGE</td>
+<td class="left">Same</td>
+<td class="left">Different</td>
+<td class="left">Different</td>
+</tr>
+
+<tr>
+<td class="left">PARAMETER</td>
+<td class="left">Different</td>
+<td class="left">Same</td>
+<td class="left">Different</td>
+</tr>
+
+<tr>
+<td class="left">KEYWORD virtual</td>
+<td class="left">Either</td>
+<td class="left">Must has in base</td>
+<td class="left">None in base</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>overload是一个很老的概念,在c语言里面就有,就是函数名一致,但是参赛不一致的使
+用函数.(因为有意义的贴切的名字很难找)
+</li>
+<li>override是c++实现面向对象的一个办法:子类重新实现父类的函数,通过多态来决定
+在运行时使用哪个函数.
+</li>
+<li>下面是c++的overload, override, hiding出现时候的例子,可以看到hiding出现
+的主要原因是:函数参数(不小心)发生了变化.
+<div class="org-src-container">
+
+<pre class="src src-c++"><span style="color: #268bd2; font-weight: bold;">#include</span> <span style="color: #2aa198;">&lt;iostream&gt;</span>
+<span style="color: #859900; font-weight: bold;">using</span> <span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #268bd2; font-weight: bold;">std</span>;
+
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Base</span> {
+<span style="color: #859900; font-weight: bold;">public</span>:
+    <span style="color: #859900; font-weight: bold;">virtual</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">display_override</span>() {
+        cout &lt;&lt; <span style="color: #2aa198;">"Base display"</span> &lt;&lt; endl;
+    }
+
+    <span style="color: #859900; font-weight: bold;">virtual</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">display_hide</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+        cout &lt;&lt; <span style="color: #2aa198;">"Base display hide, total is: "</span> &lt;&lt; i &lt;&lt;  endl;
+    }
+
+    <span style="color: #859900; font-weight: bold;">virtual</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">display_hide</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">j</span>) {
+        cout &lt;&lt; <span style="color: #2aa198;">"Base display hide, total is: "</span> &lt;&lt; i  + j&lt;&lt;  endl;
+    }
+};
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Derived</span> : <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Base</span>{
+<span style="color: #859900; font-weight: bold;">public</span>:
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">display_override</span>() {
+        cout &lt;&lt; <span style="color: #2aa198;">"Derived display"</span> &lt;&lt; endl;
+    }
+
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">display_hide</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+        cout &lt;&lt; <span style="color: #2aa198;">"Derived display hide, total is: "</span> &lt;&lt; i &lt;&lt;  endl;
+    }
+
+};
+
+<span style="color: #b58900;">void</span> <span style="color: #268bd2;">display_overload</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+    cout &lt;&lt; <span style="color: #2aa198;">"Int Total is "</span>  &lt;&lt; i &lt;&lt; endl;
+}
+
+<span style="color: #b58900;">void</span> <span style="color: #268bd2;">display_overload</span>(<span style="color: #b58900;">float</span> <span style="color: #268bd2;">i</span>) {
+    cout &lt;&lt; <span style="color: #2aa198;">"Float Total is "</span>  &lt;&lt; i &lt;&lt; endl;
+}
+
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">argv</span>[])
+{
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Override usage example</span>
+    <span style="color: #b58900;">Base</span> *<span style="color: #268bd2;">ptr</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Derived</span>();
+    ptr-&gt;display_override();
+    cout &lt;&lt; <span style="color: #2aa198;">"---------------------\n"</span>;
+
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Overload can pick the best candidate</span>
+    display_overload(3);
+    display_overload(3.0f);
+    cout &lt;&lt; <span style="color: #2aa198;">"---------------------\n"</span>;
+
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">display_hide(int, int) is hidden, only display_hide(int) can</span>
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">be seen</span>
+    <span style="color: #b58900;">Derived</span> *<span style="color: #268bd2;">ptr2</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Derived</span>();
+    ptr2-&gt;display_hide(3);
+
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">ptr2-&gt;display_hide(3, 4);</span>
+    <span style="color: #859900; font-weight: bold;">return</span> 0;
+}
+
+<span style="color: #93a1a1;">/////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Derived display                                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">---------------------                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Int Total is 3                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Float Total is 3                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">---------------------                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Derived display hide, total is: 3               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Base display hide, total is: 7                  //</span>
+<span style="color: #93a1a1;">/////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>c++ 引入hiding的初衷,是为了给子类一个"干净的,崭新的"函数环境,不要因为函数
+变了个参赛就有历史负担(因为overload通常是选择参赛最优的组合,如果有历史参赛,
+可能总是不会选到自己新写的函数,那么就干脆屏蔽他们). 但实际情况是, c++迷惑了
+更多的人, 所以,Java放弃了naming hide: 所有的子类和父类统统看作是在一个作
+用域里面.子类可以overload父类的函数,两者都始终可见
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Homer</span> {
+    <span style="color: #b58900;">char</span> <span style="color: #268bd2;">doh</span>(<span style="color: #b58900;">char</span> <span style="color: #268bd2;">c</span>) {
+        System.out.println(<span style="color: #2aa198;">"doh(char)"</span>);
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">'d'</span>;
+    }
+    <span style="color: #b58900;">float</span> <span style="color: #268bd2;">doh</span>(<span style="color: #b58900;">float</span> <span style="color: #268bd2;">f</span>) {
+        System.out.println(<span style="color: #2aa198;">"doh(float)"</span>);
+        <span style="color: #859900; font-weight: bold;">return</span> 1.0f;
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Milhouse</span> {}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Bart</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Homer</span> {
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">doh</span>(<span style="color: #b58900;">Milhouse</span> <span style="color: #268bd2;">m</span>) {
+        System.out.println(<span style="color: #2aa198;">"doh(Milhouse)"</span>);
+    }
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Hide</span> {
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Bart</span> <span style="color: #268bd2;">b</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Bart</span>();
+        b.doh(1);
+        b.doh(<span style="color: #2aa198;">'x'</span>);
+        b.doh(1.0f);
+        b.doh(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Milhouse</span>());
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">doh(float)                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">doh(char)                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">doh(float)                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">doh(Milhouse)                                  //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>java还引入了一个@Override的annotation来在编译期间判断你是不是真的做了override
+(而不是overload, 已经没有name hiding了)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Lisa</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Homer</span> {
+
+    <span style="color: #93a1a1;">//////////////////////////////////////////////////</span>
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">//! NOT work, it is overload, not override   //</span>
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">@Override                                    //</span>
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">void doh(Milhouse m) {                       //</span>
+    <span style="color: #93a1a1;">//     </span><span style="color: #93a1a1;">System.out.println("@Override failed!"); //</span>
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">}                                            //</span>
+    <span style="color: #93a1a1;">//////////////////////////////////////////////////</span>
+
+    <span style="color: #268bd2; font-weight: bold;">@Override</span>
+    <span style="color: #b58900;">float</span> <span style="color: #268bd2;">doh</span>(<span style="color: #b58900;">float</span> <span style="color: #268bd2;">f</span>) {
+        System.out.println(<span style="color: #2aa198;">"@Override works!"</span>);
+        <span style="color: #859900; font-weight: bold;">return</span> 1.0f;
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Choosing composition vs. inheritance</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>其实从总体上来看, composition和inheritance都是通过把object放入另一个object
+里面来实现代码复用(composition是明显的看出来的, inheritance暗地里其实也是这
+样的)
+</li>
+<li>如果是has-a的关系,那么就使用composition, 比如一个CAR has-a WHEEL
+</li>
+<li>如果是is-a的关系,那么就使用inheritance,比如一个CAR is-a VEHICLE
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">protected</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>protected的语言层级的意义是:
+<ul class="org-ul">
+<li>对能继承自己的class,是public的
+</li>
+<li>对所有其他的类而言,是private的
+</li>
+</ul>
+</li>
+<li>在使用的角度来讲,把一个成员变量protected是没有任何好处的(破坏了封装性, 一旦
+父类的protected 变量改变,子类要全部改变):你应该始终保证自己对底层实现更改
+的权利.(You should always preserve your right to change the underlying
+implementation)
+</li>
+<li>虽然把成员变量变成protected的做法不妥,但是protected还是可以发挥其作用的:可以
+把成员函数设计成protected, 反正成员函数也不涉及底层实现.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Villain</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">name</span>;
+    <span style="color: #859900; font-weight: bold;">protected</span>  <span style="color: #b58900;">void</span> <span style="color: #268bd2;">set</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">nm</span>) {
+        name = nm;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> Villain(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">name</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.name = name;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"I'm a Villain and my name is "</span> + name;
+    }
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Orc</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Villain</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">orcNumber</span>;
+    <span style="color: #859900; font-weight: bold;">public</span> Orc(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">name</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">orcNumber</span>) {
+        <span style="color: #859900; font-weight: bold;">super</span>(name);
+        <span style="color: #859900; font-weight: bold;">this</span>.orcNumber = orcNumber;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">change</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">name</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">orcNumber</span>) {
+        set(name); <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Available because it's protected</span>
+        <span style="color: #859900; font-weight: bold;">this</span>.orcNumber = orcNumber;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"Orc "</span> + orcNumber + <span style="color: #2aa198;">": "</span> + <span style="color: #859900; font-weight: bold;">super</span>.toString();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Orc</span> <span style="color: #268bd2;">orc</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Orc</span>(<span style="color: #2aa198;">"Limburger"</span>, 12);
+        System.out.println(orc);
+        orc.change(<span style="color: #2aa198;">"Bob"</span>, 19);
+        System.out.println(orc);
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Orc 12: I'm a Villain and my name is Limburger //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Orc 19: I'm a Villain and my name is Bob       //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">Upcasting</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>在子类中使用父类函数(父类的函数,子类一定具有,因为java 成员函数是自带virtual的)
+的办法叫做upcasting
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Instrument</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">play</span>() {}
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">tune</span>(<span style="color: #b58900;">Instrument</span> <span style="color: #268bd2;">i</span>) {
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">...</span>
+        i.play();
+    }
+}
+
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Wind objects are instruments</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">because they have the same interface</span>
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Wind</span> <span style="color: #859900; font-weight: bold;">extends</span>  <span style="color: #b58900;">Instrument</span>{
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Wind</span> <span style="color: #268bd2;">flute</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Wind</span>();
+        Instrument.tune(flute); <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Upcasting</span>
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-7-1" class="outline-4">
+<h4 id="sec-1-7-1">Why "upcasting"?</h4>
+<div class="outline-text-4" id="text-1-7-1">
+<ul class="org-ul">
+<li>之所以取名叫"up"casting,是因为在继承图里面Wind是在下面的,借用"up"的Instrument,
+那肯定得是upcasting啊
+
+<div class="figure">
+<p><img src="../../static/images/wind_instrument.png" alt="wind_instrument.png" />
+</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7-2" class="outline-4">
+<h4 id="sec-1-7-2">Composition vs. inheritance revisited</h4>
+<div class="outline-text-4" id="text-1-7-2">
+<ul class="org-ul">
+<li>在面向对象的语言介绍中,inheritance占据了大量篇幅,但在实际应用中,确是composition
+占据绝对多数.
+</li>
+<li>因为inheritance使用的机会如此之少,所以需要很多判断的方法来确认你是否真的需
+要一个inheritance, 判断方法之一,就是看你是否要用到upcast, 如果你必须upcast
+那么inheritance就不可避免. 如果不需要upcasting,那么很可能你就不需要inheritance
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">The final keyword</h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>final可以用到如下三种地方:
+<ol class="org-ol">
+<li>data
+</li>
+<li>methods
+</li>
+<li>classes
+</li>
+</ol>
+</li>
+<li>final使用的理由有两条:
+<ul class="org-ul">
+<li>design
+</li>
+<li>efficiency
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-8-1" class="outline-4">
+<h4 id="sec-1-8-1">final data</h4>
+<div class="outline-text-4" id="text-1-8-1">
+<ul class="org-ul">
+<li>很多语言都有方法告诉编译器,某些数据是"不可变"的. 你使用"不可变"数据的原因通
+常有两条:
+<ol class="org-ol">
+<li>It can be a compile-time constant that won't ever change
+</li>
+<li>It can be a value initialized at run time that you don't want changed
+</li>
+</ol>
+</li>
+<li>先来说第一种情况,如果一个变量能在编译期就决定了是constant的,那么它就可以在编译
+期进行一些计算,从而减轻了运行期的负担.在java中,能达到这种效果的constant变量必
+须是primitive的,而且在定义时候必须赋值
+</li>
+<li>一个field既是"static",又是"final"的,那么它就会只有一块内存存储,并且无法改变,
+一般来说,这种既static又final的才被认为是和c语言一样的const,然后可以享受全部
+字母大写,用下划线分割单词的待遇
+</li>
+<li>再来说说第二种情况, 如果final修饰了非primitive的话,它只能限制哪个ref(java中
+一切都是ref): 这个ref无法再指向其他的object, 但是,ref指向的哪个object确是可
+以改变的!java无法控制它们.array也是object,所以无法创建一个内容无法改变的数组
+</li>
+<li>下面的例子演示了几乎所有final的用法
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Random</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Value</span> {
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>; <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">package access</span>
+    <span style="color: #859900; font-weight: bold;">public</span> Value(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.i = i;
+    }
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">FinalData</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">Random</span> <span style="color: #268bd2;">rand</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Random</span>(47);
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">id</span>;
+    <span style="color: #859900; font-weight: bold;">public</span> FinalData(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">id</span>) {
+       <span style="color: #859900; font-weight: bold;">this</span>.id = id;
+    }
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Can be compile-time constant:</span>
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">valueOne</span> = 9;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">VALUE_TWO</span> = 99;
+
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Typical public constant:</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">VALUE_THREE</span> = 39;
+
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Cannot be compile-time constants</span>
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i4</span> = rand.nextInt(20);
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">INT_5</span> = rand.nextInt(20);
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Value</span> <span style="color: #268bd2;">v1</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Value</span>(11);
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">Value</span> <span style="color: #268bd2;">v2</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Value</span>(22);
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">Value</span> <span style="color: #268bd2;">VAL_3</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Value</span>(33);
+
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Arrays:</span>
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">a</span> =  {1, 2, 3, 4, 5, 6};
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> id + <span style="color: #2aa198;">": "</span> + <span style="color: #2aa198;">"i4= "</span> + i4 + <span style="color: #2aa198;">", INT_5 ="</span> + INT_5;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">FinalData</span> <span style="color: #268bd2;">fd1</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">FinalData</span>(<span style="color: #2aa198;">"fd1"</span>);
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! fd1.valueOne++; // Error: can't chagne value</span>
+        fd1.v2.i++;  <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Object isn't constant!</span>
+        fd1.v1 = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Value</span>(9); <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">OK -- not final</span>
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; fd1.a.length; i++) {
+            fd1.a[i]++; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Object isn't constant!</span>
+        }
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! fd1.v2 = new Value(0); // Error: Can't</span>
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! fd1.VAL_3 = new Value(1); // change reference</span>
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! fd1.a = new int[3];</span>
+
+        System.out.println(fd1);
+        System.out.println(<span style="color: #2aa198;">"Creating new FinalData"</span>);
+        <span style="color: #b58900;">FinalData</span> <span style="color: #268bd2;">fd2</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">FinalData</span>(<span style="color: #2aa198;">"fd2"</span>);
+        System.out.println(fd1);
+        System.out.println(fd2);
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">fd1: i4= 15, INT_5 =18                         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Creating new FinalData                         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">fd1: i4= 15, INT_5 =18                         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">fd2: i4= 13, INT_5 =18                         //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>final的实际用法有这么几类:
+<ul class="org-ul">
+<li>VALUE_TWO 和 valueOne都是final并且primitive的,所以是compile-time value
+</li>
+<li>VALUE_THREE是比VALUE_TWO和valueOne更常见的用法: 一个不可以改变的const可
+以设置为public static final,这样大家都可以使用:
+<ol class="org-ol">
+<li>public: used outside the package
+</li>
+<li>static: there's only one
+</li>
+<li>final: it can not be changed
+</li>
+</ol>
+</li>
+<li>i4和INT_5告诉我们,即便是一个final的数据也有可能在compile time的时候,还不知
+道它的值.i4 和INT_5的唯一不同在于他们是不是static的. 一个static的run-time
+final 数值在重新创建的情况下不会被赋值, 比如INT_5, 而一个non-static的run-time
+的final数值则会被重新创建.
+</li>
+<li>v2的例子告诉我们一个非primitive被final,只是ref被final,其作用远没有primitive
+类型来的大
+</li>
+<li>a 告诉我们array也是一个object,所以我们无法保证一个array变成const的
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8-2" class="outline-4">
+<h4 id="sec-1-8-2">Blank finals</h4>
+<div class="outline-text-4" id="text-1-8-2">
+<ul class="org-ul">
+<li>java灵活的允许你可以把final值的赋值,推迟到ctor里面进行,这样就可以让不同的
+object拥有不同的final值
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Poppet</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>;
+    Poppet(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">ii</span>) { i = ii}
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">BlankFinal</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Initialized final</span>
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">j</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Blank final</span>
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">Poppet</span> <span style="color: #268bd2;">p</span>; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Blank fianl ref</span>
+
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Blank finals MUST be initialized int the ctor:</span>
+    <span style="color: #859900; font-weight: bold;">public</span> BlankFinal() {
+        j = 1;
+        p = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Poppet</span>(1);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> BlankFinal(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span>) {
+        j = x;
+        p = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Poppet</span>(x);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">BlankFinal</span>();
+        <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">BlankFinal</span>(47);
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8-3" class="outline-4">
+<h4 id="sec-1-8-3">final arguments</h4>
+<div class="outline-text-4" id="text-1-8-3">
+<ul class="org-ul">
+<li>函数参数的final化就是不可变参数,和c一样
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Gizmo</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">spin</span>() {}
+}
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">FinalArguments</span> {
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">with</span>(<span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">Gizmo</span> <span style="color: #268bd2;">g</span>) {
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! g = new Gizmo(); // Illegal -- g is final</span>
+    }
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">without</span>(<span style="color: #b58900;">Gizmo</span> <span style="color: #268bd2;">g</span>) {
+        g = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Gizmo</span>(); <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">OK -- g not final</span>
+        g.spin();
+    }
+
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">void f(final int i) { i++; } // Can't change</span>
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">You can only read from a final primitive:</span>
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">g</span>(<span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) { <span style="color: #859900; font-weight: bold;">return</span> i + 1;}
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">FinalArguments</span> <span style="color: #268bd2;">bf</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">FinalArguments</span>();
+        bf.without(<span style="color: #268bd2; font-weight: bold;">null</span>);
+        bf.with(<span style="color: #268bd2; font-weight: bold;">null</span>);
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8-4" class="outline-4">
+<h4 id="sec-1-8-4">final method</h4>
+<div class="outline-text-4" id="text-1-8-4">
+<ul class="org-ul">
+<li>final修饰一个method有如下作用:
+<ul class="org-ul">
+<li>防止被子类override
+</li>
+<li>inline化函数:现在已经不提倡这么做了.JVM会自动探测需不需要inline
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8-5" class="outline-4">
+<h4 id="sec-1-8-5">final and private</h4>
+<div class="outline-text-4" id="text-1-8-5">
+<ul class="org-ul">
+<li>所有的private的method其实都被"暗中"加了final修饰:因为子类无法触及到父类的任
+何函数,所以无法进行override. 这里设计到了override的实质: 所谓override就是
+首先你要能够upcasting到base的type,并且能够调用base的函数fun(), 然后你在自己
+区域里面实现一个借口完全一样,内部实现不一样的函数
+</li>
+<li>我们可以看到下面的例子中,可以upcasting到base类,但是无法调用base类的private
+函数,所以虽然其"看似"实现了override,其实只不过是一个普通的内部函数, 只是碰巧
+名字一样而已
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">WithFinals</span> {
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Identical to "private" alone</span>
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {
+        System.out.println(<span style="color: #2aa198;">"WithFinals.f()"</span>);
+    }
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Also automatically "final"</span>
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">g</span>() {
+        System.out.println(<span style="color: #2aa198;">"WithFinals.g()"</span>);
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">OverridingPrivate</span> <span style="color: #859900; font-weight: bold;">extends</span>  <span style="color: #b58900;">WithFinals</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {
+        System.out.println(<span style="color: #2aa198;">"OverridingPrivate.f()"</span>);
+    }
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">g</span>() {
+        System.out.println(<span style="color: #2aa198;">"OverridingPrivate.g()"</span>);
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">OverridingPrivate2</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">OverridingPrivate</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {
+        System.out.println(<span style="color: #2aa198;">"OverridingPrivate2.f()"</span>);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">g</span>() {
+        System.out.println(<span style="color: #2aa198;">"OverridingPrivate2.g()"</span>);
+    }
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">FinalOverridingIllusion</span> {
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">OverridingPrivate2</span> <span style="color: #268bd2;">op2</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">OverridingPrivate2</span>();
+        op2.f();
+        op2.g();
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">You can upcast:</span>
+        <span style="color: #b58900;">OverridingPrivate</span> <span style="color: #268bd2;">op</span> = op2;
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">But you can't call the methods;</span>
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! op.f();</span>
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! op.g();</span>
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Same here:</span>
+        <span style="color: #b58900;">WithFinals</span> <span style="color: #268bd2;">wf</span> = op2;
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! wf.f();</span>
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! wf.g();</span>
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">OverridingPrivate2.f()                         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">OverridingPrivate2.g()                         //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8-6" class="outline-4">
+<h4 id="sec-1-8-6">final classes</h4>
+<div class="outline-text-4" id="text-1-8-6">
+<ul class="org-ul">
+<li>一个class被final修饰了,那么它就不能有任何subclass. 一个final class里面的所
+有的函数也都被"暗中"final了,因为不允许继承,那么也就无法override他们.但是final
+class的data并没有要求是否final
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">SmallBrain</span> {}
+
+<span style="color: #859900; font-weight: bold;">final</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Dinosaur</span> {
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 7;
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">j</span> = 1;
+    <span style="color: #b58900;">SmallBrain</span> <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">SmallBrain</span>();
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+}
+
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">error: Can not extend final class 'Dinosaur'</span>
+<span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! class Further extends Dinosaur {}</span>
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Jurassic</span> {
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Dinosaur</span> <span style="color: #268bd2;">n</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Dinosaur</span>();
+        n.f();
+        n.i = 40;
+        n.j++;
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8-7" class="outline-4">
+<h4 id="sec-1-8-7">final caution</h4>
+<div class="outline-text-4" id="text-1-8-7">
+<ul class="org-ul">
+<li>很多情况下,如果类的设计者觉得某个method不需要被继承了,那么就final这些函数.
+但是在这不是总是对的.java的Vector的设计就是一个滥用final的例子: Vector所
+有的函数都被设计成了final,导致其作用大减
+</li>
+<li>Vector的很多重要函数addElement(), elementAt()等等都强制加了synchronized,
+导致其性能太差.如今Vector已经被ArrayList所完全替代了
+</li>
+<li>另外一个极端是Hastable:它没有一个final method. 所以它也被HashMap替代了.
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9">Initialization and class loading</h3>
+<div class="outline-text-3" id="text-1-9">
+<ul class="org-ul">
+<li>java里面一切皆对象,只有等到某个对象被用到的时候,才会被load
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-9-1" class="outline-4">
+<h4 id="sec-1-9-1">Initialization with inheritance</h4>
+<div class="outline-text-4" id="text-1-9-1">
+<ul class="org-ul">
+<li>下面是一个在继承体系里面初始化的例子
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">reusing</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Insect</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 9;
+    <span style="color: #859900; font-weight: bold;">protected</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">j</span>;
+    Insect() {
+        System.out.println(<span style="color: #2aa198;">"i = "</span> + i + <span style="color: #2aa198;">", j ="</span> + j );
+        j = 39;
+    }
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">x1</span> =
+        printInit(<span style="color: #2aa198;">"static Insect.x1 initialized"</span>);
+
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">printInit</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>) {
+        System.out.println(s);
+        <span style="color: #859900; font-weight: bold;">return</span> 47;
+    }
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Beetle</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Insect</span>{
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">k</span> = printInit(<span style="color: #2aa198;">"Beetle.k initialized"</span>);
+    <span style="color: #859900; font-weight: bold;">public</span> Beetle() {
+        System.out.println(<span style="color: #2aa198;">"k = "</span> + k);
+        System.out.println(<span style="color: #2aa198;">"j = "</span> + j);
+    }
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">x2</span> =
+        printInit(<span style="color: #2aa198;">"static Beetle.x2 initialized"</span>);
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        System.out.println(<span style="color: #2aa198;">"Beetle ctor"</span>);
+        <span style="color: #b58900;">Beetle</span> <span style="color: #268bd2;">b</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Beetle</span>();
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">static Insect.x1 initialized                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">static Beetle.x2 initialized                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Beetle ctor                                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 9, j =0                                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Beetle.k initialized                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">k = 47                                         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">j = 39                                         //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>下面来介绍一下这个类的运行时候,代码运行的顺序:
+<ol class="org-ol">
+<li>运行的入口是Beetle.main(args),这是个static函数, loader会去试图寻找Beetle.class
+</li>
+<li>在寻找的的过程中,发现Beetle还有base class, 所以就load base的class
+</li>
+<li>如果base类还有base,那么就一层一层的load,这里对base就是Insect类了.
+</li>
+<li>从最base的类开始,运行他们的static initialization语句,所以下面这两句首先
+打印出来了(无论是否有实例化Beetle b = new Beetle(), 都会进行static 部分
+的运行的. 从base到derived运行顺序是必须的,因为有可能有derived对base的初
+始化顺序依赖
+<pre class="example">
+static Insect.x1 initialized
+static Beetle.x2 initialized
+</pre>
+</li>
+<li>static的数据初始化完之后,可以进行object的创建工作了, 第一步,所有的primitive
+都先设置成default value, object ref都设置成null(如果没有给初始化值的情况下),
+如果给了初始化值,那么第一步就会先用初始化值来初始化他们.(所有的初始化工作都是
+在ctor调用之前完成的), 先完成base类的变量初始化
+</li>
+<li>接下来就要开始调用base的ctor了.
+</li>
+<li>完成base的ctor之后就是==&gt; derived类的变量初始化 ==&gt; derived类的ctor
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

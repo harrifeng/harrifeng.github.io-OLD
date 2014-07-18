@@ -1,0 +1,502 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 2: The Transport Layer: TCP, UPD, and SCTP</title>
+<!-- 2014-07-18 Fri 16:04 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 2: The Transport Layer: TCP, UPD, and SCTP</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">The Transport Layer: TCP, UPD, and SCTP</a>
+<ul>
+<li><a href="#sec-1-1">Introduction</a></li>
+<li><a href="#sec-1-2">The Big Picture</a></li>
+<li><a href="#sec-1-3">User Datagram Protocol (UDP)</a></li>
+<li><a href="#sec-1-4">Transmission Control Protocol (TCP)</a></li>
+<li><a href="#sec-1-5">Stream Control Transmission Protocol (SCTP)</a></li>
+<li><a href="#sec-1-6">TCP Connection Establishment and Termination</a>
+<ul>
+<li><a href="#sec-1-6-1">TCP Options</a></li>
+<li><a href="#sec-1-6-2">TCP Connection Termination</a></li>
+<li><a href="#sec-1-6-3">TCP State Transitiion Diagram</a></li>
+<li><a href="#sec-1-6-4">Watcing the Packets</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-7">TIME_WAIT State</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">The Transport Layer: TCP, UPD, and SCTP</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Introduction</h3>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">The Big Picture</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>tcpdump: 是一个直接与datalink沟通的工具, Linux下面其实还有一种socket与
+datalink练习的socket,叫做SOCK_PACKET
+</li>
+<li>traceroute: 用了两个sockets: 一个是IP,另一个是ICMP
+</li>
+<li>SCTP: 是一个新的网络协议, 可以用IPv4或者IPv6
+</li>
+<li>ICMP: 处理错误和控制信息
+</li>
+<li>IGMP: 处理multicasting的,已经不怎么用了
+</li>
+<li>ARP: IP地址&#x2013;&gt;MAC地址
+</li>
+<li>RARP: MAC地址&#x2013;&gt;IP地址
+</li>
+<li>ICMPv6: 是IPv6里面全面替代ICMPv4, IGMP, 以及ARP
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">User Datagram Protocol (UDP)</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>UDP是网络层协议, 不能保证传输的成功,因为它没有保证传输可靠性的方法, 需要
+应用层来保证
+</li>
+<li>TCP是一个byte-stream的协议,没有任何边界的概念, 但是UDP有,每个UDP都有长度,
+都会最后传输给对方
+</li>
+<li>UDP比较自由,不要维护relation, 它可以发送一个socket给serverA, 然后马上发送
+同一个socket给serverB.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Transmission Control Protocol (TCP)</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>TCP提供了传输的可靠性: 并不是说用TCP一定能把数据传输给对方, 而是如果能传输数据
+就传输,如果传输不成功,也能报错.
+</li>
+<li>TCP还有自己的算法来计算RTT(round-trip time) : 也就是client和server之间的
+传输一次的时间.
+</li>
+<li>RTT这个时间是根据当前网络状况和距离而设定的, 并且是不停计算的
+</li>
+<li>TCP还会记录序列, 发送的时候可能序列是123, 到达的时候就乱了.接收方的TCP 会把所有
+的TCP segment重新排列(如果有收到重传的segment,也会智能丢弃).
+</li>
+<li>TCP还提供流量控制: TCP一直告诉对方自己能够接受多少的数据,这叫advertised window.
+</li>
+<li>这个windows就是接收方能够提供的最大的内存空间.这个数字是不停改变的,刚接受来肯定
+数字变小, 处理一会肯定数字变大. 窗口数字也是可以变成0的,如果接收方处理不过来,当然
+要停止你的传输
+</li>
+<li>TCP是全双工的,也就是说,传输是双方向的,并不是叫server就不接受,叫client就不发送.
+当然某个方向的传输停止也是可以自由决定的.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Stream Control Transmission Protocol (SCTP)</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>SCTP提供了一种client和server之间的association, 之所以叫association而不是叫
+connection是因为:因为connection是两个IP之间的联系,而SCTP是两个系统之间的联系
+不仅仅是两个IP
+</li>
+<li>在消息传递上面,SCTP更像UDP,它把每个记录的长度都传输给了对方
+</li>
+<li>SCTP支持两个端之间的多个stream, 其中一个stream如果丢失了一个数据的话,不会影响
+其他stream. 这个和TCP不一样,TCP一个byte丢失就要影响以后的传输(因为要重新排序)
+</li>
+<li>SCTP特性还有:单个SCTP端点支持多个IP地址. TCP也可以在其他路由协议的支持下获得
+这种特性
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">TCP Connection Establishment and Termination</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>TCP建立连接的时候通常有如下的过程:
+<ol class="org-ol">
+<li>服务器必须首先准备好, 通过socket, bind和listen这三个函数,我们把这三个函数的
+过程叫:被动打开(passive open)
+</li>
+<li>客户端自然就是主动打开(active open) : 客户发送一个没有数据的SYN segment,
+里面只有一个序列号, 就是三次握手建立以后客户端发送的第一个数据的序号(假设为J)
+</li>
+<li>服务器必须确认(ACK)序号为J的SYN, 同时发送自己在这次握手后发送的第一个数据的
+序号(假设为K), 这个ACK和SYN都是在一个segment中发送的
+</li>
+<li>客户端要确认服务器的序号为K的SYN
+</li>
+<li>因为 2,3,4三步中要有三个segment才能完成连接的建立,所以这个过程叫做三次握手
+</li>
+</ol>
+</li>
+<li>三次握手图解, 我们可以看到ACK返回的是J+1这是因为SYN本身会占用一个序列号, J是当前
+序列号,那么等连接建立,下次发送的就是J+1了
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/network/three-way.png" alt="three-way.png" />
+</p>
+<p><span class="figure-number">Figure 1:</span> three-way.png</p>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1">TCP Options</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<ul class="org-ul">
+<li>MSS: 在传输SYN的同时,发送自己的最大segment的大小(Maximum Segment Size)
+</li>
+<li>Windows scale: TCP向对方展示的最大窗口数目为65535(相应的头部只有16bit), 但是
+现在的网络速度要远远大于这个数目, 所以需要一个新的参数Windows scale来成倍扩展
+窗口大小. scale是0到14,表示窗口数目左移多少位最大窗口数目现在是1GB(65535*2^14)
+</li>
+<li>Windows scale是一个新的选项,老的TCP实现不支持,所以只有client发送了这个选项,
+并且对方server回应了这个选项,我们才能使用. 同样的,server端只有在client发给了
+你这个选项,你才能回应这个选择.
+</li>
+<li>Timestamp: 这个选项对于高速传输时可能产生的数据破坏修复(比如迟到的segment,重复的
+segment)很有意义.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6-2" class="outline-4">
+<h4 id="sec-1-6-2">TCP Connection Termination</h4>
+<div class="outline-text-4" id="text-1-6-2">
+<ul class="org-ul">
+<li>建立一个连接需要三次握手, 终止一个连接则需要四次挥手:
+<ol class="org-ol">
+<li>某个应用(服务器端或者客户端都可以, 全双工嘛,两边都一样)首先调用close, 我们称之为
+主动关闭(active close). 这边的TCP主动发送一个FIN segment,表示自己传完了
+</li>
+<li>接受到FIN的对端执行被动关闭(passive close), 这个FIN会被TCP确认(发送一个ACK)
+同时还会把收到FIN的消息(在当前所有数据之后,加上EOF的方式)传送给上层应用程序
+</li>
+<li>过了一段时间以后,刚才接受FIN的端,也没有啥东西可传了,就会发送自己的FIN给对方
+</li>
+<li>对方TCP接受到这个最后的FIN之后,也会发送一个ACK给对方确认的.
+</li>
+</ol>
+</li>
+<li>四次挥手只是"最多四次", 有些情况下用不了四次:
+<ul class="org-ul">
+<li>上面的1FIN可能随着数据一块发过去
+</li>
+<li>上面的2ACK,3FIN可能会在一个segment发过来
+</li>
+<li>上面2和3之间, 被动关闭的那一端还是可以传数据给主动关闭那一端的,只是反过来不行了,
+这个叫做半关闭(half close)
+</li>
+</ul>
+</li>
+<li>TCP四次挥手图解(close()可以释放FIN,同时exit或者非正常中断也会发送)
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/network/four-way.png" alt="four-way.png" />
+</p>
+<p><span class="figure-number">Figure 2:</span> four-way.png</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6-3" class="outline-4">
+<h4 id="sec-1-6-3">TCP State Transitiion Diagram</h4>
+<div class="outline-text-4" id="text-1-6-3">
+<ul class="org-ul">
+<li>如下的为TCP的状态转换图&#x2014;为客户端,===为服务器端
+<pre class="example">
+                                             starting point
+                                             +------------+&lt;==========================================================+
+                                             | CLOSED     |=====================================+                     |
+                                             +-----+------+                 appl:active open    |                     ^
+                                                   | appl:passive open      send:SYN            v                     |
+                                                   v send:nothing                               |                     ^
+         recv:SYN  send:SYN,ACK              +------------+                                     v                     |
+       +-------------------------------------| LISTEN     |                                     |                     ^
+       |  +=================================&gt;+------------+                                     |                     |
+       v  | recv:RST                                                                            v                     ^
++------------+                             recv:SYN                                       +------------+ appl:close   |
+| SYN_RECVD  |&lt;===========================================================================| SYN_SENT   |=============&gt;+
++------+-----+                             send:SYN, ACK                                  +-----+------+ or timeout   |
+ send: | recv:ACK                       [[simultaneous open]]                 recv:SYN, ACK     |                     ^
+nothing|                                                                     +==================+                     |
+       |                                                                     | send:ACK                               ^
+       |                                     +------------+&lt;=================+            +------------+              |
+       +------------------------------------&gt;| ESTABLISHED|------------------------------&gt;| CLOSE_WAIT |              ^
+                                             +------------+ recv:FIN send:ACK             +------------+              |
+          appl:close send:FIN                      |                                            |appl:close           ^
+       +===========================================+                                            |send:FIN             |
+       |                                                                                        |                     ^
+       v                                  [[simultaneous close]]                                v                     |
++------------+ recv:FIN send:ACK             +------------+                               +------------+ recv:ACK     ^
+| FIN_WAIT_1 |==============================&gt;| CLOSING    |                               |LAST_ACK    |-------------&gt;+
++------+-----+==========+                    +-----+------+                               +------------+ send:nothing |
+       |                |                          |                                                                  ^
+       v recv ACK       |recv:FIN, ACK             | recv:ACK                                                         |
+       | send nothing   |send:ACK                  | send:nothing                                                     ^
+       v                |                          |                                                                  |
++------------+          +===================&gt;+-----+------+         2*MSL timeout                                     ^
+| FIN_WAIT_2 |==============================&gt;| TIME_WAIT  |==========================================================&gt;+
++------------+ recv:FIN send:ACK             +------------+
+</pre>
+</li>
+<li>上面的各种state就是netstat能够显示的状态,其中有两种很少见的情况我们从没有讨论过:
+<ul class="org-ul">
+<li>同时打开(simulataneous open) : 两端几乎同时发送SYN
+</li>
+<li>同时关闭(simulataneous close): 两端几乎同时发送FIN
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6-4" class="outline-4">
+<h4 id="sec-1-6-4">Watcing the Packets</h4>
+<div class="outline-text-4" id="text-1-6-4">
+<ul class="org-ul">
+<li>我们把客户端和服务器都在一起考虑,就会得到下面的图例
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/network/three-four-way.png" alt="three-four-way.png" />      
+</p>
+<p><span class="figure-number">Figure 3:</span> three-four-way.png</p>
+</div>
+</li>
+<li>客户端的MSS是536,而服务器是1460, 两边的窗口不一样大是没问题的
+</li>
+<li>上面传输数据的时候,服务器的对客户端数据请求的应答,是和数据一块传给客户端的
+,这个叫做piggybacking(捎带应答), 这个是因为server在200ms以内就处理了请求,
+所以第一个返回的segment里面就ACK了request, 如果时间太久,那就会让segment
+先走,在后面的segment里面来ACK
+</li>
+<li>发起主动关闭(active close)的端(这里是客户端)最后进入了TIME_WAIT,因为它要
+保证最后一个ACK(N+1)丢失了能够重发,所以要等待2MS的时间
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">TIME_WAIT State</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>在上图中最令人迷惑的状态就是TIME_WAIT, 它要经过两倍的MSL(maximum segment
+lifetime)的时间才能转成关闭状态
+</li>
+<li>我们先来看看MSL,他是一个ip数据报能够在网络上存活的时间,ip数据报有一个跳跃
+极限(hop limit): hop字段的长度为255bit,也就是说ip在路由器间传递超过255次
+就自动被丢弃了(有可能有循环产生).
+</li>
+<li>根据前面的背景知识,我们至少有两个理由来维持两倍的MSL:
+<ol class="org-ol">
+<li>假设我们在12.106.32.254:1500 和206.168.112.219:21之间建立了一个TCP
+连接,之后关闭它. 过一段时间后,我们用同样的IP和端口对再建立一次连接, 后
+一个连接称之为前一个连接的化身(incarnation), TCP必须避免新的连接受到老
+的连接重复分组(lost duplicate, 也就是超时重传后,丢失的又通过路由修复
+传回来了)的干扰,我们设置了两倍MSL,保证老的重复分组已经在网络上丢弃了
+</li>
+<li>我们上一节说道了主动close的客户端会保留TIME_WAIT长达2MS的时间,因为如果
+最后一个ACK(N+1)丢失了的话,server端超市会重发FIN(N), 客户端要保证自己
+还在这个connection, 然后重新发送ACK(N+1)
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

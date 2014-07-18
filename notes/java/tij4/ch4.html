@@ -1,0 +1,723 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 04: Controlling Execution</title>
+<!-- 2014-07-18 Fri 16:15 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 04: Controlling Execution</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Controlling Execution</a>
+<ul>
+<li><a href="#sec-1-1">true and false</a></li>
+<li><a href="#sec-1-2">if-else</a></li>
+<li><a href="#sec-1-3">Iteration</a>
+<ul>
+<li><a href="#sec-1-3-1">while</a></li>
+<li><a href="#sec-1-3-2">do-while</a></li>
+<li><a href="#sec-1-3-3">for</a></li>
+<li><a href="#sec-1-3-4">The comma operator</a></li>
+<li><a href="#sec-1-3-5">Foreach syntax</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">return</a></li>
+<li><a href="#sec-1-5">break and continue</a></li>
+<li><a href="#sec-1-6">The infamous "goto"</a></li>
+<li><a href="#sec-1-7">switch</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Controlling Execution</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">true and false</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>java不允许像c,c++一样使用数字作为boolean(隐式转换)
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">if-else</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>if-else是最常见的flow control命令
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">control</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">IfElse</span> {
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">result</span> = 0;
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">test</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">testval</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">target</span>) {
+        <span style="color: #859900; font-weight: bold;">if</span> (testval &gt; target) {
+            result = +1;
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (testval &lt; target) {
+            result = -1;
+        } <span style="color: #859900; font-weight: bold;">else</span> {
+            result = 0;
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        test(10, 5);
+        System.out.println(result);
+        test(5, 10);
+        System.out.println(result);
+        test(5, 5);
+        System.out.println(result);
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1                                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">-1                                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0                                              //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Iteration</h3>
+<div class="outline-text-3" id="text-1-3">
+</div><div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">while</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>不需要知道具体循环多少次,比如下面,只有random刚好产生大于0.99的情况,才返回
+运行次数随机
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2">do-while</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li>先do一次然后while,所以最少运行一次
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3">for</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<ul class="org-ul">
+<li>知道运行次数的循环就用for
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ListCharacters</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">char</span> <span style="color: #268bd2;">c</span> = 0; c &lt; 128; c++) {
+            <span style="color: #859900; font-weight: bold;">if</span> (Character.isLowerCase(c)) {
+                System.out.println(<span style="color: #2aa198;">"value:"</span> + (<span style="color: #b58900;">int</span>)c + <span style="color: #2aa198;">"character: "</span> + c);
+            }
+        }
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:97character: a                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:98character: b                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:99character: c                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:100character: d                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:101character: e                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:102character: f                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:103character: g                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:104character: h                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:105character: i                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:106character: j                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:107character: k                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:108character: l                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:109character: m                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:110character: n                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:111character: o                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:112character: p                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:113character: q                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:114character: r                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:115character: s                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:116character: t                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:117character: u                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:118character: v                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:119character: w                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:120character: x                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:121character: y                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">value:122character: z                          //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4">The comma operator</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<ul class="org-ul">
+<li>comma operator只有一个地方可以使用,就是在for里面定义的时候,可以定义多个变
+量, 但是变量必须是同一类型的
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">control</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">CommaOperator</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #859900; font-weight: bold;">for</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 1, <span style="color: #268bd2;">j</span> = i + 10; i &lt; 5; i++, j = i * 2) {
+            System.out.println(<span style="color: #2aa198;">"i = "</span> + i + <span style="color: #2aa198;">",j = "</span> + j);
+        }
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 1,j = 11                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 2,j = 4                                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 3,j = 6                                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 4,j = 8                                    //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-5" class="outline-4">
+<h4 id="sec-1-3-5">Foreach syntax</h4>
+<div class="outline-text-4" id="text-1-3-5">
+<ul class="org-ul">
+<li>用过python的会很熟悉,python里面的"for", 其实就是foreach
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">control</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Random</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ForEachFloat</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Random</span> <span style="color: #268bd2;">rand</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Random</span>(47);
+        <span style="color: #b58900;">float</span> <span style="color: #268bd2;">f</span>[] = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">float</span>[10];
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; 10; i++) {
+            f[i] = rand.nextFloat();
+        }
+
+        <span style="color: #859900; font-weight: bold;">for</span>(<span style="color: #b58900;">float</span> <span style="color: #268bd2;">x</span> : f) {
+            System.out.println(x);
+        }
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.72711575                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.39982635                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.5309454                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.0534122                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.16020656                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.57799757                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.18847865                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.4170137                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.51660204                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0.73734957                                     //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>对于所有的Iterable object,都可以使用foreach.String是Iterable的,当然也可以
+使用for each
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">control</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ForEachString</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">char</span> <span style="color: #268bd2;">c</span> : <span style="color: #2aa198;">"An Afrian Swallow"</span>.toCharArray()) {
+            System.out.printf(c + <span style="color: #2aa198;">" "</span>);
+        }
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">A n   A f r i a n   S w a l l o w              //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>虽然foreach看起来cool一点,但是它的效率较普通for要稍差
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">return</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>return利用的巧妙可以简化代码(return后面的就不会执行了,是其唯一的特性)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">control</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">IfElse2</span> {
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">test</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">testval</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">target</span>) {
+        <span style="color: #859900; font-weight: bold;">if</span> (testval &gt; target) {
+            <span style="color: #859900; font-weight: bold;">return</span> +1;
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (testval &lt; target) {
+            <span style="color: #859900; font-weight: bold;">return</span> -1;
+        } <span style="color: #859900; font-weight: bold;">else</span> {
+            <span style="color: #859900; font-weight: bold;">return</span> 0; <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">Match</span>
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        System.out.println(test(10, 5));
+        System.out.println(test(5, 10));
+        System.out.println(test(5,5));
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1                                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">-1                                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0                                              //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">break and continue</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>break和continue常常容易混:
+<ul class="org-ul">
+<li>break是从循环中跳出来,直接进行循环后面的代码 (break up就是完全分手了)
+</li>
+<li>continue是不再执行本次循环,跳到循环的下一次. (continue,暂时分开,重新开始恋情)
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">The infamous "goto"</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>goto 臭名昭著,java已经放弃它了(但是还是把goto作为一个保留关键字)
+</li>
+<li>goto的错误在于"过度使用", 在某些极端情况下,goto反而是最好的方法. java放弃了
+goto,但是使用break和continue来配合goto里面的label来进行跳转.
+</li>
+<li>这个使用的情况基本上就是一种:嵌套的循环
+<pre class="example">
+label:
+outer-iteration {
+    inner-iteration {
+        //...
+        break; // (1)
+        //...
+        continue; // (2)
+        //...
+        continue label; // (3)
+        //...
+        break label1;  // (4)
+        //..
+    }
+}
+</pre>
+<ol class="org-ol">
+<li>break就是普通的break了,跳出里层循环
+</li>
+<li>continue就是普通continue,放弃里层的一次循环
+</li>
+<li>continue label,就是放弃"外层当次剩余循环",进入"外层下一次循环"
+</li>
+<li>break label:跳出两次循环
+</li>
+</ol>
+</li>
+<li>一个实例来表示上面的四种跳转
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">control</span>;
+
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">For loops with "labeled break" and "labeled continue"</span>
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">LabeledFor</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0;
+        outer:
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">can't have statements here</span>
+        <span style="color: #859900; font-weight: bold;">for</span> (; <span style="color: #268bd2; font-weight: bold;">true</span>; ) { <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">infinite loop</span>
+            System.out.println(<span style="color: #2aa198;">"welcome back"</span>);
+            <span style="color: #268bd2; font-weight: bold;">inner</span>:
+            <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">can't have satements here</span>
+            <span style="color: #859900; font-weight: bold;">for</span> (; i &lt; 10; i++) {
+                System.out.println(<span style="color: #2aa198;">"i = "</span> + i);
+
+                <span style="color: #859900; font-weight: bold;">if</span> (i == 2) {
+                    System.out.println(<span style="color: #2aa198;">"continue"</span>);
+                    <span style="color: #859900; font-weight: bold;">continue</span>;
+                }
+                <span style="color: #859900; font-weight: bold;">if</span> (i == 3) {
+                    System.out.println(<span style="color: #2aa198;">"break"</span>);
+                    i++; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Otherwise i never gets incremented</span>
+                    <span style="color: #859900; font-weight: bold;">break</span>;
+                }
+                <span style="color: #859900; font-weight: bold;">if</span> (i == 7) {
+                    System.out.println(<span style="color: #2aa198;">"continue outer"</span>);
+                    i++; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Otherwise i newver gets incremented</span>
+                    <span style="color: #859900; font-weight: bold;">continue</span> <span style="color: #268bd2; font-weight: bold;">outer</span>;
+                }
+                <span style="color: #859900; font-weight: bold;">if</span> (i == 8) {
+                    System.out.println(<span style="color: #2aa198;">"break outer"</span>);
+                    <span style="color: #859900; font-weight: bold;">break</span> <span style="color: #268bd2; font-weight: bold;">outer</span>;
+                }
+                <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">k</span> = 0; k &lt; 5; k++) {
+                    <span style="color: #859900; font-weight: bold;">if</span> (k == 3) {
+                        System.out.println(<span style="color: #2aa198;">"continue inner"</span>);
+                        <span style="color: #859900; font-weight: bold;">continue</span> <span style="color: #268bd2; font-weight: bold;">inner</span>;
+                    }
+                }
+            }
+        }
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">welcome back                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 0                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">continue inner                                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 1                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">continue inner                                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 2                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">continue                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 3                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">break                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">welcome back                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 4                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">continue inner                                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 5                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">continue inner                                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 6                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">continue inner                                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 7                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">continue outer                                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">welcome back                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 8                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">break outer                                    //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>相似的使用while的例子如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">control</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">LabeledWhile</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0;
+        outer:
+        <span style="color: #859900; font-weight: bold;">while</span> (<span style="color: #268bd2; font-weight: bold;">true</span>) {
+            System.out.println(<span style="color: #2aa198;">"Outer while loop"</span>);
+            <span style="color: #859900; font-weight: bold;">while</span>(<span style="color: #268bd2; font-weight: bold;">true</span>) {
+                i++;
+                System.out.println(<span style="color: #2aa198;">"i = "</span> + i);
+                <span style="color: #859900; font-weight: bold;">if</span> (i == 1) {
+                    System.out.println(<span style="color: #2aa198;">"continue"</span>);
+                    <span style="color: #859900; font-weight: bold;">continue</span>;
+                }
+                <span style="color: #859900; font-weight: bold;">if</span> (i == 3) {
+                    System.out.println(<span style="color: #2aa198;">"continue outer"</span>);
+                    <span style="color: #859900; font-weight: bold;">continue</span> <span style="color: #268bd2; font-weight: bold;">outer</span>;
+                }
+                <span style="color: #859900; font-weight: bold;">if</span> (i == 5) {
+                    System.out.println(<span style="color: #2aa198;">"break"</span>);
+                    <span style="color: #859900; font-weight: bold;">break</span>;
+                }
+                <span style="color: #859900; font-weight: bold;">if</span> (i == 7) {
+                    System.out.println(<span style="color: #2aa198;">"break outer"</span>);
+                    <span style="color: #859900; font-weight: bold;">break</span> <span style="color: #268bd2; font-weight: bold;">outer</span>;
+                }
+            }
+        }
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Outer while loop                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 1                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">continue                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 2                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 3                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">continue outer                                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Outer while loop                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 4                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 5                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">break                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Outer while loop                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 6                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i = 7                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">break outer                                    //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">switch</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>switch也是c的贡献,我们需要记住case一定要是整形的数字,比如int或者char类型,java
+里面的enum也被设计成可以和switch一起工作. 下例就是如何的区分元音非元音
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">control</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Random</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">VowelsAndConsonants</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Random</span> <span style="color: #268bd2;">rand</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Random</span>(47);
+
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; 100; i++) {
+            <span style="color: #b58900;">int</span> <span style="color: #268bd2;">c</span> = rand.nextInt(26) + <span style="color: #2aa198;">'a'</span>;
+            System.out.println((<span style="color: #b58900;">char</span>)c + <span style="color: #2aa198;">", "</span> + c + <span style="color: #2aa198;">":"</span>);
+            <span style="color: #859900; font-weight: bold;">switch</span> (c) {
+                <span style="color: #859900; font-weight: bold;">case</span> <span style="color: #2aa198;">'a'</span>:
+                <span style="color: #859900; font-weight: bold;">case</span> <span style="color: #2aa198;">'e'</span>:
+                <span style="color: #859900; font-weight: bold;">case</span> <span style="color: #2aa198;">'i'</span>:
+                <span style="color: #859900; font-weight: bold;">case</span> <span style="color: #2aa198;">'o'</span>:
+                <span style="color: #859900; font-weight: bold;">case</span> <span style="color: #2aa198;">'u'</span>:
+                    System.out.println(<span style="color: #2aa198;">"vowel"</span>);
+                    <span style="color: #859900; font-weight: bold;">break</span>;
+                <span style="color: #859900; font-weight: bold;">case</span> <span style="color: #2aa198;">'y'</span>:
+                    System.out.println(<span style="color: #2aa198;">"Sometimes a vowel"</span>);
+                    <span style="color: #859900; font-weight: bold;">break</span>;
+                <span style="color: #859900; font-weight: bold;">default</span>:
+                    System.out.println(<span style="color: #2aa198;">"consonant"</span>);
+            }
+        }
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">y, 121:                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Sometimes a vowel                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">n, 110:                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">consonant                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">z, 122:                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">consonant                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">b, 98:                                         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">consonant                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">r, 114:                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">consonant                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">n, 110:                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">consonant                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">y, 121:                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Sometimes a vowel                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">g, 103:                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">consonant                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">c, 99:                                         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">consonant                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f, 102:                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">consonant                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">o, 111:                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">vowel                                          //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

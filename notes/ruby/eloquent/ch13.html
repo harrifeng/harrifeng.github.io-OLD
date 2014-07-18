@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 13: Get the Behavior You Nedd with Singleton and Class Methods</title>
+<!-- 2014-07-18 Fri 16:03 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 13: Get the Behavior You Nedd with Singleton and Class Methods</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Get the Behavior You Nedd with Singleton and Class Methods</a>
+<ul>
+<li><a href="#sec-1-1">A Stubby Puzzle</a></li>
+<li><a href="#sec-1-2">A Hidden, but Real Class</a></li>
+<li><a href="#sec-1-3">Class Methods: Singletons in Plain Sight</a></li>
+<li><a href="#sec-1-4">In the Wild</a></li>
+<li><a href="#sec-1-5">Staying Out of Trouble</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Get the Behavior You Nedd with Singleton and Class Methods</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>OO编程的核心思想其实就是建模世界.但是很多时候处心积虑创建出来的class可能不一
+定"百分之百的"符合某个instance的要求.比如我们创建一个叫做American的类,其中有
+两个函数eat_hamburgers和watch_football. 一个美国人可能确实是喜欢吃汉堡包,但
+是他不喜欢看足球啊!
+</li>
+<li>Ruby对待这种情况的办法是singleton函数
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">A Stubby Puzzle</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>所谓singleton method,就是某个instance特有的函数(不是java里面的instance函数
+哦,那个的意思是所有instance都有,而不是某个类有).
+</li>
+<li>除了numeric class或者symbol,其他的class或者新创建的class都支持singleton method
+</li>
+<li>创建singleton method的方法如下,其和普通method没有任何区别&#x2013;除了它只属于某个instance
+<div class="org-src-container">
+
+<pre class="src src-ruby">hand_built_stub_printer = <span style="color: #DADADA;">Object</span>.new
+
+<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">hand_built_stub_printer.available?</span>
+  <span style="color: #C1C144;">true</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">hand_built_stub_printer.render</span>(content)
+  <span style="color: #C1C144;">nil</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+p hand_built_stub_printer.available?
+p hand_built_stub_printer.render(0)
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">true                                           #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">nil                                            #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>singleton method会override所有的常规的,或者class-defined的method,比如
+<div class="org-src-container">
+
+<pre class="src src-ruby">uncooperative = <span style="color: #A2925E;">"Don't ask my class"</span>
+
+<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">uncooperative.class</span>
+  <span style="color: #A2925E;">"I'm not telling"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+puts uncooperative.class
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">I'm not telling                                #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>每次都把instance写出来,然后定义singleton函数的方法看起来有点傻,如果定义很多
+singleton函数的话,可以试试下面的方法
+<div class="org-src-container">
+
+<pre class="src src-ruby">hand_built_stub_printer = <span style="color: #DADADA;">Object</span>.new
+
+<span style="color: #4856F7; font-weight: bold;">class</span> &lt;&lt; hand_built_stub_printer
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">available?</span>                <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">A singleton method</span>
+    <span style="color: #C1C144;">true</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">render</span>                    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Another one</span>
+    <span style="color: #C1C144;">nil</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">A Hidden, but Real Class</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>singleton函数能够实现的原因是再object和其class之间,Ruby"偷偷的"为你创建了
+Singleton函数
+<pre class="example">
++-----------+
+|  Object   |
+|           |
++-----^-----+
+      |
+      +-----------+
+                  |
+            +-----------+
+            | Singleton |
+            |  Class    |
+            +-----+-----+
+                  |
+      +-----------+
+      |
++-----------+
+|stub_print |
+|instance   |
++-----------+
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Class Methods: Singletons in Plain Sight</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>我们费尽非常大的力气实现了singleton method,看起来用处不多,但其实一个背后的
+目的是:他是为了实现Ruby的重要feature, class method. 换句话说,我们每天都在使
+用的class method其实是一个singleton method,让我们慢慢道来
+</li>
+<li>下面是一个常规的class函数用法.my_object的self表示他是一个叫做#&lt;Document:0x007fccc08840e8&gt;
+的instance, 它的是由class Document创建来的
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+my_object = <span style="color: #DADADA;">Document</span>.new
+
+<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">my_object.explain</span>
+  puts <span style="color: #A2925E;">"self is</span><span style="color: #C1C144;"> #{self}</span><span style="color: #A2925E;">"</span>
+  puts <span style="color: #A2925E;">"and its class is</span><span style="color: #C1C144;"> #{self.class}</span><span style="color: #A2925E;">"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+my_object.explain
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">self is #&lt;Document:0x007fccc08840e8&gt;           #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">and its class is Document                      #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>我们把Document的new去掉再来看看,输出变得大不同
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+my_object = <span style="color: #DADADA;">Document</span>
+
+<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">my_object.explain</span>
+  puts <span style="color: #A2925E;">"self is</span><span style="color: #C1C144;"> #{self}</span><span style="color: #A2925E;">"</span>
+  puts <span style="color: #A2925E;">"and its class is</span><span style="color: #C1C144;"> #{self.class}</span><span style="color: #A2925E;">"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+my_object.explain
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">self is Document                               #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">and its class is Class                         #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>输出变成了:
+<ul class="org-ul">
+<li>my_object是一个叫做Document的instance
+</li>
+<li>这个instance是由class Class创建来的!
+</li>
+</ul>
+</li>
+<li>这就像我们解释了:
+<ul class="org-ul">
+<li>所有的class(比如Document,或者Fixnum, 或者String)都是对象!
+</li>
+<li>它们是由Class实例化来的
+</li>
+<li>class是这些对象的singleton method,所以我们可以这样
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">Document.explain</span>
+  puts <span style="color: #A2925E;">"self is</span><span style="color: #C1C144;"> #{self}</span><span style="color: #A2925E;">"</span>
+  puts <span style="color: #A2925E;">"and its class is</span><span style="color: #C1C144;"> #{self.class}</span><span style="color: #A2925E;">"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #DADADA;">Document</span>.explain
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">self is Document                               #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">and its class is Class                         #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>一旦知道了class是类Class一个singleton函数, 而所有的class都是Class的instance
+那么下面代码就容易理解了,其实就是定义instance Document的singleton method
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">previously, we have this</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">class &lt;&lt; hand_built_stub_printer</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">here the self is actually the same meaning with hand_built_stub_printer</span>
+  <span style="color: #4856F7; font-weight: bold;">class</span> &lt;&lt; <span style="color: #C1C144;">self</span>
+    <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">find_by_name</span>(name)
+      <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Find a document by name</span>
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+
+    <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">fidn_by_id</span>(doc_id)
+      <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Find a document by id</span>
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">In the Wild</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>其实除了上面说到的class method, singleton class的用处并不多(Rspec可能会用到很多)
+</li>
+<li>大多数情况下,类函数显得更加"合适".而不是把类看成是Class的instance,然后定义instance method
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Staying Out of Trouble</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>singleton method最大的问题是和class method容易混淆.使用的时候:
+<ul class="org-ul">
+<li>class method是: 类名.函数名
+</li>
+<li>singleton method是: instance名.函数名
+</li>
+</ul>
+</li>
+<li>class method使用的时候,self的意义会变化!我们来看看一个常见的class method的
+创建方法. 我们可以看到,在class method里面self转换成了一个Class类型的instance
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Parent</span>
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.who_am_i</span>
+    puts <span style="color: #A2925E;">"The value of self is</span><span style="color: #C1C144;"> #{self}</span><span style="color: #A2925E;">"</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Child</span> &lt; <span style="color: #DADADA;">Parent</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #DADADA;">Parent</span>.who_am_i
+<span style="color: #DADADA;">Child</span>.who_am_i
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The value of self is Parent                    #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The value of self is Child                     #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>如果是普通的方法的话,就会导致如下结果. 我们可以看到, 在普通的method里面,self
+就是当前class的一个instance.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Parent</span>
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">who_am_i</span>
+    puts <span style="color: #A2925E;">"The value of self is</span><span style="color: #C1C144;"> #{self}</span><span style="color: #A2925E;">"</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Child</span> &lt; <span style="color: #DADADA;">Parent</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+parent = <span style="color: #DADADA;">Parent</span>.new
+child = <span style="color: #DADADA;">Child</span>.new
+
+parent.who_am_i
+child.who_am_i
+
+<span style="color: #ed5b15;">###################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt;  #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The value of self is #&lt;Parent:0x007fccc1070298&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The value of self is #&lt;Child:0x007fccc1070270&gt;  #</span>
+<span style="color: #ed5b15;">###################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

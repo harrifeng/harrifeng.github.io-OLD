@@ -1,0 +1,906 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 02: Ruby.new</title>
+<!-- 2014-07-18 Fri 16:03 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 02: Ruby.new</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Ruby.new</a>
+<ul>
+<li><a href="#sec-1-1">Ruby Is an Object-Oriented Language</a></li>
+<li><a href="#sec-1-2">Some Basic Ruby</a></li>
+<li><a href="#sec-1-3">Arrays and Hashes</a></li>
+<li><a href="#sec-1-4">Symbols</a></li>
+<li><a href="#sec-1-5">Control Structures</a></li>
+<li><a href="#sec-1-6">Regular Expressions</a></li>
+<li><a href="#sec-1-7">Blocks and Iterators</a></li>
+<li><a href="#sec-1-8">Reading and Riting</a></li>
+<li><a href="#sec-1-9">Command-Line Arguments</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Ruby.new</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Ruby Is an Object-Oriented Language</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>ruby是"纯面向对象"语言.ruby中的一切东西都是对象.
+</li>
+<li>ruby中创建新的object的方法是new
+<div class="org-src-container">
+
+<pre class="src src-ruby">song1 = <span style="color: #DADADA;">Song</span>.new(<span style="color: #A2925E;">"Ruby Tuesday"</span>)
+song2 = <span style="color: #DADADA;">Song</span>.new(<span style="color: #A2925E;">"Enveloped in Python"</span>)
+</pre>
+</div>
+</li>
+<li>上面的objec都来自于Song class. 但是他们都拥有自己的object ID,所以会被系统严
+格区分
+</li>
+<li>ruby中每个对象都有自己的method, 因为一切皆对象,那么下面的例子就不那么难以理
+解了
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts <span style="color: #A2925E;">"gin joint"</span>.length
+puts <span style="color: #A2925E;">"Rick"</span>.index(<span style="color: #A2925E;">"c"</span>)
+puts 42.even?
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">9                                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">2                                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">true                                           #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>Java也是面向对象语言,只不过不是"纯的", 所以我们在java中,求绝对值方法如下:
+<div class="org-src-container">
+
+<pre class="src src-java">num = Math.abs(num)
+</pre>
+</div>
+</li>
+<li>而在ruby中,绝对值这个东西是"对象数字"自己的method
+<div class="org-src-container">
+
+<pre class="src src-ruby">num = -1234
+puts num.abs
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">1234                                           #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Some Basic Ruby</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>先介绍一个简单的ruby程序
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">say_goodnight</span>(name)
+  result = <span style="color: #A2925E;">"Good night"</span> + name
+  <span style="color: #4856F7; font-weight: bold;">return</span> result
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Time for bed...</span>
+puts say_goodnight(<span style="color: #A2925E;">"John-Boy"</span>)
+puts say_goodnight(<span style="color: #A2925E;">"Mary-Ellen"</span>)
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Good nightJohn-Boy                             #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Good nightMary-Ellen                           #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>Ruby有很多script语言的特性:
+<ul class="org-ul">
+<li>没有分号结尾
+</li>
+<li>#是单行comment
+</li>
+<li>indentation不是像python那样强制的,但是两个空格的indentation是社区公认的
+</li>
+<li>def 后面是函数名, 函数名后面使用括号括起来的是参数列表(但其实参数列表可以
+没有括号,为了好看我们还是加了括号)
+</li>
+</ul>
+</li>
+<li>稍微难理解的是这里
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts say_goodnight(<span style="color: #A2925E;">"John-Boy"</span>)
+</pre>
+</div>
+</li>
+<li>这一行代码里面其实有两个函数(括号可以省略)
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts say_goodnight(<span style="color: #A2925E;">"John-Boy"</span>)
+puts(say_goodnight(<span style="color: #A2925E;">"John-Boy"</span>))
+</pre>
+</div>
+</li>
+<li>ruby还有一个特殊的, 优化双引号字符串使用函数参数的做法,就是#{exp}在双引号里
+面,会表示成exp
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">say_goodnight</span>(name)
+  result = <span style="color: #A2925E;">"Good night,</span><span style="color: #C1C144;"> #{name}</span><span style="color: #A2925E;">"</span>
+  <span style="color: #4856F7; font-weight: bold;">return</span> result
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+puts say_goodnight(<span style="color: #A2925E;">'Pa'</span>)
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Good night, Pa                                 #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>#{exp} 引入了string对象, 而string对象是有自己的method的, 所以,我们也可以很
+容易的写出如下代码:将传入的人名首字母大写
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">say_goodnight</span>(name)
+  result = <span style="color: #A2925E;">"Good night,</span><span style="color: #C1C144;"> #{name.capitalize}</span><span style="color: #A2925E;">"</span>
+  <span style="color: #4856F7; font-weight: bold;">return</span> result
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+puts say_goodnight(<span style="color: #A2925E;">'uncle'</span>)
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Good night, Uncle                              #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>ruby不愧是脚本语言,怎么省事怎么来. ruby函数的最后一条语句就是要返回的语句,
+所以连return都可以省略
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">say_goodnight</span>(name)
+  <span style="color: #A2925E;">"Good night,</span><span style="color: #C1C144;"> #{name.capitalize}</span><span style="color: #A2925E;">"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+puts say_goodnight(<span style="color: #A2925E;">"ma"</span>)
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Good night, Ma                                 #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>ruby在变量命名的时候,会根据不同的规则来确定变量的作用域
+<ul class="org-ul">
+<li>本地的1变量2函数名3函数参数,都必须是小写字母,或者下划线开头
+</li>
+<li>全局变量都以美元符($)开头
+</li>
+<li>实例变量(instance variable)都以(@)开头
+</li>
+<li>类变量(class variable)都以(@@)开头
+</li>
+<li>类名模块名常量都以大写字母开头
+</li>
+</ul>
+</li>
+<li>除了上面的要求,ruby在"语法"上面的变量定义就和其他语言一致了,但是ruby长期的
+发展又出现了一些"习惯上"的命名规则:
+<ul class="org-ul">
+<li>instance variable如果是多个words的话,第一个word小写,后面的都要大写
+</li>
+<li>method name可能以?, ! = 结尾
+</li>
+</ul>
+</li>
+<li>下面就是一些常见的ruby变量命名举例
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">Local Variable</td>
+<td class="left">name fish_and_chips x_axis thx1138 _x _26</td>
+</tr>
+
+<tr>
+<td class="left">Instance Variable</td>
+<td class="left">@name @point_1 @X @_ @plan9</td>
+</tr>
+
+<tr>
+<td class="left">Class Variable</td>
+<td class="left">@@total @@symtab @@N @@x_pos @@SINGLE</td>
+</tr>
+
+<tr>
+<td class="left">Global Variable</td>
+<td class="left">$debug #CUSTOMER $_ $plan9 $Global</td>
+</tr>
+
+<tr>
+<td class="left">Class Name</td>
+<td class="left">String ActiveRecord MyClass</td>
+</tr>
+
+<tr>
+<td class="left">Constant Name</td>
+<td class="left">FEET_PER_MILE DEBUG</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Arrays and Hashes</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>从某种意义上来说, 在ruby里面,由于其"一切皆对象"Array和Hash 都是indexed
+Collection. 两者的区别在于:
+<ul class="org-ul">
+<li>Array是使用integer作为其key
+</li>
+<li>Hash是使用任意的object作为其key
+</li>
+</ul>
+</li>
+<li>创建Array的过程,没有使用new, 而是使用了一种叫做Array literal的方法(为了方便,
+编译器特意定制的,python也一样)
+<div class="org-src-container">
+
+<pre class="src src-ruby">a = [1, <span style="color: #A2925E;">'cat'</span>, 3.14]
+puts <span style="color: #A2925E;">"The first element is</span><span style="color: #C1C144;"> #{a[0]}</span><span style="color: #A2925E;">"</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">set the third element</span>
+a[2] = <span style="color: #C1C144;">nil</span>
+puts <span style="color: #A2925E;">"The array is now</span><span style="color: #C1C144;"> #{a.inspect}</span><span style="color: #A2925E;">"</span>
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The first element is 1                         #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The array is now [1, "cat", nil]               #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>上面的例子中使用到了nil, 在ruby中, nil也是一个对象", 只不过这个对象恰好"代
+表nothing"
+</li>
+<li>有时候,使用''或者""创建word array很麻烦,所以ruby为了省事,还发明了%w, 注意%w
+和{}之间没有空格
+<div class="org-src-container">
+
+<pre class="src src-ruby">a = [<span style="color: #A2925E;">'ant'</span>, <span style="color: #A2925E;">'bee'</span>, <span style="color: #A2925E;">'cat'</span>, <span style="color: #A2925E;">'dog'</span>, <span style="color: #A2925E;">'elk'</span>]
+puts a[0]
+puts a[3]
+a = <span style="color: #A2925E;">%w{ant bee cat dog elk}</span>
+puts a[0]
+puts a[3]
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">ant                                            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">dog                                            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">ant                                            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">dog                                            #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>而对于hash来说,初始化的方法则是加入了一个=&gt;, =&gt; 左边是key,=&gt; 右边是value, 下
+面就是一个初始化并打印hash内容的例子,需要知道的是,我们使用了p而不是puts来打
+印(p是打印foo.inspect, 而puts是打印foo.to_s, 所以p foo就等于puts foo.to_s)
+<div class="org-src-container">
+
+<pre class="src src-ruby">inst_section = {
+  <span style="color: #A2925E;">'cello'</span>      =&gt; <span style="color: #A2925E;">'string'</span>,
+  <span style="color: #A2925E;">'clarinet'</span>   =&gt; <span style="color: #A2925E;">'woodwind'</span>,
+  <span style="color: #A2925E;">'drum'</span>       =&gt; <span style="color: #A2925E;">'percussion'</span>,
+  <span style="color: #A2925E;">'oboe'</span>       =&gt; <span style="color: #A2925E;">'woodwind'</span>,
+  <span style="color: #A2925E;">'trumpet'</span>    =&gt; <span style="color: #A2925E;">'brass'</span>,
+  <span style="color: #A2925E;">'violin'</span>     =&gt; <span style="color: #A2925E;">'string'</span>
+}
+
+p inst_section[<span style="color: #A2925E;">'oboe'</span>]
+p inst_section[<span style="color: #A2925E;">'cello'</span>]
+p inst_section[<span style="color: #A2925E;">'bassoon'</span>]
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"woodwind"                                     #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"string"                                       #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">nil                                            #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>上面例子中,我们的key不存在的情况下, value返回了nil,这个是默认行为,你也可以
+把key不存在时候的返回值设置成0(这样在统计单词这种应用中,会有用武之地)
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">default value is 0</span>
+histogram = <span style="color: #DADADA;">Hash</span>.new(0)
+puts histogram[<span style="color: #A2925E;">'ruby'</span>]
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">found one, add it to zero</span>
+histogram[<span style="color: #A2925E;">'ruby'</span>] = histogram[<span style="color: #A2925E;">'ruby'</span>] + 1
+puts histogram[<span style="color: #A2925E;">'ruby'</span>]
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">0                                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">1                                              #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Symbols</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>在很多其他更高级语言中,都有枚举这种类型, 其核心就是给一些整数一个容易辨别的
+名字. 然后在代码中易于被认出,编译的时候出错对用户友好(相比define)
+</li>
+<li>ruby中直接设计了symbols&#x2013;&gt; 一个":" + 一个变量就是枚举了,你也不用挖空心思给
+它们赋值. ruby保证他们全局唯一.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">walk</span>(direction)
+  <span style="color: #4856F7; font-weight: bold;">if</span> direction == <span style="color: #DF7921; font-weight: bold;">:north</span>
+    puts <span style="color: #A2925E;">"Walking North"</span>
+  <span style="color: #4856F7; font-weight: bold;">else</span> direction == <span style="color: #DF7921; font-weight: bold;">:south</span>
+    puts <span style="color: #A2925E;">"Walking South"</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+puts walk(<span style="color: #DF7921; font-weight: bold;">:south</span>)
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Walking South                                  #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>既然枚举使用起来这么容易,那么hash里面使用枚举作为key就变得理所应当了(减少了
+烦人的''的输入)
+<div class="org-src-container">
+
+<pre class="src src-ruby">inst_section = {
+  <span style="color: #DF7921; font-weight: bold;">:cello</span> =&gt; <span style="color: #A2925E;">'string'</span>,
+  <span style="color: #DF7921; font-weight: bold;">:clarinet</span> =&gt; <span style="color: #A2925E;">'woodwind'</span>,
+  <span style="color: #DF7921; font-weight: bold;">:drum</span> =&gt; <span style="color: #A2925E;">'percussion'</span>,
+  <span style="color: #DF7921; font-weight: bold;">:oboe</span> =&gt; <span style="color: #A2925E;">'woodwind'</span>,
+  <span style="color: #DF7921; font-weight: bold;">:trumpet</span> =&gt; <span style="color: #A2925E;">'brass'</span>,
+  <span style="color: #DF7921; font-weight: bold;">:violin</span> =&gt; <span style="color: #A2925E;">'string'</span>
+}
+
+p inst_section[<span style="color: #DF7921; font-weight: bold;">:oboe</span>]
+p inst_section[<span style="color: #DF7921; font-weight: bold;">:cello</span>]
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Note that strings arn't the same as symbols...</span>
+p inst_section[<span style="color: #A2925E;">'cello'</span>]
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"woodwind"                                     #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"string"                                       #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">nil                                            #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>后来就默认使用symbol这种伪枚举来做hash的key了,那为了能让代码更少一点,ruby把
+<p>
+:sym =&gt; val 简化成了 sym: val
+</p>
+<div class="org-src-container">
+
+<pre class="src src-ruby">inst_section = {
+  <span style="color: #DF7921; font-weight: bold;">cello</span>:    <span style="color: #A2925E;">'string'</span>,
+  <span style="color: #DF7921; font-weight: bold;">clarinet</span>: <span style="color: #A2925E;">'woodwind'</span>,
+  <span style="color: #DF7921; font-weight: bold;">drum</span>:     <span style="color: #A2925E;">'percussion'</span>,
+  <span style="color: #DF7921; font-weight: bold;">oboe</span>:     <span style="color: #A2925E;">'woodwind'</span>,
+  <span style="color: #DF7921; font-weight: bold;">trumpt</span>:   <span style="color: #A2925E;">'brass'</span>,
+  <span style="color: #DF7921; font-weight: bold;">violin</span>:   <span style="color: #A2925E;">'string'</span>
+}
+
+puts <span style="color: #A2925E;">"An oboe is a</span><span style="color: #C1C144;"> #{inst_section[:oboe]}</span><span style="color: #A2925E;"> instrument"</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">An oboe is a woodwind instrument               #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Control Structures</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>在逻辑控制方面,ruby没有太大不同
+<div class="org-src-container">
+
+<pre class="src src-ruby">today = <span style="color: #DADADA;">Time</span>.now
+
+<span style="color: #4856F7; font-weight: bold;">if</span> today.saturday?
+  puts <span style="color: #A2925E;">"Do chores around the house"</span>
+<span style="color: #4856F7; font-weight: bold;">elsif</span> today.sunday?
+  puts <span style="color: #A2925E;">"Relax"</span>
+<span style="color: #4856F7; font-weight: bold;">else</span>
+  puts <span style="color: #A2925E;">"Go to work"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Go to work                                     #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+
+<li>绝大多数的ruby语句都会有返回值(即便不明确的显示return,但是一个函数的最后一
+个statement不就是返回值么), 我们可以利用返回值作为condition来控制while或者
+if. 比如下面的例子中, gets函数会返回standard input里面的下一行(如果没有下一
+行,那么就返回nil), line总是从gets得到值,如果一旦为nil,那么就彻底返回
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">while</span> line = gets
+  puts line.downcase
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>像python一样,同为脚本语言的ruby,如果if或者while只有一个condition的话,我们可
+以把代码写成一行. 这就叫做statement modifier
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">if case ---------&gt;</span>
+<span style="color: #4856F7; font-weight: bold;">if</span> radiation &gt; 3000
+  puts <span style="color: #A2925E;">"Danger, Will Robinson"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">rewrite using a statement modifier</span>
+puts <span style="color: #A2925E;">"Danger, Will Robinson"</span> <span style="color: #4856F7; font-weight: bold;">if</span> radiation &gt; 3000
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">while case ------&gt;</span>
+square = 4
+<span style="color: #4856F7; font-weight: bold;">while</span> square &lt; 1000
+  square = square * square
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">rewrite using a statement modifier</span>
+square = 4
+square = square * square <span style="color: #4856F7; font-weight: bold;">while</span> square &lt; 1000
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Regular Expressions</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>脚本语言和高级语言的一大不同就是,脚本语言会在语言内部就支持正则表达式,这可
+能和它们处理文本很多有关.
+</li>
+<li>ruby中,使用/pattern/的方法来表达正则表达式.下面是一些常用正则表达式举例
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #A2925E;">/\d\d:\d\d:\d\d/</span>     <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">a time such as 12:34:56</span>
+<span style="color: #A2925E;">/Perl.*Python/</span>       <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Perl, zero or more other chars, then Python</span>
+<span style="color: #A2925E;">/Perl Python/</span>        <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Perl, a space, and Python</span>
+<span style="color: #A2925E;">/Perl *Python/</span>       <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Perl, zero or more spaces, and Python</span>
+<span style="color: #A2925E;">/Perl +Python/</span>       <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Perl, one or more spaces, and Python</span>
+<span style="color: #A2925E;">/Perl\s+Python/</span>      <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Perl, whitespace characters, then Python</span>
+<span style="color: #A2925E;">/Ruby (Perl|Python)/</span> <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Ruby, a space, and either Perl or Python</span>
+</pre>
+</div>
+</li>
+<li>Ruby还为正则表达式"专门"配备了一个操作符(=~), 如果一个变量能够包含(=~)右边
+的表达式,那么整个式子返回匹配开始的位置
+<div class="org-src-container">
+
+<pre class="src src-ruby">line = <span style="color: #A2925E;">"MyPython"</span>
+
+puts line =~ <span style="color: #A2925E;">/Perl|Python/</span>
+
+<span style="color: #4856F7; font-weight: bold;">if</span> line =~ <span style="color: #A2925E;">/Perl|Python/</span>
+  puts <span style="color: #A2925E;">"Scripting language mentioned:</span><span style="color: #C1C144;"> #{line}</span><span style="color: #A2925E;">"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">2                                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Scripting language mentioned: MyPython         #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>还有强大的replace功能,这个和emacs的m-x replace-regexp是一个道理
+<div class="org-src-container">
+
+<pre class="src src-ruby">line = <span style="color: #A2925E;">"In old days, we had Perl and Python. Python is a new comer"</span>
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">replace Perl with Ruby</span>
+puts line.sub(<span style="color: #A2925E;">/Perl/</span>, <span style="color: #A2925E;">'Ruby'</span>)
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">replace Python with Ruby</span>
+puts line.gsub(<span style="color: #A2925E;">/Python/</span>, <span style="color: #A2925E;">'Ruby'</span>)
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">replace Perl or Python with Ruby</span>
+puts line.gsub(<span style="color: #A2925E;">/Perl|Python/</span>, <span style="color: #A2925E;">'Ruby'</span>)
+
+<span style="color: #ed5b15;">##############################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt;             #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">In old days, we had Ruby and Python. Python is a new comer #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">In old days, we had Perl and Ruby. Ruby is a new comer     #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">In old days, we had Ruby and Ruby. Ruby is a new comer     #</span>
+<span style="color: #ed5b15;">##############################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">Blocks and Iterators</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>code block这个概念在java中就有,就是{}包括的部分(Java还用这个特性实现了inner
+class). 在ruby中, code block可以是两种:
+<ul class="org-ul">
+<li>do + end的组合
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">do</span>
+  club.enroll(person)
+  person.socialize
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>{} 包括的代码
+<div class="org-src-container">
+
+<pre class="src src-ruby">{ puts <span style="color: #A2925E;">"Hello"</span>}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>ruby的coding convention中, {}负责单行的code block, 而do-end负责多行的.
+</li>
+<li>code block很多时候是来负责和一个函数建立联系的(函数和block建立联系的这个过
+程, 和参数传递类似,但不完全相同.理解为协程, coroutines更好,是一种相互之间交
+换控制权的过程),比如如下:
+<div class="org-src-container">
+
+<pre class="src src-ruby">greet {puts <span style="color: #A2925E;">"Hi"</span>}
+verbose_greet(<span style="color: #A2925E;">"Dave"</span>, <span style="color: #A2925E;">"loyal customer"</span>) { puts <span style="color: #A2925E;">"Hi"</span>}
+</pre>
+</div>
+</li>
+<li>和函数建立联系的好处是,可以在函数内部"yield"这些block
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">call_block</span>
+  puts <span style="color: #A2925E;">"Start of method"</span>
+  <span style="color: #4856F7; font-weight: bold;">yield</span>
+  <span style="color: #4856F7; font-weight: bold;">yield</span>
+  puts <span style="color: #A2925E;">"End of method"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+call_block {puts <span style="color: #A2925E;">"In the block"</span>}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Start of method                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">In the block                                   #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">In the block                                   #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">End of method                                  #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>yield也是可以传递参数的
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">who_says_what</span>
+  <span style="color: #4856F7; font-weight: bold;">yield</span>(<span style="color: #A2925E;">"Dave"</span>, <span style="color: #A2925E;">"hello"</span>)
+  <span style="color: #4856F7; font-weight: bold;">yield</span>(<span style="color: #A2925E;">"Andy"</span>, <span style="color: #A2925E;">"goodbye"</span>)
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+who_says_what{|person, phrase| puts <span style="color: #C1C144;">"#{person}</span><span style="color: #A2925E;"> says</span><span style="color: #C1C144;"> #{phrase}</span><span style="color: #A2925E;">"</span>}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Dave says hello                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Andy says goodbye                              #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>code block 和yield沾上了边, 而yield是构建ruby iterator的根基.使用code block
+遍历Collection的方法如下. (也就是说each函数内部肯定有yield的部分)
+<div class="org-src-container">
+
+<pre class="src src-ruby">animals = <span style="color: #A2925E;">%w(ant bee cat dog)</span>
+animals.each {|animal| puts animal}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">bee                                            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">cat                                            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">dog                                            #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>只要是这个函数内部调用了yield,那么这个函数就可以和code block结合起来,构建起
+独特的ruby组合
+<div class="org-src-container">
+
+<pre class="src src-ruby">[<span style="color: #A2925E;">'cat'</span>, <span style="color: #A2925E;">'dog'</span>, <span style="color: #A2925E;">'horse'</span>].each {|name| print name, <span style="color: #A2925E;">" "</span>}
+5.times {print <span style="color: #A2925E;">"*"</span>}
+3.upto(6) {|i| print i}
+(<span style="color: #A2925E;">'a'</span>..<span style="color: #A2925E;">'e'</span>).each {|char| print char}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">cat dog horse *****3456abcde                   #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">Reading and Riting</h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>ruby的IO函数中常见的输出有:
+<ul class="org-ul">
+<li>puts 会有newline在最后
+</li>
+<li>print不会有newline在最后
+</li>
+<li>printf和C的相似
+<div class="org-src-container">
+
+<pre class="src src-ruby">printf(<span style="color: #A2925E;">"Number: %5.2f, \nString: %s\n"</span>, 1.23, <span style="color: #A2925E;">"hello"</span>)
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Number:  1.23,                                 #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">String: hello                                  #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>ruby中常见的读取函数就是gets啦,如果没有数据读入,那么gets就返回nil
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9">Command-Line Arguments</h3>
+<div class="outline-text-3" id="text-1-9">
+<ul class="org-ul">
+<li>ruby当然可以读取命令行参数啦
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts <span style="color: #A2925E;">"You gave</span><span style="color: #C1C144;"> #{ARGV.size}</span><span style="color: #A2925E;"> arguments"</span>
+p <span style="color: #DADADA;">ARGV</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 18: Execute Around with a Block</title>
+<!-- 2014-07-18 Fri 16:03 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 18: Execute Around with a Block</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Execute Around with a Block</a>
+<ul>
+<li><a href="#sec-1-1">Add a Little Logging</a></li>
+<li><a href="#sec-1-2">Carring the Answers Back</a></li>
+<li><a href="#sec-1-3">When It Absolutely Must Happen</a></li>
+<li><a href="#sec-1-4">Setting Up Objects with an Initialization Block</a></li>
+<li><a href="#sec-1-5">Dragging Your Scope along with the Block</a></li>
+<li><a href="#sec-1-6">Carrying the Answers Back</a></li>
+<li><a href="#sec-1-7">Staying Out of Trouble</a></li>
+<li><a href="#sec-1-8">In the Wild</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Execute Around with a Block</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Add a Little Logging</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>Logging是非常好的debug方式, 所以我们在创建下面的应用的时候,非常希望创建一个
+log来记录异常
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">SomeApplication</span>
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(logger)
+    <span style="color: #C1C144;">@logger</span> = logger
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">do_something</span>
+    <span style="color: #4856F7; font-weight: bold;">begin</span>
+      <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Starging Document load'</span>)
+      doc = <span style="color: #DADADA;">Document</span>.load(<span style="color: #A2925E;">'resume.txt'</span>)
+      <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Completed Document load'</span>)
+    <span style="color: #4856F7; font-weight: bold;">rescue</span>
+      <span style="color: #C1C144;">@logger</span>.error(<span style="color: #A2925E;">'Load failed!'</span>)
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+
+    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Do something interesting with the document</span>
+    <span style="color: #4856F7; font-weight: bold;">begin</span>
+      <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Starting Document save'</span>)
+      doc.save
+      <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Completed Document save'</span>)
+    <span style="color: #4856F7; font-weight: bold;">rescue</span>
+      <span style="color: #C1C144;">@logger</span>.error(<span style="color: #A2925E;">'Save failed!'</span>)
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Carring the Answers Back</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>上面做法的缺点是看起来很不清晰,而且,大部分是重复的代码:在操作之前怎样怎样,
+在操作之后,怎样怎样. 我们可以使用code block大幅减少代码
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">SomeApplication</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">do_something</span>
+    with_logging(<span style="color: #A2925E;">'load'</span>) {<span style="color: #C1C144;">@doc</span> = <span style="color: #DADADA;">Document</span>.load(<span style="color: #A2925E;">'resume.txt'</span>)}
+
+    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Do something with the document</span>
+    with_logging(<span style="color: #A2925E;">'save'</span>) {<span style="color: #C1C144;">@doc</span>.save}
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Rest of the class omitted...</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">with_logging</span>(description)
+    <span style="color: #4856F7; font-weight: bold;">begin</span>
+      <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Staring</span><span style="color: #C1C144;"> #{description}</span><span style="color: #A2925E;">'</span>)
+      <span style="color: #4856F7; font-weight: bold;">yield</span>
+      <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Completed</span><span style="color: #C1C144;"> #{description}</span><span style="color: #A2925E;">'</span>)
+    <span style="color: #4856F7; font-weight: bold;">rescue</span>
+      <span style="color: #C1C144;">@logger</span>.error(<span style="color: #C1C144;">'#{description}</span><span style="color: #A2925E;"> failed'</span>)
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>with_logging的代码非常通用,我们可以用来处理各种函数.其原理就是在某个操作的
+"前后"进行log记录
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">When It Absolutely Must Happen</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>其实code block非常自由,你也可以选择在"前"或者"后"记录log
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">log_before</span>(description)
+  <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Starting</span><span style="color: #C1C144;"> #{description}</span><span style="color: #A2925E;">'</span>)
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">log_after</span>(description)
+  <span style="color: #4856F7; font-weight: bold;">yield</span>
+  <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Done</span><span style="color: #C1C144;"> #{description}</span><span style="color: #A2925E;">'</span>)
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Setting Up Objects with an Initialization Block</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>你甚至可以使用code block来初始化initialize函数
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  attr_accessor <span style="color: #DF7921; font-weight: bold;">:title</span>, <span style="color: #DF7921; font-weight: bold;">:author</span>, <span style="color: #DF7921; font-weight: bold;">:content</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(title, author, content= <span style="color: #A2925E;">''</span>)
+    <span style="color: #C1C144;">@title</span> = title
+    <span style="color: #C1C144;">@author</span> = author
+    <span style="color: #C1C144;">@content</span> = content
+    <span style="color: #4856F7; font-weight: bold;">yield</span>(<span style="color: #C1C144;">self</span>) <span style="color: #4856F7; font-weight: bold;">if</span> block_given?
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+new_doc = <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">'US Constitution'</span>, <span style="color: #A2925E;">'Madison'</span>, <span style="color: #A2925E;">''</span>) <span style="color: #4856F7; font-weight: bold;">do</span> |d|
+  d.content &lt;&lt; <span style="color: #A2925E;">'We the people'</span>
+  d.content &lt;&lt; <span style="color: #A2925E;">'In order to form a more perfect union'</span>
+  d.content &lt;&lt; <span style="color: #A2925E;">'provide for the common defense'</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+puts new_doc.content
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">We the peopleIn order to form a more perfect   #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">unionprovide for the common defense            #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Dragging Your Scope along with the Block</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>书写这种"around method"的关键,是要了解输入是什么,输出是什么
+</li>
+<li>同样的,在函数中产生对象,然后传入到code block中,也是正确的写法,比如我们要打
+开一个数据库,然后把数据库"句柄"放入到code block中去
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">with_database_connection</span>(connection_info)
+  connection = <span style="color: #DADADA;">Database</span>.new(connection_info)
+  <span style="color: #4856F7; font-weight: bold;">begin</span>
+    <span style="color: #4856F7; font-weight: bold;">yield</span>(connection)
+  <span style="color: #4856F7; font-weight: bold;">ensure</span>
+    connection.close
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Carrying the Answers Back</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>"有来就有往", 有时候我们也希望code block能够返回一些代码回来.我们前面讲过
+yield函数的返回值就是code block的返回值. 但是"around method"后面可能会加入
+一些代, 所以yield可能不是最后一句代码, 所以我们要手动设计一个变量,然后返回
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">do_something_silly</span>
+  with_logging(<span style="color: #A2925E;">'Compute miles in a light year'</span>) <span style="color: #4856F7; font-weight: bold;">do</span>
+    186000 * 60 * 60 * 24 * 365
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">with_logging</span>(description)
+  <span style="color: #4856F7; font-weight: bold;">begin</span>
+    <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Starting</span><span style="color: #C1C144;"> #{description}</span><span style="color: #A2925E;">'</span>)
+    return_value = <span style="color: #4856F7; font-weight: bold;">yield</span>
+    <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Completed</span><span style="color: #C1C144;"> #{description}</span><span style="color: #A2925E;">'</span>)
+    <span style="color: #4856F7; font-weight: bold;">return</span> return_value
+  <span style="color: #4856F7; font-weight: bold;">rescue</span>
+    <span style="color: #C1C144;">@logger</span>.error(<span style="color: #C1C144;">'#{description}</span><span style="color: #A2925E;"> failed!'</span>)
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">Staying Out of Trouble</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>要把with_logging这种"around method"看做是像while或者if这种常用的高度,才能足
+够的"抽象",取出"with_logging"这种名字,而不是"execute_between_logging_statement"
+这种名字
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">In the Wild</h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>在ruby代码中有很多使用code block,来完成"around method"的例子
+</li>
+<li>打开数据库,然后把"句柄"给code block,然后自己负责释放的例子,其实在Ruby代码中,
+<a href=":open就是这么实现的">:open就是这么实现的</a>.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">No open file here</span>
+
+<span style="color: #DADADA;">File</span>.open(<span style="color: #A2925E;">'/etc/passwd'</span>) <span style="color: #4856F7; font-weight: bold;">do</span> |f|
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">File open here!</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Begin cracking the passwords on Russ' computer...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The password file is guaranteed to be closed here</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

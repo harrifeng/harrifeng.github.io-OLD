@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 02: Choose the Right Control Structure</title>
+<!-- 2014-07-18 Fri 16:04 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 02: Choose the Right Control Structure</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">If, Unless, While, and Until</a></li>
+<li><a href="#sec-2">Use the Modifier Forms Where Appropriate</a></li>
+<li><a href="#sec-3">Use each, Not for</a></li>
+<li><a href="#sec-4">A Case of Programming Logic</a></li>
+<li><a href="#sec-5">Staying Out of Trouble</a></li>
+<li><a href="#sec-6">In the Wild</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">If, Unless, While, and Until</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>ruby 为了简洁,引入了unless,其作用和if not相同.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">unless</span> <span style="color: #C1C144;">@read_only</span>
+  <span style="color: #C1C144;">@title</span> = new_title
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>上面的例子可以理解为, "除非你是read_only的,我们惹不起,否则我们一定要改变当
+前的标题内容"
+</li>
+<li>unless看似是一小步,但是简化了很多的逻辑思考.
+</li>
+<li>while也像if一样,有个"false的版本",叫做until. 不过我不怎么喜欢用
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Use the Modifier Forms Where Appropriate</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>即便使用了unless, 还是不够简约,我们甚至可以把unless放到后面,形成一个modifier
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #C1C144;">@title</span> = new_title <span style="color: #4856F7; font-weight: bold;">unless</span> <span style="color: #C1C144;">@read_only</span>
+<span style="color: #C1C144;">@title</span> = new_title <span style="color: #4856F7; font-weight: bold;">if</span> <span style="color: #C1C144;">@writable</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Use each, Not for</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>相比看起来很奇怪的unless, ruby提供的for却很友好, 和python的很像
+<div class="org-src-container">
+
+<pre class="src src-ruby">fonts = [<span style="color: #A2925E;">'courier'</span>, <span style="color: #A2925E;">'times roman'</span>, <span style="color: #A2925E;">'helvetica'</span>]
+
+<span style="color: #4856F7; font-weight: bold;">for</span> font <span style="color: #4856F7; font-weight: bold;">in</span> fonts
+  puts font
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"courier"                                      #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"times roman"                                  #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"helvetica"                                    #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>但是, 如果你要写的更"ruby"的话,就不要使用for! 主要基于下面两点的原因:
+<ul class="org-ul">
+<li>for其实在内部就是调用了each, 干嘛不直接使用each
+</li>
+<li>for其实创建了以新的local的code block(namespace), 不会造成命名冲突
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">A Case of Programming Logic</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>case也有两种表现形式:
+<ul class="org-ul">
+<li>和传统的语言相似的方法
+<div class="org-src-container">
+
+<pre class="src src-ruby">title = <span style="color: #A2925E;">'hello world'</span>
+
+<span style="color: #4856F7; font-weight: bold;">case</span> title
+<span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #A2925E;">'War And Peace'</span>
+  puts <span style="color: #A2925E;">'Tolstoy'</span>
+<span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #A2925E;">'Romeo And Juliet'</span>
+  puts <span style="color: #A2925E;">'Shakespeare'</span>
+<span style="color: #4856F7; font-weight: bold;">else</span>
+  puts <span style="color: #A2925E;">"Don't know"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Don't know                                     #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>还可以把case做成一个部分,然后再赋值给一个变量
+<div class="org-src-container">
+
+<pre class="src src-ruby">author = <span style="color: #4856F7; font-weight: bold;">case</span> title
+         <span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #A2925E;">'War And Peace'</span>
+           <span style="color: #A2925E;">'Tolstoy'</span>
+         <span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #A2925E;">'Romeo And Juliet'</span>
+           <span style="color: #A2925E;">'Shakespeare'</span>
+         <span style="color: #4856F7; font-weight: bold;">else</span>
+           <span style="color: #A2925E;">"Don't know"</span>
+         <span style="color: #4856F7; font-weight: bold;">end</span>
+puts author
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Don't know                                     #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>上面的第二个例子才是我们"更ruby"的写法.这种把一个"逻辑判断"赋值给一个变量的
+做法还可以更进一步的"简化":
+<ul class="org-ul">
+<li>使用then, 使其变成一行
+<div class="org-src-container">
+
+<pre class="src src-ruby">author = <span style="color: #4856F7; font-weight: bold;">case</span> title
+         <span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #A2925E;">'War and Peace'</span> <span style="color: #4856F7; font-weight: bold;">then</span> <span style="color: #A2925E;">'Tolstoy'</span>
+         <span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #A2925E;">'Romeo And Juliet'</span> <span style="color: #4856F7; font-weight: bold;">then</span> <span style="color: #A2925E;">'Shake'</span>
+         <span style="color: #4856F7; font-weight: bold;">else</span> <span style="color: #A2925E;">"Don't know"</span>
+         <span style="color: #4856F7; font-weight: bold;">end</span>
+
+puts author
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Don't know                                     #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>其实我们author如果在title没有已知value的情况下,希望得到第一个nil,而不是一
+个"Don't know", 这种情况下,就可以省略else
+<div class="org-src-container">
+
+<pre class="src src-ruby">author = <span style="color: #4856F7; font-weight: bold;">case</span> title
+         <span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #A2925E;">'War and Pease'</span> <span style="color: #4856F7; font-weight: bold;">then</span> <span style="color: #A2925E;">'Tolstoy'</span>
+         <span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #A2925E;">'Romeo And Juliet'</span> <span style="color: #4856F7; font-weight: bold;">then</span> <span style="color: #A2925E;">'Shakespeare'</span>
+         <span style="color: #4856F7; font-weight: bold;">end</span>
+
+p author
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">nil                                            #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>case最为让人值得记住的是
+<pre class="example">
+case 是使用'==='(三个等号)来进行比对的
+</pre>
+</li>
+<li>=== 有很多用处:
+<ul class="org-ul">
+<li>class使用===来判断某个object是不是自己的instance
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+doc = <span style="color: #DADADA;">Document</span>.new
+
+<span style="color: #4856F7; font-weight: bold;">case</span> doc
+<span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #DADADA;">Document</span>
+  puts <span style="color: #A2925E;">" It's a document !"</span>
+<span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #DADADA;">String</span>
+  puts <span style="color: #A2925E;">" It's a string"</span>
+<span style="color: #4856F7; font-weight: bold;">else</span>
+  puts <span style="color: #A2925E;">"Don't know what it is!"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">It's a document !                              #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>正则表达式使用===来判断字符串是否匹配
+<div class="org-src-container">
+
+<pre class="src src-ruby">title = <span style="color: #A2925E;">"Remeo and Apple"</span>
+<span style="color: #4856F7; font-weight: bold;">case</span> title
+<span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #A2925E;">/War And .*/</span>
+  puts <span style="color: #A2925E;">'Maybe Tolstoy?'</span>
+<span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #A2925E;">/Remeo and .*/</span>
+  puts <span style="color: #A2925E;">'Maybe Shakespeare?'</span>
+<span style="color: #4856F7; font-weight: bold;">else</span>
+  puts <span style="color: #A2925E;">'Absolutely no idea...'</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Maybe Shakespeare?                             #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Staying Out of Trouble</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>Ruby 和其他语言(主要是C)不一样的地方是, 它只把false和nil认为是FALSE, 0都是
+是TRUE.所以下面两种情况都是TRUE,要小心
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts <span style="color: #A2925E;">"Sorry Dennis Richie, but 0 is true!"</span> <span style="color: #4856F7; font-weight: bold;">if</span> 0
+puts <span style="color: #A2925E;">"Sorry Dennis Richie, but 'false' is not false"</span> <span style="color: #4856F7; font-weight: bold;">if</span> <span style="color: #A2925E;">'false'</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Sorry Dennis Richie, but 0 is true!            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Sorry Dennis Richie, but 'false' is not false  #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>在ruby里面,只有两个事物是false,绝大部分都是true,所以"绝对不要测试事物是否为
+TRUE", 这很危险,比如如下的例子中defined?并不是返回true, 而是返回定义的类型
+比如("local-variable")
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+doc = <span style="color: #DADADA;">Document</span>.new
+puts flag = <span style="color: #4856F7; font-weight: bold;">defined?</span>(doc)
+
+<span style="color: #4856F7; font-weight: bold;">if</span> flag == <span style="color: #C1C144;">true</span>
+  puts <span style="color: #A2925E;">"TRUE"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">local-variable                                 #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>相反的也不要认为只有nil是FALSE, false也会FALSE的,比如IO的输入是遇到nil就退
+出,但是你设计一个函数,取得下一个object的函数,就不能处理nil就完了,因为false
+也要考虑.所以要"明确"的写出nil
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Broken in a subtle way ...</span>
+<span style="color: #4856F7; font-weight: bold;">while</span> next_object = get_next_object
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Do something with the object</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Should use following version</span>
+<span style="color: #4856F7; font-weight: bold;">until</span> (next_object = get_next_object) == <span style="color: #C1C144;">nil</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Do something with the object</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">OR following</span>
+<span style="color: #4856F7; font-weight: bold;">until</span> (next_object = get_next_object).nil?
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Do something with the object</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">In the Wild</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>?: 操作符来自c语言,然后非常符合ruby的哲学,所以被吸纳进来了
+<div class="org-src-container">
+
+<pre class="src src-ruby">all = <span style="color: #C1C144;">nil</span>
+file = all ? <span style="color: #A2925E;">'specs'</span> : <span style="color: #A2925E;">'latest_specs'</span>
+
+puts file
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">latest_specs                                   #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>ruby更近一步,为"如果这个变量没有被申请过,就申请,否则还是用它原来的值"这种情
+况来设计了一个操作符||=
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #C1C144;">@first_name</span> ||= <span style="color: #A2925E;">''</span>
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Actually Equals to</span>
+
+<span style="color: #C1C144;">@first_name</span> = <span style="color: #C1C144;">@first_name</span> || <span style="color: #A2925E;">''</span>
+</pre>
+</div>
+</li>
+<li>上面这种用法在first_name是false的情况下就是一个悲剧.所以不要使用||=来初始化
+boolean
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

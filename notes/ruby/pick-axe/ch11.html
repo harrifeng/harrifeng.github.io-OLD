@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 11: Basic Input and Output</title>
+<!-- 2014-07-18 Fri 16:02 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 11: Basic Input and Output</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Basic Input and Output</a>
+<ul>
+<li><a href="#sec-1-1">What Is an IO Object?</a>
+<ul>
+<li><a href="#sec-1-1-1">Writing to Files</a></li>
+<li><a href="#sec-1-1-2">But I Miss My C++ iostream</a></li>
+<li><a href="#sec-1-1-3">Doing I/O with Strings</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-2">Talking to Networks</a></li>
+<li><a href="#sec-1-3">Parsing HTML</a></li>
+<li><a href="#sec-1-4">Opening and Closing Files</a></li>
+<li><a href="#sec-1-5">Reading and Writing Files</a>
+<ul>
+<li><a href="#sec-1-5-1">Iterators for Reading</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Basic Input and Output</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">What Is an IO Object?</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>Ruby中从Object下面定义了一个子类IO来负责输入输出部分
+</li>
+<li>IO又定义了一个子类File来处理文件,然后又定义了另一子类BasicSocket来处理socket
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1">Writing to Files</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<ul class="org-ul">
+<li>来看看puts和print是怎么工作的:你传递给puts和print的object,都会调用其to_s函
+数. 如果没有合适的string结果,那么会返回class name + ID的组合,例如:
+#&lt;classname:0x123456&gt;
+</li>
+<li>写入的时候,把参数写成'w'就可以了
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #DADADA;">File</span>.open(<span style="color: #A2925E;">"output.txt"</span>, <span style="color: #A2925E;">"w"</span>) <span style="color: #4856F7; font-weight: bold;">do</span> |file|
+  file.puts <span style="color: #A2925E;">"Hello"</span>
+  file.puts <span style="color: #A2925E;">"1 + 2 =</span><span style="color: #C1C144;"> #{1 + 2}</span><span style="color: #A2925E;">"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+puts <span style="color: #A2925E;">"Now read this file, and show its content---&gt;"</span>
+puts <span style="color: #DADADA;">File</span>.read(<span style="color: #A2925E;">"output.txt"</span>)
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Now read this file, and show its content---&gt;   #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Hello                                          #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">1 + 2 = 3                                      #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>还有一些object不是被解析成to_s:
+<ul class="org-ul">
+<li>nil对象会被解析成empty string
+</li>
+<li>array对象会把每个对象的to_s传递给puts
+</li>
+</ul>
+</li>
+<li>有三种办法把binary数据写入string:
+<ul class="org-ul">
+<li>literal:
+<div class="org-src-container">
+
+<pre class="src src-ruby">str1 = <span style="color: #A2925E;">"\001\002\003"</span>
+p str1
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"\x01\x02\x03"                                 #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>poke it in byte by byte
+<div class="org-src-container">
+
+<pre class="src src-ruby">str2 = <span style="color: #A2925E;">""</span>
+str2 &lt;&lt; 1 &lt;&lt; 2 &lt;&lt; 3
+
+p str2
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"\x01\x02\x03"                                 #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>Array#pack
+<div class="org-src-container">
+
+<pre class="src src-ruby">p [1, 2, 3].pack(<span style="color: #A2925E;">"c*"</span>)
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"\x01\x02\x03"                                 #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2">But I Miss My C++ iostream</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<ul class="org-ul">
+<li>在ruby里面&lt;&lt;的使用也非常灵活:
+<ul class="org-ul">
+<li>可以把element加入到数组里面
+<div class="org-src-container">
+
+<pre class="src src-ruby">a = [1, 2, 3, 4]
+a &lt;&lt; 5
+p a
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">[1, 2, 3, 4, 5]                                #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>还可以把一个object加入(append)到IO stream里面
+<div class="org-src-container">
+
+<pre class="src src-ruby">endl = <span style="color: #A2925E;">"\n"</span>
+<span style="color: #DADADA;">STDOUT</span> &lt;&lt; 99 &lt;&lt; <span style="color: #A2925E;">" read balloons"</span> &lt;&lt; endl
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">99 read balloons                               #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-1-3" class="outline-4">
+<h4 id="sec-1-1-3">Doing I/O with Strings</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<ul class="org-ul">
+<li>有时候你要做实验."假设"某些数据是从文件中读取的.但是实际上,你却没有文件,有没
+有办法能模拟这些文件呢?这有点像测试里面的模拟数据库输入(在测试的时候甚至没
+有创建数据库). ruby提供了StringIO来模拟文件
+<div class="org-src-container">
+
+<pre class="src src-ruby">require <span style="color: #A2925E;">'stringio'</span>
+
+ip = <span style="color: #DADADA;">StringIO</span>.new(<span style="color: #A2925E;">"now is\nthe time\nto learn\nRuby!"</span>)
+op = <span style="color: #DADADA;">StringIO</span>.new(<span style="color: #A2925E;">""</span>, <span style="color: #A2925E;">"w"</span>)
+
+ip.each_line <span style="color: #4856F7; font-weight: bold;">do</span> |line|
+  op.puts line.reverse
+<span style="color: #4856F7; font-weight: bold;">end</span>
+p op.string
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"\nsi won\n\nemit eht\n\nnrael ot\n!ybuR\n"    #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Talking to Networks</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>Ruby在internet上面有很多方便的函数.下面的例子是查询本地local web server的信息
+<div class="org-src-container">
+
+<pre class="src src-ruby">require <span style="color: #A2925E;">'socket'</span>
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">I open one HTTPServer with python -m SimpleHTTPServer</span>
+client = <span style="color: #DADADA;">TCPSocket</span>.open(<span style="color: #A2925E;">'127.0.0.1'</span>, <span style="color: #A2925E;">'8000'</span>)
+client.send(<span style="color: #A2925E;">"OPTIONS /~dave/ HTTP/1.0\n\n"</span>, 0)
+puts client.readlines
+client.close
+
+<span style="color: #ed5b15;">############################################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt;                           #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">HTTP/1.0 501 Unsupported method ('OPTIONS')                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Server: SimpleHTTP/0.6 Python/2.7.5                                      #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Date: Sat, 17 May 2014 02:01:25 GMT                                      #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Content-Type: text/html                                                  #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Connection: close                                                        #</span>
+<span style="color: #ed5b15;">#                                                                          </span><span style="color: #ed5b15;">#</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;head&gt;                                                                   #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;title&gt;Error response&lt;/title&gt;                                            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;/head&gt;                                                                  #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;body&gt;                                                                   #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;h1&gt;Error response&lt;/h1&gt;                                                  #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;p&gt;Error code 501.                                                       #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;p&gt;Message: Unsupported method ('OPTIONS').                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;p&gt;Error code explanation: 501 = Server does not support this operation. #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;/body&gt;                                                                  #</span>
+<span style="color: #ed5b15;">############################################################################</span>
+</pre>
+</div>
+</li>
+<li>下面的例子是分析本书的网站TODO
+<div class="org-src-container">
+
+<pre class="src src-ruby">require <span style="color: #A2925E;">'net/http'</span>
+
+http = <span style="color: #DADADA;">Net</span>::<span style="color: #DADADA;">HTTP</span>.new(<span style="color: #A2925E;">'pragprog.com'</span>, 80)
+response = http.get(<span style="color: #A2925E;">'/book/ruby3/programming-ruby-1-9'</span>)
+
+<span style="color: #4856F7; font-weight: bold;">if</span> reponse.message == <span style="color: #A2925E;">"OK"</span>
+  puts response.body.scan(<span style="color: #A2925E;">/&lt;img alt=".*?" src="(.*?)"/</span>m).uniq[0,3]
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>TODO
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Parsing HTML</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>TODO
+</li>
+</ul>
+<p>
+=======
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Opening and Closing Files</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>创建File object的最直接的方法当然是new
+<div class="org-src-container">
+
+<pre class="src src-ruby">file = <span style="color: #DADADA;">File</span>.new(<span style="color: #A2925E;">"testfile"</span>, <span style="color: #A2925E;">"r"</span>)
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">... process the file</span>
+file.close
+</pre>
+</div>
+</li>
+<li>当然了,我们在前面还看到了更"高级的"创建File object的方法, 其高级的地方是:使
+用code block来自动关闭file
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #DADADA;">File</span>.open(<span style="color: #A2925E;">"testfile"</span>, <span style="color: #A2925E;">"r"</span>) <span style="color: #4856F7; font-weight: bold;">do</span> |file|
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">... process the file</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>                             <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;- file automatically closed here</span>
+</pre>
+</div>
+</li>
+<li>第二种方法更推荐使用:因为第一,不会忘记close flie, 第二,即便在close file之前
+出现了exception, code block也能先关闭文件,然后处理exception, 其内部处理方式
+类似如下:
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">File</span>
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">File.open</span>(*args)
+    result = f = <span style="color: #DADADA;">File</span>.new(*args)
+    <span style="color: #4856F7; font-weight: bold;">if</span> block_given?
+      <span style="color: #4856F7; font-weight: bold;">begin</span>
+        result = <span style="color: #4856F7; font-weight: bold;">yield</span> f
+      <span style="color: #4856F7; font-weight: bold;">ensure</span>
+        f.close
+      <span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+
+    result
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Reading and Writing Files</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>前面讲过处理IO的函数gets,其为从命令行读取参数
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">while</span> line = gets
+  puts line
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">bash-3.2$ ruby copy.rb                         #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">hello                                          #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">hello                                          #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">world                                          #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">world                                          #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>我们也可以利用到File上面(因为File也是IO的子类嘛). 所以file_obj.gets也是可以
+的
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #DADADA;">File</span>.open(<span style="color: #A2925E;">"testfile"</span>) <span style="color: #4856F7; font-weight: bold;">do</span> |file|
+  <span style="color: #4856F7; font-weight: bold;">while</span> line = file.gets
+    puts line
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>更加神奇的是你调用copy.rb后面直接更一个文件的话, 可以读取文件的内容(虽然我
+们没有写任何处理arg的代码)
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ruby copy.rb testfile.txt 
+The line is: This is line one
+The line is: This is line two
+The line is: This is line three
+The line is: And so on...
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1">Iterators for Reading</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<ul class="org-ul">
+<li>打开了文件夹,就免不了要遍历. "for line in file"的这种遍历方式虽然简单,但是
+灵活性不足.所以iterator + code block的组合就无法避免了(重复一次,iterator是
+内部多次调用yield,从而可以多次调用code block的函数)
+</li>
+<li>IO里面可以使用each_byte来创建一个iterator, 这个iterator yield的次数是:
+总的byte数字除以8,换句话说就是把一个文件按照每8-bit byte来进行分割
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #DADADA;">File</span>.open(<span style="color: #A2925E;">"testfile.txt"</span>) <span style="color: #4856F7; font-weight: bold;">do</span> |file|
+  file.each_byte.with_index <span style="color: #4856F7; font-weight: bold;">do</span> |ch, index|
+    print <span style="color: #C1C144;">"#{ch.chr}:#{ch}</span><span style="color: #A2925E;"> "</span>
+    <span style="color: #4856F7; font-weight: bold;">break</span> <span style="color: #4856F7; font-weight: bold;">if</span> index &gt; 10
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;">#######################################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt;                      #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">bash-3.2$ ruby each_byte.rb                                         #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">T:84 h:104 e:101  :32 l:108 i:105 n:110 e:101  :32 i:105 s:115 ::58 #</span>
+<span style="color: #ed5b15;">#######################################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

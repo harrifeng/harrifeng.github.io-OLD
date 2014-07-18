@@ -1,0 +1,1270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 03: HTTP Messages</title>
+<!-- 2014-07-18 Fri 16:14 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 03: HTTP Messages</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">HTTP Messages</a>
+<ul>
+<li><a href="#sec-1-1">The Flow of Messages</a>
+<ul>
+<li><a href="#sec-1-1-1">Messages Commute Inbound to the Origin Server</a></li>
+<li><a href="#sec-1-1-2">Messages Flow Downstream</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-2">The Parts of a Message</a>
+<ul>
+<li><a href="#sec-1-2-1">Message Syntax</a></li>
+<li><a href="#sec-1-2-2">Start Lines</a></li>
+<li><a href="#sec-1-2-3">Headers</a></li>
+<li><a href="#sec-1-2-4">Entity Bodies</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">Methods</a>
+<ul>
+<li><a href="#sec-1-3-1">Safe Methods</a></li>
+<li><a href="#sec-1-3-2">GET</a></li>
+<li><a href="#sec-1-3-3">HEAD</a></li>
+<li><a href="#sec-1-3-4">PUT</a></li>
+<li><a href="#sec-1-3-5">POST</a></li>
+<li><a href="#sec-1-3-6">TRACE</a></li>
+<li><a href="#sec-1-3-7">OPTIONS</a></li>
+<li><a href="#sec-1-3-8">DELETE</a></li>
+<li><a href="#sec-1-3-9">Extension Methods</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">Status Codes</a>
+<ul>
+<li><a href="#sec-1-4-1">100-199: Informational Status Codes</a></li>
+<li><a href="#sec-1-4-2">200-209: Success Status Code</a></li>
+<li><a href="#sec-1-4-3">300-399: Redirection Status Code</a></li>
+<li><a href="#sec-1-4-4">400-499: Client Error Status Code</a></li>
+<li><a href="#sec-1-4-5">500-599: Server Error Status Code</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-5">Headers</a>
+<ul>
+<li><a href="#sec-1-5-1">General Headers</a></li>
+<li><a href="#sec-1-5-2">Request Headers</a>
+<ul>
+<li><a href="#sec-1-5-2-1">Accept Headers</a></li>
+<li><a href="#sec-1-5-2-2">Conditional request headers</a></li>
+<li><a href="#sec-1-5-2-3">Reauest security headers</a></li>
+<li><a href="#sec-1-5-2-4">Proxy request headers</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-5-3">Response Headers</a>
+<ul>
+<li><a href="#sec-1-5-3-1">Negotiation headers</a></li>
+<li><a href="#sec-1-5-3-2">Response security headers</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-5-4">Entity Headers</a>
+<ul>
+<li><a href="#sec-1-5-4-1">Content headers</a></li>
+<li><a href="#sec-1-5-4-2">Entity caching headers</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">HTTP Messages</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">The Flow of Messages</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>在HTTP应用之间传递的data叫做HTTP message, 传递的data会以一些meta-information
+开头,然后来表示信息的内容和意义
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1">Messages Commute Inbound to the Origin Server</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<ul class="org-ul">
+<li>Client发送给Server叫做inbound
+</li>
+<li>Server处理完之后返回给Client叫做outbound
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2">Messages Flow Downstream</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<ul class="org-ul">
+<li>HTTP message像水一样,永远都是downstream的.也就是说从client到server是downstream,
+从server返回给client还是downstream
+</li>
+<li>TODO upstream
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">The Parts of a Message</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>HTTP message 是一类格式化比较好的文本,下面是一个request例子
+<pre class="example">
+                        +-----------------------------+
+            Start line  |GET /test/hello.txt HTTP/1.1 |
++-------+               +-----------------------------+         +-------+
+|       |       Headers |Accept: text/*               |         |       |
+|CLIENT |====&gt;          |Host: www.joes-hardware.com  | ======&gt; |SERVER |
+|       |               |                             |         |       |
++-------+               +-----------------------------+         +-------+
+</pre>
+</li>
+<li>下面是一个reponse的例子
+<pre class="example">
+                        +-----------------------------+
+            Start line  |HTTP/1.0 200 OK              |
++-------+               +-----------------------------+         +-------+
+|       |       Headers |Content-type: test/plain     |         |       |
+|CLIENT |&lt;====          |Content-length: 19           | &lt;====== |SERVER |
+|       |               |                             |         |       |
++-------+               +-----------------------------+         +-------+
+                   Body |Hi! I'm a message!           |
+                        +-----------------------------+
+</pre>
+</li>
+<li>HTTP message被分成了三部分:
+<ul class="org-ul">
+<li>start line:描述了这个message
+</li>
+<li>header: 包含了属性信息:告诉你这个是个文本,其长度为19
+</li>
+<li>body: 这个部分是可选的,主要是data,这部分也可以含有非text的内容
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">Message Syntax</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>我们来总结下request message的格式
+<pre class="example">
+&lt;method&gt; &lt;request-URL&gt; &lt;version&gt;
+&lt;headers&gt;
+
+&lt;entity-body&gt;
+</pre>
+</li>
+<li>下面是response message的格式
+<pre class="example">
+&lt;version&gt; &lt;status&gt; &lt;reason-pharse&gt;
+&lt;headers&gt;
+&lt;entity-body&gt;
+</pre>
+</li>
+<li>下面是&lt;&gt;名词的解释:
+<ul class="org-ul">
+<li>method: client对于server的请求函数,常见的有GET, HEAD, POST
+</li>
+<li>request-URL: 就是URL里面的path部分. server把自己作为host/port的组合加上
+这个request-URL就可以找到资源啦
+</li>
+<li>version: 就是HTTP的版本,一般是1.1
+</li>
+<li>status-code: 三位数的状态码. 404非常著名
+</li>
+<li>reason-hase: 为status-code做的解释,这个只是为了给用户读取.所以一切以
+status-code的三位数字码为准.比如HTTP/1.0 200 OK 和HTTP/1.0 200 NOT OK两者
+是一样的!
+</li>
+<li>headers: 多个name + : + 说明的部分.需要注意的是 Headers的最后一行总是个
+大白空行, 大白空行标志着header的结束
+</li>
+<li>entity-body: 正文部分.不是必须有的部分
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2">Start Lines</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>上面的例子为例: request line包括三个部分,都用空格隔开:
+<ul class="org-ul">
+<li>GET:
+</li>
+<li>/test/hello.txt
+</li>
+<li>HTTP/1.1 (注意, 1.0以前,这个部分不必须)
+</li>
+</ul>
+</li>
+<li>reponse和request也非常相似.每个部分的各个成员,都是空格隔开.
+</li>
+<li>我们发现上例中的request没有body, 这是由于GET的method属性决定的.下面来看看
+常见的HTTP函数和message body的对应关心
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Method</th>
+<th scope="col" class="left">Description</th>
+<th scope="col" class="left">Message body?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">GET</td>
+<td class="left">Get a document from the server</td>
+<td class="left">NO</td>
+</tr>
+
+<tr>
+<td class="left">HEAD</td>
+<td class="left">Get just headers fro a document from the server</td>
+<td class="left">NO</td>
+</tr>
+
+<tr>
+<td class="left">POST</td>
+<td class="left">Send data to the server for processing</td>
+<td class="left">YES</td>
+</tr>
+
+<tr>
+<td class="left">PUT</td>
+<td class="left">Store the body of the request on the server</td>
+<td class="left">YES</td>
+</tr>
+
+<tr>
+<td class="left">TRACE</td>
+<td class="left">Trace the message through proxy servers to server</td>
+<td class="left">NO</td>
+</tr>
+
+<tr>
+<td class="left">OPTIONS</td>
+<td class="left">Determine what methods can operate on a server</td>
+<td class="left">NO</td>
+</tr>
+
+<tr>
+<td class="left">DELETE</td>
+<td class="left">Remove a document fromt the server</td>
+<td class="left">NO</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>Status Code就好比函数的返回值,指示结果如何
+</li>
+<li>HTTP Version是用来和对方进行交换信息,防止高版本的使用低版本没有的feature
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3">Headers</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<ul class="org-ul">
+<li>headers的分类有如下:
+<ul class="org-ul">
+<li>General headers: request和response里面都能出现的
+</li>
+<li>Request headers: 只能出现在request里面的
+</li>
+<li>Response headers: 只能出现在response里面的
+</li>
+<li>Entity headers: 只能表示body size和content
+</li>
+<li>Extension headers: 在规范中没有被定义的header
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-4" class="outline-4">
+<h4 id="sec-1-2-4">Entity Bodies</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<ul class="org-ul">
+<li>entity body虽然是可以忽略的部分,但确是HTTP协议设计出来真正要传递的东西.
+</li>
+<li>entity body可以传递各种数据: image, video, software application&#x2026;等等
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Methods</h3>
+<div class="outline-text-3" id="text-1-3">
+</div><div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">Safe Methods</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>所谓"安全函数"是指这些函数不会在server端造成什么影响. GET和HEAD就是这种函
+数.他们索取server的内容,但不会改变server的内容.而POST就不是"安全函数", 它
+会改变server的内容.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2">GET</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li>GET是最简单的函数,要求server提供资源
+<pre class="example">
+                   +-------------------------------------+
+                   | GET /seasonal/index.html HTTP/1.1   |
+                   | Host: www.joes-hardware.com         |
+                   | Accept: *                           |
+                   +-------------------------------------+
+                   Request message
+             ============================================&gt;
+             |
++------------+                                                 +------------+
+|  CLIENT    |                                                 |  SERVER    |
++------------+                                                 +------------+
+                                     Response message          |
+                   &lt;============================================
+                   +-------------------------------------+
+                   | HTTP/1.1 200 OK                     |
+                   | Content-Type: text/html             |
+                   | Content-Length: 617                 |
+                   |                                     |
+                   | &lt;HTML&gt;                              |
+                   | &lt;HEAD&gt;&lt;TITLE&gt;joe&lt;/TITLE&gt;            |
+                   |  .....                              |
+                   +-------------------------------------+
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3">HEAD</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<ul class="org-ul">
+<li>HEAD和GET相似,只不过只要求资源的header部分(说是header, 但是Start line当然会
+有, 不过entity body部分是肯定没有了).
+<pre class="example">
+                   +-------------------------------------+
+                   | HEAD /seasonal/index.html HTTP/1.1  |
+                   | Host: www.joes-hardware.com         |
+                   | Accept: *                           |
+                   +-------------------------------------+
+                   Request message
+             ============================================&gt;
+             |
++------------+                                                 +------------+
+|  CLIENT    |                                                 |  SERVER    |
++------------+                                                 +------------+
+                                     Response message          |
+                   &lt;============================================
+                   +-------------------------------------+
+                   | HTTP/1.1 200 OK                     |
+                   | Content-Type: text/html             |
+                   | Content-Length: 617                 |
+                   +-------------------------------------+
+</pre>
+</li>
+<li>仅仅获取资源的header有如下作用:
+<ul class="org-ul">
+<li>看看资源的属性
+</li>
+<li>看看资源是否存在
+</li>
+<li>看看资源知否被更改过
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4">PUT</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<ul class="org-ul">
+<li>PUT是client请求把当前的页面(内容从entity body里面取得)添加到server host name +
+request的&lt;requestURL&gt; 所在的位置
+</li>
+</ul>
+<pre class="example">
+                   +-------------------------------------+
+                   | PUT /product-list.txt HTTP/1.1      |
+                   | Host: www.joes-hardware.com         |
+                   | Content-type: text/plain            |
+                   | Content-length: 34                  |
+                   |                                     |
+                   | Updated product list coming soon!   |
+                   +-------------------------------------+
+                   Request message
+             ============================================&gt;
+             |
++------------+                                                 +------------+     +----------------------+
+|  CLIENT    |                                                 |  SERVER    |====&gt;|Creat txt file on disk|
++------------+                                                 +------------+     +----------------------+
+                                     Response message          |
+                   &lt;============================================
+                   +-------------------------------------------------------+
+                   | HTTP/1.1 201 Created                                  |
+                   | Location: http://www.joes-hardwar.com/product-list.txt|
+                   | Content-Length: 47                                    |
+                   |                                                       |
+                   | http://www.joes-hardware.com/product-list.txt         |
+                   +-------------------------------------------------------+
+</pre>
+<ul class="org-ul">
+<li>PUT运行你更改server内容,所以有可能需要你密码登录
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-5" class="outline-4">
+<h4 id="sec-1-3-5">POST</h4>
+<div class="outline-text-4" id="text-1-3-5">
+<ul class="org-ul">
+<li>POST和PUT相似,但是:
+<ul class="org-ul">
+<li>PUT是要求server把我提供的数据摆放在特定的位置
+</li>
+<li>POST是给server提供一些数据,server来利用这些数据来做server想做的事情, 没
+有强迫server
+</li>
+</ul>
+</li>
+<li>POST最常用的场景,是我们提供一组user/password的组合给server, server拿到以后,
+去数据库比对,成功后让用户登录,否则提示密码错误.
+</li>
+</ul>
+<pre class="example">
+                   +-------------------------------------+
+                   | POST /inventory-check.cgi HTTP/1.1  |
+                   | Host: www.joes-hardware.com         |
+                   | Content-type: text/plain            |
+                   | Content-length: 18                  |
+                   |                                     |
+                   | item = bandsaw 2467                 |
+                   +-------------------------------------+
+                   Request message
+             ============================================&gt;
+             |
++------------+                                                 +------------+ bandsaw  +------------+
+|  CLIENT    |                                                 |  SERVER    |&lt;========&gt;| CGI Program|
++------------+                                                 +------------+  2647    +------------+
+                                     Response message          |
+                   &lt;============================================
+                   +-------------------------------------+
+                   | HTTP/1.1 200 OK                     |
+                   | Content-Type: text/html             |
+                   | Content-Length: 37                  |
+                   |                                     |
+                   | The bandsaw model 2467 is in stock! |
+                   | &lt;HEAD&gt;&lt;TITLE&gt;joe&lt;/TITLE&gt;            |
+                   |  .....                              |
+                   +-------------------------------------+
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-1-3-6" class="outline-4">
+<h4 id="sec-1-3-6">TRACE</h4>
+<div class="outline-text-4" id="text-1-3-6">
+<ul class="org-ul">
+<li>一个http request要达到server,会经历防火墙,代理,gateway等等.每次经过这些应用
+的时候,都有可能会更改原来的HTTP request. TRACE函数允许client来看看他的request
+最终到达server的时候,是个什么样子.
+</li>
+</ul>
+<pre class="example">
+                +-------------------------------------+                  +-------------------------------------+
+                | TRACE /product-list.txt HTTP/1.1    |                  | TRACE /product-list.txt HTTP/1.1    |
+                | Accept: *                           |                  | Host: www.joes-hardware.com         |
+                | Host: www.joes-hardware.com         |                  | Accept: *                           |
+                +-------------------------------------+                  | Via: 1.1 proxy2.company.com         |
+                                                                         +-------------------------------------+
+                Request message                                          Request message
+             ==========================================&gt; +------------+ =======================================&gt;
+             |                                           |            |
++------------+                                           |            |                                           +------------+
+|  CLIENT    |                                           |   PROXY    |                                           |  SERVER    |
++------------+                                           |            |                                           +------------+
+                                  Response message       |            |                   Response message        |
+                &lt;======================================= +------------+ &lt;==========================================
+                +-------------------------------------+                  +-------------------------------------+
+                | HTTP/1.1 200 OK                     |                  | HTTP/1.1 200 OK                     |
+                | Content-Type: text/html             |                  | Content-Type: text/html             |
+                | Content-Length: 96                  |                  | Content-Length: 96                  |
+                | Via: 1.1 proxy3.company.com         |                  |                                     |
+                |                                     |                  | TRACE /product-list.txt HTTP/1.1    |
+                | TRACE /product-list.txt HTTP/1.1    |                  | Host: www.joes-hardware.com         |
+                | Host: www.joes-hardware.com         |                  | Accept: *                           |
+                | Accept: *                           |                  | Via: 1.1 proxy3.company.com         |
+                | Via: 1.1 proxy3.company.com         |                  +-------------------------------------+
+                +-------------------------------------+
+</pre>
+<ul class="org-ul">
+<li>TRACE有其局限性.因为client和server中间的,比如proxy会根据不同的method来改变
+http request, 这是TRACE无法察觉的
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-7" class="outline-4">
+<h4 id="sec-1-3-7">OPTIONS</h4>
+<div class="outline-text-4" id="text-1-3-7">
+<ul class="org-ul">
+<li>client可以通过这个函数来知道server的option:比如支持哪些函数
+</li>
+</ul>
+<pre class="example">
+                   +-------------------------------------+
+                   | OPTIONS * HTTP/1.1                  |
+                   | Host: www.joes-hardware.com         |
+                   | Accept: *                           |
+                   +-------------------------------------+
+                   Request message
+             ============================================&gt;
+             |
++------------+                                                 +------------+ Since the request is for
+|  CLIENT    |                                                 |  SERVER    | options on ALL resource,
++------------+                                                 +------------+ the server just returns
+                                     Response message          |              the methods it supports for
+                   &lt;============================================              its resources
+                   +-------------------------------------+
+                   | HTTP/1.1 200 OK                     |
+                   | Allow: GET, POST, PUT, OPTIONS      |
+                   | Content-Length: 0                   |
+                   +-------------------------------------+
+</pre>
+</div>
+</div>
+<div id="outline-container-sec-1-3-8" class="outline-4">
+<h4 id="sec-1-3-8">DELETE</h4>
+<div class="outline-text-4" id="text-1-3-8">
+<ul class="org-ul">
+<li>delete在client看来,就是非常简单了."请求"server删除client提供的位置的资源.
+<pre class="example">
+                   +-------------------------------------+
+                   | HEAD /seasonal/index.html HTTP/1.1  |
+                   | Host: www.joes-hardware.com         |
+                   | Accept: *                           |
+                   +-------------------------------------+
+                   Request message
+             ============================================&gt;
+             |
++------------+                                                 +------------+
+|  CLIENT    |                                                 |  SERVER    |
++------------+                                                 +------------+
+                                     Response message          |
+                   &lt;============================================
+                   +-------------------------------------+
+                   | HTTP/1.1 200 OK                     |
+                   | Content-Type: text/html             |
+                   | Content-Length: 617                 |
+                   +-------------------------------------+
+</pre>
+</li>
+<li>但是, client却不能保证delete行为一定能成功, 它只是"请求"server删除.具体是否
+能成功,掌握在server手里.server可以override client的request(在不告知client
+的情况下)
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-9" class="outline-4">
+<h4 id="sec-1-3-9">Extension Methods</h4>
+<div class="outline-text-4" id="text-1-3-9">
+<ul class="org-ul">
+<li>在规范的定义之外,还有一些extension的函数,比如LOCK, MKCOL, COPY, MOVE等
+</li>
+<li>这些函数proxy应该尽量"无脑传递"给后面的应用.如果不想传递下去,需要返回501(Not
+Implemented)这个status code
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Status Codes</h3>
+<div class="outline-text-3" id="text-1-4">
+</div><div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1">100-199: Informational Status Codes</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<ul class="org-ul">
+<li>Status Code中100表示的意义是"Continue". 它是我这么一种特殊的情形准备的
+<pre class="example">
+HTTP Client想发送一个entity body给server, 但是它不确定server是否会接受,
+所以先发一个request,得到"Continue"的答复之后,再开始真正传递entity body
+</pre>
+</li>
+<li>但是100-Continue却会有很多种情况下被"误用", 比如你没有发送"希望发给server大
+数据"的request(名字叫做Expect header),却得到了server的100-Continue的回复.
+</li>
+<li>server收到Expect header,有三种选择:
+<ul class="org-ul">
+<li>不支持"大数据",(无论client已经等不及把数据发送过来了)直接发送error code
+</li>
+<li>支持大数据,返回100-Continue
+</li>
+<li>支持大数据,但是还没有来得及发送100-Continue,Client的数据就已经到了,那么
+默默的接受就好了,100-Continue不用再发给client了. 同样的,在client这边,等
+了很久server还没有反应,就直接发送数据就好了.
+</li>
+</ul>
+</li>
+<li>在client和server之间的proxy,当它遇到Expect header的时候:
+<ul class="org-ul">
+<li>如果它知道下一个hop是支持HTTP/1.1的,那么"无脑转发"
+</li>
+<li>如果它"不"知道下一个hop的HTTP版本,那么"无脑转发"
+</li>
+<li>如果它明确知道下一个版本支持HTTP/1.1以下版本,那么直接发烧哦感417 Expectation
+Failed error
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2">200-209: Success Status Code</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<ul class="org-ul">
+<li>200 意味着"OK": client的request被接受,response的entity body里面包含请求的
+资源
+</li>
+<li>201 意味着"Created": client要求创建的资源(比如PUT)已经建立成功
+</li>
+<li>202 意味着"Accepted": client的request已经被server所接受了,但是server不保证
+什么时候会实现它!server一般会在response的entity body里面说明合适可以完成request
+</li>
+<li>203 意味着"Non-Authoritative Information": entity header信息有问题!
+</li>
+<li>204 意味着"No Content": 当前的response是有status line和header的,但是却没有
+entity body,这个通常在浏览器"刷新"的时候使用
+</li>
+<li>205 意味着"Reset Content": 告诉浏览器清除"any HTML form elements on the
+current page"
+</li>
+<li>206 意味着"Partial Content": range request成功了(因为client就发送了"一部分"
+request,所以response也是一部分)
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3">300-399: Redirection Status Code</h4>
+<div class="outline-text-4" id="text-1-4-3">
+<ul class="org-ul">
+<li>300 意味着"Multiple Choices": 比如client request了一个网页, server reponse
+一个300,告诉它我们有"多个语言版本", 你要读哪个?
+</li>
+<li>301 意味着"Moved Permanently": client request了一个URL, 但是server reponse
+给他说,这个URL已经被转移到另外一个URL里面了.(需要在response的header的Location
+部分里指明这个URL)
+<pre class="example">
+                   +-------------------------------------+
+                   | GET /pet-products.txt HTTP/1.1      |
+                   | Host: www.joes-hardware.com         |
+                   | Accept: *                           |
+                   +-------------------------------------+
+                   Request message
+             ============================================&gt;
+             |
++------------+                                                 +---------------------+
+|  CLIENT    |                                                 |www.joes-hardware.com|
++------------+                                                 +---------------------+
+                                     Response message          |
+                   &lt;============================================
+                   +-------------------------------------+
+                   | HTTP/1.1 301 OK                     |
+                   | Location: http://www.gentle.com/    |
+                   | Content-Type: text/html             |
+                   | Content-Length: 45                  |
+                   |                                     |
+                   | Please go to our partner site,      |
+                   | www.gentle.com                      |
+                   +-------------------------------------+
+
+                   +-------------------------------------+
+                   | GET /pet-products.txt HTTP/1.1      |
+                   | Host: www.gentle.com                |
+                   | Accept: *                           |
+                   +-------------------------------------+
+                   Request message
+             ============================================&gt;
+             |
++------------+                                                 +---------------------+
+|  CLIENT    |                                                 |   www.gentle.com    |
++------------+                                                 +---------------------+
+                                     Response message          |
+                   &lt;============================================
+                   +-------------------------------------+
+                   | HTTP/1.1 200 OK                     |
+                   | Content-Type: text/html             |
+                   | Content-Length: 3307                |
+                   |                                     |
+                   |  .....                              |
+                   +-------------------------------------+
+</pre>
+</li>
+<li>302 意味着"Found": 和301完全一样,只不过server返回的Location header是一个临
+时的URL地址,资源并非永久的改变到了那个URL
+</li>
+<li>303 意味着"See Other": client request的资源应该从另外一个URL里面取得,这个URL
+会被放在response的Location header里面,这个303也是为一种特别的情况准备的
+<pre class="example">
+比如我们原来登陆的时候使用http://example.com/login + POST request来登陆
+网站, server验证用户名密码正确以后,需要让client 跳转到另外一个URL(而不能再是
+http://example.com/login,而应该是http://example.com/user/1234之类)
+</pre>
+</li>
+<li>304 意味着"Not Modified": client可能会发出一些"conditionl"的请求,比如GET
+一个资源知否被修改(还可以加一些条件,比如在某个日期之后修改过么?下面例子中这
+个限制条件通过一个header的tag,If-Modified-Since来实现).然后server返回304意
+思就是,我们没修改
+<pre class="example">
+             +-------------------------------------------------+
+             | GET /seasonal/index.html HTTP/1.1               |
+             | Host: www.joes-hardware.com                     |
+             | Accept: *                                       |
+             | If-Modified-Since: Fri, Oct 3, 1997 02:16:00 GMT|
+             +-------------------------------------------------+
+             Request message
+             ==================================================&gt;
+             |
++------------+                                                 +------------+
+|  CLIENT    |                                                 |  SERVER    |
++------------+                                                 +------------+
+                                     Response message          |
+                   &lt;============================================
+                   +-------------------------------------+
+                   | HTTP/1.1 304 Not Modified           |
+                   |  .....                              |
+                   +-------------------------------------+
+</pre>
+</li>
+<li>305 意味着"Use Proxy": 告诉client,某个资源必须通过proxy来取得. proxy的位置
+被放到了Location header里面
+</li>
+<li>306 意味着"Unused": 还没使用
+</li>
+<li>307 意味着"Temporary Redirect": 和301一样,不同的是在Location header里面指定
+了一个新的URL, client应该使用这个URL
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-4" class="outline-4">
+<h4 id="sec-1-4-4">400-499: Client Error Status Code</h4>
+<div class="outline-text-4" id="text-1-4-4">
+<ul class="org-ul">
+<li>下面的错误都是由于request有问题导致, server没法服务的
+</li>
+<li>400 意味着"Bad Request": 告诉client,你发送了恶意的请求
+</li>
+<li>401 意味着"Unauthorized": 告诉client,首先要经过认证,才能获取你要的资源
+</li>
+<li>402 意味着"Payment Required": 没有使用
+</li>
+<li>403 意味着"Forbidden": server拒绝了client的请求,server可以在reponse的entity
+body里面说明原因,也可以不说明.
+</li>
+<li>404 意味着"Not Found": server无法找到client提供的URL, 一般情况下server都会
+在自己的entity body里面包含一个"更好看的404错误HTML页面"返回给client,进而返回
+给用户
+</li>
+<li>405 意味着"Method Not Allowed": client发送了一个URL,外加一个method,如果server
+不支持这个method的话,会返回这个status code, 外加在自己的Accept里面把自己支
+持的都列举一遍.
+</li>
+<li>406 意味着"Not Acceptable": client会在request里面声明自己要什么类型的entity
+body, 如果server满足不了,就会返回这个.
+</li>
+<li>407 意味着"Proxy Authentication Required": 和401类似, 只是authentication需
+要proxy server
+</li>
+<li>408 意味着"Request Timeout": 如果client的request太久了,sever可以关闭connection
+并且返回这个status code
+</li>
+<li>409 意味着"Conflict": client的request造成了资源的conflict
+</li>
+<li>410 意味着"Gone": 和404一样,只不过server告诉client"自己曾经拥有过那个URL"
+</li>
+<li>411 意味着"Length Required": server要求在request里面包含Content-Length header
+</li>
+<li>412 意味着"Precondition Failed": 如果client 发送的request里面有 Expect
+header的话,那么这是一个Conditional Request, 但是如果其中一个condition failed的话
+server就会返回这个status code
+</li>
+<li>413 意味着"Request Entity Too Large": client的entity大到server处理不了
+</li>
+<li>414 意味着"Request URI Too Long": URL太长
+</li>
+<li>415 意味着"Unsupported Media Type": 不支持的媒体格式
+</li>
+<li>416 意味着"Requested Range": client请求的range不合理
+</li>
+<li>417 意味着"Expectation Failed": client提出了一些expectation, 但是server满足不了
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-5" class="outline-4">
+<h4 id="sec-1-4-5">500-599: Server Error Status Code</h4>
+<div class="outline-text-4" id="text-1-4-5">
+<ul class="org-ul">
+<li>下面的错误都是由于server自己有问题导致没法服务的
+</li>
+<li>500 意味着"Internal Server Error": 当server遇到了自己内部的问题,无法为client服务的时候
+</li>
+<li>501 意味着"Not Implemented": client提出的要求超出了server的当前能力的时候
+</li>
+<li>502 意味着"Bad Gateway": 发出这个status code的server通常是一个proxy(也就是
+中间环节), 当后面的环节联系不到的时候,它只好给client发送这个status code
+</li>
+<li>503 意味着"Service Unavailable": server告诉client,"我目前无法服务您,但是过
+一会我就可以了". 当一个server知道资源在"不久的将来"会有的话,会返回这个status
+code并且会在reponse里面包含Retry-After header
+</li>
+<li>504 意味着"Gateway Timeout": 和408类似,但是,不是client的request太久,而是
+Proxy(中间server)发送给下一级server的request实在是太慢了.
+</li>
+<li>505 意味着"HTTP Version Not Supported": 当server发现client发来的request里面
+的HTTP版本太新了,自己不支持的时候
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Headers</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>前面我们也看到了,在method和status的部分里面,到处都充斥着header的身影,在HTTP
+协议里面,header也负责传递着很多信息.
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1">General Headers</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<ul class="org-ul">
+<li>指那些提供非常基本功能的header.
+</li>
+<li>Header Connection: 让server和client来指定request/response的option
+</li>
+<li>Header Date: 提供message创建的时间
+</li>
+<li>Header MIME-Version: 提供发送者MIME的版本信息
+</li>
+<li>Header Trailer: 和chunked transfer encoding有关
+</li>
+<li>Header Transfer-Encoding: 告诉接受者对message的解析使用什么encoding
+</li>
+<li>Header Upgrade: 告诉server,我们client其实还可以提供的"Upgrade"的协议版本
+</li>
+<li>Header Via: 罗列这个message经历了哪些中间件(proxies, gateways)
+</li>
+<li>Header Cache-Control: 和message一同发送的,是自己那些部分被cache了
+</li>
+<li>Header Pragma: 和message一同发送一些信息,不仅限于cache的部分
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5-2" class="outline-4">
+<h4 id="sec-1-5-2">Request Headers</h4>
+<div class="outline-text-4" id="text-1-5-2">
+<ul class="org-ul">
+<li>指那些只能存在于request里面的header.
+</li>
+<li>Header Client-IP: 提供了client machine的IP地址
+</li>
+<li>Header From: 提供了client用户的电子邮箱地址
+</li>
+<li>Header Host: client的hostname和port
+</li>
+<li>Header Referer: 当前的URL
+</li>
+<li>Header UA-Color: client机器的显示色彩的能力
+</li>
+<li>Header UA-CPU: client的CPU制造商
+</li>
+<li>Header UA-Disp: client的显示器能力
+</li>
+<li>Header UA-OS: client的操作系统
+</li>
+<li>Header UA-Pixels: client的屏幕像素
+</li>
+<li>Header UA-Agent: client哪个应用发出了当前的request
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-5-2-1" class="outline-5">
+<h5 id="sec-1-5-2-1">Accept Headers</h5>
+<div class="outline-text-5" id="text-1-5-2-1">
+<ul class="org-ul">
+<li>Header Accept: 告诉server,你发送哪些媒体类型,我们client可以接受
+</li>
+<li>Header Accept-Charset: 告诉server,你发送哪些charset,我们client可以接受
+</li>
+<li>Header Accept-Encoding: 告诉server,你发送哪些encoding,我们client可以接受
+</li>
+<li>Header Accept-Language: 告诉server,你发送哪些language,我们client可以接受
+</li>
+<li>Header TE: 告诉server,你发送哪些扩展名文件,我们client可以接受
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5-2-2" class="outline-5">
+<h5 id="sec-1-5-2-2">Conditional request headers</h5>
+<div class="outline-text-5" id="text-1-5-2-2">
+<ul class="org-ul">
+<li>就像编程一样,http的数据交换也可以基于一些条件判断:比如, 一个client已有一份
+doc的拷贝,它想询问一下server,这个doc有没有更新,有更新的话,再发给它一个.否
+则不需要发了.
+</li>
+<li>Header Except: 允许让client列举当前request需要让server满足哪些behavior
+</li>
+<li>Header If-Match: 当前entity tag和document的entity tag相似的时候才获取
+</li>
+<li>Header If-Modified-Since: 设定一个日期,在这个日期之后被修改过,才获取这个资源
+</li>
+<li>Header If-None-Match: 和If-Match相反. document的entity tag不满足的时候,才获取
+</li>
+<li>Header If-Range: 允许获取某个range内的document
+</li>
+<li>Header If-Unmodifed-Since: 设定一个日期,在这个日期之后"没有"被修改过,才获取这个资源
+</li>
+<li>Header Range: 如果server支持range request,那么取得一系列的资源
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5-2-3" class="outline-5">
+<h5 id="sec-1-5-2-3">Reauest security headers</h5>
+<div class="outline-text-5" id="text-1-5-2-3">
+<ul class="org-ul">
+<li>HTTP也自带了一些安全机制,让client在"认证"以后,才能取得某些资源
+</li>
+<li>Header Authorization: client包含一些让server看到的"认证信息"
+</li>
+<li>Header Cookie: client发送一个token给server: 这不是一种真正的security header,
+但是有点作用
+</li>
+<li>Header Cookie2: 展示request支持的cookies的版本
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5-2-4" class="outline-5">
+<h5 id="sec-1-5-2-4">Proxy request headers</h5>
+<div class="outline-text-5" id="text-1-5-2-4">
+<ul class="org-ul">
+<li>Header Max-Forwards: request在到达server之前,允许经过的proxy个数
+</li>
+<li>Header Proxy-Authorization: client包含一些让中间的proxy看到的"认证信息"
+</li>
+<li>Header Proxy-Connection: 使用proxy建立连接的时候使用
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-5-3" class="outline-4">
+<h4 id="sec-1-5-3">Response Headers</h4>
+<div class="outline-text-4" id="text-1-5-3">
+<ul class="org-ul">
+<li>response也有自己的一些header, 主要的功能是为client提供一些信息, 让client更
+了解server的功能,从而再后面优化自己的request
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-5-3-1" class="outline-5">
+<h5 id="sec-1-5-3-1">Negotiation headers</h5>
+<div class="outline-text-5" id="text-1-5-3-1">
+<ul class="org-ul">
+<li>如果server上面对client的request提供了多个版本(比如多个语言),那么就要在response
+里面使用negotiation header来和client交流
+</li>
+<li>Header Accept-Ranges: server可以接受的资源range
+</li>
+<li>Header Vary: server方一系列的可能导致vary的header
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5-3-2" class="outline-5">
+<h5 id="sec-1-5-3-2">Response security headers</h5>
+<div class="outline-text-5" id="text-1-5-3-2">
+<ul class="org-ul">
+<li>安全方面的response header主要是HTTP的"认证"
+</li>
+<li>Header Proxy-Authenticate: proxy认为的对client的一系列的challenge
+</li>
+<li>Header Set-Cookie: 用来在client端设置一个token,从而让server能够认识client
+</li>
+<li>Header Set-Cookie2: 和Set-Cookie相似
+</li>
+<li>Header WWW-Authenticate: Server认为的对client的一系列的challenge
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-5-4" class="outline-4">
+<h4 id="sec-1-5-4">Entity Headers</h4>
+<div class="outline-text-4" id="text-1-5-4">
+<ul class="org-ul">
+<li>enttity header主要告诉那些entity数据的接收方,我们的entity主要是为什么服务的
+</li>
+<li>Header Allow: 列举一下哪些request method可以在当前的entity上面进行操作
+</li>
+<li>Header Location: 告诉client, 资源"真正"的位置.有可能是一个新的URL
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-5-4-1" class="outline-5">
+<h5 id="sec-1-5-4-1">Content headers</h5>
+<div class="outline-text-5" id="text-1-5-4-1">
+<ul class="org-ul">
+<li>Header Content-Base: URL的主体部分URL (没有在RFC2616中定义)
+</li>
+<li>Header Content-Endocing: entity body的encoding信息
+</li>
+<li>Header Content-Language: entity body是中文,英文,还是日文
+</li>
+<li>Header Content-Length: entity body的长度
+</li>
+<li>Header Content-Location: 资源实际的存放地点
+</li>
+<li>Header Content-MD5: entity的MD5 checksum
+</li>
+<li>Header Content-Range: 从整个resource来看,entity的range
+</li>
+<li>Header Content-Type: entity body的文件类型
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5-4-2" class="outline-5">
+<h5 id="sec-1-5-4-2">Entity caching headers</h5>
+<div class="outline-text-5" id="text-1-5-4-2">
+<ul class="org-ul">
+<li>Header ETag: entity body相关的entity tag
+</li>
+<li>Header Expires: entity body 在某个时间点以后就会"过期": 无法从original
+source再读取了
+</li>
+<li>Header Last-Modified: entity body上一次被修改的时间
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

@@ -1,0 +1,1321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 10: Inner Classes</title>
+<!-- 2014-07-18 Fri 16:14 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 10: Inner Classes</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Inner Classes</a>
+<ul>
+<li><a href="#sec-1-1">Creating inner classes</a></li>
+<li><a href="#sec-1-2">The link to the outer class</a></li>
+<li><a href="#sec-1-3">Using .this and .new</a></li>
+<li><a href="#sec-1-4">Inner classes and upcasting</a></li>
+<li><a href="#sec-1-5">Inner classes in methods and scopes</a></li>
+<li><a href="#sec-1-6">Anonymous inner classes</a>
+<ul>
+<li><a href="#sec-1-6-1">Factory Method revisited</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-7">Nested classes</a>
+<ul>
+<li><a href="#sec-1-7-1">Classes inside interfaces</a></li>
+<li><a href="#sec-1-7-2">Reaching outward from a multiply nested class</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-8">Why inner classes?</a>
+<ul>
+<li><a href="#sec-1-8-1">Closures &amp; callbacks</a></li>
+<li><a href="#sec-1-8-2">Inner classes &amp; control frameworks</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-9">Inheriting from inner classes</a></li>
+<li><a href="#sec-1-10">Can inner classes be overridden?</a></li>
+<li><a href="#sec-1-11">Local inner classes</a></li>
+<li><a href="#sec-1-12">Inner-class identifiers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Inner Classes</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>把一个class的定义放到另一个class的定义里面就叫做inner classes, 注意和组合
+(composition)的区分
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Creating inner classes</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>创建一个inner class非常容易, 如果在本class使用,就更容易了,直接调用即可
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Parcel1</span> {
+    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Contents</span> {
+        <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 11;
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">value</span>() {
+            <span style="color: #859900; font-weight: bold;">return</span> i;
+        }
+    }
+    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Destination</span> {
+        <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">label</span>;
+        Destination(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">whereTo</span>) {
+            label = whereTo;
+        }
+        <span style="color: #b58900;">String</span> <span style="color: #268bd2;">readLabel</span>() {
+            <span style="color: #859900; font-weight: bold;">return</span> label;
+        }
+    }
+
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Using inner classes looks just like</span>
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">using any other class, with in Parcel1:</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">ship</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">dest</span>) {
+        <span style="color: #b58900;">Contents</span> <span style="color: #268bd2;">c</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Contents</span>();
+        <span style="color: #b58900;">Destination</span> <span style="color: #268bd2;">d</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Destination</span>(dest);
+        System.out.println(d.readLabel());
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Parcel1</span> <span style="color: #268bd2;">p</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Parcel1</span>();
+        p.ship(<span style="color: #2aa198;">"Tasmania"</span>);
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Tasmania                                       //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>如果你想使用inner class,给它带上一个域就可以
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Parcel2</span> {
+    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Contents</span> {
+        <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 11;
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">value</span>() {
+            <span style="color: #859900; font-weight: bold;">return</span> i;
+        }
+    }
+    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Destination</span> {
+        <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">label</span>;
+        Destination(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">whereTo</span>) {
+            label = whereTo;
+        }
+        <span style="color: #b58900;">String</span> <span style="color: #268bd2;">readLabel</span>() {
+            <span style="color: #859900; font-weight: bold;">return</span> label;
+        }
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Destination</span> <span style="color: #268bd2;">to</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Destination</span>(s);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Contents</span> <span style="color: #268bd2;">contents</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Contents</span>();
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">ship</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">dest</span>) {
+        <span style="color: #b58900;">Contents</span> <span style="color: #268bd2;">c</span> = contents();
+        <span style="color: #b58900;">Destination</span> <span style="color: #268bd2;">d</span> = to(dest);
+        System.out.println(d.readLabel());
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Parcel2</span> <span style="color: #268bd2;">p</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Parcel2</span>();
+        p.ship(<span style="color: #2aa198;">"Tasmania"</span>);
+        <span style="color: #b58900;">Parcel2</span> <span style="color: #268bd2;">q</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Parcel2</span>();
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Defining references to inner classes:</span>
+        <span style="color: #268bd2; font-weight: bold;">Parcel2</span>.<span style="color: #b58900;">Contents</span> <span style="color: #268bd2;">c</span> = q.contents();
+        <span style="color: #268bd2; font-weight: bold;">Parcel2</span>.<span style="color: #b58900;">Destination</span> <span style="color: #268bd2;">d</span> = q.to(<span style="color: #2aa198;">"Borneo"</span>);
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Tasmania                                       //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">The link to the outer class</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>inner class不止为了namespace的布置,也不止是代码布局上的考虑,更重要的是一个
+inner class可以使用"包括它的"那个class的所有成员函数,变量.比如下面的private
+inner class 可以随意的访问它的"主人"的private 成员变量items
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">Selector</span> {
+    <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">end</span>();
+    <span style="color: #b58900;">Object</span> <span style="color: #268bd2;">current</span>();
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">next</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Sequence</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Object</span>[] <span style="color: #268bd2;">items</span>;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">next</span> = 0;
+    <span style="color: #859900; font-weight: bold;">public</span> Sequence(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">size</span>) {
+        items = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Object</span>[size];
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">add</span>(<span style="color: #b58900;">Object</span> <span style="color: #268bd2;">x</span>) {
+        <span style="color: #859900; font-weight: bold;">if</span> (next &lt; items.length) {
+            items[next++] = x;
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">SequenceSelector</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Selector</span> {
+        <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0;
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">end</span>() {
+            <span style="color: #859900; font-weight: bold;">return</span> i == items.length;
+        }
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Object</span> <span style="color: #268bd2;">current</span>() {
+            <span style="color: #859900; font-weight: bold;">return</span> items[i];
+        }
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">next</span>() {
+            <span style="color: #859900; font-weight: bold;">if</span> (i &lt; items.length) {
+                i++;
+            }
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Selector</span> <span style="color: #268bd2;">selector</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">SequenceSelector</span>();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Sequence</span> <span style="color: #268bd2;">sequence</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Sequence</span>(10);
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; 10; i++) {
+            sequence.add(Integer.toString(i));
+        }
+        <span style="color: #b58900;">Selector</span> <span style="color: #268bd2;">selector</span> = sequence.selector();
+        <span style="color: #859900; font-weight: bold;">while</span>(<span style="color: #b58900; font-weight: bold;">!</span>selector.end()) {
+            System.out.print(selector.current() + <span style="color: #2aa198;">" "</span>);
+            selector.next();
+        }
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0 1 2 3 4 5 6 7 8 9                            //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Using .this and .new</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>如果想在inner class里面ref outer class,那么.this是不二之选
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">DotThis</span> {
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {
+        System.out.println(<span style="color: #2aa198;">"DotThis.f()"</span>);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Inner</span> {
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">DotThis</span> <span style="color: #268bd2;">outer</span>() {
+            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">DotThis dot this would be the Outer "this"</span>
+            <span style="color: #859900; font-weight: bold;">return</span> DotThis.<span style="color: #859900; font-weight: bold;">this</span>;
+            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">A plain this would be Inner's "this"</span>
+        }
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Inner</span> <span style="color: #268bd2;">inner</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Inner</span>();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">DotThis</span> <span style="color: #268bd2;">dt</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">DotThis</span>();
+        <span style="color: #268bd2; font-weight: bold;">DotThis</span>.<span style="color: #b58900;">Inner</span> <span style="color: #268bd2;">dti</span> = dt.inner();
+        dti.outer().f();
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">DotThis.f()                                    //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>如果你想在classA里面生成一个classB内部的class,那么就要使用.new
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">DotNew</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Inner</span>{}
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">DotNew</span> <span style="color: #268bd2;">dn</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">DotNew</span>();
+        <span style="color: #268bd2; font-weight: bold;">DotNew</span>.<span style="color: #b58900;">Inner</span> <span style="color: #268bd2;">dni</span> = dn.<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Inner</span>();
+    }
+}
+</pre>
+</div>
+</li>
+<li>前面的Parcel2,靠了一个接口contents()才实现了new, 现在可以使用.new替代
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">DotNew</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Inner</span>{}
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">DotNew</span> <span style="color: #268bd2;">dn</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">DotNew</span>();
+        <span style="color: #268bd2; font-weight: bold;">DotNew</span>.<span style="color: #b58900;">Inner</span> <span style="color: #268bd2;">dni</span> = dn.<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Inner</span>();
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Inner classes and upcasting</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>我们还可以通过把inner class和interface进行结合使用(inner class implements
+interface), 只返回interface,这样一来,对方更加无法知道具体的实现细节(都隐藏
+在了inner class里面)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">Contents</span> {
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">value</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">Destination</span> {
+    <span style="color: #b58900;">String</span> <span style="color: #268bd2;">readLabel</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Parcel4</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">PContents</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Contents</span> {
+        <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 11;
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">value</span>() {
+            <span style="color: #859900; font-weight: bold;">return</span>  i;
+        }
+    }
+    <span style="color: #859900; font-weight: bold;">protected</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">PDestination</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Destination</span> {
+        <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">label</span>;
+        <span style="color: #859900; font-weight: bold;">private</span> PDestination(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">whereTo</span>) {
+            label = whereTo;
+        }
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">readLabel</span>() {
+            <span style="color: #859900; font-weight: bold;">return</span> label;
+        }
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Destination</span> <span style="color: #268bd2;">destination</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">PDestination</span>(s);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Contents</span> <span style="color: #268bd2;">contents</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">PContents</span>();
+    }
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">TestParcel</span> {
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Parcel4</span> <span style="color: #268bd2;">p</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Parcel4</span>();
+        <span style="color: #b58900;">Contents</span> <span style="color: #268bd2;">c</span> = p.contents();
+        <span style="color: #b58900;">Destination</span> <span style="color: #268bd2;">d</span> = p.destination(<span style="color: #2aa198;">"Tasmania"</span>);
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Illegal -- can't access private class:</span>
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! Parcel4.PContents pc = p.new PContents();</span>
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Inner classes in methods and scopes</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>inner class不仅仅是写在class的{}里面, 它还可以在method的{},或者任意的{}里面
+出现, 具体的情况有常规的两个:
+<ul class="org-ul">
+<li>A class defined within a method, 这个例子返回的是一个PDestination类型,
+而不是Destination,所以返回的时候会有upcasting
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Parcel5</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Destination</span> <span style="color: #268bd2;">destination</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>) {
+        <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">PDestination</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Destination</span> {
+            <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">label</span>;
+            <span style="color: #859900; font-weight: bold;">private</span> PDestination(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">whereTo</span>) {
+                label = whereTo;
+            }
+            <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">readLabel</span>() {
+                <span style="color: #859900; font-weight: bold;">return</span> label;
+            }
+        }
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">PDestination</span>(s);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Parcel5</span> <span style="color: #268bd2;">p</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Parcel5</span>();
+        <span style="color: #b58900;">Destination</span> <span style="color: #268bd2;">d</span> = p.destination(<span style="color: #2aa198;">"Tasmania"</span>);
+    }
+}
+</pre>
+</div>
+</li>
+<li>A class defined within a scope inside a method
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Parcel6</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">internalTracking</span>(<span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">b</span>) {
+        <span style="color: #859900; font-weight: bold;">if</span> (b) {
+            <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">TrackingSlip</span> {
+                <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">id</span>;
+                TrackingSlip(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>) {
+                    id = s;
+                }
+                <span style="color: #b58900;">String</span> <span style="color: #268bd2;">getSlip</span>() {
+                    <span style="color: #859900; font-weight: bold;">return</span> id;
+                }
+            }
+            <span style="color: #b58900;">TrackingSlip</span> <span style="color: #268bd2;">ts</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">TrackingSlip</span>(<span style="color: #2aa198;">"slip"</span>);
+            <span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span> = ts.getSlip();
+        }
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Can't use here! Out of scope:</span>
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! TrackingSlip ts = new TrackingSlip("x");</span>
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">track</span>() {
+        internalTracking(<span style="color: #268bd2; font-weight: bold;">true</span>);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Parcel6</span> <span style="color: #268bd2;">p</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Parcel6</span>();
+        p.track();
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Anonymous inner classes</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>inner class出现的位置还可以是{}的一个代码块,比如定义函数的时候就要有这种代
+码块.这种代码块表示声明了一个"无名"的类, 继承了Contents类,然后产生一个object
+这个object再upcast成Contents类
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Parcel7</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Contents</span> <span style="color: #268bd2;">contents</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Contents</span>() { <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Insert a class definition</span>
+            <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 11;
+            <span style="color: #268bd2; font-weight: bold;">@Override</span>
+            <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">value</span>() {
+                <span style="color: #859900; font-weight: bold;">return</span> i;
+            }
+        }; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Semicoln required in this case</span>
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Parcel7</span> <span style="color: #268bd2;">p</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Parcel7</span>();
+        <span style="color: #b58900;">Contents</span> <span style="color: #268bd2;">c</span> = p.contents();
+    }
+}
+</pre>
+</div>
+</li>
+<li>上面的代码是一种shorthand, 如果完整正规的写的化,会是如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Parcel7b</span> {
+    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MyContents</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Contents</span> {
+        <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 11;
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">value</span>() {
+            <span style="color: #859900; font-weight: bold;">return</span> i;
+        }
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Contents</span> <span style="color: #268bd2;">contents</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">MyContents</span>();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Parcel7b</span> <span style="color: #268bd2;">p</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Parcel7b</span>();
+        <span style="color: #b58900;">Contents</span> <span style="color: #268bd2;">c</span> = p.contents();
+    }
+}
+</pre>
+</div>
+</li>
+<li>还可以使用带参数的ctor来初始化inner class
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Parcel8</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Wrapping</span> <span style="color: #268bd2;">wrapping</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span>) {
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Base ctor call:</span>
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Wrapping</span>(x) { <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Pass ctor argument</span>
+            <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">value</span>() {
+                <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">super</span>.value() * 47;
+            }
+        };
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Parcel8</span> <span style="color: #268bd2;">p</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Parcel8</span>();
+        <span style="color: #b58900;">Wrapping</span> <span style="color: #268bd2;">w</span> = p.wrapping(10);
+    }
+}
+</pre>
+</div>
+</li>
+<li>带参数的ctor来初始化inner class, 如果又涉及到要在匿名空间的(anonymous)话,那
+么参数要final的
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Parcel9</span> {
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Argument must be final to use inside</span>
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">anonymous inner class:</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Destination</span> <span style="color: #268bd2;">destination</span>(<span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">dest</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Destination</span>() {
+           <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">label</span> = dest;
+           <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">readLabel</span>() {
+               <span style="color: #859900; font-weight: bold;">return</span> label;
+           }
+        };
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Parcel9</span> <span style="color: #268bd2;">p</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Parcel9</span>();
+        <span style="color: #b58900;">Destination</span> <span style="color: #268bd2;">d</span> = p.destination(<span style="color: #2aa198;">"Tasmania"</span>);
+    }
+}
+</pre>
+</div>
+</li>
+<li>我们再次见到了instance initialization, 在实例化匿名class(继承Base的类)的时
+候, 可以引入一段instance initialization,可以起到和ctor一样的目的
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Base</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> Base(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+        System.out.println(<span style="color: #2aa198;">"Base constructor, i = "</span> + i);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>();
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">AnonymousConstructor</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">Base</span> <span style="color: #268bd2;">getBase</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Base</span>(i) {
+            {
+                System.out.println(<span style="color: #2aa198;">"Inside instance initializer"</span>);
+            }
+            <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>(){
+                System.out.println(<span style="color: #2aa198;">"In anonymous f()"</span>);
+            }
+        };
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Base</span> <span style="color: #268bd2;">base</span> = getBase(47);
+        base.f();
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Base constructor, i = 47                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Inside instance initializer                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">In anonymous f()                               //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>下面的instance initialization部分起到了对每个object进行过滤的作用(看看是否
+超过预算).当然instance initialization是有局限性的,比如其无法overload.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Parcel10</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Destination</span> <span style="color: #268bd2;">destination</span>(<span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">dest</span>, <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">float</span> <span style="color: #268bd2;">price</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Destination</span>() {
+            <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">cost</span>;
+            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Instance initialization for each object</span>
+            {
+                cost = Math.round(price);
+                <span style="color: #859900; font-weight: bold;">if</span> (cost &gt; 100) {
+                    System.out.println(<span style="color: #2aa198;">"Over budget!"</span>);
+                }
+            }
+            <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">label</span> = dest;
+
+            <span style="color: #268bd2; font-weight: bold;">@Override</span>
+            <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">readLabel</span>() {
+                <span style="color: #859900; font-weight: bold;">return</span> label;
+            }
+        };
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Parcel10</span> <span style="color: #268bd2;">p</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Parcel10</span>();
+        <span style="color: #b58900;">Destination</span> <span style="color: #268bd2;">d</span> = p.destination(<span style="color: #2aa198;">"Tasmania"</span>, 101.395F);
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Over budget!                                   //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1">Factory Method revisited</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<ul class="org-ul">
+<li>再有了anonymous inner class 之后,工厂模式的构建变得更加简单了
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">Service</span> {
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">method1</span>();
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">method2</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">ServiceFactory</span> {
+    <span style="color: #b58900;">Service</span> <span style="color: #268bd2;">getService</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Implementation1</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Service</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> Implementation1() {}
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">method1</span>() {
+        System.out.println(<span style="color: #2aa198;">"Implementation1 method1"</span>);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">method2</span>() {
+        System.out.println(<span style="color: #2aa198;">"Implementation1 method2"</span>);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">ServiceFactory</span> <span style="color: #268bd2;">factory</span> =
+        <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ServiceFactory</span>() {
+            <span style="color: #268bd2; font-weight: bold;">@Override</span>
+            <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Service</span> <span style="color: #268bd2;">getService</span>() {
+                <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Implementation1</span>();
+            }
+        };
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Implementation2</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Service</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> Implementation2() {}
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">method1</span>() {
+        System.out.println(<span style="color: #2aa198;">"Implementation2 method1"</span>);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">method2</span>() {
+        System.out.println(<span style="color: #2aa198;">"Implementation2 method2"</span>);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">ServiceFactory</span> <span style="color: #268bd2;">factory</span> =
+        <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ServiceFactory</span>() {
+            <span style="color: #268bd2; font-weight: bold;">@Override</span>
+            <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Service</span> <span style="color: #268bd2;">getService</span>() {
+                <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Implementation2</span>();
+            }
+        };
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Factories</span> {
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">serviceConsumer</span>(<span style="color: #b58900;">ServiceFactory</span> <span style="color: #268bd2;">fact</span>) {
+        <span style="color: #b58900;">Service</span> <span style="color: #268bd2;">s</span> = fact.getService();
+        s.method1();
+        s.method2();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        serviceConsumer(Implementation1.factory);
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Implementations are completely interchangeable</span>
+        serviceConsumer(Implementation2.factory);
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Implementation1 method1                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Implementation1 method2                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Implementation2 method1                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Implementation2 method2                        //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+
+<li>下面是用anonymous inner class改编interface/Games.java
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">Game</span> {
+    <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">move</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">GameFactory</span> {
+    <span style="color: #b58900;">Game</span> <span style="color: #268bd2;">getGame</span>();
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Checkers</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Game</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> Checkers() {}
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">moves</span> = 0;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">MOVES</span> = 3;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">move</span>() {
+        System.out.println(<span style="color: #2aa198;">"Checkers move "</span> + moves);
+        <span style="color: #859900; font-weight: bold;">return</span> ++moves != MOVES;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">GameFactory</span> <span style="color: #268bd2;">factory</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">GameFactory</span>() {
+        <span style="color: #268bd2; font-weight: bold;">@Override</span>
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Game</span> <span style="color: #268bd2;">getGame</span>() {
+            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Checkers</span>();
+        }
+    };
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Chess</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Game</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> Chess() {}
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">moves</span> = 0;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">MOVES</span> = 4;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">move</span>() {
+        System.out.println(<span style="color: #2aa198;">"Chess move "</span> + moves);
+        <span style="color: #859900; font-weight: bold;">return</span> ++moves != MOVES;
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">GameFactory</span> <span style="color: #268bd2;">factory</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">GameFactory</span>() {
+        <span style="color: #268bd2; font-weight: bold;">@Override</span>
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Game</span> <span style="color: #268bd2;">getGame</span>() {
+            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Chess</span>();
+        }
+    };
+}
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Games</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">playGame</span>(<span style="color: #b58900;">GameFactory</span> <span style="color: #268bd2;">factory</span>) {
+        <span style="color: #b58900;">Game</span> <span style="color: #268bd2;">s</span> = factory.getGame();
+        <span style="color: #859900; font-weight: bold;">while</span> (s.move()) {
+            ;
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        playGame(Checkers.factory);
+        playGame(Chess.factory);
+    }
+}
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Checkers move 0                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Checkers move 1                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Checkers move 2                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Chess move 0                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Chess move 1                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Chess move 2                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Chess move 3                                   //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">Nested classes</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>如果你不需要和outer class有什么纠葛的话,你可以把你的inner class设置成static的
+这样的话,inner class不在保有outer class的ref, 也就脱离了两者的关系. 这种新型
+的inner class叫做nested classes
+</li>
+<li>换句话说nested class是static化的inner class, 因为static话了,所以:
+<ul class="org-ul">
+<li>不再需要一个outer class来创建inner class
+</li>
+<li>不再能够调用outer class的非static变量
+</li>
+</ul>
+</li>
+<li>下面就是一个nested class的例子,我们可以看到,还是由于static化,所以inner class
+依然可以拥有static的成员变量和static成员函数
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Parcel11</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ParcelContents</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Contents</span> {
+        <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 11;
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">value</span>() {
+            <span style="color: #859900; font-weight: bold;">return</span> i;
+        }
+    }
+    <span style="color: #859900; font-weight: bold;">protected</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ParcelDestination</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Destination</span> {
+        <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">label</span>;
+        <span style="color: #859900; font-weight: bold;">private</span> ParcelDestination(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">whereTo</span>) {
+            label = whereTo;
+        }
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">readLabel</span>() {
+            <span style="color: #859900; font-weight: bold;">return</span> label;
+        }
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Nested classes can contains other static elements:</span>
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+        <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span> = 10;
+        <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">AnotherLevel</span> {
+            <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+            <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span> = 10;
+        }
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">Destination</span> <span style="color: #268bd2;">destination</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ParcelDestination</span>(s);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">Contents</span> <span style="color: #268bd2;">contents</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ParcelContents</span>();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Contents</span> <span style="color: #268bd2;">c</span> = contents();
+        <span style="color: #b58900;">Destination</span> <span style="color: #268bd2;">d</span> = destination(<span style="color: #2aa198;">"Tasmania"</span>);
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-7-1" class="outline-4">
+<h4 id="sec-1-7-1">Classes inside interfaces</h4>
+<div class="outline-text-4" id="text-1-7-1">
+<ul class="org-ul">
+<li>interface里面是不可以有实现的,但是我们现在有了nested class,我们可以把实现
+写在nested class里面
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">ClassInInterface</span> {
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">howdy</span>();
+    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Test</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">ClassInInterface</span> {
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">howdy</span>() {
+            System.out.println(<span style="color: #2aa198;">"Howdy!"</span>);
+        }
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+            <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Test</span>().howdy();
+        }
+    }
+}
+<span style="color: #93a1a1;">/////////////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">bash-3.2$ ./runj.sh innerclasses/ClassInInterface\$Test //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">--------Begin----------                                 //</span>
+<span style="color: #93a1a1;">//                                                         </span><span style="color: #93a1a1;">//</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Howdy!                                                  //</span>
+<span style="color: #93a1a1;">//                                                         </span><span style="color: #93a1a1;">//</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">--------End------------                                 //</span>
+<span style="color: #93a1a1;">/////////////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-7-2" class="outline-4">
+<h4 id="sec-1-7-2">Reaching outward from a multiply nested class</h4>
+<div class="outline-text-4" id="text-1-7-2">
+<ul class="org-ul">
+<li>nested class的层数没有限制,由于.new()的灵活性
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MNA</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() {}
+    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">A</span> {
+        <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">g</span>() {}
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">B</span> {
+            <span style="color: #b58900;">void</span> <span style="color: #268bd2;">h</span>() {
+                g();
+                f();
+            }
+        }
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MultiNestingAccess</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">MNA</span> <span style="color: #268bd2;">mna</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">MNA</span>();
+        <span style="color: #268bd2; font-weight: bold;">MNA</span>.<span style="color: #b58900;">A</span> <span style="color: #268bd2;">mnaa</span> = mna.<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">A</span>();
+        <span style="color: #268bd2; font-weight: bold;">MNA</span>.<span style="color: #268bd2; font-weight: bold;">A</span>.<span style="color: #b58900;">B</span> <span style="color: #268bd2;">mnaab</span> = mnaa.<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">B</span>();
+        mnaab.h();
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">Why inner classes?</h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>其实inner class是能够从另一个侧面来实现多重继承(不是一个extends和多个implements)
+而是直接继承多个
+</li>
+<li>首先我们看看两个都是接口的的情况, 这种情况下不使用inner class是完全可行的,
+使用inner class也可以,所以有两种方法继承两个接口
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> <span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">A</span> {}
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">B</span> {}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">X</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">A</span>, <span style="color: #b58900;">B</span> {}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Y</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">A</span> {
+    <span style="color: #b58900;">B</span> <span style="color: #268bd2;">makeB</span>() {
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Anonymous inner class:</span>
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">B</span>() {};
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MultiInterfaces</span> {
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">takesA</span>(<span style="color: #b58900;">A</span> <span style="color: #268bd2;">a</span>) {}
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">takesB</span>(<span style="color: #b58900;">B</span> <span style="color: #268bd2;">b</span>) {}
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">X</span> <span style="color: #268bd2;">x</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">X</span>();
+        <span style="color: #b58900;">Y</span> <span style="color: #268bd2;">y</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Y</span>();
+        takesA(x);
+        takesA(y);
+        takesB(x);
+        takesB(y.makeB());
+    }
+}
+</pre>
+</div>
+</li>
+<li>但是如果你真的遇到了两个class(不是接口)的情况,而这两个class是lib里面的,不是
+你自己实现的,那么你只有老实的使用inner class了
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> <span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">D</span> {}
+<span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">E</span> {}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Z</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">D</span> {
+    <span style="color: #b58900;">E</span> <span style="color: #268bd2;">makeE</span>() { <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">E</span>() {};}
+}
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MultiImplementation</span> {
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">takesD</span>(<span style="color: #b58900;">D</span> <span style="color: #268bd2;">d</span>) {}
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">takesE</span>(<span style="color: #b58900;">E</span> <span style="color: #268bd2;">e</span>) {}
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Z</span> <span style="color: #268bd2;">z</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Z</span>();
+        takesD(z);
+        takesE(z.makeE());
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-8-1" class="outline-4">
+<h4 id="sec-1-8-1">Closures &amp; callbacks</h4>
+<div class="outline-text-4" id="text-1-8-1">
+<ul class="org-ul">
+<li>closure的定义是:保留创建它的scope信息的一个可以调用的对象(A callable object
+that retains information from the scope in which it was created)
+</li>
+<li>inner class其实就是一个OO的closure.因为它包含了outer class的ref! 这就意味着
+它可以访问外部的一切,包括private对象!
+</li>
+<li>许多其他的语言使用pointer的一个巨大的优势就是, pointer可以指向原来的对象.这样
+子,你可以时不时的访问原来的object,也就是callback
+</li>
+<li>java没有创建pointer,所以在inner class里面有outer ref的这个事实,让它可以作为
+callback的那个用法,同时又不用引入指针
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">Incrementable</span> {
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">increment</span>();
+}
+
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Very simple to just implement the interface</span>
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Callee1</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Incrementable</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">increment</span>() {
+        i++;
+        System.out.println(i);
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MyIncrement</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">increment</span>() {
+        System.out.println(<span style="color: #2aa198;">"Other operation"</span>);
+    }
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>(<span style="color: #b58900;">MyIncrement</span> <span style="color: #268bd2;">mi</span>) {
+        mi.increment();
+    }
+}
+
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">If your class must implement increment() in</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">some other way, you must use an inner class</span>
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Callee2</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">MyIncrement</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">increment</span>() {
+        <span style="color: #859900; font-weight: bold;">super</span>.increment();
+        i++;
+        System.out.println(i);
+    }
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Closure</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Incrementable</span> {
+        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">increment</span>() {
+            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">specifiy outer-class method, otherwise</span>
+            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">you'd get an infinite recursion:</span>
+            Callee2.<span style="color: #859900; font-weight: bold;">this</span>.increment();
+        }
+    }
+    <span style="color: #b58900;">Incrementable</span> <span style="color: #268bd2;">getCallbackReference</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Closure</span>();
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Caller</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Incrementable</span> <span style="color: #268bd2;">callbackReference</span>;
+    Caller(<span style="color: #b58900;">Incrementable</span> <span style="color: #268bd2;">cbn</span>) {
+        callbackReference = cbn;
+    }
+    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">go</span>() {
+        callbackReference.increment();
+    }
+}
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Callbacks</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">Callee1</span> <span style="color: #268bd2;">c1</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Callee1</span>();
+        <span style="color: #b58900;">Callee2</span> <span style="color: #268bd2;">c2</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Callee2</span>();
+        MyIncrement.f(c2);
+        <span style="color: #b58900;">Caller</span> <span style="color: #268bd2;">caller1</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Caller</span>(c1);
+        <span style="color: #b58900;">Caller</span> <span style="color: #268bd2;">caller2</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Caller</span>(c2.getCallbackReference());
+        caller1.go();
+        caller1.go();
+        caller2.go();
+        caller2.go();
+    }
+}
+
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Other operation                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1                                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1                                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">2                                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Other operation                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">2                                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Other operation                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">3                                              //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>上面的例子中caller1是传统的用法, 而caller2就是callback的用法了,其优点是可以
+动态的决定使用哪个method
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8-2" class="outline-4">
+<h4 id="sec-1-8-2">Inner classes &amp; control frameworks</h4>
+<div class="outline-text-4" id="text-1-8-2">
+<ul class="org-ul">
+<li>介绍control framework之前,我们先介绍一下什么是application framework:
+<pre class="example">
+An application framework is a class or a set of classes that's designed
+to solve a particular type of problem
+</pre>
+</li>
+<li>光说定义没用,说说用法就更容易理解了:比如有一个application framework,你使用
+的方法是继承其中的class,然后覆写其中的method. 你覆写的内容就是application 
+framework为你解决的问题的具体配置.这也就是Template Method 设计模式
+</li>
+<li>所有的设计模式,其核心是把"things that change"和"things that stay the same"
+区分开. 在Template Method里面,原来的method就"things that stay the same",而
+你覆写的部分就是"things that change"
+</li>
+<li>所谓control framework,其实就是application framework里面负责响应event的
+framework
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9">Inheriting from inner classes</h3>
+<div class="outline-text-3" id="text-1-9">
+<ul class="org-ul">
+<li>还是因为inner class会保留一个outer class 的ref,所以你直接inherit inner class
+的时候,会有一些麻烦:你必须负责把secret的部分(也就是outer class)初始化
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">innerclasses</span>;
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">WithInner</span> {
+    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Inner</span> {}
+}
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">InheritInner</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #268bd2; font-weight: bold;">WithInner</span>.<span style="color: #b58900;">Inner</span> {
+    <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">! InheritInner() {} // Won't compile</span>
+    InheritInner(<span style="color: #b58900;">WithInner</span> <span style="color: #268bd2;">wi</span>) {
+        wi.<span style="color: #859900; font-weight: bold;">super</span>();
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900;">WithInner</span> <span style="color: #268bd2;">wi</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">WithInner</span>();
+        <span style="color: #b58900;">InheritInner</span> <span style="color: #268bd2;">ii</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">InheritInner</span>(wi);
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-10" class="outline-3">
+<h3 id="sec-1-10">Can inner classes be overridden?</h3>
+</div>
+<div id="outline-container-sec-1-11" class="outline-3">
+<h3 id="sec-1-11">Local inner classes</h3>
+</div>
+<div id="outline-container-sec-1-12" class="outline-3">
+<h3 id="sec-1-12">Inner-class identifiers</h3>
+<div class="outline-text-3" id="text-1-12">
+<ul class="org-ul">
+<li>所有inner class都会被编译一个.class文件出来,只不过名字格式会包括outer class,
+形如: OuterClass$InnerClass.class
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

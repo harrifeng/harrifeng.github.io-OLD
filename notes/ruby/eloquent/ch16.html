@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 16: Use Modules as Mixins</title>
+<!-- 2014-07-18 Fri 16:03 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 16: Use Modules as Mixins</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Use Modules as Mixins</a>
+<ul>
+<li><a href="#sec-1-1">Better Books with Modules</a></li>
+<li><a href="#sec-1-2">Mixin Modules to the Rescue</a></li>
+<li><a href="#sec-1-3">Extending a Module</a></li>
+<li><a href="#sec-1-4">Staying Out of Trouble</a></li>
+<li><a href="#sec-1-5">In the Wild</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Use Modules as Mixins</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>上一节我们讲到ruby class(其实也是所有OO语言中的class)的两个作用:
+<ul class="org-ul">
+<li>instance的factory
+</li>
+<li>method和variable的container
+</li>
+<li>其实还有第三个,就是作为一个super class. 设计类第一步就是要选择是否继承,和
+到底继承谁.继承了某个class,也就继承了一大笔财富(或者负担)
+</li>
+</ul>
+</li>
+<li>Ruby和其他语言不一样的地方.是它不单单可以通过"继承"来获取一些函数或者变量,还
+可以通过mix in的方法来获取(在module的帮助下)
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Better Books with Modules</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>我们经常会使用一些"陈词滥调", 我们设计了一段代码来统计content里面,有多少"陈
+词滥调"
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  attr_accessor <span style="color: #DF7921; font-weight: bold;">:content</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(content)
+    <span style="color: #C1C144;">@content</span> = content
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #DADADA;">CLICHES</span> = [ <span style="color: #A2925E;">/play fast and loose/</span>,
+              <span style="color: #A2925E;">/make no mistake/</span>,
+              <span style="color: #A2925E;">/does the trick/</span>,
+              <span style="color: #A2925E;">/off and running/</span>,
+              <span style="color: #A2925E;">/my way or the highway/</span>]
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">number_of_cliches</span>
+    <span style="color: #DADADA;">CLICHES</span>.inject(0) <span style="color: #4856F7; font-weight: bold;">do</span> |count, pharse|
+      count += 1 <span style="color: #4856F7; font-weight: bold;">if</span> pharse =~ content
+      count
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+doc = <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">"off and running, make mistake,hello world, my way or the \</span>
+<span style="color: #A2925E;">highway does the trick"</span>)
+puts doc.number_of_cliches
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">3                                              #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>我可以看到上面代码中,再次使用了inject.
+</li>
+<li>这段代码经历了时间的考验,得到了很多人的认同,所以想不加更改的加入到一个新的
+和原来完全没有关系的class(叫做ElectronicBook)里面.
+</li>
+<li>在其他语言里面,我们可能会把这段代码提交到一个公共的base class,比如叫做Tome,
+把number_of_cliches放入Tome,然后让ElectronicBook和Document都去继承Tome.这种
+做法评价起来也就是将将能用.如果公用的代码很多,也不方便重构到共同的base class里面
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Mixin Modules to the Rescue</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>Ruby当然有更好的解决方案啦.那就是使用Module进行mixin. 首先把number_of_cliche
+     放入一个module里面
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">WritingQuality</span>
+  <span style="color: #DADADA;">CLICHES</span> =[ <span style="color: #A2925E;">/play fast and loose/</span>,
+             <span style="color: #A2925E;">/make no mistake/</span>,
+             <span style="color: #A2925E;">/does the trick/</span>,
+             <span style="color: #A2925E;">/off and running/</span>,
+             <span style="color: #A2925E;">/my way or the highway/</span>
+           ]
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">number_of_cliches</span>
+    <span style="color: #DADADA;">CLICHES</span>.inject(0) <span style="color: #4856F7; font-weight: bold;">do</span> |count, phrae|
+      count += 1 <span style="color: #4856F7; font-weight: bold;">if</span> pharse =~content
+      count
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>注意, number_of_cliches在这里是一个instance method in the module(没有self),
+而有self的叫做model-level method
+</li>
+<li>然后我们在两个class里面都include 这个module
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  include <span style="color: #DADADA;">WritingQuality</span>
+
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Lots of stuff omitted...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">ElectronicBook</span> &lt; <span style="color: #DADADA;">ElectronicText</span>
+  include <span style="color: #DADADA;">WritingQuality</span>
+
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Lots of stuff omitted...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>Module的魅力,还在于能够在一个代码里面include多个module,这更减小了代码量,提
+高了代码质量,非常灵活
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">ElectronicBook</span> &lt; <span style="color: #DADADA;">ElectronicText</span>
+  include <span style="color: #DADADA;">WritingQuality</span>
+  include <span style="color: #DADADA;">ProjectManagement</span>
+  include <span style="color: #DADADA;">AuthorAccountTracking</span>
+
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Lots of stuff omitted</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Extending a Module</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>上面的做法,是把某个module里面的代码引入到某个class里面,成为其"instance method",
+如果我想让module里面的代码变成"class method",那么就应该这样
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Finders</span>
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">find_by_name</span>(name)
+    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Find a doc by name</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">find_by_id</span>(doc_id)
+    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Find a doc by id</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Most of the class omitted</span>
+  <span style="color: #4856F7; font-weight: bold;">class</span> &lt;&lt; <span style="color: #C1C144;">self</span>
+    include <span style="color: #DADADA;">Finders</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>这实在是一招"语法糖"了,需要细细解释:
+<ul class="org-ul">
+<li>首先,我们的method在Module里面都是普通的instance method
+</li>
+<li>其次,我们使用了class &lt;&lt; self, 这里的self指的是类Class的instance(Document),
+引入了Finder的话,那么就让instance Document有了两个singleton method.
+</li>
+<li>instance Document的singleton method,其实也就是class Document的class method
+从使用方法就看出来了.都是调用Document(而不是其instance,比如doc)
+<div class="org-src-container">
+
+<pre class="src src-ruby">war_and_peace = <span style="color: #DADADA;">Document</span>.find_by_name(<span style="color: #A2925E;">'War And Peace'</span>)
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>把module中的method作为singleton method引入Class的instance的做法,一是太难以
+为新手所理解,二来使用频繁.所以Ruby直接发明了一个关键字extend
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  extend <span style="color: #DADADA;">Finders</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Most of the class omitted</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>这样一写,你的Document也就可以使用Document.find_by_name和Document.find_by_id
+     了
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Staying Out of Trouble</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>Module插入的这种方法,和singleton插入的方法很类似,都是编译器默默的为你生成一
+个"中间的状态".
+<pre class="example">
++-----------+
+|  Object   |
+|           |
++-----^-----+
+      |
+      +-----------+
+                  |
+            +--------------+
+            |WritingQuality|
+            |              |
+            +-----+--------+
+                  |
+      +-----------+
+      |
++-----------+
+|  Document |
+|           |
++-----------+
+</pre>
+</li>
+<li>但是你在使用class 函数的时候(mix in了),是发现不了中间状态的.但是你使用
+Instance_Name.kind_of?(ModuleName)是可以发现你是否include或者extend了这个
+module的. 注意一定要使用instance来调用kind_of?
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">M1</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">M2</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Foo</span>
+  include <span style="color: #DADADA;">M1</span>
+  extend <span style="color: #DADADA;">M2</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+puts <span style="color: #DADADA;">Foo</span>.class
+puts <span style="color: #A2925E;">"---Foo.new is a instance---"</span>
+puts <span style="color: #DADADA;">Foo</span>.new.kind_of?(<span style="color: #DADADA;">M1</span>)
+puts <span style="color: #DADADA;">Foo</span>.kind_of?(<span style="color: #DADADA;">M1</span>)
+
+puts <span style="color: #A2925E;">"---Foo is a class Class's instance---"</span>
+puts <span style="color: #DADADA;">Foo</span>.kind_of?(<span style="color: #DADADA;">M2</span>)
+puts <span style="color: #DADADA;">Foo</span>.new.kind_of?(<span style="color: #DADADA;">M2</span>)
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Class                                          #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">---Foo.new is a instance---                    #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">true                                           #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">false                                          #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">---Foo is a class Class's instance---          #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">true                                           #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">false                                          #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>ancestors函数可以返回完整的"继承上的先驱", 但是只有include的,没有extend的
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">M1</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">M2</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Foo</span>
+  include <span style="color: #DADADA;">M1</span>
+  extend <span style="color: #DADADA;">M2</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+p <span style="color: #DADADA;">Foo</span>.ancestors
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">[Foo, M1, Object, Kernel, BasicObject]         #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>因为从原理上来讲,其实Module是创建了一个"隐藏的superclass",所以module引入的这
+些函数都是从"superclass"来的"遗产". 所以当继承序列后面的class不想使用这些method
+的时候,它们可以选择override这些函数(重新写一个函数,来掩盖原来的函数)
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  incldue <span style="color: #DADADA;">WritingQuality</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">For Political Book, cliche's number is None</span>
+<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">PoliticalBook</span> &lt; <span style="color: #DADADA;">Document</span>
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">number_of_cliches</span>
+    0
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>由于include一次module就会引入一个"隐藏的superclass", 多次include以后,多个
+superclass排列的顺序是,先来的最root,后来的最接近当前的class,所以如果在多个被
+include的module里面有同名的函数的话,最后include的module里面的函数会最终获得
+胜利(当然,如果当前class也实现了一份,它是最最会获得胜利的)
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">In the Wild</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>Rails代码里面使用Module定义了无数的help function
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">ActionView</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Huge amouts of code and helpful documentation omitted...</span>
+  <span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Helpers</span>
+    <span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">FormHelper</span>
+      <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">label</span>(object_name, method, text = <span style="color: #C1C144;">nil</span>, options = {})
+        <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+      <span style="color: #4856F7; font-weight: bold;">end</span>
+
+      <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">radio_button</span>(ojbect_name, method, tag_value, options={})
+      <span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>Module的另一大用处"放常量", 被sqlite3 gem使用的恰到好处
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">ErrorCode</span>
+  <span style="color: #DADADA;">OK</span>          = 0     <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Successful result</span>
+  <span style="color: #DADADA;">ERROR</span>       = 1     <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">SQL error or missing database</span>
+  <span style="color: #DADADA;">INTERNAL</span>    = 2     <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">An internal logic error in SQLite</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>前面说过常量要这样使用ErrorCode::OK, 但是你include了以后,肯定是可以直接使用的
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">SomeSQLiteApplication</span>
+  include <span style="color: #DADADA;">ErrorCode</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">print_status_message</span>(status)
+    <span style="color: #4856F7; font-weight: bold;">if</span> status == <span style="color: #DADADA;">ERROR</span>
+      puts <span style="color: #A2925E;">"It failed!"</span>
+    <span style="color: #4856F7; font-weight: bold;">elsif</span> status == <span style="color: #DADADA;">OK</span>
+      puts <span style="color: #A2925E;">"It worked!"</span>
+    <span style="color: #4856F7; font-weight: bold;">else</span>
+      puts <span style="color: #A2925E;">"Status was</span><span style="color: #C1C144;"> #{status}</span><span style="color: #A2925E;">"</span>
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

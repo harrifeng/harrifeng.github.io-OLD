@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 10: Construct Your Classes from Short, Focused Methods</title>
+<!-- 2014-07-18 Fri 16:03 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 10: Construct Your Classes from Short, Focused Methods</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Construct Your Classes from Short, Focused Methods</a>
+<ul>
+<li><a href="#sec-1-1">Compressing Specifications</a></li>
+<li><a href="#sec-1-2">Composing Methods for Humans</a></li>
+<li><a href="#sec-1-3">Composing Ruby Methods</a></li>
+<li><a href="#sec-1-4">One Way Out?</a></li>
+<li><a href="#sec-1-5">Staying Out of Trouble</a></li>
+<li><a href="#sec-1-6">In the Wild</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Construct Your Classes from Short, Focused Methods</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Ruby设计函数的原则和Unix一样:
+<pre class="example">
+short methods that stick to doing one thing and doing it well
+</pre>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Compressing Specifications</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>讲解函数设计的技巧就必须得通过例子,下面是一个压缩字符串的例子.一个字符串被
+输入后会被分解成两个array, 一个array放所有出现过的单词(多次出现只写一次,更
+像是一个set).另外一个array保存单词出现的位置,一个新学ruby的人会马上堆出如下
+代码
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">TextCompressor</span>
+  attr_reader <span style="color: #DF7921; font-weight: bold;">:unique</span>, <span style="color: #DF7921; font-weight: bold;">:index</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(text)
+    <span style="color: #C1C144;">@unique</span> = []
+    <span style="color: #C1C144;">@index</span> = []
+
+    words = text.split
+    words.each <span style="color: #4856F7; font-weight: bold;">do</span> |word|
+      i = <span style="color: #C1C144;">@unique</span>.index( word )
+      <span style="color: #4856F7; font-weight: bold;">if</span> i
+        <span style="color: #C1C144;">@index</span> &lt;&lt; i
+      <span style="color: #4856F7; font-weight: bold;">else</span>
+        <span style="color: #C1C144;">@unique</span> &lt;&lt; word
+        <span style="color: #C1C144;">@index</span> &lt;, unique.size - 1
+      <span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+text = <span style="color: #A2925E;">"This specification is the spec for a specification"</span>
+compressor = <span style="color: #DADADA;">TextCompressor</span>.new(text)
+</pre>
+</div>
+</li>
+<li>这个版本只能说差强人意,我们试着改编一下,让它看起来更加的清晰
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">TextCompressor</span>
+  attr_reader <span style="color: #DF7921; font-weight: bold;">:unique</span>, <span style="color: #DF7921; font-weight: bold;">:index</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(text)
+    <span style="color: #C1C144;">@unique</span> = []
+    <span style="color: #C1C144;">@index</span> = []
+
+    words = text.split
+    words.each <span style="color: #4856F7; font-weight: bold;">do</span> |word|
+      i = unique_index_of(word)
+      <span style="color: #4856F7; font-weight: bold;">if</span> i
+        <span style="color: #C1C144;">@index</span> &lt;&lt; i
+      <span style="color: #4856F7; font-weight: bold;">else</span>
+        <span style="color: #C1C144;">@index</span> &lt;, add_unique_word(word)
+      <span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">unique_index_of</span>(word)
+    <span style="color: #C1C144;">@unique</span>.index(word)
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">add_unique_word</span>(word)
+    <span style="color: #C1C144;">@unique</span> &lt;&lt; word
+    unique.size - 1
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>这个版本已经进步很大了,我们把繁琐的"加入array"的代码写成了method放在别的地
+方,减轻了我们阅读initialize函数的负担,但是initialize依然看起来十分的臃肿
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">TextCompressor</span>
+  attr_reader <span style="color: #DF7921; font-weight: bold;">:unique</span>, <span style="color: #DF7921; font-weight: bold;">:index</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initiaize</span>(text)
+    <span style="color: #C1C144;">@unique</span> = []
+    <span style="color: #C1C144;">@index</span> = []
+    add_text(text)
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">add_text</span>(text)
+    words = text.split
+    words.each {|word| add_word(word)}
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">add_word</span>(word)
+    i = unique_index_of(word) || add_unique_word(word)
+    <span style="color: #C1C144;">@index</span> &lt;&lt; i
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">unique_index_of</span>(word)
+    <span style="color: #C1C144;">@unique</span>.index(word)
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">add_unique_word</span>(word)
+    <span style="color: #C1C144;">@unique</span> &lt;&lt; word
+    unique.size  - 1
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>这个版本才是真正的ruby的写法, initialize清晰,每个函数都很简短.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Composing Methods for Humans</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>我们上面对TextCompressor类的改编在学术上叫做"Composed method"技法,其核心是
+将函数分解成满足如下三个条件的函数:
+<ul class="org-ul">
+<li>每个函数只做一件事情,这样既易于书写,又易于理解
+</li>
+<li>每个函数只处理一个level的概念
+</li>
+<li>每个函数短到它的名字就可以概括它的作用
+</li>
+</ul>
+</li>
+<li>书写简短,名字非常容易理解的函数的意义,不是为了computer着想,而是为了你.为了
+你能更好的处理细节
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Composing Ruby Methods</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>ruby创建method的代价很小,而且小的函数为你提供了更多的"插口",也更容易的书写
+测试用例
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">One Way Out?</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>Ruby设计了一种最后一行不用说就是返回值的做法,这不是偶然的. 先看一个新手的ruby
+代码例子
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">prose_rating</span>
+    <span style="color: #4856F7; font-weight: bold;">if</span> pretentious_density &gt; 0.3
+      <span style="color: #4856F7; font-weight: bold;">if</span> informal_density &lt; 0.2
+        <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:really_pretentious</span>
+      <span style="color: #4856F7; font-weight: bold;">else</span>
+        <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:somewhat_pretentious</span>
+      <span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #4856F7; font-weight: bold;">elsif</span> pretentious_density &lt; 0.1
+      <span style="color: #4856F7; font-weight: bold;">if</span> informal_density &gt; 0.3
+        <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:really_informal</span>
+      <span style="color: #4856F7; font-weight: bold;">end</span>
+      <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:somewhat_informal</span>
+    <span style="color: #4856F7; font-weight: bold;">else</span>
+      <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:about_right</span>
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">pretentious_density</span>
+    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">informal_density</span>
+    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>这是在其他语言里面最常见不过的代码,但是ruby不喜欢这样.ruby非常喜欢的就是"一
+行代码"的函数! 这一行也就是返回值.这就是为什么ruby要设计成最后一行默认是返
+回值. 我们来看看"一行代码"的函数的魅力
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">prose_rating</span>
+  <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:really_pretentious</span> <span style="color: #4856F7; font-weight: bold;">if</span> really_pretentious?
+  <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:somewhat_pretentious</span> <span style="color: #4856F7; font-weight: bold;">if</span> somewhat_pretentious?
+  <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:really_informal</span> <span style="color: #4856F7; font-weight: bold;">if</span> really_informal?
+  <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:somewhat_informal</span> <span style="color: #4856F7; font-weight: bold;">if</span> somewhat_informal?
+  <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:about_right</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">really_pretentious?</span>
+  pretentious_density &gt; 0.3 &amp;&amp; informal_density &lt; 0.2
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">somewhat_pretentious?</span>
+  pretentious_density &gt; 0.3 &amp;&amp; informal_density &gt;= 0.2
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">really_informal?</span>
+  pretentious_density &lt; 0.1 &amp;&amp; informal_density &gt; 0.3
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">somewhat_informal?</span>
+  pretentious_density &lt; 0.1 &amp;&amp; informal_density &lt;= 0.3
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">pretentious_density</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">informal_density</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Staying Out of Trouble</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>我们前面将了太多将函数设计的极简成一行的办法,但是你要了解虽然我们要求简单,
+但是也得要有意义.函数虽然设计成一行了,但是啥都没干,也没意义.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">In the Wild</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>在"简短而有意义"的ruby函数设计的实践中,rails一定是做的最好的.比如rails会把
+下面的代码变得非常有意义
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Employee</span> &lt; <span style="color: #DADADA;">ActiveRecord</span>::<span style="color: #DADADA;">Base</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>我们来看看base.rb里面是如何实现ActiveRecord::Base的
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">find</span>(*args)
+  options = args.extract_options!
+  validate_find_options(options)
+  set_readonly_option!(options)
+
+  <span style="color: #4856F7; font-weight: bold;">case</span> args.first
+  <span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #DF7921; font-weight: bold;">:first</span> <span style="color: #4856F7; font-weight: bold;">then</span> find_initial(options)
+  <span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #DF7921; font-weight: bold;">:last</span> <span style="color: #4856F7; font-weight: bold;">then</span> find_last(options)
+  <span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #DF7921; font-weight: bold;">:all</span> <span style="color: #4856F7; font-weight: bold;">then</span> find_every(options)
+  <span style="color: #4856F7; font-weight: bold;">else</span> find_from_ids(args, options)
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>虽然你不一定了解这些代码里面是干什么的,但是从rails生动的函数命名来说,你已经
+了解了他们的功能.
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 15: Use Modules as Name Spaces</title>
+<!-- 2014-07-18 Fri 16:03 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 15: Use Modules as Name Spaces</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Use Modules as Name Spaces</a>
+<ul>
+<li><a href="#sec-1-1">A Place for Your Stuff, with a Name</a></li>
+<li><a href="#sec-1-2">A Home for Those Utility Methods</a></li>
+<li><a href="#sec-1-3">Building Modules a Little at a Time</a></li>
+<li><a href="#sec-1-4">Treat Modules Like the Objects That They Are</a></li>
+<li><a href="#sec-1-5">Staying Out of Trouble</a></li>
+<li><a href="#sec-1-6">In the Wild</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Use Modules as Name Spaces</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">A Place for Your Stuff, with a Name</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>Ruby的class第一是一个创建object的工厂, 第二是一个把method和variable装在一起
+的container
+</li>
+<li>而Ruby的Module,则只是一个container,它不能创建object. Module包罗万象,可以包
+括:
+<ul class="org-ul">
+<li>method
+</li>
+<li>constant
+</li>
+<li>class
+</li>
+<li>other module
+</li>
+</ul>
+</li>
+<li>先看下面的一个module的例子,其中包括两个class, 其最明显的作用体现出来了:能把
+相关联的class聚集在一起. 更重要的优点是,你在Rendering的module里面定义了Font
+等于给Font了一层namespace,即便再其他Module里面也定义了Font,也不用害怕了.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Rendering</span>
+  <span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Font</span>
+    attr_accessor <span style="color: #DF7921; font-weight: bold;">:name</span>, <span style="color: #DF7921; font-weight: bold;">:weight</span>, <span style="color: #DF7921; font-weight: bold;">:size</span>
+
+    <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(name, weight=<span style="color: #DF7921; font-weight: bold;">:normal</span>, size=10)
+      <span style="color: #C1C144;">@name</span> = name
+      <span style="color: #C1C144;">@weight</span> = weight
+      <span style="color: #C1C144;">@wize</span> = size
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+
+    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">PaperSize</span>
+    attr_accessor <span style="color: #DF7921; font-weight: bold;">:name</span>, <span style="color: #DF7921; font-weight: bold;">:width</span>, <span style="color: #DF7921; font-weight: bold;">:height</span>
+
+    <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(name=<span style="color: #A2925E;">'US Let'</span>, width=8.5, height=11.0)
+      <span style="color: #C1C144;">@name</span> = name
+      <span style="color: #C1C144;">@width</span> = width
+      <span style="color: #C1C144;">@height</span> = height
+    <span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>Module还可也用来"存放"const(其实class name也是一种const,所以放const没有什么
+奇怪的)
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Rendering</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Font and PaperSize classes omitted...</span>
+
+  <span style="color: #DADADA;">DEFAULT_FONT</span> = <span style="color: #DADADA;">Font</span>.new(<span style="color: #A2925E;">'default'</span>)
+  <span style="color: #DADADA;">DEFAULT_PAPER_SIZE</span> = <span style="color: #DADADA;">PaperSize</span>.new
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>使用方法是加::, 比如Render::DEFAULT_PAPER_SIZE
+</li>
+<li>Module还是相互间可以嵌套的
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">WordProcessor</span>
+  <span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Rndering</span>
+    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">A Home for Those Utility Methods</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>Module是一切helper函数(不知道放到哪里合适的函数)的理想的放置场所.比如我们的
+文字处理的module里面可能会有一些设计进制转换的helper函数
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">WordProcessor</span>
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.points_to_inches</span>(points)
+    points / 72.0
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.inches_to_points</span>(inches)
+    inches * 72.0
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>调用module的常量,使用::, 函数的话也可以使用::, 但是更多的人喜欢使用"."
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Building Modules a Little at a Time</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>Module暴露自己是namespace的地方在于使用方法:
+<ul class="org-ul">
+<li>我们在font.rb里面写下如下代码
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Rendering</span>
+  <span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Font</span>
+    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Bulk of class omitted...</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>我们在paper_size.rb里面定义了下面的代码
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Rendering</span>
+  <span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">PaperSize</span>
+    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Bulk of class omitted...</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #DADADA;">DEFAULT_PAPER_SIZE</span> = <span style="color: #DADADA;">PaperSize</span>.new
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>我们的module被写在了两个地方.然后使用的时候一块require就可以了
+<div class="org-src-container">
+
+<pre class="src src-ruby">require <span style="color: #A2925E;">'font'</span>
+require <span style="color: #A2925E;">'paper_size'</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Treat Modules Like the Objects That They Are</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>Ruby中一切都是对象,Module也是.所以下面的代码可行:
+<div class="org-src-container">
+
+<pre class="src src-ruby">the_module = <span style="color: #DADADA;">Rendering</span>
+
+times_new_roman_font = the_module::<span style="color: #DADADA;">Font</span>.new(<span style="color: #A2925E;">'times-new-roman'</span>)
+</pre>
+</div>
+</li>
+<li>Module既是namespace,又是object的特性,可以用来在running time替换底层的实际起
+作用的代码,比如我们有两种打印机,所以我们把它们分别放到两个module里面:
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">TonsOToner</span>
+  <span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">PrintQueue</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Administration</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">OceansOfInk</span>
+  <span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">PrintQueue</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Administration</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>在使用的时候,就可以根据不同的情况,替换底层的代码
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">if</span> use_laser_printer
+  print_module = <span style="color: #DADADA;">TonsOToner</span>
+<span style="color: #4856F7; font-weight: bold;">else</span>
+  print_module = <span style="color: #DADADA;">OceansOfInk</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Later...</span>
+admin = print_module::<span style="color: #DADADA;">Administration</span>.new
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Staying Out of Trouble</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>判断是否需要给class增加一个Module的方法,是看class名字是不是很多都有相同的前
+缀.如果有很多HelloWorld_XXX,那么就干脆创建一个HelloWorld的Module
+</li>
+<li>Module和Module不要嵌套的太深,我们需要简洁的代码
+</li>
+<li>要理解两种Module里面"直接"嵌套的method的不同:
+<ul class="org-ul">
+<li>如果你像mix into其他代码,那么这么写
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">WordProcessor</span>
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">points_to_inches</span>(points)
+    points / 72.0
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>如果是要做helper函数,那么这么写
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">WordProcessor</span>
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.points_to_inches</span>(points)
+    points / 72.0
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">In the Wild</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>DataMapper是一个运用Module非常好的例子
+</li>
+<li>RubyGems也是一个14000行的module的代码.
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

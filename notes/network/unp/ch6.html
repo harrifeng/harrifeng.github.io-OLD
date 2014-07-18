@@ -1,0 +1,1615 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 6:  I/O Multiplexing: The select and poll Functions</title>
+<!-- 2014-07-18 Fri 16:04 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 6:  I/O Multiplexing: The select and poll Functions</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">I/O Multiplexing: The select and poll Functions</a>
+<ul>
+<li><a href="#sec-1-1">Introduction</a></li>
+<li><a href="#sec-1-2">I/O Models</a>
+<ul>
+<li><a href="#sec-1-2-1">Blocking I/O Model</a></li>
+<li><a href="#sec-1-2-2">Nonblocking I/O Model</a></li>
+<li><a href="#sec-1-2-3">I/O Multiplexing Model</a></li>
+<li><a href="#sec-1-2-4">Signal-Driven I/O Model</a></li>
+<li><a href="#sec-1-2-5">Asynchronous I/O Model</a></li>
+<li><a href="#sec-1-2-6">Comparison of the I/O Models</a></li>
+<li><a href="#sec-1-2-7">Synchronous I/O versus Asynchronous I/O</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">select Function</a>
+<ul>
+<li><a href="#sec-1-3-1">Under What Conditions Is a Descriptor Ready?</a></li>
+<li><a href="#sec-1-3-2">Maximum Number of Descriptors for select</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">str_cli Function (Revisited)</a></li>
+<li><a href="#sec-1-5">Batch Input and Buffering</a></li>
+<li><a href="#sec-1-6">shutdown Function</a></li>
+<li><a href="#sec-1-7">str_cli Function (Revisited Again)</a></li>
+<li><a href="#sec-1-8">TCP Echo Server (Revisited)</a>
+<ul>
+<li><a href="#sec-1-8-1">Denial-of-Service Attacks</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-9">pselect Function</a></li>
+<li><a href="#sec-1-10">poll Function</a></li>
+<li><a href="#sec-1-11">TCP Echo Server(Revisited Again)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">I/O Multiplexing: The select and poll Functions</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Introduction</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>前面TCP client是同时处理两个input: standard input和TCP socket, 这个体系有很
+大的问题:
+<ul class="org-ul">
+<li>client会被block在fgets上面
+</li>
+<li>当server被kill的时候,会发送FIN到client,但是因为client一直在处理standard的
+IO,所以一直等到有机会处理socket IO的时候,才发现,原来我已经被server抛弃了.
+</li>
+</ul>
+</li>
+<li>所以,我们希望能够有一种新的功能:
+<pre class="example">
+       我们能够在某个IO ready的情况下,被kernel通知(这样一来,我们就不必通过循环做busy waiting了).
+</pre>
+</li>
+<li>这种功能已经存在了,名字叫做I/O multiplexing并且是通过select和poll函数实现的
+</li>
+<li>I/O multiplexing在网络中的应用场景有如下:
+<ul class="org-ul">
+<li>当一个client处理多个descriptor的情况,I/O multiplexing必须得应用(这也是前面
+提到的场景)
+</li>
+<li>一个client同时处理多个sockets的情况(不是很常见)
+</li>
+<li>一个server同时吹离listenng socket和connected socket的情况
+</li>
+<li>一个server同时处理TCP和UDP的情况
+</li>
+<li>一个server处理多个服务,并且属于多个协议的情况.
+</li>
+</ul>
+</li>
+<li>I/O multiplexing不仅仅限于网络编程, 也在其他领域有作用
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">I/O Models</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>在我们解释select和poll之前,我们先总结一下Unix下面的五种I/O models:
+<ul class="org-ul">
+<li>blocking I/O
+</li>
+<li>nonblocking I/O
+</li>
+<li>I/O multiplexing (select and poll)
+</li>
+<li>signal driven I/O (SIGIO)
+</li>
+<li>asynchronous I/O(the POSIX aio_ functions)
+</li>
+</ul>
+</li>
+<li>通过前面的例子,我们也知道对于"输入"这个操作, 有两个不同的阶段:
+<ol class="org-ol">
+<li>等待数据的到来
+</li>
+<li>把数据从kernel拷贝到进程
+</li>
+</ol>
+</li>
+<li>对于socket来说,1)就是等待数据从网络上传来,然后数据拷贝到kernel的buffer 2)就
+是把kernel buffer的数据传递到进程的buffer
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">Blocking I/O Model</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>最常见的IO模型是blocking I/O, 默认情况下所有的socket都是blocking的
+<pre class="example">
+                    application       system call          kernel
+                /   recvfrom      ------------------&gt;   no datagram ready \
+                |                                             |           |
+                |                                             |           |
+                |                                             |           |
+                |                                             |           |&gt; wait for data
+                |                                             |           |
+                |                                             V           |
+                |                                       datagram ready    /
+                |
+process blocks  |                                       copy datagram     \
+   in call to  &lt;|                                             |           |
+   recvfrom     |                                             |           |
+                |                                             |           |
+                |                                             |           |
+                |                                             |           |
+                |                                             |           |
+                |                                             |           |&gt; copy data from
+                |                                             |           |  kernel to user
+                |                                             |           |
+                |                                             |           |
+                |                                             |           |
+                |                                             V           |
+                \                   return OK                             |
+                   process      &lt;---------------------- copy complete     /
+                   datagram
+</pre>
+</li>
+<li>我们上面的例子使用的是UDP,因为UDP不涉及到拆分数据包,重组数据包.对于UDP来说,
+数据的"ready"就是要么一个datagram全来了,要么都没来
+</li>
+<li>在整个调用system call recvfrom的时候,我们的process都是被block的,当我们从
+recvfrom函数返回, 我们的application就会开始处理传来的datagram
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2">Nonblocking I/O Model</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>如果设置了socket为nonblocking,我们就有了如下的流程图,言简意赅的解释就是"如
+果我要求的IO操作无法马上返回要被迫进入sleep状态的话,请不要sleep,直接返回给
+我错误得了"
+<pre class="example">
+                    application       system call          kernel
+                /   recvfrom      ---------------&gt;      no datagram ready \
+                |                   EWOULDBLOCK               |           |
+                |                 &lt;--------------             |           |
+                |                                             |           |
+                |   recvfrom      ---------------&gt;      no datagram ready |
+                |                   EWOULDBLOCK               |           |
+                |                 &lt;--------------             |           |
+                |                                             |           |&gt; wait for data
+process repeatly|   recvfrom      ---------------&gt;      no datagram ready |
+calls recvfrom  |                   EWOULDBLOCK               |           |
+waiting for    &lt;|                 &lt;--------------             |           |
+an OK           |                                             |           |
+                |   recvfrom      ---------------&gt;      datagram ready    /
+                |
+                |                                       copy datagram     \
+                |                                             |           |
+                |                                             |           |
+                |                                             |           |
+                |                                             |           |&gt; copy data from
+                |                                             |           |  kernel to user
+                |                                             |           |
+                \                   return OK                             |
+                   process      &lt;---------------------- copy complete     /
+                   datagram
+</pre>
+</li>
+<li>这种设置了nonblocking,然后在循环里面不停调用函数的做法叫做polling.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3">I/O Multiplexing Model</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<ul class="org-ul">
+<li>I/O Multiple Model其实就是利用select来探测数据,然后用recvfrom在确定数据已
+经在的情况下,去调用.
+<pre class="example">
+                   application      system call         kernel
+                  /   select       -----------------&gt;   no datagram ready \
+process blocks    |                                           |           |
+in call to        |                                           |           |
+select waiting    |                                           |           |
+for one of        |                                           |           |
+possibly many    &lt;|                                           |           |&gt; wait for data
+sockets to        |                                           |           |
+become readable   |                   return readable         |           |
+                  |                 &lt;----------------   datagram ready    /
+                  |                    system call
+                  \   recvfrom      ----------------&gt;   copy datagram     \
+                  /                                           |           |
+                  |                                           |           |
+                  |                                           |           |
+                  |                                           |           |
+process blocks    |                                           |           |
+while data        |                                           |           |
+copied into      &lt;|                                           |           |&gt; copy data
+application       |                                           |           |  from kernel
+buffer            |                                           |           |  to user
+                  |                                           |           |
+                  |                                           |           |
+                  |                                           |           |
+                  \                  return OK                            |
+                     process       &lt;-----------------   copy complete     /
+                     datagram
+</pre>
+</li>
+<li>看上去好像非但不比blocking模型有优势,反而多调用了一次select system call. 其
+实不然,因为select函数可以同时等待不止一个descriptor
+</li>
+<li>所以，如果处理的连接数不是很高的话，使用select/epoll的web server不一定比使
+用multi-threading + blocking IO的web server性能更好，可能延迟还更大。
+select/epoll的优势并不是对于单个连接能处理得更快，而是在于能处理更多的连接.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-4" class="outline-4">
+<h4 id="sec-1-2-4">Signal-Driven I/O Model</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<ul class="org-ul">
+<li>Unix系统还为IO设计了一个SIGIO的信号,我们可以通过设置这个信号的handler来达到类
+似select的作用
+<pre class="example">
+                                 sigaction
+              application       system call             kernel
+             / establish SIGIO  ----------------&gt;                    \
+             | signal handler   &lt;----------------                    |
+ process     |                  return                               |
+ continues  &lt;|                                                       |&gt; wait for data
+executing    |                    deliveer SIGIO                     |
+             |  signale handler &lt;----------------    datagram ready  /
+             |                     system call
+             \   recvfrom       ----------------&gt;    copy datagram   \
+             /                                             |         |
+             |                                             |         |
+process      |                                             |         |
+blocks      &lt;|                                             |         |
+when data    |                                             |         |
+copied       |                                             |         |
+into         |                                             |         |&gt; copy data from
+application  |                                             |         |  kernel to user
+             |                                             |         |
+             |                                             |         |
+             |                                             |         |
+             |                                             V         |
+             \                   return OK                           |
+                process        &lt;-----------------    copy complete   /
+                datagram
+</pre>
+</li>
+
+<li>这种处理方法已经有非常大的效率上面的优势了, 这是第一种能有半天空闲的调用方法:
+在第一个阶段,我们通过sigaction之后,进程的main函数可以正常的运行不会block,
+而只有在收到信号,知道肯定有数据ready,正式开始读取数据的适合才block
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-5" class="outline-4">
+<h4 id="sec-1-2-5">Asynchronous I/O Model</h4>
+<div class="outline-text-4" id="text-1-2-5">
+<ul class="org-ul">
+<li>Asynchronous IO是比SIGIO信号法效率更高的处理方式:在数据处理的整个过程中进程
+的main函数都可以自由的运行, 没有block!
+</li>
+<li>我们通过aio_read把descriptor, buffer pointer,buffer size和通知成功的方法
+传递给内核, 这个系统调用会马上返回的(不返回就是block了) 当我们要传的数据都已经
+到我们制定的buffer里面了, 会有一个signal传递给我们的.
+<pre class="example">
+                application      system call          kernel
+            /   aio_read     ------------------&gt;   no datagram ready \
+            |                -------------------         |           |
+            |                                            |           |
+            |                                            |           |
+            |                                            |           |&gt; wait for 
+            |                                            |           |  data
+            |                                            V           |
+            |                                      datagram ready    /
+            |
+process     |                                      copy datagram     \
+continues  &lt;|                                            |           |
+executing   |                                            |           |
+            |                                            |           |
+            |                                            |           |
+            |                                            |           |
+            |                                            |           |
+            |                                            |           |&gt; copy data
+            |                                            |           |  from kernel
+            |                                            |           |  to user
+            |                                            |           |
+            |                                            |           |
+            |                                            V           |
+            \                  deliver signal                        |
+               process     &lt;---------------------- copy complete     /
+               datagram     specified in aio_read
+</pre>
+</li>
+<li>和上面signal-driven IO不同的是:
+<ul class="org-ul">
+<li>上面的signal-driven是说"等IO准备好可以开始拷贝了,再通知我, 我调用其他函
+数来拷贝"
+</li>
+<li>而Asynchronous IO是说"等IO全部拷贝好了再通知我"
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-6" class="outline-4">
+<h4 id="sec-1-2-6">Comparison of the I/O Models</h4>
+<div class="outline-text-4" id="text-1-2-6">
+<ul class="org-ul">
+<li>下面是五种IO的对比,前四种的第二个phase都是一样的:block在recvfrom里面等待
+着读取.Asynchronous IO最不同
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">blocking</th>
+<th scope="col" class="left">nonblocking</th>
+<th scope="col" class="left">I/O mulitplexing</th>
+<th scope="col" class="left">signal-driven I/O</th>
+<th scope="col" class="left">asynchronous I/O</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">initiate</td>
+<td class="left">check</td>
+<td class="left">check</td>
+<td class="left">&#xa0;</td>
+<td class="left">initiate</td>
+</tr>
+
+<tr>
+<td class="left">V</td>
+<td class="left">check</td>
+<td class="left">V</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">V</td>
+<td class="left">check</td>
+<td class="left">V</td>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">V</td>
+<td class="left">check</td>
+<td class="left">ready</td>
+<td class="left">notification</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">V</td>
+<td class="left">V</td>
+<td class="left">initiate</td>
+<td class="left">initiate</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">V</td>
+<td class="left">V</td>
+<td class="left">V</td>
+<td class="left">V</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">V</td>
+<td class="left">V</td>
+<td class="left">V</td>
+<td class="left">V</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">complete</td>
+<td class="left">complete</td>
+<td class="left">complete</td>
+<td class="left">complete</td>
+<td class="left">notification</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-7" class="outline-4">
+<h4 id="sec-1-2-7">Synchronous I/O versus Asynchronous I/O</h4>
+<div class="outline-text-4" id="text-1-2-7">
+<ul class="org-ul">
+<li>POSIX定义下面的两个术语:
+<ul class="org-ul">
+<li>synchronous I/O 操作沪会导致进程阻塞,知道IO操作完成
+</li>
+<li>asynchronous I/O 操作不会导致提出IO要求的进程的阻塞
+</li>
+</ul>
+</li>
+<li>通过定义发现,前四种(blocking, nonblocking, I/O multiplexing, signal-driven
+IO)统统都是synchronous IO. 只有Asynchrous IO符合asynchronous IO的定义.
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">select Function</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>这个函数运行进程指导kernel,让其在某些特定条件下通知自己,比如:
+<ul class="org-ul">
+<li>集合{1,4,5}中有任何一个descriptor准备好读取了
+</li>
+<li>集合{2,7}里面有任何一个descriptor准备好写入了
+</li>
+<li>集合{1,4}里面有任何一个descriptor有了exception情况
+</li>
+<li>10.2秒已经过去了.
+</li>
+</ul>
+</li>
+<li>select的定义如下:
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;sys/select.h&gt;</span>
+<span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;sys/time.h&gt;</span>
+
+<span style="color: #ed5b15;">/*************************************************/</span>
+<span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">Returns: positive count of ready descriptors, </span><span style="color: #ed5b15;">*/</span>
+<span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">0 on timeout, -1 on error                     </span><span style="color: #ed5b15;">*/</span>
+<span style="color: #ed5b15;">/*************************************************/</span>
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">select</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">maxfdp1</span>, <span style="color: #DADADA;">fd_set</span>* <span style="color: #C1C144;">readset</span>, <span style="color: #DADADA;">fd_set</span>* <span style="color: #C1C144;">writeset</span>,
+           <span style="color: #DADADA;">fd_set</span>* <span style="color: #C1C144;">exceptset</span>, <span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">timeval</span>* <span style="color: #C1C144;">timeout</span>);
+</pre>
+</div>
+</li>
+<li>其中timeval的结构如下:
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">timeval</span> {
+    <span style="color: #DADADA;">long</span>   <span style="color: #C1C144;">tv_sec</span>;         <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">secondes </span><span style="color: #ed5b15;">*/</span>
+    <span style="color: #DADADA;">long</span>   <span style="color: #C1C144;">tv_usec</span>;        <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">microseconds </span><span style="color: #ed5b15;">*/</span>
+};
+</pre>
+</div>
+</li>
+<li>我们在时间设置上面有如下几种情况:
+<ol class="org-ol">
+<li>一直等待下去: 我们只希望等待我们指定的descriptor,不想设置超时,那么就把
+timeout参数为NULL
+</li>
+<li>等待一个固定的时间:等待指定的descriptor,但是不能超过一定的时间.那么就把
+timeout设置为具体数据
+</li>
+<li>根本就不等待.如果我们把timeout参数设置为0的话,那么就退化成了busy wait
+的polling.
+</li>
+</ol>
+</li>
+<li>上面所述的1,2两种情况都会受到signal的影响而让select中断(errno为EINTR), 某些
+系统还是可以重启select(设置SA_RESTART), 某些系统还是要while loop重启
+</li>
+<li>timeval的设置还会出现两种"不准"的情况:
+<ul class="org-ul">
+<li>有些系统支持的最小时间精度是10ms,应用到最小精度为ms的tv_usec可能会出现一
+       些错误
+</li>
+<li>有些系统不允许tv_sec设置为某些特别大的不合理的时间(比如1亿秒)
+</li>
+</ul>
+</li>
+<li>timeout的参数有一个const,也就是说,你无法通过返回值来判断,真实的系统完成时间
+为多少(有可能在指定时间之前就完成返回了)
+</li>
+<li>中间三个参数readset, writeset和exceptset的类型都是fd_set*.其实fd_set*
+就是int*(整形数组). 所有的descriptor号码都用整形数组的一个bit表述,比如,
+descritpr为31,那么就是整形数组的第一个参数arr的最后一位bit,通过下面的
+宏,我们可以让fd_set跨平台
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #DADADA;">void</span> <span style="color: #A1A1FF;">FD_ZERO</span>(<span style="color: #DADADA;">fd_set</span> *<span style="color: #C1C144;">fdset</span>);         <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">clear all bitst in fdset </span><span style="color: #ed5b15;">*/</span>
+<span style="color: #DADADA;">void</span> <span style="color: #A1A1FF;">FD_SET</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">fd</span>, <span style="color: #DADADA;">fd_set</span> *<span style="color: #C1C144;">fdset</span>);  <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">turn on the bit for fd in fdset </span><span style="color: #ed5b15;">*/</span>
+<span style="color: #DADADA;">void</span> <span style="color: #A1A1FF;">FD_CLR</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">fd</span>, <span style="color: #DADADA;">fd_set</span> *<span style="color: #C1C144;">fdset</span>);  <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">turn off the bit for fd in fdset </span><span style="color: #ed5b15;">*/</span>
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">FD_ISSET</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">fd</span>, <span style="color: #DADADA;">fd_set</span> *<span style="color: #C1C144;">fdset</span>); <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">is the bit for fd on in fdset? </span><span style="color: #ed5b15;">*/</span>
+</pre>
+</div>
+</li>
+<li>对于exceptset参数来说,其只有下面两种选择(两个bit就够了)
+<ol class="org-ol">
+<li>out-of-band 数据在socket上出现
+</li>
+<li>控制信息出现在了pseudo-terminal上
+</li>
+</ol>
+</li>
+<li>如果我们把中间的三个fd_set*类型的数据设置为NULL的话,我们就得到了一个精度更
+高的sleep(精度为ms). 实际上APUE上面就曾利用过select河poll来实现sleep_us
+</li>
+<li>maxfdp1参数的意思是前多少个descriptor被测试, 比如0,1,2,就是前"三"个descriptor
+被测试(也就是最大的2+1,这也是maxfdp1中, 1的来历),设置"max file descriptor
+加1"的目的是,我们能够减轻内核的负担. "我们保证只有前maxfdp1的会有问题",那么
+就只需要检测[0,mafdp1)的数据啦.
+</li>
+<li>每个进程能够拥有的descriptor的数目是一定的,在&lt;sys/select.h&gt;里面我们定义了
+一个极值FD_SETSIZE(通常是1024)
+</li>
+<li>如果我们把中间的三个fd_set*类型的数据都没有const,也就意味着select会改变他们
+的值:
+<ul class="org-ul">
+<li>在调用select之前我们会把我们感兴趣的bit设置为1, 比如{1,3,4}有兴趣,就都设置
+为1.那么输入就是01011
+</li>
+<li>select返回的时候,所有数据准备好的域都是1, 没准备好的(或者我们开始就设置为0的)
+就还是0.比如13准备好了,那么返回值就是01010
+</li>
+</ul>
+</li>
+<li>函数的返回值代表了此次select有多少的descriptor可以readay了(当然是在我们关注
+的那些descriptor中去选择)
+</li>
+<li>返回值为-1,代表错误(比如返回-1,同时errno为EINTR,那么代表着函数被中断)
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">Under What Conditions Is a Descriptor Ready?</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>对于一个regular file来说,ready for "读"或者"写",都是很容易理解的.但是对于
+socket来说(Unix下面一切皆文件,socket也被看做是一种文件),情况会复杂的多:
+<ol class="org-ol">
+<li>如果一个socket 满足下面任意一个condition就说它"准备好可读"了
+<ul class="org-ul">
+<li>socket receive buffer的值比low-water mark要大(这样read就不会block,
+并且会返回一个大于0的数字), 一般来说SO_RCVLOWAT为这个low-water mark的
+默认值(一般为1)
+</li>
+<li>TCP处于半关闭状态,而且是read半关闭(收到FIN),这个时候read不会block,并且
+会返回0
+</li>
+<li>socket是listening socket,并且completed queue里面的数目大于0, accept
+这个listening socket不会block(有种timing condition会block accept,
+后面会讲到)
+</li>
+<li>会存在socket错误,存在错误的时候,read肯定会返回-1,也肯定不会block
+</li>
+</ul>
+</li>
+<li>如果一个socket 满足下面任意一个condition就说它"准备好可写"了
+<ul class="org-ul">
+<li>在socket send buffer里面的空间大于send buffer的low-water mark,并且要么
+socket是connected, 要么socket不需要connection(UDP).send buffer的low-water
+mark一般数值为SO_SNDLOWAT(一般为2048)
+</li>
+<li>TCP处于半关闭状态,而且是write半关闭(发送FIN),这个时候write会产生SIGPIPE
+信号
+</li>
+<li>使用nonblocing的connect:要么成功完成了connection,要么connect失败
+</li>
+<li>会存在socket错误,存在错误的时候,write肯定会置errno为一个错误状态的.这些错误
+我们是可以通过getsockopt来读取的.
+</li>
+</ul>
+</li>
+<li>如果一个socket有out-of-band的数据,那么肯定返回exception condition pending
+</li>
+</ol>
+</li>
+<li>我们可以看到如果socket上发生了错误,select会标记他"即可读又可写"
+</li>
+<li>如果我们的读写在某一个数值下是无意义的,比如小于64个数据读取无意义,我们可以设置low-water
+mark 为64
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2">Maximum Number of Descriptors for select</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li>我们前面说过,大部分的应用都只会使用一小部分的descriptor,所以FD_SETSIZE的定
+义足够用了.但是如果select想要使用更大数目的descriptor,那么仅仅简单的重定义
+头文件里面的FD_SETSIZE是不够的,还需要重新编译内核.
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">str_cli Function (Revisited)</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>我们前面用两个循环设计过一次str_cli,那个版本的主要问题是client被困在等待两
+个descriptor里面,在server已经关闭的情况下,却完全不知情,一定要再次输入打破
+standard input才能发现socket descriptor的关闭.
+</li>
+<li>下面我们使用select来构建新的版本, select设置standard input和socket两个
+descriptor为其所关心,一旦哪个有可读的就返回.
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">"unp.h"</span>
+
+<span style="color: #DADADA;">void</span> <span style="color: #A1A1FF;">str_cli</span>(<span style="color: #DADADA;">FILE</span> *<span style="color: #C1C144;">fp</span>, <span style="color: #DADADA;">int</span> <span style="color: #C1C144;">sockfd</span>) {
+    <span style="color: #DADADA;">int</span>    <span style="color: #C1C144;">maxfdp1</span>;
+    <span style="color: #DADADA;">fd_set</span> <span style="color: #C1C144;">reset</span>;
+    <span style="color: #DADADA;">char</span>   <span style="color: #C1C144;">sendline</span>[MAXLINE], <span style="color: #C1C144;">recvline</span>[MAXLINE];
+
+    FD_ZERO(&amp;rset);
+    <span style="color: #4856F7; font-weight: bold;">for</span>( ; ;) {
+        FD_SET(fileno(fp), &amp;rset);
+        FD_SET(sockfd, &amp;rset);
+        maxfdp1 = max(fileno(fp), sockfd) + 1;
+        Select(maxfdp1, &amp;rset, <span style="color: #DF7921; font-weight: bold;">NULL</span>, <span style="color: #DF7921; font-weight: bold;">NULL</span>, <span style="color: #DF7921; font-weight: bold;">NULL</span>);
+
+        <span style="color: #4856F7; font-weight: bold;">if</span> (FD_ISSET(sockfd, &amp;rset)) { <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">socket is readable </span><span style="color: #ed5b15;">*/</span>
+            <span style="color: #4856F7; font-weight: bold;">if</span> (Readline(sockfd, recvline, MAXLINE) == 0) {
+                err_quit(<span style="color: #A2925E;">"str_cli: server terminated prematurely"</span>);
+            }
+            Fputs(recvline, stdout);
+        }
+
+        <span style="color: #4856F7; font-weight: bold;">if</span> (FD_ISSET(fileno(fp), &amp;rset)) { <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">input is readable </span><span style="color: #ed5b15;">*/</span>
+            <span style="color: #4856F7; font-weight: bold;">if</span> (Fgets(sendline, MAXLINE, fp) == <span style="color: #DF7921; font-weight: bold;">NULL</span>) {
+                <span style="color: #4856F7; font-weight: bold;">return</span>;    <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">all done </span><span style="color: #ed5b15;">*/</span>
+            }
+            Writen(sockfd, sendline, strlen(sendline));
+        }
+    }
+}
+</pre>
+</div>
+</li>
+<li>从socket的角度,上面的这个程序有如下几个情况需要处理:
+<ol class="org-ol">
+<li>如果peer TCP传递了数据,那么socket就变得可读了.read()会返回一个大于0的数
+</li>
+<li>如果peer TCP发送了一个FIN(peer process结束了,那么我们是passive close),
+所以当前socket也是可读的,read()返回0(对方不想给我们说什么了,所以读取总是
+nothing)
+</li>
+<li>如果peer TCP发送了一个RST(peer host宕机或者重启), 那么socket也会变成readable,
+只不过read()会返回-1. errno也会有相应的设置
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Batch Input and Buffering</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>其实前面我们的str_cli版本依然不是理想的版本(当然,对于interactive的用户来说,
+还不错).但是效率方面非常的差,这种模式叫做stop-and-wait模式,下面这个传输图标
+有如下的假设:
+<ul class="org-ul">
+<li>我们把RTT分成八个相等的时间.
+</li>
+<li>每个request和reply的在两个方向上传输时间相等
+</li>
+<li>server处理的时间为0
+</li>
+<li>忽略其他不重要的时间,如TCP确认,握手,挥手的时间.
+</li>
+</ul>
+
+<div class="figure">
+<p><img src="../../static/images/trans_bad.png" alt="trans_bad.png" />
+</p>
+</div>
+</li>
+
+<li>stop-and-wait模式在处理交互性(interactive)的程序方面有一定优势,但是如果是单
+单从网络传输信息的效率来看,实在是差(1/8的利用率),如果我们只关心网络的利用率,
+希望尽可能快的传输数据,那么我们就进入了batch mode
+</li>
+<li>下图就是batch mode的传输情况,我们可以看到,我们传输的速率是TCP能接受多快,我们就
+传多快,即便当前没有数据: 换句话说就是
+<pre class="example">
+     我们不再是根据newline来发起一次传输,而是如果网络上能同时承受N个包,那么我就
+     每过1/N个RTT时间发送一个包.
+</pre>
+
+<div class="figure">
+<p><img src="../../static/images/trans_batch.png" alt="trans_batch.png" />
+</p>
+</div>
+</li>
+
+<li>利用batch mode的方法发送如果还用上一节的str_cli的话,会面临一个重要的问题:如
+何判断结束:在上一节的str_cli中,我们是通过EOF来判断结束的,但是在batch mode中
+EOF和其他数据一样没有区别:我们只是按频率在发送
+</li>
+<li>比如,上图中,我们假设有8行输入,time7刚好发送完第8行,那么
+<ul class="org-ul">
+<li>如果不关闭connection, time8还是会传输数据.
+</li>
+<li>如果关闭了connection,那么server端还有数据传递怎么办
+</li>
+<li>所以,结论是要half close connection,发送一个FIN给server就行(程序实现的方法是
+shutdown函数)
+</li>
+</ul>
+</li>
+<li>把stdio的函数和select一起使用是非常危险的,因为select并不知道stdio的函数的buffer
+的情况.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">shutdown Function</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>close是关闭网络连接的方法,引入shutdown是为了弥补close的两个局限性:
+<ol class="org-ol">
+<li>前面我们在fork出子进程处理connection的时候说了,close首先只会减少ref
+count,只有你的ref count到达0的时候,它才会真的发起"四次挥手", 但是shutdown
+没有这个问题,只要调用了shutdown,无论ref count是多少,都开始"四次挥手"
+</li>
+<li>TCP是个双向车道(全双工), close一下子就关闭了两个方向的车道.TCP特有
+的half close,就要靠shutdown来实现.
+</li>
+</ol>
+</li>
+<li>shutdown函数声明如下:
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;sys/socket.h&gt;</span>
+
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">shutdown</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">sockfd</span>, <span style="color: #DADADA;">int</span> <span style="color: #C1C144;">howto</span>);
+</pre>
+</div>
+</li>
+<li>howto函数的值有如下:
+<ul class="org-ul">
+<li>SHUT_RD: connection的read half被关闭,不能从socket上再读取任何的数据,socket
+receive buffer里面的数据全部丢弃.以后再从server接受到的数据,会ACK,然后丢弃.
+(因为是无法单方面提起read half close的,所以只是内核标记这个connection无法
+读取了,实际上对方还是可以传递数据过来的,我们也会确认,只是不让应用层读取了)
+</li>
+<li>SHUT_WR: connetion的write half被关闭,不能冲socket上再写入任何数据, socket
+send buffer里面的数据会全部发送完毕.这才是真正的half close(只有write half
+close,没有read half close), 因为可以使用发送FIN到对方的方式来解决.而且无论
+ref descriptor是不是零,都会发送FIN到对方
+</li>
+<li>SHUT_RDWR: read half和write half都关闭,这相当于调用两次shutdown:一次用参数
+SHUT_RD,一次用参数SHUT_WR
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">str_cli Function (Revisited Again)</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>我们来看看引入了shutdonw和select之后的str_cli的代码
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">"unp.h"</span>
+
+<span style="color: #DADADA;">void</span> <span style="color: #A1A1FF;">str_cli</span>(<span style="color: #DADADA;">FILE</span> *<span style="color: #C1C144;">fp</span>, <span style="color: #DADADA;">int</span> <span style="color: #C1C144;">sockfd</span>) {
+    <span style="color: #DADADA;">int</span>     <span style="color: #C1C144;">maxfdp1</span>, <span style="color: #C1C144;">stdineof</span>;
+    <span style="color: #DADADA;">fd_set</span>  <span style="color: #C1C144;">reset</span>;
+    <span style="color: #DADADA;">char</span>    <span style="color: #C1C144;">buf</span>[MAXLINE];
+    <span style="color: #DADADA;">int</span>     <span style="color: #C1C144;">n</span>;
+
+    stdineof = 0;
+    FD_ZERO(&amp;rset);
+    <span style="color: #4856F7; font-weight: bold;">for</span> (; ;) {
+        <span style="color: #4856F7; font-weight: bold;">if</span> (stdineof == 0) {
+            FD_SET(fileno(fp), &amp;rset);
+        }
+
+        FD_SET(sockfd, &amp;rset);
+        maxfdp1 = max(fileno(fp), sockfd) + 1;
+        Select(maxfdp1, &amp;rset, <span style="color: #DF7921; font-weight: bold;">NULL</span>, <span style="color: #DF7921; font-weight: bold;">NULL</span>, <span style="color: #DF7921; font-weight: bold;">NULL</span>);
+
+        <span style="color: #4856F7; font-weight: bold;">if</span> (FD_ISSET(sockfd, &amp;rset)) {   <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">socket is readable </span><span style="color: #ed5b15;">*/</span>
+            <span style="color: #4856F7; font-weight: bold;">if</span> ((n = Read(sockfd, buf, MAXLINE)) == 0) {
+                <span style="color: #4856F7; font-weight: bold;">if</span> (stdineof == 1) {
+                    <span style="color: #4856F7; font-weight: bold;">return</span>;
+                } <span style="color: #4856F7; font-weight: bold;">else</span> {
+                    err_quit(<span style="color: #A2925E;">"str_cli: server terminated prematurely"</span>);
+                }
+                Write(fileno(stdout), buf, n);
+            }
+        }
+        <span style="color: #4856F7; font-weight: bold;">if</span> (FD_ISSET(fileno(fp), &amp;rset)) { <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">input is readable </span><span style="color: #ed5b15;">*/</span>
+            <span style="color: #4856F7; font-weight: bold;">if</span> ((n = Read(fileno(fp), buf, MAXLINE)) == 0) {
+                stdineof = 1;
+                Shutdown(sockfd, SHUT_WR);  <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">send FIN ==&gt; half close </span><span style="color: #ed5b15;">*/</span>
+                FD_CLR(fileno(fp), &amp;rset);
+                <span style="color: #4856F7; font-weight: bold;">continue</span>;
+            }
+            Writen(sockfd, buf, n);
+        }
+    }
+}
+</pre>
+</div>
+</li>
+<li>新的实现引入了一个flag stineof, 初始化的时候为0, 只要这个flag为0,我们就在
+select的时候考虑standard input, 注意EOF是end of line (ctrl + D), 这里命名成
+stdineof的原因是, socket和standard input都最终会有自己的EOF的,而standard
+input的到来更早些,所以我们把它作为一个flag
+</li>
+<li>在读取socket的时候,如果读到socket的EOF,而且此时stdineof也是出现过了(值为1),
+那么说明这是正常的退出, 直接return
+</li>
+<li>在读取standard input的时候读取到EOF,这个时候就把flag stdineof设置为出现(为1),
+然后调用shutdown函数来半关闭.
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">TCP Echo Server (Revisited)</h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>既然我们引入了select,那么我就可以在server端使用select来管理所有的socket(因
+为socket本质上是file). 使用了select的话,多进程(fork)就变得不必要了
+<div class="org-src-container">
+
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #4856F7; font-weight: bold;">#include</span>  <span style="color: #A2925E;">"unp.h"</span>
+<span class="linenr"> 2: </span>
+<span class="linenr"> 3: </span><span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">main</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">argc</span>, <span style="color: #DADADA;">char</span> *<span style="color: #C1C144;">argv</span>[])
+<span class="linenr"> 4: </span>{
+<span class="linenr"> 5: </span>    <span style="color: #DADADA;">int</span>         <span style="color: #C1C144;">i</span>, <span style="color: #C1C144;">maxi</span>, <span style="color: #C1C144;">maxfd</span>, <span style="color: #C1C144;">listenfd</span>, <span style="color: #C1C144;">connfd</span>, <span style="color: #C1C144;">sockfd</span>;
+<span class="linenr"> 6: </span>    <span style="color: #DADADA;">int</span>         <span style="color: #C1C144;">nready</span>, <span style="color: #C1C144;">client</span>[FD_SETSIZE];
+<span class="linenr"> 7: </span>    <span style="color: #DADADA;">ssize_t</span>     <span style="color: #C1C144;">n</span>;
+<span class="linenr"> 8: </span>    <span style="color: #DADADA;">fd_set</span>      <span style="color: #C1C144;">rset</span>, <span style="color: #C1C144;">allset</span>;
+<span class="linenr"> 9: </span>    <span style="color: #DADADA;">char</span>        <span style="color: #C1C144;">buf</span>[MAXLINE];
+<span class="linenr">10: </span>    <span style="color: #DADADA;">socklen_t</span>   <span style="color: #C1C144;">clilen</span>;
+<span class="linenr">11: </span>    <span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">sockaddr_in</span> <span style="color: #C1C144;">cliaddr</span>, <span style="color: #C1C144;">servaddr</span>;
+<span class="linenr">12: </span>
+<span class="linenr">13: </span>    listenfd = Socket(AF_INET, SOCK_STREAM, 0);
+<span class="linenr">14: </span>
+<span class="linenr">15: </span>    bzero(servaddr, <span style="color: #4856F7; font-weight: bold;">sizeof</span>(servaddr));
+<span class="linenr">16: </span>    servaddr.sin_family = AF_INET;
+<span class="linenr">17: </span>    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+<span class="linenr">18: </span>    servaddr.sin_port = htons(SERV_PORT);
+<span class="linenr">19: </span>
+<span class="linenr">20: </span>    Bind(listenfd, (<span style="color: #DADADA;">SA</span>*)&amp;servaddr, <span style="color: #4856F7; font-weight: bold;">sizeof</span>(servaddr));
+<span class="linenr">21: </span>
+<span class="linenr">22: </span>    Listen(listenfd, LISTENQ);
+<span class="linenr">23: </span>
+<span class="linenr">24: </span>    maxfd = listenfd;           <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">initialize </span><span style="color: #ed5b15;">*/</span>
+<span class="linenr">25: </span>    maxi = -1;                  <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">index into client[] array </span><span style="color: #ed5b15;">*/</span>
+<span class="linenr">26: </span>    <span style="color: #4856F7; font-weight: bold;">for</span> (i = 0; i &lt; FD_SETSIZE; i++) {
+<span class="linenr">27: </span>        client[i] = -1;         <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">-1 indicates available entry </span><span style="color: #ed5b15;">*/</span>
+<span class="linenr">28: </span>    }
+<span class="linenr">29: </span>    FD_ZERO(&amp;allset);
+<span class="linenr">30: </span>    FD_SET(listenfd, &amp;allset);
+<span class="linenr">31: </span>
+<span class="linenr">32: </span>    <span style="color: #4856F7; font-weight: bold;">for</span> (; :) {
+<span class="linenr">33: </span>        rset = allset;         <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">structure assignment </span><span style="color: #ed5b15;">*/</span>
+<span class="linenr">34: </span>        nready = Select(maxfd + 1, &amp;rset, <span style="color: #DF7921; font-weight: bold;">NULL</span>, <span style="color: #DF7921; font-weight: bold;">NULL</span>, <span style="color: #DF7921; font-weight: bold;">NULL</span>);
+<span class="linenr">35: </span>
+<span class="linenr">36: </span>        <span style="color: #4856F7; font-weight: bold;">if</span> (FD_ISSET(listenfd, &amp;rset)) {  <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">new client connection </span><span style="color: #ed5b15;">*/</span>
+<span class="linenr">37: </span>            clilen = <span style="color: #4856F7; font-weight: bold;">sizeof</span>(cliaddr);
+<span class="linenr">38: </span>            connfd = Accept(listenfd, (<span style="color: #DADADA;">SA</span>*)&amp;cliaddr, &amp;clilen);
+<span class="linenr">39: </span>
+<span class="linenr">40: </span>            <span style="color: #4856F7; font-weight: bold;">for</span> (i = 0; i &lt; FD_SETSIZE; i++) {
+<span class="linenr">41: </span>                <span style="color: #4856F7; font-weight: bold;">if</span> (client[i] &lt; 0) {
+<span class="linenr">42: </span>                    client[i] = connfd;  <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">save descriptor </span><span style="color: #ed5b15;">*/</span>
+<span class="linenr">43: </span>                    <span style="color: #4856F7; font-weight: bold;">break</span>;
+<span class="linenr">44: </span>                }
+<span class="linenr">45: </span>            }
+<span class="linenr">46: </span>            <span style="color: #4856F7; font-weight: bold;">if</span> (i == FD_SETSIZE) {
+<span class="linenr">47: </span>                err_quit(<span style="color: #A2925E;">"too many clients"</span>);
+<span class="linenr">48: </span>            }
+<span class="linenr">49: </span>            FD_SET(connfd, &amp;allset);       <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">add new descriptor to set </span><span style="color: #ed5b15;">*/</span>
+<span class="linenr">50: </span>
+<span class="linenr">51: </span>            <span style="color: #4856F7; font-weight: bold;">if</span> (connfd &gt; maxfd) {
+<span class="linenr">52: </span>                maxfd = connfd;
+<span class="linenr">53: </span>            }
+<span class="linenr">54: </span>            <span style="color: #4856F7; font-weight: bold;">if</span> (i &gt; maxi) {
+<span class="linenr">55: </span>                maxi = i;
+<span class="linenr">56: </span>            }
+<span class="linenr">57: </span>            <span style="color: #4856F7; font-weight: bold;">if</span> (--nready &lt;= 0) {
+<span class="linenr">58: </span>                <span style="color: #4856F7; font-weight: bold;">continue</span>;
+<span class="linenr">59: </span>            }
+<span class="linenr">60: </span>        }
+<span class="linenr">61: </span>
+<span class="linenr">62: </span>        <span style="color: #4856F7; font-weight: bold;">for</span> (i = 0; i &lt;= maxi; i++) {
+<span class="linenr">63: </span>            <span style="color: #4856F7; font-weight: bold;">if</span> ((sockfd = client[i]) &lt; 0) {
+<span class="linenr">64: </span>                <span style="color: #4856F7; font-weight: bold;">continue</span>;
+<span class="linenr">65: </span>            }
+<span class="linenr">66: </span>            <span style="color: #4856F7; font-weight: bold;">if</span> (FD_ISSET(sockfd, &amp;rset)) {
+<span class="linenr">67: </span>                <span style="color: #4856F7; font-weight: bold;">if</span> ((n = Read(sockfd, buf, MAXLINE)) == 0) {
+<span class="linenr">68: </span>                    <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">connection closed by client </span><span style="color: #ed5b15;">*/</span>
+<span class="linenr">69: </span>                    Close(sockfd);
+<span class="linenr">70: </span>                } <span style="color: #4856F7; font-weight: bold;">else</span> {
+<span class="linenr">71: </span>                    Writen(sockfd, buf, n);
+<span class="linenr">72: </span>                }
+<span class="linenr">73: </span>
+<span class="linenr">74: </span>                <span style="color: #4856F7; font-weight: bold;">if</span> (--nready &lt;= 0) {
+<span class="linenr">75: </span>                    <span style="color: #4856F7; font-weight: bold;">break</span>;
+<span class="linenr">76: </span>                }
+<span class="linenr">77: </span>            }
+<span class="linenr">78: </span>        }
+<span class="linenr">79: </span>    }
+<span class="linenr">80: </span>    <span style="color: #4856F7; font-weight: bold;">return</span> 0;
+<span class="linenr">81: </span>}
+</pre>
+</div>
+</li>
+<li>程序非常的长,慢慢来分析:
+<ul class="org-ul">
+<li>line 13-22这部分是创建listening socket, 还是老三样:socket(),bind(),
+listen().
+</li>
+<li>line 22-30有两个数据很关键:
+<ol class="org-ol">
+<li>一个client[]数组,用来跟踪所有的client,因为一个进程最大的file descriptor
+数目有限,所以client数组的大小是FD_SETSIZE.数组的初始化值为(-1),表示
+相应index的client没有连接, maxi这是最大的以连接的index.整数表示连接到哪个
+descriptor
+
+<div class="figure">
+<p><img src="../../static/images/server_select1.png" alt="server_select1.png" />
+</p>
+</div>
+</li>
+
+<li>maxfd = listenfd说明这个阶段关心的只到listening socket,还不关心其他的descriptor,
+也没有其他的descriptor(前三个descriptor分别对应standard input, standard output,
+standard erro, 所以listenfd最小也得是4)
+
+<div class="figure">
+<p><img src="../../static/images/server_rset1.png" alt="server_rset1.png" />
+</p>
+</div>
+</li>
+</ol>
+</li>
+
+<li>line 32-33: 一个大循环每次等待数据的ready(每次rset会被allset所覆盖,因为
+allset会加上每次connected成功的descriptor line42), ready通常意味这两种
+情况:
+<ol class="org-ol">
+<li>listening 的connection又来了新的请求:新的成员从completed queue里面出来
+形成新的connection
+</li>
+<li>已经连接成功的connection来了数据(也可能是信息,比如FIN, RST)
+</li>
+</ol>
+</li>
+<li>line 36-60是处理listening connection的地方,listening socket可读,就说明一个
+connection已经成功建立了,我们调用accept就可以返回新的descriptor.我们用nready
+来记录这次select有几个需要处理的connection,处理完一次就减一.如果为0了,那么下
+一个处理已经连接成功的connection的for就不需要进入了.
+<ol class="org-ol">
+<li>新的client[] slot会被填充 line 42:
+
+<div class="figure">
+<p><img src="../../static/images/server_select2.png" alt="server_select2.png" />
+</p>
+</div>
+</li>
+
+<li>allset也会增加(以后会变成rset) line 49:
+
+<div class="figure">
+<p><img src="../../static/images/server_rset2.png" alt="server_rset2.png" />
+</p>
+</div>
+</li>
+</ol>
+</li>
+
+<li>line 62-78: 是第二个循环,来处理已经连接的connection,是通过从0开始到maxi
+逐个检查已经connected过的连接的方法.检测到来袭的数据,那么我们就write back
+回去.如果read为0,那么说明client已经关闭了连接,我们也不含糊,直接close().
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-8-1" class="outline-4">
+<h4 id="sec-1-8-1">Denial-of-Service Attacks</h4>
+<div class="outline-text-4" id="text-1-8-1">
+<ul class="org-ul">
+<li>很可惜的是,我们刚才完成的代码有一个很致命的问题:恶意用户可以connected到我们的
+server,发送一个字节,然后sleep. server当然要响应这个用户,打开一个连接读取那个
+字节,然后hung在那里等client的新的数据.无法为其他用户服务:"在处理多个client服务
+的时候,server"永远不能"block在处理某一个client的函数里面,如果这样的话server会
+huang住无法为其他client提供服务"&#x2013;&gt;这就叫做denial-of-service
+</li>
+<li>解决denial-of-service的方法有:
+<ol class="org-ol">
+<li>nonblocking I/O
+</li>
+<li>为每一个client提供一个thread(只是暂时解决问题,遇到攻击,会出现procesID用
+尽的问题)
+</li>
+<li>为IO操作设置一个timer
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9">pselect Function</h3>
+<div class="outline-text-3" id="text-1-9">
+<ul class="org-ul">
+<li>POSIX发明了一个pselect,很多Unix系统已经支持它了
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;sys/select.h&gt;</span>
+<span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;signal.h&gt;</span>
+<span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;time.h&gt;</span>
+
+<span style="color: #ed5b15;">/*****************************************************************/</span>
+<span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">Returns: count of ready descriptor, 0 on timeout, -1 on error </span><span style="color: #ed5b15;">*/</span>
+<span style="color: #ed5b15;">/*****************************************************************/</span>
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">pselect</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">maxfdp1</span>, <span style="color: #DADADA;">fd_set</span>* <span style="color: #C1C144;">readset</span>, <span style="color: #DADADA;">fd_set</span>* <span style="color: #C1C144;">writeset</span>, <span style="color: #DADADA;">fd_set</span>* <span style="color: #C1C144;">exceptset</span>,
+            <span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">timespec</span>* <span style="color: #C1C144;">timeout</span>, <span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #DADADA;">sigset_t</span> *<span style="color: #C1C144;">sgmask</span>);
+</pre>
+</div>
+</li>
+<li>和普通的select相比pselect有如下变化:
+<ul class="org-ul">
+<li>使用了timespec,而不是timeval, tv_usec是纳秒级别,更加精确
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">timespec</span> {
+    <span style="color: #DADADA;">time_t</span>   <span style="color: #C1C144;">tv_sec</span>;           <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">seconds </span><span style="color: #ed5b15;">*/</span>
+    <span style="color: #DADADA;">long</span>     <span style="color: #C1C144;">tv_nsec</span>;          <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">nanoseconds </span><span style="color: #ed5b15;">*/</span>
+};
+</pre>
+</div>
+</li>
+<li>增加了第六个参数:指向signal mask的指针:因为select有block的可能,在select被
+block的时候,可能会有signal丢失,或者signal会打扰select的block:
+<ol class="org-ol">
+<li>想要既不丢失signal,又不打扰我们的select,就要用到sigprocmask:
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">&#22914;&#26524;oset&#19981;&#26159;NULL&#25351;&#38024;&#30340;&#35805;&#65292;&#24403;&#21069;&#30340;signal mask&#20250;&#20445;&#23384;&#21040;&#36825;&#37324;  </span><span style="color: #ed5b15;">*/</span>
+<span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">&#22914;&#26524;set&#19981;&#26159;NULL&#25351;&#38024;&#30340;&#35805;&#65292;&#31532;&#19968;&#20010;&#21442;&#25968;how&#20915;&#23450;&#20102;&#24590;&#20040;&#22788;&#29702;set&#25152;&#21253;&#21547;&#30340;signal mask&#30340;&#22788;&#29702;&#26041;&#24335;  </span><span style="color: #ed5b15;">*/</span>
+<span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">how&#20849;&#26377;&#19977;&#20010;&#20540;:  </span><span style="color: #ed5b15;">*/</span>
+<span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">SIG_BLOCK &#35774;&#32622;&#24403;&#21069;&#30340;signal mask&#20026;set&#21644;&#21407;&#26377;signal mask&#30340;&#24182;&#38598;  </span><span style="color: #ed5b15;">*/</span>
+<span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">SIG_UNBLOCK set&#26159;&#25105;&#20204;&#24819;&#20174;&#21407;&#26377;signal mask&#20013;unblock&#25481;&#30340;&#20449;&#21495;  </span><span style="color: #ed5b15;">*/</span>
+<span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">SIG_SETMASK &#29992;set&#26469;&#26367;&#25442;&#21407;&#26377;&#30340;signal mask. </span><span style="color: #ed5b15;">*/</span>
+
+sigprocmask(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">how</span>, <span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #DADADA;">sigset_t</span> *<span style="color: #4856F7; font-weight: bold;">restrict</span> <span style="color: #C1C144;">set</span>, <span style="color: #DADADA;">sigset_t</span> * <span style="color: #4856F7; font-weight: bold;">restrict</span> <span style="color: #C1C144;">oset</span>)
+</pre>
+</div>
+</li>
+<li>从某种意义上来讲,pselect就是收到sigprocmask保护的select
+<div class="org-src-container">
+
+<pre class="src src-c">ready = pselect(nfds, &amp;readfds, &amp;writefds, timeout, &amp;sigmask);
+<span style="color: #ed5b15;">/************************************************************************/</span>
+<span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">Previous line equals following three lines(timeout maybe different): </span><span style="color: #ed5b15;">*/</span>
+<span style="color: #ed5b15;">/************************************************************************/</span>
+sigprocmask(SIG_SETMASK, &amp;sigmask, &amp;origmask);
+ready = select(nfds, &amp;readfds, &amp;writefds, &amp;exceptfds, new_timeout);
+sigprocmask(SIG_SETMASK, &amp;origmask, <span style="color: #DF7921; font-weight: bold;">NULL</span>);
+</pre>
+</div>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-10" class="outline-3">
+<h3 id="sec-1-10">poll Function</h3>
+<div class="outline-text-3" id="text-1-10">
+<ul class="org-ul">
+<li>poll 函数原来是SVR3为STREAM设备开发的,后来改为对所有类型文件(也就是所有类型
+的descriptor)的支持, poll和select的功能相似,但是多了STREAM支持(STREAM被Linux
+所淘汰), 以及没有FD_SETSIZE的限制
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;poll.h&gt;</span>
+
+<span style="color: #ed5b15;">/******************************************************************/</span>
+<span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">Returns: count of ready descriptors, 0 on timeout, -1 on error </span><span style="color: #ed5b15;">*/</span>
+<span style="color: #ed5b15;">/******************************************************************/</span>
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">poll</span>(<span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">pollfd</span> *<span style="color: #C1C144;">fdarray</span>, <span style="color: #DADADA;">unsigned</span> <span style="color: #DADADA;">long</span> <span style="color: #C1C144;">nfds</span>, <span style="color: #DADADA;">int</span> <span style="color: #C1C144;">timeout</span>);
+</pre>
+</div>
+</li>
+<li>pollfd是一个新的自定义类型,集合了某一fd的所有condition
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">pollfd</span> {
+    <span style="color: #DADADA;">int</span>      <span style="color: #C1C144;">fd</span>;        <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">descriptor to check </span><span style="color: #ed5b15;">*/</span>
+    <span style="color: #DADADA;">short</span>    <span style="color: #C1C144;">events</span>;    <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">events of interest on fd </span><span style="color: #ed5b15;">*/</span>
+    <span style="color: #DADADA;">sthort</span>   <span style="color: #C1C144;">revents</span>;   <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">events that occurred on fd </span><span style="color: #ed5b15;">*/</span>
+};
+</pre>
+</div>
+</li>
+<li>需要测试的condition设置在events, poll返回的时候,会把fd的status信息写入到
+revents成员里面.(使用两个成员变量的方法,防止了"调用的时候设置,返回的时候复
+写内存"的方法),下面是这两个condition可能的值:分成了三部分:读,写,错误信息.
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Constant</th>
+<th scope="col" class="left">Input to</th>
+<th scope="col" class="left">Result from</th>
+<th scope="col" class="left">Description</th>
+</tr>
+
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">events?</th>
+<th scope="col" class="left">events?</th>
+<th scope="col" class="left">&#xa0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">POLLIN</td>
+<td class="left">Yes</td>
+<td class="left">Yes</td>
+<td class="left">Normal or priority band data can be read</td>
+</tr>
+
+<tr>
+<td class="left">POLLRDNORM</td>
+<td class="left">Yes</td>
+<td class="left">Yes</td>
+<td class="left">Normal datat can be read</td>
+</tr>
+
+<tr>
+<td class="left">POLLRDBAND</td>
+<td class="left">Yes</td>
+<td class="left">Yes</td>
+<td class="left">Priority band data can be read</td>
+</tr>
+
+<tr>
+<td class="left">POLLPRI</td>
+<td class="left">Yes</td>
+<td class="left">Yes</td>
+<td class="left">High-priority data can be read</td>
+</tr>
+
+<tr>
+<td class="left">POLLOUT</td>
+<td class="left">Yes</td>
+<td class="left">Yes</td>
+<td class="left">Normal data can be written</td>
+</tr>
+
+<tr>
+<td class="left">POLLWRNORM</td>
+<td class="left">Yes</td>
+<td class="left">Yes</td>
+<td class="left">Normal data can be written</td>
+</tr>
+
+<tr>
+<td class="left">POLLWRBAND</td>
+<td class="left">Yes</td>
+<td class="left">Yes</td>
+<td class="left">Priority band data can be read</td>
+</tr>
+
+<tr>
+<td class="left">POLLERR</td>
+<td class="left">No</td>
+<td class="left">Yes</td>
+<td class="left">Error has occurred</td>
+</tr>
+
+<tr>
+<td class="left">POLLHUP</td>
+<td class="left">No</td>
+<td class="left">Yes</td>
+<td class="left">Hangup has occurred</td>
+</tr>
+
+<tr>
+<td class="left">POLLNVAL</td>
+<td class="left">No</td>
+<td class="left">Yes</td>
+<td class="left">Descriptor is not an open file</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>对于TCP和UDP来说,下面的condition会让poll返回相应的revent,不幸的是POSIX没有说
+的太具体
+<ul class="org-ul">
+<li>所有的正常TCP,UDP信息会被认为是normal
+</li>
+<li>TCP的out-of-band会被认为是priority band
+</li>
+<li>TCP的half close情况下依然会被认为是normal
+</li>
+<li>TCP的error可能会被认为是error或者normal
+</li>
+<li>TCP的listening connection收到信息有new connection,也会被认为是priority或
+者normal
+</li>
+<li>nonblocking connect会让poll认为这个socket可写
+</li>
+</ul>
+</li>
+<li>如果我们对某个descriptor不再感兴趣,我们只要把fdarray里面响应的struct pollfd
+的fd设置成负数就行
+</li>
+<li>timeout参数可以设置的数值如下(INFTIM为POSIX规定的负数),某些系统时间精度不到
+ms,可能会有误差:
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">timeout value</th>
+<th scope="col" class="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">INFTIM</td>
+<td class="left">Wait forever</td>
+</tr>
+
+<tr>
+<td class="left">0</td>
+<td class="left">Return immediately, do not block</td>
+</tr>
+
+<tr>
+<td class="left">&gt;0</td>
+<td class="left">Wait specified number of milliseconds</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>我们前面提到过select所关心的descriptor总数有限制:FD_SETSIZE,在poll这里,这个
+限制不存在了,因为我们不再使用select类似的固定的参数,这些参数原来是在stack上面
+设置的,不可能无限大.而限制poll使用的是用户申请的.那么原则上,可以无限的大(放在
+heap上面),当然不太大的时候,还是可以放到stack上面.
+</li>
+<li>其实现在的第一选择还不是poll,而且linux的epoll,因为就算poll没有FD_SETSIZE的缺
+点,但是他却需要O(n)的复杂度来轮询fdarray.这个是无法避免的(其实select也一样,我
+们从select那里仅仅知道了，有I/O事件发生了，但却并不知道是那几个流（可能有一个，
+多个，甚至全部），我们只能无差别轮询所有流，找出能读出数据，或者写入数据的流，
+对他们进行操作.)
+</li>
+<li>Linux的epoll创造性的使用内核"推送"的方式(具体是我们关心的fd会调用callback函数,
+从而让内核知道了哪些fd是"活跃的",而把活跃的函数作为返回值返回)实现了一个"伪AIO
+(Asynchronous IO)".
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-11" class="outline-3">
+<h3 id="sec-1-11">TCP Echo Server(Revisited Again)</h3>
+<div class="outline-text-3" id="text-1-11">
+<ul class="org-ul">
+<li>既然介绍了比select功能更强大的poll,我们就来看看如何用poll来实现我们的server,
+其实现思路和select版本相似.
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span>   <span style="color: #A2925E;">"unp.h"</span>
+<span style="color: #4856F7; font-weight: bold;">#include</span>   <span style="color: #A2925E;">&lt;limits.h&gt;</span>          <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">for OPEN_MAX </span><span style="color: #ed5b15;">*/</span>
+
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">main</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">argc</span>, <span style="color: #DADADA;">char</span> *<span style="color: #C1C144;">argv</span>[])
+{
+    <span style="color: #DADADA;">int</span>       <span style="color: #C1C144;">i</span>, <span style="color: #C1C144;">maxi</span>, <span style="color: #C1C144;">listenfd</span>, <span style="color: #C1C144;">connfd</span>, <span style="color: #C1C144;">sockfd</span>;
+    <span style="color: #DADADA;">int</span>       <span style="color: #C1C144;">nready</span>;
+    <span style="color: #DADADA;">ssize_t</span>   <span style="color: #C1C144;">n</span>;
+    <span style="color: #DADADA;">char</span>      <span style="color: #C1C144;">buf</span>[MAXLINE];
+    <span style="color: #DADADA;">socklen_t</span> <span style="color: #C1C144;">clilen</span>;
+    <span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">pollfd</span> <span style="color: #C1C144;">client</span>[OPEN_MAX];
+    <span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">sockaddr_in</span> <span style="color: #C1C144;">cliaddr</span>, <span style="color: #C1C144;">servaddr</span>;
+
+    listenfd = Socket(AF_INET, SOCK_STREAM, 0);
+
+    bzero(&amp;servaddr, <span style="color: #4856F7; font-weight: bold;">sizeof</span>(servaddr));
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = htol(INADDR_ANY);
+    servaddr.sin_port = htons(SERV_PORT);
+
+    Bind(listenfd, (<span style="color: #DADADA;">SA</span>*) &amp;servaddr. <span style="color: #4856F7; font-weight: bold;">sizeof</span>(servaddr));
+
+    Listen(listenfd, LISTENQ);
+
+    client[0].fd = listenfd;
+    client[0].events = POLLRDNORM;
+    <span style="color: #4856F7; font-weight: bold;">for</span> (i = 1; i &lt; OPEN_MAX; i++) {
+        client[i].fd = -1;
+    }
+    maxi = 0;
+    <span style="color: #4856F7; font-weight: bold;">for</span> (; ;) {
+        nready = Poll(client, maxi + 1, INFTIM);
+        <span style="color: #4856F7; font-weight: bold;">if</span> (client[0].revents &amp; POLLRDNORM) { <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">new client connection </span><span style="color: #ed5b15;">*/</span>
+            clilen = <span style="color: #4856F7; font-weight: bold;">sizeof</span>(cliaddr);
+            connfd = Accept(listenfd, (<span style="color: #DADADA;">SA</span>*)&amp;cliaddr, &amp;clilen);
+
+            <span style="color: #4856F7; font-weight: bold;">for</span> (i = 1; i &lt; OPEN_MAX; i++) {
+                <span style="color: #4856F7; font-weight: bold;">if</span> (client[i].fd &lt; 0) {
+                    client[i].fd = connfd;  <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">save descriptor </span><span style="color: #ed5b15;">*/</span>
+                    <span style="color: #4856F7; font-weight: bold;">break</span>;
+                }
+            }
+            <span style="color: #4856F7; font-weight: bold;">if</span> (i == OPEN_MAX) {
+                err_quit(<span style="color: #A2925E;">"too many clients"</span>);
+            }
+            client[i].events = POLLRDNORM;
+
+            <span style="color: #4856F7; font-weight: bold;">if</span> (i &gt; maxi) {
+                maxi = i;
+            }
+
+            <span style="color: #4856F7; font-weight: bold;">if</span> (--nready &lt;= 0) {
+                <span style="color: #4856F7; font-weight: bold;">continue</span>;
+            }
+        }
+    }
+
+    <span style="color: #4856F7; font-weight: bold;">for</span> (i = 1; i &lt;= maxi; i++) {    <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">check all clients for data </span><span style="color: #ed5b15;">*/</span>
+        <span style="color: #4856F7; font-weight: bold;">if</span> ((sockfd = client[i].fd) &lt; 0) {
+            <span style="color: #4856F7; font-weight: bold;">continue</span>;
+        }
+        <span style="color: #4856F7; font-weight: bold;">if</span> (client[i].revents &amp; (POLLRDNORM | POLLERR)) {
+            <span style="color: #4856F7; font-weight: bold;">if</span> ((n = read(sokfd, buf, MAXLINE)) &lt; 0) {
+                <span style="color: #4856F7; font-weight: bold;">if</span> (errno == ECONNERESET) {
+                    <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">connection reset by client </span><span style="color: #ed5b15;">*/</span>
+                    Close(sockf);
+                    client[i].fd = -1;
+                } <span style="color: #4856F7; font-weight: bold;">else</span> <span style="color: #4856F7; font-weight: bold;">if</span> (n == 0) {
+                    <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">connection close by client </span><span style="color: #ed5b15;">*/</span>
+                    Close(sockfd);
+                    client[i].fd = -1;
+                } <span style="color: #4856F7; font-weight: bold;">else</span> {
+                    Writen(sockfd, buf, n);
+                }
+                <span style="color: #4856F7; font-weight: bold;">if</span> (--nready &lt;= 0) {
+                    <span style="color: #4856F7; font-weight: bold;">break</span>;
+                }
+            }
+        }
+    }
+    <span style="color: #4856F7; font-weight: bold;">return</span> 0;
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

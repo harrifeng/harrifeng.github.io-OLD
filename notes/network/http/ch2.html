@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 02: URLs and Resources</title>
+<!-- 2014-07-18 Fri 16:14 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 02: URLs and Resources</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">URLs and Resources</a>
+<ul>
+<li><a href="#sec-1-1">Navigating the Internet's Resources</a>
+<ul>
+<li><a href="#sec-1-1-1">The Dark Days Before URLs</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-2">URL Syntax</a>
+<ul>
+<li><a href="#sec-1-2-1">Schemes: What Protocl to Use</a></li>
+<li><a href="#sec-1-2-2">Hosts and Ports</a></li>
+<li><a href="#sec-1-2-3">Usernames and Passwords</a></li>
+<li><a href="#sec-1-2-4">Paths</a></li>
+<li><a href="#sec-1-2-5">Parameters</a></li>
+<li><a href="#sec-1-2-6">Query Strings</a></li>
+<li><a href="#sec-1-2-7">Fragments</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">URL Shortcuts</a></li>
+<li><a href="#sec-1-4">Shady Characters</a>
+<ul>
+<li><a href="#sec-1-4-1">The URL Character Set</a></li>
+<li><a href="#sec-1-4-2">Encoding Mechanisms</a></li>
+<li><a href="#sec-1-4-3">Character Restrictions</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-5">A Sea of Schemes</a></li>
+<li><a href="#sec-1-6">The Future</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">URLs and Resources</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Navigating the Internet's Resources</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>前面已经说过了URL其实是URI的一种.除了URL, URI里面还有一部分是URN
+</li>
+<li>我们来分析一下下面这个URL
+<pre class="example">
+http://www.joes-hardware.com/seasonal/index-fall.html
+</pre>
+</li>
+<li>其中:
+<ul class="org-ul">
+<li>"http"是URL scheme
+</li>
+<li>"www.joes-hardware.com"是hostname
+</li>
+<li>"seasonal/index-fall.html"是resource location
+</li>
+</ul>
+</li>
+<li>我们来看看几个非http的URL例子
+<pre class="example">
+mailto:president@whitehouse.gov
+ftp://ftp.losts-o-books.com/pub/complete-price-list.xls
+rtsp://www.joes-hardware.com:554/interview/cto_video
+</pre>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1">The Dark Days Before URLs</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<ul class="org-ul">
+<li>在URL被引入以前,我们需要FTP加上Email的帮助才能分享信息
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">URL Syntax</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>不同的URL在总体的URL组成结构上面大体是一致的
+<pre class="example">
+&lt;scheme&gt;://&lt;user&gt;:&lt;password&gt;@&lt;host&gt;:&lt;port&gt;/&lt;path&gt;;&lt;params&gt;?&lt;query&gt;#&lt;frag&gt;
+</pre>
+</li>
+<li>并不是所有的部分都要齐全.最重要的"三剑客"是scheme, host, path, 其他的部分简介如下
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Component</th>
+<th scope="col" class="left">Description</th>
+<th scope="col" class="left">Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">scheme</td>
+<td class="left">Which protocol to use</td>
+<td class="left">None</td>
+</tr>
+
+<tr>
+<td class="left">user</td>
+<td class="left">some scheme requires username to access a resource</td>
+<td class="left">anonymous</td>
+</tr>
+
+<tr>
+<td class="left">password</td>
+<td class="left">password for the user</td>
+<td class="left">App gives</td>
+</tr>
+
+<tr>
+<td class="left">host</td>
+<td class="left">hostname or IP address for server</td>
+<td class="left">None</td>
+</tr>
+
+<tr>
+<td class="left">port</td>
+<td class="left">port number for the hostname</td>
+<td class="left">Scheme-specific</td>
+</tr>
+
+<tr>
+<td class="left">path</td>
+<td class="left">local name for the resource on the server</td>
+<td class="left">None</td>
+</tr>
+
+<tr>
+<td class="left">params</td>
+<td class="left">Used by some schemes to speicify input parameters,</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">params are name/value pairs. A URL can contain</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">multiple params fields, separated with rest of</td>
+<td class="left">None</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">the path by (;)</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">query</td>
+<td class="left">Used by some schemes to active applications(db for</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">example).A URL can contain multiple query fields,</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">separated with rest of the path by (?)</td>
+<td class="left">None</td>
+</tr>
+
+<tr>
+<td class="left">frag</td>
+<td class="left">A name for piece or part of the resource. The frag</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">field is NOT passed to the server when referencing</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">the object; it is used internally by the client.</td>
+<td class="left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">It separated from the rest of the URL by  (#)</td>
+<td class="left">None</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">Schemes: What Protocl to Use</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>scheme当然就是告诉浏览器你使用哪个协议解析咯.
+</li>
+<li>scheme不区分大小写
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2">Hosts and Ports</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>host可以通过机器名或者ip地址的手段来提供
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3">Usernames and Passwords</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<ul class="org-ul">
+<li>有些协议需要用户名密码.如果不写的情况下:
+<ul class="org-ul">
+<li>默认用户名是: anonymous
+</li>
+<li>默认密码是应用来定的: IE是IEUser, 火狐是mozilla
+</li>
+</ul>
+</li>
+<li>一个常见例子
+<pre class="example">
+ftp://anonymous:my_passwd@ftp.prep.ai.mit.edu/pub/gnu
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-4" class="outline-4">
+<h4 id="sec-1-2-4">Paths</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<ul class="org-ul">
+<li>path通常是server的硬盘路径.当然仅仅靠path有时候不定能成功定位资源.
+</li>
+<li>path可以被"/"分成path segment
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-5" class="outline-4">
+<h4 id="sec-1-2-5">Parameters</h4>
+<div class="outline-text-4" id="text-1-2-5">
+<ul class="org-ul">
+<li>parameter就是要为这次的"信息交流(request)"提供一些额外的参数
+</li>
+<li>每个paramter segment都可以有自己的参数, 而不是一个path只有最后能添加参数
+<pre class="example">
+http://www.joes-hardware.com/hammers;sale=false/index.html;graphics=true
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-6" class="outline-4">
+<h4 id="sec-1-2-6">Query Strings</h4>
+<div class="outline-text-4" id="text-1-2-6">
+<ul class="org-ul">
+<li>我们在学习JSP的时候,会发现一个URL里面要包含
+<ul class="org-ul">
+<li>后台java程序
+</li>
+<li>传递给这个java程序的参数.
+</li>
+</ul>
+</li>
+<li>在http URL里面其实这个后台java程序叫做gateway resource
+</li>
+<li>而这个几个参数就是Query Strings啦,他们跟大部队通过(?)分开,然后相互之间通过
+(&amp;)分开
+<pre class="example">
+http://www.joes-hardware.com/inventory-check.cgi?item=12731&amp;color=blue
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-7" class="outline-4">
+<h4 id="sec-1-2-7">Fragments</h4>
+<div class="outline-text-4" id="text-1-2-7">
+<ul class="org-ul">
+<li>URL fragment只在client端自己使用.其意义在于快速定位某个网页的位置.
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">URL Shortcuts</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>在HTML文件内部,如果两个文件有相互的位置,那么通常是使用relative URL, 这样的
+话就可以避免过长的URL在HTML文件内部了
+<div class="org-src-container">
+
+<pre class="src src-html">&lt;<span style="color: #268bd2;">HTML</span>&gt;
+  &lt;<span style="color: #268bd2;">HEAD</span>&gt;&lt;<span style="color: #268bd2;">TITLE</span>&gt;<span style="font-weight: bold; text-decoration: underline;">Joe's Tools</span>&lt;/<span style="color: #268bd2;">TITLE</span>&gt;&lt;/<span style="color: #268bd2;">HEAD</span>&gt;
+  &lt;<span style="color: #268bd2;">BODY</span>&gt;
+    &lt;<span style="color: #268bd2;">P</span>&gt; Joe's Hardware Online has the largest selection of
+      &lt;<span style="color: #268bd2;">A</span> <span style="color: #268bd2;">href</span>=<span style="color: #2aa198;">"./hammers.html"</span>&gt;hammers
+  &lt;/<span style="color: #268bd2;">BODY</span>&gt;
+&lt;/<span style="color: #268bd2;">HTML</span>&gt;
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Shady Characters</h3>
+<div class="outline-text-3" id="text-1-4">
+</div><div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1">The URL Character Set</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<ul class="org-ul">
+<li>URL 字符集的基础是US-ASCII
+</li>
+<li>为了安全性和完整性, URL在US-ASCII的基础上增加了escape sequence
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2">Encoding Mechanisms</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<ul class="org-ul">
+<li>escape sequence可以处理一些不"安全"的character, 其方法是(%)后面跟十六进制
+char的后两位
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="right" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Character</th>
+<th scope="col" class="right">ASCII code</th>
+<th scope="col" class="left">Example URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">~</td>
+<td class="right">126(0x7E)</td>
+<td class="left"><a href="http://www.eg.com/~helloworld.html">http://www.eg.com/~helloworld.html</a></td>
+</tr>
+
+<tr>
+<td class="left">SPACE</td>
+<td class="right">32(0x20)</td>
+<td class="left"><a href="http://www.eg.com/more%20tools.html">http://www.eg.com/more%20tools.html</a></td>
+</tr>
+
+<tr>
+<td class="left">%</td>
+<td class="right">37(0x25)</td>
+<td class="left"><a href="http://www.eg.com/100%25satisfaction.html">http://www.eg.com/100%25satisfaction.html</a></td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3">Character Restrictions</h4>
+<div class="outline-text-4" id="text-1-4-3">
+<ul class="org-ul">
+<li>URL除了大部分的"良民"外,还有很多"刺儿头":
+<ul class="org-ul">
+<li>在URL里面有特殊意义, 比如%, 比如@
+</li>
+<li>US-ASCII里面没有定义, 比如大于0x7F的char, US-ASCII没有定义
+</li>
+<li>迷惑gateway和协议, 比如[]会迷惑gateway
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">A Sea of Schemes</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>常见的scheme有以下几个:
+<ul class="org-ul">
+<li>http: 常规URL不加用户名密码就合适
+</li>
+<li>https: 和http一样,只不过底层使用SSL, 端口默认是443
+</li>
+<li>mailto: 其URL和常规不太一样
+</li>
+<li>ftp
+</li>
+<li>rtsp
+</li>
+<li>file
+</li>
+<li>news
+</li>
+<li>telnet
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">The Future</h3>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

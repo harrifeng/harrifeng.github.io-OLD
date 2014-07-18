@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 01: Write Code That Looks Like Ruby</title>
+<!-- 2014-07-18 Fri 16:04 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 01: Write Code That Looks Like Ruby</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Write Code That Looks Like Ruby</a>
+<ul>
+<li><a href="#sec-1-1">The Very Basic Basics</a></li>
+<li><a href="#sec-1-2">Go Easy on the Comments</a></li>
+<li><a href="#sec-1-3">Camels for Classes, Snakes Everywhere Else</a></li>
+<li><a href="#sec-1-4">Parentheses Are Optional but Are Occasionally Forbidden</a></li>
+<li><a href="#sec-1-5">Folding Up Those Lines</a></li>
+<li><a href="#sec-1-6">Folding Up THose Code Blocks</a></li>
+<li><a href="#sec-1-7">Staying Out of Trouble</a></li>
+<li><a href="#sec-1-8">In the Wild</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Write Code That Looks Like Ruby</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">The Very Basic Basics</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>Ruby style的核心:
+<ul class="org-ul">
+<li>首先,代码要清晰
+</li>
+<li>其次,代码要简单, 简单才更容易清晰
+</li>
+</ul>
+</li>
+<li>看个例子
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  attr_accessor <span style="color: #DF7921; font-weight: bold;">:title</span>, <span style="color: #DF7921; font-weight: bold;">:author</span>, <span style="color: #DF7921; font-weight: bold;">:content</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(title, author, content)
+    <span style="color: #C1C144;">@title</span>         title
+    <span style="color: #C1C144;">@author</span>        author
+    <span style="color: #C1C144;">@content</span>       content
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">words</span>
+    <span style="color: #C1C144;">@content</span>.split
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">word_count</span>
+    words.size
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>上面的代码,可以看到ruby缩进的规则
+<ul class="org-ul">
+<li>ruby使用了2空格的缩进,基本上是能察觉到的最短的缩进,为了写更多的代码
+</li>
+<li>ruby绝不使用tab,而是使用2空格代替
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Go Easy on the Comments</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>ruby是一种self-explain的语言,所以如果代码能够解释自己的话,就不需要注释
+</li>
+<li>最需要写的注释是"如何使用你的代码", 而不是"我为什么要这样写代码, 你使用了什
+么算法, 你以后要做什么改进", 比如,下面就是一个很好的comment
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Class that models a plain text document, complete with title and author</span>
+<span style="color: #ed5b15;">#</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">doc Document.new('Hamlet', 'Shakespeare', 'To be or ...')</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">puts doc.title</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">puts doc.author</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">puts doc.content</span>
+<span style="color: #ed5b15;">#</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Document instances know how to parse their content into words:</span>
+<span style="color: #ed5b15;">#</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">puts doc.words</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">puts doc.word_count</span>
+<span style="color: #ed5b15;">#</span>
+
+<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">class omitted..</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>还有一种好的comment是"代码如何工作"
+</li>
+<li>此外还有作者信息,版权信息
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Camels for Classes, Snakes Everywhere Else</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>函数变量命名的方式,总结起来就是:
+<ul class="org-ul">
+<li>类名使用首字母大写的"骑驼峰"
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>常亮使用全部大写,以下划线分割
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #DADADA;">ANTLERS_PER_MALE_MOOSE</span> 2
+</pre>
+</div>
+</li>
+<li>其他全部的情况都是小写字母,以下划线分割
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">count_words_in</span>(the_string)
+  the_words the_string.split
+  the_words.size
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Parentheses Are Optional but Are Occasionally Forbidden</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>ruby让你可以省略括号!无论是定义还是使用的时候:
+<ul class="org-ul">
+<li>比如下面的代码
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">find_document</span>(title, author)
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Body omitted...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+find_document(<span style="color: #A2925E;">'Frankenstein'</span>, <span style="color: #A2925E;">'Shelley'</span>)
+</pre>
+</div>
+</li>
+<li>可以完全去掉括号,写成如下
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">find_document</span> title, author
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Body ommited...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+find_document <span style="color: #A2925E;">'Frankenstein'</span>, <span style="color: #A2925E;">'Shelley'</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>在括号这件事情上,即便是懒惰的ruby工程师也觉得做的过火了.所以并没有多少情况
+下, 括号是可以被省略的,总结起来,也就如下几种:
+<ul class="org-ul">
+<li>函数参数只有一个, 而且大家非常熟悉的函数,比如puts
+</li>
+<li>函数参数没有, 即便大家不熟悉,也可以不使用括号,比如
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">words</span>
+  <span style="color: #C1C144;">@content</span>.split
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">is more often used than</span>
+
+<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">words</span>()
+  <span style="color: #C1C144;">@content</span>.split
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>在条件判断的时候,我们也倾向去不使用括号
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">if</span> words.size &gt; 100
+  puts <span style="color: #A2925E;">"The document is not very long"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">is more often used than</span>
+
+<span style="color: #4856F7; font-weight: bold;">if</span> (words.size &gt; 100)
+  puts <span style="color: #A2925E;">"The document is not very long"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Folding Up Those Lines</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>几行代码写成一行的时候,要使用分号.不过这个规则不常用
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts doc.title; puts doc.author
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Folding Up THose Code Blocks</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>{} 和 do/end都能处理block, 前者处理单行的, 后者处理多行的
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">Staying Out of Trouble</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>尽管ruby可以让你少些代码,写短代码,但是"可读性"仍然是最最重要的
+<ul class="org-ul">
+<li>{}尽快是控制一行的,但是如果这个行太长,还是可以使用do/end替代
+<div class="org-src-container">
+
+<pre class="src src-ruby">doc.word.each {|word| some_really_really_long(with .....)}
+</pre>
+</div>
+</li>
+<li>有些时候某个函数还是加上括号比较好,比如instance_of?的参数很长的时候
+<div class="org-src-container">
+
+<pre class="src src-ruby">doc.instance_of? (<span style="color: #C1C144;">self</span>.class.superclass.class)
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">In the Wild</h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>学习ruby的一个好的办法是阅读源代码,比如set.rb
+</li>
+<li>从set.rb的源代码中,我们可以看到,所有的查询是否存在的函数都是以"?"结尾的,这
+不是ruby的语法糖, "?"是函数的一个部分
+</li>
+<li>所有以"!"结尾的函数,也是一样,代表比较危险的函数
+</li>
+<li>当然,源代码里面也是有很多的漏洞的,比如最常见的就是Float不小心被写成了一个method
+而不是一个class.
+</li>
+<li>当然了很多人认为Float函数情有可原,因为它的返回值是一个Float类型(传入参数是
+string)
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

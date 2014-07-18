@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 08: Embrace Dynamic Typing</title>
+<!-- 2014-07-18 Fri 16:03 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 08: Embrace Dynamic Typing</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Embrace Dynamic Typing</a>
+<ul>
+<li><a href="#sec-1-1">Shorter Programs, But Not the Way You Think</a></li>
+<li><a href="#sec-1-2">Extreme Decoupling</a></li>
+<li><a href="#sec-1-3">Required Ceremony Versus Programmer-Driven Clarity</a></li>
+<li><a href="#sec-1-4">Staying Out of Trouble</a></li>
+<li><a href="#sec-1-5">In the Wild</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Embrace Dynamic Typing</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Shorter Programs, But Not the Way You Think</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>动态语言的短小精悍绝不是来自于少些了几个int或者string,而是:
+来自于不再需要书写类似java中的bstract class, 或者interface(在java中
+abstract class是一种不纯粹的interface). 在ruby中,我们并不严格的要求某个object
+必须是什么类型的,是其他类型就不对,我们只要求它有"足够用的method"就可以了
+<pre class="example">
+Duck typing: If an object has the right methods, then it is the right kind of object
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Extreme Decoupling</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>短小精悍不是动态语言的唯一优点
+</li>
+<li>前面我们设计过Document类,它有string类型的title和author
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  attr_accessor <span style="color: #DF7921; font-weight: bold;">:title</span>, <span style="color: #DF7921; font-weight: bold;">:author</span>, <span style="color: #DF7921; font-weight: bold;">:content</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(title, author, content)
+    <span style="color: #C1C144;">@title</span> = title
+    <span style="color: #C1C144;">@author</span> = author
+    <span style="color: #C1C144;">@content</span> = content
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>现在我们有了下面两个新的类来代表"题目"和"作者", 然后你会要求Document也要支持
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Title</span>
+  attr_reader <span style="color: #DF7921; font-weight: bold;">:long_nam</span>, <span style="color: #DF7921; font-weight: bold;">:short_name</span>
+  attr_reader <span style="color: #DF7921; font-weight: bold;">:isbn</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(long_name, short_name, isbn)
+    <span style="color: #C1C144;">@long_name</span> = long_name
+    <span style="color: #C1C144;">@short_name</span> = short_name
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Author</span>
+  attr_reader <span style="color: #DF7921; font-weight: bold;">:first_name</span>, <span style="color: #DF7921; font-weight: bold;">:last_name</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(first_name, last_name)
+    <span style="color: #C1C144;">@first_name</span> = first_name
+    <span style="color: #C1C144;">@last_name</span> = last_name
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>然后你发现,你"不需要写任何代码!", Document已经支持两个新的类型了!这就是动态
+语言厉害的另外的地方:非常松的耦合!
+<div class="org-src-container">
+
+<pre class="src src-ruby">two_cities = <span style="color: #DADADA;">Title</span>.new(<span style="color: #A2925E;">'A Tale of Two Cities'</span>,
+                       <span style="color: #A2925E;">'2 Cities'</span>, <span style="color: #A2925E;">'0-999-9999-9'</span>)
+dickens = <span style="color: #DADADA;">Author</span>.new(<span style="color: #A2925E;">'Charles'</span>, <span style="color: #A2925E;">'Dickens'</span>)
+
+<span style="color: #ed5b15;">##############################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">now Document works!                        #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">previously Document may be written like    #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">doc = Document.new("A Tale of Two Cities", #</span>
+<span style="color: #ed5b15;">#                    </span><span style="color: #ed5b15;">"Charles Dickens"       #</span>
+<span style="color: #ed5b15;">#                    </span><span style="color: #ed5b15;">'It was the best...')   #</span>
+<span style="color: #ed5b15;">##############################################</span>
+
+doc = <span style="color: #DADADA;">Document</span>.new(two_cities, dickens, <span style="color: #A2925E;">'It was the best...'</span>)
+</pre>
+</div>
+</li>
+<li>这种松耦合是动态语言的特质,千万不要像下面的例子一样,再去判断输入是否是stirng,
+因为这样写有一天不是string了,我们就不能能用了
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(title, author, content)
+  <span style="color: #4856F7; font-weight: bold;">raise</span> <span style="color: #A2925E;">"Title isn't a String"</span> <span style="color: #4856F7; font-weight: bold;">unless</span> title.kind_of? <span style="color: #DADADA;">String</span>
+  <span style="color: #4856F7; font-weight: bold;">raise</span> <span style="color: #A2925E;">"Author isn't a String"</span> <span style="color: #4856F7; font-weight: bold;">unless</span> title.kind_of? <span style="color: #DADADA;">String</span>
+  <span style="color: #4856F7; font-weight: bold;">raise</span> <span style="color: #A2925E;">"Content isn't a String"</span> <span style="color: #4856F7; font-weight: bold;">unless</span> content.kind_of? <span style="color: #DADADA;">String</span>
+  <span style="color: #C1C144;">@title</span> = title
+  <span style="color: #C1C144;">@author</span> = author
+  <span style="color: #C1C144;">@content</span> = content
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Required Ceremony Versus Programmer-Driven Clarity</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>动态语言和传统高级语言的不同在于:
+<ul class="org-ul">
+<li>传统高级语言是依靠编译器来强制指定类型:这是有好处的,因为声明为int类型的参
+数如果在使用的时候给了一个string类型的输入,编译器就会警告你
+</li>
+<li>在动态语言里面, 对类型的判断的任务交给了程序员,你要书写更清晰的变量名,更
+清晰的注释来让麻烦变得尽可能的少
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Staying Out of Trouble</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>ruby中,我们最常见到的错误就是和类型相关的,比如你"认为"一个object是Title类型
+的,所以你调用了Title的函数long_name, 结果却得到了如下的错误提示(因为其实你
+提供的不是Title类型,而是String类型)
+<div class="org-src-container">
+
+<pre class="src src-sh">NoMethodError: undefined method <span style="color: #fa8072;">`long_name`</span> <span style="color: #4856F7; font-weight: bold;">for</span> <span style="color: #A2925E;">"TwoCities"</span>:String
+</pre>
+</div>
+</li>
+<li>ruby不回避这种问题的存在,应对的方法是两个:
+<ul class="org-ul">
+<li>书写更加简洁清新的代码
+</li>
+<li>高质量全覆盖的测试用例
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">In the Wild</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>ruby的设计不是像java那样,有森严的类之间的继承体系,可以多多的重用代码.在ruby
+里面,更多的是从实用的角度上来设计,并且尽可能的"疏远类之间的关系",比如下面代码
+中的open_file和open_string, 他们有着几乎一致的api,比如seek, readline等等,但
+是他俩第一个共同的祖先竟然是Object(也就是说他们没有什么重用代码,都是自己各
+搞了一份). 从这里看,ruby的实用哲学一览无余
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

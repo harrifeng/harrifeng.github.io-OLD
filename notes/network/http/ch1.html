@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 01: Overiew of HTTP</title>
+<!-- 2014-07-18 Fri 16:14 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 01: Overiew of HTTP</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Overiew of HTTP</a>
+<ul>
+<li><a href="#sec-1-1">HTTP: The Internet's Multimedia Courier</a></li>
+<li><a href="#sec-1-2">Web Clients and Servers</a></li>
+<li><a href="#sec-1-3">Resources</a>
+<ul>
+<li><a href="#sec-1-3-1">Media Type</a></li>
+<li><a href="#sec-1-3-2">URIs</a></li>
+<li><a href="#sec-1-3-3">URL</a></li>
+<li><a href="#sec-1-3-4">URN</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">Transactions</a>
+<ul>
+<li><a href="#sec-1-4-1">Methods</a></li>
+<li><a href="#sec-1-4-2">Status Codes</a></li>
+<li><a href="#sec-1-4-3">Web Pages Can Consist of Multiple Objects</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-5">Messages TODO</a></li>
+<li><a href="#sec-1-6">Connections</a>
+<ul>
+<li><a href="#sec-1-6-1">TCP/IP</a></li>
+<li><a href="#sec-1-6-2">Connections, IP Addresses, and Port Numbers</a></li>
+<li><a href="#sec-1-6-3">A Real Example Using Telnet #TODO#</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-7">Protocol Versions</a></li>
+<li><a href="#sec-1-8">Architectural Components of the Web</a>
+<ul>
+<li><a href="#sec-1-8-1">Proxies</a></li>
+<li><a href="#sec-1-8-2">Caches</a></li>
+<li><a href="#sec-1-8-3">Gateway</a></li>
+<li><a href="#sec-1-8-4">Tunnels</a></li>
+<li><a href="#sec-1-8-5">Agents</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-9">The End of the Beginning</a></li>
+<li><a href="#sec-1-10">For More Information</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Overiew of HTTP</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>世界上的web应用程序,无论是服务器还是浏览器等,都是通过HTTP协议联系在一起的
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">HTTP: The Internet's Multimedia Courier</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>HTTP 底层使用了"reliable"的协议(TCP), 所以即便是地球另外一端传来的数据,也可
+以保证其正确性
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Web Clients and Servers</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>网络上的信息大部分存储在服务器.存放这些信息的服务器使用的是HTTP协议.所以这样
+的服务器也叫做HTTP server
+</li>
+<li>client向server发送HTTP request请求.server使用HTTP reponse返回请求.
+</li>
+<li>浏览器就是一直种HTTP client
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Resources</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>web resources是存储在服务器文件系统上的资源:
+<ul class="org-ul">
+<li>要么是static的图片啦, 视频啦
+</li>
+<li>要么是一些程序,这些程序能根据你的输入来动态的产生内容
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">Media Type</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>因为在HTTP上传输的文件类型很多.HTTP决定对他们进行分类.HTTP没有自己创建一个
+方法,而是使用了电子邮件的"资源分类法": MIME(Multipurpose Internet Mail
+Extensions)
+</li>
+<li>MIME type是一个文字的标签,比较常见的几个标签:
+<ul class="org-ul">
+<li>text/html: HTML文件
+</li>
+<li>text/plain: ASCII text document
+</li>
+<li>image/jpeg: JPEG类型图片
+</li>
+<li>image/gif: GIF类型文件
+</li>
+<li>video/quicktime: 苹果公司QuickTime视频
+</li>
+<li>application/vnd.ms-powerpoint: 微软公司ppt文件
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2">URIs</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li>每一个web resource都有一个"全名",告诉人家他的位置,这个"全名"叫做:URI
+<pre class="example">
+Uniform Resource Identifer
+</pre>
+</li>
+<li>比如下面就是一个图片的URI, 它是全世界唯一的!
+<pre class="example">
+http://www.joes-hardware.com/specials/saw-blade.gif
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3">URL</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<ul class="org-ul">
+<li>URL的全称是
+<pre class="example">
+Uniform Resource Location
+</pre>
+</li>
+<li>今天来看,几乎所有的URI都是URL
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4">URN</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<ul class="org-ul">
+<li>URN是URI除了URL的另一种形式.
+</li>
+<li>好了,你可以忘记URN的存在了
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Transactions</h3>
+<div class="outline-text-3" id="text-1-4">
+</div><div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1">Methods</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<ul class="org-ul">
+<li>每一个HTTP request都包含一个HTTP method, 常见的HTTP method如下
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">HTTP method</th>
+<th scope="col" class="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">GET</td>
+<td class="left">Send named resource from the server to the client</td>
+</tr>
+
+<tr>
+<td class="left">PUT</td>
+<td class="left">Store data from client into a named server resource</td>
+</tr>
+
+<tr>
+<td class="left">DELETE</td>
+<td class="left">Delete the named resource from a server</td>
+</tr>
+
+<tr>
+<td class="left">POST</td>
+<td class="left">Send client data into a server gateway application</td>
+</tr>
+
+<tr>
+<td class="left">HEAD</td>
+<td class="left">Send just the HTTP headers from the response for the named resource</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2">Status Codes</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<ul class="org-ul">
+<li>相对于HTTP request的method, 每一个HTTP response都有一个status code. 这个status
+code只有三位数字,表达一个状态. 常见的有:
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="right" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="right">HTTP Status Code</th>
+<th scope="col" class="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="right">200</td>
+<td class="left">OK. Document returned correctly</td>
+</tr>
+
+<tr>
+<td class="right">302</td>
+<td class="left">Redirect. Go someplace else to get the resource</td>
+</tr>
+
+<tr>
+<td class="right">404</td>
+<td class="left">Not Found. Can't find this resource</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>HTTP response也会发送一些"reason phrase"给对方,但是程序一般只分析Status Code
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3">Web Pages Can Consist of Multiple Objects</h4>
+<div class="outline-text-4" id="text-1-4-3">
+<ul class="org-ul">
+<li>打开一个网页的过程其实包含很多的HTTP request,比如网页中有两个图片,那么就是
+两次的HTTP请求.而且这两个请求还可能在不同的服务器上
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Messages TODO</h3>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Connections</h3>
+<div class="outline-text-3" id="text-1-6">
+</div><div id="outline-container-sec-1-6-1" class="outline-4">
+<h4 id="sec-1-6-1">TCP/IP</h4>
+<div class="outline-text-4" id="text-1-6-1">
+<ul class="org-ul">
+<li>前面说到的HTTP的"可靠"的底层通讯机制,就是TCP/IP
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6-2" class="outline-4">
+<h4 id="sec-1-6-2">Connections, IP Addresses, and Port Numbers</h4>
+<div class="outline-text-4" id="text-1-6-2">
+<ul class="org-ul">
+<li>HTTP传输之前要先建立TCP连接.我们知道TCP连接是一个建立在hostname和port number
+基础上的协议. hostname可以在URL里面得到. 如果URL里面没有指定port number的话,
+port number就是80
+</li>
+<li>下面是一个HTTP传输的过程:
+<ul class="org-ul">
+<li>浏览器从URL里面解析出hostname
+</li>
+<li>浏览器把hostname解析成IP地址
+</li>
+<li>浏览器解析port number(默认是80)
+</li>
+<li>浏览器建立TCP连接
+</li>
+<li>浏览器发送HTTP request message到server
+</li>
+<li>服务器发送HTTP response给浏览器
+</li>
+<li>TCP connection被关闭.浏览器显示内容
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6-3" class="outline-4">
+<h4 id="sec-1-6-3">A Real Example Using Telnet #TODO#</h4>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">Protocol Versions</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>HTTP协议到现在有多个版本同时存在,应用程序需要根据版本进行处理:
+<ul class="org-ul">
+<li>HTTP/0.9: 1991版本,错误较多,很快被HTTP/1.0代替
+</li>
+<li>HTTP/1.0: 第一个大规模部署的版本.
+</li>
+<li>HTTP/1.0+: 在1.0版本身上加了很多的非正式的特性
+</li>
+<li>HTTP/1.1: 现在广泛使用的版本.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">Architectural Components of the Web</h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>在网络上,除了client和server还有很多其他的web application:
+<ul class="org-ul">
+<li>Proxies: 在client和server中间的中介
+</li>
+<li>Caches: 存储了热门的网站服务器
+</li>
+<li>Gateways: 特殊的web server, 它会连接其他应用程序
+</li>
+<li>Tunnels: 特殊的,盲目的转发HTTP的proxies
+</li>
+<li>Agents: "半智能"web client,可以自动发送HTTP request
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-8-1" class="outline-4">
+<h4 id="sec-1-8-1">Proxies</h4>
+<div class="outline-text-4" id="text-1-8-1">
+<ul class="org-ul">
+<li>代理是处在client和server之间,它接受了client的HTTP request之后,会把这个request
+传递给server
+</li>
+<li>还有一些代理会在client和server之间起到保证传输内容安全的目的
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8-2" class="outline-4">
+<h4 id="sec-1-8-2">Caches</h4>
+<div class="outline-text-4" id="text-1-8-2">
+<ul class="org-ul">
+<li>Caches因为在client和server之间,本质上也是一直哦给你proxy server,只不过它不
+是帮client的忙传递HTTP request, 它是存储了热门的网页,让"附近"的client不用
+在向"远方"发送HTTP request, 直接从cache server返回热门资源
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8-3" class="outline-4">
+<h4 id="sec-1-8-3">Gateway</h4>
+<div class="outline-text-4" id="text-1-8-3">
+<ul class="org-ul">
+<li>gateway server是把client的输入改变成其他协议请求,让自己背后的其他server处
+理,但是这些操作对client是黑盒的.client只知道发送HTTP request给gateway
+server, 而且这个gateway server也正常的HTTP reponse了. 它不知道,gateway
+server在背后,让其他server使用FTP协议把内容传递个了它
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8-4" class="outline-4">
+<h4 id="sec-1-8-4">Tunnels</h4>
+<div class="outline-text-4" id="text-1-8-4">
+<ul class="org-ul">
+<li>我们知道proxy的话,都会对request或者response的内容进行一些分析的(比如做安全
+作用), 但是tunnels是"blindly"的传递数据,不会去看内容.
+</li>
+<li>HTTP tunnel通常是在HTTP connection上面传输非HTTP协议的内容.比如在HTTP connection
+上面传输SSL加密协议的内容就构成了日后的HTTPS
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8-5" class="outline-4">
+<h4 id="sec-1-8-5">Agents</h4>
+<div class="outline-text-4" id="text-1-8-5">
+<ul class="org-ul">
+<li>user agent是一种client 程序,帮助user来发送HTTP request. 所有发送HTTP requst
+的application都是user agent
+</li>
+<li>浏览器肯定是user agent,但是还有其他agent,比如spider(在网络上爬取内容的程序)
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9">The End of the Beginning</h3>
+<div class="outline-text-3" id="text-1-9">
+<ul class="org-ul">
+<li>从略
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-10" class="outline-3">
+<h3 id="sec-1-10">For More Information</h3>
+<div class="outline-text-3" id="text-1-10">
+<ul class="org-ul">
+<li>从略
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

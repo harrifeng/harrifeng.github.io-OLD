@@ -1,0 +1,918 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 06: Standard Types</title>
+<!-- 2014-07-18 Fri 16:02 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 06: Standard Types</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Numbers</a>
+<ul>
+<li><a href="#sec-1-1">How Numbers Interact</a></li>
+<li><a href="#sec-1-2">Looping Using Numbers</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">Strings</a>
+<ul>
+<li><a href="#sec-2-1">Strings and Encodings</a></li>
+<li><a href="#sec-2-2">Character Constants</a></li>
+<li><a href="#sec-2-3">Working with Strings</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">Ranges</a>
+<ul>
+<li><a href="#sec-3-1">Ranges as Sequences</a></li>
+<li><a href="#sec-3-2">Ranges as Conditions</a></li>
+<li><a href="#sec-3-3">Ranges as Intervals</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Numbers</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>和python一样, ruby不太用考虑整形是否越界. 它自动会进行判断,小于32bit的整数
+会被设置为Fixnum类型.超过了就设置为Bignum类型
+<div class="org-src-container">
+
+<pre class="src src-ruby">num = 10001
+4.times <span style="color: #4856F7; font-weight: bold;">do</span>
+  puts <span style="color: #C1C144;">"#{num.class}</span><span style="color: #A2925E;">:</span><span style="color: #C1C144;"> #{num}</span><span style="color: #A2925E;">"</span>
+  num *= num
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Fixnum: 10001                                  #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Fixnum: 100020001                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Fixnum: 10004000600040001                      #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Bignum: 100080028005600700056002800080001      #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>integer加了一些前后缀以后表示不同意义:
+<ul class="org-ul">
+<li>前缀0,表示8进制: 0377 =&gt; 255
+</li>
+<li>前缀0d,表示10进制: 0d12345 =&gt; 12345
+</li>
+<li>前缀0x,表示16进制: 0xaabb =&gt; 43707
+</li>
+<li>前缀0b,表示2进制: -0b10 =&gt; -2
+</li>
+<li>数字中间的"_"不起作用, 你可以把他看成是大数的逗号:
+123_456_789_123_456_789 =&gt; 123456789123456789
+</li>
+</ul>
+</li>
+<li>带小数点或者exponent的,肯定就是转换成Float类型啦
+<div class="org-src-container">
+
+<pre class="src src-ruby">p 1.1.class
+p 1e2.class
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Float                                          #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Float                                          #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>来自perl的同学要注意了.从文件中直接读出来的数字是字符串类型的.直接相加的话,
+也是被认为是字符串相加,而不会自动转换成数字
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #DADADA;">File</span>.open(<span style="color: #A2925E;">'number.txt'</span>, <span style="color: #A2925E;">'r'</span>) <span style="color: #4856F7; font-weight: bold;">do</span> |file|
+  puts <span style="color: #A2925E;">"add string directly----&gt;"</span>
+  <span style="color: #4856F7; font-weight: bold;">while</span> line = file.gets
+    v1, v2 = line.split
+    print v1 + v2, <span style="color: #A2925E;">" "</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+puts
+
+<span style="color: #DADADA;">File</span>.open(<span style="color: #A2925E;">'number.txt'</span>, <span style="color: #A2925E;">'r'</span>) <span style="color: #4856F7; font-weight: bold;">do</span> |file|
+  puts <span style="color: #A2925E;">"add string wrapped by Integer----&gt;"</span>
+  <span style="color: #4856F7; font-weight: bold;">while</span> line = file.gets
+    v1, v2 = line.split
+    print <span style="color: #DADADA;">Integer</span>(v1) + <span style="color: #DADADA;">Integer</span>(v2), <span style="color: #A2925E;">" "</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+puts
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">add string directly----&gt;                       #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">34 56 78                                       #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">add string wrapped by Integer----&gt;             #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">7 11 15                                        #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">How Numbers Interact</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>两个不同类型的数字相运算,结果会转换成精度高的类型
+<div class="org-src-container">
+
+<pre class="src src-ruby">p 1 + 2
+p 1 + 2.0
+p 1.0 + 2
+p 1.0 + <span style="color: #DADADA;">Complex</span>(1, 2)
+p 1 + <span style="color: #DADADA;">Rational</span>(2, 3)
+p 1.0 + <span style="color: #DADADA;">Rational</span>(2, 3)
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">3                                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">3.0                                            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">3.0                                            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">(2.0+2i)                                       #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">(5/3)                                          #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">1.6666666666666665                             #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>换句话说, 两个相同类型的数字相运算的结果还是同一个类型, 在两个整形相除后
+结果还是整形. 这会产生很多问题(这中问题在其他语言中也存在)
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">At least, one float exists, result will be float</span>
+p 1.0 / 2
+p 1 / 2.0
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">All integer, will return unexpected result</span>
+p 1 / 2
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">0.5                                            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">0.5                                            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">0                                              #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Looping Using Numbers</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>Interger提供了多个iterator: times, upto, downto
+<div class="org-src-container">
+
+<pre class="src src-ruby">3.times {print <span style="color: #A2925E;">"X "</span>}
+1.upto(5) {|i| print i, <span style="color: #A2925E;">" "</span>}
+99.downto(95) {|i| print i, <span style="color: #A2925E;">" "</span>}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">X X X 1 2 3 4 5 99 98 97 96 95                 #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>Numeric也提供了step(Integer继承自Numeric)
+<div class="org-src-container">
+
+<pre class="src src-ruby">50.5.step(80, 5) {|i| print i, <span style="color: #A2925E;">" "</span>}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">50.5 55.5 60.5 65.5 70.5 75.5                  #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>iterator(比如下面的downto)如果不和block直接接触的话,会返回Enumerator object,
+然后再调用iterator,就可衍生出遍历等功能
+<div class="org-src-container">
+
+<pre class="src src-ruby">10.downto(7).with_index {|num, index| puts <span style="color: #C1C144;">"#{index}</span><span style="color: #A2925E;">:</span><span style="color: #C1C144;"> #{num}</span><span style="color: #A2925E;">"</span>}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">0: 10                                          #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">1: 9                                           #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">2: 8                                           #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">3: 7                                           #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Strings</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>Ruby String就是一系列character的序列(在ruby1.9之前是一系列8bit bytes的集合),
+用法和python类似,就是单引号,双引号,都可以表示字符串.转义什么的也差不多
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts <span style="color: #A2925E;">'escape using "\\"'</span>
+puts <span style="color: #A2925E;">'That\'s right'</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">escape using "\"                               #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">That's right                                   #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>Ruby的string和其他语言不同的地方在于string里面在#{expr}的保护下,可以嵌套进
+ruby代码(这跟jsp里面嵌套进java代码如出一辙).
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts <span style="color: #A2925E;">"Seconds/day:</span><span style="color: #C1C144;"> #{24 * 60 * 60}</span><span style="color: #A2925E;">"</span>
+puts <span style="color: #C1C144;">"#{'Ho! ' * 3}</span><span style="color: #A2925E;">Merry Christamas!"</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">86400                                          #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Ho! Ho! Ho! Merry Christamas!                  #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>嵌套的代码,当然可以更长一点.jsp里面的java也可以,只不过看起来奇怪一点
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts <span style="color: #A2925E;">"now is #{ def the(a)</span>
+<span style="color: #A2925E;">                  'the ' + a</span>
+<span style="color: #A2925E;">                end</span>
+<span style="color: #A2925E;">                the('time')</span>
+<span style="color: #A2925E;">} for all bad coders..."</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">now is the time for all bad coders...          #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>另外如果嵌套的代码是如下几个情况,可以不使用{}, 但是要带着#
+<ul class="org-ul">
+<li>global variable
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">SAFE is not defined, previously, so value is 0</span>
+puts <span style="color: #A2925E;">"Safe level is</span><span style="color: #C1C144;"> #$SAFE</span><span style="color: #A2925E;">"</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Safe level is 0                                #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>class variable
+</li>
+<li>instance variable
+</li>
+</ul>
+</li>
+<li>除了常见的使用单双引号来创建string, ruby还发明了下面三种另类创建方法
+<ul class="org-ul">
+<li>%q: 小写的q会被认为是单引号(single quotation mark). 令人惊奇的是除了小中大
+括号外,还可以使用任意其他符号来标记,比如下面的例子中还使用了感叹号(!)
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts <span style="color: #A2925E;">%q{general single-quoted string}</span>
+puts <span style="color: #A2925E;">%q/general single-quoted string/</span>
+puts <span style="color: #A2925E;">%q!general single-quoted string!</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">general single-quoted string                   #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">general single-quoted string                   #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">general single-quoted string                   #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>%Q: 大写的Q会被任务是双引号(double quotation mark), 和%q一样,除了大中小括
+号外,其他标记符号也可以.
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts <span style="color: #A2925E;">%Q{general double-quoted string}</span>
+puts <span style="color: #A2925E;">%Q!general double-quoted string!</span>
+puts <span style="color: #A2925E;">%Q{Seconds/day:</span><span style="color: #C1C144;"> #{24*60*60}</span><span style="color: #A2925E;">}</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">general double-quoted string                   #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">general double-quoted string                   #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Seconds/day: 86400                             #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>ruby的随意性到了令人发指的地步,如果只用%而不加@的话,也是可以的&#x2026;也就是说
+(% == %Q)
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts <span style="color: #A2925E;">%!general double-quoted string!</span>
+puts <span style="color: #A2925E;">%{Second/day:</span><span style="color: #C1C144;"> #{24 * 60 * 60}</span><span style="color: #A2925E;">}</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">general double-quoted string                   #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Second/day: 86400                              #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>最后,你还可以使用ruby自己的所谓here document的方法来创建多行字符串.这个跟
+python的"""有异曲同工之妙. 就是这么简单的功能.ruby也玩出了花样.&lt;&lt;加一个
+大写的字符串表示开始, 这很好理解.但是结束的时候,大写字符串"必须"出现在顶头
+的位置!!. 如果你不要顶头,你要对齐.那么开始的时候,请使用&lt;&lt;-
+<div class="org-src-container">
+
+<pre class="src src-ruby">string_1 = <span style="color: #A2925E;">&lt;&lt;-END_OF_STRING</span>
+<span style="color: #A2925E;">  The body of the string is the input lines up to</span>
+<span style="color: #A2925E;">  one starting with the same text that followed the '&lt;&lt;'</span>
+<span style="color: #A2925E;">  END_OF_STRING</span>
+puts string_1
+
+string_2 = &lt;&lt;<span style="color: #DADADA;">END_OF_STRING</span>
+<span style="color: #A2925E;">  The body of the string is the input lines up to</span>
+<span style="color: #A2925E;">  one starting with the same text that followed the '&lt;&lt;'</span>
+<span style="color: #A2925E;">END_OF_STRING</span>
+
+puts string_2
+
+<span style="color: #ed5b15;">############################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt;           #</span>
+<span style="color: #ed5b15;">#   </span><span style="color: #ed5b15;">The body of the string is the input lines up to        #</span>
+<span style="color: #ed5b15;">#   </span><span style="color: #ed5b15;">one starting with the same text that followed the '&lt;&lt;' #</span>
+<span style="color: #ed5b15;">#   </span><span style="color: #ed5b15;">The body of the string is the input lines up to        #</span>
+<span style="color: #ed5b15;">#   </span><span style="color: #ed5b15;">one starting with the same text that followed the '&lt;&lt;' #</span>
+<span style="color: #ed5b15;">############################################################</span>
+</pre>
+</div>
+</li>
+<li>here doucument的&lt;&lt;加大写字母.这个大写字母是unique的.所以,它们相互负责.
+所以你竟然可以混合两个here doucument使用.要对齐的话,记得使用&lt;&lt;-哦.
+<div class="org-src-container">
+
+<pre class="src src-ruby">print <span style="color: #A2925E;">&lt;&lt;-STRING1</span>, <span style="color: #A2925E;">&lt;&lt;-STRING2</span>
+<span style="color: #A2925E;">   Concat</span>
+<span style="color: #A2925E;">   STRING1</span>
+<span style="color: #A2925E;">          enate</span>
+<span style="color: #A2925E;">          STRING2</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;">#    </span><span style="color: #ed5b15;">Concat                                      #</span>
+<span style="color: #ed5b15;">#           </span><span style="color: #ed5b15;">enate                                #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Strings and Encodings</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>Ruby 1.9使用US-ASCII的endocing, 到了ruby2, encoding变成了UTF-8
+<div class="org-src-container">
+
+<pre class="src src-ruby">plain_string = <span style="color: #A2925E;">"dog"</span>
+puts <span style="color: #DADADA;">RUBY_VERSION</span>
+puts <span style="color: #A2925E;">"Encoding of</span><span style="color: #C1C144;"> #{plain_string.inspect}</span><span style="color: #A2925E;"> is</span><span style="color: #C1C144;"> #{plain_string.encoding}</span><span style="color: #A2925E;">"</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">1.9.3                                          #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Encoding of "dog" is GBK                       #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>当然了,你可以使用#encoding来强制设置编码模式.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #ed5b15;">#</span><span style="color: #ed5b15;">encoding: utf-8</span>
+plain_string = <span style="color: #A2925E;">"dog"</span>
+puts <span style="color: #A2925E;">"Encodig of</span><span style="color: #C1C144;"> #{plain_string.inspect}</span><span style="color: #A2925E;"> is</span><span style="color: #C1C144;"> #{plain_string.encoding}</span><span style="color: #A2925E;">"</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Encodig of "dog" is UTF-8                      #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">Character Constants</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>ruby没有为character创建自己的类. 我们常规认为的char,被ruby理解为长度为1的
+string
+</li>
+<li>有些历史原因造就了我们也得创建character constant. 不过本书作者认为我们应该
+忘记&#x2026;
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts ?a
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">a                                              #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">Working with Strings</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li>下面来做个小例子,加深下对string的理解.我们有如下的一个文档, 我们希望把txt文
+件的信息都提取出来.存到Ruby的对象里面
+<pre class="example">
+/jazz/j00132.mp3  | 3:45 | Fats     Waller     | Ain't Misbehavin'
+/jazz/j00319.mp3  | 2:58 | Louis    Armstrong  | Wonderful World
+/bgrass/bg0732.mp3| 4:09 | Strength in Numbers | Texas Red
+</pre>
+</li>
+<li>版本一: 就是打开文件,然后把内容读取成字符串. 唯一的难点在于string的split函
+数,其参数为正则表达式
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #DADADA;">Song</span> = <span style="color: #DADADA;">Struct</span>.new(<span style="color: #DF7921; font-weight: bold;">:title</span>, <span style="color: #DF7921; font-weight: bold;">:name</span>, <span style="color: #DF7921; font-weight: bold;">:length</span>)
+
+<span style="color: #DADADA;">File</span>.open(<span style="color: #A2925E;">"songdata.txt"</span>) <span style="color: #4856F7; font-weight: bold;">do</span> |song_file|
+  songs = []
+
+  song_file.each <span style="color: #4856F7; font-weight: bold;">do</span> |line|
+    file, length, name, title = line.chomp.split(<span style="color: #A2925E;">/\s*\|\s*/</span>)
+    songs &lt;&lt; <span style="color: #DADADA;">Song</span>.new(title, name, length)
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  puts songs[1]
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;">####################################################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt;                                   #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">c:/ttmp/ruby_in_action/pickaxe/tut_stdtypes &gt;&gt;&gt; ruby read_songdata_1.rb          #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">#&lt;struct Song title="Wonderful World", name="Louis    Armstrong", length="2:58"&gt; #</span>
+<span style="color: #ed5b15;">####################################################################################</span>
+</pre>
+</div>
+</li>
+<li>版本二,需要把结果里面的多余空格去掉,比如Louis   Armstrong, 中间太多空格了,
+考察的知识点是squeeze!函数
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #DADADA;">Song</span> = <span style="color: #DADADA;">Struct</span>.new(<span style="color: #DF7921; font-weight: bold;">:title</span>, <span style="color: #DF7921; font-weight: bold;">:name</span>, <span style="color: #DF7921; font-weight: bold;">:length</span>)
+
+<span style="color: #DADADA;">File</span>.open(<span style="color: #A2925E;">"songdata.txt"</span>) <span style="color: #4856F7; font-weight: bold;">do</span> |song_file|
+  songs = []
+
+  song_file.each <span style="color: #4856F7; font-weight: bold;">do</span> |line|
+    file, length, name, title = line.chomp.split(<span style="color: #A2925E;">/\s*\|\s*/</span>)
+    name.squeeze!(<span style="color: #A2925E;">" "</span>)
+    songs &lt;&lt; <span style="color: #DADADA;">Song</span>.new(title, name, length)
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  puts songs[1]
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;">#################################################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt;                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">c:/ttmp/ruby_in_action/pickaxe/tut_stdtypes &gt;&gt;&gt; ruby read_songdata_2.rb       #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">#&lt;struct Song title="Wonderful World", name="Louis Armstrong", length="2:58"&gt; #</span>
+<span style="color: #ed5b15;">#################################################################################</span>
+</pre>
+</div>
+</li>
+<li>把时间转换成秒,知识点是scan函数
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #DADADA;">Song</span> = <span style="color: #DADADA;">Struct</span>.new(<span style="color: #DF7921; font-weight: bold;">:title</span>, <span style="color: #DF7921; font-weight: bold;">:name</span>, <span style="color: #DF7921; font-weight: bold;">:length</span>)
+
+<span style="color: #DADADA;">File</span>.open(<span style="color: #A2925E;">"songdata.txt"</span>) <span style="color: #4856F7; font-weight: bold;">do</span> |song_file|
+  songs = []
+
+  song_file.each <span style="color: #4856F7; font-weight: bold;">do</span> |line|
+    file, length, name, title = line.chomp.split(<span style="color: #A2925E;">/\s*\|\s*/</span>)
+    name.squeeze!(<span style="color: #A2925E;">" "</span>)
+    mins, secs = length.scan(<span style="color: #A2925E;">/\d+/</span>)
+    songs &lt;&lt; <span style="color: #DADADA;">Song</span>.new(title, name, mins.to_i * 60 + secs.to_i)
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  puts songs[1]
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;">##############################################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt;                             #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">c:/ttmp/ruby_in_action/pickaxe/tut_stdtypes &gt;&gt;&gt; ruby read_songdata_3.rb    #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">#&lt;struct Song title="Wonderful World", name="Louis Armstrong", length=178&gt; #</span>
+<span style="color: #ed5b15;">##############################################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Ranges</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>ruby对range非常看重,使用range实现了三个feature: sequences conditions,intervals
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">Ranges as Sequences</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>range实现sequence是一个非常容易理解的现象.两个点和三个点是不一样的(我们使用
+to_a来转换成数组来看清楚 ):
+<ul class="org-ul">
+<li>两个点是包括最后一个成员:
+<div class="org-src-container">
+
+<pre class="src src-ruby">p (1..3).to_a
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">[1, 2, 3]                                      #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>三个点是不包括最后一个成员
+<div class="org-src-container">
+
+<pre class="src src-ruby">p (1...3).to_a
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">[1, 2]                                         #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>还可以使用to_enum来把一个range转化成Enumerator
+<div class="org-src-container">
+
+<pre class="src src-ruby">p (1..10).to_a
+p (<span style="color: #A2925E;">'bar'</span>..<span style="color: #A2925E;">'bat'</span>).to_a
+enum = (<span style="color: #A2925E;">'bar'</span>..<span style="color: #A2925E;">'bat'</span>).to_enum
+p enum.next
+p enum.next
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["bar", "bas", "bat"]                          #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"bar"                                          #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"bas"                                          #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>Range可以看作是一个object,所以可以调用很多函数. range的函数多数是和遍历相
+关的
+<div class="org-src-container">
+
+<pre class="src src-ruby">digits = 0..9
+p digits.include?(5)
+p digits.max
+p digits.reject {|i| i &lt; 5}
+p digits.inject(<span style="color: #DF7921; font-weight: bold;">:+</span>)
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">true                                           #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">9                                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">[5, 6, 7, 8, 9]                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">45                                             #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>range看起来如此美妙.导致我们自己的object也想享受range的福利.要想实现这个愿
+望需要满足以下两点:
+<ul class="org-ul">
+<li>实现succ:返回,"刚刚好"比当前object大的下一个object
+</li>
+<li>实现&lt;=&gt;:设定如何比较大小
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">PowerOfTwo</span>
+  attr_reader <span style="color: #DF7921; font-weight: bold;">:value</span>
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(value)
+    <span style="color: #C1C144;">@value</span> = value
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">&lt;=&gt;</span>(other)
+    <span style="color: #C1C144;">@value</span> &lt;=&gt; other.value
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">succ</span>
+    <span style="color: #DADADA;">PowerOfTwo</span>.new(<span style="color: #C1C144;">@value</span> + <span style="color: #C1C144;">@value</span>)
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">to_s</span>
+    <span style="color: #C1C144;">@value</span>.to_s
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+p1 = <span style="color: #DADADA;">PowerOfTwo</span>.new(4)
+p2 = <span style="color: #DADADA;">PowerOfTwo</span>.new(32)
+
+puts (p1..p2).to_a
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">4                                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">8                                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">16                                             #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">32                                             #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">Ranges as Conditions</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>range还可以作为condition, ruby已经到了丧心病狂的地步了.比如下面的代码就可以
+从标准输入中"截取"start和end之间的内容
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">while</span> line = gets
+  puts line <span style="color: #4856F7; font-weight: bold;">if</span> line =~ <span style="color: #A2925E;">/start/</span> .. line =~ <span style="color: #A2925E;">/end/</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3">Ranges as Intervals</h3>
+<div class="outline-text-3" id="text-3-3">
+<ul class="org-ul">
+<li>这个还算人性化:判断某个object是否落在了某个特定的range里面
+<div class="org-src-container">
+
+<pre class="src src-ruby">p (1..10) === 5
+p (1..10) === 15
+p (1..10) === 3.14159
+p (<span style="color: #A2925E;">'a'</span>..<span style="color: #A2925E;">'j'</span>) === <span style="color: #A2925E;">'c'</span>
+p (<span style="color: #A2925E;">'a'</span>..<span style="color: #A2925E;">'j'</span>) === <span style="color: #A2925E;">'z'</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">true                                           #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">false                                          #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">true                                           #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">true                                           #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">false                                          #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>===的用法,可以作为case的statement(注意..和&#x2026;的区别)
+<div class="org-src-container">
+
+<pre class="src src-ruby">car_age = 9.5
+
+<span style="color: #4856F7; font-weight: bold;">case</span> car_age
+<span style="color: #4856F7; font-weight: bold;">when</span> 0...1
+  puts <span style="color: #A2925E;">"Mmm.. new car smell"</span>
+<span style="color: #4856F7; font-weight: bold;">when</span> 1...3
+  puts <span style="color: #A2925E;">"Nice and new"</span>
+<span style="color: #4856F7; font-weight: bold;">when</span> 3...10
+  puts <span style="color: #A2925E;">"Reliable but slightly dinged"</span>
+<span style="color: #4856F7; font-weight: bold;">when</span> 10...30
+  puts <span style="color: #A2925E;">"Clunker"</span>
+<span style="color: #4856F7; font-weight: bold;">else</span>
+  puts <span style="color: #A2925E;">"Vintage gem"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Reliable but slightly dinged                   #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

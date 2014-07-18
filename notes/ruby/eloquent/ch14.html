@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 14: Use Class Instance Variables</title>
+<!-- 2014-07-18 Fri 16:03 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 14: Use Class Instance Variables</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Use Class Instance Variables</a>
+<ul>
+<li><a href="#sec-1-1">A Quick Review of Class Variables</a></li>
+<li><a href="#sec-1-2">Wandering Variables</a></li>
+<li><a href="#sec-1-3">Getting Control of the Data in Your Class</a></li>
+<li><a href="#sec-1-4">Class Instance Variable and Subclasses</a></li>
+<li><a href="#sec-1-5">Adding Some Convenience to Your Class Instance</a></li>
+<li><a href="#sec-1-6">In the Wild</a></li>
+<li><a href="#sec-1-7">Staying Out of Trouble</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Use Class Instance Variables</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>Ruby中使用@@表示class variable, 经验告诉我们,class variable通常不是一个好主
+意,所以要使用class instance variable来替代class variable.
+</li>
+<li>注意!是class instance variable而不是instance variable.
+</li>
+<li>class instance variable是一个"中间状态":
+<ul class="org-ul">
+<li>它和instance variable长得很像都是一个@,但是它不在某个method里面
+</li>
+<li>它和class variable一样,再class里面,但是在所有的method的外面.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">A Quick Review of Class Variables</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>我们想给Document增加尺寸这个属性,先看看把它加成class variable的版本的效果
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  <span style="color: #C1C144;">@@default_paper_size</span> = <span style="color: #DF7921; font-weight: bold;">:a4</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.default_paper_size</span>
+    <span style="color: #C1C144;">@@default_paper_size</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.default_paper_size=</span>(new_size)
+    <span style="color: #C1C144;">@@default_paper_size</span> = new_size
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  attr_accessor <span style="color: #DF7921; font-weight: bold;">:title</span>, <span style="color: #DF7921; font-weight: bold;">:author</span>, <span style="color: #DF7921; font-weight: bold;">:content</span>
+  attr_accessor <span style="color: #DF7921; font-weight: bold;">:paper_size</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(title, author, content)
+    <span style="color: #C1C144;">@title</span> = title
+    <span style="color: #C1C144;">@author</span> = author
+    <span style="color: #C1C144;">@content</span> = content
+    <span style="color: #C1C144;">@paper_size</span> = <span style="color: #C1C144;">@@default_paper_size</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Rest of the class omitted...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>看似完美的解决方法其实不堪一击,后面章节会进行解释
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Wandering Variables</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>先来了解一下编译器如何解析, 在Document class一进去看到@@default_paper_size
+     的时候,编译器第一反应是找它第一次出现的位置,所以会"追根溯源"的找:
+<ul class="org-ul">
+<li>要么在某个base class里面找到了那个@@default_paper_size
+</li>
+<li>要么没有找到,就再当前的class里面设置一个new class variable
+</li>
+</ul>
+</li>
+<li>Resume是一种文档,所以继承了Document, 增加了一个class variable叫做default_font
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Resume</span> &lt; <span style="color: #DADADA;">Document</span>
+  <span style="color: #C1C144;">@@default_font</span> = <span style="color: #DF7921; font-weight: bold;">:arial</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.default_font</span> = (font)
+    <span style="color: #C1C144;">@@default_font</span> = font
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.default_font</span>
+    <span style="color: #C1C144;">@@default_font</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  attr_accessor <span style="color: #DF7921; font-weight: bold;">:font</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>
+    <span style="color: #C1C144;">@font</span> = <span style="color: #C1C144;">@@default_font</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Rest of the class omitted...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>Presentation也是一种文档,也继承了Document, 也增加了一个叫做default_font的
+     class variable
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Presentation</span> &lt; <span style="color: #DADADA;">Document</span>
+  <span style="color: #C1C144;">@@default_font</span> = <span style="color: #DF7921; font-weight: bold;">:nimbus</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.default_font</span> = (font)
+    <span style="color: #C1C144;">@@default_font</span> = font
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.default_font</span>
+    <span style="color: #C1C144;">@@default_font</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  attr_accessor <span style="color: #DF7921; font-weight: bold;">:font</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>
+    <span style="color: #C1C144;">@font</span> = <span style="color: #C1C144;">@@default_font</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>有一天你不知道哪根筋错了,竟然给Document,也就是Resume和Presentation的父类也
+定义了一个名字相同的class variable. 然后,一切都毁灭了
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  <span style="color: #C1C144;">@@dafault_font</span> = <span style="color: #DF7921; font-weight: bold;">:times</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>我们用一个简单的例子来描绘一下"毁灭"的现场
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Base</span>
+  <span style="color: #C1C144;">@@cv</span> = <span style="color: #DF7921; font-weight: bold;">:hello</span>
+  attr_reader <span style="color: #DF7921; font-weight: bold;">:out</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>
+    <span style="color: #C1C144;">@out</span> = <span style="color: #C1C144;">@@cv</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+b1 = <span style="color: #DADADA;">Base</span>.new
+p b1.out
+
+<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Derived</span> &lt; <span style="color: #DADADA;">Base</span>
+  <span style="color: #C1C144;">@@cv</span> = <span style="color: #DF7921; font-weight: bold;">:world</span>
+  attr_reader <span style="color: #DF7921; font-weight: bold;">:out</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>
+    <span style="color: #C1C144;">@out</span> = <span style="color: #C1C144;">@@cv</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+b2 = <span style="color: #DADADA;">Base</span>.new
+d = <span style="color: #DADADA;">Derived</span>.new
+
+p b2.out
+p d.out
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">:hello                                         #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">:world                                         #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">:world                                         #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>也就是说如果我们Document系列代码有如下调用的话, 因为有Document再中间"牵线搭
+桥", 会出现,所有的Document系列的字体都称了:arial
+<div class="org-src-container">
+
+<pre class="src src-ruby">require <span style="color: #A2925E;">'document'</span>
+require <span style="color: #A2925E;">'resume'</span>                <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Load Resume first</span>
+require <span style="color: #A2925E;">'presentation'</span>          <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">then Presentation</span>
+</pre>
+</div>
+</li>
+<li>出现上面这种问题的原因,是class variable的封装性不够,class variable其实和原
+来面向过程编程中的全局变量很像. class variable和某个specific的class联系的不
+够紧密,反而是和整个继承序列所有的class都有关系,被David Black称作"vertical
+global variables" (非常生动哈)
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Getting Control of the Data in Your Class</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>解决方法也很简单,"去掉一个@", 我们使用class instance variable. 少了一个@后,
+整个default_font就是和某个class紧密结合了.而且不出意外的再initialize的时候
+给每个instance都赋好了值
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  <span style="color: #C1C144;">@default_font</span> = <span style="color: #DF7921; font-weight: bold;">:times</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.default_font=</span>(font)
+    <span style="color: #C1C144;">@default_font</span> = font
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.default_font</span>
+    <span style="color: #C1C144;">@default_font</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>由于我们实现了default_font=函数,所以我们可以做到如下:
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #DADADA;">Document</span>.default_font = <span style="color: #DF7921; font-weight: bold;">:arial</span>
+</pre>
+</div>
+</li>
+<li>由于我们实现了default_font函数,所以我们可以直接在其他method,比如initialize
+里面直接调用它
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(title, author)
+  <span style="color: #C1C144;">@title</span> = title
+  <span style="color: #C1C144;">@author</span> = author
+  <span style="color: #C1C144;">@font</span> = <span style="color: #DADADA;">Document</span>.default_font
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Class Instance Variable and Subclasses</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>我们刚才发现class variable的问题是通过subclass,所以我们还是要看看class
+instance variable在subclass存在时候的表现
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Base</span>
+  <span style="color: #C1C144;">@civ</span> = <span style="color: #DF7921; font-weight: bold;">:hello</span>
+  <span style="color: #4856F7; font-weight: bold;">class</span> &lt;&lt; <span style="color: #C1C144;">self</span>
+    attr_accessor <span style="color: #DF7921; font-weight: bold;">:civ</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  attr_reader <span style="color: #DF7921; font-weight: bold;">:out</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>
+    <span style="color: #C1C144;">@out</span> = <span style="color: #DADADA;">Base</span>.civ
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Derived</span> &lt; <span style="color: #DADADA;">Base</span>
+  <span style="color: #C1C144;">@civ</span> = <span style="color: #DF7921; font-weight: bold;">:world</span>
+
+  <span style="color: #4856F7; font-weight: bold;">class</span> &lt;&lt; <span style="color: #C1C144;">self</span>
+    attr_accessor <span style="color: #DF7921; font-weight: bold;">:civ</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  attr_reader <span style="color: #DF7921; font-weight: bold;">:out</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>
+    <span style="color: #C1C144;">@out</span> = <span style="color: #DADADA;">Derived</span>.civ
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+b2 = <span style="color: #DADADA;">Base</span>.new
+d = <span style="color: #DADADA;">Derived</span>.new
+
+p b2.out
+p d.out
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">:hello                                         #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">:world                                         #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>表现不错,没有出现class variable的错误.其原因自然是因为class instance variable
+是和某个specific的class紧密联系,而不和其他class分享的.而且我们上面非常巧妙
+的使用了Singleton variable来减少代码量
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Adding Some Convenience to Your Class Instance</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>前面说过了我们替代class variable的选择是class instance variable, 他本质上是
+instance variable(因为只有一个@),只是碰巧不小心再class里面,在method外面.
+</li>
+<li>我们第一个例子介绍class instance variable的时候,给他写了setter getter函数,
+第二个例子就用了Ruby的attr_accessor来减少代码,还用了singleton method. 否则
+instance是无法调动它们的
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+  <span style="color: #C1C144;">@default_font</span> = <span style="color: #DF7921; font-weight: bold;">:times</span>
+  <span style="color: #4856F7; font-weight: bold;">class</span> &lt;&lt; <span style="color: #C1C144;">self</span>
+    attr_accessor <span style="color: #DF7921; font-weight: bold;">:default_font</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>这样一设置.Document有了好几个singleton method可以调用.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">In the Wild</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>Rails的ActiveRecord使用了很多的class instance variable.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">Staying Out of Trouble</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>使用class variable的情况极其少见,要非常小心,推荐使用class instance variable
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 01: Introduction to Objects</title>
+<!-- 2014-07-18 Fri 16:15 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 01: Introduction to Objects</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Introduction to Objects</a>
+<ul>
+<li><a href="#sec-1-1">The progress of abstraction</a></li>
+<li><a href="#sec-1-2">An object has an interface</a></li>
+<li><a href="#sec-1-3">An object procides services</a></li>
+<li><a href="#sec-1-4">The hidden implementation</a></li>
+<li><a href="#sec-1-5">Reusing the implementation</a></li>
+<li><a href="#sec-1-6">Inheritance</a></li>
+<li><a href="#sec-1-7">Is-a vs. is-like-a relationship</a></li>
+<li><a href="#sec-1-8">Interchangeable objects with polymorphism</a></li>
+<li><a href="#sec-1-9">The singly rooted hierarchy</a></li>
+<li><a href="#sec-1-10">Containers</a></li>
+<li><a href="#sec-1-11">Parameterized types (generics)</a></li>
+<li><a href="#sec-1-12">Object creationg &amp; lifetime</a></li>
+<li><a href="#sec-1-13">Exception handling: dealing with errors</a></li>
+<li><a href="#sec-1-14">Concurrent programming</a></li>
+<li><a href="#sec-1-15">Java and the Internet</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Introduction to Objects</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">The progress of abstraction</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>所有的编程语言都提供了抽象:汇编是对机器码的抽象,c语言是对汇编的抽象
+</li>
+<li>c语言的抽象还是不够彻底:编程时,你依然需要了解很多关于"计算机组成部分"的知识,
+而不是全身心的投入进去解决你的问题
+</li>
+<li>后来者提供了更进一步的抽象,比如LISP就认为所有的问题最终都是list.
+</li>
+<li>最后,我们来到了面向对象编程,它提供了当前最好的抽象:OOP允许你描述问题的时候,
+描述的就是问题本身,而不需要描述机器的运行方法
+</li>
+<li>Java是在smalltalk的基础上建立起来的.两者都有如下特性,这些特性成就了一个纯
+的面向对象语言:
+<ul class="org-ul">
+<li>Everything is an object
+</li>
+<li>A program is a bunch of objects telling each other what to do by sending 
+message
+</li>
+<li>Each object has its own memory made up of other objects
+</li>
+<li>Every object has a type.
+</li>
+<li>All objects of a particular type can receive the same message.
+</li>
+</ul>
+</li>
+<li>总结起来讲就是说一个object有:
+<ol class="org-ol">
+<li>state (object有内部数据)
+</li>
+<li>behavior (object有public函数)
+</li>
+<li>identity (每个object都有自己独特的内存地址)
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">An object has an interface</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>在面向对象编程中,类这个概念很特殊,它的来历是
+<pre class="example">
+Objects that are identical except for their state during a program's execution are grouped together into "classes of objects"
+</pre>
+</li>
+<li>类的用处,就是描述一类objects,他们有相同的特质(数据), 和相同的行为(函数).类
+其实就是程序员自己定义的type.
+</li>
+<li>为了让类能够做一些我们想要的动作,我们就需要类有自己的interface: 比如下面的
+on(), off()等等
+
+<div class="figure">
+<p><img src="../../static/images/light.png" alt="light.png" />
+</p>
+</div>
+</li>
+
+<li>interface只是指出了函数的使用方法(类似于函数声明),比如有其他地方的代码来实
+现这些函数
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">An object procides services</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>一个对object的简单的理解方式是"把object理解为一个服务提供商":你的程序其实是
+给用户提供服务, 而这个服务间接的由object提供出来.
+</li>
+<li>这样的话,用java写程序其实就是把一个问题拆成多个object,如果这个object库里面
+有,就直接用.否则就自己写
+</li>
+<li>把object想象成service provider有很多额外的好处:
+<ul class="org-ul">
+<li>提高内聚性:很多object设计的毛病源自于一个object里面有太多的功能.
+</li>
+<li>别人更容易理解你的代码,从而更好的复用.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">The hidden implementation</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>在程序创作的过程中,很有必要把代码分成两个部分:
+<ul class="org-ul">
+<li>class creator : thoses who create new data types: 类的创建者的目标是,创建
+一个类,但是只暴露尽可能少的接口给用户(在完成功能的前提下)
+</li>
+<li>client programmer : class consumers who use the data type in their 
+applcation:在一系列类的帮助下,进行快速开发
+</li>
+</ul>
+</li>
+<li>正是因为类的创建者需要在完成功能的情况下尽可能的少暴露他的接口.所以我们有如
+下三种关键字来确定暴露和保护:
+<ul class="org-ul">
+<li>public: 其修饰的代码能够为任何人所使用
+</li>
+<li>private: 其修饰的代码只能被自己看到
+</li>
+<li>protected: 其修饰作用和private一样,只是有一个例外,继承类可以访问父类的
+protected部分(但不能访问其父类的private部分)
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Reusing the implementation</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>代码重用是OOP的强大优势
+</li>
+<li>最常见的代码重用的方法是 object composition:它往往代表一种"has-a"关系.
+
+<div class="figure">
+<p><img src="../../static/images/car.png" alt="car.png" />
+</p>
+</div>
+</li>
+
+<li>当然object composition还有一个变体就是aggregation,也是"has-a"关系,只不过被包
+含的部分数量经常变化.(一个池塘里面鸭子的数量经常改变)
+
+<div class="figure">
+<p><img src="../../static/images/pond.png" alt="pond.png" />
+</p>
+</div>
+</li>
+
+<li>composition有与生俱来的灵活性,因为被has的成员对象(member object)通常都是
+private的, 这就意味着你可以随意改动他们,而不会对class client造成伤害.
+</li>
+<li>使用composition,你甚至可以在运行期动态改变他们.而对于inheritance,你只能在
+compile-time来创建.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Inheritance</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>object的初衷是为了方便:可以把数据和函数打包,然后把主要精力放到解决问题,而不
+需要同时兼顾各种系统的功能.所以我们引入了class来创建某种object
+</li>
+<li>而inheritance则是为了能够小幅度的改变一个class,增加一些新的东西,就引入一个
+新的class.老的class就叫做base,新才class就叫做derived.
+</li>
+<li>继承的特点就是derived会随着base的改变而改变.这种改变不能说一定是好事
+</li>
+<li>从一个base创建出一个derived的过程中,derived不仅仅拷贝了base的所有的数据(非
+private的), 同时,更重要的是,derived拷贝了所有的interface.换句话说就是,所有
+传递给base对象的,现在也可以传递给derived对象了.
+</li>
+<li>所以derived和base类型是"一样的", inheritance的这种类型一致性是其特点
+</li>
+<li>有两种方法让derived class变得更加与众不同一点:
+<ol class="org-ol">
+<li>添加新的interface:这很好理解,我比base class多了几种调用方法
+</li>
+<li>更改已有的interface的内部实现
+</li>
+</ol>
+</li>
+<li>第1种方法看起来更符合java "extend"的感觉(延伸么&#x2026;),但其实一般情况下,derived
+基本都是靠第2种方法(Overriding)来让自己变得和base不那么一样.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">Is-a vs. is-like-a relationship</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>如果一个derived class只更改了base的接口实现,自己并没有添加新的接口,那么我们
+说这种继承较pure substitution,因为type完全相同,所以可以说是一种"is-a"的关系
+</li>
+<li>如果你万不得已在derived里面引入了新的接口(函数),那也没问题,我们把他叫做一种
+"is-like-a"的关系:这种关系也没啥问题,只是你新加了功能,可以有些组件是为你的base
+的类写的,他并不知道你的新功能.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">Interchangeable objects with polymorphism</h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>我们之所以喜欢pure substitution是因为我们编程的时候,可以把所有的derived当作
+是base(因为他们type其实"完全一致")
+</li>
+<li>虽然编程上省了事,但编译器却要通过late binding的方式来完成在运行期才决定运行
+哪个内存上代码的功能.这种late binding的方式叫做polymorphism(多肽)
+</li>
+<li>Java默认dynamic binding是class内部的函数的缺省行为, 不需要virtual(像c++
+一样)指定.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9">The singly rooted hierarchy</h3>
+<div class="outline-text-3" id="text-1-9">
+<ul class="org-ul">
+<li>Java不支持多继承模式,这有很多的好处:
+<ul class="org-ul">
+<li>可以对一类object施以同样的操作
+</li>
+<li>所有的对象都可以在heap上创建
+</li>
+<li>argument传递变得简单
+</li>
+<li>garbage collector在单继承上更为简单
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-10" class="outline-3">
+<h3 id="sec-1-10">Containers</h3>
+<div class="outline-text-3" id="text-1-10">
+<ul class="org-ul">
+<li>container是一种保留着其他object ref的新type.它的大小可以动态决定.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-11" class="outline-3">
+<h3 id="sec-1-11">Parameterized types (generics)</h3>
+<div class="outline-text-3" id="text-1-11">
+<ul class="org-ul">
+<li>在JAVA5之前,container里面所有的内容都是Object类型的.所以container实现起来很
+简单
+</li>
+<li>但是container使用起来却有点风险.比如Shape类型的要先upcast成Object,然后存入,
+读取的时候,要再downcast成Shape
+</li>
+<li>upcast总是成立的,因为Shape是一个Object,但是downcast却并不是总是成立,存在
+着downcast的危险(虽然也会抛出异常,但是毕竟增加了成本)
+</li>
+<li>新的container的处理办法是泛型编程
+<div class="org-src-container">
+
+<pre class="src src-java">ArrayList&lt;Shape&gt; shapes = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ArrayList</span>&lt;Shape&gt;();
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-12" class="outline-3">
+<h3 id="sec-1-12">Object creationg &amp; lifetime</h3>
+<div class="outline-text-3" id="text-1-12">
+<ul class="org-ul">
+<li>java使用new来创建新的heap object
+</li>
+<li>java所有的内存都是通过garbage collection来回收的.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-13" class="outline-3">
+<h3 id="sec-1-13">Exception handling: dealing with errors</h3>
+<div class="outline-text-3" id="text-1-13">
+<ul class="org-ul">
+<li>Java把错误处理写入到了程序语言里面,那就是:exception
+</li>
+<li>抛出的exception是由exception handler来处理的, exception handler就像和main函
+数并行运行一样,平时不出现,exception出现的时候,他就出手相救了.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-14" class="outline-3">
+<h3 id="sec-1-14">Concurrent programming</h3>
+<div class="outline-text-3" id="text-1-14">
+<ul class="org-ul">
+<li>java5开始支持多线程编程
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-15" class="outline-3">
+<h3 id="sec-1-15">Java and the Internet</h3>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 03: Take Advantage of Ruby's Smart Collections</title>
+<!-- 2014-07-18 Fri 16:04 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 03: Take Advantage of Ruby's Smart Collections</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Literal Shortcuts</a></li>
+<li><a href="#sec-2">Instant Arrays and Hashes from Method Calls</a></li>
+<li><a href="#sec-3">Running Through Your Collection</a></li>
+<li><a href="#sec-4">Beware the Bang!</a></li>
+<li><a href="#sec-5">Rely on the Order of Your Hashes</a></li>
+<li><a href="#sec-6">In the Wild</a></li>
+<li><a href="#sec-7">Staying Out</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Literal Shortcuts</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>最常见的literal形式是这样的
+<div class="org-src-container">
+
+<pre class="src src-ruby">poem_words = [<span style="color: #A2925E;">'twinkle'</span>, <span style="color: #A2925E;">'little'</span>, <span style="color: #A2925E;">'star'</span>, <span style="color: #A2925E;">'how'</span>, <span style="color: #A2925E;">'I'</span>, <span style="color: #A2925E;">'wonder'</span>]
+p poem_words
+
+<span style="color: #ed5b15;">#######################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt;      #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["twinkle", "little", "star", "how", "I", "wonder"] #</span>
+<span style="color: #ed5b15;">#######################################################</span>
+</pre>
+</div>
+</li>
+<li>ruby不喜欢写那么多的'', 所以可以简化成
+<div class="org-src-container">
+
+<pre class="src src-ruby">poem_words = <span style="color: #A2925E;">%w{twinkle little star ho I wonder}</span>
+p poem_words
+
+<span style="color: #ed5b15;">######################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt;     #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["twinkle", "little", "star", "ho", "I", "wonder"] #</span>
+<span style="color: #ed5b15;">######################################################</span>
+</pre>
+</div>
+</li>
+<li>hash 最开始的格式是这样的. 基本上就是把格式严格的书写一遍
+<div class="org-src-container">
+
+<pre class="src src-ruby">freq = {<span style="color: #A2925E;">"I"</span> =&gt; 1, <span style="color: #A2925E;">"don't"</span> =&gt; 1, <span style="color: #A2925E;">"like"</span> =&gt; 1, <span style="color: #A2925E;">"spam"</span> =&gt; 963}
+p freq
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">{"I"=&gt;1, "don't"=&gt;1, "like"=&gt;1, "spam"=&gt;963}   #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>hash在symbol出现以后,就不再推荐使用字符串了,而是使用:sym的symbol作为key,既
+能保证唯一,又好书写
+<div class="org-src-container">
+
+<pre class="src src-ruby">book_info = {<span style="color: #DF7921; font-weight: bold;">:first_name=</span>&gt; <span style="color: #A2925E;">'Russ'</span>, <span style="color: #DF7921; font-weight: bold;">:last_name</span> =&gt; <span style="color: #A2925E;">'Olsen'</span>}
+p book_info
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Can be even written like this</span>
+
+book_info = {<span style="color: #DF7921; font-weight: bold;">first_name</span>: <span style="color: #A2925E;">'Russ'</span>, <span style="color: #DF7921; font-weight: bold;">last_name</span>: <span style="color: #A2925E;">'Olsen'</span>}
+p book_info
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">{:first_name=&gt;"Russ", :last_name=&gt;"Olsen"}     #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">{:first_name=&gt;"Russ", :last_name=&gt;"Olsen"}     #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Instant Arrays and Hashes from Method Calls</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>给参数一个默认值,然后使用的时候可以少输入几个参数,没什么奇怪的,这是所有高级语言的特性
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">load_font</span>(name, size = 12)
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Go font hunting...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>ruby还支持可变参数,就是参数到底是几个不一定. 使用*args作为参数,等到使用的时
+候, 真正传入的这些参数就"装进"一个名叫args的数组
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">echo_all</span>(*args)
+  args.each {|arg| p arg}
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+echo_all(<span style="color: #A2925E;">"hello"</span>, <span style="color: #A2925E;">"world"</span>, <span style="color: #C1C144;">false</span>)
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"hello"                                        #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"world"                                        #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">false                                          #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>利用ruby可以帮你转换数组这个事实,你可以在设计函数的时候,就加上*, 然后这个参
+数在使用的时候,就可以被当做一个数组啦, 传参数的时候又非常的惬意
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">add_authors</span>(*names)
+  puts <span style="color: #A2925E;">"Author is "</span> + <span style="color: #C1C144;">"#{names.join(' ')}</span><span style="color: #A2925E;">"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+add_authors(<span style="color: #A2925E;">'Strunk'</span>, <span style="color: #A2925E;">'White'</span>)
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Inside of following</span>
+
+<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">add_authors_another</span>(names)
+  puts <span style="color: #A2925E;">"Author is "</span> + <span style="color: #C1C144;">"#{names.join(' ')}</span><span style="color: #A2925E;">"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+add_authors_another([<span style="color: #A2925E;">'Strunk'</span>, <span style="color: #A2925E;">'White'</span>])
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Author is Strunk White                         #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Author is Strunk White                         #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>*args作为参数,可以放在函数参数的任意位置(从1.9开始才可以,原来是必须放到末尾)
+</li>
+<li>hash可以作为函数的参数,而且,更重要的是如果hash是函数最后一个参数的话,可以不
+写大括号!!非常重要,因为不懂这个规则在很多代码面前都很疑惑
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">load_font</span>(specification_hash)
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Load a font according to specification_hash[:name] etc.</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+load_font({<span style="color: #DF7921; font-weight: bold;">:name</span> =&gt; <span style="color: #A2925E;">'Times roman'</span>, <span style="color: #DF7921; font-weight: bold;">:size=</span>&gt;12})
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Can be repalced with following</span>
+load_font(<span style="color: #DF7921; font-weight: bold;">:name</span> =&gt; <span style="color: #A2925E;">'Times roman'</span>, <span style="color: #DF7921; font-weight: bold;">:size=</span>&gt;12)
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Running Through Your Collection</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>遍历collection可以使用类python的方法,但是还是那句话,只是可以这么写,但是不要
+这么写
+<div class="org-src-container">
+
+<pre class="src src-ruby">words = <span style="color: #A2925E;">%w{ Mary had a little lamb }</span>
+
+<span style="color: #4856F7; font-weight: bold;">for</span> i <span style="color: #4856F7; font-weight: bold;">in</span> 0..words.size
+  puts  words[i]
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Mary                                           #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">had                                            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">a                                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">little                                         #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">lamb                                           #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>要这样写, ruby总是偏爱code block
+<div class="org-src-container">
+
+<pre class="src src-ruby">words = <span style="color: #A2925E;">%w{ Mary had a little lamb }</span>
+
+words.each {|word| puts word}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Mary                                           #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">had                                            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">a                                              #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">little                                         #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">lamb                                           #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>hash也要使用code block的循环方式,因为hash是"key/value的紧密组合", 所以只使
+用一个code block变量的话,会打印出数组来.使用两个code block变量就没事了
+<div class="org-src-container">
+
+<pre class="src src-ruby">movie = {<span style="color: #DF7921; font-weight: bold;">title</span>: <span style="color: #A2925E;">'2001'</span>, <span style="color: #DF7921; font-weight: bold;">genre</span>: <span style="color: #A2925E;">'sci fi'</span>, <span style="color: #DF7921; font-weight: bold;">rating</span>: 10}
+
+movie.each {|entry| p entry}
+
+movie.each {|name, value| puts <span style="color: #C1C144;">"#{name}</span><span style="color: #A2925E;"> =&gt;</span><span style="color: #C1C144;"> #{value}</span><span style="color: #A2925E;">"</span>}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">[:title, "2001"]                               #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">[:genre, "sci fi"]                             #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">[:rating, 10]                                  #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">title =&gt; 2001                                  #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">genre =&gt; sci fi                                #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">rating =&gt; 10                                   #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>hash和数组背后都有非常强大的API支持,因为ruby只支持这两种collection(这两个
+collection稍加更改就能做其他语言里面的stack,heap等).如果你要在collection增
+加一些功能的话,查询一些API,可能大部分功能都有了,只需要稍许改变.比如查找某个
+word在数组中的位置,如果自己不了解Array API直接写的话
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">index_for</span>(word)
+  i = 0
+  words.each <span style="color: #4856F7; font-weight: bold;">do</span> |this_word|
+    <span style="color: #4856F7; font-weight: bold;">return</span> i <span style="color: #4856F7; font-weight: bold;">if</span> word == this_word
+    i += 1
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #C1C144;">nil</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>查询过API后,可以发现可以利用find_index的帮助
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">index_for</span>(word)
+  words.find_index {|this_word| word == this_word}
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>前面介绍了each和index_for, 另外两个对于collection至关重要的函数是:
+<ul class="org-ul">
+<li>map: 也是遍历的方法,但是并不是像index_for一样遍历途中遇到什么情况就返回,
+而是保证每个element都遍历,最后把结果都保存下来(这点又和each很像), 比如下
+面的例子是求每个单词的长度
+<div class="org-src-container">
+
+<pre class="src src-ruby">words = <span style="color: #A2925E;">%w{ I love you China}</span>
+
+p words.map {|word| word.size}
+
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">You can see the all-lowercase version of the words in following way</span>
+p words.map {|word| word.downcase}
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">[1, 4, 3, 5]                                   #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["i", "love", "you", "china"]                  #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>inject: 也是会像each一样遍历整个数组,但是它总是会在每一步的遍历途中记录两
+个值1.累计值2.当前值. inject在运行的时候还要初始化累计值(当然也可以不指定,
+那么数组第一个值就是默认值了, 但是第一个例子必须初始化否则初始值是一个字符
+串无法加上其他数字).
+<div class="org-src-container">
+
+<pre class="src src-ruby">words = <span style="color: #A2925E;">%w{ I love you China}</span>
+
+total = words.inject(0.0) {|result, word| word.size + result}
+puts total / words.size
+
+connect = words.inject {|result, word| result + word}
+puts connect
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">3.25                                           #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">IloveyouChina                                  #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Beware the Bang!</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>ruby的collection中元素的顺序是可以改变的.而且可以改变的元素顺序的函数大部分
+都再最后加上了!.比如:
+<ul class="org-ul">
+<li>sort是返回一个sorted的数组, sort!是直接把原数组排序
+</li>
+<li>reverse是返回一个reversed的数组,reverse!是直接把原数组reverse
+</li>
+</ul>
+</li>
+<li>!的意思并不是改变,而是危险.所以有些会改变元素但是"不危险"的函数就没有加!了,
+比如push, pop, delete等等
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Rely on the Order of Your Hashes</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>array的顺序是固定的这个是所有编程语言的常识
+</li>
+<li>从ruby1.9开始,ruby的hash也是顺序固定的了,这个很重要.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">In the Wild</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>java中,可能会为每一个它认为特别的数据集合创建一个比如叫做ForSepcialCollection
+的类,然后这个类是某个类的子类. 而ruby不这么想,ruby重复的,到处使用其仅有的两
+个collection: map和array. 因为ruby认为: 东西越多,越容易混乱.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Staying Out</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li>collection也有很多的陷阱,比如下面删除负数的例子,由于删除了第一个-10的时候,
+吧index搞乱了,最后可能出现的结果就是有的负数没有被删掉
+<div class="org-src-container">
+
+<pre class="src src-ruby">array = [0, -10, -9, 5, 9]
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Wrong! mess up the internal index</span>
+array.each_index {|i| array.delete_at(i) <span style="color: #4856F7; font-weight: bold;">if</span> array[i] &lt; 0}
+
+p array
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">[0, -9, 5, 9]                                  #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>其实除了array和hash, ruby还是有set这个数据结构的,只不过不是内置的需要require
+一把
+<div class="org-src-container">
+
+<pre class="src src-ruby">require <span style="color: #A2925E;">'set'</span>
+
+word_set = <span style="color: #DADADA;">Set</span>.new(words)
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

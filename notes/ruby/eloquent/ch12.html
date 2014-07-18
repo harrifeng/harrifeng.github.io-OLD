@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 12: Create Classes That Understand Equality</title>
+<!-- 2014-07-18 Fri 16:03 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 12: Create Classes That Understand Equality</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Create Classes That Understand Equality</a>
+<ul>
+<li><a href="#sec-1-1">An Identifier for Your Documents</a></li>
+<li><a href="#sec-1-2">An Embarrassment of Equality</a></li>
+<li><a href="#sec-1-3">Double Equals for Everyday Use</a></li>
+<li><a href="#sec-1-4">Broadening the Appeal of the == Method</a></li>
+<li><a href="#sec-1-5">Well-Behaved Equality</a></li>
+<li><a href="#sec-1-6">Triple Equals for Case Statements</a></li>
+<li><a href="#sec-1-7">Hash Tables and the eql? Method</a></li>
+<li><a href="#sec-1-8">Building a Well-Behaved Hash Key</a></li>
+<li><a href="#sec-1-9">Staying Out of Trouble</a>
+<ul>
+<li><a href="#sec-1-9-1">In the Wild</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Create Classes That Understand Equality</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">An Identifier for Your Documents</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>Document类设计的非常出色,你为了能够快速的定位一个Document,设计了一个Document
+的Id类
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DocumentIdentifier</span>
+  attr_reader <span style="color: #DF7921; font-weight: bold;">:folder</span>, <span style="color: #DF7921; font-weight: bold;">:name</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(folder, name)
+    <span style="color: #C1C144;">@folder</span> = folder
+    <span style="color: #C1C144;">@name</span> = name
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>然后你发现你的设计并不足够好,同事们认为这个class无法快速比较两个Document的
+内容是否完全一致.你需要增加这个设计
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">An Embarrassment of Equality</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>说到"相等性"(equality),在标榜简洁的Ruby里面,有多达四种的表示"相等"这个概念
+的操作符:
+<ul class="org-ul">
+<li>eql? : 比较Hash的key
+</li>
+<li>equal?: 比较object(的哈希值)
+</li>
+<li>==: 比较内容
+</li>
+<li>===: 比较正则表达式
+</li>
+</ul>
+</li>
+<li>好消息是equal?首先可以不用考虑,因为它是指的两个object是否指的是同一个(hash
+值相同,类似于Java中的==)
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Return true if x and y are both references to identically same objects</span>
+x.equal?(y)
+</pre>
+</div>
+</li>
+<li>equal?的设计其实就是比对内部的hash,这个在Object类里面已经实现好了,无需多次实现.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Double Equals for Everyday Use</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>在Object里面, ==operator的实现和equal?是一样的.而实际上, ==operator才是真正
+的比较"内容",而非heap里面的object
+</li>
+<li>所以,我们要在class里面如下实现==operator
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DocumentIdentifier</span>
+  attr_reader <span style="color: #DF7921; font-weight: bold;">:folder</span>, <span style="color: #DF7921; font-weight: bold;">:name</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(folder, name)
+    <span style="color: #C1C144;">@folder</span> = folder
+    <span style="color: #C1C144;">@name</span> = name
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">==</span>(other)
+    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.instance_of?(<span style="color: #C1C144;">self</span>.class)
+    folder == other.folder &amp;&amp; name == other.name
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>实现的原理也非常简单:
+<ul class="org-ul">
+<li>首先测试other是不是一个self.class也就是DocumentIdentifier类型的instance,
+需要注意的是nil不需要进行专门测试(像在java中那样), 因为nil本身也是一个类,
+会再instance_of?的时候返回false
+</li>
+<li>其次我们再判断name和folder是否都一致
+</li>
+</ul>
+</li>
+<li>一个合理的优化,就是测试other是否就是自己本身(这在其他语言中也很常见,比如c++)
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">==</span>(other)
+  <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">true</span> <span style="color: #4856F7; font-weight: bold;">if</span> other.equal?(<span style="color: #C1C144;">self</span>)
+  <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.instance_of?(<span style="color: #C1C144;">self</span>.class)
+  folder == other.folder &amp;&amp; name == other.name
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Broadening the Appeal of the == Method</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>前面一个例子的坏处是它只能让==成功匹配完全相同类型的(也就是DocumentIdentifier)
+的instance,其实在OO设计中. subclass"也是"一种baseclass.所以,我们使用kind_of?
+来替代instance_of?
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DocumentIdentifier</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">==</span>(other)
+    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">true</span> <span style="color: #4856F7; font-weight: bold;">if</span> other.equal?(<span style="color: #C1C144;">self</span>)
+    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.kind_of?(<span style="color: #C1C144;">self</span>.class)
+    folder == other.folder &amp;&amp; name == other.name
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">ContractIdentifer</span> &lt; <span style="color: #DADADA;">DocumentIdentifier</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>这样的做法看起来很"不ruby", 因为dedicated的类继承,只有Java才做. Ruby再OO上
+是更加务实的态度.Ruby也不像继承的过深, 这种情况下(需要另外一个类和当前类"有
+关系", 却不是继承的关系), Ruby会倾向于创建一个内容有部分相似的类,但"绝不"踏
+上继承的贼船
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DocumentIdentifier</span>
+  attr_reader <span style="color: #DF7921; font-weight: bold;">:folder</span>, <span style="color: #DF7921; font-weight: bold;">:name</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(folder, name)
+    <span style="color: #C1C144;">@folder</span> = folder
+    <span style="color: #C1C144;">@name</span> = name
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">==</span>(other)
+    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.instance_of?(<span style="color: #C1C144;">self</span>.class)
+    folder == other.folder &amp;&amp; name == other.name
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DocumentPointer</span>
+  attr_reader <span style="color: #DF7921; font-weight: bold;">:folder</span>, <span style="color: #DF7921; font-weight: bold;">:name</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(folder, name)
+    <span style="color: #C1C144;">@folder</span> = folder
+    <span style="color: #C1C144;">@name</span> = name
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">==</span>(other)
+    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.respond_to?(<span style="color: #DF7921; font-weight: bold;">:folder</span>)
+    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.respond_to?(<span style="color: #DF7921; font-weight: bold;">:name</span>)
+    folder == other.folder &amp;&amp; name == other.name
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+doc_id = <span style="color: #DADADA;">DocumentIdentifier</span>.new(<span style="color: #A2925E;">'secret/area51'</span>, <span style="color: #A2925E;">'phone list'</span>)
+pointer= <span style="color: #DADADA;">DocumentPointer</span>.new(<span style="color: #A2925E;">'secret/area51'</span>, <span style="color: #A2925E;">'phone list'</span>)
+
+puts pointer == doc_id
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">true                                           #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>我们可以看到ruby使用了respond_to?这个函数来寻找other是否有"某个名字的函数",
+这再次印证了Ruby duck type的特征:"只要有相应的功能(函数), 我们就认为是同一
+种类"
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Well-Behaved Equality</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>无论是使用kind_of?还是respond_to?一个无法弥补的问题是,我们的==operator做不
+到真正的==operator的"互换性",比如上面的例子,如果我们把doc_id放在前面,肯定做
+不到相等.像这样
+<div class="org-src-container">
+
+<pre class="src src-ruby">doc_id == pointer
+</pre>
+</div>
+</li>
+<li>尽管有一些方法可以规避这种问题,但其实大多数情况下,你并不需要一个==operator,
+一个名字非常友好的函数就解决了你的问题,而且非常"Ruby"
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">is_same_document?</span>(other)
+  other.folder == folder &amp;&amp; other.name == name
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Triple Equals for Case Statements</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>===operator是ruby特有的,主要用在case statement里面. 之所以要设计===其实是为
+了一种扩展性: ===operator的作用:
+<ul class="org-ul">
+<li>如果case后面是常规的操作数,那么===operator(在case里面)就等同于==operator
+</li>
+<li>如果case后面是正则表达式, when后面是字符串,那么===operator(在case里面)就
+等同于=~operator
+</li>
+<li>如果case后面是一个instance, when后面是Class, 那么===operator(再case里面)
+就等同于kind_of?
+</li>
+<li>以后,Ruby还可以从容的再加上其他的扩展
+</li>
+</ul>
+</li>
+<li>所以,绝大多数情况下,不用改写==operator,除非你要写什么奇怪的case语句
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">Hash Tables and the eql? Method</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>就像===是为了case statement而单独创作的一样, eql?是单独为了比较Hash的Key而
+创作的
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">Building a Well-Behaved Hash Key</h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>eql? 默认的行为也是再Object里面定义的.默认的hash会以key的object_id作为key,所以
+下面的例子中, second_id虽然内容和first_id一致,但是object_id却不一致,最后会
+导致取不到值,因为first_id.eql?(second_id)为false
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DocumentIdentifier</span>
+  attr_reader <span style="color: #DF7921; font-weight: bold;">:folder</span>, <span style="color: #DF7921; font-weight: bold;">:name</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initializ</span>(folder, name)
+    <span style="color: #C1C144;">@folder</span> = folder
+    <span style="color: #C1C144;">@name</span> = name
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+hash = {}
+document = <span style="color: #DADADA;">Document</span>.new
+first_id = <span style="color: #DADADA;">DocumentIdentifier</span>.new(<span style="color: #A2925E;">'public'</span>, <span style="color: #A2925E;">'CoverStory'</span>)
+
+hash[first_id] = document
+second_id = <span style="color: #DADADA;">DocumentIdentifier</span>.new(<span style="color: #A2925E;">'public'</span>, <span style="color: #A2925E;">'CoverStory'</span>)
+
+p hash[second_id]
+p hash[first_id]
+
+p first_id.eql?(second_id)
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">nil                                            #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">#&lt;Document:0x007fccc097db98&gt;                   #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">false                                          #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>所以,如果你创建了一个class,并且很有可能作为hash的key(显然DocumentIdentifier
+是要做key的).那么,你一定要:
+<ol class="org-ol">
+<li>实现hash函数. a.hash == b.hash
+</li>
+<li>实现一下eql? a.eql?(b)
+</li>
+</ol>
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DocumentIdentifier</span>
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Code omitted...</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">hash</span>
+    folder.hash ^ name.hash
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">eql?</span>(other)
+    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.instance_of?(slef.clas)
+    folder == other.folder &amp;&amp; name == other.name
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>我们可以看到hash函数使用了操作符^,这是一种非常经济实惠的创建hash值的方法
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9">Staying Out of Trouble</h3>
+<div class="outline-text-3" id="text-1-9">
+<ul class="org-ul">
+<li>让equality可以正常工作是非常痛苦的.你能做的只是"减少痛苦":其实你可以直接忽
+略equality的书写&#x2013;直到你遇到问题,直到你的代码崩溃,你再去看看equality的问题.
+因为大部分的class,一辈子也不会去做==操作,或者作为Hash的key
+</li>
+<li>对于equality的完成还可以把工作"交给别人来做", 比如你的class主要是包裹了array
+一层,那么你的equality主要在内部调用array的equality就可以了
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DisArray</span>
+  attr_reader <span style="color: #DF7921; font-weight: bold;">:my_array</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>
+    <span style="color: #C1C144;">@my_array</span> = []
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">==</span>(other)
+    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.kind_of?(<span style="color: #DADADA;">DisArray</span>)
+    <span style="color: #C1C144;">@my_array</span> == other.my_array
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">eql?</span>(other)
+    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.kind_of?(<span style="color: #DADADA;">DisArray</span>)
+    <span style="color: #C1C144;">@my_array</span>.eql?(other.my_array)
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">hash</span>
+    <span style="color: #C1C144;">@my_array</span>.hash
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-9-1" class="outline-4">
+<h4 id="sec-1-9-1">In the Wild</h4>
+<div class="outline-text-4" id="text-1-9-1">
+<ul class="org-ul">
+<li>抛开我们设计的比较复杂的类而言,对于数学界的数字,Ruby当然有不同的处理.
+</li>
+<li>比如下面的例子中, Ruby会把integer先转化成float,然后去对比
+<div class="org-src-container">
+
+<pre class="src src-ruby">puts 1 == 1.0
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;">#  </span><span style="color: #ed5b15;">true                                          #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>而且,像数学里面的数字,他们直接是有顺序的. 1肯定小于2,大于0. 这种有序的类,
+可以再引入一个操作符&lt;=&gt;: 如果小于返回-1, 等于返回0, 大于返回1
+</li>
+<li>Ruby有一种机制叫做Module,能够"注入代码". &lt;=&gt;operator由于非常常用,所以引入
+了Comparable Module, 这个Comparable Module里面会给你写&lt;,&lt;=,&gt;=, &gt; 都基于你
+的&lt;=&gt;operator
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">RomanNumerals</span>
+  include <span style="color: #DADADA;">Comparable</span>
+
+  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Actual guts of the class omitted...</span>
+
+  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">&lt;=&gt;</span>(other)
+    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Return -1, 0, or 1</span>
+  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>前面我们说过case后面跟instance,而when后面为Class的时候,===operator其实就是
+kind_of?
+<div class="org-src-container">
+
+<pre class="src src-ruby">the_object = 3.14159
+
+<span style="color: #4856F7; font-weight: bold;">case</span> the_object
+<span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #DADADA;">String</span>
+  puts <span style="color: #A2925E;">"It's a string"</span>
+<span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #DADADA;">Float</span>
+  puts <span style="color: #A2925E;">"It's a float"</span>
+<span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #DADADA;">Fixnum</span>
+  puts <span style="color: #A2925E;">"It's a fixnum"</span>
+<span style="color: #4856F7; font-weight: bold;">else</span>
+  puts <span style="color: #A2925E;">"Dunno!"</span>
+<span style="color: #4856F7; font-weight: bold;">end</span>
+
+<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">It's a float                                   #</span>
+<span style="color: #ed5b15;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

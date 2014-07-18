@@ -1,0 +1,908 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 4: Elementary TCP Sockets</title>
+<!-- 2014-07-18 Fri 16:04 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 4: Elementary TCP Sockets</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Elementary TCP Sockets</a>
+<ul>
+<li><a href="#sec-1-1">Introduction</a></li>
+<li><a href="#sec-1-2">socket Function</a>
+<ul>
+<li><a href="#sec-1-2-1">AF_XXX Versus PF_XXX</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">connect Function</a></li>
+<li><a href="#sec-1-4">bind Function</a></li>
+<li><a href="#sec-1-5">listen Function</a></li>
+<li><a href="#sec-1-6">accept Function</a></li>
+<li><a href="#sec-1-7">fork and exec Functions</a></li>
+<li><a href="#sec-1-8">Concurrent Server</a></li>
+<li><a href="#sec-1-9">close Function</a>
+<ul>
+<li><a href="#sec-1-9-1">Descriptor Reference Counts</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-10">getsockname and getpeername Function</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Elementary TCP Sockets</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Introduction</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>这一章主要介绍基础的来完成TCP client和server所必须要用到的socket function,
+下图就是整个交互过程中使用到的函数关系图
+
+<div class="figure">
+<p><img src="../../static/images/tcp_call_list.png" alt="tcp_call_list.png" />
+</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">socket Function</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>所有网络IO的开始,都是首先使用socket函数,创建的时候,就要指定通信协议的类型
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;sys/socket.h&gt;</span>
+
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">socket</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">family</span>, <span style="color: #DADADA;">int</span> <span style="color: #C1C144;">type</span>, <span style="color: #DADADA;">int</span> <span style="color: #C1C144;">protocol</span>);
+</pre>
+</div>
+</li>
+<li>family 参数有如下选择 (AF_LOCAL是POSIX名字,原来的名字较AF_UNIX)
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">family</th>
+<th scope="col" class="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">AF_INET</td>
+<td class="left">IPv4 protocol</td>
+</tr>
+
+<tr>
+<td class="left">AF_INET6</td>
+<td class="left">IPv6 protocol</td>
+</tr>
+
+<tr>
+<td class="left">AF_LOCAL</td>
+<td class="left">Unix domain protocol</td>
+</tr>
+
+<tr>
+<td class="left">AF_ROUTE</td>
+<td class="left">Routing sockets</td>
+</tr>
+
+<tr>
+<td class="left">AF_KEY</td>
+<td class="left">Key socket</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>type 参数有如下选择
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">type</th>
+<th scope="col" class="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">SOCK_STREAM</td>
+<td class="left">stream socket</td>
+</tr>
+
+<tr>
+<td class="left">SOCK_DGRAM</td>
+<td class="left">dtagram socket</td>
+</tr>
+
+<tr>
+<td class="left">SOCK_SEQPACKET</td>
+<td class="left">sequenced packet socket</td>
+</tr>
+
+<tr>
+<td class="left">SOCK_RAW</td>
+<td class="left">raw socket</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>protocol 参数有如下选择
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">protocol</th>
+<th scope="col" class="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">IPPROTO_TCP</td>
+<td class="left">TCP transport protocol</td>
+</tr>
+
+<tr>
+<td class="left">IPPROTO_UDP</td>
+<td class="left">UDP transport protocol</td>
+</tr>
+
+<tr>
+<td class="left">IPPROTO_SCTP</td>
+<td class="left">SCTP transport protocol</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>socket函数成功以后会返回一个socket descriptor(非负数), 得到socket descriptor
+我们只需要指定IPv4或IPv6,和socket type(stream, datagram), 还没有指定protocol
+address
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">AF_XXX Versus PF_XXX</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>AF_代表 address family, PF_代表 protocol family. 历史上这样取名的原因是:一个
+protocol family设计成可以支持多个address families. 所以PF_用来在socket()函数
+里面, 而AF_用在socket address structure.
+</li>
+<li>但实际的情况是在&lt;sys/socket.h&gt;里面,所有的PF_都是一一对应AF_的,所以我们在unpbook
+里面我们只用AF_,而不用PF_, 虽然POSIX里面是使用PF_
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">connect Function</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>TCP client使用connect来连接远方的TCP server
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;sys/socket.h&gt;</span>
+
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">connect</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">socfd</span>, <span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">sockaddr</span> *<span style="color: #C1C144;">servaddr</span>, <span style="color: #DADADA;">socklen_t</span> <span style="color: #C1C144;">addrlen</span>);
+</pre>
+</div>
+</li>
+<li>connect开始了TCP三次握手,成功了或者error出现,才返回,典型的错误有如下:
+<ol class="org-ol">
+<li>如果TCP client发出的SYN没有接收到回应,那么ETIMEDOUT就会返回. 比如connect
+建立的时候会发出一个SYN, 6秒之后会重发, 24秒之后再重发,如果75秒之后依然
+没有反应的话,那么ETIMEDOUT就会返回了
+</li>
+<li>如果server给予的返回是reset(RST),那就说明server端虽然机器在线,但是没有相应
+的服务开启(我们要求的那个端口号没有开启), 这个时候一个ECONNREFUSED就返回了.
+这个错误被看作是一个hard error在RST被收到的同时就马上返回
+</li>
+<li>如果SYN产生的反应是ICMP "destination unreachable"(通常是从路由器返回的),那
+么这个会被认为是一个soft error.因为destination unreachable通常情况下只是一个
+暂时的情况(比如路由器错误).对付ICMP destination unreachable的方法和上面的
+条款1一样:重发SYN多次如果75秒以后依然不成功,那么就返回EHOSTUNREACH.(需要注意
+的是ENETUNREACH是被弃用的errno,如果出现,其应当做EHOSTUNREACH处理.
+</li>
+</ol>
+</li>
+<li>从状态图上来看, connect在发送完SYN之后就从CLOSED到了SYN_SENT, 在接收成功的ACK
+之后就到了ESTABLISHED.
+</li>
+<li>如果connect 失败了,我们一定要close()这个socket, 然后重新从socket调用开始.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">bind Function</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>bind functio是把当前的local protocol address付给socket. 所谓local protocal
+address 就是一个IP地址(IPv4或者IPv6) + 一个TCP或者UDP 端口号
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;sys/socket.h&gt;</span>
+
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">bind</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">sockfd</span>, <span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">sockaddr</span> *<span style="color: #C1C144;">myaddr</span>, <span style="color: #DADADA;">socklen_t</span> <span style="color: #C1C144;">addrlen</span>);
+</pre>
+</div>
+</li>
+<li>首先明确一点: bind的作用,是设置自己的socket的地址, server可以设置,同样client
+也可以使用bind!
+</li>
+<li>bind的作用有亮点:
+<ol class="org-ol">
+<li>明确的指出了需要socket和哪个端口号进行"合作", 其实如果你不调用bind的话,内核
+会自动赋予你一个临时端口号: client通常都这么做,随便那个端口就好了,但是server
+通常都都会调用bind函数,因为server需要让大家知道自己的端口后(端口号一般是某种
+服务专有某一个号码), server通常也可以不调用bind,那样的话,其使用了哪个端口,就
+随机了.
+</li>
+<li>明确的指出了需要socket和哪个IP进行"合作",如果不调用bind的话,内核会自动把当前
+数据流出的网卡地址(如果有多个网卡,那就要看哪个能够到达remote server地址, 这个
+地址是connect的时候设置的)赋予给socket. 一般来说client端都是不主动bind的,所以
+IP地址是kernel赋予的. 而Server端虽然bind,但是一般都是默认不填具体的IP地址(用
+0.0.0.0),这个时候kernel会把client端connect设置的目标IP作为server所拥有的socket
+的source IP
+</li>
+</ol>
+</li>
+<li>用一个表来描述谁来负责设置具体的数据(IP和端口)
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">IP address</th>
+<th scope="col" class="left">port</th>
+<th scope="col" class="left">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Wildcard</td>
+<td class="left">0</td>
+<td class="left">Kernel chooses IP address and port</td>
+</tr>
+
+<tr>
+<td class="left">Wildcard</td>
+<td class="left">nonzero</td>
+<td class="left">Kernel chooses IP address, process specifies port</td>
+</tr>
+
+<tr>
+<td class="left">Local IP address</td>
+<td class="left">0</td>
+<td class="left">Process specifies IP address, kernel chooses port</td>
+</tr>
+
+<tr>
+<td class="left">Local IP address</td>
+<td class="left">nonzero</td>
+<td class="left">Process specifies IP address and port</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>bind函数最常见的错误代码是EADDRINUSE("Address already in use")
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">listen Function</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>listen 函数就是只有server端才会调用的了, 有如下两个作用:
+<ul class="org-ul">
+<li>当socket被socket()创建的时候,它是一个active socket(一个将要调用connect发
+起通信的候选者), listen()的作用,就是把它变成一个passive socket: kernel
+要允许外来的通信来连接它. 用TCP state 图表的话说就是把state从CLOSED变成了
+LISTEN.
+</li>
+<li>listen的第二个参数表达了kernel允许最多有多少connection可以排队等待当前socket
+的眷顾
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;sys/socket.h&gt;</span>
+
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">listen</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">sockfd</span>, <span style="color: #DADADA;">int</span> <span style="color: #C1C144;">backlog</span>);
+</pre>
+</div>
+</li>
+<li>为了理解所谓的"排队"等候被socket眷顾,我们要知道kernel为一个listening的socket
+准备了两个队列(queue):
+<ol class="org-ol">
+<li>incomplete connection queue: 从client端已经传过来SYN了,但是server socket
+还没有回应. 这些server socket都是在SYN_RCVD状态
+</li>
+<li>completed connection queue: 已经给client返回了ACK,而且client的ACK也已经
+收到(三次握手完成). 这些server socket已经是在ESTABLISHED状态了.
+</li>
+</ol>
+</li>
+<li>当一个SYN从client端传来的时候,TCP会在incomplete queue里面创建一个新的entry,
+然后SYN(server) + ACK(for client SYN)给client.
+</li>
+<li>当ACK(for server SYN)传回来的时候,entry就可以进入completed queue里面最后一位
+开始等待啦.
+</li>
+<li>当server开始accept()的时候,从completed queue里面的第一个就会被server锁定啦.当
+然,如果completed queue这个时候是空的,那么server就会sleep,直到有entry出现.
+</li>
+<li>这个两个queue的设计如此独特,以至于我们对它有如下的条目需要说明:
+<ul class="org-ul">
+<li>历史上backlog指的是两个queue里面entry的总数
+</li>
+<li>Berkeley的TCP实现会把backlog加个系数1.5,也就是说如果backlog是5的话, 最多
+可以有entry的个数是5*1.5 = 7.5个,也就是8个
+</li>
+<li>不要设置backlog为0, 因为有些实现可能认为这个是无限大&#x2013;并不是拒绝client,拒绝
+client的最好方法是close the listening socket
+</li>
+<li>entry呆在incomplete queue的时间是完成一次三次握手的时间,假设这个三次握手进行
+的很顺利(没有丢失segment,没有重传), 那么这个时间就是一次RTT.一般来说RTT的中
+位数时间是187ms
+</li>
+<li>历史上backlog的设置一直是5,这个数字显然不能适应今天的server. backlog的大小
+是一个很敏感的数字,如果我们希望根据不同的情况来动态的调整这个数字,那么在代码
+中设置读取"环境变量"是个好主意,因为这样就可以不用重新编译我们的源代码,而且实
+现了动态改变backlog的值,我们自己实现的Listen做到了这一点
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #DADADA;">void</span>
+<span style="color: #A1A1FF;">Listen</span> (<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">fd</span>, <span style="color: #DADADA;">int</span> <span style="color: #C1C144;">backlog</span>) {
+    <span style="color: #DADADA;">char</span>   *<span style="color: #C1C144;">ptr</span>;
+
+    <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">can override 2nd argument with environment variable </span><span style="color: #ed5b15;">*/</span>
+    <span style="color: #4856F7; font-weight: bold;">if</span> ((ptr = getenv(<span style="color: #A2925E;">"LISTENQ"</span>)) != <span style="color: #DF7921; font-weight: bold;">NULL</span>) {
+        backlog = atoi(ptr);
+    }
+
+    <span style="color: #4856F7; font-weight: bold;">if</span> (listen(fd, backlog) &lt; 0) {
+        err_sys(<span style="color: #A2925E;">"listen error"</span>);
+    }
+}
+</pre>
+</div>
+</li>
+<li>设置backlog为一个比较大的值的原因比较复杂:
+<ol class="org-ol">
+<li>历史上的原因通常是因为让server不至于在accept的时候太busy, 也就是说会有
+更多的entry在completed queue里面
+</li>
+<li>当前的web server则是另外一种情况, 大部分的entry在incomplete queue, 因为
+有大量的SYN来访,等待着三次握手的成功.
+</li>
+</ol>
+</li>
+<li>如果queue都已经满了的话, TCP就会直接丢弃后面的来访的SYN, 并且不发送RST. 这是
+因为queue满的情况只是一种暂时的状态. 不发送RST的话, client会超时重发SYN,很
+可能下一次就会占到地方了. RST是"server不再对应port"的一种反应,而不是"server端
+的queue已经满"了的反应
+</li>
+<li>在三次握手之后, 但是在server调用accept之前接受的数据,应该被conneted socket的
+buffer缓存.
+</li>
+<li>所有上述的backlog的猜想都是在unpbook的某一种TCP实现之中的. 在POSIX规范里面,对
+上述所有的实现都是加上了"may", 也就是说可以如此实现.但是不强制.我们了解这些backlog
+的知识,但是还是要具体事具体分析.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">accept Function</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>TCP server调用accept函数来得到自己的completed connection queue里面最开始的
+那个socket connection. 如果completed queu是空的, 那么process就会进入sleep
+(如果我们的socket的blocking socket的话)
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;sys/socket.h&gt;</span>
+
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">accept</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">sockfd</span>, <span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">sockaddr</span> *<span style="color: #C1C144;">cliaddr</span>, <span style="color: #DADADA;">socklen_t</span> *<span style="color: #C1C144;">addrlen</span>);
+</pre>
+</div>
+</li>
+<li>如果accept调用成功,那么返回值就是一个崭新的kernel自动创建的descriptor.这个新
+的descriptor叫做connected socket, 而accept第一个参数sockfd代表的socket叫做
+listening socket.
+</li>
+<li>区别这个两个socket很重要,一般来说server只会创建一个listening socket(负责从
+completed queue里面取的entry), 而且会为每一个client创建一个connected socket,
+传输完毕的时候,关闭的也是connected socket.
+</li>
+<li>sockfd是listening socket的fd, 唯一一个输入,输出则是三个(如果不关心后两个,可以
+把他们设置为NULL, 第一章的例子很明显了):
+<ul class="org-ul">
+<li>返回值是一个connected socket descriptor
+</li>
+<li>cliaddr返回client process的protocol address
+</li>
+<li>addrlen返回client process的protocol address的长度
+</li>
+</ul>
+</li>
+<li>下面一个例子展示了我们如何使用后两个参数来得到对方client的信息
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">"unp.h"</span>
+<span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;time.h&gt;</span>
+
+<span style="color: #DADADA;">int</span>
+<span style="color: #A1A1FF;">main</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">argc</span>, <span style="color: #DADADA;">char</span> *<span style="color: #C1C144;">argv</span>) {
+    <span style="color: #DADADA;">int</span>          <span style="color: #C1C144;">listenfd</span>, <span style="color: #C1C144;">confd</span>;
+    <span style="color: #DADADA;">socklen_t</span>    <span style="color: #C1C144;">len</span>;
+    <span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">sockaddr_in</span> <span style="color: #C1C144;">servaddr</span>, <span style="color: #C1C144;">cliaddr</span>;
+    <span style="color: #DADADA;">char</span>         <span style="color: #C1C144;">buff</span>[MAXLINE];
+    <span style="color: #DADADA;">time_t</span>       <span style="color: #C1C144;">ticks</span>;
+
+    listenfd = Socket(AF_INET, SOCK_STRAM, 0);
+
+    bzero(&amp;servaddr, <span style="color: #4856F7; font-weight: bold;">sizeof</span>(servaddr));
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    servaddr.sin_port = htons(13);   <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">daytime server </span><span style="color: #ed5b15;">*/</span>
+
+    Bind(listenfd, (<span style="color: #DADADA;">SA</span>*)&amp;servaddr, <span style="color: #4856F7; font-weight: bold;">sizeof</span>(servaddr));
+
+    Listen(listenfd, LISTENQ);
+
+    <span style="color: #4856F7; font-weight: bold;">for</span> ( ; ;) {
+        len = <span style="color: #4856F7; font-weight: bold;">sizeof</span>(cliaddr);
+        connfd = Accept(listenfd, (<span style="color: #DADADA;">SA</span> *) &amp;cliaddr, &amp;len);
+        printf(<span style="color: #A2925E;">"connection from %s, port %d\n"</span>,
+               Inet_ntop(AF_INET, &amp;cliaddr.sin_addr, buff, <span style="color: #4856F7; font-weight: bold;">sizeof</span>(buff)),
+               ntohs(cliaddr.sin_port));
+
+        ticks = time(<span style="color: #DF7921; font-weight: bold;">NULL</span>);
+        snprintf(buff, <span style="color: #4856F7; font-weight: bold;">sizeof</span>(buff), <span style="color: #A2925E;">"%.24s\r\n"</span>, ctime(&amp;ticks));
+        Write(connfd, buff, strlen(buff));
+
+        Close(connfd);
+    }
+    <span style="color: #ed5b15;">//</span><span style="color: #ed5b15;">listening socket will be close at last with exit()</span>
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">fork and exec Functions</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>在Unix-like系统中创建process的唯一方法就是fork
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;unistd.h&gt;</span>
+
+<span style="color: #DADADA;">pid_t</span> <span style="color: #A1A1FF;">fork</span>(<span style="color: #DADADA;">void</span>);
+</pre>
+</div>
+</li>
+<li>fork这个函数很有意思,会返回两次(通过返回值是不是0,就可以判断是不是child):
+<ul class="org-ul">
+<li>在创建成功的child里面返回0, 因为child想知道自己的parent很简单,无论何时都
+可以使用getppid()来得知
+</li>
+<li>在parent里面返回新创建的child的process ID, 因为一个proces可以有很多child,
+fork的返回值是唯一可以知道自己child的机会.
+</li>
+</ul>
+</li>
+<li>fork通常有两种用法:
+<ul class="org-ul">
+<li>process制作自己的一个替身,去完成某项工作, server通常是这样做的
+</li>
+<li>process想运行另外一个program. 就要先fork(创建一份完全一样的内存映像),然后
+exec来替代(主要是替代映像里面的运行代码),进而执行
+</li>
+</ul>
+</li>
+<li>fork是把自己的资源重新复制一遍,只有一些参数和父进程不一样.通过这种方式来创
+建新的进程.因为fork之后往往是进行exec()新的进程, 所以还有一个copy-on-write
+技术:
+<ul class="org-ul">
+<li>所有的资源在fork之后都是只读的, 如果资源被写入了,那么就会有一份新的数据产生.
+</li>
+<li>但是fork之后大部分是exec(), 所以就不用产生新的数据了.
+</li>
+<li>这极大的提高了效率:因为fork的时候,资源不用完全赋值一遍了,只要让他只读就好.exec()
+之后取消这个只读就行了,新的process会完全抛弃老的资源的
+</li>
+</ul>
+</li>
+<li>exec系列函数一共有六个,只是参数不同,其实原理一样,就是在当前的process里面运行新的main
+函数. 有错误,exec才会返回给caller.否则不返回.
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;unistd.h&gt;</span>
+
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">execl</span>(<span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #DADADA;">char</span> *<span style="color: #C1C144;">pathname</span>, <span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #DADADA;">char</span> *<span style="color: #C1C144;">arg0</span>, ...<span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">(char*) 0 </span><span style="color: #ed5b15;">*/</span>);
+
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">execv</span>(<span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #DADADA;">char</span> *<span style="color: #C1C144;">pathname</span>, <span style="color: #DADADA;">char</span> *<span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #C1C144;">argv</span>[]);
+
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">execle</span>(<span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #DADADA;">char</span> *<span style="color: #C1C144;">pathname</span>, <span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #DADADA;">char</span> *<span style="color: #C1C144;">arg0</span>, ...
+           <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">(char *)0, char *const envp[] </span><span style="color: #ed5b15;">*/</span>);
+
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">execve</span>(<span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #DADADA;">char</span>  *<span style="color: #C1C144;">pathname</span>, <span style="color: #DADADA;">char</span> *<span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #C1C144;">argv</span>[], <span style="color: #DADADA;">char</span> *<span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #C1C144;">envp</span>[]);
+
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">execlp</span>(<span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #DADADA;">char</span> *<span style="color: #C1C144;">filename</span>, <span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #DADADA;">char</span> *<span style="color: #C1C144;">arg0</span>, ...<span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">(char *) 0 </span><span style="color: #ed5b15;">*/</span>);
+
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">execvp</span>(<span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #DADADA;">char</span> *<span style="color: #C1C144;">filename</span>, <span style="color: #DADADA;">char</span> *<span style="color: #4856F7; font-weight: bold;">const</span> *<span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #C1C144;">argv</span>[]);
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">Concurrent Server</h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>下面我们就来看看用fork来组织的server
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #DADADA;">pid_t</span> <span style="color: #C1C144;">pid</span>;
+<span style="color: #DADADA;">int</span>   <span style="color: #C1C144;">listenfd</span>,  <span style="color: #C1C144;">connfd</span>;
+
+listenfd = Socket(<span style="color: #ed5b15;">/*</span><span style="color: #ed5b15;">...</span><span style="color: #ed5b15;">*/</span>);
+
+Bind(listenfd, <span style="color: #ed5b15;">/*</span><span style="color: #ed5b15;">...</span><span style="color: #ed5b15;">*/</span>);
+Listen(listenfd, LISTENQ);
+
+<span style="color: #4856F7; font-weight: bold;">for</span> ( ; ;) {
+    connfd = Accept(listenfd, ...);
+
+    <span style="color: #4856F7; font-weight: bold;">if</span> ((pid = Fork()) == 0) {
+        <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">child closes listenindg socket</span>
+<span style="color: #ed5b15;">           as this listenfd is copied from</span>
+<span style="color: #ed5b15;">           parent, ref count will be 2, this</span>
+<span style="color: #ed5b15;">           close minus it to 1, and the parent</span>
+<span style="color: #ed5b15;">           copy will be used normally.</span>
+<span style="color: #ed5b15;">         </span><span style="color: #ed5b15;">*/</span>
+        Close(litenfd);
+        doit(connfd);         <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">process the request </span><span style="color: #ed5b15;">*/</span>
+        Close(connfd);        <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">done with this client </span><span style="color: #ed5b15;">*/</span>
+        exit(0);              <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">child terminates </span><span style="color: #ed5b15;">*/</span>
+    }
+    <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">parent closes connected socket</span>
+<span style="color: #ed5b15;">       as this connfd is copied to child,</span>
+<span style="color: #ed5b15;">       ref count will be 2, this close</span>
+<span style="color: #ed5b15;">       minus it to 1, and the child copy</span>
+<span style="color: #ed5b15;">       close will finally cause the four-way</span>
+<span style="color: #ed5b15;">       wave</span>
+<span style="color: #ed5b15;">       </span><span style="color: #ed5b15;">*/</span>
+    Close(connfd);
+}
+</pre>
+</div>
+</li>
+<li>从上面的例子我们可以看到connfd被close了两次(其实listenfd也被close了两次,只
+是不明显,而且原理和connfd一样). 那为什么第一次close不会导致tcp触发"四次挥手"
+呢: 因为fork的时候会把socket descripto的reference加一. 四次挥手是在reference
+为0的时候, 每次close减一,最后一次close的时候才会触发"四次挥手"
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-9" class="outline-3">
+<h3 id="sec-1-9">close Function</h3>
+<div class="outline-text-3" id="text-1-9">
+<ul class="org-ul">
+<li>close 函数是用来把socket标记成关闭, 然后马上返回. close一旦调用socket就无法
+在read或者write了, 但是TCP会发送已经queued的数据给对方
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;unisd.h&gt;</span>
+
+<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">close</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">sockfd</span>);
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-9-1" class="outline-4">
+<h4 id="sec-1-9-1">Descriptor Reference Counts</h4>
+<div class="outline-text-4" id="text-1-9-1">
+<ul class="org-ul">
+<li>前面说了,如果你的descriptor的ref count依然大于0的话, close这个descriptor不
+会马上开展"四次挥手", 要到ref count为0的那次close才会发生.
+</li>
+<li>如果你force想让"四次挥手"发生,那应该使用shutdown()
+</li>
+<li>如果前面的concurrent的例子里面,parent忘了close connected socket,那么会发生
+下面两种情况:
+<ol class="org-ol">
+<li>parent会最终耗尽它的descriptor(这个东西操作系统是有限制的)
+</li>
+<li>没有一个client connection会真的关闭.因为child close的结果,无非是ref count
+从2变成了1.
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-10" class="outline-3">
+<h3 id="sec-1-10">getsockname and getpeername Function</h3>
+<div class="outline-text-3" id="text-1-10">
+<ul class="org-ul">
+<li>getsockname的作用是找到本地protocol address的内容
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">getsockname</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">sockfd</span>, <span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">sockaddr</span>* <span style="color: #C1C144;">localaddr</span>, <span style="color: #DADADA;">socklen_t</span>* <span style="color: #C1C144;">addrlen</span>);
+</pre>
+</div>
+<ul class="org-ul">
+<li>比如client connect调用之后, 其一般不会调用bind,那么可以通过getsockname来获得己方
+的local IP(有好几个IP的情况下,ifconfig不好使哦)和local port number
+</li>
+<li>就算server一般会调用bind,但是如果port number指定为了0,那么可以通过getsockname来
+获取自己到底用了那个port number
+</li>
+<li>如果server一般调用了bind,但是IP设置成了wildcard, 那么可以通过getsockname来看看
+自己到底使用了那个ip地址,需要注意的是,要用connected socket(调用accept之后的
+descriptor)来做参数, 因为没有connect的话,无法确定使用了哪个IP
+</li>
+<li>getsockname还能获取socket的address family
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">"unp.h"</span>
+<span style="color: #DADADA;">int</span>
+<span style="color: #A1A1FF;">sockfd_to_family</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">sockfd</span>) {
+    <span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">sockaddr_storage</span> <span style="color: #C1C144;">ss</span>;
+    <span style="color: #DADADA;">socklen_t</span> <span style="color: #C1C144;">len</span>;
+
+    len = <span style="color: #4856F7; font-weight: bold;">sizeof</span>(ss);
+    <span style="color: #4856F7; font-weight: bold;">if</span> (getsockname(sockfd, (<span style="color: #DADADA;">SA</span>*) &amp;ss, &amp;len) &lt; 0) {
+        <span style="color: #4856F7; font-weight: bold;">return</span> (-1);
+    }
+    <span style="color: #4856F7; font-weight: bold;">return</span> (ss.ss_family);
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>getpeername的作用是找到socket连接的另一方的protocol address的内容
+<div class="org-src-container">
+
+<pre class="src src-c"><span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">getpeername</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">sockfd</span>, <span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">sockaddr</span> *<span style="color: #C1C144;">peeraddr</span>, <span style="color: #DADADA;">socklen_t</span> *<span style="color: #C1C144;">addrlen</span>);
+</pre>
+</div>
+<ul class="org-ul">
+<li>常见的使用场景是在server端使用exec来调用新的process的时候.accept即便能返
+回client的信息,但是这个时候所有的内存都被exec新引入的main函数锁替代了.所
+以我们要自己去取得client socket的信息(当然connfd需要一直知道,一个可能的
+做法是exec把connfd作为一个参数引入因的程序)
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>
