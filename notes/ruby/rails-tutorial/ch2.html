@@ -1,0 +1,1188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 02: A demo app</title>
+<!-- 2015-03-18 Wed 14:07 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 02: A demo app</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">A demo app</a>
+<ul>
+<li><a href="#sec-1-1">Planning the application</a>
+<ul>
+<li><a href="#sec-1-1-1">Modeling demo users</a></li>
+<li><a href="#sec-1-1-2">Modeling demo microposts</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-2">The Users resource</a>
+<ul>
+<li><a href="#sec-1-2-1">A user tour</a></li>
+<li><a href="#sec-1-2-2">MVC in action</a></li>
+<li><a href="#sec-1-2-3">Weaknesses of this Users resource</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">The Microposts resource</a>
+<ul>
+<li><a href="#sec-1-3-1">A micropost microtour</a></li>
+<li><a href="#sec-1-3-2">Putting the micro in microposts</a></li>
+<li><a href="#sec-1-3-3">A user has_many microposts</a></li>
+<li><a href="#sec-1-3-4">Inheritance hierarchies</a></li>
+<li><a href="#sec-1-3-5">Deploying the demo app</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">A demo app</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Planning the application</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>和上一次的Gemfile一样准备一个Gemfile,然后bundle update之后bundle install
+&#x2013;without production
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/demo_app$ bundle update
+Fetching gem metadata from https://rubygems.org/..........
+Fetching additional metadata from https://rubygems.org/..
+Resolving dependencies...
+Using rake 10.3.2
+Using i18n 0.6.11
+Using minitest 4.7.5
+Using multi_json 1.10.1
+Using thread_safe 0.3.4
+Using tzinfo 0.3.40
+Using activesupport 4.0.8
+Using builder 3.1.4
+Using erubis 2.7.0
+Using rack 1.5.2
+Using rack-test 0.6.2
+Using actionpack 4.0.8
+Using mime-types 1.25.1
+Using polyglot 0.3.5
+Using treetop 1.4.15
+Using mail 2.5.4
+Using actionmailer 4.0.8
+Using activemodel 4.0.8
+Using activerecord-deprecated_finders 1.0.3
+Using arel 4.0.2
+Using activerecord 4.0.8
+Using bundler 1.6.2
+Using coffee-script-source 1.7.1
+Using execjs 2.2.1
+Using coffee-script 2.3.0
+Using thor 0.19.1
+Using railties 4.0.8
+Using coffee-rails 4.0.1
+Using hike 1.2.3
+Using jbuilder 1.0.2 (was 1.5.3)
+Using jquery-rails 3.0.4 (was 3.1.1)
+Using json 1.8.1
+Using tilt 1.4.1
+Using sprockets 2.12.1 (was 2.11.0)
+Using sprockets-rails 2.0.1 (was 2.1.3)
+Using rails 4.0.8
+Using rdoc 3.12.2 (was 4.1.1)
+Using sass 3.3.10 (was 3.2.19)
+Using sass-rails 4.0.1 (was 4.0.3)
+Using sdoc 0.3.20 (was 0.4.0)
+Using sqlite3 1.3.8 (was 1.3.9)
+Using turbolinks 1.1.1 (was 2.2.2)
+Using uglifier 2.1.1 (was 2.5.3)
+Your bundle is updated!
+Gems<span style="color: #AE5825;"> in</span> the group production were not installed.
+hfeng@ubuntu1204:~/rails_projects/demo_app$ bundle install --without production
+Using rake 10.3.2
+Using i18n 0.6.11
+Using minitest 4.7.5
+Using multi_json 1.10.1
+Using thread_safe 0.3.4
+Using tzinfo 0.3.40
+Using activesupport 4.0.8
+Using builder 3.1.4
+Using erubis 2.7.0
+Using rack 1.5.2
+Using rack-test 0.6.2
+Using actionpack 4.0.8
+Using mime-types 1.25.1
+Using polyglot 0.3.5
+Using treetop 1.4.15
+Using mail 2.5.4
+Using actionmailer 4.0.8
+Using activemodel 4.0.8
+Using activerecord-deprecated_finders 1.0.3
+Using arel 4.0.2
+Using activerecord 4.0.8
+Using coffee-script-source 1.7.1
+Using execjs 2.2.1
+Using coffee-script 2.3.0
+Using thor 0.19.1
+Using railties 4.0.8
+Using coffee-rails 4.0.1
+Using hike 1.2.3
+Using jbuilder 1.0.2
+Using jquery-rails 3.0.4
+Using json 1.8.1
+Using bundler 1.6.2
+Using tilt 1.4.1
+Using sprockets 2.12.1
+Using sprockets-rails 2.0.1
+Using rails 4.0.8
+Using rdoc 3.12.2
+Using sass 3.3.10
+Using sass-rails 4.0.1
+Using sdoc 0.3.20
+Using sqlite3 1.3.8
+Using turbolinks 1.1.1
+Using uglifier 2.1.1
+Your bundle is complete!
+Gems<span style="color: #AE5825;"> in</span> the group production were not installed.
+Use <span style="color: #fa8072;">`bundle show [gemname]`</span> to see where a bundled gem is installed.
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1">Modeling demo users</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<ul class="org-ul">
+<li>我们先来创建一个用户的model,其只有三个域名:
+<ul class="org-ul">
+<li>integer类型的id
+</li>
+<li>string类型的name
+</li>
+<li>string类型的email
+</li>
+</ul>
+</li>
+<li>后面我们会看到,我们创建了一个user的ruby类,同时会有同名的数据库user创建,里面
+有email, name, id三个column
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2">Modeling demo microposts</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<ul class="org-ul">
+<li>micropost就类型twitter的一个状态,也有三个域:
+<ul class="org-ul">
+<li>integer类型的id
+</li>
+<li>string类型的content(因为不能超过140个字么)
+</li>
+<li>integer类型的user_id,其实就是外键
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">The Users resource</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>rails可以为我们一次性创建一个resource(在这里就是User resource),为这个resource
+提供了HTTP协议的"增删改查"的请求支持
+</li>
+<li>提供的方法是rails generate scaffold 命令. 后面跟的都是"单数"
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/demo_app$ rails generate scaffold User name:string email:string
+      invoke  active_record
+      create    db/migrate/20140705200918_create_users.rb
+      create    app/models/user.rb
+      invoke    test_unit
+      create      test/models/user_test.rb
+      create      test/fixtures/users.yml
+      invoke  resource_route
+       route    resources :users
+      invoke  jbuilder_scaffold_controller
+      create    app/controllers/users_controller.rb
+      invoke    erb
+      create      app/views/users
+      create      app/views/users/index.html.erb
+      create      app/views/users/edit.html.erb
+      create      app/views/users/show.html.erb
+      create      app/views/users/new.html.erb
+      create      app/views/users/_form.html.erb
+      invoke    test_unit
+      create      test/controllers/users_controller_test.rb
+      invoke    helper
+      create      app/helpers/users_helper.rb
+      invoke      test_unit
+      create        test/helpers/users_helper_test.rb
+      invoke    jbuilder
+       exist      app/views/users
+      create      app/views/users/index.json.jbuilder
+      create      app/views/users/show.json.jbuilder
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/users.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/users.css.scss
+      invoke  scss
+      create    app/assets/stylesheets/scaffolds.css.scss
+</pre>
+</div>
+</li>
+<li>为了能让我们的改变体现在网站上,需要migrate数据库,使用的手段是rake
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/demo_app$ rake db:migrate
+== 20140705200918 CreateUsers: migrating ======================================
+-- create_table(:users)
+   -&gt; 0.0009s
+== 20140705200918 CreateUsers: migrated (0.0010s) =============================
+</pre>
+</div>
+</li>
+<li>这是我们第一次使用rake,其实rake的使用在rails里面非常广泛,我们可以使用rake -T
+来查看可用命令(加db就是可用rake 数据库命令)
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/demo_app$ rake -T
+rake about                              <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">List versions of all Rails framew...</span>
+rake assets:clean[keep]                 <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Remove old compiled assets</span>
+rake assets:clobber                     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Remove compiled assets</span>
+rake assets:environment                 <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Load asset compile environment</span>
+rake assets:precompile                  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Compile all the assets named in c...</span>
+rake cache_digests:dependencies         <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Lookup first-level dependencies f...</span>
+rake cache_digests:nested_dependencies  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Lookup nested dependencies for TE...</span>
+rake db:create                          <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Create the database from DATABASE...</span>
+rake db:drop                            <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Drops the database using DATABASE...</span>
+rake db:fixtures:load                   <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Load fixtures into the current en...</span>
+rake db:migrate                         <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Migrate the database (options: VE...</span>
+rake db:migrate:status                  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Display status of migrations</span>
+rake db:rollback                        <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Rolls the schema back to the prev...</span>
+rake db:schema:cache:clear              <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Clear a db/schema_cache.dump file</span>
+rake db:schema:cache:dump               <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Create a db/schema_cache.dump file</span>
+rake db:schema:dump                     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Create a db/schema.rb file that c...</span>
+rake db:schema:load                     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Load a schema.rb file into the da...</span>
+rake db:seed                            <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Load the seed data from db/seeds.rb</span>
+rake db:setup                           <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Create the database, load the sch...</span>
+rake db:structure:dump                  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Dump the database structure to db...</span>
+rake db:version                         <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Retrieves the current schema vers...</span>
+rake doc:app                            <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Generate docs for the app -- also...</span>
+rake log:clear                          <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Truncates all *.log files in log/...</span>
+rake middleware                         <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Prints out your Rack middleware s...</span>
+rake notes                              <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Enumerate all annotations (use no...</span>
+rake notes:custom                       <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Enumerate a custom annotation, sp...</span>
+rake rails:template                     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Applies the template supplied by ...</span>
+rake rails:update                       <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Update configs and some other ini...</span>
+rake routes                             <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Print out all defined routes in m...</span>
+rake secret                             <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Generate a cryptographically secu...</span>
+rake stats                              <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Report code statistics (KLOCs, et...</span>
+rake test                               <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Runs test:units, test:functionals...</span>
+rake test:all                           <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Run tests quickly by merging all ...</span>
+rake test:all:db                        <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Run tests quickly, but also reset db</span>
+rake test:recent                        <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Run tests for {:recent=&gt;["test:de...</span>
+rake test:uncommitted                   <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Run tests for {:uncommitted=&gt;["te...</span>
+rake time:zones:all                     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Displays all time zones, also ava...</span>
+rake tmp:clear                          <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Clear session, cache, and socket ...</span>
+rake tmp:create                         <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Creates tmp directories for sessi...</span>
+hfeng@ubuntu1204:~/rails_projects/demo_app$ rake -T db
+rake db:create              <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Create the database from DATABASE_URL or conf...</span>
+rake db:drop                <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Drops the database using DATABASE_URL or the ...</span>
+rake db:fixtures:load       <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Load fixtures into the current environment's ...</span>
+rake db:migrate             <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Migrate the database (options: VERSION=x, VER...</span>
+rake db:migrate:status      <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Display status of migrations</span>
+rake db:rollback            <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Rolls the schema back to the previous version...</span>
+rake db:schema:cache:clear  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Clear a db/schema_cache.dump file</span>
+rake db:schema:cache:dump   <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Create a db/schema_cache.dump file</span>
+rake db:schema:dump         <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Create a db/schema.rb file that can be portab...</span>
+rake db:schema:load         <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Load a schema.rb file into the database</span>
+rake db:seed                <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Load the seed data from db/seeds.rb</span>
+rake db:setup               <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Create the database, load the schema, and ini...</span>
+rake db:structure:dump      <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Dump the database structure to db/structure.sql</span>
+rake db:version             <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Retrieves the current schema version number</span>
+rake test:all:db            <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Run tests quickly, but also reset db</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">A user tour</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>我们下面来看看新建的数据模型都有神马内容
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">URL</th>
+<th scope="col" class="left">Action</th>
+<th scope="col" class="left">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">/users</td>
+<td class="left">index</td>
+<td class="left">page to list all users</td>
+</tr>
+
+<tr>
+<td class="left">/users/1</td>
+<td class="left">show</td>
+<td class="left">page to show user with id 1</td>
+</tr>
+
+<tr>
+<td class="left">/users/new</td>
+<td class="left">new</td>
+<td class="left">page to make a new user</td>
+</tr>
+
+<tr>
+<td class="left">/users/1/edit</td>
+<td class="left">edit</td>
+<td class="left">page to edit user with id 1</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>index是列出所有用户
+<img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/ruby/url_index.png" alt="url_index.png" />
+</li>
+<li>添加一个用户后会显示第一个用户的信息, 就是show
+<img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/ruby/url_show.png" alt="url_show.png" />
+</li>
+<li>增加一个用户是new
+<img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/ruby/url_new.png" alt="url_new.png" />
+</li>
+<li>编辑一个用户是edit
+<img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/ruby/url_edit.png" alt="url_edit.png" />
+</li>
+<li>然后再删除一个, url和show的时候一样,但是如果你知道HTTP协议的话,你会知道其实是method不同
+<img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/ruby/url_delete.png" alt="url_delete.png" />
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2">MVC in action</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>下图就是一个URL(/users)如何从浏览器发送,最后又回到浏览器:
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/ruby/mvc_rails.png" alt="mvc_rails.png" />
+</p>
+<p><span class="figure-number">Figure 1:</span> mvc-rails.png</p>
+</div>
+</li>
+<li>上面的Rails router负责将/users的解析,在rails里面的对应配置文件是config/routes.rb
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">config/routes.rb</span>
+<span style="color: #C6B032; font-style: italic;">DemoApp</span>::<span style="color: #C6B032; font-style: italic;">Applicatin</span>.routes.draw <span style="color: #AE5825;">do</span>
+  resources <span style="color: #86453A;">:users</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
+</pre>
+</div>
+</li>
+<li>为user resource服务的controller在这个例子里面是users_controllers.rb, 其是
+一个继承于ApplicationController的ruby class
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">app/controllers/users_controller.rb</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">UsersController</span> &lt; <span style="color: #C6B032; font-style: italic;">ApplicationController</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">index</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">show</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">new</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">create</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">edit</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">update</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">destroy</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+</pre>
+</div>
+</li>
+<li>其实上面的函数,其实都是HTTP里面的request method, 我们来看看对应表
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">HTTP request</th>
+<th scope="col" class="left">URL</th>
+<th scope="col" class="left">Action</th>
+<th scope="col" class="left">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">GET</td>
+<td class="left">/users</td>
+<td class="left">index</td>
+<td class="left">page to list all users</td>
+</tr>
+
+<tr>
+<td class="left">GET</td>
+<td class="left">/users/1</td>
+<td class="left">show</td>
+<td class="left">page to show user with id 1</td>
+</tr>
+
+<tr>
+<td class="left">GET</td>
+<td class="left">/users/new</td>
+<td class="left">new</td>
+<td class="left">page to make a new user</td>
+</tr>
+
+<tr>
+<td class="left">POST</td>
+<td class="left">/users</td>
+<td class="left">create</td>
+<td class="left">create a new user</td>
+</tr>
+
+<tr>
+<td class="left">GET</td>
+<td class="left">/uesers/1/edi</td>
+<td class="left">edit</td>
+<td class="left">page to edit suer with id 1</td>
+</tr>
+
+<tr>
+<td class="left">PATCH</td>
+<td class="left">/users/1</td>
+<td class="left">update</td>
+<td class="left">update user with id 1</td>
+</tr>
+
+<tr>
+<td class="left">DELETE</td>
+<td class="left">/users/1</td>
+<td class="left">destroy</td>
+<td class="left">delete user with id 1</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>下面我们以index函数来介绍一下是如何将MVC三部分串联起来的:
+<ul class="org-ul">
+<li>首先看C: index定义在users_controller.rb里面. 其主要内容就是定义了一个instance
+variable @users, 然后把User(是M的一个部分)的所有的内容都传递给@users
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">app/controllers/users_controller.rb</span>
+
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">UsersController</span> &lt; <span style="color: #C6B032; font-style: italic;">ApplicationController</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">index</span>
+    <span style="color: #46657B;">@users</span> = <span style="color: #C6B032; font-style: italic;">User</span>.all
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+</pre>
+</div>
+</li>
+<li>其次看M,也就是上面的大写的User, 其定义的位置是在app/models/user.rb里面,
+虽然看起来没什么内容,但是它主要的函数都是从ActiveRecord::Base里面继承了,
+比如函数all
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">app/models/user.rb</span>
+
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">User</span> &lt; <span style="color: #C6B032; font-style: italic;">ActiveRecord</span>::<span style="color: #C6B032; font-style: italic;">Base</span>
+<span style="color: #AE5825;">end</span>
+</pre>
+</div>
+</li>
+<li>最后我们来看看V, 上面C里面成功的初始化的函数@users会被传递到app/views/users/index.html.erb
+<div class="org-src-container">
+
+<pre class="src src-web"># app/view/users/index.html.erb
+
+&lt;h1&gt;Listing users&lt;/h1&gt;
+
+&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Name&lt;/th&gt;
+    &lt;th&gt;Email&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+    &lt;th&gt;&lt;/th&gt;
+  &lt;/tr&gt;
+
+&lt;% @users.each do |user| %&gt;
+  &lt;tr&gt;
+    &lt;td&gt;&lt;%= user.name %&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;%= user.email %&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;%= link_to 'Show', user %&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;%= link_to 'Edit', edit_user_path(user) %&gt;&lt;/td&gt;
+    &lt;td&gt;&lt;%= link_to 'Destroy', user, method: :delete,
+                                     data: { confirm: 'Are you sure?' } %&gt;&lt;/td&gt;
+  &lt;/tr&gt;
+&lt;% end %&gt;
+&lt;/table&gt;
+
+&lt;br /&gt;
+
+&lt;%= link_to 'New User', new_user_path %&gt;
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3">Weaknesses of this Users resource</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<ul class="org-ul">
+<li>虽然看起来scaffold运行的情况不错,但是这种方式还是有很多的缺点:
+<ul class="org-ul">
+<li>No data validations
+</li>
+<li>No authentication
+</li>
+<li>No tests
+</li>
+<li>No layout
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">The Microposts resource</h3>
+<div class="outline-text-3" id="text-1-3">
+</div><div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">A micropost microtour</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>下面我们来创建另外一个resource, micropost. 注意在命令行里面Micropost要单数,大写
+<div class="org-src-container">
+
+<pre class="src src-sh">hfengdeMacBook-Air:demo_app hfeng$ rails generate scaffold Micropost content:string user_id:integer
+      invoke  active_record
+      create    db/migrate/20140721073734_create_microposts.rb
+      create    app/models/micropost.rb
+      invoke    test_unit
+      create      test/models/micropost_test.rb
+      create      test/fixtures/microposts.yml
+      invoke  resource_route
+       route    resources :microposts
+      invoke  jbuilder_scaffold_controller
+      create    app/controllers/microposts_controller.rb
+      invoke    erb
+      create      app/views/microposts
+      create      app/views/microposts/index.html.erb
+      create      app/views/microposts/edit.html.erb
+      create      app/views/microposts/show.html.erb
+      create      app/views/microposts/new.html.erb
+      create      app/views/microposts/_form.html.erb
+      invoke    test_unit
+      create      test/controllers/microposts_controller_test.rb
+      invoke    helper
+      create      app/helpers/microposts_helper.rb
+      invoke      test_unit
+      create        test/helpers/microposts_helper_test.rb
+      invoke    jbuilder
+       exist      app/views/microposts
+      create      app/views/microposts/index.json.jbuilder
+      create      app/views/microposts/show.json.jbuilder
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/microposts.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/microposts.css.scss
+      invoke  scss
+   identical    app/assets/stylesheets/scaffolds.css.scss
+</pre>
+</div>
+</li>
+<li>创建完之后,还是要导入数据库
+<div class="org-src-container">
+
+<pre class="src src-sh">hfengdeMacBook-Air:demo_app hfeng$ rake db:migrate
+== 20140721073734 CreateMicroposts: migrating =================================
+-- create_table(:microposts)
+   -&gt; 0.0078s
+== 20140721073734 CreateMicroposts: migrated (0.0079s) ========================
+</pre>
+</div>
+</li>
+<li>我们和User对比,会发现routes.rb还是被更改了
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">diff --git a/config/routes.rb b/config/routes.rb</span>
+<span style="color: #b3b3b3;">index 56c203d..d487887 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/config/routes.rb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/config/routes.rb</span>
+<span style="background-color: #737373;">@@ -1,4 +1,6 @@</span>
+<span style="color: #b3b3b3;"> DemoApp::Application.routes.draw do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  resources :microposts</span>
+<span style="background-color: #335533;">+</span>
+<span style="color: #b3b3b3;">   resources :users</span>
+
+<span style="color: #b3b3b3;">   # The priority is based upon order of creation: first created -&gt; highest priority.</span>
+</pre>
+</div>
+</li>
+<li>其他如controller和URL等等,全部都和Users一样.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2">Putting the micro in microposts</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li>我们的micropost是stirng类型,最多不能超过140个字符.所以要加入一些"长度检查"
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">diff --git a/app/models/micropost.rb b/app/models/micropost.rb</span>
+<span style="color: #b3b3b3;">index f333428..91a6135 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/app/models/micropost.rb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/models/micropost.rb</span>
+<span style="background-color: #737373;">@@ -1,2 +1,3 @@</span>
+<span style="color: #b3b3b3;"> class Micropost &lt; ActiveRecord::Base</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  validates :content, length: { maximum: 140 }</span>
+<span style="color: #b3b3b3;"> end</span>
+</pre>
+</div>
+</li>
+<li>长度检查用到了一个函数validates, 其函数代码如下
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">File activemodel/lib/active_model/validations/validates.rb, line 100</span>
+      <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">validates</span>(*attributes)
+        defaults = attributes.extract_options!.dup
+        validations = defaults.slice!(*_validates_default_keys)
+
+        <span style="color: #86453A;">raise</span> <span style="color: #C6B032; font-style: italic;">ArgumentError</span>, <span style="color: #5A7644;">"You need to supply at least one attribute"</span> <span style="color: #AE5825;">if</span> attributes.empty?
+        <span style="color: #86453A;">raise</span> <span style="color: #C6B032; font-style: italic;">ArgumentError</span>, <span style="color: #5A7644;">"You need to supply at least one validation"</span> <span style="color: #AE5825;">if</span> validations.empty?
+
+        defaults[<span style="color: #86453A;">:attributes</span>] = attributes
+
+        validations.each <span style="color: #AE5825;">do</span> |key, options|
+          <span style="color: #AE5825;">next</span> <span style="color: #AE5825;">unless</span> options
+          key = <span style="color: #5A7644;">"</span><span style="color: #46657B;">#{key.to_s.camelize}</span><span style="color: #5A7644;">Validator"</span>
+
+          <span style="color: #AE5825;">begin</span>
+            validator = key.include?(<span style="color: #5A7644;">'::'</span>) ? key.constantize : const_get(key)
+          <span style="color: #AE5825;">rescue</span> <span style="color: #C6B032; font-style: italic;">NameError</span>
+            <span style="color: #86453A;">raise</span> <span style="color: #C6B032; font-style: italic;">ArgumentError</span>, <span style="color: #5A7644;">"Unknown validator: '</span><span style="color: #46657B;">#{key}</span><span style="color: #5A7644;">'"</span>
+          <span style="color: #AE5825;">end</span>
+
+          validates_with(validator, defaults.merge(_parse_validates_options(options)))
+        <span style="color: #AE5825;">end</span>
+      <span style="color: #AE5825;">end</span>
+</pre>
+</div>
+</li>
+<li>我们可以通过下面的例子来理解下ruby"极简"的函数传递方法
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">val</span>(*attributes)
+  attributes.each_with_index <span style="color: #AE5825;">do</span> |a, i|
+    <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"NO.</span><span style="color: #46657B;">#{i}</span><span style="color: #5A7644;"> element is </span><span style="color: #46657B;">#{a}</span><span style="color: #5A7644;">, its type is </span><span style="color: #46657B;">#{a.class}</span><span style="color: #5A7644;">"</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+
+val <span style="color: #86453A;">:content</span>, <span style="color: #86453A;">length</span>: { <span style="color: #86453A;">maximum</span>: 140 }
+
+<span style="color: #4C565D;">################################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt;               #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">NO.0 element is content, its type is Symbol                  #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">NO.1 element is {:length=&gt;{:maximum=&gt;140}}, its type is Hash #</span>
+<span style="color: #4C565D;">################################################################</span>
+</pre>
+</div>
+</li>
+<li>从上面的例子我们可以看到:
+<ul class="org-ul">
+<li>attributes 其实是一个不定参数, 输入不同数目的参数最终会在函数实现里面成为一个类型为array的变量attributes
+</li>
+<li>:content是第attribute数组里面的第一个参数,类型为Symbol
+</li>
+<li>{:length=&gt;{:maximum=&gt;140}} 为attributest里面的第二个参数, 类型为Hash. 而且其value是另外一个hash. 这里
+又有两个地方的简写:
+<ol class="org-ol">
+<li>{:key =&gt; "value"} 简写成 {key: "value}
+</li>
+<li>由于Hash是validate的第二个,也是最后一个参数,所以不需要加{}, 也就是说
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Completed version is this</span>
+{<span style="color: #86453A;">:length=</span>&gt;{<span style="color: #86453A;">:maximum=</span>&gt;140}}
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">want to save "=&gt;", convert to this</span>
+{ <span style="color: #86453A;">length</span>: { <span style="color: #86453A;">maximum</span>: 140 } }
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Last parameter, so sonvert this</span>
+<span style="color: #86453A;">length</span>: { <span style="color: #86453A;">maximum</span>: 140 }
+</pre>
+</div>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3">A user has_many microposts</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<ul class="org-ul">
+<li>从数据库的角度看, user和micropost是"一对多"的关系:就是一个用户可以有多个
+micropost, 反之则不成立: 一个micropost只属于一个user.
+</li>
+<li>这种"一对多"的关系是体现在"数据"部分的,所以,我们在M部分进行修改.相关的两个
+model都要修改. 相比于前面的validates函数. belongs_to和has_many显得那么的简
+单
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">diff --git a/app/models/micropost.rb b/app/models/micropost.rb</span>
+<span style="color: #b3b3b3;">index 91a6135..ea092e5 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/app/models/micropost.rb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/models/micropost.rb</span>
+<span style="background-color: #737373;">@@ -1,3 +1,4 @@</span>
+<span style="color: #b3b3b3;"> class Micropost &lt; ActiveRecord::Base</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  belongs_to :user</span>
+<span style="color: #b3b3b3;">   validates :content, length: { maximum: 140 }</span>
+<span style="color: #b3b3b3;"> end</span>
+<span style="color: #b3b3b3;">    Modified   app/models/user.rb</span>
+<span style="color: #b3b3b3;">diff --git a/app/models/user.rb b/app/models/user.rb</span>
+<span style="color: #b3b3b3;">index 4a57cf0..d41de93 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/app/models/user.rb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/models/user.rb</span>
+<span style="background-color: #737373;">@@ -1,2 +1,3 @@</span>
+<span style="color: #b3b3b3;"> class User &lt; ActiveRecord::Base</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  has_many :microposts</span>
+<span style="color: #b3b3b3;"> end</span>
+</pre>
+</div>
+</li>
+<li>做了这些修改以后,我们可以使用rails console来查看这些更改. rails console非
+常强大,涉及M的部分都可以试试
+<div class="org-src-container">
+
+<pre class="src src-sh">2.0.0-p481 :001 &gt; first_user = User.first
+  User Load (0.2ms)  SELECT <span style="color: #5A7644;">"users"</span>.* FROM <span style="color: #5A7644;">"users"</span> ORDER BY <span style="color: #5A7644;">"users"</span>.<span style="color: #5A7644;">"id"</span> ASC LIMIT 1
+ =&gt; <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">&lt;User id: 1, name: "haoran feng", email: "haoran.feng@sap.com", created_at: "2014-07-21 08:44:55", updated_at: "2014-07-21 08:44:55"&gt;</span>
+2.0.0-p481 :002 &gt; first_user.methods
+=&gt; [:autosave_associated_records_for_microposts, .....    :microposts, ...]
+2.0.0-p481 :003 &gt; first_user.microposts
+  Micropost Load (1.8ms)  SELECT <span style="color: #5A7644;">"microposts"</span>.* FROM <span style="color: #5A7644;">"microposts"</span> WHERE <span style="color: #5A7644;">"microposts"</span>.<span style="color: #5A7644;">"user_id"</span> = ?  [[<span style="color: #5A7644;">"user_id"</span>, 1]]
+ =&gt; <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">&lt;ActiveRecord::Associations::CollectionProxy [#&lt;Micropost id: 1, content: "hello world", user_id: 1, created_at: "2014-07-21 08:45:28", updated_at: "2014-07-21 08:45:28"&gt;]&gt;</span>
+2.0.0-p481 :004 &gt; exit
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4">Inheritance hierarchies</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<ul class="org-ul">
+<li>model和controller都是采取了继承的方法来获取大部分的功能:
+<ul class="org-ul">
+<li>model的继承图如下
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/ruby/ch2/model-inheritance.png" alt="model-inheritance.png" />
+</p>
+<p><span class="figure-number">Figure 2:</span> model-inheritance.png</p>
+</div>
+</li>
+<li>controller的继承图如下
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/ruby/ch2/controller-inheritance.png" alt="controller-inheritance.png" />
+</p>
+<p><span class="figure-number">Figure 3:</span> controller-inheritance.png</p>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-5" class="outline-4">
+<h4 id="sec-1-3-5">Deploying the demo app</h4>
+<div class="outline-text-4" id="text-1-3-5">
+<ul class="org-ul">
+<li>还是老样子,把例子部署到heroku上去
+<div class="org-src-container">
+
+<pre class="src src-sh">hfengdeMacBook-Air:demo_app hfeng$ heroku login
+Enter your Heroku credentials.
+Email: harrifeng@gmail.com
+<span style="color: #C6B032;">Password</span> (typing will be hidden):
+
+Authentication successful.
+hfengdeMacBook-Air:demo_app hfeng$ heroku create
+heroku create
+Creating fast-eyrie-3133... done, stack is cedar
+http://fast-eyrie-3133.herokuapp.com/ | git@heroku.com:fast-eyrie-3133.git
+Git remote heroku added
+hfengdeMacBook-Air:demo_app hfeng$ heroku rename hfeng-demo_app
+heroku rename hfeng-demo_app
+Renaming fast-eyrie-3133 to hfeng-demo_app... failed
+ !    Name must start with a letter and can only contain lowercase letters, numbers, and dashes.
+hfengdeMacBook-Air:demo_app hfeng$ heroku rename hfeng-demo-app
+heroku rename hfeng-demo-app
+Renaming fast-eyrie-3133 to hfeng-demo-app... done
+http://hfeng-demo-app.herokuapp.com/ | git@heroku.com:hfeng-demo-app.git
+Git remote heroku updated
+hfengdeMacBook-Air:demo_app hfeng$ git remote -v
+git remote -v
+heroku  git@heroku.com:hfeng-demo-app.git (fetch)
+heroku  git@heroku.com:hfeng-demo-app.git (push)
+origin  git@github.com:harrifeng/demo_app.git (fetch)
+origin  git@github.com:harrifeng/demo_app.git (push)
+hfengdeMacBook-Air:demo_app hfeng$ git push heroku master
+git push heroku master
+Initializing repository, done.
+Counting objects: 147, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (132/132), done.
+Writing objects: 100% (147/147), 24.69 KiB | 0 bytes/s, done.
+Total 147 (delta 31), reused 0 (delta 0)
+
+-----&gt; Ruby app detected
+-----&gt; Compiling Ruby/Rails
+-----&gt; Using Ruby version: ruby-2.0.0
+-----&gt; Installing dependencies using 1.6.3
+       Running: bundle install --without development:test --path vendor/bundle --binstubs vendor/bundle/bin -j4 --deployment
+       Fetching gem metadata from https://rubygems.org/..........
+       Fetching additional metadata from https://rubygems.org/..
+       Installing minitest 4.7.5
+       Installing i18n 0.6.11
+       Installing rake 10.3.2
+       Installing thread_safe 0.3.4
+       Installing multi_json 1.10.1
+       Installing builder 3.1.4
+       Installing tzinfo 0.3.40
+       Installing erubis 2.7.0
+       Installing mime-types 1.25.1
+       Installing polyglot 0.3.5
+       Installing activerecord-deprecated_finders 1.0.3
+       Installing rack 1.5.2
+       Installing coffee-script-source 1.7.1
+       Installing arel 4.0.2
+       Installing execjs 2.2.1
+       Installing thor 0.19.1
+       Installing hike 1.2.3
+       Using bundler 1.6.3
+       Installing tilt 1.4.1
+       Installing rails_serve_static_assets 0.0.2
+       Installing rails_stdout_logging 0.0.3
+       Installing json 1.8.1
+       Installing sass 3.3.10
+       Installing activesupport 4.0.8
+       Installing rack-test 0.6.2
+       Installing treetop 1.4.15
+       Installing coffee-script 2.3.0
+       Installing uglifier 2.1.1
+       Installing rails_12factor 0.0.2
+       Installing sprockets 2.12.1
+       Installing activemodel 4.0.8
+       Installing rdoc 3.12.2
+       Installing jbuilder 1.0.2
+       Installing mail 2.5.4
+       Installing actionpack 4.0.8
+       Installing sdoc 0.3.20
+       Installing activerecord 4.0.8
+       Installing actionmailer 4.0.8
+       Installing sprockets-rails 2.0.1
+       Installing pg 0.15.1
+       Installing railties 4.0.8
+       Installing coffee-rails 4.0.1
+       Installing jquery-rails 3.0.4
+       Installing turbolinks 1.1.1
+       Installing sass-rails 4.0.1
+       Installing rails 4.0.8
+       Your bundle is complete!
+       Gems<span style="color: #AE5825;"> in</span> the groups development and test were not installed.
+       It was installed into ./vendor/bundle
+       Post-install message from rdoc:
+       Depending on your version of ruby, you may need to install ruby rdoc/ri data:
+       &lt;= 1.8.6 : unsupported
+       = 1.8.7 : gem install rdoc-data; rdoc-data --install
+       = 1.9.1 : gem install rdoc-data; rdoc-data --install
+       &gt;= 1.9.2 : nothing to do! Yay!
+       Bundle completed (20.98s)
+       Cleaning up the bundler cache.
+-----&gt; Writing config/database.yml to read from DATABASE_URL
+-----&gt; Preparing app for Rails asset pipeline
+       Running: rake assets:precompile
+       I, [2014-07-21T09:36:55.949609 <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">1017]  INFO -- : Writing /tmp/build_b8be5592-5246-464e-ba6a-1c052a86b661/public/assets/application-0101f279a9c8c24ec8783f21287568ab.js</span>
+       I, [2014-07-21T09:36:56.005265 <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">1017]  INFO -- : Writing /tmp/build_b8be5592-5246-464e-ba6a-1c052a86b661/public/assets/application-d0e6f02b399570c37fedbe45a0393e35.css</span>
+       Asset precompilation completed (7.07s)
+       Cleaning assets
+       Running: rake assets:clean
+-----&gt; WARNINGS:
+       No Procfile detected, using the default web server (webrick)
+       https://devcenter.heroku.com/articles/ruby-default-web-server
+-----&gt; Discovering process types
+       Procfile declares types -&gt; (none)
+       Default types for Ruby  -&gt; console, rake, web, worker
+
+-----&gt; Compressing... done, 21.1MB
+-----&gt; Launching... done, v6
+       http://hfeng-demo-app.herokuapp.com/ deployed to Heroku
+
+To git@heroku.com:hfeng-demo-app.git
+ * [new branch]      master -&gt; master
+hfengdeMacBook-Air:demo_app hfeng$ heroku run rake db:migrate
+heroku run rake db:migrate
+Running <span style="color: #fa8072;">`rake db:migrate`</span> attached to terminal... up, run.5711
+Migrating to CreateUsers (20140721023511)
+== 20140721023511 CreateUsers: migrating ======================================
+-- create_table(:users)
+   -&gt; 0.0438s
+== 20140721023511 CreateUsers: migrated (0.0441s) =============================
+
+Migrating to CreateMicroposts (20140721073734)
+== 20140721073734 CreateMicroposts: migrating =================================
+-- create_table(:microposts)
+   -&gt; 0.0322s
+== 20140721073734 CreateMicroposts: migrated (0.0324s) ========================
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

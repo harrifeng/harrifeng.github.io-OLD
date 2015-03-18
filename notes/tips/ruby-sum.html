@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>ruby 常用函数</title>
-<!-- 2014-07-18 Fri 16:01 -->
+<title>ruby tips</title>
+<!-- 2015-03-18 Wed 14:06 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -163,7 +163,7 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">ruby 常用函数</h1>
+<h1 class="title">ruby tips</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
@@ -171,6 +171,10 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1">select</a></li>
 <li><a href="#sec-2">reject</a></li>
 <li><a href="#sec-3">Array.shift</a></li>
+<li><a href="#sec-4">ruby 测试文件中的某一个测试用例:</a></li>
+<li><a href="#sec-5">block 作为参赛传入函数</a></li>
+<li><a href="#sec-6">rails escape 字符</a></li>
+<li><a href="#sec-7">taint属性</a></li>
 </ul>
 </div>
 </div>
@@ -182,12 +186,12 @@ for the JavaScript code in this tag.
 <div class="org-src-container">
 
 <pre class="src src-ruby">a = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-p a.select {|n| n % 3 == 0}
+<span style="color: #86453A;">p</span> a.select {|n| n % 3 == 0}
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">[3, 6, 9]                                      #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">[3, 6, 9]                                      #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -203,12 +207,12 @@ p a.select {|n| n % 3 == 0}
 <div class="org-src-container">
 
 <pre class="src src-ruby">a = [1, 2, 3, 4]
-p a.reject {|n| n &gt; 2}
+<span style="color: #86453A;">p</span> a.reject {|n| n &gt; 2}
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">[1, 2]                                         #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">[1, 2]                                         #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -223,30 +227,226 @@ p a.reject {|n| n &gt; 2}
 且从原来的数组里面删除一个数
 <div class="org-src-container">
 
-<pre class="src src-ruby">args = [ <span style="color: #A2925E;">"-m"</span>, <span style="color: #A2925E;">"-q"</span>, <span style="color: #A2925E;">"filename"</span> ]
-p args.shift
-p args
+<pre class="src src-ruby">args = [ <span style="color: #5A7644;">"-m"</span>, <span style="color: #5A7644;">"-q"</span>, <span style="color: #5A7644;">"filename"</span> ]
+<span style="color: #86453A;">p</span> args.shift
+<span style="color: #86453A;">p</span> args
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"-m"                                           #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["-q", "filename"]                             #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">"-m"                                           #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">["-q", "filename"]                             #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
 <li>加上参数__n__的话,就是"至少"截取n个成员
 <div class="org-src-container">
 
-<pre class="src src-ruby">args = [ <span style="color: #A2925E;">"-m"</span>, <span style="color: #A2925E;">"-q"</span>, <span style="color: #A2925E;">"filename"</span> ]
-p args.shift(2)
-p args
+<pre class="src src-ruby">args = [ <span style="color: #5A7644;">"-m"</span>, <span style="color: #5A7644;">"-q"</span>, <span style="color: #5A7644;">"filename"</span> ]
+<span style="color: #86453A;">p</span> args.shift(2)
+<span style="color: #86453A;">p</span> args
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["-m", "-q"]                                   #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["filename"]                                   #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">["-m", "-q"]                                   #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">["filename"]                                   #</span>
+<span style="color: #4C565D;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">ruby 测试文件中的某一个测试用例:</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>在很多时候,我们其实更改了代码以后,只要测试其中一个用例, rake是没有相应支持的,
+必须依靠ruby命令行
+<div class="org-src-container">
+
+<pre class="src src-sh">$ ruby -I test test/functional/groups_controller_test.rb  -n test_auto_group_admin_can_activate_group
+/Users/i309511/Code/git-svn-ct/test/mocks/test/gmap_coder.rb:2: warning: already initialized constant MAPS_HOST
+SQL analysis LRU cache stats: 9 hits, 38 misses, 19% hit rate, 0.000 seconds saved
+
+GroupsControllerTest
+    test_auto_group_admin_can_activate_group                              PASS
+==============================================================================
+  pass: 1,  fail: 0,  error: 0
+  total: 1 tests with 5 assertions<span style="color: #AE5825;"> in</span> 9.690663 seconds
+==============================================================================
+</pre>
+</div>
+</li>
+<li>需要注意的是test_auto_group_admin_can_activate_group, 在源代码中可能是如下定义的
+<div class="org-src-container">
+
+<pre class="src src-ruby">test <span style="color: #5A7644;">"auto_group_admin_can_activate_group"</span> <span style="color: #AE5825;">do</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
+</pre>
+</div>
+</li>
+<li>还需要注意的是,因为测试的文件名字非常相近(而且大部分时候是bash自动补全), 很
+容易把测试文件的名字写错,在写错测试文件的情况下,会发现测试异常迅速的结束,而
+且没有任何测试结果.这个时候,需要认真看看,自己是不是写对了文件. 比如下面例子
+中legacy_o_data_content_controller_test.rb就被误写成了legacy_o_data_controller_test.rb
+<div class="org-src-container">
+
+<pre class="src src-sh">$ ruby -I test test/functional/api/o_data/legacy_o_data_controller_test.rb -n test_participation
+/Users/i309511/Code/git-svn-ct/test/mocks/test/gmap_coder.rb:2: warning: already initialized constant MAPS_HOST
+SQL analysis LRU cache stats: 9 hits, 38 misses, 19% hit rate, 0.000 seconds saved
+
+==============================================================================
+  pass: 0,  fail: 0,  error: 0
+  total: 0 tests with 0 assertions<span style="color: #AE5825;"> in</span> 8.2e-05 seconds
+==============================================================================
+$ ruby -I test test/functional/api/o_data/legacy_o_data_content_controller_test.rb -n test_participation
+/Users/i309511/Code/git-svn-ct/test/mocks/test/gmap_coder.rb:2: warning: already initialized constant MAPS_HOST
+SQL analysis LRU cache stats: 9 hits, 38 misses, 19% hit rate, 0.000 seconds saved
+
+Api::OData::LegacyODataContentControllerTest
+    test_participation                                                    PASS
+==============================================================================
+  pass: 1,  fail: 0,  error: 0
+  total: 1 tests with 15 assertions<span style="color: #AE5825;"> in</span> 11.156378 seconds
+==============================================================================
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">block 作为参赛传入函数</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>block不仅仅是看起来酷那么简单, 它在很多情况下都非常好用.比如下面
+</li>
+<li>block作为参数传入函数, 但是你无法直接使用block, 而是:
+<pre class="example">
+block在函数内部产生"不同"作用(因为block也是函数,也可以有参数!!!), 然后产生返回值给函数用.
+</pre>
+</li>
+<li>例子如下
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">We have num students, we want to know their test score</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">test score is determined by block</span>
+<span style="color: #AE5825;">def</span> <span style="color: #C6B032;">fun_with_block</span>(num, options = {}, &amp;block)
+  score = []
+  num.times <span style="color: #AE5825;">do</span> |i|
+    score.push(block.call(i))
+  <span style="color: #AE5825;">end</span>
+  score
+<span style="color: #AE5825;">end</span>
+
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">find the first 10th students' score</span>
+s = fun_with_block(10) <span style="color: #AE5825;">do</span> |nth|
+  nth * nth
+<span style="color: #AE5825;">end</span>
+
+<span style="color: #86453A;">p</span> s
+
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]           #</span>
+<span style="color: #4C565D;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">rails escape 字符</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>"&lt;" 和 "&gt;" 字符会引入xss攻击,所以, 在rails2的时候,使用html_escape函数把带有"&lt;&gt;"
+的字符串转换成"&amp;lt&amp;gt"
+<div class="org-src-container">
+
+<pre class="src src-ruby">irb(main)<span style="color: #86453A;">:019</span>:0&gt; address_array.join(<span style="color: #5A7644;">'&lt;br /&gt;'</span>)
+=&gt; <span style="color: #5A7644;">"name&lt;br /&gt;addr1&lt;br /&gt;addr2&lt;br /&gt;city_zip&lt;br /&gt;country_name"</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">escape the '&lt;&gt;'</span>
+irb(main)<span style="color: #86453A;">:020</span>:0&gt; <span style="color: #C6B032; font-style: italic;">ERB</span>::<span style="color: #C6B032; font-style: italic;">Util</span>.html_escape address_array.join(<span style="color: #5A7644;">'&lt;br /&gt;'</span>)
+=&gt; <span style="color: #5A7644;">"name&amp;lt;br /&amp;gt;addr1&amp;lt;br /&amp;gt;addr2&amp;lt;br /&amp;gt;city_zip&amp;lt;br /&amp;gt;country_name"</span>
+</pre>
+</div>
+</li>
+<li>在模板里面其实就是使用函数h来替代html_escape
+<div class="org-src-container">
+
+<pre class="src src-ruby">&lt;<span style="color: #5A7644;">%= h some_string %</span>&gt;
+</pre>
+</div>
+</li>
+<li>在Rails 3里面,所有模板里面的字符都会自动被escape掉,所以
+<div class="org-src-container">
+
+<pre class="src src-ruby">&lt;<span style="color: #5A7644;">%= h some_string %</span>&gt;
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">is now</span>
+&lt;<span style="color: #5A7644;">%=</span> some_string <span style="color: #5A7644;">%&gt;</span>
+</pre>
+</div>
+</li>
+<li>如果你想要"真的html效果(比如&lt;/br&gt;就是换行,而不是显示出来)",那么你需要 raw(或者html_safe)
+<div class="org-src-container">
+
+<pre class="src src-web">&lt;%= raw some_string %&gt;
+# is now
+&lt;%= some_string.html_safe %&gt;
+</pre>
+</div>
+</li>
+<li>raw其实是首先把some_string转换成object, 然后object调用html_safe. 所以单独使用
+html_safe的时候"一定不要在一个nil对象上使用"
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">taint属性</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li>前面的html_safe需要作用于一个非nil的对象上面, 而taint这个属性,可以"部分的说
+明某个object是不是nil"
+</li>
+<li>先来看看taint, 如果是用户输入的数据,那么就是tainted的
+<div class="org-src-container">
+
+<pre class="src src-ruby">string = gets
+string.tainted?
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=&gt; true</span>
+</pre>
+</div>
+</li>
+<li>否则,数据就是untained.但是你可以自己taint他们
+<div class="org-src-container">
+
+<pre class="src src-ruby">string = <span style="color: #5A7644;">'Not yet tainted.'</span>
+string.tainted?
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=&gt; false</span>
+
+(string = <span style="color: #5A7644;">'Explicitly taint me!'</span>).taint
+string.tainted?
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=&gt; true</span>
+</pre>
+</div>
+</li>
+<li>那么taint到底是什么意思呢?
+<pre class="example">
+Generally, you would untaint an object only after you validate and/or sanitize it.
+Untainting an object marks it as "safe" for certain operations that you wouldn't
+want to run on untrusted strings or other objects.
+</pre>
+</li>
+<li>简言之就是:用户输入的是不安全的(tainted),你辨别过后认为是安全的就标记其为"untainted"
+<div class="org-src-container">
+
+<pre class="src src-ruby">(string = <span style="color: #5A7644;">"Let's taint this string!"</span>).taint
+string.untaint.tainted?
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=&gt; false</span>
 </pre>
 </div>
 </li>

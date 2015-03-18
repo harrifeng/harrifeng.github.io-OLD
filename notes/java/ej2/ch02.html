@@ -1,0 +1,1108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 02: Creating and Destroying Objects</title>
+<!-- 2015-03-18 Wed 14:19 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 02: Creating and Destroying Objects</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Creating and Destroying Objects</a>
+<ul>
+<li><a href="#sec-1-1">Item 1: Consider static factory methods instead of constructors</a></li>
+<li><a href="#sec-1-2">Item 2: Consider a builder when faced with many constructor parameters</a></li>
+<li><a href="#sec-1-3">Item 3: Enforce the singleton property with a private constructor or an enum type</a></li>
+<li><a href="#sec-1-4">Item 4: Enforce noninstantiability with a private constructor</a></li>
+<li><a href="#sec-1-5">Item 5: Avoid creating unnecessary objects</a></li>
+<li><a href="#sec-1-6">Item 6: Eliminate obsolete object references</a></li>
+<li><a href="#sec-1-7">Item 7: Avoid finalizers</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Creating and Destroying Objects</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Item 1: Consider static factory methods instead of constructors</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>class实例化的常规做法是使用public ctor, 但是class提供一个public static factory
+method给client使用是更好的办法
+</li>
+<li>比如为class Boolean是使用下面的办法把一个boolean primitive值转化成Boolean
+object reference的
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">Boolean</span> <span style="color: #C6B032;">valueOf</span>(<span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #46657B;">b</span>) {
+    <span style="color: #AE5825;">return</span> b ? <span style="color: #86453A;">Boolean</span>.TRUE : <span style="color: #86453A;">Boolean</span>.FALSE;
+}
+</pre>
+</div>
+</li>
+<li>需要注意的是static factory method和设计模式里面的"Factory Method"没有直接联系
+</li>
+<li>使用static factory method是优缺点并存的:
+<ul class="org-ul">
+<li>优点1是: 和ctor不同的是static factory method是有名字的. 比起ctor来就更容
+易使用
+</li>
+<li>优点2是: 和ctor不同, static factory method不需要每次都创建新的object: 这
+个特点可以被immutable class使用来"预先创建instance"(preconstructed instances),
+或者是cache他们已经创建的对象.比如Boolean.valueOf(boolean)就是这样(因为这
+个函数是返回已经创建的instance,从来不会新创建instance
+</li>
+<li>优点3是: static factory method可以:
+<ol class="org-ol">
+<li>返回"函数返回类型"的"子类的object".
+</li>
+<li>返回的object,其class是private的
+</li>
+</ol>
+</li>
+<li>我们以Collection为例子来看看
+<ol class="org-ol">
+<li>首先, Collection是一个interface
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">interface</span> <span style="color: #C6B032; font-style: italic;">Collection</span>&lt;<span style="color: #C6B032; font-style: italic;">E</span>&gt; <span style="color: #AE5825;">extends</span> <span style="color: #C6B032; font-style: italic;">Iterable</span>&lt;<span style="color: #C6B032; font-style: italic;">E</span>&gt;
+</pre>
+</div>
+</li>
+<li>其次, Collections是一个class,而且private ctor
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Collections</span> {
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Suppresses default constructor, ensuring non-instantiability.</span>
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032;">Collections</span>() {
+    }
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">....</span>
+}
+</pre>
+</div>
+</li>
+<li>Collections里面都是返回一些继承Collection interface的interface, 比如List
+就是在函数定义返回值的时候,定义了一些'父类'(List).实际返回的时候,可以
+根据情况返回'子类'(UnmodifiableRandomAccessList或者UnmodifiableList)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> &lt;<span style="color: #C6B032; font-style: italic;">T</span>&gt; <span style="color: #C6B032; font-style: italic;">List</span>&lt;<span style="color: #C6B032; font-style: italic;">T</span>&gt; <span style="color: #C6B032;">unmodifiableList</span>(<span style="color: #C6B032; font-style: italic;">List</span>&lt;? <span style="color: #AE5825;">extends</span> <span style="color: #C6B032; font-style: italic;">T</span>&gt; <span style="color: #46657B;">list</span>) {
+    <span style="color: #AE5825;">return</span> (list <span style="color: #AE5825;">instanceof</span> RandomAccess ?
+            <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">UnmodifiableRandomAccessList</span>&lt;&gt;(list) :
+            <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">UnmodifiableList</span>&lt;&gt;(list));
+}
+</pre>
+</div>
+</li>
+<li>Collections里面,会返回一些private的class的object. 就是通过我们的static
+factory method.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> &lt;<span style="color: #C6B032; font-style: italic;">K</span>,<span style="color: #C6B032; font-style: italic;">V</span>&gt; <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">K</span>,<span style="color: #C6B032; font-style: italic;">V</span>&gt; <span style="color: #C6B032;">synchronizedMap</span>(<span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">K</span>,<span style="color: #C6B032; font-style: italic;">V</span>&gt; <span style="color: #46657B;">m</span>) {
+    <span style="color: #AE5825;">return</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">SynchronizedMap</span>&lt;&gt;(m);
+}
+
+<span style="color: #DDFFD1;">/**</span>
+<span style="color: #DDFFD1;">  * </span><span style="color: #86453A;">@serial</span><span style="color: #DDFFD1;"> include</span>
+<span style="color: #DDFFD1;">  */</span>
+<span style="color: #AE5825;">private</span> <span style="color: #AE5825;">static</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">SynchronizedMap</span>&lt;<span style="color: #C6B032; font-style: italic;">K</span>,<span style="color: #C6B032; font-style: italic;">V</span>&gt;
+    <span style="color: #AE5825;">implements</span> <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">K</span>,<span style="color: #C6B032; font-style: italic;">V</span>&gt;, <span style="color: #C6B032; font-style: italic;">Serializable</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">static</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">long</span> <span style="color: #46657B;">serialVersionUID</span> = 1978198479659022715L;
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">...</span>
+}
+</pre>
+</div>
+</li>
+</ol>
+</li>
+<li>从上面的例子可以看出, static factory method设计出来的代码,用户能够知道的就
+是返回值是一个接口(父类), 而不用去关心其具体到底底层是什么实现,这通常来说
+都是良好的设计实践: 因为下一个版本,我甚至是可以更改底层的实现,但是对用户来
+说没有影响,因为原来只承诺了接口
+</li>
+<li>#TODO#
+</li>
+<li>优点4是:创建instance的时候,可以减少冗长的参数:
+<ol class="org-ol">
+<li>最开始是这样创建一个map
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">List</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>&gt;&gt; <span style="color: #46657B;">m</span> =
+    <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">HashMap</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">List</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>&gt;&gt;();
+</pre>
+</div>
+</li>
+<li>使用了static factory method后,可以简化成这样
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">List</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>&gt;&gt; <span style="color: #46657B;">m</span> = HashMap.newInstance();
+</pre>
+</div>
+</li>
+<li>static factory method当然得如外提供啦
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> &lt;<span style="color: #C6B032; font-style: italic;">K</span>, <span style="color: #C6B032; font-style: italic;">V</span>&gt; <span style="color: #C6B032; font-style: italic;">HashMap</span>&lt;<span style="color: #C6B032; font-style: italic;">K</span>, <span style="color: #C6B032; font-style: italic;">V</span>&gt; <span style="color: #C6B032;">newInstance</span>() {
+    <span style="color: #AE5825;">return</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">HashMap</span>&lt;<span style="color: #C6B032; font-style: italic;">K</span>, <span style="color: #C6B032; font-style: italic;">V</span>&gt;();
+}
+</pre>
+</div>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>当然了,缺点也是存在的:
+<ul class="org-ul">
+<li>缺点1: 如果只依靠static factory method的话,那么ctor就是private的,所以他们
+就无法被实例化
+</li>
+<li>缺点2: static factory method和其他的static函数没有明显区别,所以用户想用来
+创建instance的时候,往往很难寻找.下面是我们建议的几个名字:
+<ol class="org-ol">
+<li>valueOf:返回一个和它参数一样的instance,通常用来类型转换
+</li>
+<li>of: 是valueOf的另外一种称呼
+</li>
+<li>getInstance: 如果有参数,那么就返回跟参数描述一致的instance. 如果是单例
+模式(Singleton中), 那么就是没有参数,返回唯一存在的instance
+</li>
+<li>newInsstance: 和getInstance一样,不过保证返回的instance和其他的instance
+完全不同
+</li>
+<li>getType: 返回值为Type类型的getInstance
+</li>
+<li>newType: 返回值为Type类型的newInstance
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Item 2: Consider a builder when faced with many constructor parameters</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>固定参数的ctor和item1介绍的factory来初始化object的时候,有一个致命的缺点:在
+参数很多的情况下,扩展行不好,很容易用错.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Does not scale well!</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">NutritionFacts</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servingSize</span>;     <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">required</span>
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servings</span>;        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">required</span>
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">calories</span>;        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">optional</span>
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">fat</span>;             <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">optional</span>
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">sodium</span>;          <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">optional</span>
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">carbohydrate</span>;    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">optional</span>
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">NutritionFacts</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servingSize</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servings</span>) {
+        <span style="color: #AE5825;">this</span>(servingSize, servings, 0);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">NutritionFacts</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servingSize</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servings</span>,
+                          <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">calories</span>) {
+        <span style="color: #AE5825;">this</span>(servingSize, servings, calories, 0);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">NutritionFacts</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servingSize</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servings</span>,
+                          <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">calories</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">fat</span>) {
+        <span style="color: #AE5825;">this</span>(servingSize, servings, calories, fat, 0);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">NutritionFacts</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servingSize</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servings</span>,
+                          <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">calories</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">fat</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">sodium</span>) {
+        <span style="color: #AE5825;">this</span>(servingSize, servings, calories, fat, sodium, 0);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">NutritionFacts</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servingSize</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servings</span>,
+                          <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">calories</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">fat</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">sodium</span>,
+                          <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">carbohydrate</span>) {
+        <span style="color: #AE5825;">this</span>.servingSize       = servingSize;
+        <span style="color: #AE5825;">this</span>.servings          = servings;
+        <span style="color: #AE5825;">this</span>.calories          = calories;
+        <span style="color: #AE5825;">this</span>.fat               = fat;
+        <span style="color: #AE5825;">this</span>.sodium            = sodium;
+        <span style="color: #AE5825;">this</span>.carbohydrate      = carbohydrate;
+    }
+}
+</pre>
+</div>
+</li>
+<li>上面的例子中有两个必要的域,四个可选的域, 然后就出现了下面的实现方式: 多个ct
+or,然后每个ctor里面去调用"下一个ctor", 这种方法叫做
+<pre class="example">
+telescoping constructor pattern (重叠构造器模式)
+</pre>
+</li>
+<li>telescoping ctor的缺点有很多:
+<ul class="org-ul">
+<li>ctor非常难以书写,像绕口令一样
+</li>
+<li>非常难以阅读
+</li>
+<li>容易用错(特别是参数太多,不小心交换位置的情况,编译器不会报错)
+</li>
+</ul>
+</li>
+<li>除了telescoping 模式以外,在多参数的class里面,我们还可以通过JavaBean模式来设
+置:设置一个没参赛的ctor,然后分别使用函数设置成员变量
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">NutritionFacts</span> {
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Parameters initialized to default values (if any)</span>
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servingSize</span>   = -1; <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Required; no default value</span>
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servings</span> = -1;
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">calories</span> = 0;
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">fat</span>      = 0;
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">sodium</span>   = 0;
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">carbohydrate</span>  = 0;
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">NutritionFacts</span>() { }
+
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Setters</span>
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">setServingSize</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">val</span>) {
+        servingSize = val;
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">setServings</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">val</span>) {
+        servingSize = val;
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">setCalories</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">val</span>) {
+        calories = val;
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">setFat</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">val</span>) {
+        fat = val;
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">setSodium</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">val</span>) {
+        sodium = val;
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">setCarbohydrate</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">val</span>) {
+        carbohydrate = val;
+    }
+}
+</pre>
+</div>
+</li>
+<li>不幸的是JavaBean模式有着非常严重的缺点:
+<ul class="org-ul">
+<li>JavaBean模式可能在"构建"的过程中,经历inconsistent state的状态
+</li>
+<li>由于inconsistent state的存在, immutable class就变得不再可能
+</li>
+<li>需要额外的工作来保证程序的线程安全
+</li>
+</ul>
+</li>
+<li>在现有的Java语言特点下,多参数(并且很多是optional参数的)ctor的最佳实践是:
+Builder pattern
+</li>
+<li>下面是builder pattern的一个例子
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">NutritionFacts</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servingSize</span>;
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servings</span>;
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">calories</span>;
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">fat</span>;
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">sodium</span>;
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">carbohydrate</span>;
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Builder</span> {
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Required parameters</span>
+        <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servingSize</span>;
+        <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servings</span>;
+
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Optional parameters - initialized to default values</span>
+        <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">calories</span>       = 0;
+        <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">fat</span>            = 0;
+        <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">carbohydrate</span>   = 0;
+        <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">sodium</span>         = 0;
+
+        <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">Builder</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servingSize</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">servings</span>) {
+            <span style="color: #AE5825;">this</span>.servingSize = servingSize;
+            <span style="color: #AE5825;">this</span>.servings = servings;
+        }
+
+        <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">Builder</span> <span style="color: #C6B032;">calories</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">val</span>) {
+            calories = val;
+            <span style="color: #AE5825;">return</span> <span style="color: #AE5825;">this</span>;
+        }
+
+        <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">Builder</span> <span style="color: #C6B032;">fat</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">val</span>) {
+            fat = val;
+            <span style="color: #AE5825;">return</span> <span style="color: #AE5825;">this</span>;
+        }
+
+        <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">Builder</span> <span style="color: #C6B032;">carbohydrate</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">val</span>) {
+            carbohydrate = val;
+            <span style="color: #AE5825;">return</span> <span style="color: #AE5825;">this</span>;
+        }
+
+        <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">Builder</span> <span style="color: #C6B032;">sodium</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">val</span>) {
+            sodium = val;
+            <span style="color: #AE5825;">return</span> <span style="color: #AE5825;">this</span>;
+        }
+
+        <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">NutritionFacts</span> <span style="color: #C6B032;">build</span>() {
+            <span style="color: #AE5825;">return</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">NutritionFacts</span>(<span style="color: #AE5825;">this</span>);
+        }
+    }
+
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032;">NutritionFacts</span>(<span style="color: #C6B032; font-style: italic;">Builder</span> <span style="color: #46657B;">builder</span>) {
+        servingSize   = builder.servingSize;
+        servings      = builder.servings;
+        calories      = builder.calories;
+        fat           = builder.fat;
+        sodium        = builder.sodium;
+        carbohydrate  = builder.carbohydrate;
+    }
+}
+</pre>
+</div>
+</li>
+<li>使用方法如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #C6B032; font-style: italic;">NutritionFacts</span> <span style="color: #46657B;">cocaCola</span> = <span style="color: #AE5825;">new</span> <span style="color: #86453A;">NutritionFacts</span>.<span style="color: #C6B032; font-style: italic;">Builder</span>(240, 8).
+    calories(100).sodium(35).carbohydrate(27).build()
+</pre>
+</div>
+</li>
+<li>Java的代码的确就是长啊,说白了,这就是模拟python的"Named optional paramter"
+<div class="org-src-container">
+
+<pre class="src src-python"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">info</span>(<span style="color: #86453A;">object</span>, spacing=10, collapse=1):
+    <span style="color: #AE5825;">pass</span>
+
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">With only one argument, spacing gets its default value of 10 and collapse gets</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">its default value of 1</span>
+info(odbchelper)
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">With two arguments, sollapse gets it default value of 1</span>
+info(odbchelper, 12)
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Here you are naming the collapse argument explicitly and specifying its value,</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">spacing still gets its default value of 10</span>
+info(odbchelper, collapse=0)
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Even required arguments(like object, which has no defult value) can be named,</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">and named arguments can appear in any order</span>
+info(spacing=15, <span style="color: #86453A;">object</span>=odbchelper)
+</pre>
+</div>
+</li>
+<li>#TODO#
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Item 3: Enforce the singleton property with a private constructor or an enum type</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>所谓singleton就是某种只能实例化一次的class. 某些系统组件(比如Windows manager)
+是唯一的,重复实例化它们没有意义
+</li>
+<li>在java1.5以前,我们有两种方法来实现singleton:
+<ul class="org-ul">
+<li>方法一:把ctor设置为private, 但是把自己的public static member露出来. (private
+的ctor可能会被调用的方法只有一个就是AccessibleObject.setAccessible的帮助.
+如果很小心的用户,可以通过设置ctor被两次调用就抛异常来解决这个问题)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Elvis</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">Elvis</span> <span style="color: #46657B;">INSTANCE</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Elvis</span>();
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032;">Elvis</span>() {
+        <span style="color: #4C565D;">//</span><span style="color: #333B40; font-style: italic;">...</span>
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">leaveTheBuilding</span>() {
+        <span style="color: #4C565D;">//</span><span style="color: #333B40; font-style: italic;">..</span>
+    }
+}
+</pre>
+</div>
+</li>
+<li>方法二:和方法一类似只不过露出来的是static factory method(item1介绍)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Singleton with static factory</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Elvis</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">static</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">Elvis</span> <span style="color: #46657B;">INSTANCE</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Elvis</span>();
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032;">Elvis</span>() {
+        <span style="color: #4C565D;">//</span><span style="color: #333B40; font-style: italic;">...</span>
+    }
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">Elvis</span> <span style="color: #C6B032;">getInstance</span>() {
+        <span style="color: #AE5825;">return</span> INSTANCE;
+    }
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">leaveTheBuilding</span>() {
+        <span style="color: #4C565D;">//</span><span style="color: #333B40; font-style: italic;">...</span>
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>public member的方法仅仅是让用户更容易理解自己"singleton"的形象而已,在效率上
+面没有提高,因为
+<pre class="example">
+Modern JVM implementations are almost certain to inline the call to the static factory method
+</pre>
+</li>
+<li>而static factory method暴露了接口,没有暴露内部实现,更利于以后修改.比如,以后
+可以为每一个thread都返回一个unique的instance.
+</li>
+<li>static factory method的方法还有利于generic type
+</li>
+<li>但是,static factory method的两种优点都不是很重要,所以,还是使用public 成员的
+方法应用更为广泛.
+</li>
+<li>上面两种方法无论使用哪一种,如果实现了Serializable接口,都要做下面的操作来防止
+singleton状态"在反序列化的时候"被破坏:
+<ul class="org-ul">
+<li>把所有变量声明为transient
+</li>
+<li>提供一个readResolve函数
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">Object</span> <span style="color: #C6B032;">readResolve</span>() {
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Return the one true Elvis and let the argabe collector</span>
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">take care of the Elvis imersonator.</span>
+    <span style="color: #AE5825;">return</span> INSTANCE;
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>到了java1.5以后,使用"单元素枚举类型"来实现singleton是best practice. 他不仅
+形式简单,还可以规避"反序列"时候可能造成的问题
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Enum singleton - the preferred approach</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">enum</span> <span style="color: #C6B032; font-style: italic;">Elvis</span> {
+    <span style="color: #46657B;">INSTANCE</span>;
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #46657B;">leaveTheBuilding</span>() {
+        <span style="color: #4C565D;">//</span><span style="color: #333B40; font-style: italic;">...</span>
+    }
+}
+</pre>
+</div>
+</li>
+<li>网上一个比较全的实现如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">enum</span> <span style="color: #C6B032; font-style: italic;">Singleton</span> {
+    <span style="color: #46657B;">INSTANCE</span>;
+
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">instance vars, constructor</span>
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">Connection</span> <span style="color: #46657B;">connection</span>;
+
+    <span style="color: #46657B;">Singleton</span>() {
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Initialize the connection</span>
+        connection = DB.getConnection();
+    }
+
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Static getter</span>
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">Singleton</span> <span style="color: #46657B;">getInstance</span>() {
+        <span style="color: #AE5825;">return</span> INSTANCE;
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">Connection</span> <span style="color: #46657B;">getConnection</span>() {
+        <span style="color: #AE5825;">return</span> connection;
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Item 4: Enforce noninstantiability with a private constructor</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>有时候,你会想创建一个class,然后这个class里面只有static method和field. 这种
+class,确有其价值.比如
+<ul class="org-ul">
+<li>java.lang.Math
+</li>
+<li>java.util.Arrays
+</li>
+</ul>
+</li>
+<li>这种class另外的用法就是:class作用只是聚集static method(包括static factory
+method), 比如java.util.Collections
+</li>
+<li>无论是上面哪种情况, class都是utility类,都没有实例化的必要.但是
+<pre class="example">
+       妄图通过设置class为abstract来组织class被实例化的方法是不正确的
+</pre>
+</li>
+<li>因为设置了abstract,subclass继承了它以后,还是可以实例化. 更重要的是,设置了
+abstract的话,用户会以为这个类设计了就是为了继承的.
+</li>
+<li>正确的做法是:把类的ctor设计成private的(其实effective cpp里面也有相似章节,只
+不过java源代码里面有诸多良好的例子)
+</li>
+<li>下面就是一个防止实例化的代码例子(其实代码中的Math, Arrays, Collections都是
+private ctor)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Noinstantiable utility class</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">UtilityClass</span> {
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">SUpress default ctor for noninstantiablity</span>
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032;">UtilityClass</span>() {
+        <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">AssertionError</span>();
+    }
+
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Remainder omitted</span>
+}
+</pre>
+</div>
+</li>
+<li>上面的throw new AssertionError()其实并不是必须.其作用是防止自身在后面的代码
+中不小心调用ctor
+</li>
+<li>设计了private ctor的另外一个副作用是:继承是肯定没法实现了.因为继承都要"依次"
+调用父类的ctor,父类都private了.自然无法继承
+</li>
+<li></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Item 5: Avoid creating unnecessary objects</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>如果可以的话,重用一个object总是非常高效而且更直观. 如果一个object是immutable
+的话, 那么它总是可以重用的
+</li>
+<li>下面是一个非常反面的例子.因为每次执行这个语句的时候都会创建一个String instance,
+而且参数"stringette"本身就是一个String instance. 如果在一个循环里面的话,会产生
+非常多的instance
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">s</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">String</span>(<span style="color: #5A7644;">"stringette"</span>); <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">DON"t DO THIS</span>
+</pre>
+</div>
+</li>
+<li>正确的做法是如下: 因为只有一个instance(参数"stringette"), 所以在循环里面也不会
+多创建instance.同时, 如果同一个虚拟机如果还有其他字符串叫"stringette"的话,还可
+以重用这个String instance
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">s</span> = <span style="color: #5A7644;">"stringette"</span>;
+</pre>
+</div>
+</li>
+<li>避免创建不必要的object的话, 使用immutable class的ctor来创建一个对象是可以的,
+但是最好的方法是:使用static factory method!
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #C6B032; font-style: italic;">Boolean</span> <span style="color: #46657B;">b1</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Boolean</span>(<span style="color: #5A7644;">"true"</span>); <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Good</span>
+<span style="color: #C6B032; font-style: italic;">Boolean</span> <span style="color: #46657B;">b2</span> = Boolean.valueOf(<span style="color: #5A7644;">"true"</span>); <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Better!</span>
+</pre>
+</div>
+</li>
+<li>如果你的object虽然是mutable的,但是你知道他不会改变,那么你也可以重用!(当然要
+非常小心).
+</li>
+<li>下面是一个不太合理的例子: 因为每次调用都会创建一个Calendar, TimeZone 和两个
+Date instance
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Person</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">Date</span> <span style="color: #46657B;">birthDate</span>;
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Other fields, methods, and constructor omitted</span>
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">DON'T DO THIS!</span>
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">isBabyBoomer</span>() {
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Unnecessary allocation of expensive object</span>
+        <span style="color: #C6B032; font-style: italic;">Calendar</span> <span style="color: #46657B;">gmtCal</span>=
+            Calendar.getInstance(TimeZone.getTimeZone(<span style="color: #5A7644;">"GMT"</span>));
+        gmtCal.set(1946, <span style="color: #86453A;">Calendar</span>.JANUARY, 1, 0, 0, 0);
+        <span style="color: #C6B032; font-style: italic;">Date</span> <span style="color: #46657B;">boomStart</span> = gmtCal.getTime();
+        gmtCal.set(1965, <span style="color: #86453A;">Calendar</span>.JANUARY, 1, 0, 0, 0);
+        <span style="color: #C6B032; font-style: italic;">Date</span> <span style="color: #46657B;">boomEnd</span> = gmtCal.getTime();
+        <span style="color: #AE5825;">return</span> birthDate.compareTo(boomStart) &gt;= 0
+            &amp;&amp; birthDate.compareTo(boomEnd) &lt; 0;
+    }
+}
+</pre>
+</div>
+</li>
+<li>我们来更改一下, 减少一下不必要object的创建. 下面例子中, Calendar, TimeZone和
+Date都只创建了一次(在类实例化的时候), 而不是每次 isBabyBoomer调用的时候都创建
+一套.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Person</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">Date</span> <span style="color: #46657B;">birthDate</span>;
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Other fields, methods, and constructor omitted</span>
+
+    <span style="color: #4C565D;">/////////////////////////////////////////////////////</span>
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">The starting and ending dates of the baby boom. //</span>
+    <span style="color: #4C565D;">/////////////////////////////////////////////////////</span>
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">static</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">Date</span> <span style="color: #46657B;">BOOM_START</span>;
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">static</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">Date</span> <span style="color: #46657B;">BOOM_END</span>;
+
+    <span style="color: #AE5825;">static</span> {
+        <span style="color: #C6B032; font-style: italic;">Calendar</span> <span style="color: #46657B;">gmtCal</span> =
+            Calendar.getInstance(TimeZone.getTimeZone(<span style="color: #5A7644;">"GMT"</span>));
+        gmtCal.set(1946, <span style="color: #86453A;">Calendar</span>.JANUARY, 1, 0, 0, 0);
+        BOOM_START = gmtCal.getTime();
+        gmtCal.set(1965, <span style="color: #86453A;">Calendar</span>.JANUARY, 1, 0, 0, 0);
+        BOOM_END = gmtCal.getTime();
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">isBabyBoomer</span>() {
+        <span style="color: #AE5825;">return</span> birthDate.compareTo(BOOM_START) &gt;= 0
+            &amp;&amp; birthDate.compareTo(BOOM_END) &lt; 0;
+    }
+}
+</pre>
+</div>
+</li>
+<li>上面的改动不仅仅体现在performance上面, 而且把身为local variable 的boomStart,
+boomEnd改成static final 的BOOM_START, BOOM_END, 也让他们的const本性一览无余
+</li>
+<li>当然,如果isBabyBoomer函数从来没有被调用的话,那么BOOM_START, BOOM_END的创建
+     就没有必要了. 如果想进一步优化,可以使用lazy initialization BOOM_START, BOOM_END
+     但是!这个方法不推荐,因为:
+<ul class="org-ul">
+<li>lazy initialization总是会让视线变得复杂
+</li>
+<li>lazy initialization也不会有太明显的性能提高
+</li>
+</ul>
+</li>
+<li>上面的例子中,重用的部分的"不变性"是很明显的,但是有些情况下,"不变性"不容易发现:
+<ul class="org-ul">
+<li>适配器模式(adapter): 所谓适配器是这样一个对象: 它把功能委托给一个后备对象(backing
+object), 从而让后备对象有了一个"新的接口". 但是适配器除了和后备对象有联系外,
+没有任何其他的关联.所以,为某一个对象(given object)没必要提供超过一个的adapter
+object
+</li>
+<li>Map接口的keySet方法返回该Map对象的Set试图.看起来好像每次都要创建一个Set实例.
+而实际的情况确实, keySet是和Map紧密联系的, 一旦Map变了,所有keySet的返回值
+都变了.所以其实keySet返回的都是同一个Set instance
+</li>
+</ul>
+</li>
+<li>Java 1.5里面有一个新特性: 自动装箱(autoboxing): 它会自动帮助程序员把"基本类
+型"和"装箱类型(boxed primitive type)"混用.但是如果你不小心的话,会暗地里创建
+不必要的对象!
+</li>
+<li>比如下面的例子,不小心把long写成了Long, 会造成程序多创建了2^31个多余的Long实
+     例. 这也告诉我们,要优先使用基本类型,而不是装箱基本类型, 当心无意识的自动装箱
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Hideously slow program! Can you spot the object creation?</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+    <span style="color: #C6B032; font-style: italic;">Long</span> <span style="color: #46657B;">sum</span> = 0L;
+    <span style="color: #AE5825;">for</span> (<span style="color: #C6B032; font-style: italic;">long</span> <span style="color: #46657B;">i</span> = 0; i &lt; <span style="color: #86453A;">Integer</span>.<span style="color: #C6B032; font-style: italic;">MAX_VALUE</span>; i++) {
+        sum += i;
+    }
+    System.out.printf(<span style="color: #5A7644;">"sum"</span>);
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Item 6: Eliminate obsolete object references</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>虽然Java帮助你进行内存管理,但这并不意味着Java就没有内存泄露
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Can you spot the "memory leak"?</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Stack</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">Object</span>[] <span style="color: #46657B;">elements</span>;
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">size</span> = 0;
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">static</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">DEFAULT_INITIAL_CAPACITY</span> = 16;
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">Stack</span>() {
+        elements = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Object</span>[DEFAULT_INITIAL_CAPACITY];
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">push</span>(<span style="color: #C6B032; font-style: italic;">Object</span> <span style="color: #46657B;">e</span>) {
+        ensureCapacity();
+        elements[size++] = e;
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">Object</span> <span style="color: #C6B032;">pop</span>() {
+        <span style="color: #AE5825;">if</span> (size == 0) {
+            <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">EmptyStackException</span>();
+        }
+        <span style="color: #AE5825;">return</span> elements[--size];
+    }
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Ensure space for at least one more element</span>
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">roughly doubling the capacity each time the array</span>
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">needs to grow</span>
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">ensureCapacity</span>() {
+        <span style="color: #AE5825;">if</span> (element.length == size) {
+            elements = Arrays.copyOf(elements, 2 * size + 1);
+        }
+    }
+}
+</pre>
+</div>
+</li>
+<li>上面的程序是一个Java写的Stack, 它内存泄露的原因是:一开始stack会增长. 然后pop
+弹出后会减小.循环往复.但是虽然element被弹出了. 但是! 这些element不会被GC!
+</li>
+<li>这些元素没有被GC的原因是stack再pop的时候,element[size]这个reference还一直
+指向那个object(这种reference不会被在反引用,所以叫做obsolete reference). 知道
+了原因,那么解决起来就很简单了
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">Object</span> <span style="color: #C6B032;">pop</span>() {
+    <span style="color: #AE5825;">if</span> (size == 0) {
+        <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">EmptyStackException</span>();
+    }
+    <span style="color: #C6B032; font-style: italic;">Object</span> <span style="color: #46657B;">result</span> = elements[--size];
+    elements[size] = <span style="color: #86453A;">null</span>; <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Eliminate obsolete reference</span>
+    <span style="color: #AE5825;">return</span> result;
+}
+</pre>
+</div>
+</li>
+<li>这种把object reference值零的做法应该是一种例外,而不是常态.出现的原因在于
+<pre class="example">
+Stack这个程序管理了自己的内存. 也就是elements数值. 数组size以下的部分是分配好的, 其他部分是free的.但是GC不知道!
+</pre>
+</li>
+<li>另外一个重要的memory leak的地方是cache: 一旦你把object引用放到cache里面以后,
+很容易忘记它,从而导致它在cache里面很久,而相应内存无法释放.
+</li>
+<li>解决这种问题的"天然"选择就是WeakHashMap. 这个数据结构简直就是天生为这个情况
+设计的:
+<pre class="example">
+WeakHashMap，此种Map的特点是，当除了自身有对key的引用外，此key没有其他引用那么此
+map会自动丢弃此值(注意,是对key的引用,不是value)
+</pre>
+</li>
+<li>内存泄露常见的第三种情况就是Listener和回调函数. 如果你实现了一个API, 客户端
+在这个API中注册回调,却没有显式的取消注册.那么就会产生内存泄露. 解决的方法是
+存储"这些callback函数的object reference"到WeakHashMap里面作为key.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">Item 7: Avoid finalizers</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>上来先对finalizer来个"盖棺定论"
+<pre class="example">
+Finalizers are unpredictable, often dangerous, and generally unnecessary.
+</pre>
+</li>
+<li>C++用户首先要注意的是不要把Java的finalizer想成是C++里面的dtor:
+<ul class="org-ul">
+<li>dtor有和try-finally block一致的部分:处理nonmemory resource
+</li>
+<li>相对应的,dtor也有和try-finally block不一致的部分:处理memory resource
+</li>
+</ul>
+</li>
+<li>finalizer最大的问题在于JVM设计的时候没有对它们的运行做出保证:这也就是说,一个
+object变的不可用,到它被推入finalizer进行处理,中间间隔的时间会是"任意的长"
+</li>
+<li>正是由于这种时间的不确定性,在finalizer里面是绝不能处理time-critical是绝不能
+容忍的.举个例子:
+<ul class="org-ul">
+<li>我们知道一个进程能够拥有的file descriptor的数目是一定的.
+</li>
+<li>如果一个进程在finalizer里面close file descriptor,那么就很可能发生过很久才
+去执行finalizer里面的close代码,而进程里面打开了超过自己能力的file descriptor
+最终导致进程崩溃
+</li>
+</ul>
+</li>
+<li>及时的执行finalizer是JVM的责任,而不同的JVM对待finalizer的态度不同,实现不同.
+会导致最后在一个JVM里面运行良好的(含有finalizer)的代码在另外一个JVM里面失败
+</li>
+<li>Java语言规范不是"不保证"finalizer的及时运行,而是"根本不能保证实际运行与否!",
+所以,如果出现了program在没有运行finalizer的情况下就terminate,你也不要惊奇.
+</li>
+<li>这也就意味着
+<pre class="example">
+       不能依靠finalizer去释放重要的资源比如数据库的锁(lock)
+</pre>
+</li>
+<li>不要被System.gc和System.runFinalization所诱惑, 它们只是增加了finalizer执行
+的机会.并不是真正能够finalize
+</li>
+<li>曾经有能强制finalize的函数System.runFinalizersOnExit,但是都因为它们致命的缺
+陷而被废弃了
+</li>
+<li>Finalizer另外一个大问题在于:
+<pre class="example">
+Finalizer因为在try-catch之后,已经脱离了exception的运行机制控制. 这也就是说如果在
+finalizer里面出现了异常,那么这个异常是会被ignored,从而导致很多无法预测的问题!
+</pre>
+</li>
+<li>Finalizer还会导致"严重的性能下降"
+</li>
+<li>Finalizer已经是众矢之的了,在绝大部分情况下,我们要避免使用他们.那么我们如何释
+放对象的某些资源(比如文件)呢? 方法是:
+<ul class="org-ul">
+<li>"提供一个明确的termination method"
+</li>
+<li>在资源不需要的时候自己调用termination method,并去private filed里面设置自己
+的状态
+</li>
+<li>其他函数运行之前要先去查看private filed里面确认这个资源还在.否则抛出异常:
+IllegalStateException
+</li>
+</ul>
+</li>
+<li>这种方法广泛的在java里面运用,比如InputStream,OutputStream和java.util.Connection
+里面都有一个close()的函数.
+</li>
+<li>termination method通常还会和try-finally block合用,保证如果object被使用的时候
+出了异常的话termination也能进行
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">try-finally block guarantees execution of termination method</span>
+<span style="color: #C6B032; font-style: italic;">Foo</span> <span style="color: #46657B;">foo</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Foo</span>(...);
+<span style="color: #AE5825;">try</span> {
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Do what must be done with foo</span>
+    <span style="color: #4C565D;">//</span><span style="color: #333B40; font-style: italic;">..</span>
+} <span style="color: #AE5825;">finally</span> {
+    foo.terminate(); <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Explicit termination method</span>
+}
+</pre>
+</div>
+</li>
+<li>最后的最后,来看看finalizer勉强可以算作还有用的两个场景:
+<ol class="org-ol">
+<li>作为安全网:
+<ul class="org-ul">
+<li>一个资源释放的晚总比不释放好,finalizer作为termination method以外的最后
+一道屏障.事实上FileInputStream, FileOutputStream, Connection等都是有
+try-finally block在里面再次调用termination method.
+</li>
+<li>finalizer除了要起到"再次释放"资源的目的以外,还应该加一个log. 因为在finalizer
+里面调用"释放资源"是不对的.所以应该记录异常事件,把这种情况作为一个bug.
+很遗憾FileInputSream等的try-finally block代码里面没有这么做
+</li>
+</ul>
+</li>
+<li>释放没有重要资源的native peer (TODO)
+</li>
+</ol>
+</li>
+<li>实在要使用finalizer的话,也要知道finalizer如果含有继承的话,继承关系是不会自动
+调用的.要自己手动写super.finalize()
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #4C565D;">//</span><span style="color: #333B40; font-style: italic;">Manual finalizer chaining</span>
+<span style="color: #86453A;">@Override</span>
+<span style="color: #AE5825;">protected</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">finalize</span>() <span style="color: #AE5825;">throws</span> <span style="color: #C6B032; font-style: italic;">Throwable</span> {
+    <span style="color: #AE5825;">try</span> {
+        ... <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Finalize subclass state</span>
+    } <span style="color: #AE5825;">finally</span> {
+        <span style="color: #AE5825;">super</span>.finalize();
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

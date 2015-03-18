@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 2</title>
-<!-- 2014-07-18 Fri 16:15 -->
+<!-- 2015-03-18 Wed 14:16 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -199,70 +199,85 @@ for the JavaScript code in this tag.
 <h2 id="sec-1">Thread Safety</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li>有点令人出乎意料的是, 并发编程,并不是一直都和线程或者锁有关.写出线程安全代码
-更重的是管理"状态的准入"(accesss to state), 特别是对共享的可变状态
+<li>有点令人出乎意料的是, 并发编程并不是和'线程或者锁'有很大关系.就像工程学也并不是
+和'铆钉,工字梁'有很大关系(not &#x2026; any more than表示前后都否定: Concurrent
+programming isn't so much about thread or locks, any more than civil engineering
+is about rivets and I-beams)
 </li>
-<li>一般来说,一个对象的状态就是数据. 一个对象的状态有时候也会和其他对象有关,这要
-看是哪种数据结构:比如HashMap的状态一部分存在HashMap中,另一部分存在成员对象
-里面,比如下面的例子, hm里面肯定存有一部分状态,但是同时foo1,foo2里面也有,因
+<li>建造大桥,肯定要用很多的'铆钉,工字梁', 写多线程代码,也要用很多的'线程或者锁', 但这
+只是表象和机制.
+</li>
+<li>写出线程安全代码更重的是管理"状态的准入"(accesss to state), 特别是对共享的(Shared state)
+和可变的(Mutable state)状态的访问
+</li>
+<li>一般来说,一个对象的状态就是它的数据(存储在instance或者static field).
+</li>
+<li>某些情况下,一个对象的状态有时候也会和其他对象有关,这要看是哪种数据结构:比如
+HashMap的状态一部分存在hashmap objec里面,另一部分存在成员Map.Entry里面
+</li>
+<li>比如下面的例子, hm里面肯定存有一部分状态,但是同时foo1,foo2里面也有,因
 为java的hashmap其实存储的不过是一个reference, 下面例子中,通过1, hashmap
 只能找到foo1这个object, foo的val值是多少,hashmap不会存储的
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">TestCode</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        HashMap&lt;Integer, Foo&gt; hm = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">HashMap</span>&lt;Integer, Foo&gt;();
-        <span style="color: #b58900;">Foo</span> <span style="color: #268bd2;">foo</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Foo</span>(15);
-        <span style="color: #b58900;">Foo</span> <span style="color: #268bd2;">foo2</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Foo</span>(35);
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">TestCode</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">HashMap</span>&lt;<span style="color: #C6B032; font-style: italic;">Integer</span>, <span style="color: #C6B032; font-style: italic;">Foo</span>&gt; <span style="color: #46657B;">hm</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">HashMap</span>&lt;<span style="color: #C6B032; font-style: italic;">Integer</span>, <span style="color: #C6B032; font-style: italic;">Foo</span>&gt;();
+        <span style="color: #C6B032; font-style: italic;">Foo</span> <span style="color: #46657B;">foo</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Foo</span>(15);
+        <span style="color: #C6B032; font-style: italic;">Foo</span> <span style="color: #46657B;">foo2</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Foo</span>(35);
         hm.put(1, foo);
         hm.put(2, foo2);
 
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #268bd2; font-weight: bold;">Map</span>.Entry&lt;Integer, Foo&gt; e : hm.entrySet()) {
-            System.out.println(e.getKey() + <span style="color: #2aa198;">" "</span> + e.getValue());
+        <span style="color: #AE5825;">for</span> (<span style="color: #86453A;">Map</span>.<span style="color: #C6B032; font-style: italic;">Entry</span>&lt;<span style="color: #C6B032; font-style: italic;">Integer</span>, <span style="color: #C6B032; font-style: italic;">Foo</span>&gt; e : hm.entrySet()) {
+            System.out.println(e.getKey() + <span style="color: #5A7644;">" "</span> + e.getValue());
         }
         foo.setVal(115);
         System.out.println(hm.entrySet());
     }
 }
 
-<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Foo</span>{
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">setVal</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">val</span>) {
-        <span style="color: #859900; font-weight: bold;">this</span>.val = val;
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Foo</span>{
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">setVal</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">val</span>) {
+        <span style="color: #AE5825;">this</span>.val = val;
     }
 
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">val</span>;
-    <span style="color: #859900; font-weight: bold;">public</span> Foo(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">v</span>) {
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">val</span>;
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">Foo</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">v</span>) {
         val = v;
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
-        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">""</span> + val;
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #C6B032;">toString</span>() {
+        <span style="color: #AE5825;">return</span> <span style="color: #5A7644;">""</span> + val;
     }
 }
 
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1 15                                           //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">2 35                                           //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">[1=115, 2=35]                                  //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">1 15                                           //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">2 35                                           //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">[1=115, 2=35]                                  //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
 <li>所谓"共享",是说一个变量可以被多个线程访问到,所谓"可变性"是说一个变量的值是可
-以改变的.所谓线程安全,就是要防止数据被"无法控制的并发访问"
+以改变的.所谓线程安全,就是要防止"可变"的数据被"多个线程无法控制的并发访问"
 </li>
-<li>一个对象是否需要线程安全,就是看他是否是被多个线程访问到.
+<li>一个对象是否需要线程安全,不是看这个对象是"做什么的", 而是看他"怎么被使用"(是
+否是被多个线程访问到)
 </li>
-<li>如果多个线程访问一个数据, 其中有一个要写入的话, 我们就需要同步方法了, 在java
-里面就是关键字synchronized, 其核心就是提供一个"排外锁(exclusive locking)"
-这个排外锁是最粗鲁的方法,同步方法还包括:
+<li>把一个对象做成thread-safe的话,就要求使用synchronization手段来使得"多个thread"
+的访问"相互协调"
+</li>
+<li>我们这里说的"synchronization手段"包括如下形式:
 <ul class="org-ul">
-<li>volatile 关键字
+<li>synchronized关键字:其实就是'互斥锁'
 </li>
-<li>显示锁explicit lock
+<li>volatile关键字
 </li>
-<li>自动变量automatic variable
+<li>explicit lock
+</li>
+<li>atomic variable
 </li>
 </ul>
 </li>
@@ -280,6 +295,9 @@ for the JavaScript code in this tag.
 确实是不那么容易,所以最好的方法,就是在你设计一个class的时候,就把他设计成线程
 安全的
 </li>
+<li>把一个class设计成thread-safe,比你后来改写代码来控制对这个class的兵法访问,要
+容易的多.
+</li>
 <li>在一个大型的系统上面,确认一个变量是否被多个线程访问,是非常困难的.幸运的是,面向
 对象的很多设计方法能够帮助我们设计出更好,更容易维护的class. 比如封装和数据掩盖
 可以帮助你更容易的设计线程安全:越少的代码能够接触到某些代码, 越容易保证使用的
@@ -291,13 +309,22 @@ for the JavaScript code in this tag.
 <h3 id="sec-1-1">What is Thread Safety:</h3>
 <div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
+<li>google下来thread-safe的定义一般是"一个类可以被多个thread访问,并且不需要在调
+用类的代码里面做任何特殊的处理"
+</li>
+<li>这种定义非常模糊,因为"可以安全被多个thread"访问就是thread-safe,那么"thread-不
+safe"是什么样子? safe是怎么个safe呢?都没有说清楚
+</li>
+<li>我们先定义correctness:"某个class如果是single-thread的话能够按照specification"
+的要求,正确的运行.那么就是correct single-thread process
+</li>
 <li>如果一个类能在多个线程同时调用,且不管运行时如何调度其他线程, 都可以在调用代
-码不用附加任何同步机制的情况下, 行为正常的运行
+码不用附加任何同步机制的情况下, 行为正常的运行, 那么就是thread-safe
 <pre class="example">
-A class is thread-safe if it behaves correctly when accessed 
-from multiple threads, regardless of the scheduling or interlevaing 
-of the execution of thosed threads by the runtime environment, and 
-with no additional synchronization other coordination on the part 
+A class is thread-safe if it behaves correctly when accessed
+from multiple threads, regardless of the scheduling or interlevaing
+of the execution of thosed threads by the runtime environment, and
+with no additional synchronization other coordination on the part
 of the calling code
 </pre>
 </li>
@@ -314,11 +341,11 @@ of the calling code
 <li>下面这个例子,从request接受请求,factor这个请求,然后放到response传回去
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@ThreadSafe</span>
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">StatelessFactorizer</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Servlet</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">service</span>(<span style="color: #b58900;">ServletRequest</span> <span style="color: #268bd2;">req</span>, <span style="color: #b58900;">ServletResponse</span> <span style="color: #268bd2;">resp</span>) {
-        <span style="color: #b58900;">BigInteger</span> <span style="color: #268bd2;">i</span> = extractFromRequest(req);
-        <span style="color: #b58900;">BigInteger</span>[] <span style="color: #268bd2;">factors</span> = factor(i);
+<pre class="src src-java"><span style="color: #86453A;">@ThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">StatelessFactorizer</span> <span style="color: #AE5825;">implements</span> <span style="color: #C6B032; font-style: italic;">Servlet</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">service</span>(<span style="color: #C6B032; font-style: italic;">ServletRequest</span> <span style="color: #46657B;">req</span>, <span style="color: #C6B032; font-style: italic;">ServletResponse</span> <span style="color: #46657B;">resp</span>) {
+        <span style="color: #C6B032; font-style: italic;">BigInteger</span> <span style="color: #46657B;">i</span> = extractFromRequest(req);
+        <span style="color: #C6B032; font-style: italic;">BigInteger</span>[] <span style="color: #46657B;">factors</span> = factor(i);
         encodeIntoResponse(resp, factors);
     }
 }
@@ -338,7 +365,9 @@ of the calling code
 会影响线程B访问StatelessFactorizer,因为他们之间不会共享state.
 </li>
 <li>因为一个线程访问stateless的对象不会影响其他线程的正确运行,所以,
+<pre class="example">
 stateless的对象总是线程安全的
+</pre>
 </li>
 </ul>
 </div>
@@ -352,17 +381,17 @@ stateless的对象总是线程安全的
 加变量的方法:
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@NotThreadSafe</span>
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">UnsafeCountingFactorizer</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Servlet</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">count</span> = 0;
+<pre class="src src-java"><span style="color: #86453A;">@NotThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">UnsafeCountingFactorizer</span> <span style="color: #AE5825;">implements</span> <span style="color: #C6B032; font-style: italic;">Servlet</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">long</span> <span style="color: #46657B;">count</span> = 0;
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">getCount</span>() {
-        <span style="color: #859900; font-weight: bold;">return</span> count;
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">long</span> <span style="color: #C6B032;">getCount</span>() {
+        <span style="color: #AE5825;">return</span> count;
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">service</span>(<span style="color: #b58900;">ServletRequest</span> <span style="color: #268bd2;">req</span>, <span style="color: #b58900;">ServletRequest</span> <span style="color: #268bd2;">resp</span>) {
-        <span style="color: #b58900;">BigInteger</span> <span style="color: #268bd2;">i</span> = extractFromRequest(req);
-        <span style="color: #b58900;">BigInteger</span>[] <span style="color: #268bd2;">factors</span> = factor(i);
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">service</span>(<span style="color: #C6B032; font-style: italic;">ServletRequest</span> <span style="color: #46657B;">req</span>, <span style="color: #C6B032; font-style: italic;">ServletRequest</span> <span style="color: #46657B;">resp</span>) {
+        <span style="color: #C6B032; font-style: italic;">BigInteger</span> <span style="color: #46657B;">i</span> = extractFromRequest(req);
+        <span style="color: #C6B032; font-style: italic;">BigInteger</span>[] <span style="color: #46657B;">factors</span> = factor(i);
         ++count;
         encodeIntoResponse(resp, factors);
     }
@@ -370,14 +399,24 @@ stateless的对象总是线程安全的
 </pre>
 </div>
 </li>
+<li>这种例子有个别名叫做read-modify-write的race condition:因为这个动作其实是三个
+动作的合体:
+<ol class="org-ol">
+<li>fetch the current value
+</li>
+<li>add one to it
+</li>
+<li>write the new value back
+</li>
+</ol>
+</li>
+<li>atomicity的原则就是消灭上面的"三步走",把操作变成"一步走",就可以达到thread-safe
+的目的
+</li>
 <li>第一章的例子已经讲到, 如果调度非常不幸运的话,会出现两个线程返回值相同的情况,
 或许你觉得,极端返回一个相同的计数,这种低概率的精度错误可以忽略,那你可就打错特
 错了. 如果这个计数是用来产生序列,或者对象标识的话,那么从不同的调用处得到相同
 的这种标识(或者序列)会导致数据一致性的多种问题,最常见的就是race condition
-</li>
-<li>这个例子还会出现另外一种叫做read-modify-write的race condition:你像通过
-count的大小来进行操作, 在你getCount()的过程中, count的大小可能已经改变了.
-也就是说读取一个可能会被更改的值,读取的结果可能是无效的.
 </li>
 </ul>
 </div>
@@ -426,17 +465,17 @@ count的大小来进行操作, 在你getCount()的过程中, count的大小可�
 <div class="outline-text-4" id="text-1-2-2">
 <ul class="org-ul">
 <li>另外一个使用check-then-act的例子是lazy initialization: getInstance首先
-厕所一下ExpensiveObject是不是已经创建了,如果还没有创建, 就创建,如果已经创建了
+测算一下ExpensiveObject是不是已经创建了,如果还没有创建, 就创建,如果已经创建了
 就返回存在的object
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@NotThreadSafe</span>
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">LazyInitRace</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">ExpensiveObject</span> <span style="color: #268bd2;">instance</span> = <span style="color: #268bd2; font-weight: bold;">null</span>;
+<pre class="src src-java"><span style="color: #86453A;">@NotThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">LazyInitRace</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">ExpensiveObject</span> <span style="color: #46657B;">instance</span> = <span style="color: #86453A;">null</span>;
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">ExpensiveObject</span> <span style="color: #268bd2;">getInstance</span>() {
-        <span style="color: #859900; font-weight: bold;">if</span> (instance == <span style="color: #268bd2; font-weight: bold;">null</span>) {
-            instance = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ExpensiveObject</span>();
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">ExpensiveObject</span> <span style="color: #C6B032;">getInstance</span>() {
+        <span style="color: #AE5825;">if</span> (instance == <span style="color: #86453A;">null</span>) {
+            instance = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">ExpensiveObject</span>();
         }
     }
 }
@@ -458,23 +497,24 @@ null, 然后也创建ExpensiveObject.所以不同的调用者会收到不同的�
 更改的过程变的不可分: 保证其他线程观察或者修改state的时候,要么是在我们开始之前,
 要么是在我们修改之后, 而不是在这两者之间
 </li>
-<li>为了保证线程安全,check-then-act和read-modify-write 操作都必须是原子性的.
+<li>为了保证线程安全,check-then-act(lazy initialization)和read-modify-write(increment)
+操作都必须是原子性的.
 </li>
 <li>我们把check-then-act和read-modify-write这种必须通过原子性来保证线程
-安全的操作叫做compound action
+安全的操作叫做 compound action
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@ThreadSafe</span>
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">CountingFactorizer</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Servlet</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">AtomicLong</span> <span style="color: #268bd2;">count</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">AtomicLong</span>(0);
+<pre class="src src-java"><span style="color: #86453A;">@ThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">CountingFactorizer</span> <span style="color: #AE5825;">implements</span> <span style="color: #C6B032; font-style: italic;">Servlet</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">AtomicLong</span> <span style="color: #46657B;">count</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">AtomicLong</span>(0);
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">getCount</span>() {
-        <span style="color: #859900; font-weight: bold;">return</span> count.get();
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">long</span> <span style="color: #C6B032;">getCount</span>() {
+        <span style="color: #AE5825;">return</span> count.get();
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">service</span>(<span style="color: #b58900;">ServletRequest</span> <span style="color: #268bd2;">req</span>, <span style="color: #b58900;">ServletRequest</span> <span style="color: #268bd2;">resp</span>) {
-        <span style="color: #b58900;">BigInteger</span> <span style="color: #268bd2;">i</span> = extractFromRequest(req);
-        <span style="color: #b58900;">BigInteger</span>[] <span style="color: #268bd2;">factors</span> = factors(i);
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">service</span>(<span style="color: #C6B032; font-style: italic;">ServletRequest</span> <span style="color: #46657B;">req</span>, <span style="color: #C6B032; font-style: italic;">ServletRequest</span> <span style="color: #46657B;">resp</span>) {
+        <span style="color: #C6B032; font-style: italic;">BigInteger</span> <span style="color: #46657B;">i</span> = extractFromRequest(req);
+        <span style="color: #C6B032; font-style: italic;">BigInteger</span>[] <span style="color: #46657B;">factors</span> = factors(i);
         count.incrementAndGet();
         encodeIntoResponse(resp, factors);
     }
@@ -485,7 +525,7 @@ null, 然后也创建ExpensiveObject.所以不同的调用者会收到不同的�
 <li>上面这个例子就是利用了java的java.util.concurrent.atomic, 这个package能够使
 得一切操作原子化.
 </li>
-<li>在实际操作中,尽可能的使用已有的线程安全的类来管理类的状态.
+<li>在实际操作中,尽可能的使用已有的线程安全的类(比如AtomicLong)来管理类的状态.
 </li>
 </ul>
 </div>
@@ -503,19 +543,20 @@ null, 然后也创建ExpensiveObject.所以不同的调用者会收到不同的�
 的,那么我们就可以不用重复计算,而直接返回上次的计算结果
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@NotThreadSafe</span>
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">UnsafeCachingFactorizer</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Servlet</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">AtomicReference</span>&lt;BigInteger&gt; lastNumber
-        = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">AtomicReference</span>&lt;BigInteger&gt; ();
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">AtomicReference</span>&lt;BigInteger[]&gt; lastFactors
-        = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">AtomicReference</span>&lt;BigInteger[]&gt;();
+<pre class="src src-java"><span style="color: #86453A;">@NotThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">UnsafeCachingFactorizer</span> <span style="color: #AE5825;">implements</span> <span style="color: #C6B032; font-style: italic;">Servlet</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">AtomicReference</span>&lt;<span style="color: #C6B032; font-style: italic;">BigInteger</span>&gt; <span style="color: #46657B;">lastNumber</span>
+        = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">AtomicReference</span>&lt;<span style="color: #C6B032; font-style: italic;">BigInteger</span>&gt; ();
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">AtomicReference</span>&lt;<span style="color: #C6B032; font-style: italic;">BigInteger</span>[]&gt; <span style="color: #46657B;">lastFactors</span>
+        = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">AtomicReference</span>&lt;<span style="color: #C6B032; font-style: italic;">BigInteger</span>[]&gt;();
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">service</span>(<span style="color: #b58900;">ServletRequest</span> <span style="color: #268bd2;">req</span>, <span style="color: #b58900;">ServletResponse</span> <span style="color: #268bd2;">resp</span>) {
-        <span style="color: #b58900;">BigInteger</span> <span style="color: #268bd2;">i</span> = extractFromRequest(req);
-        <span style="color: #859900; font-weight: bold;">if</span> (i.equals(lastNumber.get())) {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">service</span>(<span style="color: #C6B032; font-style: italic;">ServletRequest</span> <span style="color: #46657B;">req</span>, <span style="color: #C6B032; font-style: italic;">ServletResponse</span> <span style="color: #46657B;">resp</span>) {
+        <span style="color: #C6B032; font-style: italic;">BigInteger</span> <span style="color: #46657B;">i</span> = extractFromRequest(req);
+        <span style="color: #AE5825;">if</span> (i.equals(lastNumber.get())) {
             encodeIntoResponse(resp, lastFactors.get());
-        } <span style="color: #859900; font-weight: bold;">else</span> {
-            <span style="color: #b58900;">BigInteger</span>[] <span style="color: #268bd2;">factors</span> = factor(i);
+        } <span style="color: #AE5825;">else</span> {
+            <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">factor&#26159;&#22240;&#24335;&#20998;&#35299; 6 = 3 * 2</span>
+            <span style="color: #C6B032; font-style: italic;">BigInteger</span>[] <span style="color: #46657B;">factors</span> = factor(i);
             lastNumber.set(i);
             lastFactors.set(factors);
             encodeIntoResponse(resp, factors);
@@ -527,8 +568,15 @@ null, 然后也创建ExpensiveObject.所以不同的调用者会收到不同的�
 </li>
 <li>尽管上面的例子中,每一个变量都是线程安全的,但是整个类却无法达到线程安全.
 </li>
-<li>线程安全的定义,要求"不变式"一直有效, 我们这个逻辑的"不变式"就是: lastFactors
-一定要是lastNumber计算的结果, 很遗憾,上面的代码无法满足这个要求, 除非我们"原子
+<li>线程安全的定义,要求"不变式"一直有效, 我们这个逻辑的"不变式"就是:
+<pre class="example">
+lastFactors中缓存的factors数组的乘积,应该等于lastNumber中缓存的数
+</pre>
+<p>
+一定要是lastNumber计算的结果,
+</p>
+</li>
+<li>很遗憾,上面的代码无法满足这个要求.除非我们"原子
 性"的同时更新两个变量: 线程A获取这两个变量的时候(分两次),线程B可能已经更改了他们
 </li>
 </ul>
@@ -537,22 +585,67 @@ null, 然后也创建ExpensiveObject.所以不同的调用者会收到不同的�
 <h4 id="sec-1-3-1">Intrinsic Locks</h4>
 <div class="outline-text-4" id="text-1-3-1">
 <ul class="org-ul">
-<li>java提供了一种最简单的锁,内置锁, 他主要是通过原子化函数(静态的原子化是类)来达到
-线程安全的目的, 如下
+<li>java提供了一种最简单的内置锁,叫做同步代码块(synchronized block)
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@ThreadSafe</span>
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">SynchronizedFactorizer</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Servlet</span> {
-    <span style="color: #268bd2; font-weight: bold;">@GuardedBy</span>(<span style="color: #2aa198;">"this"</span>) <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">BigInteger</span> <span style="color: #268bd2;">lastNumber</span>;
-    <span style="color: #268bd2; font-weight: bold;">@GuardedBy</span>(<span style="color: #2aa198;">"this"</span>) <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">BigInteger</span>[] <span style="color: #268bd2;">lastFactors</span>;
+<pre class="src src-java"><span style="color: #AE5825;">synchronized</span> (lock) {
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Access or modify shared state guarded by lock</span>
+}
+</pre>
+</div>
+</li>
+<li>同步代码块包括了两个部分:
+<ul class="org-ul">
+<li>reference to an objct : 作为lock
+</li>
+<li>block of code : 作为被锁关照的部分
+</li>
+</ul>
+</li>
+<li>java中的所有对象都可以作为"lock"存在, 换句话说,所有的对象内部都实现了一个锁,
+而java中所有的block(包括函数),都是在一定的object内部的(或者class内部, 比如
+static method).所以最正常的方法是把ref to current object(也就是this)作为lock
+<div class="org-src-container">
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">synchronized</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">service</span>(<span style="color: #b58900;">ServletRequest</span> <span style="color: #268bd2;">req</span>,
-                                     <span style="color: #b58900;">ServletResponse</span> <span style="color: #268bd2;">resp</span>) {
-        <span style="color: #b58900;">BigInteger</span> <span style="color: #268bd2;">i</span> = extractFromRequest(req);
-        <span style="color: #859900; font-weight: bold;">if</span> (i.equals(lastNumber)) {
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">addName</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">name</span>) {
+    <span style="color: #AE5825;">synchronized</span>(<span style="color: #AE5825;">this</span>) {
+        lastName = name;
+        nameCount++;
+    }
+    nameList.add(name);
+}
+</pre>
+</div>
+</li>
+<li>只有进入"同步代码块"才能获得锁,退出或者抛出异常才能放弃"锁", 同一时间之恩
+能够有一个thread拥有这个锁
+</li>
+<li>同步函数(synchronized method)就是同步代码块的一个个例:
+<ul class="org-ul">
+<li>lock是调用这个函数的object:就不用特别指定了,其实就是this
+</li>
+<li>被锁关照的部分是整个函数: 函数的{},作为block
+</li>
+</ul>
+</li>
+<li>同步函数默认使用当前object的this,所以static method和common method所使用的
+this是不同的,锁也就不同了.
+</li>
+<li>下面就是使用synchronized method来获得thread-safe的办法
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #86453A;">@ThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">SynchronizedFactorizer</span> <span style="color: #AE5825;">implements</span> <span style="color: #C6B032; font-style: italic;">Servlet</span> {
+    <span style="color: #86453A;">@GuardedBy</span>(<span style="color: #5A7644;">"this"</span>) <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">BigInteger</span> <span style="color: #46657B;">lastNumber</span>;
+    <span style="color: #86453A;">@GuardedBy</span>(<span style="color: #5A7644;">"this"</span>) <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">BigInteger</span>[] <span style="color: #46657B;">lastFactors</span>;
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">service</span>(<span style="color: #C6B032; font-style: italic;">ServletRequest</span> <span style="color: #46657B;">req</span>,
+                                     <span style="color: #C6B032; font-style: italic;">ServletResponse</span> <span style="color: #46657B;">resp</span>) {
+        <span style="color: #C6B032; font-style: italic;">BigInteger</span> <span style="color: #46657B;">i</span> = extractFromRequest(req);
+        <span style="color: #AE5825;">if</span> (i.equals(lastNumber)) {
             encodeIntoResponse(resp, lastFactors);
-        } <span style="color: #859900; font-weight: bold;">else</span> {
-            <span style="color: #b58900;">BigInteger</span>[] <span style="color: #268bd2;">factors</span> = factor(i);
+        } <span style="color: #AE5825;">else</span> {
+            <span style="color: #C6B032; font-style: italic;">BigInteger</span>[] <span style="color: #46657B;">factors</span> = factor(i);
             lastNumber = i;
             lastFactors = factors;
             encodeIntoResponse(resp, factors);
@@ -573,20 +666,24 @@ null, 然后也创建ExpensiveObject.所以不同的调用者会收到不同的�
 <div class="outline-text-4" id="text-1-3-2">
 <ul class="org-ul">
 <li>内置锁都是可重入(renentrancy)的, 所谓可重入,就是说一个线程自己已经获得了某个内
-置锁, 当它试图再次获得这个内置锁的时候,是成功的!可是一个线程为什么会再次请求自己
-已经拥有的锁呢? 在面向对象当中,这种例子非常常见. 可以说可重入的设计,极大的简化了
-面向对象的并发开发. 
+置锁, 当它试图再次获得这个内置锁的时候,是成功的!
+</li>
+<li>java实现了可重用,意味着java的锁的是每个线程获取一次, 而不是Pthread里面的每
+个调用获取一次
+</li>
+<li>可是一个线程为什么会再次请求自己已经拥有的锁呢? 在面向对象当中,这种例子非
+常常见. 可以说可重入的设计,极大的简化了面向对象的并发开发.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Widget</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">synchronized</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">doSomething</span>() {
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Widget</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">doSomething</span>() {
     }
 }
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">LoggingWidget</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Widget</span> {
-    pblic <span style="color: #859900; font-weight: bold;">synchronized</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">doSomething</span>() {
-        System.out.println(toString() + <span style="color: #2aa198;">": calling doSomething"</span>);
-        <span style="color: #859900; font-weight: bold;">super</span>.doSomething();
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">LoggingWidget</span> <span style="color: #AE5825;">extends</span> <span style="color: #C6B032; font-style: italic;">Widget</span> {
+    pblic <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">doSomething</span>() {
+        System.out.println(toString() + <span style="color: #5A7644;">": calling doSomething"</span>);
+        <span style="color: #AE5825;">super</span>.doSomething();
     }
 }
 </pre>
@@ -607,27 +704,106 @@ null, 然后也创建ExpensiveObject.所以不同的调用者会收到不同的�
 <h3 id="sec-1-4">Guarding State with Locks</h3>
 <div class="outline-text-3" id="text-1-4">
 <ul class="org-ul">
+<li>我们上一节介绍了锁(主要是同步代码块), 是通过对"一个block"的访问限制(每次一
+个访问)来达到对state排他("eclusive")访问的
+</li>
+<li>前面说到的check-then-act和read-modify-write需要的是atomic(一个操作之内的不间
+断性), 当然可以用锁实现这种atomic(只有一个线程访问,当然是atomic的), 但是要变得非常复杂:
+</li>
 <li>锁的引入,让多线程有序访问变量(一个接一个,而不是同时)变得方便. 前面说到的check-then-act
 和read-modify-write也可以使用锁, 但是要变得非常复杂:
 <ul class="org-ul">
-<li>在整个compound action的过程当中都要用锁
+<li>在整个 compound action的过程当中都要用锁
 </li>
-<li>每个变量用到的地方还要用锁
+<li>每个变量用到的地方还要用锁, 比如上面CountingFactorizer例子中,每次变量被使
+用的时候,都是使用的自己的操作(比如.get(), .incrementAndGet())
 </li>
 </ul>
 </li>
-<li>每一个共享的变量,都要用一个锁来保护,这样维护的人才知道是哪一个锁
+<li>一个常见的错误是,认为只有'共享变量被写入的时候,才需要锁',这是不对的.
+<pre class="example">
+For each mutable state variable that my be accessed by more than one thread,
+all accesses to that variable must be performed with the same lock held. In this
+case, we say that the variable is 'guarded by that lock'.
+</pre>
 </li>
-<li>前面的例子交给我们:
+<li>上面的定义,终于点了我们的题:guarding state with locks: 一个state是不是被保护
+了,是看你是否synchronized了所有的access, 如果能成功保护了的话,可以使用@Guardedby
+annotion来标记(Guardedby更多的是一种文档,起作用的还是synchronized), 再来看看
+上一遍synchronized method的例子:
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #86453A;">@ThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">SynchronizedFactorizer</span> <span style="color: #AE5825;">implements</span> <span style="color: #C6B032; font-style: italic;">Servlet</span> {
+    <span style="color: #86453A;">@GuardedBy</span>(<span style="color: #5A7644;">"this"</span>) <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">BigInteger</span> <span style="color: #46657B;">lastNumber</span>;
+    <span style="color: #86453A;">@GuardedBy</span>(<span style="color: #5A7644;">"this"</span>) <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">BigInteger</span>[] <span style="color: #46657B;">lastFactors</span>;
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">service</span>(<span style="color: #C6B032; font-style: italic;">ServletRequest</span> <span style="color: #46657B;">req</span>,
+                                     <span style="color: #C6B032; font-style: italic;">ServletResponse</span> <span style="color: #46657B;">resp</span>) {
+        <span style="color: #C6B032; font-style: italic;">BigInteger</span> <span style="color: #46657B;">i</span> = extractFromRequest(req);
+        <span style="color: #AE5825;">if</span> (i.equals(lastNumber)) {
+            encodeIntoResponse(resp, lastFactors);
+        } <span style="color: #AE5825;">else</span> {
+            <span style="color: #C6B032; font-style: italic;">BigInteger</span>[] <span style="color: #46657B;">factors</span> = factor(i);
+            lastNumber = i;
+            lastFactors = factors;
+            encodeIntoResponse(resp, factors);
+        }
+    }
+}
+</pre>
+</div>
+</li>
+<li>一个'object的内置锁(synchronized(this))'和这个'object的state'之间是没有任何
+联系的:一个object的state完全可以使用其他的object ref作为锁. 只不过在一个object
+内部, 使用this作为锁是synchronized method的默认行为,这样做更简单.
+</li>
+<li>一种常见的locking策略,是把所有的mutable变量都加内置锁:方法是所有能够接触到这些mutable
+变量的函数(或者path)都加synzhronized.有些jdk内部的实现,就把object的内置锁和
+object的state强行联系起来了.比如Vector, 其所有函数都被synchronized保护了
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">ensureCapacity</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">minCapacity</span>) {
+    <span style="color: #AE5825;">if</span> (minCapacity &gt; 0) {
+        modCount++;
+        ensureCapacityHelper(minCapacity);
+    }
+}
+</pre>
+</div>
+</li>
+<li>Vector的这种做法其实是不太可取(虽然也凑合用), 因为一旦加入一个新的函数,忘了
+加synchronized的话,就破坏了原来的约定.
+</li>
+<li>并不是每一个变量都需要加锁保护,但是如果这个变量能够被多个thread访问到,那么就
+必须加锁保护
+</li>
+<li>更进一步的,如果class内部有两个变量都能被多个thread访问到, 而且class的'不变
+式(正常工作的要求)'涉及道了这多个变量,那么这多个变量不仅仅要加锁,还要加"同一
+个锁", 在class内部,这同一个锁就显然是this(内置锁), 其他锁当然也可以,只要是
+同一个锁
+<pre class="example">
+For every invariant that involves more than one variabl, all the variables
+involved in that invariant must be guarded by the same lock
+</pre>
+</li>
+<li>既然synchronized是治愈race condition的良药,为什么说前面的Vector'给所有method
+都加synchronized'的方法是不妥的呢?原因有如下:
 <ul class="org-ul">
-<li>如果只有一个变量被多个线程访问,那么要给这个变量加锁, 或者把这个变量替换成线程安全类
+<li>即便为每一个method都加了锁,这些method配合的时候,还是会导致race condition,
+比如下面的contains和add都加了锁,但是这两个动作之间,锁可能还是会丢失(因为执
+行完contains, 某个thread就会离开Vector block), 从而导致race condition
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">if</span> (!vector.contains(element)) {
+    vector.add(element);
+}
+</pre>
+</div>
 </li>
-<li>如果"不变式"涉及到多个变量,而且这些变量也会被多个线程访问,那么要把他们都放在同一个锁里面
+<li>为每个method加锁,还会导致liveness或者performance问题
 </li>
 </ul>
-</li>
-<li>前面我们讲到多个变量的线程安全问题的时候,我们是讲整个函数都加锁,这样会有效率方面的问题, 
-所以加锁的层次要降低一些
 </li>
 </ul>
 </div>
@@ -636,37 +812,50 @@ null, 然后也创建ExpensiveObject.所以不同的调用者会收到不同的�
 <h3 id="sec-1-5">Liveness and Performance</h3>
 <div class="outline-text-3" id="text-1-5">
 <ul class="org-ul">
-<li>刚才我们的锁是加在了函数层次,这里我们可以重新设计代码,让锁的层次更低一些
+<li>前面我们通过synchronized method来让serverlet的cache功能实现了thread-safe,但
+是这样做存在着巨大的性能隐患:
+<ul class="org-ul">
+<li>每次只能有一个thread访问servlet,这违背了servlet需要被多个thread同时访问的设计初衷
+</li>
+<li>如果某个thread占用servlet时间过长会极大的影响server的响应率, 降低CPU的使用率
+</li>
+</ul>
+</li>
+<li>造成性能隐患的原因是我们锁的层次太高了, 锁的内容太多,容易造成性能的缺失
+</li>
+<li>刚才我们的锁是加在了函数层次,这里我们可以重新设计代码,让锁的层次更低一些, 用
+了两次synchronized(this)来替代原来的整个函数synchronized(注意hits, 和cacheHits
+只是新加的bonus而已,不是非得要才能达到threadsafe
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@ThreadSafe</span>
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> CachedFactorizer <span style="color: #b58900;">impements</span> <span style="color: #b58900;">Servlet</span> {
-    <span style="color: #268bd2; font-weight: bold;">@GuardedBy</span>(<span style="color: #2aa198;">"this"</span>) <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">BigInteger</span> <span style="color: #268bd2;">lastNumber</span>;
-    <span style="color: #268bd2; font-weight: bold;">@GuardedBy</span>(<span style="color: #2aa198;">"this"</span>) <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">BigInteger</span>[] <span style="color: #268bd2;">lastFactors</span>;
-    <span style="color: #268bd2; font-weight: bold;">@GuardedBy</span>(<span style="color: #2aa198;">"this"</span>) <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">hits</span>;
-    <span style="color: #268bd2; font-weight: bold;">@GuardedBy</span>(<span style="color: #2aa198;">"this"</span>) <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">cacheHits</span>;
+<pre class="src src-java"><span style="color: #86453A;">@ThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> CachedFactorizer <span style="color: #C6B032; font-style: italic;">impements</span> <span style="color: #C6B032; font-style: italic;">Servlet</span> {
+    <span style="color: #86453A;">@GuardedBy</span>(<span style="color: #5A7644;">"this"</span>) <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">BigInteger</span> <span style="color: #46657B;">lastNumber</span>;
+    <span style="color: #86453A;">@GuardedBy</span>(<span style="color: #5A7644;">"this"</span>) <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">BigInteger</span>[] <span style="color: #46657B;">lastFactors</span>;
+    <span style="color: #86453A;">@GuardedBy</span>(<span style="color: #5A7644;">"this"</span>) <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">long</span> <span style="color: #46657B;">hits</span>;
+    <span style="color: #86453A;">@GuardedBy</span>(<span style="color: #5A7644;">"this"</span>) <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">long</span> <span style="color: #46657B;">cacheHits</span>;
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">synchronized</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">getHits</span>() {
-        <span style="color: #859900; font-weight: bold;">return</span> hits;
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">long</span> <span style="color: #C6B032;">getHits</span>() {
+        <span style="color: #AE5825;">return</span> hits;
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">synchronized</span> <span style="color: #b58900;">double</span> <span style="color: #268bd2;">getCacheHitRatio</span>() {
-        <span style="color: #859900; font-weight: bold;">return</span> (<span style="color: #b58900;">double</span>) cacheHits / (<span style="color: #b58900;">double</span>) hits;
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">double</span> <span style="color: #C6B032;">getCacheHitRatio</span>() {
+        <span style="color: #AE5825;">return</span> (<span style="color: #C6B032; font-style: italic;">double</span>) cacheHits / (<span style="color: #C6B032; font-style: italic;">double</span>) hits;
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">service</span>(<span style="color: #b58900;">ServletRequest</span> <span style="color: #268bd2;">req</span>, <span style="color: #b58900;">ServletResponse</span> <span style="color: #268bd2;">resp</span>) {
-        <span style="color: #b58900;">BigInteger</span> <span style="color: #268bd2;">i</span> = extractFromRequest(req);
-        <span style="color: #b58900;">BigInteger</span>[] <span style="color: #268bd2;">factors</span> = <span style="color: #268bd2; font-weight: bold;">null</span>;
-        <span style="color: #859900; font-weight: bold;">synchronized</span>(<span style="color: #859900; font-weight: bold;">this</span>) {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">service</span>(<span style="color: #C6B032; font-style: italic;">ServletRequest</span> <span style="color: #46657B;">req</span>, <span style="color: #C6B032; font-style: italic;">ServletResponse</span> <span style="color: #46657B;">resp</span>) {
+        <span style="color: #C6B032; font-style: italic;">BigInteger</span> <span style="color: #46657B;">i</span> = extractFromRequest(req);
+        <span style="color: #C6B032; font-style: italic;">BigInteger</span>[] <span style="color: #46657B;">factors</span> = <span style="color: #86453A;">null</span>;
+        <span style="color: #AE5825;">synchronized</span>(<span style="color: #AE5825;">this</span>) {
             ++hits;
-            <span style="color: #859900; font-weight: bold;">if</span> (i.equals(lastNumber)) {
+            <span style="color: #AE5825;">if</span> (i.equals(lastNumber)) {
                 ++cacheHits;
                 factors = lastFactors.clone();
             }
         }
-        <span style="color: #859900; font-weight: bold;">if</span> (factors == <span style="color: #268bd2; font-weight: bold;">null</span>) {
+        <span style="color: #AE5825;">if</span> (factors == <span style="color: #86453A;">null</span>) {
             factors = factor(i);
-            <span style="color: #859900; font-weight: bold;">synchronized</span>(<span style="color: #859900; font-weight: bold;">this</span>) {
+            <span style="color: #AE5825;">synchronized</span>(<span style="color: #AE5825;">this</span>) {
                 lastNumber = i;
                 lastFactors = factors.clone();
             }

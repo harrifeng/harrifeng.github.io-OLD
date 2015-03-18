@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 07: Treat Everything Like an Object &#x2013; Because Everything Is</title>
-<!-- 2014-07-18 Fri 16:03 -->
+<!-- 2015-03-18 Wed 14:10 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -193,18 +193,18 @@ for the JavaScript code in this tag.
 <li>class首先是method的容器
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">words</span>
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">words</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>class其次是创建instance的工厂
 <div class="org-src-container">
 
-<pre class="src src-ruby">doc = <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">"Ethics"</span>)
+<pre class="src src-ruby">doc = <span style="color: #C6B032; font-style: italic;">Document</span>.new(<span style="color: #5A7644;">"Ethics"</span>)
 </pre>
 </div>
 </li>
@@ -222,18 +222,18 @@ for the JavaScript code in this tag.
 <li>在ruby中,绝大多数你看到的东西都是object,连数字和true false都是, 甚至nil都是
 <div class="org-src-container">
 
-<pre class="src src-ruby">puts -3.class
-puts <span style="color: #C1C144;">true</span>.class
-puts <span style="color: #C1C144;">false</span>.class
-puts <span style="color: #C1C144;">nil</span>.class
+<pre class="src src-ruby"><span style="color: #86453A;">puts</span> -3.class
+<span style="color: #86453A;">puts</span> <span style="color: #46657B;">true</span>.class
+<span style="color: #86453A;">puts</span> <span style="color: #46657B;">false</span>.class
+<span style="color: #86453A;">puts</span> <span style="color: #46657B;">nil</span>.class
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Fixnum                                         #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">TrueClass                                      #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">FalseClass                                     #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">NilClass                                       #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Fixnum                                         #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">TrueClass                                      #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">FalseClass                                     #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">NilClass                                       #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -262,22 +262,22 @@ puts <span style="color: #C1C144;">nil</span>.class
 自elisp), 在eval的帮助下,你可以快速实现一个irb
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">while</span> <span style="color: #C1C144;">true</span>
-  print <span style="color: #A2925E;">"Cmd&gt;"</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">while</span> <span style="color: #46657B;">true</span>
+  <span style="color: #86453A;">print</span> <span style="color: #5A7644;">"Cmd&gt;"</span>
   cmd = gets
-  puts (eval(cmd))
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #86453A;">puts</span> (<span style="color: #86453A;">eval</span>(cmd))
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">bash-3.2$ ruby eval_irb.rb                     #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Cmd&gt;2 + 2                                      #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">4                                              #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Cmd&gt;puts "hello world"                         #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">hello world                                    #</span>
-<span style="color: #ed5b15;">#                                                </span><span style="color: #ed5b15;">#</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Cmd&gt;                                           #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">bash-3.2$ ruby eval_irb.rb                     #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Cmd&gt;2 + 2                                      #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">4                                              #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Cmd&gt;puts "hello world"                         #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">hello world                                    #</span>
+<span style="color: #4C565D;">#                                                </span><span style="color: #333B40; font-style: italic;">#</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Cmd&gt;                                           #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -310,17 +310,17 @@ puts <span style="color: #C1C144;">nil</span>.class
 如Object里面提供的send函数
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  <span style="color: #4856F7; font-weight: bold;">private</span> <span style="color: #DF7921; font-weight: bold;">:word_count</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #86453A;">private</span> <span style="color: #86453A;">:word_count</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">word_count</span>
-    puts <span style="color: #A2925E;">"word count"</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">word_count</span>
+    <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"word count"</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-doc = <span style="color: #DADADA;">Document</span>.new
+doc = <span style="color: #C6B032; font-style: italic;">Document</span>.new
 
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">doc.send(:word_count)</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">doc.send(:word_count)</span>
 doc.word_count
 </pre>
 </div>

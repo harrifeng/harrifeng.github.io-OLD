@@ -1,0 +1,1007 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 04: Rails-flavored Ruby</title>
+<!-- 2015-03-18 Wed 14:06 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 04: Rails-flavored Ruby</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Rails-flavored Ruby</a>
+<ul>
+<li><a href="#sec-1-1">Motivation</a></li>
+<li><a href="#sec-1-2">Strings and methods</a>
+<ul>
+<li><a href="#sec-1-2-1">Comments</a></li>
+<li><a href="#sec-1-2-2">String</a></li>
+<li><a href="#sec-1-2-3">Printing</a></li>
+<li><a href="#sec-1-2-4">Single-quoted strings</a></li>
+<li><a href="#sec-1-2-5">Objects and message passing</a></li>
+<li><a href="#sec-1-2-6">Method definitions</a></li>
+<li><a href="#sec-1-2-7">Back to the title helper</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">Other data structures</a>
+<ul>
+<li><a href="#sec-1-3-1">Arrays and ranges</a></li>
+<li><a href="#sec-1-3-2">Blocks</a></li>
+<li><a href="#sec-1-3-3">Hashes and symbols</a></li>
+<li><a href="#sec-1-3-4">CSS revisited</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">Ruby classes</a>
+<ul>
+<li><a href="#sec-1-4-1">Constructors</a></li>
+<li><a href="#sec-1-4-2">Class inheritance</a></li>
+<li><a href="#sec-1-4-3">Modifying built-in classes</a></li>
+<li><a href="#sec-1-4-4">A controller class</a></li>
+<li><a href="#sec-1-4-5">A user class</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Rails-flavored Ruby</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Motivation</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>前面两章为我们展示了,即便是对ruby语言不太熟悉,也是可以开发rails项目的.但是,
+这不可能一直继续,我们还是要对ruby有深入的了解,才能更好的使用rails.
+</li>
+<li>首先来看看上一章提到的layout
+<div class="org-src-container">
+
+<pre class="src src-web">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Ruby on Rails Tutorial Sample App | &lt;%= yield(:title) %&gt;&lt;/title&gt;
+    &lt;%= stylesheet_link_tag "application", media: "all",
+                                           "data-turbolinks-track" =&gt; true %&gt;
+    &lt;%= javascript_include_tag "application", "data-turbolinks-track" =&gt; true %&gt;
+    &lt;%= csrf_meta_tags %&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;%= yield %&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+</div>
+</li>
+<li>其中&lt;%= %&gt;的部分,都是引入的ruby代码,比如下面的这个
+<div class="org-src-container">
+
+<pre class="src src-ruby">stylesheet_link_tag <span style="color: #5A7644;">"application"</span>, <span style="color: #86453A;">media</span>: <span style="color: #5A7644;">"all"</span>, <span style="color: #5A7644;">"data-turbolinks-track"</span> =&gt; <span style="color: #46657B;">true</span>
+</pre>
+</div>
+</li>
+<li>从API上我们可以看到函数原型是
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">stylesheet_link_tag</span>(*sources)
+</pre>
+</div>
+</li>
+<li>也就是说stylesheet_link_tag的参数不限制个数,会最后组合成sources这个数组.这也
+就意味着,最后一个参数如果是hash的话,可以不加括号.上面其实就是这么做的.
+</li>
+<li>上一章解决title的问题是通过provide一个title变量,但是如果忘了引入这个变量的
+话,会出现如下不是很好看的title
+<pre class="example">
+Ruby on Rails Tutorial Sample App |
+</pre>
+</li>
+<li>解决办法是让返回的基础文本"Ruby on Rails Tutorial Sample App"更加的"智能",
+有title的时候加"|", 没有title的时候, 不加"|"
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">app/helpers/application_helper.rb</span>
+<span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">ApplicationHelper</span>
+
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Returns the full title on a per-page basis</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">full_title</span>(page_title)
+    base_title = <span style="color: #5A7644;">"Ruby on Rails Turorial Sample Aapp"</span>
+    <span style="color: #AE5825;">if</span> page_title.empty?
+      base_title
+    <span style="color: #AE5825;">else</span>
+      <span style="color: #5A7644;">"{base_title} | </span><span style="color: #46657B;">#{page_title}</span><span style="color: #5A7644;">"</span>
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+</pre>
+</div>
+</li>
+<li>于是在layout里面就是这样进行配置了
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">diff --git a/app/views/layouts/application.html.erb b/app/views/layouts/application.html.erb</span>
+<span style="color: #b3b3b3;">index 91672b9..c57717a 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/app/views/layouts/application.html.erb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/views/layouts/application.html.erb</span>
+<span style="background-color: #737373;">@@ -1,7 +1,7 @@</span>
+<span style="color: #b3b3b3;"> &lt;!DOCTYPE html&gt;</span>
+<span style="color: #b3b3b3;"> &lt;html&gt;</span>
+<span style="color: #b3b3b3;">   &lt;head&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">  &lt;title&gt;Ruby on Rails Tutorial Sample App | &lt;%= yield(:title) %&gt;&lt;/title&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;title&gt;Ruby on Rails Tutorial Sample App | &lt;%= full_title(yield(:title)) %&gt;&lt;/title&gt;</span>
+<span style="color: #b3b3b3;">   &lt;%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" =&gt; true %&gt;</span>
+<span style="color: #b3b3b3;">   &lt;%= javascript_include_tag "application", "data-turbolinks-track" =&gt; true %&gt;</span>
+<span style="color: #b3b3b3;">   &lt;%= csrf_meta_tags %&gt;</span>
+</pre>
+</div>
+</li>
+<li>然后我们修改testcase,会fail testcase
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">diff --git a/spec/requests/static_pages_spec.rb b/spec/requests/static_pages_spec.rb</span>
+<span style="color: #b3b3b3;">index 65b2995..4686d4a 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/spec/requests/static_pages_spec.rb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/spec/requests/static_pages_spec.rb</span>
+<span style="background-color: #737373;">@@ -6,9 +6,13 @@</span><span style="background-color: #737373;"> describe "Static Pages" do</span>
+<span style="color: #b3b3b3;">       visit '/static_pages/home'</span>
+<span style="color: #b3b3b3;">       expect(page).to have_content('Sample App')</span>
+<span style="color: #b3b3b3;">     end</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">    it "should have the right title 'Home'" do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    it "should have the base title" do</span>
+<span style="color: #b3b3b3;">       visit '/static_pages/home'</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">      expect(page).to have_title("Ruby on Rails Tutorial Sample App | Home")</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      expect(page).to have_title("Ruby on Rails Tutorial Sample App")</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    end</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    it "shoudl not have a custom page title" do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      visit '/static_pages/home'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      expect(page).not_to have_title('| Home')</span>
+<span style="color: #b3b3b3;">     end</span>
+<span style="color: #b3b3b3;">   end</span>
+</pre>
+</div>
+</li>
+<li>最后我们把home里面的开头代码去掉,就对了
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">diff --git a/app/views/static_pages/home.html.erb b/app/views/static_pages/home.html.erb</span>
+<span style="color: #b3b3b3;">index f184b43..d4f4fe7 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/app/views/static_pages/home.html.erb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/views/static_pages/home.html.erb</span>
+<span style="background-color: #737373;">@@ -1,4 +1,3 @@</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">&lt;% provide(:title, 'Home') %&gt;</span>
+<span style="color: #b3b3b3;"> &lt;h1&gt;Sample App&lt;/h1&gt;</span>
+<span style="color: #b3b3b3;"> &lt;p&gt;</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Strings and methods</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>在rails里面学习ruby的绝佳武器是Rails console
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/sample_app$ rails console
+Loading development environment (Rails 4.0.8)
+2.0.0-p481 :001 &gt;
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">Comments</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>ruby中的#是注释符号
+<div class="org-src-container">
+
+<pre class="src src-ruby">2.0.0-p481 <span style="color: #86453A;">:001</span> &gt; 17 + 42 <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Integer addition</span>
+ =&gt; 59
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2">String</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>string在ruby里面非常灵活
+<div class="org-src-container">
+
+<pre class="src src-ruby">2.0.0-p481 <span style="color: #86453A;">:002</span> &gt; <span style="color: #5A7644;">""</span> <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">empty string</span>
+ =&gt; <span style="color: #5A7644;">""</span>
+2.0.0-p481 <span style="color: #86453A;">:003</span> &gt; <span style="color: #5A7644;">"foo"</span>
+ =&gt; <span style="color: #5A7644;">"foo"</span>
+2.0.0-p481 <span style="color: #86453A;">:004</span> &gt; <span style="color: #5A7644;">"foo"</span> + <span style="color: #5A7644;">"bar"</span>
+ =&gt; <span style="color: #5A7644;">"foobar"</span>
+2.0.0-p481 <span style="color: #86453A;">:005</span> &gt; first_name = <span style="color: #5A7644;">"Michael"</span>
+ =&gt; <span style="color: #5A7644;">"Michael"</span>
+2.0.0-p481 <span style="color: #86453A;">:010</span> &gt; <span style="color: #5A7644;">" </span><span style="color: #46657B;">#{first_name}</span><span style="color: #5A7644;"> "</span> <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">String interpolation</span>
+ =&gt; <span style="color: #5A7644;">" Michael "</span>
+2.0.0-p481 <span style="color: #86453A;">:011</span> &gt;
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3">Printing</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<ul class="org-ul">
+<li>puts会在最后加上一个"\n", 而且返回值为nil
+<div class="org-src-container">
+
+<pre class="src src-ruby">2.0.0-p481 <span style="color: #86453A;">:013</span> &gt; <span style="color: #86453A;">print</span> <span style="color: #5A7644;">"hello"</span>
+hello =&gt; <span style="color: #46657B;">nil</span>
+2.0.0-p481 <span style="color: #86453A;">:014</span> &gt; <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"hello"</span>
+hello
+ =&gt; <span style="color: #46657B;">nil</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-4" class="outline-4">
+<h4 id="sec-1-2-4">Single-quoted strings</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<ul class="org-ul">
+<li>在ruby中,单引号和双引号之间几乎完全相等,除了一个地方: 单引号不会被interpolation
+<div class="org-src-container">
+
+<pre class="src src-ruby">2.0.0-p481 <span style="color: #86453A;">:017</span> &gt; foo = <span style="color: #5A7644;">'bar'</span>
+ =&gt; <span style="color: #5A7644;">"bar"</span>
+2.0.0-p481 <span style="color: #86453A;">:018</span> &gt; foo
+ =&gt; <span style="color: #5A7644;">"bar"</span>
+2.0.0-p481 <span style="color: #86453A;">:019</span> &gt; <span style="color: #5A7644;">'#{foo}'</span>
+ =&gt; <span style="color: #5A7644;">"\#{foo}"</span>
+</pre>
+</div>
+</li>
+<li>Ruby中单引号的意义当然不仅仅局限于这一个地方咯.单引号最重要的意义在于''里面
+有几个单词,那么就是有几个ascii码字符. 而""里面却有可能是两个字符代表一个ascii
+<div class="org-src-container">
+
+<pre class="src src-ruby">2.0.0-p481 <span style="color: #86453A;">:020</span> &gt; <span style="color: #5A7644;">"\n"</span>
+ =&gt; <span style="color: #5A7644;">"\n"</span>
+2.0.0-p481 <span style="color: #86453A;">:021</span> &gt; <span style="color: #5A7644;">'\n'</span>
+ =&gt; <span style="color: #5A7644;">"\\n"</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-5" class="outline-4">
+<h4 id="sec-1-2-5">Objects and message passing</h4>
+<div class="outline-text-4" id="text-1-2-5">
+<ul class="org-ul">
+<li>在ruby中,所有的一切都是对象(包括string和nil)
+<div class="org-src-container">
+
+<pre class="src src-ruby">irb(main)<span style="color: #86453A;">:001</span>:0&gt; <span style="color: #5A7644;">"foobar"</span>.length
+<span style="color: #5A7644;">"foobar"</span>.length
+=&gt; 6
+irb(main)<span style="color: #86453A;">:002</span>:0&gt; <span style="color: #5A7644;">"foobar"</span>.empty?
+<span style="color: #5A7644;">"foobar"</span>.empty?
+=&gt; <span style="color: #46657B;">false</span>
+irb(main)<span style="color: #86453A;">:003</span>:0&gt; s = <span style="color: #5A7644;">"foobar"</span>
+s = <span style="color: #5A7644;">"foobar"</span>
+=&gt; <span style="color: #5A7644;">"foobar"</span>irb(main)<span style="color: #86453A;">:001</span>:0&gt; <span style="color: #5A7644;">"foobar"</span>.length
+<span style="color: #5A7644;">"foobar"</span>.length
+=&gt; 6
+irb(main)<span style="color: #86453A;">:002</span>:0&gt; <span style="color: #5A7644;">"foobar"</span>.empty?
+<span style="color: #5A7644;">"foobar"</span>.empty?
+=&gt; <span style="color: #46657B;">false</span>
+irb(main)<span style="color: #86453A;">:003</span>:0&gt; s = <span style="color: #5A7644;">"foobar"</span>
+s = <span style="color: #5A7644;">"foobar"</span>
+=&gt; <span style="color: #5A7644;">"foobar"</span>
+</pre>
+</div>
+</li>
+<li>nil是最奇怪的对象, nil并不是empty,是一种特殊的存在,我们可以测试一个对象是
+不是nil,通过nil?函数
+<div class="org-src-container">
+
+<pre class="src src-ruby">irb(main)<span style="color: #86453A;">:001</span>:0&gt; <span style="color: #5A7644;">"foo"</span>.nil?
+<span style="color: #5A7644;">"foo"</span>.nil?
+=&gt; <span style="color: #46657B;">false</span>
+irb(main)<span style="color: #86453A;">:002</span>:0&gt; <span style="color: #5A7644;">""</span>.nil?
+<span style="color: #5A7644;">""</span>.nil?
+=&gt; <span style="color: #46657B;">false</span>
+irb(main)<span style="color: #86453A;">:004</span>:0&gt; <span style="color: #46657B;">nil</span>.nil?
+=&gt; <span style="color: #46657B;">true</span>
+</pre>
+</div>
+</li>
+<li>nil是false,其他所有都是true,甚至0都是false!
+<div class="org-src-container">
+
+<pre class="src src-ruby">irb(main)<span style="color: #86453A;">:002</span>:0&gt; <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"zero is true"</span> <span style="color: #AE5825;">if</span> 0
+<span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"zero is true"</span> <span style="color: #AE5825;">if</span> 0
+zero is <span style="color: #46657B;">true</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-6" class="outline-4">
+<h4 id="sec-1-2-6">Method definitions</h4>
+<div class="outline-text-4" id="text-1-2-6">
+<ul class="org-ul">
+<li>ruby代码的最后一行是"隐形返回值"
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-7" class="outline-4">
+<h4 id="sec-1-2-7">Back to the title helper</h4>
+<div class="outline-text-4" id="text-1-2-7">
+<ul class="org-ul">
+<li>我们来看看full_title的代码
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">ApplicationHelper</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Returns the full title on a per-page basis</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">full_title</span>(page_title)
+    base_title = <span style="color: #5A7644;">"Ruby on Rails Tutorial Sample App"</span>
+    <span style="color: #AE5825;">if</span> page_title.empty?
+      base_title
+    <span style="color: #AE5825;">else</span>
+      <span style="color: #5A7644;">"</span><span style="color: #46657B;">#{base_title}</span><span style="color: #5A7644;"> | </span><span style="color: #46657B;">#{page_title}</span><span style="color: #5A7644;">"</span>
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+</pre>
+</div>
+</li>
+<li>这里的full_tilte被写入了一个叫做ApplicationHelper的module,这个module会作为
+一个整体被include到其他ruby代码里面,然后发挥作用.
+</li>
+<li>在rails里面,我们不需要明确的include,框架本身已经帮我们include了
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Other data structures</h3>
+<div class="outline-text-3" id="text-1-3">
+</div><div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">Arrays and ranges</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>split可以把字符串改成数组
+<div class="org-src-container">
+
+<pre class="src src-ruby">irb(main)<span style="color: #86453A;">:003</span>:0&gt; <span style="color: #5A7644;">"foo bar     baz"</span>.split
+<span style="color: #5A7644;">"foo bar     baz"</span>.split
+=&gt; [<span style="color: #5A7644;">"foo"</span>, <span style="color: #5A7644;">"bar"</span>, <span style="color: #5A7644;">"baz"</span>]
+irb(main)<span style="color: #86453A;">:004</span>:0&gt; <span style="color: #5A7644;">"fooxbarxbaz"</span>.split
+<span style="color: #5A7644;">"fooxbarxbaz"</span>.split
+=&gt; [<span style="color: #5A7644;">"fooxbarxbaz"</span>]
+irb(main)<span style="color: #86453A;">:005</span>:0&gt; <span style="color: #5A7644;">"fooxbarxbaz"</span>.split(<span style="color: #5A7644;">'x'</span>)
+<span style="color: #5A7644;">"fooxbarxbaz"</span>.split(<span style="color: #5A7644;">'x'</span>)
+=&gt; [<span style="color: #5A7644;">"foo"</span>, <span style="color: #5A7644;">"bar"</span>, <span style="color: #5A7644;">"baz"</span>]
+</pre>
+</div>
+</li>
+<li>x..x就是一个数组,range可以使用to_a来创建数组
+<div class="org-src-container">
+
+<pre class="src src-ruby">irb(main)<span style="color: #86453A;">:006</span>:0&gt; (0..9).to_a
+(0..9).to_a
+=&gt; [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+</pre>
+</div>
+</li>
+<li>range还可以作为数组的index
+<div class="org-src-container">
+
+<pre class="src src-ruby">irb(main)<span style="color: #86453A;">:007</span>:0&gt; a = <span style="color: #5A7644;">%w[foo bar baz quux]</span>
+a = <span style="color: #5A7644;">%w[foo bar baz quux]</span>
+=&gt; [<span style="color: #5A7644;">"foo"</span>, <span style="color: #5A7644;">"bar"</span>, <span style="color: #5A7644;">"baz"</span>, <span style="color: #5A7644;">"quux"</span>]
+irb(main)<span style="color: #86453A;">:008</span>:0&gt; a[0..2]
+a[0..2]
+=&gt; [<span style="color: #5A7644;">"foo"</span>, <span style="color: #5A7644;">"bar"</span>, <span style="color: #5A7644;">"baz"</span>]
+</pre>
+</div>
+</li>
+<li>ruby里面创建random的域名的函数如下(主要就是利用了range)
+<div class="org-src-container">
+
+<pre class="src src-ruby">irb(main)<span style="color: #86453A;">:009</span>:0&gt; (<span style="color: #5A7644;">'a'</span>..<span style="color: #5A7644;">'z'</span>).to_a
+(<span style="color: #5A7644;">'a'</span>..<span style="color: #5A7644;">'z'</span>).to_a
+=&gt; [<span style="color: #5A7644;">"a"</span>, <span style="color: #5A7644;">"b"</span>, <span style="color: #5A7644;">"c"</span>, <span style="color: #5A7644;">"d"</span>, <span style="color: #5A7644;">"e"</span>, <span style="color: #5A7644;">"f"</span>, <span style="color: #5A7644;">"g"</span>, <span style="color: #5A7644;">"h"</span>, <span style="color: #5A7644;">"i"</span>, <span style="color: #5A7644;">"j"</span>, <span style="color: #5A7644;">"k"</span>, <span style="color: #5A7644;">"l"</span>, <span style="color: #5A7644;">"m"</span>, <span style="color: #5A7644;">"n"</span>, <span style="color: #5A7644;">"o"</span>, <span style="color: #5A7644;">"p"</span>, <span style="color: #5A7644;">"q"</span>, <span style="color: #5A7644;">"r"</span>, <span style="color: #5A7644;">"s"</span>, <span style="color: #5A7644;">"t"</span>, <span style="color: #5A7644;">"u"</span>, <span style="color: #5A7644;">"v"</span>, <span style="color: #5A7644;">"w"</span>, <span style="color: #5A7644;">"x"</span>, <span style="color: #5A7644;">"y"</span>, <span style="color: #5A7644;">"z"</span>]
+irb(main)<span style="color: #86453A;">:010</span>:0&gt; (<span style="color: #5A7644;">'a'</span>..<span style="color: #5A7644;">'z'</span>).to_a.shuffle
+(<span style="color: #5A7644;">'a'</span>..<span style="color: #5A7644;">'z'</span>).to_a.shuffle
+=&gt; [<span style="color: #5A7644;">"k"</span>, <span style="color: #5A7644;">"q"</span>, <span style="color: #5A7644;">"d"</span>, <span style="color: #5A7644;">"g"</span>, <span style="color: #5A7644;">"r"</span>, <span style="color: #5A7644;">"v"</span>, <span style="color: #5A7644;">"x"</span>, <span style="color: #5A7644;">"y"</span>, <span style="color: #5A7644;">"u"</span>, <span style="color: #5A7644;">"n"</span>, <span style="color: #5A7644;">"f"</span>, <span style="color: #5A7644;">"s"</span>, <span style="color: #5A7644;">"c"</span>, <span style="color: #5A7644;">"l"</span>, <span style="color: #5A7644;">"w"</span>, <span style="color: #5A7644;">"b"</span>, <span style="color: #5A7644;">"a"</span>, <span style="color: #5A7644;">"e"</span>, <span style="color: #5A7644;">"m"</span>, <span style="color: #5A7644;">"t"</span>, <span style="color: #5A7644;">"p"</span>, <span style="color: #5A7644;">"h"</span>, <span style="color: #5A7644;">"j"</span>, <span style="color: #5A7644;">"z"</span>, <span style="color: #5A7644;">"i"</span>, <span style="color: #5A7644;">"o"</span>]
+irb(main)<span style="color: #86453A;">:011</span>:0&gt; (<span style="color: #5A7644;">'a'</span>..<span style="color: #5A7644;">'z'</span>).to_a.shuffle[0..7]
+(<span style="color: #5A7644;">'a'</span>..<span style="color: #5A7644;">'z'</span>).to_a.shuffle[0..7]
+=&gt; [<span style="color: #5A7644;">"n"</span>, <span style="color: #5A7644;">"q"</span>, <span style="color: #5A7644;">"h"</span>, <span style="color: #5A7644;">"d"</span>, <span style="color: #5A7644;">"j"</span>, <span style="color: #5A7644;">"z"</span>, <span style="color: #5A7644;">"t"</span>, <span style="color: #5A7644;">"v"</span>]
+irb(main)<span style="color: #86453A;">:012</span>:0&gt; (<span style="color: #5A7644;">'a'</span>..<span style="color: #5A7644;">'z'</span>).to_a.shuffle[0..7].join  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">final solution</span>
+(<span style="color: #5A7644;">'a'</span>..<span style="color: #5A7644;">'z'</span>).to_a.shuffle[0..7].join
+=&gt; <span style="color: #5A7644;">"qfdlgxek"</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2">Blocks</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li>数组和range都有一系列的函数可以使用block作为自己的参数
+</li>
+<li>而block,则是ruby里面最难以理解的概念
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3">Hashes and symbols</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<ul class="org-ul">
+<li>其实hash就是array的变体,只不过不仅仅能使用integer来作为index罢了. 在Perl里
+面Hash又叫做"associative array"
+<div class="org-src-container">
+
+<pre class="src src-ruby">irb(main)<span style="color: #86453A;">:013</span>:0&gt; user = {}
+user = {}
+=&gt; {}
+irb(main)<span style="color: #86453A;">:014</span>:0&gt; user[<span style="color: #5A7644;">"first_name"</span>] = <span style="color: #5A7644;">"Michael"</span>
+user[<span style="color: #5A7644;">"first_name"</span>] = <span style="color: #5A7644;">"Michael"</span>
+=&gt; <span style="color: #5A7644;">"Michael"</span>
+irb(main)<span style="color: #86453A;">:016</span>:0&gt; user[<span style="color: #5A7644;">"last_name"</span>]=<span style="color: #5A7644;">"Hartl"</span>
+user[<span style="color: #5A7644;">"last_name"</span>]=<span style="color: #5A7644;">"Hartl"</span>
+=&gt; <span style="color: #5A7644;">"Hartl"</span>
+irb(main)<span style="color: #86453A;">:017</span>:0&gt; user[<span style="color: #5A7644;">"first_name"</span>]
+user[<span style="color: #5A7644;">"first_name"</span>]
+=&gt; <span style="color: #5A7644;">"Michael"</span>
+irb(main)<span style="color: #86453A;">:018</span>:0&gt; user
+user
+=&gt; {<span style="color: #5A7644;">"first_name"</span>=&gt;<span style="color: #5A7644;">"Michael"</span>, <span style="color: #5A7644;">"last_name"</span>=&gt;<span style="color: #5A7644;">"Hartl"</span>}
+</pre>
+</div>
+</li>
+<li>虽然可以使用各种object作为key,但是,在rails甚至是ruby里面,使用symbol作为
+index是一种"更为常规"的做法, symbol有"ruby中的enum"的称号.
+<div class="org-src-container">
+
+<pre class="src src-ruby">irb(main)<span style="color: #86453A;">:002</span>:0&gt; h1 = {<span style="color: #86453A;">:name=</span>&gt;<span style="color: #5A7644;">"Michael Hartl"</span>, <span style="color: #86453A;">:email=</span>&gt;<span style="color: #5A7644;">"michael@example.com"</span>}
+h1 = {<span style="color: #86453A;">:name=</span>&gt;<span style="color: #5A7644;">"Michael Hartl"</span>, <span style="color: #86453A;">:email=</span>&gt;<span style="color: #5A7644;">"michael@example.com"</span>}
+=&gt; {<span style="color: #86453A;">:name=</span>&gt;<span style="color: #5A7644;">"Michael Hartl"</span>, <span style="color: #86453A;">:email=</span>&gt;<span style="color: #5A7644;">"michael@example.com"</span>}
+</pre>
+</div>
+</li>
+<li>由于在ruby里面基本作用就是hash的key,所以ruby甚至为它创建了更简单的定义方法
+<div class="org-src-container">
+
+<pre class="src src-ruby">irb(main)<span style="color: #86453A;">:001</span>:0&gt; h1 = {<span style="color: #86453A;">name</span>: <span style="color: #5A7644;">"Michael Hartl"</span>, <span style="color: #86453A;">email</span>: <span style="color: #5A7644;">"michael@example.com"</span>}
+h1 = {<span style="color: #86453A;">name</span>: <span style="color: #5A7644;">"Michael Hartl"</span>, <span style="color: #86453A;">email</span>: <span style="color: #5A7644;">"michael@example.com"</span>}
+=&gt; {<span style="color: #86453A;">:name=</span>&gt;<span style="color: #5A7644;">"Michael Hartl"</span>, <span style="color: #86453A;">:email=</span>&gt;<span style="color: #5A7644;">"michael@example.com"</span>}
+</pre>
+</div>
+</li>
+<li>hash和数组,range一样,也有很多使用block作为参数的函数, 只不过返回两个成员
+<div class="org-src-container">
+
+<pre class="src src-ruby">irb(main)<span style="color: #86453A;">:004</span>:0&gt; flash.each {|key, value| <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"key is </span><span style="color: #46657B;">#{key}</span><span style="color: #5A7644;">, value is </span><span style="color: #46657B;">#{value}</span><span style="color: #5A7644;">"</span>}
+flash.each {|key, value| <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"key is </span><span style="color: #46657B;">#{key}</span><span style="color: #5A7644;">, value is </span><span style="color: #46657B;">#{value}</span><span style="color: #5A7644;">"</span>}
+key is success, value is <span style="color: #C6B032; font-style: italic;">It</span> worked!
+key is error, value is <span style="color: #C6B032; font-style: italic;">It</span> failed.
+=&gt; {<span style="color: #86453A;">:success=</span>&gt;<span style="color: #5A7644;">"It worked!"</span>, <span style="color: #86453A;">:error=</span>&gt;<span style="color: #5A7644;">"It failed."</span>}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4">CSS revisited</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<ul class="org-ul">
+<li>上面我们设置css的时候,使用了如下的代码
+<div class="org-src-container">
+
+<pre class="src src-html">&lt;%= stylesheet_link_tag <span style="color: #5A7644;">"application"</span>, media: <span style="color: #5A7644;">"all"</span>,
+                                       <span style="color: #5A7644;">"data-turbolinks-track"</span> =&gt; true %&gt;
+</pre>
+</div>
+</li>
+<li>其实就是一个函数调用, 因为ruby下面函数调用是可以没有括号的,所以下面两个是
+相等的
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Parentheses on function calls are optional.</span>
+stylesheet_link_tag(<span style="color: #5A7644;">"application"</span>, <span style="color: #86453A;">media</span>: <span style="color: #5A7644;">"all"</span>,
+                                   <span style="color: #5A7644;">"data-turbolinks-track"</span> =&gt; <span style="color: #46657B;">true</span>)
+stylesheet_link_tag <span style="color: #5A7644;">"application"</span>, <span style="color: #86453A;">media</span>: <span style="color: #5A7644;">"all"</span>,
+                                   <span style="color: #5A7644;">"data-turbolinks-track"</span> =&gt; <span style="color: #46657B;">true</span>
+</pre>
+</div>
+</li>
+<li>另外media看起来是个hash啊,怎么变成了参数&#x2026;? 原来ruby有如下规定:
+<pre class="example">
+        如果hash是最后一个参数的话,hash的括号是可以省略的.
+</pre>
+</li>
+<li>所以,下面两个也是等价的
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Curly braces on final hash arguments are optional.</span>
+stylesheet_link_tag <span style="color: #5A7644;">"application"</span>, { <span style="color: #86453A;">media</span>: <span style="color: #5A7644;">"all"</span>,
+                                     <span style="color: #5A7644;">"data-turbolinks-track"</span> =&gt; <span style="color: #46657B;">true</span> }
+stylesheet_link_tag <span style="color: #5A7644;">"application"</span>, <span style="color: #86453A;">media</span>: <span style="color: #5A7644;">"all"</span>,
+                                   <span style="color: #5A7644;">"data-turbolinks-track"</span> =&gt; <span style="color: #46657B;">true</span>
+</pre>
+</div>
+</li>
+<li>更搞笑的是下面这句, 由于有"-"的变量不能使用symbol: value的形式,所以,他还是得用老的
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #5A7644;">"data-turbolinks-track"</span> =&gt; <span style="color: #46657B;">true</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Ruby classes</h3>
+<div class="outline-text-3" id="text-1-4">
+</div><div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1">Constructors</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<ul class="org-ul">
+<li>ruby和java一样也是可以使用赋值来创建新的class, 其原理就是内部调用了一次new
+<div class="org-src-container">
+
+<pre class="src src-ruby">irb(main)<span style="color: #86453A;">:005</span>:0&gt; s = <span style="color: #5A7644;">"foobar"</span>
+s = <span style="color: #5A7644;">"foobar"</span>
+=&gt; <span style="color: #5A7644;">"foobar"</span>
+irb(main)<span style="color: #86453A;">:006</span>:0&gt; s.class
+s.class
+=&gt; <span style="color: #C6B032; font-style: italic;">String</span>
+irb(main)<span style="color: #86453A;">:007</span>:0&gt; s1 = <span style="color: #C6B032; font-style: italic;">String</span>.new(<span style="color: #5A7644;">"foobar"</span>)
+s1 = <span style="color: #C6B032; font-style: italic;">String</span>.new(<span style="color: #5A7644;">"foobar"</span>)
+=&gt; <span style="color: #5A7644;">"foobar"</span>
+irb(main)<span style="color: #86453A;">:008</span>:0&gt; s1.class
+s1.class
+=&gt; <span style="color: #C6B032; font-style: italic;">String</span>
+irb(main)<span style="color: #86453A;">:009</span>:0&gt; s1 == <span style="color: #5A7644;">"foobar"</span>
+s1 == <span style="color: #5A7644;">"foobar"</span>
+=&gt; <span style="color: #46657B;">true</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2">Class inheritance</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<ul class="org-ul">
+<li>我们可以使用superclass来对付处女座
+<div class="org-src-container">
+
+<pre class="src src-ruby">irb(main)<span style="color: #86453A;">:010</span>:0&gt; s = <span style="color: #C6B032; font-style: italic;">String</span>.new(<span style="color: #5A7644;">"foobar"</span>)
+s = <span style="color: #C6B032; font-style: italic;">String</span>.new(<span style="color: #5A7644;">"foobar"</span>)
+=&gt; <span style="color: #5A7644;">"foobar"</span>
+irb(main)<span style="color: #86453A;">:011</span>:0&gt; s.class
+s.class
+=&gt; <span style="color: #C6B032; font-style: italic;">String</span>
+irb(main)<span style="color: #86453A;">:012</span>:0&gt; s.class.superclass
+s.class.superclass
+=&gt; <span style="color: #C6B032; font-style: italic;">Object</span>
+irb(main)<span style="color: #86453A;">:013</span>:0&gt; s.class.superclass.superclass
+s.class.superclass.superclass
+=&gt; <span style="color: #C6B032; font-style: italic;">BasicObject</span>
+irb(main)<span style="color: #86453A;">:014</span>:0&gt; s.class.superclass.superclass.superclass
+s.class.superclass.superclass.superclass
+=&gt; <span style="color: #46657B;">nil</span>
+</pre>
+</div>
+</li>
+<li>比如我们想创建一个word class, 其有一个判断是否"对称"的功能
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Word</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">palindrome?</span>(string)
+    string == string.reverse
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+
+w = <span style="color: #C6B032; font-style: italic;">Word</span>.new
+<span style="color: #86453A;">p</span> w.palindrome?(<span style="color: #5A7644;">"foobar"</span>)
+<span style="color: #86453A;">p</span> w.palindrome?(<span style="color: #5A7644;">"level"</span>)
+
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">false                                          #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">true                                           #</span>
+<span style="color: #4C565D;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>如果用继承的方法来写就是如下
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Word</span> &lt; <span style="color: #C6B032; font-style: italic;">String</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">palindrome?</span>
+    <span style="color: #46657B;">self</span> == <span style="color: #46657B;">self</span>.reverse
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+
+s = <span style="color: #C6B032; font-style: italic;">Word</span>.new(<span style="color: #5A7644;">"level"</span>)
+<span style="color: #86453A;">p</span> s.palindrome?
+<span style="color: #86453A;">p</span> s.length
+
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">true                                           #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">5                                              #</span>
+<span style="color: #4C565D;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3">Modifying built-in classes</h4>
+<div class="outline-text-4" id="text-1-4-3">
+<ul class="org-ul">
+<li>ruby 灵活的地方,还在于可以更改built-in的函数. 比如,下面这个函数肯定是不对的
+<div class="org-src-container">
+
+<pre class="src src-ruby">irb(main)<span style="color: #86453A;">:014</span>:0&gt; <span style="color: #5A7644;">"level"</span>.palindrome?
+<span style="color: #5A7644;">"level"</span>.palindrome?
+<span style="color: #C6B032; font-style: italic;">NoMethodError</span>: undefined method <span style="color: #5A7644;">`palindrome?' for "level":String</span>
+</pre>
+</div>
+</li>
+<li>我们可以如下更改built-in类
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">String</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">palindrome?</span>
+    <span style="color: #46657B;">self</span> == <span style="color: #46657B;">self</span>.reverse
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+
+<span style="color: #5A7644;">"level"</span>.palindrome?
+
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">true                                           #</span>
+<span style="color: #4C565D;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>一般人不要随便更改built-in的class, rails不算一般,所以它可以更改, 最著名的
+更改就是在String里面加了一个blank?函数, blank?函数是判断是否为"无意义的空
+字符(用户名就不能只是空格)", 比如tab和space等等, (下面的例子要在rails console
+里面才能成功)
+<div class="org-src-container">
+
+<pre class="src src-ruby">i309511@[git-svn-ct] &gt; rails c
+<span style="color: #5A7644;">/Users/</span><span style="color: #007575;">i</span>309511/<span style="color: #C6B032; font-style: italic;">Code</span>/git-svn-ct/lib/content_admin_mixin.rb<span style="color: #86453A;">:93</span>: warning: already initialized constant <span style="color: #C6B032; font-style: italic;">CONTENT_SEARCH_AUTOCOMPLETE_CLASS_NAMES</span>
+<span style="color: #C6B032; font-style: italic;">Loading</span> development environment (<span style="color: #C6B032; font-style: italic;">Rails</span> 3.0.20)
+irb(main)<span style="color: #86453A;">:001</span>:0&gt; <span style="color: #5A7644;">""</span>.empty?
+=&gt; <span style="color: #46657B;">true</span>
+irb(main)<span style="color: #86453A;">:002</span>:0&gt; <span style="color: #5A7644;">"   "</span>.empty?
+=&gt; <span style="color: #46657B;">false</span>
+irb(main)<span style="color: #86453A;">:003</span>:0&gt; <span style="color: #5A7644;">""</span>.blank?
+=&gt; <span style="color: #46657B;">true</span>
+irb(main)<span style="color: #86453A;">:004</span>:0&gt; <span style="color: #5A7644;">"   "</span>.blank?
+=&gt; <span style="color: #46657B;">true</span>
+irb(main)<span style="color: #86453A;">:005</span>:0&gt; <span style="color: #46657B;">nil</span>.blank?
+=&gt; <span style="color: #46657B;">true</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-4" class="outline-4">
+<h4 id="sec-1-4-4">A controller class</h4>
+<div class="outline-text-4" id="text-1-4-4">
+<ul class="org-ul">
+<li>下面是demo_app里面的controller继承序列
+<div class="org-src-container">
+
+<pre class="src src-ruby">i309511@[sample_app] &gt; rails c
+<span style="color: #C6B032; font-style: italic;">Loading</span> development environment (<span style="color: #C6B032; font-style: italic;">Rails</span> 4.0.8)
+irb(main)<span style="color: #86453A;">:001</span>:0&gt; controller = <span style="color: #C6B032; font-style: italic;">StaticPagesController</span>.new
+=&gt; <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">&lt;StaticPagesController:0x007ff9dce29bf8 @_routes=nil, @_action_has_layout=true, @_headers={"Content-Type"=&gt;"text/html"}, @_status=200, @_request=nil, @_response=nil&gt;</span>
+irb(main)<span style="color: #86453A;">:002</span>:0&gt; controller.class
+=&gt; <span style="color: #C6B032; font-style: italic;">StaticPagesController</span>
+irb(main)<span style="color: #86453A;">:003</span>:0&gt; controller.class.superclass
+=&gt; <span style="color: #C6B032; font-style: italic;">ApplicationController</span>
+irb(main)<span style="color: #86453A;">:004</span>:0&gt; controller.class.superclass.superclass
+=&gt; <span style="color: #C6B032; font-style: italic;">ActionController</span>::<span style="color: #C6B032; font-style: italic;">Base</span>
+irb(main)<span style="color: #86453A;">:005</span>:0&gt; controller.class.superclass.superclass.superclass
+=&gt; <span style="color: #C6B032; font-style: italic;">ActionController</span>::<span style="color: #C6B032; font-style: italic;">Metal</span>
+irb(main)<span style="color: #86453A;">:006</span>:0&gt; controller.class.superclass.superclass.superclass.superclass
+=&gt; <span style="color: #C6B032; font-style: italic;">AbstractController</span>::<span style="color: #C6B032; font-style: italic;">Base</span>
+irb(main)<span style="color: #86453A;">:007</span>:0&gt; controller.class.superclass.superclass.superclass.superclass.superclass
+=&gt; <span style="color: #C6B032; font-style: italic;">Object</span>
+</pre>
+</div>
+</li>
+<li>controller明显是一个ruby类,所以我们试着来调用这个类的函数home
+<div class="org-src-container">
+
+<pre class="src src-ruby">irb(main)<span style="color: #86453A;">:008</span>:0&gt; controller.home
+=&gt; <span style="color: #46657B;">nil</span>
+</pre>
+</div>
+</li>
+<li>为什么controller不能调用函数?这是因为
+<pre class="example">
+rails虽然是有ruby写成的,但是其运行方法是自成一体的.所以有些rails的类和ruby类用法一样, 而有些rails的类只不过是rails的魔法而已
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-5" class="outline-4">
+<h4 id="sec-1-4-5">A user class</h4>
+<div class="outline-text-4" id="text-1-4-5">
+<ul class="org-ul">
+<li>一个简单的ruby class例子如下
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">User</span>
+  <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:name</span>, <span style="color: #86453A;">:email</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(attributes = {})
+    <span style="color: #46657B;">@name</span> = attributes[<span style="color: #86453A;">:name</span>]
+    <span style="color: #46657B;">@email</span> = attributes[<span style="color: #86453A;">:email</span>]
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">formatted_email</span>
+    <span style="color: #5A7644;">"</span><span style="color: #46657B;">#{@name}</span><span style="color: #5A7644;"> &lt;</span><span style="color: #46657B;">#{@email}</span><span style="color: #5A7644;">&gt;"</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

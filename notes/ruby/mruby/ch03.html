@@ -1,0 +1,567 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 03: Wednesday: Blocks</title>
+<!-- 2015-03-18 Wed 14:09 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 03: Wednesday: Blocks</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Wednesday: Blocks</a>
+<ul>
+<li><a href="#sec-1-1">How to Handle Hump Day</a>
+<ul>
+<li><a href="#sec-1-1-1">Back to the Basics</a></li>
+<li><a href="#sec-1-1-2">The Current Block</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-2">Quiz: Ruby#</a></li>
+<li><a href="#sec-1-3">Closures</a>
+<ul>
+<li><a href="#sec-1-3-1">Scope</a></li>
+<li><a href="#sec-1-3-2">Changing Scope</a></li>
+<li><a href="#sec-1-3-3">Scope Gates</a></li>
+<li><a href="#sec-1-3-4">Flattening the Scope</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">instance_eval()</a></li>
+<li><a href="#sec-1-5">Callable Objects</a>
+<ul>
+<li><a href="#sec-1-5-1">Proc Objects</a></li>
+<li><a href="#sec-1-5-2">The &amp; Operator</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-6">Writing a Domain-Specific Language</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Wednesday: Blocks</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>block的实质是control scope:
+<pre class="example">
+Block可以决定哪些函数和变量能够被哪些行看到
+</pre>
+</li>
+<li>有一大类的object是叫做"callable object", 它们包括:
+<ul class="org-ul">
+<li>blocks
+</li>
+<li>procs
+</li>
+<li>lambdas
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">How to Handle Hump Day</h3>
+<div class="outline-text-3" id="text-1-1">
+</div><div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1">Back to the Basics</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<ul class="org-ul">
+<li>下面是一个block的例子, "只有在调用一个method的时候,你才能创建自己的block"
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">a_method</span>(a, b)
+  a + <span style="color: #AE5825;">yield</span>(a, b)
+<span style="color: #AE5825;">end</span>
+
+a_method(1, 2) { |x, y| (x + y) * 3} <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=&gt; 10</span>
+</pre>
+</div>
+</li>
+<li>block是和method同生共死的, 在method里面通过yield来执行block,并且得到返回值
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2">The Current Block</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<ul class="org-ul">
+<li>在method内部,你可以通过询问Ruby当前的call是否有个block. 这样可以防止在没有
+block提供给method的情况下强行调用yield得到的错误提示
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">a_method</span>
+  <span style="color: #AE5825;">return</span> <span style="color: #AE5825;">yield</span> <span style="color: #AE5825;">if</span> <span style="color: #86453A;">block_given?</span>
+  <span style="color: #5A7644;">'no block'</span>
+<span style="color: #AE5825;">end</span>
+
+a_method                        <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=&gt; "no block"</span>
+a_method { <span style="color: #5A7644;">"here's a block!"</span> }  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=&gt; "here's a block!"</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Quiz: Ruby#</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>TODO
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Closures</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>block是callable的object, 它需要environment(local variable, instance variable,
+self)等来运行.
+</li>
+<li>从下面的例子可以看出, block对method里面的x"直接无视", 它是从当前环境里面取x的.
+这也是为什么计算机科学家把block叫做closure. closure的一大特点就是能够解决改
+变"scope"的问题.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">my_method</span>
+  x = <span style="color: #5A7644;">"Goodbye"</span>
+  <span style="color: #AE5825;">yield</span>(<span style="color: #5A7644;">"cruel"</span>)
+<span style="color: #AE5825;">end</span>
+
+x = <span style="color: #5A7644;">"Hello"</span>
+my_method { |y| <span style="color: #5A7644;">"</span><span style="color: #46657B;">#{x}</span><span style="color: #5A7644;">, </span><span style="color: #46657B;">#{y}</span><span style="color: #5A7644;"> world"</span> } <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=&gt; "Hello, cruel world"</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">Scope</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>当你使用单步调试到某个点的时候,你所能看到的local varialbe, instance variable,
+self等等,就是所谓的"scope"
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2">Changing Scope</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<p>
+v1 = 1
+</p>
+
+<p>
+class MyClass
+  v2 = 2
+  local_variables               # =&gt; [:v2]
+</p>
+
+<p>
+def my_method
+  v3 = 3
+  local_variables
+end
+</p>
+
+<p>
+  local_variables               # =&gt; [:v2]
+end
+</p>
+
+<p>
+obj = MyClass.new
+obj.my_method                   # =&gt; [:v3]
+obj.my_method                   # =&gt; [:v3]
+local_variables                 # [:v1, :obj, :_]
+</p>
+</div>
+</div>
+<div id="outline-container-sec-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3">Scope Gates</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<ul class="org-ul">
+<li>Ruby只在以下几种情况下转换scope,所以,我们可以说下面几种情况都叫做"Scope Gates"
+<ul class="org-ul">
+<li>Class definitions
+</li>
+<li>Module definitions
+</li>
+<li>Methods
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4">Flattening the Scope</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<ul class="org-ul">
+<li>好了,问题来了.如果你想把数据传入到不同的scope里面怎么办?
+<div class="org-src-container">
+
+<pre class="src src-ruby">my_var = <span style="color: #5A7644;">"Success"</span>
+
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">MyClass</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">We want to print my_var here ...</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">my_method</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">... and here</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+</pre>
+</div>
+</li>
+<li>答案是使用Class.new 来替代 class, 使用define_method来代替def
+<div class="org-src-container">
+
+<pre class="src src-ruby">my_var = <span style="color: #5A7644;">"Success"</span>
+
+<span style="color: #C6B032; font-style: italic;">MyClass</span> = <span style="color: #C6B032; font-style: italic;">Class</span>.new <span style="color: #AE5825;">do</span>
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"</span><span style="color: #46657B;">#{my_var}</span><span style="color: #5A7644;"> in the class definition!"</span>
+
+  <span style="color: #86453A;">define_method</span> <span style="color: #86453A;">:my_method</span> <span style="color: #AE5825;">do</span>
+    <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"</span><span style="color: #46657B;">#{my_var}</span><span style="color: #5A7644;"> in the method!"</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+
+<span style="color: #C6B032; font-style: italic;">MyClass</span>.new.my_method
+
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Success in the class definition!               #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Success in the method!                         #</span>
+<span style="color: #4C565D;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">instance_eval()</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>函数instance_eval非常强大,可以看到某个instance的private的内容, 不仅仅可以看,
+而且海可以改
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">MyClass</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>
+    <span style="color: #46657B;">@v</span> = 1
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+
+obj = <span style="color: #C6B032; font-style: italic;">MyClass</span>.new
+obj.instance_eval <span style="color: #AE5825;">do</span>
+  <span style="color: #86453A;">p</span> <span style="color: #46657B;">self</span>                        <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=&gt; #&lt;MyClass:0x007fd052173778 @v=1&gt;</span>
+  <span style="color: #86453A;">p</span> <span style="color: #46657B;">@v</span>                          <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=&gt; 1</span>
+<span style="color: #AE5825;">end</span>
+
+v = 2
+obj.instance_eval { <span style="color: #46657B;">@v</span> = v }
+obj.instance_eval { <span style="color: #46657B;">@v</span> }        <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=&gt; 2</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Callable Objects</h3>
+<div class="outline-text-3" id="text-1-5">
+</div><div id="outline-container-sec-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1">Proc Objects</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<ul class="org-ul">
+<li>为了让"一切都是object", Ruby为block设计了Proc class. 你可以如下设计一个block object
+<div class="org-src-container">
+
+<pre class="src src-ruby">inc = <span style="color: #C6B032; font-style: italic;">Proc</span>.new { |x| x + 1 }
+inc.call(2)                     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=&gt; 3</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5-2" class="outline-4">
+<h4 id="sec-1-5-2">The &amp; Operator</h4>
+<div class="outline-text-4" id="text-1-5-2">
+<ul class="org-ul">
+<li>block从某种意义上来说,是method的一个additional, anonymous参数. 大多数情况下,
+block只是在method里面的yield执行. 但是yield在下面两个场景里面无能为力:
+<ul class="org-ul">
+<li>你想把block传递到其他的method
+</li>
+<li>你想把block转换成Proc
+</li>
+</ul>
+</li>
+<li>解决的办法就是block 参数化'&amp;'
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">math</span>(a, b)
+  <span style="color: #AE5825;">yield</span>(a, b)
+<span style="color: #AE5825;">end</span>
+
+<span style="color: #AE5825;">def</span> <span style="color: #C6B032;">teach_math</span>(a, b, &amp;operation)
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Let's do the math:"</span>
+  <span style="color: #86453A;">puts</span> math(a, b, &amp;operation)
+<span style="color: #AE5825;">end</span>
+
+teach_math(2, 3) {|x, y| x * y }
+
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Let's do the math:                             #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">6                                              #</span>
+<span style="color: #4C565D;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>如果想从block得到一个Proc object,那么
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">my_method</span>(&amp;the_proc)
+  the_proc
+<span style="color: #AE5825;">end</span>
+
+p = my_method {|name| <span style="color: #5A7644;">"Hello , </span><span style="color: #46657B;">#{name}</span><span style="color: #5A7644;">!"</span>}
+<span style="color: #86453A;">puts</span> p.class
+<span style="color: #86453A;">puts</span> p.call(<span style="color: #5A7644;">"Bill"</span>)
+
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Proc                                           #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Hello , Bill!                                  #</span>
+<span style="color: #4C565D;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>想把Proc转换回成block的话,还是&amp;
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">my_method</span>(greeting)
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"</span><span style="color: #46657B;">#{greeting}</span><span style="color: #5A7644;">, </span><span style="color: #46657B;">#{yield}</span><span style="color: #5A7644;">!"</span>
+<span style="color: #AE5825;">end</span>
+
+my_proc = <span style="color: #86453A;">proc</span> {<span style="color: #5A7644;">"Bill"</span>}
+my_method(<span style="color: #5A7644;">"Hello"</span>, &amp;my_proc)
+
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Hello, Bill!                                   #</span>
+<span style="color: #4C565D;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Writing a Domain-Specific Language</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>RedFlag 系统是要在"很多种情况下"给销售们以提醒.
+</li>
+<li>我们先看一个简单的例子:
+<ul class="org-ul">
+<li>首先有一些的以events结尾的DSL文件,里面有些内容如下
+<div class="org-src-container">
+
+<pre class="src src-ruby"></pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

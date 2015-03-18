@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 13: Get the Behavior You Nedd with Singleton and Class Methods</title>
-<!-- 2014-07-18 Fri 16:03 -->
+<!-- 2015-03-18 Wed 14:10 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -205,42 +205,42 @@ for the JavaScript code in this tag.
 <li>创建singleton method的方法如下,其和普通method没有任何区别&#x2013;除了它只属于某个instance
 <div class="org-src-container">
 
-<pre class="src src-ruby">hand_built_stub_printer = <span style="color: #DADADA;">Object</span>.new
+<pre class="src src-ruby">hand_built_stub_printer = <span style="color: #C6B032; font-style: italic;">Object</span>.new
 
-<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">hand_built_stub_printer.available?</span>
-  <span style="color: #C1C144;">true</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">def</span> hand_built_stub_printer.<span style="color: #C6B032;">available?</span>
+  <span style="color: #46657B;">true</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">hand_built_stub_printer.render</span>(content)
-  <span style="color: #C1C144;">nil</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">def</span> hand_built_stub_printer.<span style="color: #C6B032;">render</span>(content)
+  <span style="color: #46657B;">nil</span>
+<span style="color: #AE5825;">end</span>
 
-p hand_built_stub_printer.available?
-p hand_built_stub_printer.render(0)
+<span style="color: #86453A;">p</span> hand_built_stub_printer.available?
+<span style="color: #86453A;">p</span> hand_built_stub_printer.render(0)
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">true                                           #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">nil                                            #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">true                                           #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">nil                                            #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
 <li>singleton method会override所有的常规的,或者class-defined的method,比如
 <div class="org-src-container">
 
-<pre class="src src-ruby">uncooperative = <span style="color: #A2925E;">"Don't ask my class"</span>
+<pre class="src src-ruby">uncooperative = <span style="color: #5A7644;">"Don't ask my class"</span>
 
-<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">uncooperative.class</span>
-  <span style="color: #A2925E;">"I'm not telling"</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">def</span> uncooperative.<span style="color: #C6B032;">class</span>
+  <span style="color: #5A7644;">"I'm not telling"</span>
+<span style="color: #AE5825;">end</span>
 
-puts uncooperative.class
+<span style="color: #86453A;">puts</span> uncooperative.class
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">I'm not telling                                #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">I'm not telling                                #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -248,17 +248,17 @@ puts uncooperative.class
 singleton函数的话,可以试试下面的方法
 <div class="org-src-container">
 
-<pre class="src src-ruby">hand_built_stub_printer = <span style="color: #DADADA;">Object</span>.new
+<pre class="src src-ruby">hand_built_stub_printer = <span style="color: #C6B032; font-style: italic;">Object</span>.new
 
-<span style="color: #4856F7; font-weight: bold;">class</span> &lt;&lt; hand_built_stub_printer
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">available?</span>                <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">A singleton method</span>
-    <span style="color: #C1C144;">true</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> &lt;&lt; hand_built_stub_printer
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">available?</span>                <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">A singleton method</span>
+    <span style="color: #46657B;">true</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">render</span>                    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Another one</span>
-    <span style="color: #C1C144;">nil</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">render</span>                    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Another one</span>
+    <span style="color: #46657B;">nil</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -307,46 +307,46 @@ Singleton函数
 的instance, 它的是由class Document创建来的
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+<span style="color: #AE5825;">end</span>
 
-my_object = <span style="color: #DADADA;">Document</span>.new
+my_object = <span style="color: #C6B032; font-style: italic;">Document</span>.new
 
-<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">my_object.explain</span>
-  puts <span style="color: #A2925E;">"self is</span><span style="color: #C1C144;"> #{self}</span><span style="color: #A2925E;">"</span>
-  puts <span style="color: #A2925E;">"and its class is</span><span style="color: #C1C144;"> #{self.class}</span><span style="color: #A2925E;">"</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">def</span> my_object.<span style="color: #C6B032;">explain</span>
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"self is </span><span style="color: #46657B;">#{self}</span><span style="color: #5A7644;">"</span>
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"and its class is </span><span style="color: #46657B;">#{self.class}</span><span style="color: #5A7644;">"</span>
+<span style="color: #AE5825;">end</span>
 
 my_object.explain
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">self is #&lt;Document:0x007fccc08840e8&gt;           #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">and its class is Document                      #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">self is #&lt;Document:0x007fccc08840e8&gt;           #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">and its class is Document                      #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
 <li>我们把Document的new去掉再来看看,输出变得大不同
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+<span style="color: #AE5825;">end</span>
 
-my_object = <span style="color: #DADADA;">Document</span>
+my_object = <span style="color: #C6B032; font-style: italic;">Document</span>
 
-<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">my_object.explain</span>
-  puts <span style="color: #A2925E;">"self is</span><span style="color: #C1C144;"> #{self}</span><span style="color: #A2925E;">"</span>
-  puts <span style="color: #A2925E;">"and its class is</span><span style="color: #C1C144;"> #{self.class}</span><span style="color: #A2925E;">"</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">def</span> my_object.<span style="color: #C6B032;">explain</span>
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"self is </span><span style="color: #46657B;">#{self}</span><span style="color: #5A7644;">"</span>
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"and its class is </span><span style="color: #46657B;">#{self.class}</span><span style="color: #5A7644;">"</span>
+<span style="color: #AE5825;">end</span>
 
 my_object.explain
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">self is Document                               #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">and its class is Class                         #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">self is Document                               #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">and its class is Class                         #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -367,21 +367,21 @@ my_object.explain
 <li>class是这些对象的singleton method,所以我们可以这样
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">Document.explain</span>
-  puts <span style="color: #A2925E;">"self is</span><span style="color: #C1C144;"> #{self}</span><span style="color: #A2925E;">"</span>
-  puts <span style="color: #A2925E;">"and its class is</span><span style="color: #C1C144;"> #{self.class}</span><span style="color: #A2925E;">"</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">def</span> <span style="color: #C6B032; font-style: italic;">Document</span>.<span style="color: #C6B032;">explain</span>
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"self is </span><span style="color: #46657B;">#{self}</span><span style="color: #5A7644;">"</span>
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"and its class is </span><span style="color: #46657B;">#{self.class}</span><span style="color: #5A7644;">"</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #DADADA;">Document</span>.explain
+<span style="color: #C6B032; font-style: italic;">Document</span>.explain
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">self is Document                               #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">and its class is Class                         #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">self is Document                               #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">and its class is Class                         #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -391,20 +391,20 @@ my_object.explain
 那么下面代码就容易理解了,其实就是定义instance Document的singleton method
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">previously, we have this</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">class &lt;&lt; hand_built_stub_printer</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">here the self is actually the same meaning with hand_built_stub_printer</span>
-  <span style="color: #4856F7; font-weight: bold;">class</span> &lt;&lt; <span style="color: #C1C144;">self</span>
-    <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">find_by_name</span>(name)
-      <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Find a document by name</span>
-    <span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">previously, we have this</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">class &lt;&lt; hand_built_stub_printer</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">here the self is actually the same meaning with hand_built_stub_printer</span>
+  <span style="color: #AE5825;">class</span> &lt;&lt; <span style="color: #46657B;">self</span>
+    <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">find_by_name</span>(name)
+      <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Find a document by name</span>
+    <span style="color: #AE5825;">end</span>
 
-    <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">fidn_by_id</span>(doc_id)
-      <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Find a document by id</span>
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">fidn_by_id</span>(doc_id)
+      <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Find a document by id</span>
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -438,23 +438,23 @@ my_object.explain
 创建方法. 我们可以看到,在class method里面self转换成了一个Class类型的instance
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Parent</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.who_am_i</span>
-    puts <span style="color: #A2925E;">"The value of self is</span><span style="color: #C1C144;"> #{self}</span><span style="color: #A2925E;">"</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Parent</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">who_am_i</span>
+    <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"The value of self is </span><span style="color: #46657B;">#{self}</span><span style="color: #5A7644;">"</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Child</span> &lt; <span style="color: #DADADA;">Parent</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Child</span> &lt; <span style="color: #C6B032; font-style: italic;">Parent</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #DADADA;">Parent</span>.who_am_i
-<span style="color: #DADADA;">Child</span>.who_am_i
+<span style="color: #C6B032; font-style: italic;">Parent</span>.who_am_i
+<span style="color: #C6B032; font-style: italic;">Child</span>.who_am_i
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The value of self is Parent                    #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The value of self is Child                     #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The value of self is Parent                    #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The value of self is Child                     #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -462,26 +462,26 @@ my_object.explain
 就是当前class的一个instance.
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Parent</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">who_am_i</span>
-    puts <span style="color: #A2925E;">"The value of self is</span><span style="color: #C1C144;"> #{self}</span><span style="color: #A2925E;">"</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Parent</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">who_am_i</span>
+    <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"The value of self is </span><span style="color: #46657B;">#{self}</span><span style="color: #5A7644;">"</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Child</span> &lt; <span style="color: #DADADA;">Parent</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Child</span> &lt; <span style="color: #C6B032; font-style: italic;">Parent</span>
+<span style="color: #AE5825;">end</span>
 
-parent = <span style="color: #DADADA;">Parent</span>.new
-child = <span style="color: #DADADA;">Child</span>.new
+parent = <span style="color: #C6B032; font-style: italic;">Parent</span>.new
+child = <span style="color: #C6B032; font-style: italic;">Child</span>.new
 
 parent.who_am_i
 child.who_am_i
 
-<span style="color: #ed5b15;">###################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt;  #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The value of self is #&lt;Parent:0x007fccc1070298&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The value of self is #&lt;Child:0x007fccc1070270&gt;  #</span>
-<span style="color: #ed5b15;">###################################################</span>
+<span style="color: #4C565D;">###################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt;  #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The value of self is #&lt;Parent:0x007fccc1070298&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The value of self is #&lt;Child:0x007fccc1070270&gt;  #</span>
+<span style="color: #4C565D;">###################################################</span>
 </pre>
 </div>
 </li>

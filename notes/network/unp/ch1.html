@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 1: Introduction</title>
-<!-- 2014-07-18 Fri 16:04 -->
+<!-- 2015-03-18 Wed 14:11 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -202,50 +202,50 @@ server端先发起的.
 <li>下面是一个简单的请求时间和日期的client
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #ed5b15;">/*************************/</span>
-<span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">intro/daytimectpcli.c </span><span style="color: #ed5b15;">*/</span>
-<span style="color: #ed5b15;">/*************************/</span>
+<pre class="src src-c"><span style="color: #4C565D;">/*************************/</span>
+<span style="color: #4C565D;">/* </span><span style="color: #333B40; font-style: italic;">intro/daytimectpcli.c </span><span style="color: #4C565D;">*/</span>
+<span style="color: #4C565D;">/*************************/</span>
 
-include <span style="color: #A2925E;">"unp.h"</span>
+include <span style="color: #5A7644;">"unp.h"</span>
 
-<span style="color: #DADADA;">int</span> main(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">argc</span>, <span style="color: #DADADA;">char</span> *<span style="color: #C1C144;">argv</span>[])
+<span style="color: #C6B032; font-style: italic;">int</span> main(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">argc</span>, <span style="color: #C6B032; font-style: italic;">char</span> *<span style="color: #46657B;">argv</span>[])
 {
-    <span style="color: #DADADA;">int</span>                 <span style="color: #C1C144;">sockfd</span>;
-    <span style="color: #DADADA;">int</span>                 <span style="color: #C1C144;">n</span>;
-    <span style="color: #DADADA;">char</span>                <span style="color: #C1C144;">recvline</span>[MAXLINE + 1];
-    <span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">sockadr_in</span>   <span style="color: #C1C144;">servaddr</span>;
+    <span style="color: #C6B032; font-style: italic;">int</span>                 <span style="color: #46657B;">sockfd</span>;
+    <span style="color: #C6B032; font-style: italic;">int</span>                 <span style="color: #46657B;">n</span>;
+    <span style="color: #C6B032; font-style: italic;">char</span>                <span style="color: #46657B;">recvline</span>[MAXLINE + 1];
+    <span style="color: #AE5825;">struct</span> <span style="color: #C6B032; font-style: italic;">sockadr_in</span>   <span style="color: #46657B;">servaddr</span>;
 
-    <span style="color: #4856F7; font-weight: bold;">if</span> (argc != 2) {
-        err_quit(<span style="color: #A2925E;">"usage: a.out &lt;IPaddress&gt;"</span>);
+    <span style="color: #AE5825;">if</span> (argc != 2) {
+        err_quit(<span style="color: #5A7644;">"usage: a.out &lt;IPaddress&gt;"</span>);
     }
 
-    <span style="color: #4856F7; font-weight: bold;">if</span> ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) &lt; 0) {
-        err_sys(<span style="color: #A2925E;">"socket error"</span>);
+    <span style="color: #AE5825;">if</span> ((sockfd = socket(AF_INET, SOCK_STREAM, 0)) &lt; 0) {
+        err_sys(<span style="color: #5A7644;">"socket error"</span>);
     }
 
-    bzero(&amp;servaddr, <span style="color: #4856F7; font-weight: bold;">sizeof</span>(servaddr));
+    bzero(&amp;servaddr, <span style="color: #AE5825;">sizeof</span>(servaddr));
     servaddr.sin_family = AF_INET;
-    servaddr.sin_port = htons(13);    <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">daytime server port </span><span style="color: #ed5b15;">*/</span>
-    <span style="color: #4856F7; font-weight: bold;">if</span> (inet_pton(AF_INET, argv[1], &amp;servaddr.sin_addr) &lt;= 0) {
-        err_quit(<span style="color: #A2925E;">"inet_pton error for %s"</span>, argv[1]);
+    servaddr.sin_port = htons(13);    <span style="color: #4C565D;">/* </span><span style="color: #333B40; font-style: italic;">daytime server port </span><span style="color: #4C565D;">*/</span>
+    <span style="color: #AE5825;">if</span> (inet_pton(AF_INET, argv[1], &amp;servaddr.sin_addr) &lt;= 0) {
+        err_quit(<span style="color: #5A7644;">"inet_pton error for %s"</span>, argv[1]);
     }
-    <span style="color: #ed5b15;">/**********************************************/</span>
-    <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">in unp.h, #define SA to be struct sockaddr </span><span style="color: #ed5b15;">*/</span>
-    <span style="color: #ed5b15;">/**********************************************/</span>
-    <span style="color: #4856F7; font-weight: bold;">if</span> (connect(sockfd, (<span style="color: #DADADA;">SA</span> *) &amp;servaddr, <span style="color: #4856F7; font-weight: bold;">sizeof</span>(servaddr)) &lt; 0) {
-        err_sys(<span style="color: #A2925E;">"connect error"</span>);
+    <span style="color: #4C565D;">/**********************************************/</span>
+    <span style="color: #4C565D;">/* </span><span style="color: #333B40; font-style: italic;">in unp.h, #define SA to be struct sockaddr </span><span style="color: #4C565D;">*/</span>
+    <span style="color: #4C565D;">/**********************************************/</span>
+    <span style="color: #AE5825;">if</span> (connect(sockfd, (<span style="color: #C6B032; font-style: italic;">SA</span> *) &amp;servaddr, <span style="color: #AE5825;">sizeof</span>(servaddr)) &lt; 0) {
+        err_sys(<span style="color: #5A7644;">"connect error"</span>);
     }
 
-    <span style="color: #4856F7; font-weight: bold;">while</span> ((n = read(sockfd, recvline, MAXLINE)) &gt; 0) {
+    <span style="color: #AE5825;">while</span> ((n = read(sockfd, recvline, MAXLINE)) &gt; 0) {
         recvline[n] = 0;
-        <span style="color: #4856F7; font-weight: bold;">if</span> (fputs(recvline, stdout) == EOF) {
-            err_sys(<span style="color: #A2925E;">"fputs error"</span>);
+        <span style="color: #AE5825;">if</span> (fputs(recvline, stdout) == EOF) {
+            err_sys(<span style="color: #5A7644;">"fputs error"</span>);
         }
     }
-    <span style="color: #4856F7; font-weight: bold;">if</span> (n &lt; 0) {
-        err_sys(<span style="color: #A2925E;">"read error"</span>);
+    <span style="color: #AE5825;">if</span> (n &lt; 0) {
+        err_sys(<span style="color: #5A7644;">"read error"</span>);
     }
-    <span style="color: #4856F7; font-weight: bold;">return</span> 0;
+    <span style="color: #AE5825;">return</span> 0;
 }
 </pre>
 </div>
@@ -313,12 +313,12 @@ SOCK_STREAM表示为TCP socket
 <div class="org-src-container">
 
 <pre class="src src-c">sockfd = socket(AF_INET, SOCK_STREAM, 0);
-<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">Socket</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">family</span>, <span style="color: #DADADA;">int</span> <span style="color: #C1C144;">type</span>, <span style="color: #DADADA;">int</span> <span style="color: #C1C144;">protocol</span>) {
-    <span style="color: #DADADA;">int</span> <span style="color: #C1C144;">n</span>;
-    <span style="color: #4856F7; font-weight: bold;">if</span> ((n = socket(family, type, protocol)) &lt; 0) {
-        err_sys(<span style="color: #A2925E;">"socket error"</span>);
+<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #C6B032;">Socket</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">family</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">type</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">protocol</span>) {
+    <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">n</span>;
+    <span style="color: #AE5825;">if</span> ((n = socket(family, type, protocol)) &lt; 0) {
+        err_sys(<span style="color: #5A7644;">"socket error"</span>);
     }
-    <span style="color: #4856F7; font-weight: bold;">return</span> (n);
+    <span style="color: #AE5825;">return</span> (n);
 }
 </pre>
 </div>
@@ -336,43 +336,43 @@ SOCK_STREAM表示为TCP socket
 <li>我们再来看看server端如何写:
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #ed5b15;">/**************************/</span>
-<span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">intro/daytimetcpsrv.c  </span><span style="color: #ed5b15;">*/</span>
-<span style="color: #ed5b15;">/**************************/</span>
-<span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">"unp.h"</span>
-<span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;time.h&gt;</span>
+<pre class="src src-c"><span style="color: #4C565D;">/**************************/</span>
+<span style="color: #4C565D;">/* </span><span style="color: #333B40; font-style: italic;">intro/daytimetcpsrv.c  </span><span style="color: #4C565D;">*/</span>
+<span style="color: #4C565D;">/**************************/</span>
+<span style="color: #007575;">#include</span> <span style="color: #5A7644;">"unp.h"</span>
+<span style="color: #007575;">#include</span> <span style="color: #5A7644;">&lt;time.h&gt;</span>
 
-<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">main</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">argc</span>, <span style="color: #DADADA;">char</span> *<span style="color: #C1C144;">argv</span>[])
+<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">argc</span>, <span style="color: #C6B032; font-style: italic;">char</span> *<span style="color: #46657B;">argv</span>[])
 {
-    <span style="color: #DADADA;">int</span>       <span style="color: #C1C144;">listenfd</span>;
-    <span style="color: #DADADA;">int</span>       <span style="color: #C1C144;">connfd</span>;
-    <span style="color: #DADADA;">char</span>      <span style="color: #C1C144;">buff</span>[MAXLINE];
-    <span style="color: #DADADA;">time_t</span>    <span style="color: #C1C144;">ticks</span>;
+    <span style="color: #C6B032; font-style: italic;">int</span>       <span style="color: #46657B;">listenfd</span>;
+    <span style="color: #C6B032; font-style: italic;">int</span>       <span style="color: #46657B;">connfd</span>;
+    <span style="color: #C6B032; font-style: italic;">char</span>      <span style="color: #46657B;">buff</span>[MAXLINE];
+    <span style="color: #C6B032; font-style: italic;">time_t</span>    <span style="color: #46657B;">ticks</span>;
 
     listenfd = Socket(AF_INET, SOCK_STREAM, 0);
 
-    bzeros(&amp;servaddr, <span style="color: #4856F7; font-weight: bold;">sizeof</span>(servaddr));
+    bzeros(&amp;servaddr, <span style="color: #AE5825;">sizeof</span>(servaddr));
     servaddr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    servaddr.sin_port = htons(13); <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">daytime server port </span><span style="color: #ed5b15;">*/</span>
+    servaddr.sin_port = htons(13); <span style="color: #4C565D;">/* </span><span style="color: #333B40; font-style: italic;">daytime server port </span><span style="color: #4C565D;">*/</span>
 
-    Bind(listenfd, (<span style="color: #DADADA;">SA</span>*) &amp;servaddr, siezeof(servaddr));
-    <span style="color: #ed5b15;">/**********************************************************/</span>
-    <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">LISTENQ is from unp.h, it specifies the maximum number </span><span style="color: #ed5b15;">*/</span>
-    <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">of client connections that kernel will queue for this  </span><span style="color: #ed5b15;">*/</span>
-    <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">listening descriptor                                   </span><span style="color: #ed5b15;">*/</span>
-    <span style="color: #ed5b15;">/**********************************************************/</span>
+    Bind(listenfd, (<span style="color: #C6B032; font-style: italic;">SA</span>*) &amp;servaddr, siezeof(servaddr));
+    <span style="color: #4C565D;">/**********************************************************/</span>
+    <span style="color: #4C565D;">/* </span><span style="color: #333B40; font-style: italic;">LISTENQ is from unp.h, it specifies the maximum number </span><span style="color: #4C565D;">*/</span>
+    <span style="color: #4C565D;">/* </span><span style="color: #333B40; font-style: italic;">of client connections that kernel will queue for this  </span><span style="color: #4C565D;">*/</span>
+    <span style="color: #4C565D;">/* </span><span style="color: #333B40; font-style: italic;">listening descriptor                                   </span><span style="color: #4C565D;">*/</span>
+    <span style="color: #4C565D;">/**********************************************************/</span>
     Listen(listenfd, LISTENQ);
 
-    <span style="color: #4856F7; font-weight: bold;">for</span> ( ; ;) {
-        connfd = Accept(listenfd, (<span style="color: #DADADA;">SA</span>*)<span style="color: #DF7921; font-weight: bold;">NULL</span>, <span style="color: #DF7921; font-weight: bold;">NULL</span>);
+    <span style="color: #AE5825;">for</span> ( ; ;) {
+        connfd = Accept(listenfd, (<span style="color: #C6B032; font-style: italic;">SA</span>*)<span style="color: #86453A;">NULL</span>, <span style="color: #86453A;">NULL</span>);
 
-        ticks = time(<span style="color: #DF7921; font-weight: bold;">NULL</span>);
-        snprintf(buff, <span style="color: #4856F7; font-weight: bold;">sizeof</span>(buff), <span style="color: #A2925E;">"%.24s\n\n"</span>, ctime(&amp;ticks));
+        ticks = time(<span style="color: #86453A;">NULL</span>);
+        snprintf(buff, <span style="color: #AE5825;">sizeof</span>(buff), <span style="color: #5A7644;">"%.24s\n\n"</span>, ctime(&amp;ticks));
         Write(connfd, buff, strlen(buff));
         Close(connfd);
     }
-    <span style="color: #4856F7; font-weight: bold;">return</span> 0;
+    <span style="color: #AE5825;">return</span> 0;
 }
 </pre>
 </div>

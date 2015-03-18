@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 01: Write Code That Looks Like Ruby</title>
-<!-- 2014-07-18 Fri 16:04 -->
+<!-- 2015-03-18 Wed 14:10 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -193,6 +193,10 @@ for the JavaScript code in this tag.
 <li>Ruby style的核心:
 <ul class="org-ul">
 <li>首先,代码要清晰
+<pre class="example">
+Good code tells the reader exactly what it is trying to do.
+Great code shouts its intent
+</pre>
 </li>
 <li>其次,代码要简单, 简单才更容易清晰
 </li>
@@ -201,23 +205,23 @@ for the JavaScript code in this tag.
 <li>看个例子
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  attr_accessor <span style="color: #DF7921; font-weight: bold;">:title</span>, <span style="color: #DF7921; font-weight: bold;">:author</span>, <span style="color: #DF7921; font-weight: bold;">:content</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:title</span>, <span style="color: #86453A;">:author</span>, <span style="color: #86453A;">:content</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(title, author, content)
-    <span style="color: #C1C144;">@title</span>         title
-    <span style="color: #C1C144;">@author</span>        author
-    <span style="color: #C1C144;">@content</span>       content
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(title, author, content)
+    <span style="color: #46657B;">@title</span>         title
+    <span style="color: #46657B;">@author</span>        author
+    <span style="color: #46657B;">@content</span>       content
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">words</span>
-    <span style="color: #C1C144;">@content</span>.split
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">words</span>
+    <span style="color: #46657B;">@content</span>.split
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">word_count</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">word_count</span>
     words.size
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -236,28 +240,36 @@ for the JavaScript code in this tag.
 <h3 id="sec-1-2">Go Easy on the Comments</h3>
 <div class="outline-text-3" id="text-1-2">
 <ul class="org-ul">
+<li>ruby有两种的不同的注释手段:
+<ul class="org-ul">
+<li>使用'#'在行首
+</li>
+<li>使用=begin 和=end
+</li>
+</ul>
+</li>
 <li>ruby是一种self-explain的语言,所以如果代码能够解释自己的话,就不需要注释
 </li>
 <li>最需要写的注释是"如何使用你的代码", 而不是"我为什么要这样写代码, 你使用了什
 么算法, 你以后要做什么改进", 比如,下面就是一个很好的comment
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Class that models a plain text document, complete with title and author</span>
-<span style="color: #ed5b15;">#</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">doc Document.new('Hamlet', 'Shakespeare', 'To be or ...')</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">puts doc.title</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">puts doc.author</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">puts doc.content</span>
-<span style="color: #ed5b15;">#</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Document instances know how to parse their content into words:</span>
-<span style="color: #ed5b15;">#</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">puts doc.words</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">puts doc.word_count</span>
-<span style="color: #ed5b15;">#</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Class that models a plain text document, complete with title and author</span>
+<span style="color: #4C565D;">#</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">doc Document.new('Hamlet', 'Shakespeare', 'To be or ...')</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">puts doc.title</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">puts doc.author</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">puts doc.content</span>
+<span style="color: #4C565D;">#</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Document instances know how to parse their content into words:</span>
+<span style="color: #4C565D;">#</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">puts doc.words</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">puts doc.word_count</span>
+<span style="color: #4C565D;">#</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">class omitted..</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">class omitted..</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -277,26 +289,26 @@ for the JavaScript code in this tag.
 <li>类名使用首字母大写的"骑驼峰"
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>常亮使用全部大写,以下划线分割
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #DADADA;">ANTLERS_PER_MALE_MOOSE</span> 2
+<pre class="src src-ruby"><span style="color: #C6B032; font-style: italic;">ANTLERS_PER_MALE_MOOSE</span> 2
 </pre>
 </div>
 </li>
 <li>其他全部的情况都是小写字母,以下划线分割
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">count_words_in</span>(the_string)
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">count_words_in</span>(the_string)
   the_words the_string.split
   the_words.size
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -314,23 +326,23 @@ for the JavaScript code in this tag.
 <li>比如下面的代码
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">find_document</span>(title, author)
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Body omitted...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">find_document</span>(title, author)
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Body omitted...</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-find_document(<span style="color: #A2925E;">'Frankenstein'</span>, <span style="color: #A2925E;">'Shelley'</span>)
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+find_document(<span style="color: #5A7644;">'Frankenstein'</span>, <span style="color: #5A7644;">'Shelley'</span>)
 </pre>
 </div>
 </li>
 <li>可以完全去掉括号,写成如下
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">find_document</span> title, author
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Body ommited...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">find_document</span> title, author
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Body ommited...</span>
+<span style="color: #AE5825;">end</span>
 
-find_document <span style="color: #A2925E;">'Frankenstein'</span>, <span style="color: #A2925E;">'Shelley'</span>
+find_document <span style="color: #5A7644;">'Frankenstein'</span>, <span style="color: #5A7644;">'Shelley'</span>
 </pre>
 </div>
 </li>
@@ -344,30 +356,30 @@ find_document <span style="color: #A2925E;">'Frankenstein'</span>, <span style="
 <li>函数参数没有, 即便大家不熟悉,也可以不使用括号,比如
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">words</span>
-  <span style="color: #C1C144;">@content</span>.split
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">words</span>
+  <span style="color: #46657B;">@content</span>.split
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">is more often used than</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">is more often used than</span>
 
-<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">words</span>()
-  <span style="color: #C1C144;">@content</span>.split
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">def</span> <span style="color: #C6B032;">words</span>()
+  <span style="color: #46657B;">@content</span>.split
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>在条件判断的时候,我们也倾向去不使用括号
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">if</span> words.size &gt; 100
-  puts <span style="color: #A2925E;">"The document is not very long"</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">if</span> words.size &gt; 100
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"The document is not very long"</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">is more often used than</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">is more often used than</span>
 
-<span style="color: #4856F7; font-weight: bold;">if</span> (words.size &gt; 100)
-  puts <span style="color: #A2925E;">"The document is not very long"</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">if</span> (words.size &gt; 100)
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"The document is not very long"</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -383,7 +395,7 @@ find_document <span style="color: #A2925E;">'Frankenstein'</span>, <span style="
 <li>几行代码写成一行的时候,要使用分号.不过这个规则不常用
 <div class="org-src-container">
 
-<pre class="src src-ruby">puts doc.title; puts doc.author
+<pre class="src src-ruby"><span style="color: #86453A;">puts</span> doc.title; <span style="color: #86453A;">puts</span> doc.author
 </pre>
 </div>
 </li>
@@ -415,7 +427,7 @@ find_document <span style="color: #A2925E;">'Frankenstein'</span>, <span style="
 <li>有些时候某个函数还是加上括号比较好,比如instance_of?的参数很长的时候
 <div class="org-src-container">
 
-<pre class="src src-ruby">doc.instance_of? (<span style="color: #C1C144;">self</span>.class.superclass.class)
+<pre class="src src-ruby">doc.instance_of? (<span style="color: #46657B;">self</span>.class.superclass.class)
 </pre>
 </div>
 </li>

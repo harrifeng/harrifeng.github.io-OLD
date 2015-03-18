@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 18: Execute Around with a Block</title>
-<!-- 2014-07-18 Fri 16:03 -->
+<!-- 2015-03-18 Wed 14:09 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -194,30 +194,30 @@ for the JavaScript code in this tag.
 log来记录异常
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">SomeApplication</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(logger)
-    <span style="color: #C1C144;">@logger</span> = logger
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">SomeApplication</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(logger)
+    <span style="color: #46657B;">@logger</span> = logger
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">do_something</span>
-    <span style="color: #4856F7; font-weight: bold;">begin</span>
-      <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Starging Document load'</span>)
-      doc = <span style="color: #DADADA;">Document</span>.load(<span style="color: #A2925E;">'resume.txt'</span>)
-      <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Completed Document load'</span>)
-    <span style="color: #4856F7; font-weight: bold;">rescue</span>
-      <span style="color: #C1C144;">@logger</span>.error(<span style="color: #A2925E;">'Load failed!'</span>)
-    <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">do_something</span>
+    <span style="color: #AE5825;">begin</span>
+      <span style="color: #46657B;">@logger</span>.debug(<span style="color: #5A7644;">'Starging Document load'</span>)
+      doc = <span style="color: #C6B032; font-style: italic;">Document</span>.load(<span style="color: #5A7644;">'resume.txt'</span>)
+      <span style="color: #46657B;">@logger</span>.debug(<span style="color: #5A7644;">'Completed Document load'</span>)
+    <span style="color: #AE5825;">rescue</span>
+      <span style="color: #46657B;">@logger</span>.error(<span style="color: #5A7644;">'Load failed!'</span>)
+    <span style="color: #AE5825;">end</span>
 
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Do something interesting with the document</span>
-    <span style="color: #4856F7; font-weight: bold;">begin</span>
-      <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Starting Document save'</span>)
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Do something interesting with the document</span>
+    <span style="color: #AE5825;">begin</span>
+      <span style="color: #46657B;">@logger</span>.debug(<span style="color: #5A7644;">'Starting Document save'</span>)
       doc.save
-      <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Completed Document save'</span>)
-    <span style="color: #4856F7; font-weight: bold;">rescue</span>
-      <span style="color: #C1C144;">@logger</span>.error(<span style="color: #A2925E;">'Save failed!'</span>)
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+      <span style="color: #46657B;">@logger</span>.debug(<span style="color: #5A7644;">'Completed Document save'</span>)
+    <span style="color: #AE5825;">rescue</span>
+      <span style="color: #46657B;">@logger</span>.error(<span style="color: #5A7644;">'Save failed!'</span>)
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -232,27 +232,27 @@ log来记录异常
 在操作之后,怎样怎样. 我们可以使用code block大幅减少代码
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">SomeApplication</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">SomeApplication</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">do_something</span>
-    with_logging(<span style="color: #A2925E;">'load'</span>) {<span style="color: #C1C144;">@doc</span> = <span style="color: #DADADA;">Document</span>.load(<span style="color: #A2925E;">'resume.txt'</span>)}
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">do_something</span>
+    with_logging(<span style="color: #5A7644;">'load'</span>) {<span style="color: #46657B;">@doc</span> = <span style="color: #C6B032; font-style: italic;">Document</span>.load(<span style="color: #5A7644;">'resume.txt'</span>)}
 
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Do something with the document</span>
-    with_logging(<span style="color: #A2925E;">'save'</span>) {<span style="color: #C1C144;">@doc</span>.save}
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Do something with the document</span>
+    with_logging(<span style="color: #5A7644;">'save'</span>) {<span style="color: #46657B;">@doc</span>.save}
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Rest of the class omitted...</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Rest of the class omitted...</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">with_logging</span>(description)
-    <span style="color: #4856F7; font-weight: bold;">begin</span>
-      <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Staring</span><span style="color: #C1C144;"> #{description}</span><span style="color: #A2925E;">'</span>)
-      <span style="color: #4856F7; font-weight: bold;">yield</span>
-      <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Completed</span><span style="color: #C1C144;"> #{description}</span><span style="color: #A2925E;">'</span>)
-    <span style="color: #4856F7; font-weight: bold;">rescue</span>
-      <span style="color: #C1C144;">@logger</span>.error(<span style="color: #C1C144;">'#{description}</span><span style="color: #A2925E;"> failed'</span>)
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">with_logging</span>(description)
+    <span style="color: #AE5825;">begin</span>
+      <span style="color: #46657B;">@logger</span>.debug(<span style="color: #5A7644;">'Staring #{description}'</span>)
+      <span style="color: #AE5825;">yield</span>
+      <span style="color: #46657B;">@logger</span>.debug(<span style="color: #5A7644;">'Completed #{description}'</span>)
+    <span style="color: #AE5825;">rescue</span>
+      <span style="color: #46657B;">@logger</span>.error(<span style="color: #5A7644;">'#{description} failed'</span>)
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -269,14 +269,14 @@ log来记录异常
 <li>其实code block非常自由,你也可以选择在"前"或者"后"记录log
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">log_before</span>(description)
-  <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Starting</span><span style="color: #C1C144;"> #{description}</span><span style="color: #A2925E;">'</span>)
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">log_before</span>(description)
+  <span style="color: #46657B;">@logger</span>.debug(<span style="color: #5A7644;">'Starting #{description}'</span>)
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">log_after</span>(description)
-  <span style="color: #4856F7; font-weight: bold;">yield</span>
-  <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Done</span><span style="color: #C1C144;"> #{description}</span><span style="color: #A2925E;">'</span>)
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">def</span> <span style="color: #C6B032;">log_after</span>(description)
+  <span style="color: #AE5825;">yield</span>
+  <span style="color: #46657B;">@logger</span>.debug(<span style="color: #5A7644;">'Done #{description}'</span>)
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -290,30 +290,30 @@ log来记录异常
 <li>你甚至可以使用code block来初始化initialize函数
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  attr_accessor <span style="color: #DF7921; font-weight: bold;">:title</span>, <span style="color: #DF7921; font-weight: bold;">:author</span>, <span style="color: #DF7921; font-weight: bold;">:content</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:title</span>, <span style="color: #86453A;">:author</span>, <span style="color: #86453A;">:content</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(title, author, content= <span style="color: #A2925E;">''</span>)
-    <span style="color: #C1C144;">@title</span> = title
-    <span style="color: #C1C144;">@author</span> = author
-    <span style="color: #C1C144;">@content</span> = content
-    <span style="color: #4856F7; font-weight: bold;">yield</span>(<span style="color: #C1C144;">self</span>) <span style="color: #4856F7; font-weight: bold;">if</span> block_given?
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(title, author, content= <span style="color: #5A7644;">''</span>)
+    <span style="color: #46657B;">@title</span> = title
+    <span style="color: #46657B;">@author</span> = author
+    <span style="color: #46657B;">@content</span> = content
+    <span style="color: #AE5825;">yield</span>(<span style="color: #46657B;">self</span>) <span style="color: #AE5825;">if</span> <span style="color: #86453A;">block_given?</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-new_doc = <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">'US Constitution'</span>, <span style="color: #A2925E;">'Madison'</span>, <span style="color: #A2925E;">''</span>) <span style="color: #4856F7; font-weight: bold;">do</span> |d|
-  d.content &lt;&lt; <span style="color: #A2925E;">'We the people'</span>
-  d.content &lt;&lt; <span style="color: #A2925E;">'In order to form a more perfect union'</span>
-  d.content &lt;&lt; <span style="color: #A2925E;">'provide for the common defense'</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+new_doc = <span style="color: #C6B032; font-style: italic;">Document</span>.new(<span style="color: #5A7644;">'US Constitution'</span>, <span style="color: #5A7644;">'Madison'</span>, <span style="color: #5A7644;">''</span>) <span style="color: #AE5825;">do</span> |d|
+  d.content &lt;&lt; <span style="color: #5A7644;">'We the people'</span>
+  d.content &lt;&lt; <span style="color: #5A7644;">'In order to form a more perfect union'</span>
+  d.content &lt;&lt; <span style="color: #5A7644;">'provide for the common defense'</span>
+<span style="color: #AE5825;">end</span>
 
-puts new_doc.content
+<span style="color: #86453A;">puts</span> new_doc.content
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">We the peopleIn order to form a more perfect   #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">unionprovide for the common defense            #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">We the peopleIn order to form a more perfect   #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">unionprovide for the common defense            #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -330,14 +330,14 @@ puts new_doc.content
 开一个数据库,然后把数据库"句柄"放入到code block中去
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">with_database_connection</span>(connection_info)
-  connection = <span style="color: #DADADA;">Database</span>.new(connection_info)
-  <span style="color: #4856F7; font-weight: bold;">begin</span>
-    <span style="color: #4856F7; font-weight: bold;">yield</span>(connection)
-  <span style="color: #4856F7; font-weight: bold;">ensure</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">with_database_connection</span>(connection_info)
+  connection = <span style="color: #C6B032; font-style: italic;">Database</span>.new(connection_info)
+  <span style="color: #AE5825;">begin</span>
+    <span style="color: #AE5825;">yield</span>(connection)
+  <span style="color: #AE5825;">ensure</span>
     connection.close
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -353,22 +353,22 @@ yield函数的返回值就是code block的返回值. 但是"around method"后面
 一些代, 所以yield可能不是最后一句代码, 所以我们要手动设计一个变量,然后返回
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">do_something_silly</span>
-  with_logging(<span style="color: #A2925E;">'Compute miles in a light year'</span>) <span style="color: #4856F7; font-weight: bold;">do</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">do_something_silly</span>
+  with_logging(<span style="color: #5A7644;">'Compute miles in a light year'</span>) <span style="color: #AE5825;">do</span>
     186000 * 60 * 60 * 24 * 365
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">with_logging</span>(description)
-  <span style="color: #4856F7; font-weight: bold;">begin</span>
-    <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Starting</span><span style="color: #C1C144;"> #{description}</span><span style="color: #A2925E;">'</span>)
-    return_value = <span style="color: #4856F7; font-weight: bold;">yield</span>
-    <span style="color: #C1C144;">@logger</span>.debug(<span style="color: #A2925E;">'Completed</span><span style="color: #C1C144;"> #{description}</span><span style="color: #A2925E;">'</span>)
-    <span style="color: #4856F7; font-weight: bold;">return</span> return_value
-  <span style="color: #4856F7; font-weight: bold;">rescue</span>
-    <span style="color: #C1C144;">@logger</span>.error(<span style="color: #C1C144;">'#{description}</span><span style="color: #A2925E;"> failed!'</span>)
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">def</span> <span style="color: #C6B032;">with_logging</span>(description)
+  <span style="color: #AE5825;">begin</span>
+    <span style="color: #46657B;">@logger</span>.debug(<span style="color: #5A7644;">'Starting #{description}'</span>)
+    return_value = <span style="color: #AE5825;">yield</span>
+    <span style="color: #46657B;">@logger</span>.debug(<span style="color: #5A7644;">'Completed #{description}'</span>)
+    <span style="color: #AE5825;">return</span> return_value
+  <span style="color: #AE5825;">rescue</span>
+    <span style="color: #46657B;">@logger</span>.error(<span style="color: #5A7644;">'#{description} failed!'</span>)
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -396,14 +396,14 @@ yield函数的返回值就是code block的返回值. 但是"around method"后面
 <a href=":open就是这么实现的">:open就是这么实现的</a>.
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">No open file here</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">No open file here</span>
 
-<span style="color: #DADADA;">File</span>.open(<span style="color: #A2925E;">'/etc/passwd'</span>) <span style="color: #4856F7; font-weight: bold;">do</span> |f|
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">File open here!</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Begin cracking the passwords on Russ' computer...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #C6B032; font-style: italic;">File</span>.open(<span style="color: #5A7644;">'/etc/passwd'</span>) <span style="color: #AE5825;">do</span> |f|
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">File open here!</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Begin cracking the passwords on Russ' computer...</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The password file is guaranteed to be closed here</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The password file is guaranteed to be closed here</span>
 </pre>
 </div>
 </li>

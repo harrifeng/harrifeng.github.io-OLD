@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 02: Introducing MySQL</title>
+<!-- 2015-03-18 Wed 14:11 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 02: Introducing MySQL</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Introducing MySQL</a>
+<ul>
+<li><a href="#sec-1-1">What Is MySQL?</a></li>
+<li><a href="#sec-1-2">Client-Server Software</a></li>
+<li><a href="#sec-1-3">MySQL Tools</a>
+<ul>
+<li><a href="#sec-1-3-1">mysql Command-Line Utility</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Introducing MySQL</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">What Is MySQL?</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>MySQL是一种开源的DBMS, 功能不如传统数据库全面,而且经常加入新的特性
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Client-Server Software</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>DBMS其实分成两类:
+<ul class="org-ul">
+<li>filebase: 比如Access但是关键场合不能使用
+</li>
+<li>Client-Server: MySQL就是这类
+</li>
+</ul>
+</li>
+<li>既然是Client-Server的,那么就是Server负责管理数据,client只是负责向Serer提问:
+<ul class="org-ul">
+<li>server 端是: MySQL DBMS
+</li>
+<li>client 端是: MySQL-provided tool, 或是其他语言,比如Perl, Ruby, Java
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">MySQL Tools</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>mysql的server是在后台运行的,所以mysql也提供了一些client的工具让我们使用
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">mysql Command-Line Utility</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>随着MySQL安装的bash命令 mysql就是一个简单的client端
+<div class="org-src-container">
+
+<pre class="src src-sh">$ mysql -uroot
+mysql -uroot
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 62
+Server version: 5.6.21 Homebrew
+
+<span style="color: #C6B032;">Copyright</span> (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type <span style="color: #5A7644;">'help;'</span> or <span style="color: #5A7644;">'\h'</span> for help. Type <span style="color: #5A7644;">'\c'</span> to clear the current input statement.
+</pre>
+</div>
+</li>
+<li>简单的说明已经都在启动的时候列出了:
+<ul class="org-ul">
+<li>使用';' 或者'\g'结尾
+</li>
+<li>\h是帮助
+</li>
+<li>\c就是清除当前输入
+</li>
+</ul>
+</li>
+<li>还有些图形化的client工具就不展开了
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

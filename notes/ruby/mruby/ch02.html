@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 02: Tuesday: Methods</title>
+<!-- 2015-03-18 Wed 14:09 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 02: Tuesday: Methods</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Tuesday: Methods</a>
+<ul>
+<li><a href="#sec-1-1">A Duplication Problem</a></li>
+<li><a href="#sec-1-2">Dynamic Methods</a>
+<ul>
+<li><a href="#sec-1-2-1">The Camping Example</a></li>
+<li><a href="#sec-1-2-2">The Test::Unit Example</a></li>
+<li><a href="#sec-1-2-3">Defining Methods Dynamically</a></li>
+<li><a href="#sec-1-2-4">Step 1: Adding Dynamic Dispatches</a></li>
+<li><a href="#sec-1-2-5">Step 2: Generating Methods Dynamically</a></li>
+<li><a href="#sec-1-2-6">Step 3: Sprinkling the Code with Introspection</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">method_missing()</a>
+<ul>
+<li><a href="#sec-1-3-1">Overriding method_missing()</a></li>
+<li><a href="#sec-1-3-2">Ghost Methods</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Tuesday: Methods</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">A Duplication Problem</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>现在有一个问题要解决, 一个计算机的每个部分一旦超过99美元,就会有提示,整个系
+统原来的实现是:
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Computer</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(computer_id, data_source)
+    <span style="color: #46657B;">@id</span> = computer_id
+    <span style="color: #46657B;">@data_source</span> = data_source
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">mouse</span>
+    info = <span style="color: #46657B;">@data_source</span>.get_mouse_info(<span style="color: #46657B;">@id</span>)
+    price = <span style="color: #46657B;">@data_source</span>.get_mouse_price(<span style="color: #46657B;">@id</span>)
+    result = <span style="color: #5A7644;">"Mouse: </span><span style="color: #46657B;">#{info}</span><span style="color: #5A7644;"> ($</span><span style="color: #46657B;">#{price}</span><span style="color: #5A7644;">)"</span>
+    <span style="color: #AE5825;">return</span> <span style="color: #5A7644;">"*</span><span style="color: #46657B;">#{result}</span><span style="color: #5A7644;">"</span> <span style="color: #AE5825;">if</span> price &gt;= 100
+    result
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">cpu</span>
+    info = <span style="color: #46657B;">@data_source</span>.get_cpu_info(<span style="color: #46657B;">@id</span>)
+    price = <span style="color: #46657B;">@data_source</span>.get_cpu_price(<span style="color: #46657B;">@id</span>)
+    result = <span style="color: #5A7644;">"Cpu: </span><span style="color: #46657B;">#{info}</span><span style="color: #5A7644;"> ($</span><span style="color: #46657B;">#{price}</span><span style="color: #5A7644;">)"</span>
+    <span style="color: #AE5825;">return</span> <span style="color: #5A7644;">"*</span><span style="color: #46657B;">#{result}</span><span style="color: #5A7644;">"</span> <span style="color: #AE5825;">if</span> price &gt;= 100
+    result
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">keyboard</span>
+    info = <span style="color: #46657B;">@data_source</span>.get_keyboard_info(<span style="color: #46657B;">@id</span>)
+    price = <span style="color: #46657B;">@data_source</span>.get_keyboard_price(<span style="color: #46657B;">@id</span>)
+    result = <span style="color: #5A7644;">"Keyboard: </span><span style="color: #46657B;">#{info}</span><span style="color: #5A7644;"> ($</span><span style="color: #46657B;">#{price}</span><span style="color: #5A7644;">)"</span>
+    <span style="color: #AE5825;">return</span> <span style="color: #5A7644;">"*</span><span style="color: #46657B;">#{result}</span><span style="color: #5A7644;">"</span> <span style="color: #AE5825;">if</span> price &gt;= 100
+    result
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Dynamic Methods</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>上面的例子我们可以看到,大部分函数的内容其实基本一致,这就要求我们不要重复这
+么多. (代码要符合DRY原则).
+</li>
+<li>再ruby中做到这一点的方法是dynamic method
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">MyClass</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">my_method</span>(my_arg)
+    my_arg * 2
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+
+obj = <span style="color: #C6B032; font-style: italic;">MyClass</span>.new
+obj.my_method(3)                <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=&gt; 6</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Same with following way</span>
+obj.send(<span style="color: #86453A;">:my_method</span>, 3)         <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=&gt; 6</span>
+</pre>
+</div>
+</li>
+<li>可能你会问使用send有什么好处. 好处是:知道最后一刻你才决定调用哪个函数.这样
+可以最大限度的把函数变成"变量"一样,在循环等处使用.下面是几个使用的例子
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">The Camping Example</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>camping是一个框架, 它希望在runtime的时候从一配置文件中读取一些参数,然后给
+这些参数赋值,比如:
+<div class="org-src-container">
+
+<pre class="src src-ruby">admin : <span style="color: #C6B032; font-style: italic;">Bill</span>
+title : <span style="color: #C6B032; font-style: italic;">Rubyland</span>
+topic : <span style="color: #C6B032; font-style: italic;">Ruby</span> <span style="color: #AE5825;">and</span> more
+</pre>
+</div>
+</li>
+<li>它就使用了dynamic method, 每次读取一个配置文件的item, 然后把item的key作为
+函数名, item的value作为参数
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Load configuration if any</span>
+<span style="color: #AE5825;">if</span> conf.rc <span style="color: #AE5825;">and</span> <span style="color: #C6B032; font-style: italic;">File</span>.exists?(conf.rc)
+  <span style="color: #C6B032; font-style: italic;">YAML</span>.load_file(conf.rc).each <span style="color: #AE5825;">do</span> |k, v|
+    conf.send(<span style="color: #5A7644;">"</span><span style="color: #46657B;">#{k}</span><span style="color: #5A7644;">="</span>, v)       <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">in detail, it will be something like conf.admin = 'Bill'</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+</pre>
+</div>
+</li>
+<li>需要值得注意的是,send函数具有超强的能力,甚至可以调用private函数, 新增的
+public_send是一个尊重send隐私的新send函数
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2">The Test::Unit Example</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>unit test 框架也是一个使用send的例子, unit test框架会寻找代码中,以test
+开头的函数名, 把他们存在一个数组里面,然后开始从头调用这个数组里面的函数
+<div class="org-src-container">
+
+<pre class="src src-ruby">methods_names = public_instance_methods(<span style="color: #46657B;">true</span>)
+tests = methods_names.delete_if {|method_name| method_name !~ <span style="color: #5A7644;">/^test./</span>}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3">Defining Methods Dynamically</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<ul class="org-ul">
+<li>你还可以使用defined_method来定义一个函数
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">MyClass</span>
+  <span style="color: #86453A;">define_method</span> <span style="color: #86453A;">:my_method</span> <span style="color: #AE5825;">do</span> | my_arg|
+    my_arg * 3
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+
+obj = <span style="color: #C6B032; font-style: italic;">MyClass</span>.new
+obj.my_method(2)                <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=&gt; 6</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-4" class="outline-4">
+<h4 id="sec-1-2-4">Step 1: Adding Dynamic Dispatches</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<ul class="org-ul">
+<li>我们先使用send来简化前面的例子
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Computer</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(computer_id, data_source)
+    <span style="color: #46657B;">@id</span> = computer_id
+    <span style="color: #46657B;">@data_source</span> = data_source
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">mouse</span>
+    component <span style="color: #86453A;">:mouse</span>
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">cpu</span>
+    component <span style="color: #86453A;">:cpu</span>
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">keyboard</span>
+    component <span style="color: #86453A;">:keyboard</span>
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">component</span>(name)
+    info = <span style="color: #46657B;">@data_source</span>.send <span style="color: #5A7644;">"get_</span><span style="color: #46657B;">#{name}</span><span style="color: #5A7644;">_info"</span>, <span style="color: #46657B;">@id</span>
+    price = <span style="color: #46657B;">@data_source</span>.send <span style="color: #5A7644;">"get_</span><span style="color: #46657B;">#{name}</span><span style="color: #5A7644;">_price"</span>, <span style="color: #46657B;">@id</span>
+    result = <span style="color: #5A7644;">"</span><span style="color: #46657B;">#{name.to_s.capitalize}</span><span style="color: #5A7644;">: </span><span style="color: #46657B;">#{info}</span><span style="color: #5A7644;"> ($</span><span style="color: #46657B;">#{price}</span><span style="color: #5A7644;">)"</span>
+    <span style="color: #AE5825;">return</span> <span style="color: #5A7644;">"* </span><span style="color: #46657B;">#{result}</span><span style="color: #5A7644;">"</span> <span style="color: #AE5825;">if</span> price &gt;= 100
+    result
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+</pre>
+</div>
+</li>
+<li>以mouse()为例,我们先后调用的顺序是:
+<ol class="org-ol">
+<li>mouse()
+</li>
+<li>component()
+</li>
+<li>DS#get_mouse_info()
+</li>
+<li>DS#get_mouse_price()
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-5" class="outline-4">
+<h4 id="sec-1-2-5">Step 2: Generating Methods Dynamically</h4>
+<div class="outline-text-4" id="text-1-2-5">
+<ul class="org-ul">
+<li>上面的例子已经很简约了,但是还是有重复(几个函数), 可以使用defind_method()来进一步简化
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Computer</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(computer_id, data_source)
+    <span style="color: #46657B;">@id</span> = computer_id
+    <span style="color: #46657B;">@data_source</span> = data_source
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">define_component</span>(name)
+    <span style="color: #86453A;">define_method</span>(name) {
+      info = <span style="color: #46657B;">@data_source</span>.send <span style="color: #5A7644;">"get_</span><span style="color: #46657B;">#{name}</span><span style="color: #5A7644;">_info"</span>, <span style="color: #46657B;">@id</span>
+      price = <span style="color: #46657B;">@data_source</span>.send <span style="color: #5A7644;">"get_</span><span style="color: #46657B;">#{name}</span><span style="color: #5A7644;">_price"</span>, <span style="color: #46657B;">@id</span>
+      result = <span style="color: #5A7644;">"</span><span style="color: #46657B;">#{name.to_s.capitalize}</span><span style="color: #5A7644;">: </span><span style="color: #46657B;">#{info}</span><span style="color: #5A7644;"> ($</span><span style="color: #46657B;">#{price}</span><span style="color: #5A7644;">)"</span>
+      <span style="color: #AE5825;">return</span> <span style="color: #5A7644;">"*</span><span style="color: #46657B;">#{result}</span><span style="color: #5A7644;">"</span> <span style="color: #AE5825;">if</span> price &gt;= 100
+      result
+    }
+  <span style="color: #AE5825;">end</span>
+
+  define_component <span style="color: #86453A;">:mouse</span>
+  define_component <span style="color: #86453A;">:cpu</span>
+  define_component <span style="color: #86453A;">:keyboard</span>
+<span style="color: #AE5825;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-6" class="outline-4">
+<h4 id="sec-1-2-6">Step 3: Sprinkling the Code with Introspection</h4>
+<div class="outline-text-4" id="text-1-2-6">
+<ul class="org-ul">
+<li>上面的代码已经基本没有重复了,除了最后几行. 即便是最后几行, ruby也是可以把它给去掉的!
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Computer</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(computer_id, data_source)
+    <span style="color: #46657B;">@id</span> = computer_id
+    <span style="color: #46657B;">@data_source</span> = data_source
+    data_source.methods.grep(<span style="color: #5A7644;">/^get_(.*)_info$/</span>) { <span style="color: #C6B032; font-style: italic;">Computer</span>.define_component <span style="color: #86453A;">$1</span> }
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">define_component</span>(name)
+    <span style="color: #86453A;">define_method</span>(name) {
+      info = <span style="color: #46657B;">@data_source</span>.send <span style="color: #5A7644;">"get_</span><span style="color: #46657B;">#{name}</span><span style="color: #5A7644;">_info"</span>, <span style="color: #46657B;">@id</span>
+      price = <span style="color: #46657B;">@data_source</span>.send <span style="color: #5A7644;">"get_</span><span style="color: #46657B;">#{name}</span><span style="color: #5A7644;">_price"</span>, <span style="color: #46657B;">@id</span>
+      result = <span style="color: #5A7644;">"</span><span style="color: #46657B;">#{name.to_s.capitalize}</span><span style="color: #5A7644;">: </span><span style="color: #46657B;">#{info}</span><span style="color: #5A7644;"> ($</span><span style="color: #46657B;">#{price}</span><span style="color: #5A7644;">)"</span>
+      <span style="color: #AE5825;">return</span> <span style="color: #5A7644;">"*</span><span style="color: #46657B;">#{result}</span><span style="color: #5A7644;">"</span> <span style="color: #AE5825;">if</span> price &gt;= 100
+      result
+    }
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+</pre>
+</div>
+</li>
+<li>这段代码较为难以理解,重点在initialize
+<ul class="org-ul">
+<li>如果你把一个block传给了String#grep(), 这个block就会在"每次grep配对成功的时候"执行一次
+</li>
+<li>grep的参数里面如果有括号,那么匹配的结果,会被存在$1里面传递给block,也就是说.
+<ol class="org-ol">
+<li>data_source有get_cpu_info()这个函数,那么就会匹配cpu,然后就会给define_component
+          一个参数"cpu".
+</li>
+<li>data_source有get_mouse_info()这个函数,那么就会匹配mouse,然后就会给define_component
+          一个参数"mouse".
+</li>
+<li>如此类推&#x2026;.
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>好了,我们看到,我们没有写任何一行冗余的代码,而且更难能可贵的是
+<pre class="example">
+        一旦我们引入了一个get_XXX_info函数,我们自动就拥有了XXX函数来显示其价格
+</pre>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">method_missing()</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>上面的解决方案已经比较完美,但是ruby总有多种方法做一件事情,于是就有了method_missing()
+</li>
+<li>先来看一个例子,如果你调用一个self不存在的函数,那么会抛出一个错误
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Lawyer</span>; <span style="color: #AE5825;">end</span>
+
+nick = <span style="color: #C6B032; font-style: italic;">Lawyer</span>.new
+nick.talk_simple
+
+<span style="color: #4C565D;">################################################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt;                               #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">NoMethodError: undefined method `talk_simple' for #&lt;Lawyer:0x007fa25a8812c0&gt; #</span>
+<span style="color: #4C565D;">################################################################################</span>
+</pre>
+</div>
+</li>
+<li>那这句话是编译器报的么?其实不是.是Ruby里面的method_missing()函数告诉你的.这个函数
+存在于module Kernel(我们前面说过,函数调用的过程就是一个'向右移动,然后向上寻
+找的过程', 而Kernel正是基本所有类的ancestor)
+</li>
+<li>你可以通过自己调用一下method_missing来体验一把(虽然method_missing是一个private
+     函数,但是我们可以使用send)
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Lawyer</span>; <span style="color: #AE5825;">end</span>
+
+nick = <span style="color: #C6B032; font-style: italic;">Lawyer</span>.new
+nick.send <span style="color: #86453A;">:method_missing</span>, <span style="color: #86453A;">:my_method</span>
+
+<span style="color: #4C565D;">############################################################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt;                                           #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">NameError: undefined local variable or method `my_method' for #&lt;Lawyer:0x007fa25a8c2d60&gt; #</span>
+<span style="color: #4C565D;">############################################################################################</span>
+</pre>
+</div>
+</li>
+<li>这里我们也可以看到method_missing就像是object的"遗书办公室",所有不知其名的函
+数都会在这里被"终结"
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">Overriding method_missing()</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>你可以自己重载method_missing来达到"显示重要出错信息"的作用
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Lawyer</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">method_missing</span>(method, *args)
+    <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"You called </span><span style="color: #46657B;">#{method}</span><span style="color: #5A7644;"> (</span><span style="color: #46657B;">#{args.join(', ')}</span><span style="color: #5A7644;">)"</span>
+    <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"(You also passed it a block)"</span> <span style="color: #AE5825;">if</span> <span style="color: #86453A;">block_given?</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+
+bob = <span style="color: #C6B032; font-style: italic;">Lawyer</span>.new
+bob.talk_simple(<span style="color: #5A7644;">'a'</span>, <span style="color: #5A7644;">'b'</span>) <span style="color: #AE5825;">do</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">a block</span>
+<span style="color: #AE5825;">end</span>
+
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">You called talk_simple (a, b)                  #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">(You also passed it a block)                   #</span>
+<span style="color: #4C565D;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2">Ghost Methods</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li>如果你要定义很多很多相似的函数,那么你不用一个一个的去定义,而是"不去定义",
+他们找不到定义,自然就会跑到method_missing来"告状"
+</li>
+<li>这种让用户看起来很正常,但是在receiver端确实没有相应的method实体的函数叫做
+ghost method. 下面就是一个ghost method的例子
+</li>
+<li>首先我们要了解一个库叫ruport,是用来做报告的
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #86453A;">require</span> <span style="color: #5A7644;">'ruport'</span>
+
+table = <span style="color: #C6B032; font-style: italic;">Ruport</span>::<span style="color: #C6B032; font-style: italic;">Data</span>::<span style="color: #C6B032; font-style: italic;">Table</span>.new <span style="color: #86453A;">:column_names</span> =&gt; [<span style="color: #5A7644;">"country"</span>, <span style="color: #5A7644;">"wine"</span>],
+<span style="color: #86453A;">:data</span> =&gt; [[<span style="color: #5A7644;">"France"</span>, <span style="color: #5A7644;">"Bordeaux"</span>],
+          [<span style="color: #5A7644;">"Italy"</span>, <span style="color: #5A7644;">"Chianti"</span>],
+          [<span style="color: #5A7644;">"France"</span>, <span style="color: #5A7644;">"Chablis"</span>]]
+<span style="color: #86453A;">puts</span> table.to_text
+
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">+--------------------+                         #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">| country |   wine   |                         #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">+--------------------+                         #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">| France  | Bordeaux |                         #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">| Italy   | Chianti  |                         #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">| France  | Chablis  |                         #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">+--------------------+                         #</span>
+<span style="color: #4C565D;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>在初始化完成后,我们可能要来做一些定制:比如下面,就是找到country列为"France"
+那些列,然后把结果列出来.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #86453A;">require</span> <span style="color: #5A7644;">'ruport'</span>
+
+table = <span style="color: #C6B032; font-style: italic;">Ruport</span>::<span style="color: #C6B032; font-style: italic;">Data</span>::<span style="color: #C6B032; font-style: italic;">Table</span>.new <span style="color: #86453A;">:column_names</span> =&gt; [<span style="color: #5A7644;">"country"</span>, <span style="color: #5A7644;">"wine"</span>],
+<span style="color: #86453A;">:data</span> =&gt; [[<span style="color: #5A7644;">"France"</span>, <span style="color: #5A7644;">"Bordeaux"</span>],
+          [<span style="color: #5A7644;">"Italy"</span>, <span style="color: #5A7644;">"Chianti"</span>],
+          [<span style="color: #5A7644;">"France"</span>, <span style="color: #5A7644;">"Chablis"</span>]]
+
+found = table.rows_with_country(<span style="color: #5A7644;">"France"</span>)
+found.each <span style="color: #AE5825;">do</span> |row|
+  <span style="color: #86453A;">puts</span> row.to_csv
+<span style="color: #AE5825;">end</span>
+
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">France,Bordeaux                                #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">France,Chablis                                 #</span>
+<span style="color: #4C565D;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>我们看到,任务顺利的完成了,但是有个问题:ruport如何知道自己有个column叫做"country"
+的呢? 不知道的话,如何生成一个叫做rows_with_country的函数
+</li>
+<li>真实的原因是ruport库不知道自己有一个column叫country, 而是通过ghost method的
+方法来实现row_with_country和to_csv
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Table</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">method_missing</span>(id, *args, &amp;block)
+    <span style="color: #AE5825;">return</span> as(<span style="color: #86453A;">$1</span>.to_sym, *args, &amp;block) <span style="color: #AE5825;">if</span> id.to_s =~ <span style="color: #5A7644;">/^to_(.*)/</span>
+    <span style="color: #AE5825;">return</span> rows_with(<span style="color: #86453A;">$1</span>.to_sym =&gt; args[0]) <span style="color: #AE5825;">if</span> id.tos =~ <span style="color: #5A7644;">/^rows_with_(.*)/</span>
+    <span style="color: #AE5825;">super</span>                       <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">if neither match, will go here to throw NoMethodError</span>
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
+</pre>
+</div>
+</li>
+<li>从上面例子可以看出, 所谓row_with_country()就改造成了row_with(:country), 然
+后to_csv就改造成了as(:csv)
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

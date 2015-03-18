@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 15: Use Modules as Name Spaces</title>
-<!-- 2014-07-18 Fri 16:03 -->
+<!-- 2015-03-18 Wed 14:10 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -209,30 +209,30 @@ for the JavaScript code in this tag.
 等于给Font了一层namespace,即便再其他Module里面也定义了Font,也不用害怕了.
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Rendering</span>
-  <span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Font</span>
-    attr_accessor <span style="color: #DF7921; font-weight: bold;">:name</span>, <span style="color: #DF7921; font-weight: bold;">:weight</span>, <span style="color: #DF7921; font-weight: bold;">:size</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">Rendering</span>
+  <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Font</span>
+    <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:name</span>, <span style="color: #86453A;">:weight</span>, <span style="color: #86453A;">:size</span>
 
-    <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(name, weight=<span style="color: #DF7921; font-weight: bold;">:normal</span>, size=10)
-      <span style="color: #C1C144;">@name</span> = name
-      <span style="color: #C1C144;">@weight</span> = weight
-      <span style="color: #C1C144;">@wize</span> = size
-    <span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(name, weight=<span style="color: #86453A;">:normal</span>, size=10)
+      <span style="color: #46657B;">@name</span> = name
+      <span style="color: #46657B;">@weight</span> = weight
+      <span style="color: #46657B;">@wize</span> = size
+    <span style="color: #AE5825;">end</span>
 
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">PaperSize</span>
-    attr_accessor <span style="color: #DF7921; font-weight: bold;">:name</span>, <span style="color: #DF7921; font-weight: bold;">:width</span>, <span style="color: #DF7921; font-weight: bold;">:height</span>
+  <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">PaperSize</span>
+    <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:name</span>, <span style="color: #86453A;">:width</span>, <span style="color: #86453A;">:height</span>
 
-    <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(name=<span style="color: #A2925E;">'US Let'</span>, width=8.5, height=11.0)
-      <span style="color: #C1C144;">@name</span> = name
-      <span style="color: #C1C144;">@width</span> = width
-      <span style="color: #C1C144;">@height</span> = height
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(name=<span style="color: #5A7644;">'US Let'</span>, width=8.5, height=11.0)
+      <span style="color: #46657B;">@name</span> = name
+      <span style="color: #46657B;">@width</span> = width
+      <span style="color: #46657B;">@height</span> = height
+    <span style="color: #AE5825;">end</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -240,12 +240,12 @@ for the JavaScript code in this tag.
 奇怪的)
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Rendering</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Font and PaperSize classes omitted...</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">Rendering</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Font and PaperSize classes omitted...</span>
 
-  <span style="color: #DADADA;">DEFAULT_FONT</span> = <span style="color: #DADADA;">Font</span>.new(<span style="color: #A2925E;">'default'</span>)
-  <span style="color: #DADADA;">DEFAULT_PAPER_SIZE</span> = <span style="color: #DADADA;">PaperSize</span>.new
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #C6B032; font-style: italic;">DEFAULT_FONT</span> = <span style="color: #C6B032; font-style: italic;">Font</span>.new(<span style="color: #5A7644;">'default'</span>)
+  <span style="color: #C6B032; font-style: italic;">DEFAULT_PAPER_SIZE</span> = <span style="color: #C6B032; font-style: italic;">PaperSize</span>.new
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -254,11 +254,11 @@ for the JavaScript code in this tag.
 <li>Module还是相互间可以嵌套的
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">WordProcessor</span>
-  <span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Rndering</span>
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">WordProcessor</span>
+  <span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">Rndering</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -273,17 +273,17 @@ for the JavaScript code in this tag.
 文字处理的module里面可能会有一些设计进制转换的helper函数
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">WordProcessor</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.points_to_inches</span>(points)
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">WordProcessor</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">points_to_inches</span>(points)
     points / 72.0
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.inches_to_points</span>(inches)
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">inches_to_points</span>(inches)
     inches * 72.0
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -301,24 +301,24 @@ for the JavaScript code in this tag.
 <li>我们在font.rb里面写下如下代码
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Rendering</span>
-  <span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Font</span>
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Bulk of class omitted...</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">Rendering</span>
+  <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Font</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Bulk of class omitted...</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>我们在paper_size.rb里面定义了下面的代码
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Rendering</span>
-  <span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">PaperSize</span>
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Bulk of class omitted...</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">Rendering</span>
+  <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">PaperSize</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Bulk of class omitted...</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #DADADA;">DEFAULT_PAPER_SIZE</span> = <span style="color: #DADADA;">PaperSize</span>.new
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #C6B032; font-style: italic;">DEFAULT_PAPER_SIZE</span> = <span style="color: #C6B032; font-style: italic;">PaperSize</span>.new
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -327,8 +327,8 @@ for the JavaScript code in this tag.
 <li>我们的module被写在了两个地方.然后使用的时候一块require就可以了
 <div class="org-src-container">
 
-<pre class="src src-ruby">require <span style="color: #A2925E;">'font'</span>
-require <span style="color: #A2925E;">'paper_size'</span>
+<pre class="src src-ruby"><span style="color: #86453A;">require</span> <span style="color: #5A7644;">'font'</span>
+<span style="color: #86453A;">require</span> <span style="color: #5A7644;">'paper_size'</span>
 </pre>
 </div>
 </li>
@@ -342,9 +342,9 @@ require <span style="color: #A2925E;">'paper_size'</span>
 <li>Ruby中一切都是对象,Module也是.所以下面的代码可行:
 <div class="org-src-container">
 
-<pre class="src src-ruby">the_module = <span style="color: #DADADA;">Rendering</span>
+<pre class="src src-ruby">the_module = <span style="color: #C6B032; font-style: italic;">Rendering</span>
 
-times_new_roman_font = the_module::<span style="color: #DADADA;">Font</span>.new(<span style="color: #A2925E;">'times-new-roman'</span>)
+times_new_roman_font = the_module::<span style="color: #C6B032; font-style: italic;">Font</span>.new(<span style="color: #5A7644;">'times-new-roman'</span>)
 </pre>
 </div>
 </li>
@@ -352,35 +352,35 @@ times_new_roman_font = the_module::<span style="color: #DADADA;">Font</span>.new
 作用的代码,比如我们有两种打印机,所以我们把它们分别放到两个module里面:
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">TonsOToner</span>
-  <span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">PrintQueue</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">TonsOToner</span>
+  <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">PrintQueue</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Administration</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Administration</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">OceansOfInk</span>
-  <span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">PrintQueue</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">OceansOfInk</span>
+  <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">PrintQueue</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Administration</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Administration</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>在使用的时候,就可以根据不同的情况,替换底层的代码
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">if</span> use_laser_printer
-  print_module = <span style="color: #DADADA;">TonsOToner</span>
-<span style="color: #4856F7; font-weight: bold;">else</span>
-  print_module = <span style="color: #DADADA;">OceansOfInk</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">if</span> use_laser_printer
+  print_module = <span style="color: #C6B032; font-style: italic;">TonsOToner</span>
+<span style="color: #AE5825;">else</span>
+  print_module = <span style="color: #C6B032; font-style: italic;">OceansOfInk</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Later...</span>
-admin = print_module::<span style="color: #DADADA;">Administration</span>.new
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Later...</span>
+admin = print_module::<span style="color: #C6B032; font-style: italic;">Administration</span>.new
 </pre>
 </div>
 </li>
@@ -401,22 +401,22 @@ admin = print_module::<span style="color: #DADADA;">Administration</span>.new
 <li>如果你像mix into其他代码,那么这么写
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">WordProcessor</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">points_to_inches</span>(points)
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">WordProcessor</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">points_to_inches</span>(points)
     points / 72.0
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>如果是要做helper函数,那么这么写
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">WordProcessor</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.points_to_inches</span>(points)
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">WordProcessor</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">points_to_inches</span>(points)
     points / 72.0
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>

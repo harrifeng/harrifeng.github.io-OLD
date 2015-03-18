@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 20: Use Hooks to Keep Your Program Informed</title>
-<!-- 2014-07-18 Fri 16:03 -->
+<!-- 2015-03-18 Wed 14:09 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -206,82 +206,82 @@ hook)就会被通知.
 句.
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">SimpleBaseClass</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.inherited</span>(new_subclass)
-    puts <span style="color: #A2925E;">"Hey</span><span style="color: #C1C144;"> #{new_subclass}</span><span style="color: #A2925E;"> is now a subclass of</span><span style="color: #C1C144;"> #{self}</span><span style="color: #A2925E;">"</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">SimpleBaseClass</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">inherited</span>(new_subclass)
+    <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Hey </span><span style="color: #46657B;">#{new_subclass}</span><span style="color: #5A7644;"> is now a subclass of </span><span style="color: #46657B;">#{self}</span><span style="color: #5A7644;">"</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">ChildClassOne</span> &lt; <span style="color: #DADADA;">SimpleBaseClass</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">ChildClassOne</span> &lt; <span style="color: #C6B032; font-style: italic;">SimpleBaseClass</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #ed5b15;">##########################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt;         #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Hey ChildClassOne is now a subclass of SimpleBaseClass #</span>
-<span style="color: #ed5b15;">##########################################################</span>
+<span style="color: #4C565D;">##########################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt;         #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Hey ChildClassOne is now a subclass of SimpleBaseClass #</span>
+<span style="color: #4C565D;">##########################################################</span>
 </pre>
 </div>
 </li>
 <li>d
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">YAMLReader</span> &lt; <span style="color: #DADADA;">DocumentReader</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.can_read?</span>(path)
-    <span style="color: #A2925E;">/.*\.yaml/</span> =~ path
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">YAMLReader</span> &lt; <span style="color: #C6B032; font-style: italic;">DocumentReader</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">can_read?</span>(path)
+    <span style="color: #5A7644;">/.*\.yaml/</span> =~ path
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(path)
-    <span style="color: #C1C144;">@path</span> = path
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(path)
+    <span style="color: #46657B;">@path</span> = path
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">read</span>(path)
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Lots of simple YAML stuff omitted</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">read</span>(path)
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Lots of simple YAML stuff omitted</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">XMLReader</span> &lt; <span style="color: #DADADA;">DocumentReader</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.can_read?</span>(path)
-    <span style="color: #A2925E;">/.*\.xml/</span> =~ path
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">XMLReader</span> &lt; <span style="color: #C6B032; font-style: italic;">DocumentReader</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">can_read?</span>(path)
+    <span style="color: #5A7644;">/.*\.xml/</span> =~ path
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(path)
-    <span style="color: #C1C144;">@path</span> = path
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(path)
+    <span style="color: #46657B;">@path</span> = path
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">read</span>(path)
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Lots of simple XML stuff omitted</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">read</span>(path)
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Lots of simple XML stuff omitted</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DocumentReader</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">DocumentReader</span>
 
-  <span style="color: #4856F7; font-weight: bold;">class</span> &lt;&lt; <span style="color: #C1C144;">self</span>
-    attr_reader <span style="color: #DF7921; font-weight: bold;">:reader_classes</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">class</span> &lt;&lt; <span style="color: #46657B;">self</span>
+    <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:reader_classes</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #C1C144;">@reader_classes</span> = []
+  <span style="color: #46657B;">@reader_classes</span> = []
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.read</span>(path)
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">read</span>(path)
     reader = reader_for(path)
-    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">nil</span> <span style="color: #4856F7; font-weight: bold;">unless</span> reader
+    <span style="color: #AE5825;">return</span> <span style="color: #46657B;">nil</span> <span style="color: #AE5825;">unless</span> reader
     reader.read(path)
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.reader_for</span>(path)
-    reader_class = <span style="color: #DADADA;">DocumentReader</span>.reader_classes.find <span style="color: #4856F7; font-weight: bold;">do</span> |klass|
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">reader_for</span>(path)
+    reader_class = <span style="color: #C6B032; font-style: italic;">DocumentReader</span>.reader_classes.find <span style="color: #AE5825;">do</span> |klass|
       klass.can_read?(path)
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-    <span style="color: #4856F7; font-weight: bold;">return</span> reader_class.new(path) <span style="color: #4856F7; font-weight: bold;">if</span> reader_class
-    <span style="color: #C1C144;">nil</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #AE5825;">end</span>
+    <span style="color: #AE5825;">return</span> reader_class.new(path) <span style="color: #AE5825;">if</span> reader_class
+    <span style="color: #46657B;">nil</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.inherited</span>(subclass)
-    <span style="color: #DADADA;">DocumentReader</span>.reader_classes &lt;&lt; subclass
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">One critical bit omitted, but stay tuned...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">inherited</span>(subclass)
+    <span style="color: #C6B032; font-style: italic;">DocumentReader</span>.reader_classes &lt;&lt; subclass
+  <span style="color: #AE5825;">end</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">One critical bit omitted, but stay tuned...</span>
+<span style="color: #AE5825;">end</span>
 
-yam = <span style="color: #DADADA;">YAMLReader</span>.new(<span style="color: #A2925E;">'cc.yaml'</span>)
+yam = <span style="color: #C6B032; font-style: italic;">YAMLReader</span>.new(<span style="color: #5A7644;">'cc.yaml'</span>)
 </pre>
 </div>
 </li>

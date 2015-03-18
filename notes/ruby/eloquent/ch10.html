@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 10: Construct Your Classes from Short, Focused Methods</title>
-<!-- 2014-07-18 Fri 16:03 -->
+<!-- 2015-03-18 Wed 14:10 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -202,61 +202,61 @@ short methods that stick to doing one thing and doing it well
 代码
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">TextCompressor</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:unique</span>, <span style="color: #DF7921; font-weight: bold;">:index</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">TextCompressor</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:unique</span>, <span style="color: #86453A;">:index</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(text)
-    <span style="color: #C1C144;">@unique</span> = []
-    <span style="color: #C1C144;">@index</span> = []
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(text)
+    <span style="color: #46657B;">@unique</span> = []
+    <span style="color: #46657B;">@index</span> = []
 
     words = text.split
-    words.each <span style="color: #4856F7; font-weight: bold;">do</span> |word|
-      i = <span style="color: #C1C144;">@unique</span>.index( word )
-      <span style="color: #4856F7; font-weight: bold;">if</span> i
-        <span style="color: #C1C144;">@index</span> &lt;&lt; i
-      <span style="color: #4856F7; font-weight: bold;">else</span>
-        <span style="color: #C1C144;">@unique</span> &lt;&lt; word
-        <span style="color: #C1C144;">@index</span> &lt;, unique.size - 1
-      <span style="color: #4856F7; font-weight: bold;">end</span>
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+    words.each <span style="color: #AE5825;">do</span> |word|
+      i = <span style="color: #46657B;">@unique</span>.index( word )
+      <span style="color: #AE5825;">if</span> i
+        <span style="color: #46657B;">@index</span> &lt;&lt; i
+      <span style="color: #AE5825;">else</span>
+        <span style="color: #46657B;">@unique</span> &lt;&lt; word
+        <span style="color: #46657B;">@index</span> &lt;, unique.size - 1
+      <span style="color: #AE5825;">end</span>
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-text = <span style="color: #A2925E;">"This specification is the spec for a specification"</span>
-compressor = <span style="color: #DADADA;">TextCompressor</span>.new(text)
+text = <span style="color: #5A7644;">"This specification is the spec for a specification"</span>
+compressor = <span style="color: #C6B032; font-style: italic;">TextCompressor</span>.new(text)
 </pre>
 </div>
 </li>
 <li>这个版本只能说差强人意,我们试着改编一下,让它看起来更加的清晰
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">TextCompressor</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:unique</span>, <span style="color: #DF7921; font-weight: bold;">:index</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">TextCompressor</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:unique</span>, <span style="color: #86453A;">:index</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(text)
-    <span style="color: #C1C144;">@unique</span> = []
-    <span style="color: #C1C144;">@index</span> = []
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(text)
+    <span style="color: #46657B;">@unique</span> = []
+    <span style="color: #46657B;">@index</span> = []
 
     words = text.split
-    words.each <span style="color: #4856F7; font-weight: bold;">do</span> |word|
+    words.each <span style="color: #AE5825;">do</span> |word|
       i = unique_index_of(word)
-      <span style="color: #4856F7; font-weight: bold;">if</span> i
-        <span style="color: #C1C144;">@index</span> &lt;&lt; i
-      <span style="color: #4856F7; font-weight: bold;">else</span>
-        <span style="color: #C1C144;">@index</span> &lt;, add_unique_word(word)
-      <span style="color: #4856F7; font-weight: bold;">end</span>
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+      <span style="color: #AE5825;">if</span> i
+        <span style="color: #46657B;">@index</span> &lt;&lt; i
+      <span style="color: #AE5825;">else</span>
+        <span style="color: #46657B;">@index</span> &lt;, add_unique_word(word)
+      <span style="color: #AE5825;">end</span>
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">unique_index_of</span>(word)
-    <span style="color: #C1C144;">@unique</span>.index(word)
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">unique_index_of</span>(word)
+    <span style="color: #46657B;">@unique</span>.index(word)
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">add_unique_word</span>(word)
-    <span style="color: #C1C144;">@unique</span> &lt;&lt; word
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">add_unique_word</span>(word)
+    <span style="color: #46657B;">@unique</span> &lt;&lt; word
     unique.size - 1
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -264,34 +264,34 @@ compressor = <span style="color: #DADADA;">TextCompressor</span>.new(text)
 方,减轻了我们阅读initialize函数的负担,但是initialize依然看起来十分的臃肿
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">TextCompressor</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:unique</span>, <span style="color: #DF7921; font-weight: bold;">:index</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">TextCompressor</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:unique</span>, <span style="color: #86453A;">:index</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initiaize</span>(text)
-    <span style="color: #C1C144;">@unique</span> = []
-    <span style="color: #C1C144;">@index</span> = []
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initiaize</span>(text)
+    <span style="color: #46657B;">@unique</span> = []
+    <span style="color: #46657B;">@index</span> = []
     add_text(text)
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">add_text</span>(text)
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">add_text</span>(text)
     words = text.split
     words.each {|word| add_word(word)}
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">add_word</span>(word)
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">add_word</span>(word)
     i = unique_index_of(word) || add_unique_word(word)
-    <span style="color: #C1C144;">@index</span> &lt;&lt; i
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #46657B;">@index</span> &lt;&lt; i
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">unique_index_of</span>(word)
-    <span style="color: #C1C144;">@unique</span>.index(word)
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">unique_index_of</span>(word)
+    <span style="color: #46657B;">@unique</span>.index(word)
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">add_unique_word</span>(word)
-    <span style="color: #C1C144;">@unique</span> &lt;&lt; word
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">add_unique_word</span>(word)
+    <span style="color: #46657B;">@unique</span> &lt;&lt; word
     unique.size  - 1
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -339,32 +339,32 @@ compressor = <span style="color: #DADADA;">TextCompressor</span>.new(text)
 代码例子
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">prose_rating</span>
-    <span style="color: #4856F7; font-weight: bold;">if</span> pretentious_density &gt; 0.3
-      <span style="color: #4856F7; font-weight: bold;">if</span> informal_density &lt; 0.2
-        <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:really_pretentious</span>
-      <span style="color: #4856F7; font-weight: bold;">else</span>
-        <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:somewhat_pretentious</span>
-      <span style="color: #4856F7; font-weight: bold;">end</span>
-    <span style="color: #4856F7; font-weight: bold;">elsif</span> pretentious_density &lt; 0.1
-      <span style="color: #4856F7; font-weight: bold;">if</span> informal_density &gt; 0.3
-        <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:really_informal</span>
-      <span style="color: #4856F7; font-weight: bold;">end</span>
-      <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:somewhat_informal</span>
-    <span style="color: #4856F7; font-weight: bold;">else</span>
-      <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:about_right</span>
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">prose_rating</span>
+    <span style="color: #AE5825;">if</span> pretentious_density &gt; 0.3
+      <span style="color: #AE5825;">if</span> informal_density &lt; 0.2
+        <span style="color: #AE5825;">return</span> <span style="color: #86453A;">:really_pretentious</span>
+      <span style="color: #AE5825;">else</span>
+        <span style="color: #AE5825;">return</span> <span style="color: #86453A;">:somewhat_pretentious</span>
+      <span style="color: #AE5825;">end</span>
+    <span style="color: #AE5825;">elsif</span> pretentious_density &lt; 0.1
+      <span style="color: #AE5825;">if</span> informal_density &gt; 0.3
+        <span style="color: #AE5825;">return</span> <span style="color: #86453A;">:really_informal</span>
+      <span style="color: #AE5825;">end</span>
+      <span style="color: #AE5825;">return</span> <span style="color: #86453A;">:somewhat_informal</span>
+    <span style="color: #AE5825;">else</span>
+      <span style="color: #AE5825;">return</span> <span style="color: #86453A;">:about_right</span>
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">pretentious_density</span>
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">pretentious_density</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">informal_density</span>
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">informal_density</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -373,37 +373,37 @@ compressor = <span style="color: #DADADA;">TextCompressor</span>.new(text)
 回值. 我们来看看"一行代码"的函数的魅力
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">prose_rating</span>
-  <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:really_pretentious</span> <span style="color: #4856F7; font-weight: bold;">if</span> really_pretentious?
-  <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:somewhat_pretentious</span> <span style="color: #4856F7; font-weight: bold;">if</span> somewhat_pretentious?
-  <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:really_informal</span> <span style="color: #4856F7; font-weight: bold;">if</span> really_informal?
-  <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:somewhat_informal</span> <span style="color: #4856F7; font-weight: bold;">if</span> somewhat_informal?
-  <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DF7921; font-weight: bold;">:about_right</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">prose_rating</span>
+  <span style="color: #AE5825;">return</span> <span style="color: #86453A;">:really_pretentious</span> <span style="color: #AE5825;">if</span> really_pretentious?
+  <span style="color: #AE5825;">return</span> <span style="color: #86453A;">:somewhat_pretentious</span> <span style="color: #AE5825;">if</span> somewhat_pretentious?
+  <span style="color: #AE5825;">return</span> <span style="color: #86453A;">:really_informal</span> <span style="color: #AE5825;">if</span> really_informal?
+  <span style="color: #AE5825;">return</span> <span style="color: #86453A;">:somewhat_informal</span> <span style="color: #AE5825;">if</span> somewhat_informal?
+  <span style="color: #AE5825;">return</span> <span style="color: #86453A;">:about_right</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">really_pretentious?</span>
+<span style="color: #AE5825;">def</span> <span style="color: #C6B032;">really_pretentious?</span>
   pretentious_density &gt; 0.3 &amp;&amp; informal_density &lt; 0.2
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">somewhat_pretentious?</span>
+<span style="color: #AE5825;">def</span> <span style="color: #C6B032;">somewhat_pretentious?</span>
   pretentious_density &gt; 0.3 &amp;&amp; informal_density &gt;= 0.2
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">really_informal?</span>
+<span style="color: #AE5825;">def</span> <span style="color: #C6B032;">really_informal?</span>
   pretentious_density &lt; 0.1 &amp;&amp; informal_density &gt; 0.3
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">somewhat_informal?</span>
+<span style="color: #AE5825;">def</span> <span style="color: #C6B032;">somewhat_informal?</span>
   pretentious_density &lt; 0.1 &amp;&amp; informal_density &lt;= 0.3
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">pretentious_density</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">def</span> <span style="color: #C6B032;">pretentious_density</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">informal_density</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">def</span> <span style="color: #C6B032;">informal_density</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -428,26 +428,26 @@ compressor = <span style="color: #DADADA;">TextCompressor</span>.new(text)
 下面的代码变得非常有意义
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Employee</span> &lt; <span style="color: #DADADA;">ActiveRecord</span>::<span style="color: #DADADA;">Base</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Employee</span> &lt; <span style="color: #C6B032; font-style: italic;">ActiveRecord</span>::<span style="color: #C6B032; font-style: italic;">Base</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>我们来看看base.rb里面是如何实现ActiveRecord::Base的
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">find</span>(*args)
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">find</span>(*args)
   options = args.extract_options!
   validate_find_options(options)
   set_readonly_option!(options)
 
-  <span style="color: #4856F7; font-weight: bold;">case</span> args.first
-  <span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #DF7921; font-weight: bold;">:first</span> <span style="color: #4856F7; font-weight: bold;">then</span> find_initial(options)
-  <span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #DF7921; font-weight: bold;">:last</span> <span style="color: #4856F7; font-weight: bold;">then</span> find_last(options)
-  <span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #DF7921; font-weight: bold;">:all</span> <span style="color: #4856F7; font-weight: bold;">then</span> find_every(options)
-  <span style="color: #4856F7; font-weight: bold;">else</span> find_from_ids(args, options)
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">case</span> args.first
+  <span style="color: #AE5825;">when</span> <span style="color: #86453A;">:first</span> <span style="color: #AE5825;">then</span> find_initial(options)
+  <span style="color: #AE5825;">when</span> <span style="color: #86453A;">:last</span> <span style="color: #AE5825;">then</span> find_last(options)
+  <span style="color: #AE5825;">when</span> <span style="color: #86453A;">:all</span> <span style="color: #AE5825;">then</span> find_every(options)
+  <span style="color: #AE5825;">else</span> find_from_ids(args, options)
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>

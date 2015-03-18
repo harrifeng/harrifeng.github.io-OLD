@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 08: Embrace Dynamic Typing</title>
-<!-- 2014-07-18 Fri 16:03 -->
+<!-- 2015-03-18 Wed 14:10 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -207,39 +207,39 @@ Duck typing: If an object has the right methods, then it is the right kind of ob
 <li>前面我们设计过Document类,它有string类型的title和author
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  attr_accessor <span style="color: #DF7921; font-weight: bold;">:title</span>, <span style="color: #DF7921; font-weight: bold;">:author</span>, <span style="color: #DF7921; font-weight: bold;">:content</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:title</span>, <span style="color: #86453A;">:author</span>, <span style="color: #86453A;">:content</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(title, author, content)
-    <span style="color: #C1C144;">@title</span> = title
-    <span style="color: #C1C144;">@author</span> = author
-    <span style="color: #C1C144;">@content</span> = content
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(title, author, content)
+    <span style="color: #46657B;">@title</span> = title
+    <span style="color: #46657B;">@author</span> = author
+    <span style="color: #46657B;">@content</span> = content
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>现在我们有了下面两个新的类来代表"题目"和"作者", 然后你会要求Document也要支持
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Title</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:long_nam</span>, <span style="color: #DF7921; font-weight: bold;">:short_name</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:isbn</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Title</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:long_nam</span>, <span style="color: #86453A;">:short_name</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:isbn</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(long_name, short_name, isbn)
-    <span style="color: #C1C144;">@long_name</span> = long_name
-    <span style="color: #C1C144;">@short_name</span> = short_name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(long_name, short_name, isbn)
+    <span style="color: #46657B;">@long_name</span> = long_name
+    <span style="color: #46657B;">@short_name</span> = short_name
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Author</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:first_name</span>, <span style="color: #DF7921; font-weight: bold;">:last_name</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Author</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:first_name</span>, <span style="color: #86453A;">:last_name</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(first_name, last_name)
-    <span style="color: #C1C144;">@first_name</span> = first_name
-    <span style="color: #C1C144;">@last_name</span> = last_name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(first_name, last_name)
+    <span style="color: #46657B;">@first_name</span> = first_name
+    <span style="color: #46657B;">@last_name</span> = last_name
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -247,19 +247,19 @@ Duck typing: If an object has the right methods, then it is the right kind of ob
 语言厉害的另外的地方:非常松的耦合!
 <div class="org-src-container">
 
-<pre class="src src-ruby">two_cities = <span style="color: #DADADA;">Title</span>.new(<span style="color: #A2925E;">'A Tale of Two Cities'</span>,
-                       <span style="color: #A2925E;">'2 Cities'</span>, <span style="color: #A2925E;">'0-999-9999-9'</span>)
-dickens = <span style="color: #DADADA;">Author</span>.new(<span style="color: #A2925E;">'Charles'</span>, <span style="color: #A2925E;">'Dickens'</span>)
+<pre class="src src-ruby">two_cities = <span style="color: #C6B032; font-style: italic;">Title</span>.new(<span style="color: #5A7644;">'A Tale of Two Cities'</span>,
+                       <span style="color: #5A7644;">'2 Cities'</span>, <span style="color: #5A7644;">'0-999-9999-9'</span>)
+dickens = <span style="color: #C6B032; font-style: italic;">Author</span>.new(<span style="color: #5A7644;">'Charles'</span>, <span style="color: #5A7644;">'Dickens'</span>)
 
-<span style="color: #ed5b15;">##############################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">now Document works!                        #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">previously Document may be written like    #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">doc = Document.new("A Tale of Two Cities", #</span>
-<span style="color: #ed5b15;">#                    </span><span style="color: #ed5b15;">"Charles Dickens"       #</span>
-<span style="color: #ed5b15;">#                    </span><span style="color: #ed5b15;">'It was the best...')   #</span>
-<span style="color: #ed5b15;">##############################################</span>
+<span style="color: #4C565D;">##############################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">now Document works!                        #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">previously Document may be written like    #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">doc = Document.new("A Tale of Two Cities", #</span>
+<span style="color: #4C565D;">#                    </span><span style="color: #333B40; font-style: italic;">"Charles Dickens"       #</span>
+<span style="color: #4C565D;">#                    </span><span style="color: #333B40; font-style: italic;">'It was the best...')   #</span>
+<span style="color: #4C565D;">##############################################</span>
 
-doc = <span style="color: #DADADA;">Document</span>.new(two_cities, dickens, <span style="color: #A2925E;">'It was the best...'</span>)
+doc = <span style="color: #C6B032; font-style: italic;">Document</span>.new(two_cities, dickens, <span style="color: #5A7644;">'It was the best...'</span>)
 </pre>
 </div>
 </li>
@@ -267,14 +267,14 @@ doc = <span style="color: #DADADA;">Document</span>.new(two_cities, dickens, <sp
 因为这样写有一天不是string了,我们就不能能用了
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(title, author, content)
-  <span style="color: #4856F7; font-weight: bold;">raise</span> <span style="color: #A2925E;">"Title isn't a String"</span> <span style="color: #4856F7; font-weight: bold;">unless</span> title.kind_of? <span style="color: #DADADA;">String</span>
-  <span style="color: #4856F7; font-weight: bold;">raise</span> <span style="color: #A2925E;">"Author isn't a String"</span> <span style="color: #4856F7; font-weight: bold;">unless</span> title.kind_of? <span style="color: #DADADA;">String</span>
-  <span style="color: #4856F7; font-weight: bold;">raise</span> <span style="color: #A2925E;">"Content isn't a String"</span> <span style="color: #4856F7; font-weight: bold;">unless</span> content.kind_of? <span style="color: #DADADA;">String</span>
-  <span style="color: #C1C144;">@title</span> = title
-  <span style="color: #C1C144;">@author</span> = author
-  <span style="color: #C1C144;">@content</span> = content
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(title, author, content)
+  <span style="color: #86453A;">raise</span> <span style="color: #5A7644;">"Title isn't a String"</span> <span style="color: #AE5825;">unless</span> title.kind_of? <span style="color: #C6B032; font-style: italic;">String</span>
+  <span style="color: #86453A;">raise</span> <span style="color: #5A7644;">"Author isn't a String"</span> <span style="color: #AE5825;">unless</span> title.kind_of? <span style="color: #C6B032; font-style: italic;">String</span>
+  <span style="color: #86453A;">raise</span> <span style="color: #5A7644;">"Content isn't a String"</span> <span style="color: #AE5825;">unless</span> content.kind_of? <span style="color: #C6B032; font-style: italic;">String</span>
+  <span style="color: #46657B;">@title</span> = title
+  <span style="color: #46657B;">@author</span> = author
+  <span style="color: #46657B;">@content</span> = content
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -307,7 +307,7 @@ doc = <span style="color: #DADADA;">Document</span>.new(two_cities, dickens, <sp
 提供的不是Title类型,而是String类型)
 <div class="org-src-container">
 
-<pre class="src src-sh">NoMethodError: undefined method <span style="color: #fa8072;">`long_name`</span> <span style="color: #4856F7; font-weight: bold;">for</span> <span style="color: #A2925E;">"TwoCities"</span>:String
+<pre class="src src-sh">NoMethodError: undefined method <span style="color: #fa8072;">`long_name`</span> <span style="color: #AE5825;">for</span> <span style="color: #5A7644;">"TwoCities"</span>:String
 </pre>
 </div>
 </li>

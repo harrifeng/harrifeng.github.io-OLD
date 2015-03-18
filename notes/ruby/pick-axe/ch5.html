@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 05: Sharing Functionality: Inheritance, Modules, and Mixins</title>
-<!-- 2014-07-18 Fri 16:02 -->
+<!-- 2015-03-18 Wed 14:08 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -208,27 +208,27 @@ for the JavaScript code in this tag.
 <li>继承,就是子函数继承父函数的所有函数, 这个和其他高级语言一样
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Parent</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">say_hello</span>
-    puts <span style="color: #A2925E;">"Hello from</span><span style="color: #C1C144;"> #{self}</span><span style="color: #A2925E;">"</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Parent</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">say_hello</span>
+    <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Hello from </span><span style="color: #46657B;">#{self}</span><span style="color: #5A7644;">"</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-p = <span style="color: #DADADA;">Parent</span>.new
+p = <span style="color: #C6B032; font-style: italic;">Parent</span>.new
 p.say_hello
 
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Subclass the parent...</span>
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Child</span> &lt; <span style="color: #DADADA;">Parent</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Subclass the parent...</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Child</span> &lt; <span style="color: #C6B032; font-style: italic;">Parent</span>
+<span style="color: #AE5825;">end</span>
 
-c = <span style="color: #DADADA;">Child</span>.new
+c = <span style="color: #C6B032; font-style: italic;">Child</span>.new
 c.say_hello
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Hello from #&lt;Parent:0x007f8f3c078b18&gt;          #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Hello from #&lt;Child:0x007f8f3c078a00&gt;           #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Hello from #&lt;Parent:0x007f8f3c078b18&gt;          #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Hello from #&lt;Child:0x007f8f3c078a00&gt;           #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -236,35 +236,35 @@ c.say_hello
 的root都是Object,所以没得显示了,就现实Object
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Parent</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Parent</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Child</span> &lt; <span style="color: #DADADA;">Parent</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Child</span> &lt; <span style="color: #C6B032; font-style: italic;">Parent</span>
+<span style="color: #AE5825;">end</span>
 
-p <span style="color: #DADADA;">Child</span>.superclass
+<span style="color: #86453A;">p</span> <span style="color: #C6B032; font-style: italic;">Child</span>.superclass
 
-p <span style="color: #DADADA;">Parent</span>.superclass
+<span style="color: #86453A;">p</span> <span style="color: #C6B032; font-style: italic;">Parent</span>.superclass
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Parent                                         #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Object                                         #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Parent                                         #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Object                                         #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
 <li>当然下面是语言基础继承方式,Object-&gt;BasicObject-&gt;nil
 <div class="org-src-container">
 
-<pre class="src src-ruby">p <span style="color: #DADADA;">Object</span>.superclass
-p <span style="color: #DADADA;">Object</span>.superclass.superclass
+<pre class="src src-ruby"><span style="color: #86453A;">p</span> <span style="color: #C6B032; font-style: italic;">Object</span>.superclass
+<span style="color: #86453A;">p</span> <span style="color: #C6B032; font-style: italic;">Object</span>.superclass.superclass
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">BasicObject                                    #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">nil                                            #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">BasicObject                                    #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">nil                                            #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -272,41 +272,41 @@ p <span style="color: #DADADA;">Object</span>.superclass.superclass
 它,只不过,输出不一定友好(注意puts才是返回to_s, p返回inspect)
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Person</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(name)
-    <span style="color: #C1C144;">@name</span> = name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Person</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(name)
+    <span style="color: #46657B;">@name</span> = name
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-p = <span style="color: #DADADA;">Person</span>.new(<span style="color: #A2925E;">"Michael"</span>)
-puts p
+p = <span style="color: #C6B032; font-style: italic;">Person</span>.new(<span style="color: #5A7644;">"Michael"</span>)
+<span style="color: #86453A;">puts</span> p
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">#&lt;Person:0x007f8f3c86eb38&gt;                     #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">#&lt;Person:0x007f8f3c86eb38&gt;                     #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
 <li>想让显示好看一点,可以覆写to_s
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Person</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(name)
-    <span style="color: #C1C144;">@name</span> = name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">to_s</span>
-    <span style="color: #A2925E;">"Person named</span><span style="color: #C1C144;"> #{@name}</span><span style="color: #A2925E;">"</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Person</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(name)
+    <span style="color: #46657B;">@name</span> = name
+  <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">to_s</span>
+    <span style="color: #5A7644;">"Person named </span><span style="color: #46657B;">#{@name}</span><span style="color: #5A7644;">"</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-p = <span style="color: #DADADA;">Person</span>.new(<span style="color: #A2925E;">"Michael"</span>)
-puts p
+p = <span style="color: #C6B032; font-style: italic;">Person</span>.new(<span style="color: #5A7644;">"Michael"</span>)
+<span style="color: #86453A;">puts</span> p
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Person named Michael                           #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Person named Michael                           #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -314,29 +314,29 @@ puts p
 GServer.
 <div class="org-src-container">
 
-<pre class="src src-ruby">require <span style="color: #A2925E;">'gserver'</span>
+<pre class="src src-ruby"><span style="color: #86453A;">require</span> <span style="color: #5A7644;">'gserver'</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">LogServer</span> &lt; <span style="color: #DADADA;">GServer</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>
-    <span style="color: #4856F7; font-weight: bold;">super</span>(12345)
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">LogServer</span> &lt; <span style="color: #C6B032; font-style: italic;">GServer</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>
+    <span style="color: #AE5825;">super</span>(12345)
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">serve</span>(client)
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">serve</span>(client)
     client.puts get_end_of_log_file
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">private</span>
+  <span style="color: #86453A;">private</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">get_end_of_log_file</span>
-    <span style="color: #DADADA;">File</span>.open(<span style="color: #A2925E;">"/var/log/system.log"</span>) <span style="color: #4856F7; font-weight: bold;">do</span> |log|
-      log.seek(-500, <span style="color: #DADADA;">IO</span>::<span style="color: #DADADA;">SEEK_END</span>) <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">bak up 500 characters from end</span>
-      log.gets                     <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">ignore partial line</span>
-      log.read                     <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">returned value</span>
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">get_end_of_log_file</span>
+    <span style="color: #C6B032; font-style: italic;">File</span>.open(<span style="color: #5A7644;">"/var/log/system.log"</span>) <span style="color: #AE5825;">do</span> |log|
+      log.seek(-500, <span style="color: #C6B032; font-style: italic;">IO</span>::<span style="color: #C6B032; font-style: italic;">SEEK_END</span>) <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">bak up 500 characters from end</span>
+      log.gets                     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">ignore partial line</span>
+      log.read                     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">returned value</span>
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-server = <span style="color: #DADADA;">LogServer</span>.new
+server = <span style="color: #C6B032; font-style: italic;">LogServer</span>.new
 server.start.join
 </pre>
 </div>
@@ -347,8 +347,8 @@ server.start.join
 <pre class="src src-sh">bash-3.2$ telnet 127.0.0.1 12345
 Trying 127.0.0.1...
 Connected to localhost.
-Escape character is <span style="color: #A2925E;">'^]'</span>.
-May  7 21:52:50 hfengdeMacBook-Air kernel[0]: wl0: Roamed or switched channel, reason <span style="color: #ed5b15;">#</span><span style="color: #ed5b15;">4, bssid d4:ee:07:02:41:ca</span>
+Escape character is <span style="color: #5A7644;">'^]'</span>.
+May  7 21:52:50 hfengdeMacBook-Air kernel[0]: wl0: Roamed or switched channel, reason <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">4, bssid d4:ee:07:02:41:ca</span>
 May  7 21:52:50 hfengdeMacBook-Air kernel[0]: en0: BSSID changed to d4:ee:07:02:41:ca
 May  7 21:52:50 hfengdeMacBook-Air kernel[0]: AirPort: RSN handshake complete on en0
 May  7 21:52:53 hfengdeMacBook-Air.local login[1086]: USER_PROCESS: 1086 ttys005
@@ -465,39 +465,39 @@ Connection closed by foreign host.
 <li>首先定义tut_modules/trig.rb文件
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Trig</span>
-  <span style="color: #DADADA;">PI</span> = 3.1415926
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">Trig.sin</span>(x)
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">..</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">Trig</span>
+  <span style="color: #C6B032; font-style: italic;">PI</span> = 3.1415926
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032; font-style: italic;">Trig</span>.<span style="color: #C6B032;">sin</span>(x)
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">..</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">Trig.cos</span>(x)
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">..</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032; font-style: italic;">Trig</span>.<span style="color: #C6B032;">cos</span>(x)
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">..</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>然后定义tut_modules/moral.rb文件
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Moral</span>
-  <span style="color: #DADADA;">VERY_BAD</span> = 0
-  <span style="color: #DADADA;">BAD</span> = 1
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">Moral.sin</span>(badness)
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">..</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">Moral</span>
+  <span style="color: #C6B032; font-style: italic;">VERY_BAD</span> = 0
+  <span style="color: #C6B032; font-style: italic;">BAD</span> = 1
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032; font-style: italic;">Moral</span>.<span style="color: #C6B032;">sin</span>(badness)
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">..</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>当我们想使用两者的时候,直接在文件tut_modules/pin_head.rb里面如下调用(::)
 <div class="org-src-container">
 
-<pre class="src src-ruby">require_relative <span style="color: #A2925E;">'trig'</span>
-require_relative <span style="color: #A2925E;">'moral'</span>
-y = <span style="color: #DADADA;">Trig</span>.sin(<span style="color: #DADADA;">Trig</span>::<span style="color: #DADADA;">PI</span>/4)
-wrongdoing = <span style="color: #DADADA;">Moral</span>.sin(<span style="color: #DADADA;">Moral</span>::<span style="color: #DADADA;">VERY_BAD</span>)
+<pre class="src src-ruby"><span style="color: #86453A;">require_relative</span> <span style="color: #5A7644;">'trig'</span>
+<span style="color: #86453A;">require_relative</span> <span style="color: #5A7644;">'moral'</span>
+y = <span style="color: #C6B032; font-style: italic;">Trig</span>.sin(<span style="color: #C6B032; font-style: italic;">Trig</span>::<span style="color: #C6B032; font-style: italic;">PI</span>/4)
+wrongdoing = <span style="color: #C6B032; font-style: italic;">Moral</span>.sin(<span style="color: #C6B032; font-style: italic;">Moral</span>::<span style="color: #C6B032; font-style: italic;">VERY_BAD</span>)
 </pre>
 </div>
 </li>
@@ -517,41 +517,41 @@ wrongdoing = <span style="color: #DADADA;">Moral</span>.sin(<span style="color: 
 <li>mixin粗略来看,其实就是一种"不需要在类内部创建其他类实例的"composition
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Debug</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">who_am_i?</span>
-    <span style="color: #C1C144;">"#{self.class.name}</span><span style="color: #A2925E;"> (id:</span><span style="color: #C1C144;"> #{self.object_id}</span><span style="color: #A2925E;">):</span><span style="color: #C1C144;"> #{self.name}</span><span style="color: #A2925E;">"</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">Debug</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">who_am_i?</span>
+    <span style="color: #5A7644;">"</span><span style="color: #46657B;">#{self.class.name}</span><span style="color: #5A7644;"> (id: </span><span style="color: #46657B;">#{self.object_id}</span><span style="color: #5A7644;">): </span><span style="color: #46657B;">#{self.name}</span><span style="color: #5A7644;">"</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Phonograph</span>
-  include <span style="color: #DADADA;">Debug</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:name</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(name)
-    <span style="color: #C1C144;">@name</span> = name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Phonograph</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">Debug</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:name</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(name)
+    <span style="color: #46657B;">@name</span> = name
+  <span style="color: #AE5825;">end</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">EightTrack</span>
-  include <span style="color: #DADADA;">Debug</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:name</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(name)
-    <span style="color: #C1C144;">@name</span> = name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">EightTrack</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">Debug</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:name</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(name)
+    <span style="color: #46657B;">@name</span> = name
+  <span style="color: #AE5825;">end</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
 
-ph = <span style="color: #DADADA;">Phonograph</span>.new(<span style="color: #A2925E;">"West End Blues"</span>)
-et = <span style="color: #DADADA;">EightTrack</span>.new(<span style="color: #A2925E;">"Surrealistic Pillow"</span>)
+ph = <span style="color: #C6B032; font-style: italic;">Phonograph</span>.new(<span style="color: #5A7644;">"West End Blues"</span>)
+et = <span style="color: #C6B032; font-style: italic;">EightTrack</span>.new(<span style="color: #5A7644;">"Surrealistic Pillow"</span>)
 
-p ph.who_am_i?
-p et.who_am_i?
+<span style="color: #86453A;">p</span> ph.who_am_i?
+<span style="color: #86453A;">p</span> et.who_am_i?
 
-<span style="color: #ed5b15;">####################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt;   #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"Phonograph (id: 20528256): West End Blues"      #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"EightTrack (id: 20528232): Surrealistic Pillow" #</span>
-<span style="color: #ed5b15;">####################################################</span>
+<span style="color: #4C565D;">####################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt;   #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">"Phonograph (id: 20528256): West End Blues"      #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">"EightTrack (id: 20528232): Surrealistic Pillow" #</span>
+<span style="color: #4C565D;">####################################################</span>
 </pre>
 </div>
 </li>
@@ -567,44 +567,44 @@ instance函数都是为那些个include我们Module的class们准备哒!
 class的行为也随之改变.
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Person</span>
-  include <span style="color: #DADADA;">Comparable</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:name</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Person</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">Comparable</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:name</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(name)
-    <span style="color: #C1C144;">@name</span> = name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(name)
+    <span style="color: #46657B;">@name</span> = name
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">to_s</span>
-    <span style="color: #C1C144;">"#{@name}</span><span style="color: #A2925E;">"</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">to_s</span>
+    <span style="color: #5A7644;">"</span><span style="color: #46657B;">#{@name}</span><span style="color: #5A7644;">"</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">&lt;=&gt;</span>(other)
-    <span style="color: #C1C144;">self</span>.name &lt;=&gt; other.name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">&lt;=&gt;</span>(other)
+    <span style="color: #46657B;">self</span>.name &lt;=&gt; other.name
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-p1 = <span style="color: #DADADA;">Person</span>.new(<span style="color: #A2925E;">"Matz"</span>)
-p2 = <span style="color: #DADADA;">Person</span>.new(<span style="color: #A2925E;">"Guido"</span>)
-p3 = <span style="color: #DADADA;">Person</span>.new(<span style="color: #A2925E;">"Larry"</span>)
+p1 = <span style="color: #C6B032; font-style: italic;">Person</span>.new(<span style="color: #5A7644;">"Matz"</span>)
+p2 = <span style="color: #C6B032; font-style: italic;">Person</span>.new(<span style="color: #5A7644;">"Guido"</span>)
+p3 = <span style="color: #C6B032; font-style: italic;">Person</span>.new(<span style="color: #5A7644;">"Larry"</span>)
 
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Compare a couple of names</span>
-<span style="color: #4856F7; font-weight: bold;">if</span> p1 &gt; p2
-  puts <span style="color: #C1C144;">"#{p1.name}</span><span style="color: #A2925E;">'s name &gt;</span><span style="color: #C1C144;"> #{p2.name}</span><span style="color: #A2925E;">'s name"</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Compare a couple of names</span>
+<span style="color: #AE5825;">if</span> p1 &gt; p2
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"</span><span style="color: #46657B;">#{p1.name}</span><span style="color: #5A7644;">'s name &gt; </span><span style="color: #46657B;">#{p2.name}</span><span style="color: #5A7644;">'s name"</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Sort an array of Person objects</span>
-puts <span style="color: #A2925E;">"Sorted list:"</span>
-puts [p1, p2, p3].sort
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Sort an array of Person objects</span>
+<span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Sorted list:"</span>
+<span style="color: #86453A;">puts</span> [p1, p2, p3].sort
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Matz's name &gt; Guido's name                     #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Sorted list:                                   #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Guido                                          #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Larry                                          #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Matz                                           #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Matz's name &gt; Guido's name                     #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Sorted list:                                   #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Guido                                          #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Larry                                          #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Matz                                           #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -635,41 +635,41 @@ Enumerable module, 你只需要:
 先运用到前两个成员,然后和第三个,第四个&#x2026;.等等.
 <div class="org-src-container">
 
-<pre class="src src-ruby">p [1, 2, 3, 4, 5].inject(<span style="color: #DF7921; font-weight: bold;">:+</span>)
-p (<span style="color: #A2925E;">'a'</span>..<span style="color: #A2925E;">'m'</span>).inject(<span style="color: #DF7921; font-weight: bold;">:+</span>)
+<pre class="src src-ruby"><span style="color: #86453A;">p</span> [1, 2, 3, 4, 5].inject(<span style="color: #86453A;">:+</span>)
+<span style="color: #86453A;">p</span> (<span style="color: #5A7644;">'a'</span>..<span style="color: #5A7644;">'m'</span>).inject(<span style="color: #86453A;">:+</span>)
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">15                                             #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"abcdefghijklm"                                #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">15                                             #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">"abcdefghijklm"                                #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
 <li>下面看一个自己书写的函数如何获取Enumerable的功能(这里只列举了inject)的例子.
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">VowelFinder</span>
-  include <span style="color: #DADADA;">Enumerable</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">VowelFinder</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">Enumerable</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(string)
-    <span style="color: #C1C144;">@string</span> = string
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(string)
+    <span style="color: #46657B;">@string</span> = string
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each</span>
-    <span style="color: #C1C144;">@string</span>.scan(<span style="color: #A2925E;">/[aeiou]/</span>) <span style="color: #4856F7; font-weight: bold;">do</span> |vowel|
-      <span style="color: #4856F7; font-weight: bold;">yield</span> vowel
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">each</span>
+    <span style="color: #46657B;">@string</span>.scan(<span style="color: #5A7644;">/[aeiou]/</span>) <span style="color: #AE5825;">do</span> |vowel|
+      <span style="color: #AE5825;">yield</span> vowel
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-vf = <span style="color: #DADADA;">VowelFinder</span>.new(<span style="color: #A2925E;">"the quick brown fox jumped"</span>)
-vf.inject(<span style="color: #DF7921; font-weight: bold;">:+</span>)
+vf = <span style="color: #C6B032; font-style: italic;">VowelFinder</span>.new(<span style="color: #5A7644;">"the quick brown fox jumped"</span>)
+vf.inject(<span style="color: #86453A;">:+</span>)
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"euiooue"                                      #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">"euiooue"                                      #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -686,26 +686,26 @@ include它们的class里面.如果include他们的class刚巧也有同名的inst
 的函数有个一模一样的@observer_list.
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Observable</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">observers</span>
-    <span style="color: #C1C144;">@observer_list</span> ||= []
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">add_observer</span>(obj)
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">Observable</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">observers</span>
+    <span style="color: #46657B;">@observer_list</span> ||= []
+  <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">add_observer</span>(obj)
     observers &lt;&lt; obj
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">notify_observers</span>
+  <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">notify_observers</span>
     observers.each {|o| o.update}
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">TelescopeScheduler</span>
-  include <span style="color: #DADADA;">Observable</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">TelescopeScheduler</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">Observable</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>
-    <span style="color: #C1C144;">@observer_list</span>= []          <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">error! already has the same name</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">....</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>
+    <span style="color: #46657B;">@observer_list</span>= []          <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">error! already has the same name</span>
+  <span style="color: #AE5825;">end</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">....</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -721,33 +721,33 @@ object已经不再的时候,这个变量说不定还在. 一般来说"如果一�
 的state,那么它其实应该是个class,而不是mixin"
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Test</span>
-  <span style="color: #DADADA;">State</span> = {}
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">state=</span>(value)
-    <span style="color: #DADADA;">State</span>[object_id] = value
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">Test</span>
+  <span style="color: #C6B032; font-style: italic;">State</span> = {}
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">state=</span>(value)
+    <span style="color: #C6B032; font-style: italic;">State</span>[object_id] = value
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">state</span>
-    <span style="color: #DADADA;">State</span>[object_id]
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">state</span>
+    <span style="color: #C6B032; font-style: italic;">State</span>[object_id]
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Client</span>
-  include <span style="color: #DADADA;">Test</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Client</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">Test</span>
+<span style="color: #AE5825;">end</span>
 
-c1 = <span style="color: #DADADA;">Client</span>.new
-c2 = <span style="color: #DADADA;">Client</span>.new
-c1.state = <span style="color: #A2925E;">'cat'</span>
-c2.state = <span style="color: #A2925E;">'dog'</span>
-p c1.state
-p c2.state
+c1 = <span style="color: #C6B032; font-style: italic;">Client</span>.new
+c2 = <span style="color: #C6B032; font-style: italic;">Client</span>.new
+c1.state = <span style="color: #5A7644;">'cat'</span>
+c2.state = <span style="color: #5A7644;">'dog'</span>
+<span style="color: #86453A;">p</span> c1.state
+<span style="color: #86453A;">p</span> c2.state
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"cat"                                          #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">"dog"                                          #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">"cat"                                          #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">"dog"                                          #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -795,16 +795,16 @@ searched first)
 <li>Rails里面的经典错误就是让Person继承自DataWrapper, 我们应该使用mixin
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Person</span>
-  include <span style="color: #DADADA;">Persistable</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Person</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">Persistable</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Instead of</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Instead of</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Person</span> &lt; <span style="color: #DADADA;">DataWrapper</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Person</span> &lt; <span style="color: #C6B032; font-style: italic;">DataWrapper</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>

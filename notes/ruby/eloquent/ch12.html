@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 12: Create Classes That Understand Equality</title>
-<!-- 2014-07-18 Fri 16:03 -->
+<!-- 2015-03-18 Wed 14:10 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -199,14 +199,14 @@ for the JavaScript code in this tag.
 的Id类
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DocumentIdentifier</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:folder</span>, <span style="color: #DF7921; font-weight: bold;">:name</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">DocumentIdentifier</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:folder</span>, <span style="color: #86453A;">:name</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(folder, name)
-    <span style="color: #C1C144;">@folder</span> = folder
-    <span style="color: #C1C144;">@name</span> = name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(folder, name)
+    <span style="color: #46657B;">@folder</span> = folder
+    <span style="color: #46657B;">@name</span> = name
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -237,7 +237,7 @@ for the JavaScript code in this tag.
 值相同,类似于Java中的==)
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Return true if x and y are both references to identically same objects</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Return true if x and y are both references to identically same objects</span>
 x.equal?(y)
 </pre>
 </div>
@@ -257,19 +257,19 @@ x.equal?(y)
 <li>所以,我们要在class里面如下实现==operator
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DocumentIdentifier</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:folder</span>, <span style="color: #DF7921; font-weight: bold;">:name</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">DocumentIdentifier</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:folder</span>, <span style="color: #86453A;">:name</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(folder, name)
-    <span style="color: #C1C144;">@folder</span> = folder
-    <span style="color: #C1C144;">@name</span> = name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(folder, name)
+    <span style="color: #46657B;">@folder</span> = folder
+    <span style="color: #46657B;">@name</span> = name
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">==</span>(other)
-    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.instance_of?(<span style="color: #C1C144;">self</span>.class)
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">==</span>(other)
+    <span style="color: #AE5825;">return</span> <span style="color: #46657B;">false</span> <span style="color: #AE5825;">unless</span> other.instance_of?(<span style="color: #46657B;">self</span>.class)
     folder == other.folder &amp;&amp; name == other.name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -286,11 +286,11 @@ x.equal?(y)
 <li>一个合理的优化,就是测试other是否就是自己本身(这在其他语言中也很常见,比如c++)
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">==</span>(other)
-  <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">true</span> <span style="color: #4856F7; font-weight: bold;">if</span> other.equal?(<span style="color: #C1C144;">self</span>)
-  <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.instance_of?(<span style="color: #C1C144;">self</span>.class)
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">==</span>(other)
+  <span style="color: #AE5825;">return</span> <span style="color: #46657B;">true</span> <span style="color: #AE5825;">if</span> other.equal?(<span style="color: #46657B;">self</span>)
+  <span style="color: #AE5825;">return</span> <span style="color: #46657B;">false</span> <span style="color: #AE5825;">unless</span> other.instance_of?(<span style="color: #46657B;">self</span>.class)
   folder == other.folder &amp;&amp; name == other.name
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -306,18 +306,18 @@ x.equal?(y)
 来替代instance_of?
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DocumentIdentifier</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">DocumentIdentifier</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">==</span>(other)
-    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">true</span> <span style="color: #4856F7; font-weight: bold;">if</span> other.equal?(<span style="color: #C1C144;">self</span>)
-    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.kind_of?(<span style="color: #C1C144;">self</span>.class)
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">==</span>(other)
+    <span style="color: #AE5825;">return</span> <span style="color: #46657B;">true</span> <span style="color: #AE5825;">if</span> other.equal?(<span style="color: #46657B;">self</span>)
+    <span style="color: #AE5825;">return</span> <span style="color: #46657B;">false</span> <span style="color: #AE5825;">unless</span> other.kind_of?(<span style="color: #46657B;">self</span>.class)
     folder == other.folder &amp;&amp; name == other.name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">ContractIdentifer</span> &lt; <span style="color: #DADADA;">DocumentIdentifier</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">ContractIdentifer</span> &lt; <span style="color: #C6B032; font-style: italic;">DocumentIdentifier</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -327,44 +327,44 @@ x.equal?(y)
 上继承的贼船
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DocumentIdentifier</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:folder</span>, <span style="color: #DF7921; font-weight: bold;">:name</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">DocumentIdentifier</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:folder</span>, <span style="color: #86453A;">:name</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(folder, name)
-    <span style="color: #C1C144;">@folder</span> = folder
-    <span style="color: #C1C144;">@name</span> = name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(folder, name)
+    <span style="color: #46657B;">@folder</span> = folder
+    <span style="color: #46657B;">@name</span> = name
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">==</span>(other)
-    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.instance_of?(<span style="color: #C1C144;">self</span>.class)
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">==</span>(other)
+    <span style="color: #AE5825;">return</span> <span style="color: #46657B;">false</span> <span style="color: #AE5825;">unless</span> other.instance_of?(<span style="color: #46657B;">self</span>.class)
     folder == other.folder &amp;&amp; name == other.name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DocumentPointer</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:folder</span>, <span style="color: #DF7921; font-weight: bold;">:name</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">DocumentPointer</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:folder</span>, <span style="color: #86453A;">:name</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(folder, name)
-    <span style="color: #C1C144;">@folder</span> = folder
-    <span style="color: #C1C144;">@name</span> = name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(folder, name)
+    <span style="color: #46657B;">@folder</span> = folder
+    <span style="color: #46657B;">@name</span> = name
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">==</span>(other)
-    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.respond_to?(<span style="color: #DF7921; font-weight: bold;">:folder</span>)
-    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.respond_to?(<span style="color: #DF7921; font-weight: bold;">:name</span>)
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">==</span>(other)
+    <span style="color: #AE5825;">return</span> <span style="color: #46657B;">false</span> <span style="color: #AE5825;">unless</span> other.respond_to?(<span style="color: #86453A;">:folder</span>)
+    <span style="color: #AE5825;">return</span> <span style="color: #46657B;">false</span> <span style="color: #AE5825;">unless</span> other.respond_to?(<span style="color: #86453A;">:name</span>)
     folder == other.folder &amp;&amp; name == other.name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-doc_id = <span style="color: #DADADA;">DocumentIdentifier</span>.new(<span style="color: #A2925E;">'secret/area51'</span>, <span style="color: #A2925E;">'phone list'</span>)
-pointer= <span style="color: #DADADA;">DocumentPointer</span>.new(<span style="color: #A2925E;">'secret/area51'</span>, <span style="color: #A2925E;">'phone list'</span>)
+doc_id = <span style="color: #C6B032; font-style: italic;">DocumentIdentifier</span>.new(<span style="color: #5A7644;">'secret/area51'</span>, <span style="color: #5A7644;">'phone list'</span>)
+pointer= <span style="color: #C6B032; font-style: italic;">DocumentPointer</span>.new(<span style="color: #5A7644;">'secret/area51'</span>, <span style="color: #5A7644;">'phone list'</span>)
 
-puts pointer == doc_id
+<span style="color: #86453A;">puts</span> pointer == doc_id
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">true                                           #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">true                                           #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -392,9 +392,9 @@ puts pointer == doc_id
 一个名字非常友好的函数就解决了你的问题,而且非常"Ruby"
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">is_same_document?</span>(other)
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">is_same_document?</span>(other)
   other.folder == folder &amp;&amp; other.name == name
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -444,36 +444,36 @@ puts pointer == doc_id
 导致取不到值,因为first_id.eql?(second_id)为false
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DocumentIdentifier</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:folder</span>, <span style="color: #DF7921; font-weight: bold;">:name</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">DocumentIdentifier</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:folder</span>, <span style="color: #86453A;">:name</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initializ</span>(folder, name)
-    <span style="color: #C1C144;">@folder</span> = folder
-    <span style="color: #C1C144;">@name</span> = name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initializ</span>(folder, name)
+    <span style="color: #46657B;">@folder</span> = folder
+    <span style="color: #46657B;">@name</span> = name
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
 hash = {}
-document = <span style="color: #DADADA;">Document</span>.new
-first_id = <span style="color: #DADADA;">DocumentIdentifier</span>.new(<span style="color: #A2925E;">'public'</span>, <span style="color: #A2925E;">'CoverStory'</span>)
+document = <span style="color: #C6B032; font-style: italic;">Document</span>.new
+first_id = <span style="color: #C6B032; font-style: italic;">DocumentIdentifier</span>.new(<span style="color: #5A7644;">'public'</span>, <span style="color: #5A7644;">'CoverStory'</span>)
 
 hash[first_id] = document
-second_id = <span style="color: #DADADA;">DocumentIdentifier</span>.new(<span style="color: #A2925E;">'public'</span>, <span style="color: #A2925E;">'CoverStory'</span>)
+second_id = <span style="color: #C6B032; font-style: italic;">DocumentIdentifier</span>.new(<span style="color: #5A7644;">'public'</span>, <span style="color: #5A7644;">'CoverStory'</span>)
 
-p hash[second_id]
-p hash[first_id]
+<span style="color: #86453A;">p</span> hash[second_id]
+<span style="color: #86453A;">p</span> hash[first_id]
 
-p first_id.eql?(second_id)
+<span style="color: #86453A;">p</span> first_id.eql?(second_id)
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">nil                                            #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">#&lt;Document:0x007fccc097db98&gt;                   #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">false                                          #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">nil                                            #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">#&lt;Document:0x007fccc097db98&gt;                   #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">false                                          #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -487,18 +487,18 @@ p first_id.eql?(second_id)
 </ol>
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DocumentIdentifier</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Code omitted...</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">DocumentIdentifier</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Code omitted...</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">hash</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">hash</span>
     folder.hash ^ name.hash
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">eql?</span>(other)
-    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.instance_of?(slef.clas)
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">eql?</span>(other)
+    <span style="color: #AE5825;">return</span> <span style="color: #46657B;">false</span> <span style="color: #AE5825;">unless</span> other.instance_of?(slef.clas)
     folder == other.folder &amp;&amp; name == other.name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -519,29 +519,29 @@ p first_id.eql?(second_id)
 一层,那么你的equality主要在内部调用array的equality就可以了
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DisArray</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:my_array</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">DisArray</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:my_array</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>
-    <span style="color: #C1C144;">@my_array</span> = []
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>
+    <span style="color: #46657B;">@my_array</span> = []
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">==</span>(other)
-    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.kind_of?(<span style="color: #DADADA;">DisArray</span>)
-    <span style="color: #C1C144;">@my_array</span> == other.my_array
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">==</span>(other)
+    <span style="color: #AE5825;">return</span> <span style="color: #46657B;">false</span> <span style="color: #AE5825;">unless</span> other.kind_of?(<span style="color: #C6B032; font-style: italic;">DisArray</span>)
+    <span style="color: #46657B;">@my_array</span> == other.my_array
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">eql?</span>(other)
-    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #C1C144;">false</span> <span style="color: #4856F7; font-weight: bold;">unless</span> other.kind_of?(<span style="color: #DADADA;">DisArray</span>)
-    <span style="color: #C1C144;">@my_array</span>.eql?(other.my_array)
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">eql?</span>(other)
+    <span style="color: #AE5825;">return</span> <span style="color: #46657B;">false</span> <span style="color: #AE5825;">unless</span> other.kind_of?(<span style="color: #C6B032; font-style: italic;">DisArray</span>)
+    <span style="color: #46657B;">@my_array</span>.eql?(other.my_array)
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">hash</span>
-    <span style="color: #C1C144;">@my_array</span>.hash
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">hash</span>
+    <span style="color: #46657B;">@my_array</span>.hash
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -556,12 +556,12 @@ p first_id.eql?(second_id)
 <li>比如下面的例子中, Ruby会把integer先转化成float,然后去对比
 <div class="org-src-container">
 
-<pre class="src src-ruby">puts 1 == 1.0
+<pre class="src src-ruby"><span style="color: #86453A;">puts</span> 1 == 1.0
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;">#  </span><span style="color: #ed5b15;">true                                          #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;">#  </span><span style="color: #333B40; font-style: italic;">true                                          #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -573,15 +573,15 @@ p first_id.eql?(second_id)
 的&lt;=&gt;operator
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">RomanNumerals</span>
-  include <span style="color: #DADADA;">Comparable</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">RomanNumerals</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">Comparable</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Actual guts of the class omitted...</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Actual guts of the class omitted...</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">&lt;=&gt;</span>(other)
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Return -1, 0, or 1</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">&lt;=&gt;</span>(other)
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Return -1, 0, or 1</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -591,21 +591,21 @@ kind_of?
 
 <pre class="src src-ruby">the_object = 3.14159
 
-<span style="color: #4856F7; font-weight: bold;">case</span> the_object
-<span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #DADADA;">String</span>
-  puts <span style="color: #A2925E;">"It's a string"</span>
-<span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #DADADA;">Float</span>
-  puts <span style="color: #A2925E;">"It's a float"</span>
-<span style="color: #4856F7; font-weight: bold;">when</span> <span style="color: #DADADA;">Fixnum</span>
-  puts <span style="color: #A2925E;">"It's a fixnum"</span>
-<span style="color: #4856F7; font-weight: bold;">else</span>
-  puts <span style="color: #A2925E;">"Dunno!"</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">case</span> the_object
+<span style="color: #AE5825;">when</span> <span style="color: #C6B032; font-style: italic;">String</span>
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"It's a string"</span>
+<span style="color: #AE5825;">when</span> <span style="color: #C6B032; font-style: italic;">Float</span>
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"It's a float"</span>
+<span style="color: #AE5825;">when</span> <span style="color: #C6B032; font-style: italic;">Fixnum</span>
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"It's a fixnum"</span>
+<span style="color: #AE5825;">else</span>
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Dunno!"</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">It's a float                                   #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">It's a float                                   #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>

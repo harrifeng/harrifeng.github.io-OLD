@@ -1,0 +1,795 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 05: Filling in the layout</title>
+<!-- 2015-03-18 Wed 14:06 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 05: Filling in the layout</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Filling in the layout</a>
+<ul>
+<li><a href="#sec-1-1">Adding some structure</a>
+<ul>
+<li><a href="#sec-1-1-1">Partials</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-2">Sass and the asset pipeline</a>
+<ul>
+<li><a href="#sec-1-2-1">The asset pipeline</a>
+<ul>
+<li><a href="#sec-1-2-1-1">Asset directories</a></li>
+<li><a href="#sec-1-2-1-2">Manifest files</a></li>
+<li><a href="#sec-1-2-1-3">Preprocessorengines</a></li>
+<li><a href="#sec-1-2-1-4">Efficiency in production</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-2-2">Syntactically awesome stylesheets</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Filling in the layout</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Adding some structure</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>我们开始来让界面好看一点.
+</li>
+<li>首先要更改的是application.html.erb, 这个是所有其他页面都会用的模板
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">    Modified   app/views/layouts/application.html.erb</span>
+<span style="color: #b3b3b3;">diff --git a/app/views/layouts/application.html.erb b/app/views/layouts/application.html.erb</span>
+<span style="color: #b3b3b3;">index c57717a..78407fb 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/app/views/layouts/application.html.erb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/views/layouts/application.html.erb</span>
+<span style="background-color: #737373;">@@ -7,8 +7,21 @@</span>
+<span style="color: #b3b3b3;">   &lt;%= csrf_meta_tags %&gt;</span>
+<span style="color: #b3b3b3;"> &lt;/head&gt;</span>
+<span style="color: #b3b3b3;"> &lt;body&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;header class="navbar navbar-fixed-top navbar-inverse"&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    &lt;div class="navbar-inner"&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      &lt;%= link_to "sample app", '#', id: "logo"%&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      &lt;nav&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">        &lt;ul class="nav pull-right"&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">          &lt;li&gt;&lt;%= link_to "Home",      '#' %&gt;&lt;/li&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">          &lt;li&gt;&lt;%= link_to "Help",      '#' %&gt;&lt;/li&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">          &lt;li&gt;&lt;%= link_to "Sign in",   '#' %&gt;&lt;/li&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">        &lt;/ul&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      &lt;/nav&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    &lt;/div&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;/header&gt;</span>
+
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">&lt;%= yield %&gt;</span>
+<span style="background-color: #553333;">-</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;div class="container"&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    &lt;%= yield %&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;/div&gt;</span>
+<span style="color: #b3b3b3;"> &lt;/body&gt;</span>
+<span style="color: #b3b3b3;"> &lt;/html&gt;</span>
+</pre>
+</div>
+</li>
+<li>然后我们来更改其中一个页面home
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">    Modified   app/views/static_pages/home.html.erb</span>
+<span style="color: #b3b3b3;">diff --git a/app/views/static_pages/home.html.erb b/app/views/static_pages/home.html.erb</span>
+<span style="color: #b3b3b3;">index d4f4fe7..a33631c 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/app/views/static_pages/home.html.erb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/views/static_pages/home.html.erb</span>
+<span style="background-color: #737373;">@@ -1,6 +1,11 @@</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">&lt;h1&gt;Sample App&lt;/h1&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">&lt;p&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">  This is the ome page for the</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">  &lt;a href="http://railstutorial.org/"&gt;Ruby on Rails Tutorial&lt;/a&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">  sample application.</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">&lt;/p&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">&lt;div class="center hero-unit"&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;h1&gt;Sample App&lt;/h1&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;h2&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    This is the ome page for the</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    &lt;a href="http://railstutorial.org/"&gt;Ruby on Rails Tutorial&lt;/a&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    sample application.</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;/h2&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;%= link_to "Sinnup now!", '#', class: "btn btn-large btn-primay" %&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">&lt;/div&gt;</span>
+<span style="background-color: #335533;">+</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">&lt;%= link_to image_tag("rails.png", alt: "Rails"), 'http://rubyonrails.org/' %&gt;</span>
+</pre>
+</div>
+</li>
+<li>然后界面就是这个样子了
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/ruby/ch5/index_with_layout.png" alt="index_with_layout.png" />
+</p>
+<p><span class="figure-number">Figure 1:</span> index_with_layout</p>
+</div>
+</li>
+<li>上面只是大体位置都有了,我们为header和div创建的class都还没安装呢.安装过程如下:
+<ul class="org-ul">
+<li>首先更改Gemfile, 这里引入的是bootstrap-saas, 之所以gem名字里面还有个sass,
+是因为默认bootstrap是使用LESS的,而Rails是使用SASS的,所以这个gem还负责转换
+less到sass
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">    Modified   Gemfile</span>
+<span style="color: #b3b3b3;">diff --git a/Gemfile b/Gemfile</span>
+<span style="color: #b3b3b3;">index 74a49e3..0b1f188 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/Gemfile</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/Gemfile</span>
+<span style="background-color: #737373;">@@ -4,6 +4,8 @@</span><span style="background-color: #737373;"> ruby '2.0.0'</span>
+
+<span style="color: #b3b3b3;"> # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'</span>
+<span style="color: #b3b3b3;"> gem 'rails', '4.0.8'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">gem 'bootstrap-sass', '2.3.2.0'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">gem 'sprockets', '2.11.0'</span>
+
+<span style="color: #b3b3b3;"> group :development, :test do</span>
+<span style="color: #b3b3b3;">   gem 'sqlite3'</span>
+</pre>
+</div>
+</li>
+<li>然后要加上一行,来让bootstrap-sass和rails的asset pipeline兼容
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">    Modified   config/application.rb</span>
+<span style="color: #b3b3b3;">diff --git a/config/application.rb b/config/application.rb</span>
+<span style="color: #b3b3b3;">index ffb130e..85b957a 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/config/application.rb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/config/application.rb</span>
+<span style="background-color: #737373;">@@ -24,5 +24,6 @@</span><span style="background-color: #737373;"> module SampleApp</span>
+<span style="color: #b3b3b3;">     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.</span>
+<span style="color: #b3b3b3;">     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]</span>
+<span style="color: #b3b3b3;">     # config.i18n.default_locale = :de</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)</span>
+<span style="color: #b3b3b3;">   end</span>
+<span style="color: #b3b3b3;"> end</span>
+</pre>
+</div>
+</li>
+<li>好了,下面是要把css引入到我们的网站,需要重新创建一个文件. 我们发现,我们只
+是在assets/stylesheets文件夹下面加个文件,就立马可以加入到网站了? 原因
+是assets下面的文件夹叫做asset pipeline,里面所有的文件都会自动导入
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">    New        app/assets/stylesheets/custom.css.scss</span>
+<span style="color: #b3b3b3;">diff --git a/app/assets/stylesheets/custom.css.scss b/app/assets/stylesheets/custom.css.scss</span>
+<span style="color: #b3b3b3;">new file mode 100644</span>
+<span style="color: #b3b3b3;">index 0000000..7697a21</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">/dev/null</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/assets/stylesheets/custom.css.scss</span>
+<span style="background-color: #737373;">@@ -0,0 +1 @@</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">@import "bootstrap"</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>结果就是如图了
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/ruby/ch5/index_with_css_layout.png" alt="index_with_css_layout.png" />
+</p>
+<p><span class="figure-number">Figure 2:</span> index_with_css_layout</p>
+</div>
+</li>
+<li>下面我们要添加一些scss代码(这些代码最后会转换成css)
+<div class="org-src-container">
+
+<pre class="src src-css"><span style="color: #86453A;">@import</span> <span style="color: #5A7644;">"bootstrap"</span>;
+
+<span style="color: #4C565D;">/* </span><span style="color: #333B40; font-style: italic;">universal </span><span style="color: #4C565D;">*/</span>
+
+<span style="color: #C6B032;">html </span>{
+    <span style="color: #46657B;">overflow-y</span>: scroll;
+}
+
+<span style="color: #C6B032;">body </span>{
+    <span style="color: #46657B;">padding-top</span>: 60px;
+}
+
+<span style="color: #C6B032;">section </span>{
+    <span style="color: #46657B;">overflow</span>: auto;
+}
+
+<span style="color: #C6B032;">textarea </span>{
+    <span style="color: #46657B;">resize</span>: vertical;
+}
+
+<span style="color: #C6B032;">.center </span>{
+    <span style="color: #46657B;">text-align</span>: center;
+}
+<span style="color: #C6B032;">.center h1 </span>{
+    <span style="color: #46657B;">margin-bottom</span>: 10px;
+}
+</pre>
+</div>
+</li>
+<li>结果就是下面了
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/ruby/ch5/index_with_css_change.png" alt="index_with_css_change.png" />
+</p>
+<p><span class="figure-number">Figure 3:</span> index_with_css_change</p>
+</div>
+</li>
+<li>除了第一行外,都是新加的,而且加的,也基本都是css代码,并不需要scss进行转换.关
+于这些css,还真有许多要说的:
+<ul class="org-ul">
+<li>css 在{}前面的这些符号有三种来源:
+<ol class="org-ol">
+<li>HTML tag : 比如下面设置会让所有body最上面有60像素的间隔
+<div class="org-src-container">
+
+<pre class="src src-css"><span style="color: #C6B032;">body </span>{
+  <span style="color: #46657B;">padding-top</span>: 60px;
+}
+</pre>
+</div>
+</li>
+<li>id: #logo (后面会看到)
+</li>
+<li>class: .center: 下面的就会让所有设置center class的成员(比如div)都居中
+对齐, 我们在home.html.erb里面,我们就全局定义了center class
+<div class="org-src-container">
+
+<pre class="src src-css"><span style="color: #C6B032;">.center </span>{
+  <span style="color: #46657B;">text-align</span>: center;
+}
+</pre>
+</div>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>然后我们继续改进,增加了文字的大小的style设置
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">    Modified   app/assets/stylesheets/custom.css.scss</span>
+<span style="color: #b3b3b3;">diff --git a/app/assets/stylesheets/custom.css.scss b/app/assets/stylesheets/custom.css.scss</span>
+<span style="color: #b3b3b3;">index 3963868..7348f92 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/app/assets/stylesheets/custom.css.scss</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/assets/stylesheets/custom.css.scss</span>
+<span style="background-color: #737373;">@@ -1,5 +1,4 @@</span>
+<span style="background-color: #553333;">-</span>
+<span style="background-color: #553333;">-</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">@import "bootstrap";</span>
+
+<span style="color: #b3b3b3;"> /* universal */</span>
+
+<span style="background-color: #737373;">@@ -24,4 +23,31 @@</span><span style="background-color: #737373;"> textarea {</span>
+<span style="color: #b3b3b3;"> }</span>
+<span style="color: #b3b3b3;"> .center h1 {</span>
+<span style="color: #b3b3b3;">     margin-bottom: 10px;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">}</span>
+<span style="background-color: #335533;">+</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">/* typography */</span>
+<span style="background-color: #335533;">+</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">h1, h2, h3, h4, h5, h6 {</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    line-height: 1,</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">}</span>
+<span style="background-color: #335533;">+</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">h1 {</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    font-size: 3em;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    letter-spacing: -2px;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    margin-bottom: 30px;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    text-align: center;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">}</span>
+<span style="background-color: #335533;">+</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">h2 {</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    font-size: 1.2em;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    letter-spacing: -1px;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    margin-bottom: 30px;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    text-align: center;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    font-weight: normal;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    color: #999;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">}</span>
+<span style="background-color: #335533;">+</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">p {</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    font-size: 1.1em;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    line-height: 1.7em;</span>
+</pre>
+</div>
+</li>
+<li>然后就如图所示了
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/ruby/ch5/index_with_css_oneline.png" alt="index_with_css_oneline.png" />
+</p>
+<p><span class="figure-number">Figure 4:</span> index_with_css_oneline</p>
+</div>
+</li>
+<li>上面的class或者html tag都是对"一群"对象的更改, 下面我们来针对某个对象(具有
+且只有某个id)来更改它的style
+<div class="org-src-container">
+
+<pre class="src src-css"><span style="color: #C6B032;">#logo </span>{
+  <span style="color: #46657B;">float</span>: left;
+  <span style="color: #46657B;">margin-right</span>: 10px;
+  <span style="color: #46657B;">font-size</span>: 1.7em;
+  <span style="color: #46657B;">color</span>: #fff;
+  <span style="color: #46657B;">text-transform</span>: uppercase;
+  <span style="color: #46657B;">letter-spacing</span>: -1px;
+  <span style="color: #46657B;">padding-top</span>: 9px;
+  <span style="color: #46657B;">font-weight</span>: bold;
+  <span style="color: #46657B;">line-height</span>: 1;
+}
+
+<span style="color: #C6B032;">#logo:hover </span>{
+  <span style="color: #46657B;">color</span>: #fff;
+  <span style="color: #46657B;">text-decoration</span>: none;
+}
+</pre>
+</div>
+</li>
+
+<li>效果如下
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/ruby/ch5/index_with_css_big_title.png" alt="index_with_css_big_title.png" />
+</p>
+<p><span class="figure-number">Figure 5:</span> index_with_css_big_title</p>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1">Partials</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<ul class="org-ul">
+<li>某一个页面的独大,都不是程序想要看到的,所以,我们要把页面打开,分成几个部分:
+<ul class="org-ul">
+<li>首先在application.html.erb里面把老的代码去掉,加上新的"部分"标示
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">    Modified   app/views/layouts/application.html.erb</span>
+<span style="color: #b3b3b3;">diff --git a/app/views/layouts/application.html.erb b/app/views/layouts/application.html.erb</span>
+<span style="color: #b3b3b3;">index 78407fb..1a9bfef 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/app/views/layouts/application.html.erb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/views/layouts/application.html.erb</span>
+<span style="background-color: #737373;">@@ -7,21 +7,12 @@</span>
+<span style="color: #b3b3b3;">   &lt;%= csrf_meta_tags %&gt;</span>
+<span style="color: #b3b3b3;"> &lt;/head&gt;</span>
+<span style="color: #b3b3b3;"> &lt;body&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">  &lt;header class="navbar navbar-fixed-top navbar-inverse"&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">    &lt;div class="navbar-inner"&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">      &lt;%= link_to "sample app", '#', id: "logo"%&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">      &lt;nav&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">        &lt;ul class="nav pull-right"&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">          &lt;li&gt;&lt;%= link_to "Home",      '#' %&gt;&lt;/li&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">          &lt;li&gt;&lt;%= link_to "Help",      '#' %&gt;&lt;/li&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">          &lt;li&gt;&lt;%= link_to "Sign in",   '#' %&gt;&lt;/li&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">        &lt;/ul&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">      &lt;/nav&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">    &lt;/div&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">  &lt;/header&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;%= render 'layouts/header' %&gt;</span>
+
+<span style="color: #b3b3b3;">   &lt;div class="container"&gt;</span>
+<span style="color: #b3b3b3;">     &lt;%= yield %&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    &lt;%= render 'layouts/footer' %&gt;</span>
+<span style="background-color: #335533;">+</span>
+<span style="color: #b3b3b3;">   &lt;/div&gt;</span>
+<span style="color: #b3b3b3;"> &lt;/body&gt;</span>
+<span style="color: #b3b3b3;"> &lt;/html&gt;</span>
+</pre>
+</div>
+</li>
+<li>然后把header和footer分别创立,注意这里文件名都多了个下划线
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">    New        app/views/layouts/_footer.html.erb</span>
+<span style="color: #b3b3b3;">diff --git a/app/views/layouts/_footer.html.erb b/app/views/layouts/_footer.html.erb</span>
+<span style="color: #b3b3b3;">new file mode 100644</span>
+<span style="color: #b3b3b3;">index 0000000..9cc6a71</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">/dev/null</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/views/layouts/_footer.html.erb</span>
+<span style="background-color: #737373;">@@ -0,0 +1,13 @@</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">&lt;footer class="footer"&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;small&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    &lt;a href="http://railstutorial.org/"&gt;Rails Tutorial&lt;/a&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    by Michael Hartl</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;/small&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;nav&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    &lt;ul&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      &lt;li&gt;&lt;%= link_to "About",   '#' %&gt;&lt;/li&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      &lt;li&gt;&lt;%= link_to "Contact", '#' %&gt;&lt;/li&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      &lt;li&gt;&lt;a href="http://news.railstutorial.org/"&gt;News&lt;/a&gt;&lt;/li&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    &lt;/ul&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;/nav&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">&lt;/footer&gt;</span>
+<span style="color: #b3b3b3;">    New        app/views/layouts/_header.html.erb</span>
+<span style="color: #b3b3b3;">diff --git a/app/views/layouts/_header.html.erb b/app/views/layouts/_header.html.erb</span>
+<span style="color: #b3b3b3;">new file mode 100644</span>
+<span style="color: #b3b3b3;">index 0000000..889ace7</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">/dev/null</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/views/layouts/_header.html.erb</span>
+<span style="background-color: #737373;">@@ -0,0 +1,14 @@</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">&lt;header class="navbar navbar-fixed-top navbar-inverse"&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;div class="navbar-inner"&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    &lt;div class="container"&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      &lt;%= link_to "sample app", '#', id: "logo" %&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      &lt;nav&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">        &lt;ul class="nav pull-right"&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">          &lt;li&gt;&lt;%= link_to "Home",    '#' %&gt;&lt;/li&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">          &lt;li&gt;&lt;%= link_to "Help",    '#' %&gt;&lt;/li&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">          &lt;li&gt;&lt;%= link_to "Sign in", '#' %&gt;&lt;/li&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">        &lt;/ul&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      &lt;/nav&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    &lt;/div&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;/div&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">&lt;/header&gt;</span>
+</pre>
+</div>
+</li>
+<li>最后更改css,增加footer部分的样式
+<div class="org-src-container">
+
+<pre class="src src-css"><span style="color: #4C565D;">/* </span><span style="color: #333B40; font-style: italic;">footer </span><span style="color: #4C565D;">*/</span>
+
+<span style="color: #C6B032;">footer </span>{
+  <span style="color: #46657B;">margin-top</span>: 45px;
+  <span style="color: #46657B;">padding-top</span>: 5px;
+  <span style="color: #46657B;">border-top</span>: 1px solid #eaeaea;
+  <span style="color: #46657B;">color</span>: #999;
+}
+
+<span style="color: #C6B032;">footer a </span>{
+  <span style="color: #46657B;">color</span>: #555;
+}
+
+<span style="color: #C6B032;">footer a:hover </span>{
+  <span style="color: #46657B;">color</span>: #222;
+}
+
+<span style="color: #C6B032;">footer small </span>{
+  <span style="color: #46657B;">float</span>: left;
+}
+
+<span style="color: #C6B032;">footer ul </span>{
+  <span style="color: #46657B;">float</span>: right;
+  <span style="color: #46657B;">list-style</span>: none;
+}
+
+<span style="color: #C6B032;">footer ul li </span>{
+  <span style="color: #46657B;">float</span>: left;
+  <span style="color: #46657B;">margin-left</span>: 10px;
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>最后就是这个样子的了
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/ruby/ch5/index_final.png" alt="index_final.png" />
+</p>
+<p><span class="figure-number">Figure 6:</span> index_final</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Sass and the asset pipeline</h3>
+<div class="outline-text-3" id="text-1-2">
+</div><div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">The asset pipeline</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>asset pipeline是rails处理style的方法,其有三个点比较重要:
+<ul class="org-ul">
+<li>asset directories
+</li>
+<li>manifest files
+</li>
+<li>preprocessor engine
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1-1" class="outline-5">
+<h5 id="sec-1-2-1-1">Asset directories</h5>
+<div class="outline-text-5" id="text-1-2-1-1">
+<ul class="org-ul">
+<li>在Rails 3.0以前, static assets 存放在public/下面, 也就是
+<pre class="example">
+public/stylesheets
+public/javascripts
+public/images
+</pre>
+</li>
+<li>从3.1开始,asset directories改成了下面三个folder
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Place</th>
+<th scope="col" class="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">app/assets</td>
+<td class="left">assets specific to the present application</td>
+</tr>
+
+<tr>
+<td class="left">lib/assets</td>
+<td class="left">assets for libraries written by your dev tea</td>
+</tr>
+
+<tr>
+<td class="left">vendor/assets</td>
+<td class="left">assets from third-party vendors</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>当然了,每个folder下面的subfolder里面的内容,也是pipeline的一部分. 比如,我
+们的custom.css.scss就是在app/assets/stylesheets
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-1-2" class="outline-5">
+<h5 id="sec-1-2-1-2">Manifest files</h5>
+<div class="outline-text-5" id="text-1-2-1-2">
+<ul class="org-ul">
+<li>所谓的manifest就是告诉rails如何导入css, 是把stylesheets里面的全部导入
+application.css作为style呢,还是只使用application.css里面的内容
+<div class="org-src-container">
+
+<pre class="src src-css"><span style="color: #4C565D;">/* </span><span style="color: #333B40; font-style: italic;">app/assets/stylesheets/application.css </span><span style="color: #4C565D;">*/</span>
+
+<span style="color: #4C565D;">/*</span>
+<span style="color: #333B40; font-style: italic;"> * This is a manifest file that'll be compiled into application.css, which will include all the files</span>
+<span style="color: #333B40; font-style: italic;"> * listed below.</span>
+<span style="color: #333B40; font-style: italic;"> *</span>
+<span style="color: #333B40; font-style: italic;"> * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,</span>
+<span style="color: #333B40; font-style: italic;"> * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.</span>
+<span style="color: #333B40; font-style: italic;"> *</span>
+<span style="color: #333B40; font-style: italic;"> * You're free to add application-wide styles to this file and they'll appear at the top of the</span>
+<span style="color: #333B40; font-style: italic;"> * compiled file, but it's generally better to create a new file per style scope.</span>
+<span style="color: #333B40; font-style: italic;"> *</span>
+<span style="color: #333B40; font-style: italic;"> *= require_self</span>
+<span style="color: #333B40; font-style: italic;"> *= require_tree .</span>
+<span style="color: #333B40; font-style: italic;"> </span><span style="color: #4C565D;">*/</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-1-3" class="outline-5">
+<h5 id="sec-1-2-1-3">Preprocessorengines</h5>
+<div class="outline-text-5" id="text-1-2-1-3">
+<ul class="org-ul">
+<li>预处理其实是你使用了什么扩展名就用什么方法预处理, 比如:
+<ul class="org-ul">
+<li>erb
+</li>
+<li>coffee
+</li>
+<li>scss
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-1-4" class="outline-5">
+<h5 id="sec-1-2-1-4">Efficiency in production</h5>
+<div class="outline-text-5" id="text-1-2-1-4">
+<ul class="org-ul">
+<li>这样分开的好处,是rails可以最后把所有的css, js各自合并成一个文件,在生产模
+式中会提高效率
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2">Syntactically awesome stylesheets</h4>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

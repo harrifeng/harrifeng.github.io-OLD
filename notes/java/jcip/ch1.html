@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 1</title>
-<!-- 2014-07-18 Fri 16:15 -->
+<!-- 2015-03-18 Wed 14:16 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -237,9 +237,9 @@ for the JavaScript code in this tag.
 <li>资源的利用: 程序可能会时常需要等待外部的输入输出, 在等待的时候,如果能够做
 一些其他的事情,有助于资源更好的利用
 </li>
-<li>公平: 多个用户在同时使用一台机器的时候, 都有平等的使用资源的权利, 这种
-平等的实现应该是通过时间片的等额分割,而不是说某个用户的一个程序执行完,然后
-让另外一个用户执行其他程序
+<li>公平: 多个用户或者多个程序在同时使用一台机器的时候, 都有平等的使用资源的
+权利, 这种平等的实现应该是通过时间片的等额分割,而不是说某个用户的一个程序
+执行完,然后让另外一个用户执行其他程序
 </li>
 <li>方便:写多个程序,每个简单的功能,然后让多个程序合作,比起写一个"多功能"的
 程序要方便的多
@@ -292,6 +292,12 @@ stack,和局部变量
 </li>
 </ol>
 </li>
+<li>Thread在很多时候也叫做lightweight process, 很多操作系统会把线程作为调度的最
+基本单位,而不是进程
+</li>
+<li>因为线程之间是共享'他们的进程'的内存的,所以一个线程可能改了某个内存数据,会影
+响另外线程的工作
+</li>
 </ul>
 </div>
 </div>
@@ -301,10 +307,10 @@ stack,和局部变量
 <ul class="org-ul">
 <li>如果运用的得当,线程可以减少开发和维护的费用,提高复杂系统的性能.
 </li>
-<li>线程是一种通过把"线性"模式转换成"异步"陌生,来提高效率的方法
+<li>线程是一种通过把"线性"模式转换成"异步"模式,来提高效率的方法
 </li>
-<li>线程在GUI应用中开业大幅度的提高用户借口的响应率,在服务器开发中
-可以提高资源的利用率和输出
+<li>线程在GUI应用中开业大幅度的提高用户借口的响应率,在服务器开发中可以提高资源
+的利用率和输出, 而且简化了JVM的GC(JVM的GC就是在某几个特定的thread里面进行的)
 </li>
 </ul>
 </div>
@@ -312,14 +318,16 @@ stack,和局部变量
 <h4 id="sec-1-2-1">Exploiting Multiple Processors</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <ul class="org-ul">
-<li>因为调度的最小单位是线程,所以如果一个程序只有一个线程,那么每次
-它只能运行在一个核上. 如果这个CPU是双核的,那么它放弃了50%的计
-算力,如果是100核,那就是99%&#x2026;
+<li>由于处理器频率的提高越来越难,CPU提供商越来越倾向于在一个chip上面放置更多的
+processor core.
 </li>
-<li>即便是在单核的CPU上面,多线程也是可以提高效率的,比如一个程序是
-单线程的,那么如果遇到了I/O,操作,那么唯一的线程就得busy waiting
-了. 如果这个程序还有其他线程B,那么可以在线程A等待I/O的空隙里面,
-被调度到,然后运转. (就好像,一边看着报纸,一边等待水开)
+<li>因为调度的最小单位是线程,所以如果一个程序只有一个线程,那么每次它只能运行在
+一个核上. 如果这个CPU是双核的,那么它放弃了50%的计算力,如果是100核,那就是99%&#x2026;
+</li>
+<li>即便是在单核的CPU上面,多线程也是可以提高效率的,比如一个程序是单线程的,那么
+如果遇到了I/O,操作,那么唯一的线程就得busy waiting了. 如果这个程序还有其他
+线程B,那么可以在线程A等待I/O的空隙里面,被调度到,然后运转. (就好像,一边看着
+报纸,一边等待水开)
 </li>
 </ul>
 </div>
@@ -335,7 +343,7 @@ stack,和局部变量
 不打扰
 </li>
 <li>我们说到的这些好处,通常是各种框架帮我们完成的.框架一般要处理各种细节:相应要求,
-创建线程,处理负载,等等. 而servlet用户完全不用关心这些东西
+创建线程,处理负载,等等. 而servlet用户完全不用关心这些东西 #TODO#
 </li>
 </ul>
 </div>
@@ -347,11 +355,20 @@ stack,和局部变量
 <li>作为一个server端程序的话,如果只有一个线程,那么如果和外界connect成功了的话,如果
 当前线程不结束,后续的其他connect也就被block住了,这显然是不对的.
 </li>
-<li>所以server端的一种做法是对每一个connection都设置一个线程
+<li>所以:如果server坚持single-thread,'多进程'工作的话,那么会有两种办法:
+<ul class="org-ul">
+<li>non-blocking I/O技术:不让socket block
 </li>
-<li>但是由于历史原因, 操作系统对于每个进程能创建的最大线程是有限制的,顶多几百个. 这就
-导致了在Unix系统上面select和poll等系统调用的产生(这些叫做non-blocking I/O,也就
-说没有数据的时候,轮询所有的connection,但是所有connection只有一个线程)
+<li>轮询socket:*nix上面的select, poll等:socke block了就处理其他的socket
+</li>
+</ul>
+</li>
+<li>当然还可以每个connection都有一个thread, '多线程'的工作但是由于历史原因, 操
+作系统对于每个进程能创建的最大线程是有限制的,顶多几百个.所以server还大部分
+是single-thread的
+</li>
+<li>但是,新的OS开始逐渐增加对每个process里面拥有的thread个数, 不久的将来,每个connection
+都有一个thread就会变成可能.
 </li>
 </ul>
 </div>
@@ -388,13 +405,20 @@ stack,和局部变量
 <li>下面这段代码就是线程不安全的
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@NotThreadSafe</span>
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">UnsafeSequence</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">value</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.jcip.ch1.<span style="color: #86453A;">unsafe</span>;
 
-    <span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">Returns a unique value */</span>
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">getNext</span>() {
-        <span style="color: #859900; font-weight: bold;">return</span> value++;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">org</span>.<span style="color: #86453A;">apache</span>.<span style="color: #86453A;">http</span>.<span style="color: #86453A;">annotation</span>.<span style="color: #C6B032; font-style: italic;">NotThreadSafe</span>;
+
+<span style="color: #86453A;">@NotThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">UnSafeSequence</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">value</span>;
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #C6B032;">getNext</span>() {
+        <span style="color: #AE5825;">return</span> value++;
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">UnSafeSequence</span>() {
+        <span style="color: #AE5825;">this</span>.value = 0;
     }
 }
 </pre>
@@ -410,11 +434,13 @@ A      | value  +-------&gt;| 9+1    +-------&gt;+ value  |
        +--------+        +--------+        +--------+
 
 
-                +--------+        +--------+        +--------+ 
-B      --------&gt;| value  +-------&gt;| 9+1    +-------&gt;+ value  | 
-                |   9    |        | = 10   |        |  10    | 
+                +--------+        +--------+        +--------+
+B      --------&gt;| value  +-------&gt;| 9+1    +-------&gt;+ value  |
+                |   9    |        | = 10   |        |  10    |
                 +--------+        +--------+        +--------+
 </pre>
+</li>
+<li>UnsafeSequence描述了一个常见的concurrency hazard, 叫做"race condition"
 </li>
 <li>因为所有的线程共享内存,而且同时运行, 他们就可能更改其他用户正在使用的数据,
 这本来是一个巨大的方便之处,因为比起其他的进程间通信, 这种使用数据的方式明
@@ -422,12 +448,21 @@ B      --------&gt;| value  +-------&gt;| 9+1    +-------&gt;+ value  |
 时候,就要java提供的同步方法(synchronization mechanism)
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@ThreadSafe</span>
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Sequence</span> {
-    <span style="color: #268bd2; font-weight: bold;">@GuardedBy</span>(<span style="color: #2aa198;">"this"</span>) <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">nextValue</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.jcip.ch1.<span style="color: #86453A;">safe</span>;
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">synchronized</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">getNext</span>() {
-        <span style="color: #859900; font-weight: bold;">return</span> nextValue++;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">org</span>.<span style="color: #86453A;">apache</span>.<span style="color: #86453A;">http</span>.<span style="color: #86453A;">annotation</span>.<span style="color: #C6B032; font-style: italic;">GuardedBy</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">org</span>.<span style="color: #86453A;">apache</span>.<span style="color: #86453A;">http</span>.<span style="color: #86453A;">annotation</span>.<span style="color: #C6B032; font-style: italic;">ThreadSafe</span>;
+
+<span style="color: #86453A;">@ThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">SafeSequence</span> {
+    <span style="color: #86453A;">@GuardedBy</span>(<span style="color: #5A7644;">"this"</span>) <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">nextValue</span>;
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #C6B032;">getNext</span>() {
+        <span style="color: #AE5825;">return</span> nextValue++;
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">SafeSequence</span>() {
+        nextValue = 0;
     }
 }
 </pre>
@@ -439,6 +474,18 @@ B      --------&gt;| value  +-------&gt;| 9+1    +-------&gt;+ value  |
 看不到这个cache. 这些操作原本是为了提高程序的运行效率,但是这些操心无法让多个
 线程安全的共享数据
 </li>
+<li>@GuardedBy简言之就是为class加了一个锁,必须得到这个锁才可以继续访问class的
+内容. 也就是利用了mutual exclusion来做到thread safe,另外三个thread safe的
+方法是:
+<ul class="org-ul">
+<li>re-entrancy
+</li>
+<li>Atomic operations
+</li>
+<li>Thread-local storage
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -447,16 +494,20 @@ B      --------&gt;| value  +-------&gt;| 9+1    +-------&gt;+ value  |
 <div class="outline-text-4" id="text-1-3-2">
 <ul class="org-ul">
 <li>前面说的safety意味着"nothing bad ever happens", 而这里的liveness意味着"something
-good eventually happens". 也就是说不关保证没错就行,还要保证我们要做的事情做到!
+good eventually happens".
 </li>
-<li>一个常见不能达到liveness的非多线程例子,就是死循环. 到了多线程阶段,又引入了非常多的这种
-例子:
+<li>在single-threaded程序里面,safety不能保证liveness(我们想做的肯定能做到), 比
+如while(true)这种循环.
+</li>
+<li>但是,在多线程程序里面, safety不能保证liveness的情况就更多了, 比如:
 <ul class="org-ul">
-<li>deadlock
+<li>deadlock: Thread(A)有lock(X),还需要lock(Y), Thread(B)有lock(Y),还需要lock(X).
 </li>
-<li>starvation
+<li>starvation: 别的threads总是来拿到lock,然后释放,再拿到再释放,当前thread总
+是拿不到lock
 </li>
-<li>livelock
+<li>livelock: 两个人在狭窄的走道上碰面了,都想'先左后右'的变换位置,结果虽然两
+个人都在不停运动,但是还是没有什么进展
 </li>
 </ul>
 </li>
@@ -487,7 +538,7 @@ good eventually happens". 也就是说不关保证没错就行,还要保证我�
 <li>就像liveness一样,多线程程序的效率的难题不仅仅来自传统的问题,还来自于多线程
 的引入带来的问题
 </li>
-<li>在理想的情况下,利用多核系统带来的都是净收益,但这明显不现实的.线程多的情况下, 
+<li>在理想的情况下,利用多核系统带来的都是净收益,但这明显不现实的.线程多的情况下,
 上下文切换更加频繁, 也意味着更多的资源消耗:
 <ul class="org-ul">
 <li>保存上下文
@@ -506,8 +557,8 @@ good eventually happens". 也就是说不关保证没错就行,还要保证我�
 <h3 id="sec-1-4">Threads are Everywhere</h3>
 <div class="outline-text-3" id="text-1-4">
 <ul class="org-ul">
-<li>即便你没有显示创建过线程, 框架可能就为你创建过进程,而调用这些进程的代码必
-须线程安全
+<li>即便你没有显示创建过线程, 框架可能就为你创建过thread,而这些thread调用的代码
+必须线程安全
 </li>
 <li>每一个Java程序都使用了线程
 <ol class="org-ol">
@@ -522,9 +573,12 @@ good eventually happens". 也就是说不关保证没错就行,还要保证我�
 </li>
 </ol>
 </li>
-<li>如果你是使用了前面的这些工具, 就需要了解线程安全, 因为框架会使用线程来调用
-你的代码, 你的代码会访问到应用的状态.这就要求所有跟这些状态相关的代码线程
-安全
+<li>如果你是使用了前面的这些工具, 就需要了解线程安全, 因为"框架会使用线程来调用
+你的代码"
+</li>
+<li>比如Java设计了servlet这种server端的framework来处理来自client的请求,而多个
+client(可以认为是thread)很可能是同时访问servlet的,所以servlet必须是thread-safe
+的.
 </li>
 </ul>
 </div>

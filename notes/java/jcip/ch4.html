@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 4</title>
-<!-- 2014-07-18 Fri 16:15 -->
+<!-- 2015-03-18 Wed 14:16 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -188,8 +188,16 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1-3-1">Vehicle Tracker Using Delegation</a></li>
 <li><a href="#sec-1-3-2">Independent State Variables</a></li>
 <li><a href="#sec-1-3-3">When Delegation Fails</a></li>
+<li><a href="#sec-1-3-4">Publishing Underlying State Variables</a></li>
+<li><a href="#sec-1-3-5">Vehicel Tracker that Publishes Its State</a></li>
 </ul>
 </li>
+<li><a href="#sec-1-4">Adding Functionality to Existing Thread-safe Classes</a>
+<ul>
+<li><a href="#sec-1-4-1">Client-side Locking</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-5">Documenting Synchronization Policies</a></li>
 </ul>
 </li>
 </ul>
@@ -200,8 +208,8 @@ for the JavaScript code in this tag.
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>前面我们学到了如何在底层处理"线程安全"和"同步", 但是我们不希望分析每次内存访
-问,分析, 然后来保证线程安全, 这一章就来分析如何使用线程安全的component来更加
-容易的达到整体的线程安全
+问, 然后来保证线程安全, 这一章就来分析如何使用线程安全的component来更加容易
+的达到整体的线程安全
 </li>
 </ul>
 </div>
@@ -209,26 +217,39 @@ for the JavaScript code in this tag.
 <h3 id="sec-1-1">Designing a Thread-safe Class</h3>
 <div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
-<li>虽然我们可以把所有数据写成public,然后通过同步等手段来保证线程安全.但是显然
-这样太麻烦了,远不如我们合理的利用"封装", 然后保证整个class的线程安全性.
+<li>虽然我们可以通过把class所有的state存储到public static field来达到safely,
+publish 然后再来保证consuming thread的synchronized, 但这样显然太麻烦了
+</li>
+<li>更简单的方法是使用encapsulation, encapsulation做到好可以不用像前面几章一样
+一点的分析整个程序,就可以保证thread-safe
+</li>
+<li>设计一个thread-safe类需要包括下面三个基本原则:
+<ul class="org-ul">
+<li>确定组成object state的那些个variable
+</li>
+<li>确定这些state variable组成的"不变式"
+</li>
+<li>管理对这些state varible的并发访问
+</li>
+</ul>
 </li>
 <li>一个对象的state来源于他的数据域, 如果这些数据都是内置类型(primitive type)
 的话, 这些数据就构成了整个对象的state.下面的例子中Counter只有一个内置类型
 的数据,所以这唯一的数据线程安全了,整个对象就线程安全了.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@ThreadSafe</span>
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Counter</span> {
-    <span style="color: #268bd2; font-weight: bold;">@GuardedBy</span>(<span style="color: #2aa198;">"this"</span>) <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">value</span> = 0;
+<pre class="src src-java"><span style="color: #86453A;">@ThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">final</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Counter</span> {
+    <span style="color: #86453A;">@GuardedBy</span>(<span style="color: #5A7644;">"this"</span>) <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">long</span> <span style="color: #46657B;">value</span> = 0;
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">synchronized</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">getValue</span>() {
-        <span style="color: #859900; font-weight: bold;">return</span> value;
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">long</span> <span style="color: #C6B032;">getValue</span>() {
+        <span style="color: #AE5825;">return</span> value;
     }
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">synchronized</span> <span style="color: #b58900;">long</span> <span style="color: #268bd2;">increment</span>() {
-        <span style="color: #859900; font-weight: bold;">if</span> (value == <span style="color: #268bd2; font-weight: bold;">long</span>.MAX_VALUE) {
-            <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">illegalStateException</span>(<span style="color: #2aa198;">"counter overflow"</span>);
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">long</span> <span style="color: #C6B032;">increment</span>() {
+        <span style="color: #AE5825;">if</span> (value == <span style="color: #86453A;">long</span>.MAX_VALUE) {
+            <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">illegalStateException</span>(<span style="color: #5A7644;">"counter overflow"</span>);
         }
-        <span style="color: #859900; font-weight: bold;">return</span> ++value;
+        <span style="color: #AE5825;">return</span> ++value;
     }
 }
 </pre>
@@ -236,8 +257,8 @@ for the JavaScript code in this tag.
 </li>
 <li>如果对象有多个数据域,那么肯定对象的state是和多个值相关的
 </li>
-<li>如果对象含有指向其他对象的域, 那么对象的state是和这些域都相关的.比如如果一个
-LinkedList包含很多node,那么他的state就包括这些node的state
+<li>更进一步的,如果对象含有指向其他对象的域, 那么对象的state是和这些域都相关的.
+比如如果一个LinkedList包含很多node,那么他的state就包括这些node的state
 </li>
 </ul>
 </div>
@@ -250,7 +271,9 @@ LinkedList包含很多node,那么他的state就包括这些node的state
 <ul class="org-ul">
 <li>这个state越小,越容易控制
 </li>
-<li>这就是为什么immutable 对象更容易控制,因为它只有一种state
+<li>如果尽可能的使用final来修饰field,你的state的变化区间就小了.
+</li>
+<li>immutable 对象就更容易控制,因为它只有一种state
 </li>
 </ul>
 </li>
@@ -267,18 +290,22 @@ LinkedList包含很多node,那么他的state就包括这些node的state
 <li>并不是所有的操作都有要求和前一个state相关,比如测量当前的温度.就更上一次的温度没有
 关系
 </li>
-<li>总结起来,如果遇到一下两种情况,那么一定要有"同步"来规划他们,如果没有下面两种情况,
-那么你可以选择不使用"同步"来获得效率的提升:
-<ul class="org-ul">
-<li>数据的更新要依靠前一个state
+<li>而compound action操作就意味着"更多的同步或者封装请求".比如,一旦某个state invalid
+了,我们要好好"保护"它,否则这个invalid的数据会被做为基础被其他thread拿去产生
+更坏的后果.
 </li>
-<li>数据在更新的时候,可能会暂时的数据变成invalid
-</li>
-</ul>
+<li>从另外一个房间讲,如果我们的操作不算compound action,那么我们就不需要保护中间
+状态,那么我们可以去掉synchronized机制,从而做到更好的性能.
 </li>
 <li>一个class可能会有多个的变量,然后他们共同维护一个不变式,比如一个Range类,有个最大
-值,有个最小值. 你对最大值操作的时候,最小值也要一块加锁.不然的话你可能会在某个时段
-处于"invalid"的状态: 所有关联的变量都在加锁的考虑范围内
+值,有个最小值. 对这种变量的操作,一定要要求"atomically"的更改"最大值"和"最小
+值"(换句话说,要求他俩加同一个锁)否则你更新完了其中一个,再去拿另外一个锁,中
+间这个Range就是invalid的状态啊.
+<pre class="example">
+You cannot ensure thread safety without understanding an object's invariants and
+post-conditions. Constraints on the valid values or state transitions for state
+variables can create atomicity and encapsulation requirements.
+</pre>
 </li>
 </ul>
 </div>
@@ -288,15 +315,19 @@ LinkedList包含很多node,那么他的state就包括这些node的state
 <div class="outline-text-4" id="text-1-1-2">
 <ul class="org-ul">
 <li>很多时候,某个对象存在一种叫做state-based的 precondition. 比如,一个队列里面必须
-要有值,你才能从里面取值. 这个队列"非空"就是取值的precondition. 而需要precondition
-的操作就叫做state-depdent.
+要有值,你才能从里面取值. 这个队列"非空"就是取值的precondition.
+</li>
+<li>而需要这种precondition的操作(也就是函数)就叫做state-depdent的操作.
 </li>
 <li>在单线程的程序中,如果precondition没有达到,那么相应的操作一定会失败的.但是在多线程
 程序中,我们可以提供另外的选择,因为同一时段可能有其他线程放入数据,我们可以选择等一会
 等有数据了再取.
 </li>
-<li>选择"等到有数据了通知我"的策略是和内置锁紧密联系的,非常难以实现.我们推荐使用已有的
-库函数里面的类.比如BlockingQueue, Semaphore.
+<li>选择内置的方法来实现"等到有数据了通知我(wait-and-notify)"的策略,会和内置锁
+(intrinsic lock)有非常紧密联系的,非常难以实现.
+</li>
+<li>我们推荐使用已有的Blocking library class.比如BlockingQueue, Semaphore.来实
+现"wati for a precondition to become tre before proceeding".
 </li>
 </ul>
 </div>
@@ -305,11 +336,56 @@ LinkedList包含很多node,那么他的state就包括这些node的state
 <h4 id="sec-1-1-3">State Ownership</h4>
 <div class="outline-text-4" id="text-1-1-3">
 <ul class="org-ul">
-<li>当我们要定义哪些变量组成对象的state的时候,我们只考虑了对象自己的数据."所有权(Ownership)"
-这个概念,不是存在于语言里面的,而是一种class的设计.当你创建了一个HashMap的时候,你就
-创建了多个对象: HashMap对象, 很多Map.Entry对象. 从逻辑上来讲,不止HashMap对象,其他
-的Entry对象也是state的一个部分
+<li>前面我们说了,并不是所有的object的field都会成为object state的一部分.
 </li>
+<li>当我们要定义哪些变量组成对象的state的时候,我们只考虑了对象自己的数据.
+</li>
+<li>"所有权(Ownership)"这个概念,不是存在于语言里面的,而是一种class的设计.当你创建了一个
+HashMap的时候,你就创建了多个对象: HashMap对象, 很多Map.Entry对象. 从逻辑上
+来讲,不止HashMap对象,其他的Entry对象也是state的一个部分
+</li>
+<li>当传递一个object给cpp method的时候,你必须认真思考自己是不是:
+<ul class="org-ul">
+<li>传递了你的ownership?
+</li>
+<li>短暂的借出了ownership
+</li>
+<li>长期共享ownership
+</li>
+</ul>
+</li>
+<li>在java里面,上面三种ownsership模型都是存在的,但是由于GC的存在,ownership造成
+的错误比较少,让我们很少在Java里面考虑ownership.
+</li>
+<li>在很多情况下,ownership和encapsulation总是在一起的:只有state的owner才能决定
+"加锁"策略.
+</li>
+<li>ownership意味着控制权,但是一旦你把你的ref to mutable object发布出去的话,你
+就不再拥有对这个object"排他性的控制权"了,因为其他class也会能够更改并使用它了.
+</li>
+<li>一般来说,一个class通常不会拥有"以参数形式传入到它的method或者它的ctor的object"
+的所有权.除非这个method是故意接受一个参数然后传递ownership的.比如synchronized
+collection wrapper factory method.
+</li>
+<li>Collection class通常呈现出来的是一种"split ownership":
+<ul class="org-ul">
+<li>collection 拥有对collection infrastructure的ownership
+</li>
+<li>client code拥有对存在collection内部object的ownership
+</li>
+</ul>
+</li>
+<li>举个例子:
+<ul class="org-ul">
+<li>ServletContext就是一个类似Map的object container
+</li>
+</ul>
+</li>
+</ul>
+
+
+
+<ul class="org-ul">
 <li>Java由于有GC的存在,我们很少去考虑"所有权"的问题了. 在java中一个对象封装了state,并且
 拥有这个state. 只有你"拥有"这个state,你才能来决定应该采取怎样的同步策略.因为"拥有权"
 就意味着"控制权"
@@ -347,42 +423,110 @@ LinkedList包含很多node,那么他的state就包括这些node的state
 <li>如果一个object不是thread-safe的,那么你依然可以通过如下的手段,使其在多线程的
 环境中使用:
 <ul class="org-ul">
-<li>只能通过一个thread访问
+<li>只能通过一个thread访问(thread confinement)
 </li>
-<li>访问这个"线程不安全"的object的时候,一定记得加锁
+<li>访问这个"线程不安全"的object的,所有的access都guarded by lock的
 </li>
 </ul>
 </li>
-<li>我们也可以把一个线程不安全的object放入到另外的一个object里面
+<li>封装通过增加对object的"约束"(confine)来让class做到thread-safe
+</li>
+<li>具体做法就是把一个线程不安全的object放入到另外的一个class里面. 并且辅助以
+相应的"锁"的机制.就可以做到让这个本来'线程不安全的object'能够以线程安全的方
+式使用.
 <pre class="example">
 Encapsulating data within an object confines access to the data
 to the object's methods, making it easier to ensure that the datat
 is always accessed with the appropriate lock held
 </pre>
 </li>
-<li>下面的例子中HashSet是线程不安全的, 但是通过把它设置为private, 而且把仅有的能
-访问private变量的函数, addPersion和containsPerson进行lock
+<li>"约束"(confine)的方法有很多种,常见的就是把一个object限定在:
+<ul class="org-ul">
+<li>class instance (private class member)
+</li>
+<li>lexical scope (local variable)
+</li>
+<li>某个thread内部的method之间传递,而不要在不同threads之间传递
+</li>
+</ul>
+</li>
+<li>下面的例子就是利用confinement和lock共同努力,把一个thread不safe的HashSet使用
+的thread-safe起来
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@ThreadSafe</span>
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">PersonSet</span> {
-    <span style="color: #268bd2; font-weight: bold;">@GuardedBy</span>(<span style="color: #2aa198;">"this"</span>)
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">Set</span>&lt;Person&gt; mySet = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">HashSet</span>&lt;Person&gt;();
+<pre class="src src-java"><span style="color: #86453A;">@ThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">PersonSet</span> {
+    <span style="color: #86453A;">@GuardedBy</span>(<span style="color: #5A7644;">"this"</span>)
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">Set</span>&lt;<span style="color: #C6B032; font-style: italic;">Person</span>&gt; <span style="color: #46657B;">mySet</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">HashSet</span>&lt;<span style="color: #C6B032; font-style: italic;">Person</span>&gt;();
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">synchronized</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">addPerson</span>(<span style="color: #b58900;">Person</span> <span style="color: #268bd2;">p</span>) {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">addPerson</span>(<span style="color: #C6B032; font-style: italic;">Person</span> <span style="color: #46657B;">p</span>) {
         mySet.add(p);
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">synchronized</span> <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">containsPerson</span>(<span style="color: #b58900;">Person</span> <span style="color: #268bd2;">p</span>) {
-        <span style="color: #859900; font-weight: bold;">return</span> mySet.contains(p);
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">containsPerson</span>(<span style="color: #C6B032; font-style: italic;">Person</span> <span style="color: #46657B;">p</span>) {
+        <span style="color: #AE5825;">return</span> mySet.contains(p);
     }
 }
 </pre>
 </div>
 </li>
-<li>上例中的Person类需要threadsafe
+<li>上例中的mySet是PersonSet的state, HashSet本身是不threadsafe的,但是因为被包裹
+在PersonSet里面(作为private),所以所有对mySet的访问途径被削减到两个函数.
 </li>
-<li>要注意不要泄漏哪怕是iterator给外界,这也会造成state escape,然后线程不再安全
+<li>我们对这个两个函数加上intrinsic lock就可以了.注意使用intrinsic lock只是碰巧,
+或者说,是一种惯例.用其他lock也是可以达到同等的需求的,只不过intrinsic用起来
+更容易
+</li>
+<li>上面的例子中,我们没有对Person做任何说明,但是读过前面的介绍,不难发现.其实Person
+也是State的一个部分,也要保证其访问的thread安全性.所以:
+<ul class="org-ul">
+<li>如果Person是thread-safe class,那最好
+</li>
+<li>如果Person不是thread-safe,那么访问它的途径也是通过我们PersonSet的函数, 当
+前没有能访问Person的函数,但是如果以后要加入的话,要使用intrinsic锁(或其他锁)
+来保证Person的thread安全
+</li>
+</ul>
+</li>
+<li>Jdk中常用的collection比如ArrayList和HashMap都不是线程安全的.但是可以通过wrapper
+factory methods(比如Collections.synchronizedList)来达到thread-safe.
+</li>
+<li>wrapper factory methods的原理就是,通过"Decortor模式"给一个collection加一个层
+次,collection的所有函数都被加了一个synchronized method的外衣.这样,所有对
+collection 的成员的访问'如果是通过wrapper object'的话,就都是被synchronized了
+的了.wrapper object当然就是thread-safe的啦.
+</li>
+<li>需要注意的是wrapper object是thread-safe的,但是要保证对underlying的collection
+的访问都是通过wrapper object的(否则synchronized 函数就没起作用)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.jcip.<span style="color: #C6B032; font-style: italic;">ch4</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.*;
+
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">CollectionsDemo</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">List</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>&gt; <span style="color: #46657B;">list</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">ArrayList</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>&gt;();
+
+        list.add(<span style="color: #5A7644;">"1"</span>);
+        list.add(<span style="color: #5A7644;">"2"</span>);
+        list.add(<span style="color: #5A7644;">"3"</span>);
+        list.add(<span style="color: #5A7644;">"4"</span>);
+        list.add(<span style="color: #5A7644;">"5"</span>);
+
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">create a synchronized list</span>
+        <span style="color: #C6B032; font-style: italic;">List</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>&gt; <span style="color: #46657B;">synlist</span> = Collections.synchronizedList(list);
+
+        System.out.println(<span style="color: #5A7644;">"SynChronized list is "</span> + synlist);
+    }
+}
+
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">SynChronized list is [1, 2, 3, 4, 5]           //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
 </li>
 </ul>
 </div>
@@ -390,22 +534,30 @@ is always accessed with the appropriate lock held
 <h4 id="sec-1-2-1">The Java Monitor Pattern</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <ul class="org-ul">
-<li>Java monitor pattern仅仅是一种"约定俗成". 只要你使用lock把自己的state锁住
-就可以了.用什么锁,无所谓. 比如下面,就是使用了一个private lock
+<li>从上一节的instance confinement借鉴来的行为(也即object放到其他class里面,所有
+通过class的method访问object的函数都加synchronized), 这种保护object线程安全
+访问的手段,叫做Java monitor pattern
+</li>
+<li>Java monitor pattern中使用intrinsic lock 仅仅是一种"约定俗成". 你完全可以
+使用任意的object作为lock,比如下面,就是使用了一个private lock
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">PrivateLock</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">object</span> <span style="color: #268bd2;">myLock</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Object</span>();
-    <span style="color: #268bd2; font-weight: bold;">@GuardedBy</span>(<span style="color: #2aa198;">"myLock"</span>) <span style="color: #b58900;">Widget</span> <span style="color: #268bd2;">widget</span>;
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">PrivateLock</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">object</span> <span style="color: #46657B;">myLock</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Object</span>();
+    <span style="color: #86453A;">@GuardedBy</span>(<span style="color: #5A7644;">"myLock"</span>) <span style="color: #C6B032; font-style: italic;">Widget</span> <span style="color: #46657B;">widget</span>;
 
-    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">someMethod</span>() {
-        <span style="color: #859900; font-weight: bold;">synchronized</span>(myLock){
-            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Access or modify the state of widget</span>
+    <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">someMethod</span>() {
+        <span style="color: #AE5825;">synchronized</span>(myLock){
+            <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Access or modify the state of widget</span>
         }
     }
 }
 </pre>
 </div>
+</li>
+<li>使用private lock object,而不是this(this是可以public acces的,因为它就是class
+的instance)来作为lock,是有其优点的.因为lock是private的话,client code就无法
+获得这个lock,也就不会参与到synchronized的过程,也就不会来捣乱了.
 </li>
 </ul>
 </div>
@@ -414,15 +566,88 @@ is always accessed with the appropriate lock held
 <h4 id="sec-1-2-2">Example: Tracking Fleet Vehicles</h4>
 <div class="outline-text-4" id="text-1-2-2">
 <ul class="org-ul">
-<li>我们来看一个"追踪汽车位置"的应用:
+<li>我们来看一个Java monitor pattern的例子"追踪汽车位置":
 <ul class="org-ul">
-<li>VehicleTracker类用来把汽车id和他的位置进行包装
-</li>
-<li>view thread会取出某个汽车id,和他的位置,然后传递给显示器
+<li>MutablePoint类用来记录位置(x,y), 它是线程"不安全的"
 <div class="org-src-container">
 
-<pre class="src src-java">Map&lt;String, Point&gt; locations = vehicles.getLocations();
-<span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">String</span> <span style="color: #268bd2;">key</span> : locations.keySet()) {
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.jcip.<span style="color: #86453A;">ch4</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">org</span>.<span style="color: #86453A;">apache</span>.<span style="color: #86453A;">http</span>.<span style="color: #86453A;">annotation</span>.<span style="color: #C6B032; font-style: italic;">NotThreadSafe</span>;
+
+<span style="color: #86453A;">@NotThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">MutablePoint</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">double</span> <span style="color: #46657B;">x</span>, <span style="color: #46657B;">y</span>;
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">MutablePoint</span>(<span style="color: #C6B032; font-style: italic;">double</span> <span style="color: #46657B;">x</span>, <span style="color: #C6B032; font-style: italic;">double</span> <span style="color: #46657B;">y</span>) {
+        <span style="color: #AE5825;">this</span>.x = x;
+        <span style="color: #AE5825;">this</span>.y = y;
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">MutablePoint</span>(<span style="color: #C6B032; font-style: italic;">MutablePoint</span> <span style="color: #46657B;">p</span>) {
+        <span style="color: #AE5825;">this</span>(p.x, p.y);
+    }
+}
+</pre>
+</div>
+</li>
+<li>MonitorVehicleTracker类使用了Java Monitor 模式用来把汽车id(一个String)和
+他的位置(x,y)进行包装.其是thread-safe的
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.jcip.<span style="color: #86453A;">ch4</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">org</span>.<span style="color: #86453A;">apache</span>.<span style="color: #86453A;">http</span>.<span style="color: #86453A;">annotation</span>.<span style="color: #C6B032; font-style: italic;">ThreadSafe</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">HashMap</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">Map</span>;
+
+<span style="color: #86453A;">@ThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">MonitorVehicleTracker</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">MutablePoint</span>&gt; <span style="color: #46657B;">locations</span>;
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">MonitorVehicleTracker</span>(<span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">MutablePoint</span>&gt; <span style="color: #46657B;">data</span>) {
+        locations = deepCopy(data);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">MutablePoint</span>&gt; <span style="color: #C6B032;">getLocations</span>() {
+        <span style="color: #AE5825;">return</span> deepCopy(locations);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">setLocation</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">name</span>, <span style="color: #C6B032; font-style: italic;">MutablePoint</span> <span style="color: #46657B;">point</span>) {
+        <span style="color: #C6B032; font-style: italic;">MutablePoint</span> <span style="color: #46657B;">loc</span> = safeGet(name);
+        loc.x = point.x;
+        loc.y = point.y;
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">MutablePoint</span> <span style="color: #C6B032;">getLocation</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">name</span>) {
+        <span style="color: #AE5825;">return</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">MutablePoint</span>(safeGet(name));
+    }
+
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">MutablePoint</span>&gt; <span style="color: #C6B032;">deepCopy</span>(<span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">MutablePoint</span>&gt; <span style="color: #46657B;">src</span>) {
+        <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">MutablePoint</span>&gt; <span style="color: #46657B;">copy</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">HashMap</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">MutablePoint</span>&gt;();
+        <span style="color: #AE5825;">for</span> (<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">id</span> : src.keySet()) {
+            <span style="color: #C6B032; font-style: italic;">MutablePoint</span> <span style="color: #46657B;">point</span> = src.get(id);
+            copy.put(id, <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">MutablePoint</span>(point));
+        }
+        <span style="color: #AE5825;">return</span> copy;
+    }
+
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">MutablePoint</span> <span style="color: #C6B032;">safeGet</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">name</span>) {
+        <span style="color: #C6B032; font-style: italic;">MutablePoint</span> <span style="color: #46657B;">loc</span> = locations.get(name);
+        <span style="color: #AE5825;">if</span> (loc == <span style="color: #86453A;">null</span>) <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">IllegalArgumentException</span>(<span style="color: #5A7644;">"No such ID: "</span> + name);
+        <span style="color: #AE5825;">return</span> loc;
+    }
+}
+</pre>
+</div>
+</li>
+<li>然后作为一个整体, VehicleTracker instance可能会在多个threads之间共享.比如
+View thread就会获取vehicle的名字和位置,然后把他们打印在显示器上.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">Point</span>&gt; <span style="color: #46657B;">locations</span> = vehicles.getLocations();
+<span style="color: #AE5825;">for</span> (<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">key</span> : locations.keySet()) {
     renderVehicle(key, locations.get(key));
 }
 </pre>
@@ -431,8 +656,8 @@ is always accessed with the appropriate lock held
 <li>updater threads会从GPS(或者死机手动输入)取得汽车的新位置,然后更改
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #b58900;">void</span> <span style="color: #268bd2;">vehicleMoved</span>(<span style="color: #b58900;">VehicleMovedEvent</span> <span style="color: #268bd2;">evt</span>) {
-    <span style="color: #b58900;">Point</span> <span style="color: #268bd2;">loc</span> = evt.getNewLocation();
+<pre class="src src-java"><span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">vehicleMoved</span>(<span style="color: #C6B032; font-style: italic;">VehicleMovedEvent</span> <span style="color: #46657B;">evt</span>) {
+    <span style="color: #C6B032; font-style: italic;">Point</span> <span style="color: #46657B;">loc</span> = evt.getNewLocation();
     vehicles.setLocation(evt.getVehicleId(), loc.x, loc.y);
 }
 </pre>
@@ -446,6 +671,30 @@ is always accessed with the appropriate lock held
 <li>虽然内部的MutablePointer不是线程安全的, 但是我们只要包成tracker class线程
 安全就可以了,因为所有的访问都是通过tracker class
 </li>
+<li>但是这个实现也有其缺点, 因为它是以deep copy的形式来返回所有的location. 如
+果src.keySet()的值特别大,那么程序效率就会非常差,因为getLocations拿着intrinsic
+lock太久的时间,必然对性能造成巨大影响.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">MutablePoint</span>&gt; <span style="color: #C6B032;">getLocations</span>() {
+    <span style="color: #AE5825;">return</span> deepCopy(locations);
+}
+
+<span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">MutablePoint</span>&gt; <span style="color: #C6B032;">deepCopy</span>(<span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">MutablePoint</span>&gt; <span style="color: #46657B;">src</span>) {
+    <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">MutablePoint</span>&gt; <span style="color: #46657B;">copy</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">HashMap</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">MutablePoint</span>&gt;();
+    <span style="color: #AE5825;">for</span> (<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">id</span> : src.keySet()) {
+        <span style="color: #C6B032; font-style: italic;">MutablePoint</span> <span style="color: #46657B;">point</span> = src.get(id);
+        copy.put(id, <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">MutablePoint</span>(point));
+    }
+    <span style="color: #AE5825;">return</span> copy;
+}
+</pre>
+</div>
+</li>
+<li>另外一个可能的影响是,你通过deepCopy拷贝了一份所有汽车某个时段的"snapshot",
+一旦返回,这些数据就不会改变了.如果你想要返回的copy(Map类型)里面存的是"动态
+的数据",那么这个实现显然不能满足
+</li>
 </ul>
 </div>
 </div>
@@ -454,11 +703,39 @@ is always accessed with the appropriate lock held
 <h3 id="sec-1-3">Delegating Thread Safety</h3>
 <div class="outline-text-3" id="text-1-3">
 <ul class="org-ul">
-<li>Java monitor pattern的核心是,我们private所有的线程不安全的成员变量,然后"限制
-并且lock"所有触及这些变量的函数
+<li>java monitor pattern对于从零开始创建项目,或者把一个"thread不safe"的object(比
+如map)包装成thread-safe的,是非常有用的
 </li>
-<li>但是如果一个class所有的变量都线程安全呢?答案是:在某些情况下,所有成员都线程安
-全,合起来线程不安全&#x2026;
+<li>如果一个class包含的那些component(比如map是thread-safe的map)本身就thread-safe
+了,我们还需要使用java monitor pattern来包装他们么?
+</li>
+<li>答案是"不一定":因为class的每个成员都thread-safe, 只是保证整个class thread-safe
+的一个良好开始.有些时候,还是需要增加其他辅助来保证整体thread-safe的
+</li>
+<li>回顾一下我们前面的例子CountingFactorizer.我们可以说CountingFactorizer让AtomicLong
+的count来代理了它的thread-safe的责任:CountingFactorizer之所以thread-safe,是
+因为AtomicLong count自己thread-safe
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #86453A;">@ThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">CountingFactorizer</span> <span style="color: #AE5825;">implements</span> <span style="color: #C6B032; font-style: italic;">Servlet</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">AtomicLong</span> <span style="color: #46657B;">count</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">AtomicLong</span>(0);
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">long</span> <span style="color: #C6B032;">getCount</span>() {
+        <span style="color: #AE5825;">return</span> count.get();
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">service</span>(<span style="color: #C6B032; font-style: italic;">ServletRequest</span> <span style="color: #46657B;">req</span>, <span style="color: #C6B032; font-style: italic;">ServletRequest</span> <span style="color: #46657B;">resp</span>) {
+        <span style="color: #C6B032; font-style: italic;">BigInteger</span> <span style="color: #46657B;">i</span> = extractFromRequest(req);
+        <span style="color: #C6B032; font-style: italic;">BigInteger</span>[] <span style="color: #46657B;">factors</span> = factors(i);
+        count.incrementAndGet();
+        encodeIntoResponse(resp, factors);
+    }
+}
+</pre>
+</div>
+</li>
+<li>下面来看几个把class自己的thread代理给自己的component的例子
 </li>
 </ul>
 </div>
@@ -466,56 +743,125 @@ is always accessed with the appropriate lock held
 <h4 id="sec-1-3-1">Vehicle Tracker Using Delegation</h4>
 <div class="outline-text-4" id="text-1-3-1">
 <ul class="org-ul">
-<li>我们下面实现一个通过代理来"线程安全" 的例子. 所谓代理,就是把自己所有的state
-不管线程安全不安全,都代理给一个"线程安全的state". 这样就可以保证万无一失了
-</li>
-<li>使用Immutable的Point, 这样,返回位置的时候,就不需要deepcopy了.直接返回就行,
-因为immutable,也不怕被改
+<li>第一个例子是"成员(component)"是thread-safe, 而且只有一个成员(就不牵涉到成员之间的"不变式")
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@Immutable</span>
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Point</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span>, <span style="color: #268bd2;">y</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.book.jcip.ch4.<span style="color: #86453A;">immutable</span>;
 
-    <span style="color: #859900; font-weight: bold;">public</span> Point(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">y</span>) {
-        <span style="color: #859900; font-weight: bold;">this</span>.x = x;
-        <span style="color: #859900; font-weight: bold;">this</span>.y = y;
-    }
-}
-</pre>
-</div>
-</li>
-<li>下面就是代理版本的"追踪汽车位置"应用.需要深刻理解的是,我们返回的不再是一个,
-个的snaphot(还是deepcopy的), 我们返回的是live的点(通过getLocations),会随着
-我们内容的改变,而动态改变的
-<div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@ThreadSafe</span>
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">DelegatingVehicleTracker</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">ConcurrentMap</span>&lt;String, Point&gt; locations;
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">Map</span>&lt;String, Point&gt; unmodifiableMap;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">Collections</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">HashMap</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">Map</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #86453A;">concurrent</span>.<span style="color: #C6B032; font-style: italic;">ConcurrentHashMap</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #86453A;">concurrent</span>.<span style="color: #C6B032; font-style: italic;">ConcurrentMap</span>;
 
-    <span style="color: #859900; font-weight: bold;">public</span> DelegatingVehicleTracker(Map&lt;String, Point&gt; points) {
-        locations = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ConcurrentHashMap</span>&lt;String, Point&gt;(points);
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">DelegatingVehicleTracker</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">ConcurrentMap</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">Point</span>&gt; <span style="color: #46657B;">locations</span>;
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">Point</span>&gt; <span style="color: #46657B;">unmodifiableMap</span>;
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">DelegatingVehicleTracker</span>(<span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">Point</span>&gt; <span style="color: #46657B;">points</span>) {
+        locations = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">ConcurrentHashMap</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">Point</span>&gt;(points);
         unmodifiableMap = Collections.unmodifiableMap(locations);
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Map</span>&lt;String, Point&gt; getLocations() {
-        <span style="color: #859900; font-weight: bold;">return</span> unmodifiableMap;
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">Point</span>&gt; <span style="color: #C6B032;">getLocations</span>() {
+        <span style="color: #AE5825;">return</span> unmodifiableMap;
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Point</span> <span style="color: #268bd2;">getLocation</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">id</span>) {
-        <span style="color: #859900; font-weight: bold;">return</span> locations.get(id);
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">Point</span> <span style="color: #C6B032;">getLocation</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">id</span>) {
+        <span style="color: #AE5825;">return</span> locations.get(id);
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">setLocation</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">id</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">y</span>) {
-        <span style="color: #859900; font-weight: bold;">if</span> (locations.replace(id, <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Point</span>(x, y)) == <span style="color: #268bd2; font-weight: bold;">null</span>) {
-            <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">IllegalArgumentException</span>(<span style="color: #2aa198;">"invaid vehicle name: "</span> + id);
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">setLocation</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">id</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">x</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">y</span>) {
+        <span style="color: #AE5825;">if</span> (locations.replace(id, <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Point</span>(x, y)) == <span style="color: #86453A;">null</span>) {
+            <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">IllegalArgumentException</span>(<span style="color: #5A7644;">"invalid vehicle name:"</span> + id);
         }
+    }
+
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Alternate version fo getLocations</span>
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">Point</span>&gt; <span style="color: #C6B032;">getLocationsAsStatic</span>() {
+        <span style="color: #AE5825;">return</span> Collections.unmodifiableMap(<span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">HashMap</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">Point</span>&gt;(locations));
     }
 }
 </pre>
 </div>
+</li>
+<li>包裹它的class不需要对访问成员的函数加synchronized就可以自动做到thread-safe
+当然,也可以说
+<pre class="example">
+DelegatingVehicleTracker把自己的thread-safe的责任代理给了ConcurrentHashMap
+</pre>
+</li>
+<li>注意!我这里使用的Point是immutable的, 这里使用immutable的Point不是为了让locations
+变的thread-safe(因为location本身就是thread-safe的map实现). 这里使用immutable
+point是因为我们要publish point
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.book.jcip.ch4.<span style="color: #86453A;">immutable</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">org</span>.<span style="color: #86453A;">apache</span>.<span style="color: #86453A;">http</span>.<span style="color: #86453A;">annotation</span>.<span style="color: #C6B032; font-style: italic;">ThreadSafe</span>;
+
+<span style="color: #86453A;">@ThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Point</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">x</span>, <span style="color: #46657B;">y</span>;
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">Point</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">x</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">y</span>) {
+        <span style="color: #AE5825;">this</span>.x = x;
+        <span style="color: #AE5825;">this</span>.y = y;
+    }
+}
+</pre>
+</div>
+</li>
+<li>注意!我们这里getLocations函数的行为已经变化了:
+<ul class="org-ul">
+<li>Monitor版本getLocations返回的是一个deepCopy版本的snapshot,数据是固定不变的.
+</li>
+<li>Delegate版本getLocations返回的是一个unmodifiableMap版本的map.但是每个key
+对应的value更新的话
+</li>
+<li>Collections.unmodifiableMap通过无法让你put来保证你无法更改这个map
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">V</span> <span style="color: #C6B032;">put</span>(<span style="color: #C6B032; font-style: italic;">K</span> <span style="color: #46657B;">key</span>, <span style="color: #C6B032; font-style: italic;">V</span> <span style="color: #46657B;">value</span>) {
+    <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">UnsupportedOperationException</span>();
+}
+</pre>
+</div>
+</li>
+<li>只是无法通过unmodifiableMap来增加,但是还是可以通过原来的map增加.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.book.jcip.<span style="color: #86453A;">ch4</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">Collections</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">HashMap</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">Map</span>;
+
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">TestUnmodified</span> {
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">String</span>&gt; <span style="color: #46657B;">map</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">HashMap</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">String</span>&gt;();
+        <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">String</span>&gt; <span style="color: #46657B;">umap</span> = Collections.unmodifiableMap(map);
+        map.put(<span style="color: #5A7644;">"1"</span>, <span style="color: #5A7644;">"a"</span>);
+        map.put(<span style="color: #5A7644;">"2"</span>, <span style="color: #5A7644;">"b"</span>);
+        map.put(<span style="color: #5A7644;">"3"</span>, <span style="color: #5A7644;">"c"</span>);
+
+        System.out.println(umap.get(<span style="color: #5A7644;">"1"</span>));
+        map.put(<span style="color: #5A7644;">"1"</span>, <span style="color: #5A7644;">"A"</span>);
+        System.out.println(umap.get(<span style="color: #5A7644;">"1"</span>));
+    }
+}
+
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">a                                              //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">A                                              //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
 </li>
 </ul>
 </div>
@@ -524,33 +870,50 @@ is always accessed with the appropriate lock held
 <h4 id="sec-1-3-2">Independent State Variables</h4>
 <div class="outline-text-4" id="text-1-3-2">
 <ul class="org-ul">
-<li>前面讲的代理是说,多个state代理给"一个线程安全的state". 如果你想的话,你也可
-以把你的多个state代理给"多个相互之间没有关系的states"
+<li>第二个例子是"成员(component)"是thread-safe的, 而且不止有一个成员.只是成员
+之间没有"不变式"关系(也即independent)!
+</li>
+<li>VisualComponent是一个允许client来注册为鼠标和键盘准备的listener.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">VisualComponent</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">List</span>&lt;KeyListener&gt; keyListeners
-        = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">CopyOnWriteArrayList</span>&lt;KeyListener&gt;();
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">List</span>&lt;MouseListener&gt; mouseListeners
-        = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">CopyOnWriteArrayList</span>&lt;MouseListener&gt;();
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.book.jcip.ch4.<span style="color: #86453A;">multiple</span>;
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">addKeyListener</span>(<span style="color: #b58900;">KeyListener</span> <span style="color: #268bd2;">listener</span>) {
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">awt</span>.<span style="color: #86453A;">event</span>.<span style="color: #C6B032; font-style: italic;">KeyListener</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">awt</span>.<span style="color: #86453A;">event</span>.<span style="color: #C6B032; font-style: italic;">MouseListener</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">List</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #86453A;">concurrent</span>.<span style="color: #C6B032; font-style: italic;">CopyOnWriteArrayList</span>;
+
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">VisualComponent</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">List</span>&lt;<span style="color: #C6B032; font-style: italic;">KeyListener</span>&gt; <span style="color: #46657B;">keyListeners</span>
+            = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">CopyOnWriteArrayList</span>&lt;<span style="color: #C6B032; font-style: italic;">KeyListener</span>&gt;();
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">List</span>&lt;<span style="color: #C6B032; font-style: italic;">MouseListener</span>&gt; <span style="color: #46657B;">mouseListeners</span>
+            = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">CopyOnWriteArrayList</span>&lt;<span style="color: #C6B032; font-style: italic;">MouseListener</span>&gt;();
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">addKeyListener</span>(<span style="color: #C6B032; font-style: italic;">KeyListener</span> <span style="color: #46657B;">listener</span>) {
         keyListeners.add(listener);
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">addMouseListener</span>(<span style="color: #b58900;">MouseListener</span> <span style="color: #268bd2;">listener</span>) {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">addMouseListener</span>(<span style="color: #C6B032; font-style: italic;">MouseListener</span> <span style="color: #46657B;">listener</span>) {
         mouseListeners.add(listener);
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">removeKeyListener</span>(<span style="color: #b58900;">KeyListener</span> <span style="color: #268bd2;">listener</span>) {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">removeKeyListener</span>(<span style="color: #C6B032; font-style: italic;">KeyListener</span> <span style="color: #46657B;">listener</span>) {
         keyListeners.remove(listener);
     }
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">removeMouseListener</span>(<span style="color: #b58900;">MouseListener</span> <span style="color: #268bd2;">listener</span>) {
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">removeMouseListener</span>(<span style="color: #C6B032; font-style: italic;">KeyListener</span> <span style="color: #46657B;">listener</span>) {
         mouseListeners.remove(listener);
     }
 }
 </pre>
 </div>
+</li>
+<li>上面的例子中,我们使用了两个线程安全的CopyOnWriteArrayList, 而这两个list又
+是independent的, 所以总体上是线程安全的,也可以说
+<pre class="example">
+VisualComponent把自己的的thread-safe的责任代理给了多个CopyOnWriteArrayList的
+state variable. 如果这些variable之间没有'不变式'关系,那么VisualComponent就线程安全
+</pre>
 </li>
 <li>上例中使用的CopyOnWriteArrayList是一种thread-safe的List实现.其所有的可变操
 作（add、set 等）都是通过对底层数组进行一次新的复制来实现的，代价昂贵.
@@ -560,6 +923,479 @@ is always accessed with the appropriate lock held
 </div>
 <div id="outline-container-sec-1-3-3" class="outline-4">
 <h4 id="sec-1-3-3">When Delegation Fails</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<ul class="org-ul">
+<li>第三个例子是"成员(component)"是thread-safe的,而且不止有一个成员,同时,成员
+之间还有"不变式"关系
+</li>
+<li>NumberRange有两个成员,其中lower的值必须必upper小.在这种'不变式'关系的存在下,
+仅仅包裹"成员thread-safe的component"而不对access函数做synchronized处理的话
+是无法做到thread-safe的
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.book.jcip.ch4.delegate.<span style="color: #86453A;">invariant</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #86453A;">concurrent</span>.<span style="color: #86453A;">atomic</span>.<span style="color: #C6B032; font-style: italic;">AtomicInteger</span>;
+
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">NumberRange</span> {
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">INVARIANT: lower &lt;= upper</span>
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">AtomicInteger</span> <span style="color: #46657B;">lower</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">AtomicInteger</span>(0);
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">AtomicInteger</span> <span style="color: #46657B;">upper</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">AtomicInteger</span>(0);
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">setLower</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">i</span>) {
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Warning -- unsafe check-then-act</span>
+        <span style="color: #AE5825;">if</span> (i &gt; upper.get()) {
+            <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">IllegalArgumentException</span>(<span style="color: #5A7644;">"can't set lower to "</span> + i + <span style="color: #5A7644;">" &gt; upper"</span>);
+        }
+        lower.set(i);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">setUpper</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">i</span>) {
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Warning -- unsafe check-then-act</span>
+        <span style="color: #AE5825;">if</span> (i &lt; lower.<span style="color: #C6B032; font-style: italic;">get</span>()) {
+            <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">IllegalArgumentException</span>(<span style="color: #5A7644;">"can't set upper to "</span> + i + <span style="color: #5A7644;">" &lt; lower"</span>);
+        }
+        upper.set(i);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">isInRange</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">i</span>) {
+        <span style="color: #AE5825;">return</span> (i &gt;= lower.get() &amp;&amp; i &lt;= upper.get());
+    }
+}
+</pre>
+</div>
+</li>
+<li>比如本来range是(0, 10)某一个thread设置setLower(5), 另外一个thread设置setUpper(4),
+在"某些很不幸的情况下", 两个thread都通过了check,导致最后的range结果是(5,4) &#x2013;
+一个invalid的结果.
+</li>
+<li>让这个情况能够thread的方法:
+<ul class="org-ul">
+<li>用同一个lock(通常是synchronized函数)来包含lower和upper
+</li>
+<li>不要publishing upper和lower这两个reference,防止他们被用户更改.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4">Publishing Underlying State Variables</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<ul class="org-ul">
+<li>大多数情况下都不要在"代理模式"下面去publishing underlying state,除非
+<pre class="example">
+If a state variable is thread-safe, does not participate in any invariants
+that constrain its value, and has not prohibited state transitions for any of
+its operations, then it can safely be published
+</pre>
+</li>
+<li>举例来说,上面的mouseListeners和keyListeners是可以被安全publish的
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-5" class="outline-4">
+<h4 id="sec-1-3-5">Vehicel Tracker that Publishes Its State</h4>
+<div class="outline-text-4" id="text-1-3-5">
+<ul class="org-ul">
+<li>说到publish,我们刚才的vehicle tracker是一个"必须"publish自己的内容的class
+那么他就要做到上面的几点:
+<ul class="org-ul">
+<li>state variable thread-safe
+</li>
+<li>does not participate in any invariants
+</li>
+<li>has not prohibited state transitions for any of its operations
+</li>
+</ul>
+</li>
+<li>我们这次的例子跟上次Immutable Point很像,只是使用了thread-safe的SafePoint
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.book.jcip.ch4.delegate.<span style="color: #86453A;">publish</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">Collections</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">Map</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #86453A;">concurrent</span>.<span style="color: #C6B032; font-style: italic;">ConcurrentHashMap</span>;
+
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">PublishingVehicleTracker</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">SafePoint</span>&gt; <span style="color: #46657B;">locations</span>;
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">SafePoint</span>&gt; <span style="color: #46657B;">unmodifiableMap</span>;
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">PublishingVehicleTracker</span>(<span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">SafePoint</span>&gt; <span style="color: #46657B;">locations</span>) {
+        <span style="color: #AE5825;">this</span>.locations = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">ConcurrentHashMap</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">SafePoint</span>&gt;(locations);
+        <span style="color: #AE5825;">this</span>.unmodifiableMap = Collections.unmodifiableMap(<span style="color: #AE5825;">this</span>.locations);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">SafePoint</span>&gt; <span style="color: #C6B032;">getLocations</span>() {
+        <span style="color: #AE5825;">return</span> unmodifiableMap;
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">SafePoint</span> <span style="color: #C6B032;">getLocation</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">id</span>) {
+        <span style="color: #AE5825;">return</span> locations.get(id);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">setLocations</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">id</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">x</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">y</span>) {
+        <span style="color: #AE5825;">if</span> (!locations.containsKey(id)) {
+            <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">IllegalArgumentException</span>(<span style="color: #5A7644;">"invalid vehicle name:"</span> + id);
+        }
+        locations.get(id).set(x, y);
+    }
+}
+</pre>
+</div>
+</li>
+<li>这次的SafePoint如下,是一个可以改变的thread-safe Point
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.book.jcip.ch4.delegate.<span style="color: #86453A;">publish</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">org</span>.<span style="color: #86453A;">apache</span>.<span style="color: #86453A;">http</span>.<span style="color: #86453A;">annotation</span>.<span style="color: #C6B032; font-style: italic;">GuardedBy</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">org</span>.<span style="color: #86453A;">apache</span>.<span style="color: #86453A;">http</span>.<span style="color: #86453A;">annotation</span>.<span style="color: #C6B032; font-style: italic;">ThreadSafe</span>;
+
+<span style="color: #86453A;">@ThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">SafePoint</span> {
+    <span style="color: #86453A;">@GuardedBy</span>(<span style="color: #5A7644;">"this"</span>)
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">x</span>, <span style="color: #46657B;">y</span>;
+
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032;">SafePoint</span>(<span style="color: #C6B032; font-style: italic;">int</span>[] <span style="color: #46657B;">a</span>) {
+        <span style="color: #AE5825;">this</span>(a[0], a[1]);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">SafePoint</span>(<span style="color: #C6B032; font-style: italic;">SafePoint</span> <span style="color: #46657B;">p</span>) {
+        <span style="color: #AE5825;">this</span>(p.get());
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">SafePoint</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">x</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">y</span>) {
+        <span style="color: #AE5825;">this</span>.set(x, y);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">int</span>[] <span style="color: #C6B032;">get</span>() {
+        <span style="color: #AE5825;">return</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">int</span>[] {x, y};
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">set</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">x</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">y</span>) {
+        <span style="color: #AE5825;">this</span>.x = x;
+        <span style="color: #AE5825;">this</span>.y = y;
+    }
+}
+</pre>
+</div>
+</li>
+<li>为了保证这个SafePoint的thread-safe,也是煞费苦心:
+<ul class="org-ul">
+<li>首先看private SafetPoint(int[] a), 其有两个作用:
+<ul class="org-ul">
+<li>首先private ctor肯定是不想被外人调用用来初始化,比如
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #C6B032; font-style: italic;">int</span>[] <span style="color: #46657B;">arr</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">int</span>[] {1, 2};
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">other thread got *arr* can modified it while constructing</span>
+<span style="color: #C6B032; font-style: italic;">SafetPoint</span> <span style="color: #46657B;">safepoint</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">SafetPoint</span>(arr);
+</pre>
+</div>
+</li>
+<li>其次private ctor还可以防止其他人'错误的实现copy ctor',怎么防止?通过自己
+实现一个copy ctor, 而且在这个copy ctor里面使用了刚才的private ctor
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #C6B032;">SafePoint</span>(<span style="color: #C6B032; font-style: italic;">SafePoint</span> <span style="color: #46657B;">p</span>) {
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Do not worry, p.get() return a new ref, which can</span>
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">not be obtained by other threads!</span>
+    <span style="color: #AE5825;">this</span>(p.get());
+}
+
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">p.get() return a new ref, which can not be obtained by other threads</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">int</span>[] <span style="color: #C6B032;">get</span>() {
+    <span style="color: #AE5825;">return</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">int</span>[] {x, y};
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Adding Functionality to Existing Thread-safe Classes</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>在开发中,使用已经存在的库显然是一个好的注意,因为经过很多年的发展,这些库稳定
+而且经过长期测试.
+</li>
+<li>但是已经存在的库不一定"百分百"的满足我们的要求,所以我们要增加一些功能.本书
+是讨论多线程的,所以这里主要讨论在增加功能的同时,不要破坏原来代码的thread-safe性
+</li>
+<li>我们举个例子,比如原来有个线程安全的SynList, 其有两个函数contains和add, 我们希望
+这个SynList里面不能有重复的元素(对List的扩展),所以我们要实现一个putIfAbsent的
+函数
+</li>
+<li>新增加的函数不能破坏原有SynList的thread-safe,所以必须保证新增加的函数"必须是
+atomic"的.这样才会排除SynList暴露invalid state的风险
+</li>
+<li>为了保证函数的"原子性",我们有两条路:
+<ol class="org-ol">
+<li>更改源代码:在lib里面加入一个新的synchronized函数(或其他同步方法). 这个通
+常是一个可以接受的做法,因为一个类的所有操作在一个源文件里面.但是需要你能
+够得到源代码,这不是一定能做到的
+</li>
+<li>继承原来的类,并增加同步方法:这种做法需要父类清晰的在文档里面说明了自己的
+同步策略,否则是不可取的(万一父类更改了同步策略怎么办), 下面例子中的Vector
+在文档中明确了自己的同步策略,所以方法是可行的
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.book.jcip.<span style="color: #86453A;">ch4</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">org</span>.<span style="color: #86453A;">apache</span>.<span style="color: #86453A;">http</span>.<span style="color: #86453A;">annotation</span>.<span style="color: #C6B032; font-style: italic;">ThreadSafe</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">Vector</span>;
+
+<span style="color: #86453A;">@ThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">BetterVector</span>&lt;<span style="color: #C6B032; font-style: italic;">E</span>&gt; <span style="color: #AE5825;">extends</span> <span style="color: #C6B032; font-style: italic;">Vector</span>&lt;<span style="color: #C6B032; font-style: italic;">E</span>&gt; {
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">When extending a serializable class, you should redefine serialVersionUID</span>
+    <span style="color: #AE5825;">static</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">long</span> <span style="color: #46657B;">serialVersionUID</span> = -3963416950630760744L;
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span>  <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">putIfAbsent</span>(<span style="color: #C6B032; font-style: italic;">E</span> <span style="color: #46657B;">x</span>) {
+        <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #46657B;">absent</span> = !contains(x);
+        <span style="color: #AE5825;">if</span> (absent) {
+            add(x);
+        }
+        <span style="color: #AE5825;">return</span> absent;
+    }
+
+}
+</pre>
+</div>
+</li>
+</ol>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1">Client-side Locking</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<ul class="org-ul">
+<li>有时候你既无法更改源代码,又不知道所操作容器的真实具体类型,比如通过Collections.synchronizedList
+wrapper返回的容器.这种情况下,还有第三种增加功能的办法:helper函数
+</li>
+<li>下面是一个错误的helper例子,其原因是加错了锁!这里使用了BadListHelper的intrinsic
+锁,这显然是不对的.list肯定是使用自己的锁(不一定是自己的instrinsic)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.book.jcip.ch4.<span style="color: #86453A;">function</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">org</span>.<span style="color: #86453A;">apache</span>.<span style="color: #86453A;">http</span>.<span style="color: #86453A;">annotation</span>.<span style="color: #C6B032; font-style: italic;">NotThreadSafe</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">ArrayList</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">Collections</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">List</span>;
+
+<span style="color: #86453A;">@NotThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">BadListHelper</span>&lt;<span style="color: #C6B032; font-style: italic;">E</span>&gt; {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">List</span>&lt;<span style="color: #C6B032; font-style: italic;">E</span>&gt; <span style="color: #46657B;">list</span> = Collections.synchronizedList(<span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">ArrayList</span>&lt;<span style="color: #C6B032; font-style: italic;">E</span>&gt;());
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">putIfAbsent</span>(<span style="color: #C6B032; font-style: italic;">E</span> <span style="color: #46657B;">x</span>) {
+        <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #46657B;">absent</span> = !list.contains(x);
+        <span style="color: #AE5825;">if</span> (absent) {
+            list.add(x);
+        }
+        <span style="color: #AE5825;">return</span> absent;
+    }
+}
+</pre>
+</div>
+</li>
+<li>list具体使用哪个锁是内部实现,我们通过查阅文档知道它是使用了intrinsic锁,所以
+我们可以如下实现helper函数
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.book.jcip.ch4.<span style="color: #86453A;">function</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">org</span>.<span style="color: #86453A;">apache</span>.<span style="color: #86453A;">http</span>.<span style="color: #86453A;">annotation</span>.<span style="color: #C6B032; font-style: italic;">ThreadSafe</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">ArrayList</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">Collections</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">List</span>;
+
+<span style="color: #86453A;">@ThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">GoodListHelper</span>&lt;<span style="color: #C6B032; font-style: italic;">E</span>&gt; {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">List</span>&lt;<span style="color: #C6B032; font-style: italic;">E</span>&gt; <span style="color: #46657B;">list</span> = Collections.synchronizedList(<span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">ArrayList</span>&lt;<span style="color: #C6B032; font-style: italic;">E</span>&gt;());
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">putIfAbsent</span>(<span style="color: #C6B032; font-style: italic;">E</span> <span style="color: #46657B;">x</span>) {
+        <span style="color: #AE5825;">synchronized</span> (list) {
+            <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #46657B;">absent</span> = !list.contains(x);
+            <span style="color: #AE5825;">if</span> (absent) {
+                list.add(x);
+            }
+            <span style="color: #AE5825;">return</span> absent;
+        }
+    }
+}
+</pre>
+</div>
+</li>
+<li>list具体使用哪个锁按说是不应该在文档中记录的(因为这个是内部实现,说出来违反
+封装要求). 但是没有这个文档,无论是extend类还是client helper函数都无法实现
+因为无法知道是哪个锁.
+</li>
+<li>换句话说, extend类和client helper都"事实上破坏了封装"不应该采用.正确的方法
+是组合(composition)
+</li>
+<li>下面的例子就通过包含一个List, 并且对所有access List的函数加锁即便底层List是
+一个thread-不safe的实现,我们上面所做的也可以保证最终整个class的thread-safe.
+</li>
+<li>同时它还增加了一个自己的功能函数putIfAbsent
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.book.jcip.ch4.<span style="color: #86453A;">function</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">org</span>.<span style="color: #86453A;">apache</span>.<span style="color: #86453A;">http</span>.<span style="color: #86453A;">annotation</span>.<span style="color: #C6B032; font-style: italic;">ThreadSafe</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.*;
+
+<span style="color: #86453A;">@ThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">ImprovedList</span>&lt;<span style="color: #C6B032; font-style: italic;">T</span>&gt; <span style="color: #AE5825;">implements</span> <span style="color: #C6B032; font-style: italic;">List</span>&lt;<span style="color: #C6B032; font-style: italic;">T</span>&gt; {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">List</span>&lt;<span style="color: #C6B032; font-style: italic;">T</span>&gt; <span style="color: #46657B;">list</span>;
+
+    <span style="color: #DDFFD1;">/**</span>
+<span style="color: #DDFFD1;">     * PRE: list argument is thread-safe.</span>
+<span style="color: #DDFFD1;">     */</span>
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">ImprovedList</span>(<span style="color: #C6B032; font-style: italic;">List</span>&lt;<span style="color: #C6B032; font-style: italic;">T</span>&gt; <span style="color: #46657B;">list</span>) { <span style="color: #AE5825;">this</span>.list = list; }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">putIfAbsent</span>(<span style="color: #C6B032; font-style: italic;">T</span> <span style="color: #46657B;">x</span>) {
+        <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #46657B;">contains</span> = list.contains(x);
+        <span style="color: #AE5825;">if</span> (contains)
+            list.add(x);
+        <span style="color: #AE5825;">return</span> !contains;
+    }
+
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Plain vanilla delegation for List methods.</span>
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Mutative methods must be synchronized to ensure atomicity of putIfAbsent.</span>
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #C6B032;">size</span>() {
+        <span style="color: #AE5825;">return</span> list.size();
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">isEmpty</span>() {
+        <span style="color: #AE5825;">return</span> list.isEmpty();
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">contains</span>(<span style="color: #C6B032; font-style: italic;">Object</span> <span style="color: #46657B;">o</span>) {
+        <span style="color: #AE5825;">return</span> list.contains(o);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">Iterator</span>&lt;<span style="color: #C6B032; font-style: italic;">T</span>&gt; <span style="color: #C6B032;">iterator</span>() {
+        <span style="color: #AE5825;">return</span> list.iterator();
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">Object</span>[] <span style="color: #C6B032;">toArray</span>() {
+        <span style="color: #AE5825;">return</span> list.toArray();
+    }
+
+    <span style="color: #AE5825;">public</span> &lt;<span style="color: #C6B032; font-style: italic;">T</span>&gt; <span style="color: #C6B032; font-style: italic;">T</span>[] <span style="color: #C6B032;">toArray</span>(<span style="color: #C6B032; font-style: italic;">T</span>[] <span style="color: #46657B;">a</span>) {
+        <span style="color: #AE5825;">return</span> list.toArray(a);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">add</span>(<span style="color: #C6B032; font-style: italic;">T</span> <span style="color: #46657B;">e</span>) {
+        <span style="color: #AE5825;">return</span> list.add(e);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">remove</span>(<span style="color: #C6B032; font-style: italic;">Object</span> <span style="color: #46657B;">o</span>) {
+        <span style="color: #AE5825;">return</span> list.remove(o);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">containsAll</span>(<span style="color: #C6B032; font-style: italic;">Collection</span>&lt;?&gt; <span style="color: #46657B;">c</span>) {
+        <span style="color: #AE5825;">return</span> list.containsAll(c);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">addAll</span>(<span style="color: #C6B032; font-style: italic;">Collection</span>&lt;? <span style="color: #AE5825;">extends</span> <span style="color: #C6B032; font-style: italic;">T</span>&gt; <span style="color: #46657B;">c</span>) {
+        <span style="color: #AE5825;">return</span> list.addAll(c);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">addAll</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">index</span>, <span style="color: #C6B032; font-style: italic;">Collection</span>&lt;? <span style="color: #AE5825;">extends</span> <span style="color: #C6B032; font-style: italic;">T</span>&gt; <span style="color: #46657B;">c</span>) {
+        <span style="color: #AE5825;">return</span> list.addAll(index, c);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">removeAll</span>(<span style="color: #C6B032; font-style: italic;">Collection</span>&lt;?&gt; <span style="color: #46657B;">c</span>) {
+        <span style="color: #AE5825;">return</span> list.removeAll(c);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">retainAll</span>(<span style="color: #C6B032; font-style: italic;">Collection</span>&lt;?&gt; <span style="color: #46657B;">c</span>) {
+        <span style="color: #AE5825;">return</span> list.retainAll(c);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">equals</span>(<span style="color: #C6B032; font-style: italic;">Object</span> <span style="color: #46657B;">o</span>) {
+        <span style="color: #AE5825;">return</span> list.equals(o);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #C6B032;">hashCode</span>() {
+        <span style="color: #AE5825;">return</span> list.hashCode();
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">T</span> <span style="color: #C6B032;">get</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">index</span>) {
+        <span style="color: #AE5825;">return</span> list.get(index);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">T</span> <span style="color: #C6B032;">set</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">index</span>, <span style="color: #C6B032; font-style: italic;">T</span> <span style="color: #46657B;">element</span>) {
+        <span style="color: #AE5825;">return</span> list.set(index, element);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">add</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">index</span>, <span style="color: #C6B032; font-style: italic;">T</span> <span style="color: #46657B;">element</span>) {
+        list.add(index, element);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">T</span> <span style="color: #C6B032;">remove</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">index</span>) {
+        <span style="color: #AE5825;">return</span> list.remove(index);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #C6B032;">indexOf</span>(<span style="color: #C6B032; font-style: italic;">Object</span> <span style="color: #46657B;">o</span>) {
+        <span style="color: #AE5825;">return</span> list.indexOf(o);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #C6B032;">lastIndexOf</span>(<span style="color: #C6B032; font-style: italic;">Object</span> <span style="color: #46657B;">o</span>) {
+        <span style="color: #AE5825;">return</span> list.lastIndexOf(o);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">ListIterator</span>&lt;<span style="color: #C6B032; font-style: italic;">T</span>&gt; <span style="color: #C6B032;">listIterator</span>() {
+        <span style="color: #AE5825;">return</span> list.listIterator();
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">ListIterator</span>&lt;<span style="color: #C6B032; font-style: italic;">T</span>&gt; <span style="color: #C6B032;">listIterator</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">index</span>) {
+        <span style="color: #AE5825;">return</span> list.listIterator(index);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">List</span>&lt;<span style="color: #C6B032; font-style: italic;">T</span>&gt; <span style="color: #C6B032;">subList</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">fromIndex</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">toIndex</span>) {
+        <span style="color: #AE5825;">return</span> list.subList(fromIndex, toIndex);
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">clear</span>() { list.clear(); }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Documenting Synchronization Policies</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>文档是管理thread-safe的最有力工具:
+<ul class="org-ul">
+<li>用户通过文档来得知class是否thread-safe
+</li>
+<li>维护者通过文档来理解实现的细节,才能在后续的维护中,不破坏原来的thread-safe
+</li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
 </div>

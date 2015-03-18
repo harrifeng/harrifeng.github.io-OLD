@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 13: Unit Testing</title>
-<!-- 2014-07-18 Fri 16:02 -->
+<!-- 2015-03-18 Wed 14:07 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -187,33 +187,33 @@ for the JavaScript code in this tag.
 <li>ruby对于unit test非常重视,也容易写出unit test,比如我们有下面一个例子
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">This code has bugs</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">This code has bugs</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Roman</span>
-  <span style="color: #DADADA;">MAX_ROMAN</span> = 4999
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Roman</span>
+  <span style="color: #C6B032; font-style: italic;">MAX_ROMAN</span> = 4999
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(value)
-    <span style="color: #4856F7; font-weight: bold;">if</span> value &lt;= 0 || value &gt; <span style="color: #DADADA;">MAX_ROMAN</span>
-      <span style="color: #4856F7; font-weight: bold;">fail</span> <span style="color: #A2925E;">"Roman values must be &gt; 0 and &lt;=</span><span style="color: #C1C144;"> #{MAX_ROMAN}</span><span style="color: #A2925E;">"</span>
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-    <span style="color: #C1C144;">@value</span> = value
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(value)
+    <span style="color: #AE5825;">if</span> value &lt;= 0 || value &gt; <span style="color: #C6B032; font-style: italic;">MAX_ROMAN</span>
+      <span style="color: #AE5825;">fail</span> <span style="color: #5A7644;">"Roman values must be &gt; 0 and &lt;= </span><span style="color: #46657B;">#{MAX_ROMAN}</span><span style="color: #5A7644;">"</span>
+    <span style="color: #AE5825;">end</span>
+    <span style="color: #46657B;">@value</span> = value
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #DADADA;">FACTORS</span> = [[<span style="color: #A2925E;">"m, 1000"</span>], [<span style="color: #A2925E;">"cm"</span>, 900], [<span style="color: #A2925E;">"d"</span>, 500], [<span style="color: #A2925E;">"cd"</span>, 400],
-             [<span style="color: #A2925E;">"c,  100"</span>], [<span style="color: #A2925E;">"xc"</span>,  90], [<span style="color: #A2925E;">"l"</span>,  50], [<span style="color: #A2925E;">"xl"</span>,  40]],
-             [<span style="color: #A2925E;">"x,   10"</span>], [<span style="color: #A2925E;">"ix"</span>,   9], [<span style="color: #A2925E;">"v"</span>,   5], [<span style="color: #A2925E;">"iv"</span>,   4]],
-             [<span style="color: #A2925E;">"i"</span>,    1]]
+  <span style="color: #C6B032; font-style: italic;">FACTORS</span> = [[<span style="color: #5A7644;">"m, 1000"</span>], [<span style="color: #5A7644;">"cm"</span>, 900], [<span style="color: #5A7644;">"d"</span>, 500], [<span style="color: #5A7644;">"cd"</span>, 400],
+             [<span style="color: #5A7644;">"c,  100"</span>], [<span style="color: #5A7644;">"xc"</span>,  90], [<span style="color: #5A7644;">"l"</span>,  50], [<span style="color: #5A7644;">"xl"</span>,  40]],
+             [<span style="color: #5A7644;">"x,   10"</span>], [<span style="color: #5A7644;">"ix"</span>,   9], [<span style="color: #5A7644;">"v"</span>,   5], [<span style="color: #5A7644;">"iv"</span>,   4]],
+             [<span style="color: #5A7644;">"i"</span>,    1]]
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">to_s</span>
-    value = <span style="color: #C1C144;">@value</span>
-    roman = <span style="color: #A2925E;">""</span>
-    <span style="color: #4856F7; font-weight: bold;">for</span> code, factor <span style="color: #4856F7; font-weight: bold;">in</span> <span style="color: #DADADA;">FACTORS</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">to_s</span>
+    value = <span style="color: #46657B;">@value</span>
+    roman = <span style="color: #5A7644;">""</span>
+    <span style="color: #AE5825;">for</span> code, factor <span style="color: #AE5825;">in</span> <span style="color: #C6B032; font-style: italic;">FACTORS</span>
       count, value = value.divmod(factor)
-      roman &lt;&lt; code <span style="color: #4856F7; font-weight: bold;">unless</span> count.zero?
-    <span style="color: #4856F7; font-weight: bold;">end</span>
+      roman &lt;&lt; code <span style="color: #AE5825;">unless</span> count.zero?
+    <span style="color: #AE5825;">end</span>
     roman
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -251,80 +251,80 @@ for the JavaScript code in this tag.
 的两个值:1个是expected,1个是actual. 如果不相同,会返回很好的说明文字
 <div class="org-src-container">
 
-<pre class="src src-ruby">require_relative <span style="color: #A2925E;">'romanbug'</span>
-require <span style="color: #A2925E;">'test/unit'</span>
+<pre class="src src-ruby"><span style="color: #86453A;">require_relative</span> <span style="color: #5A7644;">'romanbug'</span>
+<span style="color: #86453A;">require</span> <span style="color: #5A7644;">'test/unit'</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">TestRoman</span> &lt; <span style="color: #DADADA;">Test</span>::<span style="color: #DADADA;">Unit</span>::<span style="color: #DADADA;">TestCase</span>
-  <span style="color: #DADADA;">NUMBERS</span> = {1 =&gt; <span style="color: #A2925E;">"i"</span>,  2 =&gt; <span style="color: #A2925E;">"ii"</span>,
-    3 =&gt; <span style="color: #A2925E;">"iii"</span>,4 =&gt; <span style="color: #A2925E;">"iv"</span>, 5=&gt; <span style="color: #A2925E;">"v"</span>, 9 =&gt; <span style="color: #A2925E;">"ix"</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">TestRoman</span> &lt; <span style="color: #C6B032; font-style: italic;">Test</span>::<span style="color: #C6B032; font-style: italic;">Unit</span>::<span style="color: #C6B032; font-style: italic;">TestCase</span>
+  <span style="color: #C6B032; font-style: italic;">NUMBERS</span> = {1 =&gt; <span style="color: #5A7644;">"i"</span>,  2 =&gt; <span style="color: #5A7644;">"ii"</span>,
+    3 =&gt; <span style="color: #5A7644;">"iii"</span>,4 =&gt; <span style="color: #5A7644;">"iv"</span>, 5=&gt; <span style="color: #5A7644;">"v"</span>, 9 =&gt; <span style="color: #5A7644;">"ix"</span>
   }
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">test_simple</span>
-    <span style="color: #DADADA;">NUMBERS</span>.each <span style="color: #4856F7; font-weight: bold;">do</span> |arabic, roman|
-      r = <span style="color: #DADADA;">Roman</span>.new(arabic)
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">test_simple</span>
+    <span style="color: #C6B032; font-style: italic;">NUMBERS</span>.each <span style="color: #AE5825;">do</span> |arabic, roman|
+      r = <span style="color: #C6B032; font-style: italic;">Roman</span>.new(arabic)
       assert_equal(roman, r.to_s)
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">test_range</span>
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">no exception for these two...</span>
-    <span style="color: #DADADA;">Roman</span>.new(1)
-    <span style="color: #DADADA;">Roman</span>.new(4999)
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">but an exception for these</span>
-    assert_raises(<span style="color: #DADADA;">RuntimeError</span>) { <span style="color: #DADADA;">Roman</span>.new(0)}
-    assert_raises(<span style="color: #DADADA;">RuntimeError</span>) { <span style="color: #DADADA;">Roman</span>.new(5000)}
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">test_range</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">no exception for these two...</span>
+    <span style="color: #C6B032; font-style: italic;">Roman</span>.new(1)
+    <span style="color: #C6B032; font-style: italic;">Roman</span>.new(4999)
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">but an exception for these</span>
+    assert_raises(<span style="color: #C6B032; font-style: italic;">RuntimeError</span>) { <span style="color: #C6B032; font-style: italic;">Roman</span>.new(0)}
+    assert_raises(<span style="color: #C6B032; font-style: italic;">RuntimeError</span>) { <span style="color: #C6B032; font-style: italic;">Roman</span>.new(5000)}
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>我们可以借助code block来简化我们的代码
 <div class="org-src-container">
 
-<pre class="src src-ruby">require_relative <span style="color: #A2925E;">'romanbug'</span>
-require <span style="color: #A2925E;">'test/unit'</span>
+<pre class="src src-ruby"><span style="color: #86453A;">require_relative</span> <span style="color: #5A7644;">'romanbug'</span>
+<span style="color: #86453A;">require</span> <span style="color: #5A7644;">'test/unit'</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">TestRoman</span> &lt; <span style="color: #DADADA;">Test</span>::<span style="color: #DADADA;">Unit</span>::<span style="color: #DADADA;">TestCase</span>
-  <span style="color: #DADADA;">NUMBERS</span> = {1 =&gt; <span style="color: #A2925E;">"i"</span>,  2 =&gt; <span style="color: #A2925E;">"ii"</span>,
-    3 =&gt; <span style="color: #A2925E;">"iii"</span>,4 =&gt; <span style="color: #A2925E;">"iv"</span>, 5=&gt; <span style="color: #A2925E;">"v"</span>, 9 =&gt; <span style="color: #A2925E;">"ix"</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">TestRoman</span> &lt; <span style="color: #C6B032; font-style: italic;">Test</span>::<span style="color: #C6B032; font-style: italic;">Unit</span>::<span style="color: #C6B032; font-style: italic;">TestCase</span>
+  <span style="color: #C6B032; font-style: italic;">NUMBERS</span> = {1 =&gt; <span style="color: #5A7644;">"i"</span>,  2 =&gt; <span style="color: #5A7644;">"ii"</span>,
+    3 =&gt; <span style="color: #5A7644;">"iii"</span>,4 =&gt; <span style="color: #5A7644;">"iv"</span>, 5=&gt; <span style="color: #5A7644;">"v"</span>, 9 =&gt; <span style="color: #5A7644;">"ix"</span>
   }
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">test_simple</span>
-    <span style="color: #DADADA;">NUMBERS</span>.each <span style="color: #4856F7; font-weight: bold;">do</span> |arabic, roman|
-      r = <span style="color: #DADADA;">Roman</span>.new(arabic)
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">test_simple</span>
+    <span style="color: #C6B032; font-style: italic;">NUMBERS</span>.each <span style="color: #AE5825;">do</span> |arabic, roman|
+      r = <span style="color: #C6B032; font-style: italic;">Roman</span>.new(arabic)
       assert_equal(roman, r.to_s)
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">test_range</span>
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">no exception for these two...</span>
-    <span style="color: #DADADA;">Roman</span>.new(1)
-    <span style="color: #DADADA;">Roman</span>.new(4999)
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">but an exception for these</span>
-    assert_raises(<span style="color: #DADADA;">RuntimeError</span>) { <span style="color: #DADADA;">Roman</span>.new(0)}
-    assert_raises(<span style="color: #DADADA;">RuntimeError</span>) { <span style="color: #DADADA;">Roman</span>.new(5000)}
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">test_range</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">no exception for these two...</span>
+    <span style="color: #C6B032; font-style: italic;">Roman</span>.new(1)
+    <span style="color: #C6B032; font-style: italic;">Roman</span>.new(4999)
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">but an exception for these</span>
+    assert_raises(<span style="color: #C6B032; font-style: italic;">RuntimeError</span>) { <span style="color: #C6B032; font-style: italic;">Roman</span>.new(0)}
+    assert_raises(<span style="color: #C6B032; font-style: italic;">RuntimeError</span>) { <span style="color: #C6B032; font-style: italic;">Roman</span>.new(5000)}
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>我们还可以用下面的代码来测试exception
 <div class="org-src-container">
 
-<pre class="src src-ruby">require_relative <span style="color: #A2925E;">'romanbug'</span>
-require <span style="color: #A2925E;">'test/unit'</span>
+<pre class="src src-ruby"><span style="color: #86453A;">require_relative</span> <span style="color: #5A7644;">'romanbug'</span>
+<span style="color: #86453A;">require</span> <span style="color: #5A7644;">'test/unit'</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">TestRoman</span> &lt; <span style="color: #DADADA;">Test</span>::<span style="color: #DADADA;">Unit</span>::<span style="color: #DADADA;">TestCase</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">....</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">test_range</span>
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">no exception for these two...</span>
-    <span style="color: #DADADA;">Roman</span>.new(1)
-    <span style="color: #DADADA;">Roman</span>.new(4999)
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">but an exception for these</span>
-    assert_raises(<span style="color: #DADADA;">RuntimeError</span>) { <span style="color: #DADADA;">Roman</span>.new(0)}
-    assert_raises(<span style="color: #DADADA;">RuntimeError</span>) { <span style="color: #DADADA;">Roman</span>.new(5000)}
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">TestRoman</span> &lt; <span style="color: #C6B032; font-style: italic;">Test</span>::<span style="color: #C6B032; font-style: italic;">Unit</span>::<span style="color: #C6B032; font-style: italic;">TestCase</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">....</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">test_range</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">no exception for these two...</span>
+    <span style="color: #C6B032; font-style: italic;">Roman</span>.new(1)
+    <span style="color: #C6B032; font-style: italic;">Roman</span>.new(4999)
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">but an exception for these</span>
+    assert_raises(<span style="color: #C6B032; font-style: italic;">RuntimeError</span>) { <span style="color: #C6B032; font-style: italic;">Roman</span>.new(0)}
+    assert_raises(<span style="color: #C6B032; font-style: italic;">RuntimeError</span>) { <span style="color: #C6B032; font-style: italic;">Roman</span>.new(5000)}
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 01: Rails Enovironments and Configuration</title>
-<!-- 2014-07-18 Fri 16:02 -->
+<!-- 2015-03-18 Wed 14:06 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -268,7 +268,8 @@ for the JavaScript code in this tag.
 <ul class="org-ul">
 <li>Bundler是一个来帮助管理gem, 和gem 相互依赖关系的软件.
 </li>
-<li>TODO
+<li>在Rails里面gem的版本控制是比较宽泛的,比如可以要求是大于2.3.14的所有版本(&gt;= 2.3.14),
+而bundler的作用,就是综合所有其他的版本要求,最终确定一个"准确的版本数字"
 </li>
 </ul>
 </div>
@@ -282,27 +283,27 @@ for the JavaScript code in this tag.
 <li>最近简单的用法是,只有gem和软件版本
 <div class="org-src-container">
 
-<pre class="src src-ruby">gem <span style="color: #A2925E;">'kaminari'</span>
-gem <span style="color: #A2925E;">'nokogiri'</span>
+<pre class="src src-ruby">gem <span style="color: #5A7644;">'kaminari'</span>
+gem <span style="color: #5A7644;">'nokogiri'</span>
 </pre>
 </div>
 </li>
 <li>我们还可以根据不同的版本来load不同的gem
 <div class="org-src-container">
 
-<pre class="src src-ruby">group <span style="color: #DF7921; font-weight: bold;">:development</span> <span style="color: #4856F7; font-weight: bold;">do</span>
-  gem <span style="color: #A2925E;">'pry-rails'</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby">group <span style="color: #86453A;">:development</span> <span style="color: #AE5825;">do</span>
+  gem <span style="color: #5A7644;">'pry-rails'</span>
+<span style="color: #AE5825;">end</span>
 
-group <span style="color: #DF7921; font-weight: bold;">:test</span> <span style="color: #4856F7; font-weight: bold;">do</span>
-  gem <span style="color: #A2925E;">'capybara'</span>
-  gem <span style="color: #A2925E;">'database_cleaner'</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+group <span style="color: #86453A;">:test</span> <span style="color: #AE5825;">do</span>
+  gem <span style="color: #5A7644;">'capybara'</span>
+  gem <span style="color: #5A7644;">'database_cleaner'</span>
+<span style="color: #AE5825;">end</span>
 
-group <span style="color: #DF7921; font-weight: bold;">:development</span>, <span style="color: #DF7921; font-weight: bold;">:test</span> <span style="color: #4856F7; font-weight: bold;">do</span>
-  gem <span style="color: #A2925E;">'rspec-rails'</span>
-  gem <span style="color: #A2925E;">'factory_girl_rails'</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+group <span style="color: #86453A;">:development</span>, <span style="color: #86453A;">:test</span> <span style="color: #AE5825;">do</span>
+  gem <span style="color: #5A7644;">'rspec-rails'</span>
+  gem <span style="color: #5A7644;">'factory_girl_rails'</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -310,18 +311,18 @@ group <span style="color: #DF7921; font-weight: bold;">:development</span>, <spa
 那么要写出来
 <div class="org-src-container">
 
-<pre class="src src-ruby">gem <span style="color: #A2925E;">'nokogiri'</span> <span style="color: #A2925E;">'1.5.6'</span>
-gem <span style="color: #A2925E;">'pry-rails'</span>, <span style="color: #A2925E;">'&gt; 0.2.2'</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Start from 2.0, no less than 2.0.1</span>
-gem <span style="color: #A2925E;">'decent_exposure'</span>, <span style="color: #A2925E;">'~&gt; 2.0.1'</span>
-gem <span style="color: #A2925E;">'draper'</span>, <span style="color: #A2925E;">'1.0.0beta6'</span>
+<pre class="src src-ruby">gem <span style="color: #5A7644;">'nokogiri'</span> <span style="color: #5A7644;">'1.5.6'</span>
+gem <span style="color: #5A7644;">'pry-rails'</span>, <span style="color: #5A7644;">'&gt; 0.2.2'</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Start from 2.0, no less than 2.0.1</span>
+gem <span style="color: #5A7644;">'decent_exposure'</span>, <span style="color: #5A7644;">'~&gt; 2.0.1'</span>
+gem <span style="color: #5A7644;">'draper'</span>, <span style="color: #5A7644;">'1.0.0beta6'</span>
 </pre>
 </div>
 </li>
 <li>有的时候如果require指定的名字和库本身的名字不同的话,要require:一下
 <div class="org-src-container">
 
-<pre class="src src-ruby">gem <span style="color: #A2925E;">'webmock'</span>, <span style="color: #DF7921; font-weight: bold;">require</span>: <span style="color: #A2925E;">'webmock/rspec'</span>
+<pre class="src src-ruby">gem <span style="color: #5A7644;">'webmock'</span>, <span style="color: #86453A;">require</span>: <span style="color: #5A7644;">'webmock/rspec'</span>
 </pre>
 </div>
 </li>
@@ -334,7 +335,7 @@ gem <span style="color: #A2925E;">'draper'</span>, <span style="color: #A2925E;"
 <li>还可以选择一个git的gem
 <div class="org-src-container">
 
-<pre class="src src-ruby">gem <span style="color: #A2925E;">'carrierwave'</span>, <span style="color: #DF7921; font-weight: bold;">git</span>: <span style="color: #A2925E;">'git@github.com:jnicklas/carrierwave.git'</span>
+<pre class="src src-ruby">gem <span style="color: #5A7644;">'carrierwave'</span>, <span style="color: #86453A;">git</span>: <span style="color: #5A7644;">'git@github.com:jnicklas/carrierwave.git'</span>
 </pre>
 </div>
 </li>
@@ -348,7 +349,7 @@ gem <span style="color: #A2925E;">'draper'</span>, <span style="color: #A2925E;"
 <li>从文件系统load gem
 <div class="org-src-container">
 
-<pre class="src src-ruby">gem <span style="color: #A2925E;">'nokogiri'</span>, <span style="color: #DF7921; font-weight: bold;">path</span>: <span style="color: #A2925E;">'~/code/nokogiri'</span>
+<pre class="src src-ruby">gem <span style="color: #5A7644;">'nokogiri'</span>, <span style="color: #86453A;">path</span>: <span style="color: #5A7644;">'~/code/nokogiri'</span>
 </pre>
 </div>
 </li>
@@ -381,7 +382,9 @@ $ bundle install --without test
 <div class="outline-text-4" id="text-1-1-3">
 <ul class="org-ul">
 <li>每当你install(或者update)的时候, Bundler都会把你们的依赖关系计算一下,然后
-存在一个叫做Gemfile.lock的文件里面.所以Gemfile.lock里面是精确的版本信息
+保存在一个叫做Gemfile.lock的文件里面.所以Gemfile.lock里面是精确的版本信息
+</li>
+<li>不要忘记Gemfile.lock,把它加入到git保存的列表里面.
 </li>
 </ul>
 </div>
@@ -391,7 +394,11 @@ $ bundle install --without test
 <div class="outline-text-4" id="text-1-1-4">
 <ul class="org-ul">
 <li>你可以使用package命令来把所有的gem存放在你的rails 应用的vender/cache文件夹
-里面
+里面.
+</li>
+<li>这很重要,因为你bundle package了以后,会在vender/cache 文件夹里面把你
+所有的正在使用的gem都存在这里. 以后你在其他地方使用的时候, 加上 &#x2013;local,就不
+会从rubygems.org下载了! 稳定的安全的gem很重要!
 <div class="org-src-container">
 
 <pre class="src src-sh">$ bundle package
@@ -401,15 +408,17 @@ $ bundle install --without test
 <li>在使用"非rails"指定的命令的时候,一定要在命令前面加"bundle exec",比如
 <div class="org-src-container">
 
-<pre class="src src-sh">$ bundle exec rake
+<pre class="src src-sh">$ bundle exec guard
 </pre>
 </div>
 </li>
-<li>这么做的"深层次"的原因,是因为除了某个rails application有一个Gemfile以外,你
-自己的系统还有一个Gemfile. 所以你每次在当前rails application运行的时候,再
-加一个bundle exec的话,会保证运行一遍"当前rails自己的Gemfile"
+<li>这么做的"深层次"的原因, 是ruby的多版本的存在: 运行一次bundle exec some:task
+确保你的some:task, 一定是在确保当前的bundle环境OK的情况下(如果有Gemfile的话,
+bundle 会运行), 再去运行some:task
+<a href="http://stackoverflow.com/questions/6588674/what-does-bundle-exec-rake-mean">http://stackoverflow.com/questions/6588674/what-does-bundle-exec-rake-mean</a>
 </li>
-<li>&#x2013;binstubs TODO
+<li>bundle 的参数&#x2013;binstubs 会生成RAILS_ROOT 下面的/bin文件,然后把所有可用的二进制
+程序加上一个环境设置,写成ruby script方进去#TODO#
 </li>
 </ul>
 </div>
@@ -439,14 +448,14 @@ $ bundle install --without test
 <li>application.rb首先会想到load boot.rb
 <div class="org-src-container">
 
-<pre class="src src-ruby">require <span style="color: #DADADA;">File</span>.expand_path(<span style="color: #A2925E;">'../boot'</span>, __FILE__)
+<pre class="src src-ruby"><span style="color: #86453A;">require</span> <span style="color: #C6B032; font-style: italic;">File</span>.expand_path(<span style="color: #5A7644;">'../boot'</span>, <span style="color: #86453A;">__FILE__</span>)
 </pre>
 </div>
 </li>
 <li>下一行是读取所有的module
 <div class="org-src-container">
 
-<pre class="src src-ruby">raquire <span style="color: #A2925E;">'rails/all'</span>
+<pre class="src src-ruby">raquire <span style="color: #5A7644;">'rails/all'</span>
 </pre>
 </div>
 </li>
@@ -455,11 +464,11 @@ $ bundle install --without test
 <li>configuration的主体,其实是创建一个新的module
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Hfeng</span>
-  <span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Application</span> &lt; <span style="color: #DADADA;">Rails</span>::<span style="color: #DADADA;">Application</span>
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Settings in config/environments/* take precedence over those specified here.</span>
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Application configuration should go into files in config/initializers</span>
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">-- all .rb files in that directory are automatically loaded.</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">Hfeng</span>
+  <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Application</span> &lt; <span style="color: #C6B032; font-style: italic;">Rails</span>::<span style="color: #C6B032; font-style: italic;">Application</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Settings in config/environments/* take precedence over those specified here.</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Application configuration should go into files in config/initializers</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">-- all .rb files in that directory are automatically loaded.</span>
 </pre>
 </div>
 </li>
@@ -472,15 +481,15 @@ $ bundle install --without test
 <li>后面的注释是说你可以自己添加一些自动加载的项目
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Custom directories with classes and modules you want to be autoloadable.</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">config.autoload_paths += %W(#{config.root}/extras)</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Custom directories with classes and modules you want to be autoloadable.</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">config.autoload_paths += %W(#{config.root}/extras)</span>
 </pre>
 </div>
 </li>
 <li>比如我们可以加载app文件夹下面的presenters文件夹,那么就如下
 <div class="org-src-container">
 
-<pre class="src src-ruby">config.autoload_paths += <span style="color: #A2925E;">%W</span><span style="color: #C1C144;">(#{config.root}</span><span style="color: #A2925E;">/app/presenters)</span>
+<pre class="src src-ruby">config.autoload_paths += <span style="color: #5A7644;">%W(</span><span style="color: #46657B;">#{config.root}</span><span style="color: #5A7644;">/app/presenters)</span>
 </pre>
 </div>
 </li>
@@ -494,9 +503,9 @@ $ bundle install --without test
 <li>默认市区是UTC,你当然可以更改
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">config.time_zone = 'Central Time (US &amp; Canada)'</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">config.time_zone = 'Central Time (US &amp; Canada)'</span>
 </pre>
 </div>
 </li>
@@ -510,9 +519,9 @@ $ bundle install --without test
 <li>默认的locale是:en,当然你也可以覆盖
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">config.i18n.default_locale = :de</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">config.i18n.default_locale = :de</span>
 </pre>
 </div>
 </li>
@@ -545,14 +554,14 @@ $ bundle install --without test
 <li>exception会和很多backtrace代码一块抛出, 你可以使用一些设置让他们变的短一点
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #DADADA;">Rails</span>.backtrace_cleaner.add_silencer {|line| line =~ <span style="color: #A2925E;">/my_noisy_library/</span>}
+<pre class="src src-ruby"><span style="color: #C6B032; font-style: italic;">Rails</span>.backtrace_cleaner.add_silencer {|line| line =~ <span style="color: #5A7644;">/my_noisy_library/</span>}
 </pre>
 </div>
 </li>
 <li>你甚至可以让他们完全消失
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #DADADA;">Rails</span>.backtrace_cleaner.remove_silencers!
+<pre class="src src-ruby"><span style="color: #C6B032; font-style: italic;">Rails</span>.backtrace_cleaner.remove_silencers!
 </pre>
 </div>
 </li>
@@ -567,8 +576,8 @@ $ bundle install --without test
 request信息里面分析出密码), 我们要把敏感信息过滤
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Configure sensitive parameters which will be filtered from the log file</span>
-<span style="color: #DADADA;">Rails</span>.application.config.filter_parameters += [<span style="color: #DF7921; font-weight: bold;">:password</span>]
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Configure sensitive parameters which will be filtered from the log file</span>
+<span style="color: #C6B032; font-style: italic;">Rails</span>.application.config.filter_parameters += [<span style="color: #86453A;">:password</span>]
 </pre>
 </div>
 </li>
@@ -587,12 +596,12 @@ request信息里面分析出密码), 我们要把敏感信息过滤
 
 <pre class="src src-sh">bash-3.2$ rails console
 Loading development environment (Rails 3.0.20)
-<span style="color: #A1A1FF;">irb</span>(main):001:0&gt; ActiveSupport::Inflector.pluralize <span style="color: #A2925E;">"project"</span>
-=&gt; <span style="color: #A2925E;">"projects"</span>
-<span style="color: #A1A1FF;">irb</span>(main):002:0&gt; ActiveSupport::Inflector.pluralize <span style="color: #A2925E;">"virus"</span>
-=&gt; <span style="color: #A2925E;">"viri"</span>
-<span style="color: #A1A1FF;">irb</span>(main):003:0&gt; <span style="color: #A2925E;">"pensum"</span>.pluralize
-=&gt; <span style="color: #A2925E;">"pensums"</span>
+<span style="color: #C6B032;">irb</span>(main):001:0&gt; ActiveSupport::Inflector.pluralize <span style="color: #5A7644;">"project"</span>
+=&gt; <span style="color: #5A7644;">"projects"</span>
+<span style="color: #C6B032;">irb</span>(main):002:0&gt; ActiveSupport::Inflector.pluralize <span style="color: #5A7644;">"virus"</span>
+=&gt; <span style="color: #5A7644;">"viri"</span>
+<span style="color: #C6B032;">irb</span>(main):003:0&gt; <span style="color: #5A7644;">"pensum"</span>.pluralize
+=&gt; <span style="color: #5A7644;">"pensums"</span>
 </pre>
 </div>
 </li>
@@ -600,13 +609,13 @@ Loading development environment (Rails 3.0.20)
 为pensum的复数其实是pensa.我们可以把这个"知识"插入进去
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">en means English</span>
-<span style="color: #DADADA;">ActiveSupport</span>::<span style="color: #DADADA;">Inflector</span>.inflections(<span style="color: #DF7921; font-weight: bold;">:en</span>) <span style="color: #4856F7; font-weight: bold;">do</span> |inflect|
-  inflect.plural /^(ox)$/i, <span style="color: #A2925E;">'\1en'</span>
-  inflect.singular /^(ox)en/i, <span style="color: #A2925E;">'\1'</span>
-  inflect.irregular <span style="color: #A2925E;">'person'</span>, <span style="color: #A2925E;">'people'</span>
-  inflect.uncountable <span style="color: #A2925E;">%w( fish sheep)</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">en means English</span>
+<span style="color: #C6B032; font-style: italic;">ActiveSupport</span>::<span style="color: #C6B032; font-style: italic;">Inflector</span>.inflections(<span style="color: #86453A;">:en</span>) <span style="color: #AE5825;">do</span> |inflect|
+  inflect.plural /^(ox)<span style="color: #86453A;">$/</span>i, <span style="color: #5A7644;">'\1en'</span>
+  inflect.singular /^(ox)en/i, <span style="color: #5A7644;">'\1'</span>
+  inflect.irregular <span style="color: #5A7644;">'person'</span>, <span style="color: #5A7644;">'people'</span>
+  inflect.uncountable <span style="color: #5A7644;">%w( fish sheep)</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -653,7 +662,7 @@ Loading development environment (Rails 3.0.20)
 包含了secret key base
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #DADADA;">Example</span>::<span style="color: #DADADA;">Application</span>.config.secret_key_base=<span style="color: #A2925E;">'f32b1a3755e05a3d...'</span>
+<pre class="src src-ruby"><span style="color: #C6B032; font-style: italic;">Example</span>::<span style="color: #C6B032; font-style: italic;">Application</span>.config.secret_key_base=<span style="color: #5A7644;">'f32b1a3755e05a3d...'</span>
 </pre>
 </div>
 </li>
@@ -676,18 +685,18 @@ Loading development environment (Rails 3.0.20)
 <li>从Rails 3.1开始,引入了wrap_parameters.rb来配合JavaScript MVC framework的工作.
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Enable parameter wrapping for JSON. You can disable thsi by setting</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">:format to an empty array.Now it only support json</span>
-<span style="color: #DADADA;">ActiveSupport</span>.on_load(<span style="color: #DF7921; font-weight: bold;">:action_controller</span>) <span style="color: #4856F7; font-weight: bold;">do</span>
-  wrap_parameters <span style="color: #DF7921; font-weight: bold;">format</span>: [<span style="color: #DF7921; font-weight: bold;">:json</span>] <span style="color: #4856F7; font-weight: bold;">if</span> respond_to?(<span style="color: #DF7921; font-weight: bold;">:wrap_parameters</span>)
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Enable parameter wrapping for JSON. You can disable thsi by setting</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">:format to an empty array.Now it only support json</span>
+<span style="color: #C6B032; font-style: italic;">ActiveSupport</span>.on_load(<span style="color: #86453A;">:action_controller</span>) <span style="color: #AE5825;">do</span>
+  wrap_parameters <span style="color: #86453A;">format</span>: [<span style="color: #86453A;">:json</span>] <span style="color: #AE5825;">if</span> respond_to?(<span style="color: #86453A;">:wrap_parameters</span>)
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>然后当你传递一个parameter给controller的时候, 你的JSON数据是这样的
 <div class="org-src-container">
 
-<pre class="src src-ruby">{<span style="color: #A2925E;">"title"</span>: <span style="color: #A2925E;">"The Rails 4 Way"</span>}
+<pre class="src src-ruby">{<span style="color: #5A7644;">"title"</span>: <span style="color: #5A7644;">"The Rails 4 Way"</span>}
 </pre>
 </div>
 </li>
@@ -698,7 +707,7 @@ Loading development environment (Rails 3.0.20)
 <li>新的成员的key是parameter的名字. 值是前面的json.于是就是这样
 <div class="org-src-container">
 
-<pre class="src src-ruby">{<span style="color: #A2925E;">"title"</span>: <span style="color: #A2925E;">"The Rails 4 Way"</span>, <span style="color: #A2925E;">"article"</span> =&gt; {<span style="color: #A2925E;">"title"</span>: <span style="color: #A2925E;">"The Rails 4 Way"</span>}}
+<pre class="src src-ruby">{<span style="color: #5A7644;">"title"</span>: <span style="color: #5A7644;">"The Rails 4 Way"</span>, <span style="color: #5A7644;">"article"</span> =&gt; {<span style="color: #5A7644;">"title"</span>: <span style="color: #5A7644;">"The Rails 4 Way"</span>}}
 </pre>
 </div>
 </li>
@@ -723,7 +732,7 @@ Loading development environment (Rails 3.0.20)
 <li>默认的log 级别是debug, 你也可以override它.
 <div class="org-src-container">
 
-<pre class="src src-ruby">config.log_level = <span style="color: #DF7921; font-weight: bold;">:debug</span>
+<pre class="src src-ruby">config.log_level = <span style="color: #86453A;">:debug</span>
 </pre>
 </div>
 </li>
@@ -739,11 +748,11 @@ Loading development environment (Rails 3.0.20)
 果你们够高级的话,可能会想使用自己的sql来实现这些.这个时候,可以如下设置
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Use SQL instead of Active Record's schema dumper when creating the</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">test database. This is necessary if your schema can't be completely</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">dumped by the schema dumper, for example, if you have constraints</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">or db-specific column types</span>
-config.active_record.schema_format = <span style="color: #DF7921; font-weight: bold;">:sql</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Use SQL instead of Active Record's schema dumper when creating the</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">test database. This is necessary if your schema can't be completely</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">dumped by the schema dumper, for example, if you have constraints</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">or db-specific column types</span>
+config.active_record.schema_format = <span style="color: #86453A;">:sql</span>
 </pre>
 </div>
 </li>
@@ -760,10 +769,10 @@ config.active_record.schema_format = <span style="color: #DF7921; font-weight: b
 要配置文件都写在config/environments/development.rb
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">File: config/environments/development.rb</span>
-<span style="color: #DADADA;">Example</span>::<span style="color: #DADADA;">Application</span>.configure <span style="color: #4856F7; font-weight: bold;">do</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Settings specified here will take precedence over those in</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">config/application.rb</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">File: config/environments/development.rb</span>
+<span style="color: #C6B032; font-style: italic;">Example</span>::<span style="color: #C6B032; font-style: italic;">Application</span>.configure <span style="color: #AE5825;">do</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Settings specified here will take precedence over those in</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">config/application.rb</span>
 </pre>
 </div>
 </li>
@@ -777,12 +786,12 @@ config.active_record.schema_format = <span style="color: #DF7921; font-weight: b
 重要特性的变量是config.cache_classes
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">In the development environement your application's code is reloaded on</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">every request. This slows down response time but is perfect for</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">development since you don't have to restart the web server when you</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">make code changes</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">In the development environement your application's code is reloaded on</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">every request. This slows down response time but is perfect for</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">development since you don't have to restart the web server when you</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">make code changes</span>
 
-config.cache_classes = <span style="color: #C1C144;">false</span>
+config.cache_classes = <span style="color: #46657B;">false</span>
 </pre>
 </div>
 </li>
@@ -818,8 +827,8 @@ load path里面的相应的Ruby Script
 
 <pre class="src src-sh">bash-3.2$ rails console
 Loading development environment (Rails 3.0.20)
-<span style="color: #A1A1FF;">irb</span>(main):001:0&gt; $<span style="color: #C1C144;">LOAD_PATH</span>
-=&gt; [<span style="color: #A2925E;">"/usr/local/var/rbenv/versions/1.9.3-p484/lib/ruby/gems/1.9.1/gems/gdata_19-1.1.5/lib"</span>, ....
+<span style="color: #C6B032;">irb</span>(main):001:0&gt; $<span style="color: #46657B;">LOAD_PATH</span>
+=&gt; [<span style="color: #5A7644;">"/usr/local/var/rbenv/versions/1.9.3-p484/lib/ruby/gems/1.9.1/gems/gdata_19-1.1.5/lib"</span>, ....
 </pre>
 </div>
 </li>
@@ -861,9 +870,9 @@ MacGyver::SwissArmKnife ==&gt; mac_gyver/swiss_army_knife
 development mode下你可以设置为放入内存(反正你也不常开). 放入内存会提高速度
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Do not eager lod code on boot</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">You can set it to true in development mode</span>
-config.eager_load = <span style="color: #C1C144;">false</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Do not eager lod code on boot</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">You can set it to true in development mode</span>
+config.eager_load = <span style="color: #46657B;">false</span>
 </pre>
 </div>
 </li>
@@ -878,7 +887,7 @@ config.eager_load = <span style="color: #C1C144;">false</span>
 来把非local的request理解成local的
 <div class="org-src-container">
 
-<pre class="src src-ruby">config.consider_all_requests_local = <span style="color: #C1C144;">true</span>
+<pre class="src src-ruby">config.consider_all_requests_local = <span style="color: #46657B;">true</span>
 </pre>
 </div>
 </li>
@@ -893,7 +902,7 @@ config.eager_load = <span style="color: #C1C144;">false</span>
 是奇怪错误的发源地
 <div class="org-src-container">
 
-<pre class="src src-ruby">config.action_controller.perform_caching = <span style="color: #C1C144;">true</span>
+<pre class="src src-ruby">config.action_controller.perform_caching = <span style="color: #46657B;">true</span>
 </pre>
 </div>
 </li>
@@ -908,7 +917,7 @@ config.eager_load = <span style="color: #C1C144;">false</span>
 通过如下设置来屏蔽mail的错误
 <div class="org-src-container">
 
-<pre class="src src-ruby">config.action_mailer.raise_delivery_errors = <span style="color: #C1C144;">false</span>
+<pre class="src src-ruby">config.action_mailer.raise_delivery_errors = <span style="color: #46657B;">false</span>
 </pre>
 </div>
 </li>
@@ -922,8 +931,8 @@ config.eager_load = <span style="color: #C1C144;">false</span>
 <li>Deprecation warnings非常重要,需要加入到log里面:通过如下设置
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Print deprecation notices to the Rails logger</span>
-config.active_support.deprecation = <span style="color: #DF7921; font-weight: bold;">:log</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Print deprecation notices to the Rails logger</span>
+config.active_support.deprecation = <span style="color: #86453A;">:log</span>
 </pre>
 </div>
 </li>
@@ -938,8 +947,8 @@ config.active_support.deprecation = <span style="color: #DF7921; font-weight: bo
 都会被log. 设置"阈值"的代码为
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Log the query plan for queries taking more than this</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">(works with SQLite, MySQL, and PostgreSQL)</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Log the query plan for queries taking more than this</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">(works with SQLite, MySQL, and PostgreSQL)</span>
 config.active_record.auto_explain_threshold_in_seconds = 0.5
 </pre>
 </div>
@@ -954,8 +963,8 @@ config.active_record.auto_explain_threshold_in_seconds = 0.5
 <li>Development模式下面, 会阻止一些javascript的设置
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Debug mode disables concatenation and preprocessing of assets</span>
-config.assets.debug = <span style="color: #C1C144;">true</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Debug mode disables concatenation and preprocessing of assets</span>
+config.assets.debug = <span style="color: #46657B;">true</span>
 </pre>
 </div>
 </li>
@@ -970,23 +979,23 @@ config.assets.debug = <span style="color: #C1C144;">true</span>
 <li>如果RAILS_ENV被设置为test的话,那么久说明你进入了test mode. 其设置为
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">File: config/environments/test.rb</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">File: config/environments/test.rb</span>
 
-<span style="color: #DADADA;">Example</span>::<span style="color: #DADADA;">Application</span>.configure <span style="color: #4856F7; font-weight: bold;">do</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Settings specified here will take precedence over those in</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">config/application.rb</span>
+<span style="color: #C6B032; font-style: italic;">Example</span>::<span style="color: #C6B032; font-style: italic;">Application</span>.configure <span style="color: #AE5825;">do</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Settings specified here will take precedence over those in</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">config/application.rb</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The test environment is used exclusively to run your application's</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">test suite. You never need to work with it otherwise. Rember that</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">your test databse is "scratch space" for the test suite and is wiped</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">and recreated between test runs. Don't rely on the data there!</span>
-  config.cache_classes = <span style="color: #C1C144;">true</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The test environment is used exclusively to run your application's</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">test suite. You never need to work with it otherwise. Rember that</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">your test databse is "scratch space" for the test suite and is wiped</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">and recreated between test runs. Don't rely on the data there!</span>
+  config.cache_classes = <span style="color: #46657B;">true</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Do not eager load code on boot. This avoids loading your whole</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">application just for the purpose of running a single test. If you are</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">using a tool that preloads Rails for running tests, you may have to</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">set it to true</span>
-  config.eager_load = <span style="color: #C1C144;">false</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Do not eager load code on boot. This avoids loading your whole</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">application just for the purpose of running a single test. If you are</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">using a tool that preloads Rails for running tests, you may have to</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">set it to true</span>
+  config.eager_load = <span style="color: #46657B;">false</span>
 </pre>
 </div>
 </li>
@@ -1011,39 +1020,39 @@ config/environments里面写一个rb文件).
 request而读取所有的application class
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">File: config/environments/production.rb</span>
-<span style="color: #DADADA;">Example</span>::<span style="color: #DADADA;">Application</span>.configure <span style="color: #4856F7; font-weight: bold;">do</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Settings specified here will take precedence over those in</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">config/application.rb</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">File: config/environments/production.rb</span>
+<span style="color: #C6B032; font-style: italic;">Example</span>::<span style="color: #C6B032; font-style: italic;">Application</span>.configure <span style="color: #AE5825;">do</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Settings specified here will take precedence over those in</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">config/application.rb</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Code is not reloaded between requests</span>
-  config.cache_classes = <span style="color: #C1C144;">true</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Code is not reloaded between requests</span>
+  config.cache_classes = <span style="color: #46657B;">true</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Eager load code on boot. This eager loads most of Rails</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">and your application in memory, allowing both thread web servers</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">and those relying on copy on write to perform better</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Rake tasks automatically ignore this option for performance</span>
-  config.eager_load = <span style="color: #C1C144;">true</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Eager load code on boot. This eager loads most of Rails</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">and your application in memory, allowing both thread web servers</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">and those relying on copy on write to perform better</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Rake tasks automatically ignore this option for performance</span>
+  config.eager_load = <span style="color: #46657B;">true</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Full error reports are disabled and caching is turned on</span>
-  config.consider_all_requests_local        = <span style="color: #C1C144;">false</span>
-  config.action_controller.perform_caching  = <span style="color: #C1C144;">true</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Full error reports are disabled and caching is turned on</span>
+  config.consider_all_requests_local        = <span style="color: #46657B;">false</span>
+  config.action_controller.perform_caching  = <span style="color: #46657B;">true</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Enable Rake::Cache to put a simple HTTP cache in front of your</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">application</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Add 'rake-cache' to your Gemfile before enabling this</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">For large-scale production use, consider using a caching reverse proxy</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">like nginx, varnish or squid</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">config.action_dispatch.rack_cache = true</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Enable Rake::Cache to put a simple HTTP cache in front of your</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">application</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Add 'rake-cache' to your Gemfile before enabling this</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">For large-scale production use, consider using a caching reverse proxy</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">like nginx, varnish or squid</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">config.action_dispatch.rack_cache = true</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Disable rails's static assert server</span>
-  config.serve_static_assets = <span style="color: #C1C144;">false</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Disable rails's static assert server</span>
+  config.serve_static_assets = <span style="color: #46657B;">false</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Compress JavaScripts and CSS</span>
-  config.assets.js_compressor = <span style="color: #DF7921; font-weight: bold;">:uglifier</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Compress JavaScripts and CSS</span>
+  config.assets.js_compressor = <span style="color: #86453A;">:uglifier</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -1061,7 +1070,7 @@ request而读取所有的application class
 <li>处理application.js和application.css以外如果还想加其他asset的话,那么要如下
 <div class="org-src-container">
 
-<pre class="src src-ruby">config.assets.precompile += <span style="color: #A2925E;">%w( administration.css)</span>
+<pre class="src src-ruby">config.assets.precompile += <span style="color: #5A7644;">%w( administration.css)</span>
 </pre>
 </div>
 </li>
@@ -1096,7 +1105,7 @@ request而读取所有的application class
 <li>log文件可能会增长特别快, rake专门有个命令来清理
 <div class="org-src-container">
 
-<pre class="src src-sh">rake log:clear                  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Truncates all *.log files in log/ to zero bytes</span>
+<pre class="src src-sh">rake log:clear                  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Truncates all *.log files in log/ to zero bytes</span>
 </pre>
 </div>
 </li>
@@ -1112,7 +1121,7 @@ request而读取所有的application class
 <li>我们可以给log加上类似"标签"的功能.
 <div class="org-src-container">
 
-<pre class="src src-ruby">config.log_tags = [<span style="color: #DF7921; font-weight: bold;">:subdomain</span>]
+<pre class="src src-ruby">config.log_tags = [<span style="color: #86453A;">:subdomain</span>]
 </pre>
 </div>
 </li>

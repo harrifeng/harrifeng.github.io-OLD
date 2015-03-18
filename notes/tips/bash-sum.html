@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>bash 常用命令总结</title>
-<!-- 2014-05-15 Thu 19:20 -->
+<!-- 2015-03-18 Wed 14:06 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -168,52 +168,21 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">uniq</a>
-<ul>
-<li><a href="#sec-1-1">简介</a></li>
-</ul>
-</li>
-<li><a href="#sec-2">find</a>
-<ul>
-<li><a href="#sec-2-1">简介</a></li>
-<li><a href="#sec-2-2">应用举例</a></li>
-</ul>
-</li>
-<li><a href="#sec-3">sed</a>
-<ul>
-<li><a href="#sec-3-1">简介</a></li>
-<li><a href="#sec-3-2">应用举例</a></li>
-</ul>
-</li>
-<li><a href="#sec-4">ls</a>
-<ul>
-<li><a href="#sec-4-1">应用举例</a></li>
-</ul>
-</li>
-<li><a href="#sec-5">df</a>
-<ul>
-<li><a href="#sec-5-1">应用举例</a></li>
-</ul>
-</li>
-<li><a href="#sec-6">du</a>
-<ul>
-<li><a href="#sec-6-1">应用举例</a></li>
-</ul>
-</li>
+<li><a href="#sec-1">找出文件中每一行重复出现的次数</a></li>
+<li><a href="#sec-2">如何找出某个文件夹下面大于20M的文件</a></li>
+<li><a href="#sec-3">递归删除目录下所有指定类型(扩展名)的文件</a></li>
+<li><a href="#sec-4">如何替换一个文件中的某些字符串为新的字符串</a></li>
+<li><a href="#sec-5">列出当前文件夹下的所有文件夹.</a></li>
+<li><a href="#sec-6">查看所有硬盘使用的情况(百分比)</a></li>
+<li><a href="#sec-7">查看当前文件夹所有内容占用硬盘的情况</a></li>
 </ul>
 </div>
 </div>
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">uniq</h2>
+<h2 id="sec-1">找出文件中每一行重复出现的次数</h2>
 <div class="outline-text-2" id="text-1">
-</div><div id="outline-container-sec-1-1" class="outline-3">
-<h3 id="sec-1-1">简介</h3>
-<div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
-<li>uniq可以把重复的字符串去重输出, 注意,它只能判断挨着的是不是重复的,
-所以我们很可以把它和sort一起联合起来使用
-</li>
-<li>应用举例:如何找出某一行在某个文件中出现的次数
+<li>使用uniq
 <div class="org-src-container">
 
 <pre class="src src-sh">[~/bash] &gt; cat uniq.txt
@@ -249,116 +218,81 @@ bbb
 </ul>
 </div>
 </div>
-</div>
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">find</h2>
+<h2 id="sec-2">如何找出某个文件夹下面大于20M的文件</h2>
 <div class="outline-text-2" id="text-2">
-</div><div id="outline-container-sec-2-1" class="outline-3">
-<h3 id="sec-2-1">简介</h3>
-<div class="outline-text-3" id="text-2-1">
 <ul class="org-ul">
-<li>找出当前文件夹下的所有文件
-</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-sec-2-2" class="outline-3">
-<h3 id="sec-2-2">应用举例</h3>
-<div class="outline-text-3" id="text-2-2">
-<ul class="org-ul">
-<li>如何找出某个文件夹下面大于20M的文件
+<li>使用find, 以及find的参数-size
 <div class="org-src-container">
 
-<pre class="src src-sh">[/usr/local/Cellar] &gt; find /usr/local/Cellar/ -size +20M -print
-/usr/local/Cellar//mongodb/2.4.5/bin/bsondump
-/usr/local/Cellar//mongodb/2.4.5/bin/mongodump
-/usr/local/Cellar//mongodb/2.4.5/bin/mongoexport
-/usr/local/Cellar//mongodb/2.4.5/bin/mongofiles
-/usr/local/Cellar//mongodb/2.4.5/bin/mongoimport
-/usr/local/Cellar//mongodb/2.4.5/bin/mongooplog
-/usr/local/Cellar//mongodb/2.4.5/bin/mongoperf
-/usr/local/Cellar//mongodb/2.4.5/bin/mongorestore
-/usr/local/Cellar//mongodb/2.4.5/bin/mongosniff
-/usr/local/Cellar//mongodb/2.4.5/bin/mongostat
-/usr/local/Cellar//mongodb/2.4.5/bin/mongotop
-/usr/local/Cellar//mongodb/2.4.5/mongod
-/usr/local/Cellar//mysql/5.6.13/lib/libmysqld.a
-</pre>
-</div>
-</li>
-<li>递归删除目录下所有指定的文件
-<div class="org-src-container">
-
-<pre class="src src-sh">find . -name <span style="color: #2aa198;">'*.exe'</span> -type f -print -exec rm -rf {} <span style="color: #2aa198;">\;</span>
+<pre class="src src-sh">bash-3.2$ find /usr/local/Cellar/ -size +2M
+/usr/local/Cellar//emacs/24.3/bin/emacs-24.3
+/usr/local/Cellar//emacs/24.3/Emacs.app/Contents/MacOS/Emacs
+/usr/local/Cellar//emacs/24.3/share/emacs/24.3/etc/DOC-24.3.1
+/usr/local/Cellar//emacs/24.3/share/emacs/24.3/leim/ja-dic/ja-dic.elc
+/usr/local/Cellar//jmeter/2.11/libexec/docs/api/index-all.html
+/usr/local/Cellar//jmeter/2.11/libexec/lib/xalan-2.7.1.jar
+/usr/local/Cellar//openssl/1.0.1h/lib/libcrypto.a
 </pre>
 </div>
 </li>
 </ul>
-</div>
 </div>
 </div>
 <div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">sed</h2>
+<h2 id="sec-3">递归删除目录下所有指定类型(扩展名)的文件</h2>
 <div class="outline-text-2" id="text-3">
-</div><div id="outline-container-sec-3-1" class="outline-3">
-<h3 id="sec-3-1">简介</h3>
-<div class="outline-text-3" id="text-3-1">
 <ul class="org-ul">
-<li>sed 是一种在线编辑器，它一次处理一行内容。处理时，把当前处理的行存储在临时
-缓冲区中，称为“模式空间”（pattern space），接着用sed命令处理缓冲区中
-的内容，处理完成后，把缓冲区的内容送往屏幕。接着处理下一行，这样不断重复，直到文件末尾。
-</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-sec-3-2" class="outline-3">
-<h3 id="sec-3-2">应用举例</h3>
-<div class="outline-text-3" id="text-3-2">
-<ul class="org-ul">
-<li>如何替换一个文件中的某些字符串为新的字符串(解法和vim的替换
-很像啊)
+<li>使用find找出,然后使用xargs将结果作为参数传递给rm -rf.不使用-exec是因为-exec
+是一次性传递find结果,如果中间出现了"参数错误", 没有权限等,就很麻烦. xargs是
+每次传递一个参数.
 <div class="org-src-container">
 
-<pre class="src src-sh">sed -i <span style="color: #2aa198;">'s/old-word/new-word/g'</span> *.txt
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">Mac bash</span>
-sed -ig <span style="color: #2aa198;">'s/old-word/new-word/g'</span> *.txt
+<pre class="src src-sh">bash-3.2$ find a -name <span style="color: #5A7644;">'*.txt'</span> -type f -print
+a/aa.txt
+a/b/bb.txt
+a/b/c/cc.txt
+bash-3.2$ find a -name <span style="color: #5A7644;">'*.txt'</span> | xargs rm -rf
+bash-3.2$ find a
+a
+a/b
+a/b/c
 </pre>
 </div>
 </li>
 </ul>
-</div>
 </div>
 </div>
 <div id="outline-container-sec-4" class="outline-2">
-<h2 id="sec-4">ls</h2>
+<h2 id="sec-4">如何替换一个文件中的某些字符串为新的字符串</h2>
 <div class="outline-text-2" id="text-4">
-</div><div id="outline-container-sec-4-1" class="outline-3">
-<h3 id="sec-4-1">应用举例</h3>
-<div class="outline-text-3" id="text-4-1">
 <ul class="org-ul">
-<li>列出当前文件夹下的所有文件夹. 这个问题很细节, "*/"是bash里面指代文
-件夹的方式.
+<li>使用sed, 解法和vim的替换很像. 需要注意的是在mac上面参数是-ig, 而linux上面是-i
 <div class="org-src-container">
 
-<pre class="src src-sh">ls -d */
+<pre class="src src-sh">bash-3.2$ cat a.txt
+hello old-word, I am old-word too
+bash-3.2$ sed -ig <span style="color: #5A7644;">'s/old-word/new-word/g'</span> a.txt
+bash-3.2$ cat a.txt
+hello new-word, I am new-word too
 </pre>
 </div>
 </li>
-<li>"*/"也可以关联全路径,比如
-<div class="org-src-container">
-
-<pre class="src src-sh">ls -d /etc/*/
-</pre>
+</ul>
 </div>
-</li>
-<li>需要注意的是,"<b>/"不要和"/</b>"混淆,如果你只想列出当前文件夹下的文件夹, 没有用"<b>/",
-而用了"/</b>", 就会列出根目录下的所有文件,如下
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">列出当前文件夹下的所有文件夹.</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>这个问题很细节, 主要考察ls的参数设置, "<b>/"是bash里面指代文件夹的方式.和"/</b>"
+是不一样的."/*"是表示root下面的所有文件
 <div class="org-src-container">
 
-<pre class="src src-sh"><span style="color: #93a1a1;">#########################################################</span>
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">NOT disbplay the all the folder PWD, will display the #</span>
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">folders under / (root)                                #</span>
-<span style="color: #93a1a1;">#########################################################</span>
+<pre class="src src-sh"><span style="color: #4C565D;">#########################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">NOT disbplay the all the folder PWD, will display the #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">folders under / (root)                                #</span>
+<span style="color: #4C565D;">#########################################################</span>
 ls -d /*
 </pre>
 </div>
@@ -366,41 +300,59 @@ ls -d /*
 </ul>
 </div>
 </div>
-</div>
-<div id="outline-container-sec-5" class="outline-2">
-<h2 id="sec-5">df</h2>
-<div class="outline-text-2" id="text-5">
-</div><div id="outline-container-sec-5-1" class="outline-3">
-<h3 id="sec-5-1">应用举例</h3>
-<div class="outline-text-3" id="text-5-1">
-<ul class="org-ul">
-<li>查看所有硬盘的使用情况(百分比)
-<div class="org-src-container">
-
-<pre class="src src-sh">df -hl
-</pre>
-</div>
-</li>
-</ul>
-</div>
-</div>
-</div>
 <div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6">du</h2>
+<h2 id="sec-6">查看所有硬盘使用的情况(百分比)</h2>
 <div class="outline-text-2" id="text-6">
-</div><div id="outline-container-sec-6-1" class="outline-3">
-<h3 id="sec-6-1">应用举例</h3>
-<div class="outline-text-3" id="text-6-1">
 <ul class="org-ul">
-<li>应用举例.查看当前文件夹所有内容占用硬盘的情况
+<li>使用df(意为disk free)
 <div class="org-src-container">
 
-<pre class="src src-sh">du -h --max-depth=1
+<pre class="src src-sh">hfeng@ubuntu-ct:~$ df
+Filesystem                      1K-blocks     Used Available Use% Mounted on
+/dev/mapper/ubuntu--ct--vg-root  64640836 23750772  37583364  39% /
+none                                    4        0         4   0% /sys/fs/cgroup
+udev                              5107776        4   5107772   1% /dev
+tmpfs                             1023796      488   1023308   1% /run
+none                                 5120        0      5120   0% /run/lock
+none                              5118972        0   5118972   0% /run/shm
+none                               102400        0    102400   0% /run/user
+/dev/sda1                          240972    36907    191624  17% /boot
 </pre>
 </div>
 </li>
 </ul>
 </div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">查看当前文件夹所有内容占用硬盘的情况</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li>常见错误方法如下:使用du(意为disk usage). -h为human可读, -d为深度,为1就是当前
+文件夹下.
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ du -h -d 1
+1000K   ./.git
+152K    ./algo
+1.3M    ./notes
+8.0K    ./static
+2.5M    .
+</pre>
+</div>
+</li>
+<li>如果你认真看就会发现上面的例子只列出了文件夹,所有当前文件夹下的文件都被忽略了.
+正确的方法如下. 使用*,并且depth设置为0
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ du -h -d 0 *
+520K    __MACOSX
+2.5G    ct
+627M    ct.zip
+2.5M    org
+</pre>
+</div>
+</li>
+</ul>
 </div>
 </div>
 </div>
@@ -409,8 +361,8 @@ ls -d /*
          <!-- Disqus Comment BEGIN -->
           <div id="disqus_thread"></div>
           <script type="text/javascript">
-              var disqus_shortname = 'harrifeng'; 
-          
+              var disqus_shortname = 'harrifeng';
+
               (function() {
                   var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                   dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';

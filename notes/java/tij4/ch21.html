@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 21: Concurrency</title>
-<!-- 2014-07-18 Fri 16:14 -->
+<!-- 2015-03-18 Wed 14:14 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -258,22 +258,22 @@ cpu使用时间.
 <ul class="org-ul">
 <li><div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">concurrency</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.tij4.<span style="color: #86453A;">concurrency</span>;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">LiftOff</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Runnable</span>{
-    <span style="color: #859900; font-weight: bold;">protected</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">countDown</span> = 10 ; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Default</span>
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">taskCount</span> = 0;
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">id</span> = taskCount++;
-    <span style="color: #859900; font-weight: bold;">public</span> LiftOff() {}
-    <span style="color: #859900; font-weight: bold;">public</span> LiftOff(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">countDown</span>) {
-        <span style="color: #859900; font-weight: bold;">this</span>.countDown = countDown;
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">LiftOff</span> <span style="color: #AE5825;">implements</span> <span style="color: #C6B032; font-style: italic;">Runnable</span>{
+    <span style="color: #AE5825;">protected</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">countDown</span> = 10 ; <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Default</span>
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">taskCount</span> = 0;
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">id</span> = taskCount++;
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">LiftOff</span>() {}
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">LiftOff</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">countDown</span>) {
+        <span style="color: #AE5825;">this</span>.countDown = countDown;
     }
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">status</span>() {
-        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"#"</span> + id + <span style="color: #2aa198;">"("</span> +
-               (countDown &gt; 0 ? countDown : <span style="color: #2aa198;">"Liftoff"</span>) + <span style="color: #2aa198;">"), "</span>;
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #C6B032;">status</span>() {
+        <span style="color: #AE5825;">return</span> <span style="color: #5A7644;">"#"</span> + id + <span style="color: #5A7644;">"("</span> +
+               (countDown &gt; 0 ? countDown : <span style="color: #5A7644;">"Liftoff"</span>) + <span style="color: #5A7644;">"), "</span>;
     }
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">run</span>() {
-        <span style="color: #859900; font-weight: bold;">while</span> (countDown-- &gt; 0) {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">run</span>() {
+        <span style="color: #AE5825;">while</span> (countDown-- &gt; 0) {
             System.out.print(status());
             Thread.yield();
         }

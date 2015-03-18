@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 16: Use Modules as Mixins</title>
-<!-- 2014-07-18 Fri 16:03 -->
+<!-- 2015-03-18 Wed 14:10 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -208,35 +208,35 @@ for the JavaScript code in this tag.
 词滥调"
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  attr_accessor <span style="color: #DF7921; font-weight: bold;">:content</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:content</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(content)
-    <span style="color: #C1C144;">@content</span> = content
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(content)
+    <span style="color: #46657B;">@content</span> = content
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #DADADA;">CLICHES</span> = [ <span style="color: #A2925E;">/play fast and loose/</span>,
-              <span style="color: #A2925E;">/make no mistake/</span>,
-              <span style="color: #A2925E;">/does the trick/</span>,
-              <span style="color: #A2925E;">/off and running/</span>,
-              <span style="color: #A2925E;">/my way or the highway/</span>]
+  <span style="color: #C6B032; font-style: italic;">CLICHES</span> = [ <span style="color: #5A7644;">/play fast and loose/</span>,
+              <span style="color: #5A7644;">/make no mistake/</span>,
+              <span style="color: #5A7644;">/does the trick/</span>,
+              <span style="color: #5A7644;">/off and running/</span>,
+              <span style="color: #5A7644;">/my way or the highway/</span>]
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">number_of_cliches</span>
-    <span style="color: #DADADA;">CLICHES</span>.inject(0) <span style="color: #4856F7; font-weight: bold;">do</span> |count, pharse|
-      count += 1 <span style="color: #4856F7; font-weight: bold;">if</span> pharse =~ content
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">number_of_cliches</span>
+    <span style="color: #C6B032; font-style: italic;">CLICHES</span>.inject(0) <span style="color: #AE5825;">do</span> |count, pharse|
+      count += 1 <span style="color: #AE5825;">if</span> pharse =~ content
       count
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-doc = <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">"off and running, make mistake,hello world, my way or the \</span>
-<span style="color: #A2925E;">highway does the trick"</span>)
-puts doc.number_of_cliches
+doc = <span style="color: #C6B032; font-style: italic;">Document</span>.new(<span style="color: #5A7644;">"off and running, make mistake,hello world, my way or the \</span>
+<span style="color: #5A7644;">highway does the trick"</span>)
+<span style="color: #86453A;">puts</span> doc.number_of_cliches
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">3                                              #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">3                                              #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -260,21 +260,21 @@ puts doc.number_of_cliches
      放入一个module里面
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">WritingQuality</span>
-  <span style="color: #DADADA;">CLICHES</span> =[ <span style="color: #A2925E;">/play fast and loose/</span>,
-             <span style="color: #A2925E;">/make no mistake/</span>,
-             <span style="color: #A2925E;">/does the trick/</span>,
-             <span style="color: #A2925E;">/off and running/</span>,
-             <span style="color: #A2925E;">/my way or the highway/</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">WritingQuality</span>
+  <span style="color: #C6B032; font-style: italic;">CLICHES</span> =[ <span style="color: #5A7644;">/play fast and loose/</span>,
+             <span style="color: #5A7644;">/make no mistake/</span>,
+             <span style="color: #5A7644;">/does the trick/</span>,
+             <span style="color: #5A7644;">/off and running/</span>,
+             <span style="color: #5A7644;">/my way or the highway/</span>
            ]
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">number_of_cliches</span>
-    <span style="color: #DADADA;">CLICHES</span>.inject(0) <span style="color: #4856F7; font-weight: bold;">do</span> |count, phrae|
-      count += 1 <span style="color: #4856F7; font-weight: bold;">if</span> pharse =~content
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">number_of_cliches</span>
+    <span style="color: #C6B032; font-style: italic;">CLICHES</span>.inject(0) <span style="color: #AE5825;">do</span> |count, phrae|
+      count += 1 <span style="color: #AE5825;">if</span> pharse =~content
       count
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -284,17 +284,17 @@ puts doc.number_of_cliches
 <li>然后我们在两个class里面都include 这个module
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  include <span style="color: #DADADA;">WritingQuality</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">WritingQuality</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Lots of stuff omitted...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Lots of stuff omitted...</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">ElectronicBook</span> &lt; <span style="color: #DADADA;">ElectronicText</span>
-  include <span style="color: #DADADA;">WritingQuality</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">ElectronicBook</span> &lt; <span style="color: #C6B032; font-style: italic;">ElectronicText</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">WritingQuality</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Lots of stuff omitted...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Lots of stuff omitted...</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -302,13 +302,13 @@ puts doc.number_of_cliches
 高了代码质量,非常灵活
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">ElectronicBook</span> &lt; <span style="color: #DADADA;">ElectronicText</span>
-  include <span style="color: #DADADA;">WritingQuality</span>
-  include <span style="color: #DADADA;">ProjectManagement</span>
-  include <span style="color: #DADADA;">AuthorAccountTracking</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">ElectronicBook</span> &lt; <span style="color: #C6B032; font-style: italic;">ElectronicText</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">WritingQuality</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">ProjectManagement</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">AuthorAccountTracking</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Lots of stuff omitted</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Lots of stuff omitted</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -323,22 +323,22 @@ puts doc.number_of_cliches
 如果我想让module里面的代码变成"class method",那么就应该这样
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Finders</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">find_by_name</span>(name)
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Find a doc by name</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">Finders</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">find_by_name</span>(name)
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Find a doc by name</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">find_by_id</span>(doc_id)
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Find a doc by id</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">find_by_id</span>(doc_id)
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Find a doc by id</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Most of the class omitted</span>
-  <span style="color: #4856F7; font-weight: bold;">class</span> &lt;&lt; <span style="color: #C1C144;">self</span>
-    include <span style="color: #DADADA;">Finders</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Most of the class omitted</span>
+  <span style="color: #AE5825;">class</span> &lt;&lt; <span style="color: #46657B;">self</span>
+    <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">Finders</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -353,7 +353,7 @@ puts doc.number_of_cliches
 从使用方法就看出来了.都是调用Document(而不是其instance,比如doc)
 <div class="org-src-container">
 
-<pre class="src src-ruby">war_and_peace = <span style="color: #DADADA;">Document</span>.find_by_name(<span style="color: #A2925E;">'War And Peace'</span>)
+<pre class="src src-ruby">war_and_peace = <span style="color: #C6B032; font-style: italic;">Document</span>.find_by_name(<span style="color: #5A7644;">'War And Peace'</span>)
 </pre>
 </div>
 </li>
@@ -363,10 +363,10 @@ puts doc.number_of_cliches
 为新手所理解,二来使用频繁.所以Ruby直接发明了一个关键字extend
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  extend <span style="color: #DADADA;">Finders</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Most of the class omitted</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #86453A;">extend</span> <span style="color: #C6B032; font-style: italic;">Finders</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Most of the class omitted</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -408,59 +408,59 @@ Instance_Name.kind_of?(ModuleName)是可以发现你是否include或者extend了
 module的. 注意一定要使用instance来调用kind_of?
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">M1</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">M1</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">M2</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">M2</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Foo</span>
-  include <span style="color: #DADADA;">M1</span>
-  extend <span style="color: #DADADA;">M2</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Foo</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">M1</span>
+  <span style="color: #86453A;">extend</span> <span style="color: #C6B032; font-style: italic;">M2</span>
+<span style="color: #AE5825;">end</span>
 
-puts <span style="color: #DADADA;">Foo</span>.class
-puts <span style="color: #A2925E;">"---Foo.new is a instance---"</span>
-puts <span style="color: #DADADA;">Foo</span>.new.kind_of?(<span style="color: #DADADA;">M1</span>)
-puts <span style="color: #DADADA;">Foo</span>.kind_of?(<span style="color: #DADADA;">M1</span>)
+<span style="color: #86453A;">puts</span> <span style="color: #C6B032; font-style: italic;">Foo</span>.class
+<span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"---Foo.new is a instance---"</span>
+<span style="color: #86453A;">puts</span> <span style="color: #C6B032; font-style: italic;">Foo</span>.new.kind_of?(<span style="color: #C6B032; font-style: italic;">M1</span>)
+<span style="color: #86453A;">puts</span> <span style="color: #C6B032; font-style: italic;">Foo</span>.kind_of?(<span style="color: #C6B032; font-style: italic;">M1</span>)
 
-puts <span style="color: #A2925E;">"---Foo is a class Class's instance---"</span>
-puts <span style="color: #DADADA;">Foo</span>.kind_of?(<span style="color: #DADADA;">M2</span>)
-puts <span style="color: #DADADA;">Foo</span>.new.kind_of?(<span style="color: #DADADA;">M2</span>)
+<span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"---Foo is a class Class's instance---"</span>
+<span style="color: #86453A;">puts</span> <span style="color: #C6B032; font-style: italic;">Foo</span>.kind_of?(<span style="color: #C6B032; font-style: italic;">M2</span>)
+<span style="color: #86453A;">puts</span> <span style="color: #C6B032; font-style: italic;">Foo</span>.new.kind_of?(<span style="color: #C6B032; font-style: italic;">M2</span>)
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Class                                          #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">---Foo.new is a instance---                    #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">true                                           #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">false                                          #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">---Foo is a class Class's instance---          #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">true                                           #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">false                                          #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Class                                          #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">---Foo.new is a instance---                    #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">true                                           #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">false                                          #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">---Foo is a class Class's instance---          #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">true                                           #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">false                                          #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
 <li>ancestors函数可以返回完整的"继承上的先驱", 但是只有include的,没有extend的
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">M1</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">M1</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">M2</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">M2</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Foo</span>
-  include <span style="color: #DADADA;">M1</span>
-  extend <span style="color: #DADADA;">M2</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Foo</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">M1</span>
+  <span style="color: #86453A;">extend</span> <span style="color: #C6B032; font-style: italic;">M2</span>
+<span style="color: #AE5825;">end</span>
 
-p <span style="color: #DADADA;">Foo</span>.ancestors
+<span style="color: #86453A;">p</span> <span style="color: #C6B032; font-style: italic;">Foo</span>.ancestors
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">[Foo, M1, Object, Kernel, BasicObject]         #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">[Foo, M1, Object, Kernel, BasicObject]         #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -469,16 +469,16 @@ p <span style="color: #DADADA;">Foo</span>.ancestors
 的时候,它们可以选择override这些函数(重新写一个函数,来掩盖原来的函数)
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  incldue <span style="color: #DADADA;">WritingQuality</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  incldue <span style="color: #C6B032; font-style: italic;">WritingQuality</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">For Political Book, cliche's number is None</span>
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">PoliticalBook</span> &lt; <span style="color: #DADADA;">Document</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">number_of_cliches</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">For Political Book, cliche's number is None</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">PoliticalBook</span> &lt; <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">number_of_cliches</span>
     0
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -497,50 +497,50 @@ include的module里面有同名的函数的话,最后include的module里面的�
 <li>Rails代码里面使用Module定义了无数的help function
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">ActionView</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Huge amouts of code and helpful documentation omitted...</span>
-  <span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">Helpers</span>
-    <span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">FormHelper</span>
-      <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">label</span>(object_name, method, text = <span style="color: #C1C144;">nil</span>, options = {})
-        <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-      <span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">ActionView</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Huge amouts of code and helpful documentation omitted...</span>
+  <span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">Helpers</span>
+    <span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">FormHelper</span>
+      <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">label</span>(object_name, method, text = <span style="color: #46657B;">nil</span>, options = {})
+        <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+      <span style="color: #AE5825;">end</span>
 
-      <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">radio_button</span>(ojbect_name, method, tag_value, options={})
-      <span style="color: #4856F7; font-weight: bold;">end</span>
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+      <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">radio_button</span>(ojbect_name, method, tag_value, options={})
+      <span style="color: #AE5825;">end</span>
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>Module的另一大用处"放常量", 被sqlite3 gem使用的恰到好处
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">module</span> <span style="color: #DADADA;">ErrorCode</span>
-  <span style="color: #DADADA;">OK</span>          = 0     <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Successful result</span>
-  <span style="color: #DADADA;">ERROR</span>       = 1     <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">SQL error or missing database</span>
-  <span style="color: #DADADA;">INTERNAL</span>    = 2     <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">An internal logic error in SQLite</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">ErrorCode</span>
+  <span style="color: #C6B032; font-style: italic;">OK</span>          = 0     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Successful result</span>
+  <span style="color: #C6B032; font-style: italic;">ERROR</span>       = 1     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">SQL error or missing database</span>
+  <span style="color: #C6B032; font-style: italic;">INTERNAL</span>    = 2     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">An internal logic error in SQLite</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>前面说过常量要这样使用ErrorCode::OK, 但是你include了以后,肯定是可以直接使用的
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">SomeSQLiteApplication</span>
-  include <span style="color: #DADADA;">ErrorCode</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">SomeSQLiteApplication</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">ErrorCode</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">print_status_message</span>(status)
-    <span style="color: #4856F7; font-weight: bold;">if</span> status == <span style="color: #DADADA;">ERROR</span>
-      puts <span style="color: #A2925E;">"It failed!"</span>
-    <span style="color: #4856F7; font-weight: bold;">elsif</span> status == <span style="color: #DADADA;">OK</span>
-      puts <span style="color: #A2925E;">"It worked!"</span>
-    <span style="color: #4856F7; font-weight: bold;">else</span>
-      puts <span style="color: #A2925E;">"Status was</span><span style="color: #C1C144;"> #{status}</span><span style="color: #A2925E;">"</span>
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">print_status_message</span>(status)
+    <span style="color: #AE5825;">if</span> status == <span style="color: #C6B032; font-style: italic;">ERROR</span>
+      <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"It failed!"</span>
+    <span style="color: #AE5825;">elsif</span> status == <span style="color: #C6B032; font-style: italic;">OK</span>
+      <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"It worked!"</span>
+    <span style="color: #AE5825;">else</span>
+      <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Status was </span><span style="color: #46657B;">#{status}</span><span style="color: #5A7644;">"</span>
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>

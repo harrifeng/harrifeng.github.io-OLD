@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 05: Find the Right String with Regular Expressions</title>
-<!-- 2014-07-18 Fri 16:03 -->
+<!-- 2015-03-18 Wed 14:10 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -347,7 +347,7 @@ anything!, 当然了对应anything是没有意义的,把".*"和其他字符串�
 被"/"包裹, 下面就是一个Regexp的例子
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #A2925E;">/\d\d:\d\d (AM|PM)/</span>
+<pre class="src src-ruby"><span style="color: #5A7644;">/\d\d:\d\d (AM|PM)/</span>
 </pre>
 </div>
 </li>
@@ -355,43 +355,43 @@ anything!, 当然了对应anything是没有意义的,把".*"和其他字符串�
 nil, 而且=~ 和 == 一样是不分左右的, Regexp放在左边或者右边都没有关系
 <div class="org-src-container">
 
-<pre class="src src-ruby">p <span style="color: #A2925E;">'10:24 PM'</span> =~ <span style="color: #A2925E;">/\d\d:\d\d (AM|PM)/</span>
+<pre class="src src-ruby"><span style="color: #86453A;">p</span> <span style="color: #5A7644;">'10:24 PM'</span> =~ <span style="color: #5A7644;">/\d\d:\d\d (AM|PM)/</span>
 
-p /\d\d:\d\d (<span style="color: #DADADA;">AM</span>|<span style="color: #DADADA;">PM</span>)/ =~ <span style="color: #A2925E;">'10:24 PM'</span>
+<span style="color: #86453A;">p</span> /\d\d:\d\d (<span style="color: #C6B032; font-style: italic;">AM</span>|<span style="color: #C6B032; font-style: italic;">PM</span>)/ =~ <span style="color: #5A7644;">'10:24 PM'</span>
 
-p /<span style="color: #DADADA;">PM</span>/ =~ <span style="color: #A2925E;">'10:24 PM'</span>
+<span style="color: #86453A;">p</span> /<span style="color: #C6B032; font-style: italic;">PM</span>/ =~ <span style="color: #5A7644;">'10:24 PM'</span>
 
-p /<span style="color: #DADADA;">May</span>/ =~ <span style="color: #A2925E;">'Something in June'</span>
+<span style="color: #86453A;">p</span> /<span style="color: #C6B032; font-style: italic;">May</span>/ =~ <span style="color: #5A7644;">'Something in June'</span>
 
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">0                                              #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">0                                              #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">6                                              #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">nil                                            #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">0                                              #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">0                                              #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">6                                              #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">nil                                            #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
 <li>Regexp是case sensitive的,但是你可以在Regexp的最后加上i来表示其忽略大小写
 <div class="org-src-container">
 
-<pre class="src src-ruby">puts <span style="color: #A2925E;">"It matches!"</span> <span style="color: #4856F7; font-weight: bold;">if</span> <span style="color: #A2925E;">/AM/</span>i =~ <span style="color: #A2925E;">'am'</span>
+<pre class="src src-ruby"><span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"It matches!"</span> <span style="color: #AE5825;">if</span> <span style="color: #5A7644;">/AM/</span><span style="color: #007575;">i</span> =~ <span style="color: #5A7644;">'am'</span>
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">It matches!                                    #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">It matches!                                    #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
 <li>Regexp还能发挥查找的作用,在String的gsub函数里面可以发挥它的作用
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">obscure_times!</span>
-  <span style="color: #C1C144;">@content</span>.gsub!(<span style="color: #A2925E;">/\d\d:\d\d (AM|PM)/</span>, <span style="color: #A2925E;">'**:** **'</span>)
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">obscure_times!</span>
+  <span style="color: #46657B;">@content</span>.gsub!(<span style="color: #5A7644;">/\d\d:\d\d (AM|PM)/</span>, <span style="color: #5A7644;">'**:** **'</span>)
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -406,14 +406,14 @@ p /<span style="color: #DADADA;">May</span>/ =~ <span style="color: #A2925E;">'S
 的, 如果要求必须要从开头匹配,那么就要使用\A
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #A2925E;">/\AOnce upon a time/</span>
+<pre class="src src-ruby"><span style="color: #5A7644;">/\AOnce upon a time/</span>
 </pre>
 </div>
 </li>
 <li>反之如果想字符串必须匹配最后的字符,那么必须使用\z
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #A2925E;">/and they all lived happily ever after\z/</span>
+<pre class="src src-ruby"><span style="color: #5A7644;">/and they all lived happily ever after\z/</span>
 </pre>
 </div>
 </li>
@@ -421,20 +421,20 @@ p /<span style="color: #DADADA;">May</span>/ =~ <span style="color: #A2925E;">'S
 就要使用^和$. 这个是和Vim的操作对待行时候的字符操作是一样的
 <div class="org-src-container">
 
-<pre class="src src-ruby">content = <span style="color: #A2925E;">'The Princess And the Monkey</span>
+<pre class="src src-ruby">content = <span style="color: #5A7644;">'The Princess And the Monkey</span>
 
-<span style="color: #A2925E;">Once upon a time there was a princess...</span>
-<span style="color: #A2925E;">... and they all lived happily ever after.</span>
-<span style="color: #A2925E;">The End'</span>
+<span style="color: #5A7644;">Once upon a time there was a princess...</span>
+<span style="color: #5A7644;">... and they all lived happily ever after.</span>
+<span style="color: #5A7644;">The End'</span>
 
-puts <span style="color: #A2925E;">"Found the beginning"</span> <span style="color: #4856F7; font-weight: bold;">if</span> content =~ <span style="color: #A2925E;">/^Once upon a time/</span>
-puts <span style="color: #A2925E;">"Found the ending"</span> <span style="color: #4856F7; font-weight: bold;">if</span> content =~ <span style="color: #A2925E;">/happily ever after\.$/</span>
+<span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Found the beginning"</span> <span style="color: #AE5825;">if</span> content =~ <span style="color: #5A7644;">/^Once upon a time/</span>
+<span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Found the ending"</span> <span style="color: #AE5825;">if</span> content =~ <span style="color: #5A7644;">/happily ever after\.$/</span>
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Found the beginning                            #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Found the ending                               #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Found the beginning                            #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Found the ending                               #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -443,18 +443,18 @@ puts <span style="color: #A2925E;">"Found the ending"</span> <span style="color:
 跨行匹配了
 <div class="org-src-container">
 
-<pre class="src src-ruby">content = <span style="color: #A2925E;">'The Princess And the Monkey</span>
+<pre class="src src-ruby">content = <span style="color: #5A7644;">'The Princess And the Monkey</span>
 
-<span style="color: #A2925E;">Once upon a time there was a princess...</span>
-<span style="color: #A2925E;">... and they all lived happily ever after.</span>
-<span style="color: #A2925E;">The End'</span>
+<span style="color: #5A7644;">Once upon a time there was a princess...</span>
+<span style="color: #5A7644;">... and they all lived happily ever after.</span>
+<span style="color: #5A7644;">The End'</span>
 
-puts <span style="color: #A2925E;">"Found the whole"</span> <span style="color: #4856F7; font-weight: bold;">if</span> content =~ <span style="color: #A2925E;">/^Once upon a time.*happily ever after\.$/</span>m
+<span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Found the whole"</span> <span style="color: #AE5825;">if</span> content =~ <span style="color: #5A7644;">/^Once upon a time.*happily ever after\.$/</span><span style="color: #007575;">m</span>
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Found the whole                                #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Found the whole                                #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -468,7 +468,7 @@ puts <span style="color: #A2925E;">"Found the whole"</span> <span style="color: 
 <li>ruby 源代码里面有很多处使用Regexp的例子,比如测试zone是否符合某个字符串格式
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">if</span> <span style="color: #A2925E;">/\A([+-])(\d\d):?(\d\d)\z/</span> =~ zone
+<pre class="src src-ruby"><span style="color: #AE5825;">if</span> <span style="color: #5A7644;">/\A([+-])(\d\d):?(\d\d)\z/</span> =~ zone
 </pre>
 </div>
 </li>

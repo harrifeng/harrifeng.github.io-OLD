@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 14: Use Class Instance Variables</title>
-<!-- 2014-07-18 Fri 16:03 -->
+<!-- 2015-03-18 Wed 14:10 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -208,29 +208,29 @@ for the JavaScript code in this tag.
 <li>我们想给Document增加尺寸这个属性,先看看把它加成class variable的版本的效果
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  <span style="color: #C1C144;">@@default_paper_size</span> = <span style="color: #DF7921; font-weight: bold;">:a4</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #46657B;">@@default_paper_size</span> = <span style="color: #86453A;">:a4</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.default_paper_size</span>
-    <span style="color: #C1C144;">@@default_paper_size</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">default_paper_size</span>
+    <span style="color: #46657B;">@@default_paper_size</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.default_paper_size=</span>(new_size)
-    <span style="color: #C1C144;">@@default_paper_size</span> = new_size
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">default_paper_size=</span>(new_size)
+    <span style="color: #46657B;">@@default_paper_size</span> = new_size
+  <span style="color: #AE5825;">end</span>
 
-  attr_accessor <span style="color: #DF7921; font-weight: bold;">:title</span>, <span style="color: #DF7921; font-weight: bold;">:author</span>, <span style="color: #DF7921; font-weight: bold;">:content</span>
-  attr_accessor <span style="color: #DF7921; font-weight: bold;">:paper_size</span>
+  <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:title</span>, <span style="color: #86453A;">:author</span>, <span style="color: #86453A;">:content</span>
+  <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:paper_size</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(title, author, content)
-    <span style="color: #C1C144;">@title</span> = title
-    <span style="color: #C1C144;">@author</span> = author
-    <span style="color: #C1C144;">@content</span> = content
-    <span style="color: #C1C144;">@paper_size</span> = <span style="color: #C1C144;">@@default_paper_size</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(title, author, content)
+    <span style="color: #46657B;">@title</span> = title
+    <span style="color: #46657B;">@author</span> = author
+    <span style="color: #46657B;">@content</span> = content
+    <span style="color: #46657B;">@paper_size</span> = <span style="color: #46657B;">@@default_paper_size</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Rest of the class omitted...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Rest of the class omitted...</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -255,25 +255,25 @@ for the JavaScript code in this tag.
 <li>Resume是一种文档,所以继承了Document, 增加了一个class variable叫做default_font
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Resume</span> &lt; <span style="color: #DADADA;">Document</span>
-  <span style="color: #C1C144;">@@default_font</span> = <span style="color: #DF7921; font-weight: bold;">:arial</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Resume</span> &lt; <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #46657B;">@@default_font</span> = <span style="color: #86453A;">:arial</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.default_font</span> = (font)
-    <span style="color: #C1C144;">@@default_font</span> = font
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">default_font</span> = (font)
+    <span style="color: #46657B;">@@default_font</span> = font
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.default_font</span>
-    <span style="color: #C1C144;">@@default_font</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">default_font</span>
+    <span style="color: #46657B;">@@default_font</span>
+  <span style="color: #AE5825;">end</span>
 
-  attr_accessor <span style="color: #DF7921; font-weight: bold;">:font</span>
+  <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:font</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>
-    <span style="color: #C1C144;">@font</span> = <span style="color: #C1C144;">@@default_font</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>
+    <span style="color: #46657B;">@font</span> = <span style="color: #46657B;">@@default_font</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Rest of the class omitted...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Rest of the class omitted...</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -281,25 +281,25 @@ for the JavaScript code in this tag.
      class variable
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Presentation</span> &lt; <span style="color: #DADADA;">Document</span>
-  <span style="color: #C1C144;">@@default_font</span> = <span style="color: #DF7921; font-weight: bold;">:nimbus</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Presentation</span> &lt; <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #46657B;">@@default_font</span> = <span style="color: #86453A;">:nimbus</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.default_font</span> = (font)
-    <span style="color: #C1C144;">@@default_font</span> = font
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">default_font</span> = (font)
+    <span style="color: #46657B;">@@default_font</span> = font
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.default_font</span>
-    <span style="color: #C1C144;">@@default_font</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">default_font</span>
+    <span style="color: #46657B;">@@default_font</span>
+  <span style="color: #AE5825;">end</span>
 
-  attr_accessor <span style="color: #DF7921; font-weight: bold;">:font</span>
+  <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:font</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>
-    <span style="color: #C1C144;">@font</span> = <span style="color: #C1C144;">@@default_font</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>
+    <span style="color: #46657B;">@font</span> = <span style="color: #46657B;">@@default_font</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -307,48 +307,48 @@ for the JavaScript code in this tag.
 定义了一个名字相同的class variable. 然后,一切都毁灭了
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  <span style="color: #C1C144;">@@dafault_font</span> = <span style="color: #DF7921; font-weight: bold;">:times</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #46657B;">@@dafault_font</span> = <span style="color: #86453A;">:times</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>我们用一个简单的例子来描绘一下"毁灭"的现场
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Base</span>
-  <span style="color: #C1C144;">@@cv</span> = <span style="color: #DF7921; font-weight: bold;">:hello</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:out</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Base</span>
+  <span style="color: #46657B;">@@cv</span> = <span style="color: #86453A;">:hello</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:out</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>
-    <span style="color: #C1C144;">@out</span> = <span style="color: #C1C144;">@@cv</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
-b1 = <span style="color: #DADADA;">Base</span>.new
-p b1.out
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>
+    <span style="color: #46657B;">@out</span> = <span style="color: #46657B;">@@cv</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+b1 = <span style="color: #C6B032; font-style: italic;">Base</span>.new
+<span style="color: #86453A;">p</span> b1.out
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Derived</span> &lt; <span style="color: #DADADA;">Base</span>
-  <span style="color: #C1C144;">@@cv</span> = <span style="color: #DF7921; font-weight: bold;">:world</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:out</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Derived</span> &lt; <span style="color: #C6B032; font-style: italic;">Base</span>
+  <span style="color: #46657B;">@@cv</span> = <span style="color: #86453A;">:world</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:out</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>
-    <span style="color: #C1C144;">@out</span> = <span style="color: #C1C144;">@@cv</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>
+    <span style="color: #46657B;">@out</span> = <span style="color: #46657B;">@@cv</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-b2 = <span style="color: #DADADA;">Base</span>.new
-d = <span style="color: #DADADA;">Derived</span>.new
+b2 = <span style="color: #C6B032; font-style: italic;">Base</span>.new
+d = <span style="color: #C6B032; font-style: italic;">Derived</span>.new
 
-p b2.out
-p d.out
+<span style="color: #86453A;">p</span> b2.out
+<span style="color: #86453A;">p</span> d.out
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">:hello                                         #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">:world                                         #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">:world                                         #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">:hello                                         #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">:world                                         #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">:world                                         #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -356,9 +356,9 @@ p d.out
 桥", 会出现,所有的Document系列的字体都称了:arial
 <div class="org-src-container">
 
-<pre class="src src-ruby">require <span style="color: #A2925E;">'document'</span>
-require <span style="color: #A2925E;">'resume'</span>                <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Load Resume first</span>
-require <span style="color: #A2925E;">'presentation'</span>          <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">then Presentation</span>
+<pre class="src src-ruby"><span style="color: #86453A;">require</span> <span style="color: #5A7644;">'document'</span>
+<span style="color: #86453A;">require</span> <span style="color: #5A7644;">'resume'</span>                <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Load Resume first</span>
+<span style="color: #86453A;">require</span> <span style="color: #5A7644;">'presentation'</span>          <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">then Presentation</span>
 </pre>
 </div>
 </li>
@@ -379,25 +379,25 @@ global variables" (非常生动哈)
 给每个instance都赋好了值
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  <span style="color: #C1C144;">@default_font</span> = <span style="color: #DF7921; font-weight: bold;">:times</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #46657B;">@default_font</span> = <span style="color: #86453A;">:times</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.default_font=</span>(font)
-    <span style="color: #C1C144;">@default_font</span> = font
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">default_font=</span>(font)
+    <span style="color: #46657B;">@default_font</span> = font
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">self.default_font</span>
-    <span style="color: #C1C144;">@default_font</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #46657B;">self</span>.<span style="color: #C6B032;">default_font</span>
+    <span style="color: #46657B;">@default_font</span>
+  <span style="color: #AE5825;">end</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>由于我们实现了default_font=函数,所以我们可以做到如下:
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #DADADA;">Document</span>.default_font = <span style="color: #DF7921; font-weight: bold;">:arial</span>
+<pre class="src src-ruby"><span style="color: #C6B032; font-style: italic;">Document</span>.default_font = <span style="color: #86453A;">:arial</span>
 </pre>
 </div>
 </li>
@@ -405,11 +405,11 @@ global variables" (非常生动哈)
 里面直接调用它
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(title, author)
-  <span style="color: #C1C144;">@title</span> = title
-  <span style="color: #C1C144;">@author</span> = author
-  <span style="color: #C1C144;">@font</span> = <span style="color: #DADADA;">Document</span>.default_font
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(title, author)
+  <span style="color: #46657B;">@title</span> = title
+  <span style="color: #46657B;">@author</span> = author
+  <span style="color: #46657B;">@font</span> = <span style="color: #C6B032; font-style: italic;">Document</span>.default_font
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -424,44 +424,44 @@ global variables" (非常生动哈)
 instance variable在subclass存在时候的表现
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Base</span>
-  <span style="color: #C1C144;">@civ</span> = <span style="color: #DF7921; font-weight: bold;">:hello</span>
-  <span style="color: #4856F7; font-weight: bold;">class</span> &lt;&lt; <span style="color: #C1C144;">self</span>
-    attr_accessor <span style="color: #DF7921; font-weight: bold;">:civ</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Base</span>
+  <span style="color: #46657B;">@civ</span> = <span style="color: #86453A;">:hello</span>
+  <span style="color: #AE5825;">class</span> &lt;&lt; <span style="color: #46657B;">self</span>
+    <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:civ</span>
+  <span style="color: #AE5825;">end</span>
 
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:out</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:out</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>
-    <span style="color: #C1C144;">@out</span> = <span style="color: #DADADA;">Base</span>.civ
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>
+    <span style="color: #46657B;">@out</span> = <span style="color: #C6B032; font-style: italic;">Base</span>.civ
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Derived</span> &lt; <span style="color: #DADADA;">Base</span>
-  <span style="color: #C1C144;">@civ</span> = <span style="color: #DF7921; font-weight: bold;">:world</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Derived</span> &lt; <span style="color: #C6B032; font-style: italic;">Base</span>
+  <span style="color: #46657B;">@civ</span> = <span style="color: #86453A;">:world</span>
 
-  <span style="color: #4856F7; font-weight: bold;">class</span> &lt;&lt; <span style="color: #C1C144;">self</span>
-    attr_accessor <span style="color: #DF7921; font-weight: bold;">:civ</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">class</span> &lt;&lt; <span style="color: #46657B;">self</span>
+    <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:civ</span>
+  <span style="color: #AE5825;">end</span>
 
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:out</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:out</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>
-    <span style="color: #C1C144;">@out</span> = <span style="color: #DADADA;">Derived</span>.civ
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>
+    <span style="color: #46657B;">@out</span> = <span style="color: #C6B032; font-style: italic;">Derived</span>.civ
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-b2 = <span style="color: #DADADA;">Base</span>.new
-d = <span style="color: #DADADA;">Derived</span>.new
+b2 = <span style="color: #C6B032; font-style: italic;">Base</span>.new
+d = <span style="color: #C6B032; font-style: italic;">Derived</span>.new
 
-p b2.out
-p d.out
+<span style="color: #86453A;">p</span> b2.out
+<span style="color: #86453A;">p</span> d.out
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">:hello                                         #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">:world                                         #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">:hello                                         #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">:world                                         #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -484,13 +484,13 @@ instance variable(因为只有一个@),只是碰巧不小心再class里面,在me
 instance是无法调动它们的
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  <span style="color: #C1C144;">@default_font</span> = <span style="color: #DF7921; font-weight: bold;">:times</span>
-  <span style="color: #4856F7; font-weight: bold;">class</span> &lt;&lt; <span style="color: #C1C144;">self</span>
-    attr_accessor <span style="color: #DF7921; font-weight: bold;">:default_font</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #46657B;">@default_font</span> = <span style="color: #86453A;">:times</span>
+  <span style="color: #AE5825;">class</span> &lt;&lt; <span style="color: #46657B;">self</span>
+    <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:default_font</span>
+  <span style="color: #AE5825;">end</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>

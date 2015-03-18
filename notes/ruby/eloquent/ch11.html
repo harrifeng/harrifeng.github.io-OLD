@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 11: Define Operators Respectfully</title>
-<!-- 2014-07-18 Fri 16:03 -->
+<!-- 2015-03-18 Wed 14:10 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -197,7 +197,7 @@ for the JavaScript code in this tag.
 <div class="org-src-container">
 
 <pre class="src src-ruby">sum = first + second
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">is Actually</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">is Actually</span>
 sum = first.+(second)
 </pre>
 </div>
@@ -214,42 +214,42 @@ sum = first.+(second)
 <div class="org-src-container">
 
 <pre class="src src-ruby">names = []
-names &lt;&lt; <span style="color: #A2925E;">'Rob'</span>
-names &lt;&lt; <span style="color: #A2925E;">'Denise'</span>
+names &lt;&lt; <span style="color: #5A7644;">'Rob'</span>
+names &lt;&lt; <span style="color: #5A7644;">'Denise'</span>
 
-p names
+<span style="color: #86453A;">p</span> names
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["Rob", "Denise"]                              #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">["Rob", "Denise"]                              #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
 <li>Ruby1.9开始,你甚至可以定义unary operator,比如!
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:content</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(content)
-    <span style="color: #C1C144;">@content</span> = content
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:content</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(content)
+    <span style="color: #46657B;">@content</span> = content
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">!</span>
-    <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">"It is not true:</span><span style="color: #C1C144;"> #{content}</span><span style="color: #A2925E;">"</span>)
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">!</span>
+    <span style="color: #C6B032; font-style: italic;">Document</span>.new(<span style="color: #5A7644;">"It is not true: </span><span style="color: #46657B;">#{content}</span><span style="color: #5A7644;">"</span>)
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-favorite = <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">'Chocolate is best'</span>)
+favorite = <span style="color: #C6B032; font-style: italic;">Document</span>.new(<span style="color: #5A7644;">'Chocolate is best'</span>)
 
-puts favorite.content
-puts (!favorite).content
+<span style="color: #86453A;">puts</span> favorite.content
+<span style="color: #86453A;">puts</span> (!favorite).content
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Chocolate is best                              #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">It is not true: Chocolate is best              #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Chocolate is best                              #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">It is not true: Chocolate is best              #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -279,26 +279,26 @@ puts (!favorite).content
 <li>操作符重定义的一个问题就在于夸class,比如我们想让Document来和string进行相加
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">+</span>(other)
-  <span style="color: #4856F7; font-weight: bold;">if</span> otehr.kind_of?(<span style="color: #DADADA;">String</span>)
-    <span style="color: #4856F7; font-weight: bold;">return</span> <span style="color: #DADADA;">Document</span>.new(title, author, <span style="color: #C1C144;">"#{content} #{other}</span><span style="color: #A2925E;">"</span>)
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #DADADA;">Document</span>.new(title, author, <span style="color: #C1C144;">"#{content} #{other.content}</span><span style="color: #A2925E;">"</span>)
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">+</span>(other)
+  <span style="color: #AE5825;">if</span> otehr.kind_of?(<span style="color: #C6B032; font-style: italic;">String</span>)
+    <span style="color: #AE5825;">return</span> <span style="color: #C6B032; font-style: italic;">Document</span>.new(title, author, <span style="color: #5A7644;">"</span><span style="color: #46657B;">#{content}</span><span style="color: #5A7644;"> </span><span style="color: #46657B;">#{other}</span><span style="color: #5A7644;">"</span>)
+  <span style="color: #AE5825;">end</span>
+  <span style="color: #C6B032; font-style: italic;">Document</span>.new(title, author, <span style="color: #5A7644;">"</span><span style="color: #46657B;">#{content}</span><span style="color: #5A7644;"> </span><span style="color: #46657B;">#{other.content}</span><span style="color: #5A7644;">"</span>)
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>这样做的问题在于,如果我是String在前,Document在后,比如
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #A2925E;">'I say to you, '</span> + doc
+<pre class="src src-ruby"><span style="color: #5A7644;">'I say to you, '</span> + doc
 </pre>
 </div>
 </li>
 <li>就会出现错误
 <div class="org-src-container">
 
-<pre class="src src-sh"><span style="color: #ed5b15;">#</span><span style="color: #ed5b15;">&lt;TypeError: can't convert Document into String&gt;</span>
+<pre class="src src-sh"><span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">&lt;TypeError: can't convert Document into String&gt;</span>
 </pre>
 </div>
 </li>
@@ -321,20 +321,20 @@ puts (!favorite).content
 <li>在ruby代码中,还是有一些地方重定义了操作符的,比如,在时间里面
 <div class="org-src-container">
 
-<pre class="src src-ruby">now = <span style="color: #DADADA;">Time</span>.now
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">one_minute_from_now = now + 60</span>
+<pre class="src src-ruby">now = <span style="color: #C6B032; font-style: italic;">Time</span>.now
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">one_minute_from_now = now + 60</span>
 
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Bang! Will break</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">one_minute_from_now = 60 + now</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Bang! Will break</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">one_minute_from_now = 60 + now</span>
 
-puts now
-puts one_minute_from_now
+<span style="color: #86453A;">puts</span> now
+<span style="color: #86453A;">puts</span> one_minute_from_now
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">2014-06-05 20:47:26 +0800                      #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">2014-06-05 20:48:26 +0800                      #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">2014-06-05 20:47:26 +0800                      #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">2014-06-05 20:48:26 +0800                      #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -348,14 +348,14 @@ puts one_minute_from_now
 month = 7
 year = 1776
 
-file_name = <span style="color: #A2925E;">'file_%02d%02d%d'</span> % [ day, month, year]
+file_name = <span style="color: #5A7644;">'file_%02d%02d%d'</span> % [ day, month, year]
 
-puts file_name
+<span style="color: #86453A;">puts</span> file_name
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">file_04071776                                  #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">file_04071776                                  #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>

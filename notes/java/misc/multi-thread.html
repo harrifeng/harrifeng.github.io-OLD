@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>multi-thread</title>
+<!-- 2015-03-18 Wed 14:16 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">multi-thread</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Java Thread</a>
+<ul>
+<li><a href="#sec-1-1">Defining, Instantiating, and Starting Threads</a></li>
+<li><a href="#sec-1-2">Making a Thread</a></li>
+<li><a href="#sec-1-3">Defining a Thread</a></li>
+<li><a href="#sec-1-4">Instantiating a Thread</a></li>
+<li><a href="#sec-1-5">Starting a Thread</a></li>
+<li><a href="#sec-1-6">Starting and Running Multiple Threads</a></li>
+<li><a href="#sec-1-7">The Thread Scheduler</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Java Thread</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Defining, Instantiating, and Starting Threads</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>进程
+<pre class="example">
+       操作系统中的进程就是内存中运行的一个应用程序,每个进程都有自己独立的一块内存
+</pre>
+</li>
+<li>线程
+<pre class="example">
+       线程是指进程中的一个执行流程, 一个进程中可以运行多个线程.线程总是属于某个进程, 进程中多个线程共享进程的内存
+</pre>
+</li>
+<li>在java中, "线程"是指两个不同的事情:
+<ul class="org-ul">
+<li>java.lang.Thread类的一个实例(An instance of class java.lang.Thread)
+<ol class="org-ol">
+<li>一个Thread的instance其实也就是一个object,和其他object没什么不同
+</li>
+<li>这个instance有自己的variable,和method,并且生活在heap上面
+</li>
+</ol>
+</li>
+<li>线程的执行 (A thread of execution):
+<ol class="org-ol">
+<li>而"线程的执行"就是一个单独的"lightweight process", 有自己的call stack
+</li>
+<li>在java中,每个thread都必定有一个call stack .所谓call stack, wiki定义如下
+<pre class="example">
+a call stack is a stack data structure that stores information
+about the active subroutines of a computer program.
+</pre>
+</li>
+<li>即便你没有在你的程序里面明确的创建thread, thread还是会在背后运转.
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>我们的main()函数就运行在一个thread里面(这个thread叫做main thread)
+</li>
+<li>main thread总是最先运行,一旦我们定义了其他thread,就会创建一个新的stack,然后
+新thread就会运行这个新的stack上
+</li>
+<li>对于JVM来说,一旦涉及到Thread,JVM能够保证的就很少(很多情况下JVM会把调度的责
+任推给操作系统)
+</li>
+<li>我们这里讨论的所有的都是"用户线程"(user thread), 还有一种线程叫做"守护线
+程"(daemon thread): 所有用户线程都完毕的时候JVM会关闭,但是JVM不会去管daemon
+thread的运行状态
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Making a Thread</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>如果看源代码你就会发现java.lang.Thread里面就实现了如下的函数来处理thread各种活动
+<ul class="org-ul">
+<li>start()
+</li>
+<li>yield()
+</li>
+<li>sleep()
+</li>
+<li>run()
+</li>
+</ul>
+</li>
+<li>想要继承thread的话,需要在run函数里面做你具体想让thread做的事情
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">run</span>() {
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">you job code goes here</span>
+}
+</pre>
+</div>
+</li>
+<li>java中有两种方法运行run(), 也就是创建线程:
+<ul class="org-ul">
+<li>extends java.lang.Thread:
+</li>
+<li>implements java.lang.Runnable
+</li>
+</ul>
+</li>
+<li>但实际的情况是,你很少会去extends Thread, 因为继承意味着你需要一个"特例化"
+(specialized thread).
+</li>
+<li>而Runable是更好的选择,因为它只是一个借口,你完全可以extends其他class(实现很
+多你想要的功能)然后只是implements Runnable借此来实现run()函数即可
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Defining a Thread</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>首先看一个其实不常用的例子,那就是extends Thread
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">MyThread</span> <span style="color: #AE5825;">extends</span> <span style="color: #C6B032; font-style: italic;">Thread</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">run</span>() {
+        System.out.println(<span style="color: #5A7644;">"Important job running in MyThread"</span>);
+    }
+}
+</pre>
+</div>
+</li>
+<li>这个显然是设计时候的错误,因为把当前class变成thread只是一个"次要的"特性,比较
+适合用接口实现,因为一旦extends了Thread,就无法再implements其他class了
+</li>
+<li>我们还要知道的是run()函数没有任何参数的那个,才会被放到新的call stack里面去
+"自动"使用,而你即便overload了run()函数, 给了它一些参数的话,这个run函数不会
+有"自动调用"在新的call stack的特性的,比如下面的void run(String s)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">MyThread</span> <span style="color: #AE5825;">extends</span> <span style="color: #C6B032; font-style: italic;">Thread</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">run</span>() {
+        System.out.println(<span style="color: #5A7644;">"Important job running in MyThread"</span>);
+    }
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">run</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">s</span>) {
+        System.out.println(<span style="color: #5A7644;">"String in run is "</span> + s);
+    }
+}
+</pre>
+</div>
+</li>
+<li>更常用的办法还是implements Runnable: 既能extends其他class获得功能,又能得到"在
+另外的thread运行逻辑的便利
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">MyRunnable</span> <span style="color: #AE5825;">implements</span> <span style="color: #C6B032; font-style: italic;">Runnable</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">run</span>() {
+        System.out.println(<span style="color: #5A7644;">"Important job running i MyRunnable"</span>);
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Instantiating a Thread</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>无论是implements Runnable也好,extends Thread也好,你所做的,都是创建了一个class
+而已,如果你真的想使用的话,还是要"实例化"这个class:
+<ul class="org-ul">
+<li>如果你是extends Thread的话,那么实例化很简单
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #C6B032; font-style: italic;">MyThread</span> <span style="color: #46657B;">t</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">MyThread</span>()
+</pre>
+</div>
+</li>
+<li>如果class是implements了Runnable的接口的话, 那么过程稍有区别,是将实例化的
+instance作为参赛传递给Thread,再创建一个instance
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #C6B032; font-style: italic;">MyRunnable</span> <span style="color: #46657B;">r</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">MyRunnable</span>();
+<span style="color: #C6B032; font-style: italic;">Thread</span> <span style="color: #46657B;">t</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Thread</span>(r);       <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Pass your Runnable to the Thread</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>把'implements Runnable'的instance专递给Thread作为参赛的话,内涵就是告诉新的
+thread"使用我覆盖的run()", 这种用法还可以让多个不同的Thread都导入同一个'implements
+Runnable'的instance: 这也就意味着多个thread会运行相同的job!
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">TestThreads</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">MyRunnable</span> <span style="color: #46657B;">r</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">MyRunnable</span>();
+        <span style="color: #C6B032; font-style: italic;">Thread</span> <span style="color: #46657B;">foo</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Thread</span>(r);
+        <span style="color: #C6B032; font-style: italic;">Thread</span> <span style="color: #46657B;">bar</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Thread</span>(r);
+        <span style="color: #C6B032; font-style: italic;">Thread</span> <span style="color: #46657B;">bat</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Thread</span>(r);
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">do something else</span>
+        foo.start();
+        bar.start();
+        bat.start();
+    }
+}
+</pre>
+</div>
+</li>
+<li>一个thread只实例化的话,只能代表它进入了"new" state
+</li>
+<li>一个thread调用了start()函数的话,才会被证明是进入"alive" state
+</li>
+<li>run()函数调用完了的话,当前的这个thread就进入了"dead" state
+</li>
+<li>isAlive()函数用来判断thread是否'已经启动,但是没有完成run()'
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Starting a Thread</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>start()函数用来启动新的thread,每当这个函数启动的时候,就会有如下事情发生:
+<ul class="org-ul">
+<li>A new thread of execution starts(with a new call stack)
+</li>
+<li>The thread moves from the new state to the runnable state
+</li>
+<li>When the thread gets a chance to execute, its target run() method will run
+</li>
+</ul>
+</li>
+<li>需要注意的是,我们尽管implements了Runnable,但是我们不是让Runnable运行,我们是
+让thread instance运行.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">FooRunable</span> <span style="color: #AE5825;">implements</span> <span style="color: #C6B032; font-style: italic;">Runnable</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">run</span>() {
+        <span style="color: #AE5825;">for</span> (<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">x</span> = 1; x &lt; 6; x++) {
+            System.out.println(<span style="color: #5A7644;">"Runnable running"</span>);
+        }
+    }
+}
+
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">TestThreads</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">FooRunable</span> <span style="color: #46657B;">r</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">FooRunable</span>();
+        <span style="color: #C6B032; font-style: italic;">Thread</span> <span style="color: #46657B;">t</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Thread</span>(r);
+        t.start();
+    }
+}
+
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Runnable running                               //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Runnable running                               //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Runnable running                               //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Runnable running                               //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Runnable running                               //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>下面的例子是说明如何区别一下不同的在运行的thread. 其核心就是两个函数setName()
+以及currentThread()
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">NameRunnable</span> <span style="color: #AE5825;">implements</span> <span style="color: #C6B032; font-style: italic;">Runnable</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">run</span>() {
+        System.out.println(<span style="color: #5A7644;">"NameRunnable running"</span>);
+        System.out.println(<span style="color: #5A7644;">"Run by "</span> + Thread.currentThread().getName());
+    }
+}
+
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">NameThread</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">NameRunnable</span> <span style="color: #46657B;">nr</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">NameRunnable</span>();
+        <span style="color: #C6B032; font-style: italic;">Thread</span> <span style="color: #46657B;">t</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Thread</span>(nr);
+        t.setName(<span style="color: #5A7644;">"Fred"</span>);
+        t.start();
+    }
+}
+
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">NameRunnable running                           //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Run by Fred                                    //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>即便我们不明确的设置Name, thread还是会有default的name的
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">NameRunnable</span> <span style="color: #AE5825;">implements</span> <span style="color: #C6B032; font-style: italic;">Runnable</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">run</span>() {
+        System.out.println(<span style="color: #5A7644;">"NameRunnable running"</span>);
+        System.out.println(<span style="color: #5A7644;">"Run by "</span> + Thread.currentThread().getName());
+    }
+}
+
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">NameThread</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">NameRunnable</span> <span style="color: #46657B;">nr</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">NameRunnable</span>();
+        <span style="color: #C6B032; font-style: italic;">Thread</span> <span style="color: #46657B;">t</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Thread</span>(nr);
+        t.setName(<span style="color: #5A7644;">"Fred"</span>);
+        t.start();
+    }
+}
+
+<span style="color: #4C565D;">/////////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt;      //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">NameRunnable running                                //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Run by Thread-0                                     //</span>
+<span style="color: #4C565D;">/////////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>我们还可以使用Thread.currentThread()来获取我们当前的thread名字
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.<span style="color: #86453A;">misc</span>;
+
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">NameThreadTwo</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        System.out.println(<span style="color: #5A7644;">"thread is "</span> + Thread.currentThread().getName());
+    }
+}
+
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">thread is org.hfeng.misc.NameThreadTwo.main()  //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>下图表示了启动一个thread的流程
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/misc/thread-process.png" alt="thread-process.png" />
+</p>
+<p><span class="figure-number">Figure 1:</span> threa-process</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Starting and Running Multiple Threads</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>我们来看一个每个thread打印多次,然后同时启动多个thread的例子
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.<span style="color: #86453A;">misc</span>;
+
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">NameRunnable</span> <span style="color: #AE5825;">implements</span> <span style="color: #C6B032; font-style: italic;">Runnable</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">run</span>() {
+        <span style="color: #AE5825;">for</span> (<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">x</span> = 1; x &lt;= 3; x++) {
+            System.out.println(<span style="color: #5A7644;">"Run by "</span> + Thread.currentThread().getName()
+                               + <span style="color: #5A7644;">", x is "</span> + x);
+        }
+    }
+}
+
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">ManyNames</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Make one Runnable</span>
+        <span style="color: #C6B032; font-style: italic;">NameRunnable</span> <span style="color: #46657B;">nr</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">NameRunnable</span>();
+        <span style="color: #C6B032; font-style: italic;">Thread</span> <span style="color: #46657B;">one</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Thread</span>(nr);
+        <span style="color: #C6B032; font-style: italic;">Thread</span> <span style="color: #46657B;">two</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Thread</span>(nr);
+        <span style="color: #C6B032; font-style: italic;">Thread</span> <span style="color: #46657B;">three</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Thread</span>(nr);
+
+        one.setName(<span style="color: #5A7644;">"Fred"</span>);
+        two.setName(<span style="color: #5A7644;">"Lucy"</span>);
+        three.setName(<span style="color: #5A7644;">"Ricky"</span>);
+        one.start();
+        two.start();
+        three.start();
+    }
+}
+
+<span style="color: #4C565D;">/////////////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================POSSIBLE OUTPUT===================&gt; //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Run by Lucy, x is 1                                     //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Run by Ricky, x is 1                                    //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Run by Fred, x is 1                                     //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Run by Ricky, x is 2                                    //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Run by Lucy, x is 2                                     //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Run by Ricky, x is 3                                    //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Run by Fred, x is 2                                     //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Run by Fred, x is 3                                     //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Run by Lucy, x is 3                                     //</span>
+<span style="color: #4C565D;">/////////////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>通过上面的代码和"一个结果"我们可以看到:
+<ul class="org-ul">
+<li>哪个thread先执行是不一定的,比如one先启动,但是是two先运行
+</li>
+<li>也并不是每个thread的run()运行完才会把处理器让出,每一句代码都可能把处理器
+让出
+</li>
+<li>在某个thread内部,运行是有顺序的, 因为调度是以thread为单位的,单位内部运行
+顺序有保证.
+</li>
+</ul>
+</li>
+<li>每个thread完成run()函数的时候,就是"thread of execution"这种特殊的形式结束的
+时候,这时候进入了dead state
+</li>
+<li>虽然"thread of execution"结束了,但是thread作为一个object,一个instance,还是
+存在内存当中的,main thread还是可以调用其他已经run()结束了的thread, 使用它们
+的函数变量等等.但是你永远不能在运行start()来运行run()里面的内容了
+<pre class="example">
+Once a thread has been started, it can never be started again.
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">The Thread Scheduler</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

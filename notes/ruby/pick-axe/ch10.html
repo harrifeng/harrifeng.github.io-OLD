@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 10: Exceptions, catch, and throw</title>
-<!-- 2014-07-18 Fri 16:02 -->
+<!-- 2015-03-18 Wed 14:07 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -209,12 +209,12 @@ for the JavaScript code in this tag.
 <li>下面这个例子是从网络上面下载某个网页的程序
 <div class="org-src-container">
 
-<pre class="src src-ruby">require <span style="color: #A2925E;">'open-uri'</span>
-web_page = open(<span style="color: #A2925E;">"http://pragprog.com/podcasts"</span>)
-output = <span style="color: #DADADA;">File</span>.open(<span style="color: #A2925E;">"podcasts.html"</span>, <span style="color: #A2925E;">"w"</span>)
-<span style="color: #4856F7; font-weight: bold;">while</span> line = web_page.gets
+<pre class="src src-ruby"><span style="color: #86453A;">require</span> <span style="color: #5A7644;">'open-uri'</span>
+web_page = <span style="color: #86453A;">open</span>(<span style="color: #5A7644;">"http://pragprog.com/podcasts"</span>)
+output = <span style="color: #C6B032; font-style: italic;">File</span>.open(<span style="color: #5A7644;">"podcasts.html"</span>, <span style="color: #5A7644;">"w"</span>)
+<span style="color: #AE5825;">while</span> line = web_page.gets
   output.puts line
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">end</span>
 output.close
 </pre>
 </div>
@@ -222,23 +222,23 @@ output.close
 <li>网络是不稳定的,我们要给上面这段代码加上exception处理
 <div class="org-src-container">
 
-<pre class="src src-ruby">require <span style="color: #A2925E;">'open-uri'</span>
-page = <span style="color: #A2925E;">"podcasts"</span>
-file_name = <span style="color: #C1C144;">"#{page}</span><span style="color: #A2925E;">.html"</span>
-web_page = open(<span style="color: #A2925E;">"http://pragprog.com</span><span style="color: #C1C144;">/#{page}</span><span style="color: #A2925E;">"</span>)
-output = <span style="color: #DADADA;">File</span>.open(file_name, <span style="color: #A2925E;">"w"</span>)
+<pre class="src src-ruby"><span style="color: #86453A;">require</span> <span style="color: #5A7644;">'open-uri'</span>
+page = <span style="color: #5A7644;">"podcasts"</span>
+file_name = <span style="color: #5A7644;">"</span><span style="color: #46657B;">#{page}</span><span style="color: #5A7644;">.html"</span>
+web_page = <span style="color: #86453A;">open</span>(<span style="color: #5A7644;">"http://pragprog.com/</span><span style="color: #46657B;">#{page}</span><span style="color: #5A7644;">"</span>)
+output = <span style="color: #C6B032; font-style: italic;">File</span>.open(file_name, <span style="color: #5A7644;">"w"</span>)
 
-<span style="color: #4856F7; font-weight: bold;">begin</span>
-  <span style="color: #4856F7; font-weight: bold;">while</span> line = web_page.gets
+<span style="color: #AE5825;">begin</span>
+  <span style="color: #AE5825;">while</span> line = web_page.gets
     output.puts line
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
   output.close
-<span style="color: #4856F7; font-weight: bold;">rescue</span> <span style="color: #DADADA;">Exception</span>
-  <span style="color: #DADADA;">STDERR</span>.puts <span style="color: #A2925E;">"Failed to downlead</span><span style="color: #C1C144;"> #{page}</span><span style="color: #A2925E;">:</span><span style="color: #C1C144;"> #{$!}</span><span style="color: #A2925E;">"</span>
+<span style="color: #AE5825;">rescue</span> <span style="color: #C6B032; font-style: italic;">Exception</span>
+  <span style="color: #C6B032; font-style: italic;">STDERR</span>.puts <span style="color: #5A7644;">"Failed to downlead </span><span style="color: #46657B;">#{page}</span><span style="color: #5A7644;">: </span><span style="color: #46657B;">#{$!}</span><span style="color: #5A7644;">"</span>
   output.close
-  <span style="color: #DADADA;">File</span>.delete(file_name)
-  <span style="color: #4856F7; font-weight: bold;">raise</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #C6B032; font-style: italic;">File</span>.delete(file_name)
+  <span style="color: #86453A;">raise</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -255,13 +255,13 @@ on those you can't handle to higher levels.
 <li>你还可以rescue多个语句(就像try catch,catch多个语句一样)
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">begin</span>
-  eval string
-<span style="color: #4856F7; font-weight: bold;">rescue</span> <span style="color: #DADADA;">SyntaxError</span>, <span style="color: #DADADA;">NameError</span> =&gt; boom
-  print <span style="color: #A2925E;">"String doesn't compile:"</span> + boom
-<span style="color: #4856F7; font-weight: bold;">rescue</span> <span style="color: #DADADA;">StandardError</span> =&gt; bang
-  print <span style="color: #A2925E;">"Error running script: "</span> + bang
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">begin</span>
+  <span style="color: #86453A;">eval</span> string
+<span style="color: #AE5825;">rescue</span> <span style="color: #C6B032; font-style: italic;">SyntaxError</span>, <span style="color: #C6B032; font-style: italic;">NameError</span> =&gt; boom
+  <span style="color: #86453A;">print</span> <span style="color: #5A7644;">"String doesn't compile:"</span> + boom
+<span style="color: #AE5825;">rescue</span> <span style="color: #C6B032; font-style: italic;">StandardError</span> =&gt; bang
+  <span style="color: #86453A;">print</span> <span style="color: #5A7644;">"Error running script: "</span> + bang
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -281,17 +281,17 @@ on those you can't handle to higher levels.
 Errno::EIO).这些class内部还有一个class constant,也叫Errno
 <div class="org-src-container">
 
-<pre class="src src-ruby">puts <span style="color: #DADADA;">Errno</span>::<span style="color: #DADADA;">EAGAIN</span>::<span style="color: #DADADA;">Errno</span>
-puts <span style="color: #DADADA;">Errno</span>::<span style="color: #DADADA;">EPERM</span>::<span style="color: #DADADA;">Errno</span>
-puts <span style="color: #DADADA;">Errno</span>::<span style="color: #DADADA;">EWOULDBLOCK</span>::<span style="color: #DADADA;">Errno</span>
+<pre class="src src-ruby"><span style="color: #86453A;">puts</span> <span style="color: #C6B032; font-style: italic;">Errno</span>::<span style="color: #C6B032; font-style: italic;">EAGAIN</span>::<span style="color: #C6B032; font-style: italic;">Errno</span>
+<span style="color: #86453A;">puts</span> <span style="color: #C6B032; font-style: italic;">Errno</span>::<span style="color: #C6B032; font-style: italic;">EPERM</span>::<span style="color: #C6B032; font-style: italic;">Errno</span>
+<span style="color: #86453A;">puts</span> <span style="color: #C6B032; font-style: italic;">Errno</span>::<span style="color: #C6B032; font-style: italic;">EWOULDBLOCK</span>::<span style="color: #C6B032; font-style: italic;">Errno</span>
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">11                                             #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">1                                              #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">10035                                          #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">TODO on Unix                                   #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">11                                             #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">1                                              #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">10035                                          #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">TODO on Unix                                   #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -308,14 +308,14 @@ puts <span style="color: #DADADA;">Errno</span>::<span style="color: #DADADA;">E
 不需要close
 <div class="org-src-container">
 
-<pre class="src src-ruby">f = <span style="color: #DADADA;">File</span>.open(<span style="color: #A2925E;">"testfile"</span>)
-<span style="color: #4856F7; font-weight: bold;">begin</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">.. process</span>
-<span style="color: #4856F7; font-weight: bold;">rescue</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">.. handle error</span>
-<span style="color: #4856F7; font-weight: bold;">ensure</span>
+<pre class="src src-ruby">f = <span style="color: #C6B032; font-style: italic;">File</span>.open(<span style="color: #5A7644;">"testfile"</span>)
+<span style="color: #AE5825;">begin</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">.. process</span>
+<span style="color: #AE5825;">rescue</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">.. handle error</span>
+<span style="color: #AE5825;">ensure</span>
   f.close
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -323,16 +323,16 @@ puts <span style="color: #DADADA;">Errno</span>::<span style="color: #DADADA;">E
 行这句, 当然最后的ensure还是肯定会运行的
 <div class="org-src-container">
 
-<pre class="src src-ruby">f = <span style="color: #DADADA;">File</span>.open(<span style="color: #A2925E;">"testfile"</span>)
-<span style="color: #4856F7; font-weight: bold;">begin</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">.. process</span>
-<span style="color: #4856F7; font-weight: bold;">rescue</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">.. handle error</span>
-<span style="color: #4856F7; font-weight: bold;">else</span>
-  puts <span style="color: #A2925E;">"Congratulations-- no errors!"</span>
-<span style="color: #4856F7; font-weight: bold;">ensure</span>
+<pre class="src src-ruby">f = <span style="color: #C6B032; font-style: italic;">File</span>.open(<span style="color: #5A7644;">"testfile"</span>)
+<span style="color: #AE5825;">begin</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">.. process</span>
+<span style="color: #AE5825;">rescue</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">.. handle error</span>
+<span style="color: #AE5825;">else</span>
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Congratulations-- no errors!"</span>
+<span style="color: #AE5825;">ensure</span>
   f.close
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -347,22 +347,22 @@ puts <span style="color: #DADADA;">Errno</span>::<span style="color: #DADADA;">E
 非常小心的使用
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #C1C144;">@esmtp</span> = <span style="color: #C1C144;">true</span>
+<pre class="src src-ruby"><span style="color: #46657B;">@esmtp</span> = <span style="color: #46657B;">true</span>
 
-<span style="color: #4856F7; font-weight: bold;">begin</span>
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">First try an extended login. If it fails, fall back to a normal login</span>
-  <span style="color: #4856F7; font-weight: bold;">if</span> <span style="color: #C1C144;">@esmtp</span> <span style="color: #4856F7; font-weight: bold;">then</span> <span style="color: #C1C144;">@command</span>.ehlo(helodom)
-  <span style="color: #4856F7; font-weight: bold;">else</span> <span style="color: #C1C144;">@command</span>.helo(helodom)
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">begin</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">First try an extended login. If it fails, fall back to a normal login</span>
+  <span style="color: #AE5825;">if</span> <span style="color: #46657B;">@esmtp</span> <span style="color: #AE5825;">then</span> <span style="color: #46657B;">@command</span>.ehlo(helodom)
+  <span style="color: #AE5825;">else</span> <span style="color: #46657B;">@command</span>.helo(helodom)
+  <span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">rescue</span> <span style="color: #DADADA;">ProtocolError</span>
-  <span style="color: #4856F7; font-weight: bold;">if</span> <span style="color: #C1C144;">@esmtp</span> <span style="color: #4856F7; font-weight: bold;">then</span>
-    <span style="color: #C1C144;">@esmtp</span> = <span style="color: #C1C144;">false</span>
-    <span style="color: #4856F7; font-weight: bold;">retry</span>
-  <span style="color: #4856F7; font-weight: bold;">else</span>
-    <span style="color: #4856F7; font-weight: bold;">raise</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">rescue</span> <span style="color: #C6B032; font-style: italic;">ProtocolError</span>
+  <span style="color: #AE5825;">if</span> <span style="color: #46657B;">@esmtp</span> <span style="color: #AE5825;">then</span>
+    <span style="color: #46657B;">@esmtp</span> = <span style="color: #46657B;">false</span>
+    <span style="color: #AE5825;">retry</span>
+  <span style="color: #AE5825;">else</span>
+    <span style="color: #86453A;">raise</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -377,9 +377,9 @@ puts <span style="color: #DADADA;">Errno</span>::<span style="color: #DADADA;">E
 <li>抛出异常的方法是在自己的代码里面使用Object#raise函数
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span class="linenr">1: </span><span style="color: #4856F7; font-weight: bold;">raise</span>
-<span class="linenr">2: </span><span style="color: #4856F7; font-weight: bold;">raise</span> <span style="color: #A2925E;">"bad mp3 encoding"</span>
-<span class="linenr">3: </span><span style="color: #4856F7; font-weight: bold;">raise</span> <span style="color: #DADADA;">InterfaceException</span>, <span style="color: #A2925E;">"Keyboard failure"</span>, caller
+<pre class="src src-ruby"><span class="linenr">1: </span><span style="color: #86453A;">raise</span>
+<span class="linenr">2: </span><span style="color: #86453A;">raise</span> <span style="color: #5A7644;">"bad mp3 encoding"</span>
+<span class="linenr">3: </span><span style="color: #86453A;">raise</span> <span style="color: #C6B032; font-style: italic;">InterfaceException</span>, <span style="color: #5A7644;">"Keyboard failure"</span>, <span style="color: #86453A;">caller</span>
 </pre>
 </div>
 </li>
@@ -405,12 +405,12 @@ exception的话,就抛出RuntimeError
 <li>Exception也是class,当然可以有自己的变量
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">RetryException</span> &lt; <span style="color: #DADADA;">RuntimeError</span>
-  attr <span style="color: #DF7921; font-weight: bold;">:ok_to_retry</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(ok_to_retry)
-    <span style="color: #C1C144;">@ok_to_retry</span> = ok_to_retry
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">RetryException</span> &lt; <span style="color: #C6B032; font-style: italic;">RuntimeError</span>
+  <span style="color: #86453A;">attr</span> <span style="color: #86453A;">:ok_to_retry</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(ok_to_retry)
+    <span style="color: #46657B;">@ok_to_retry</span> = ok_to_retry
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -427,16 +427,16 @@ exception的话,就抛出RuntimeError
 <li>而catch + throw,则是把问题交给更上层的context去处理
 <div class="org-src-container">
 
-<pre class="src src-ruby">word_list = <span style="color: #DADADA;">File</span>.open(<span style="color: #A2925E;">"wordlist"</span>)
-<span style="color: #4856F7; font-weight: bold;">catch</span> (<span style="color: #DF7921; font-weight: bold;">:done</span>) <span style="color: #4856F7; font-weight: bold;">do</span>
+<pre class="src src-ruby">word_list = <span style="color: #C6B032; font-style: italic;">File</span>.open(<span style="color: #5A7644;">"wordlist"</span>)
+<span style="color: #86453A;">catch</span> (<span style="color: #86453A;">:done</span>) <span style="color: #AE5825;">do</span>
   result = []
-  <span style="color: #4856F7; font-weight: bold;">while</span> line = word_list.gets
+  <span style="color: #AE5825;">while</span> line = word_list.gets
     word = line.chomp
-    <span style="color: #4856F7; font-weight: bold;">throw</span> <span style="color: #DF7921; font-weight: bold;">:done</span> <span style="color: #4856F7; font-weight: bold;">unless</span> word =~<span style="color: #A2925E;">/^\w+$/</span>
+    <span style="color: #86453A;">throw</span> <span style="color: #86453A;">:done</span> <span style="color: #AE5825;">unless</span> word =~<span style="color: #5A7644;">/^\w+$/</span>
     result &lt;&lt; word
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-  puts result.reverse
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">end</span>
+  <span style="color: #86453A;">puts</span> result.reverse
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>

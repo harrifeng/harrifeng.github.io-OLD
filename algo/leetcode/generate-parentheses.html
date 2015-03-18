@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 021: Generate Parentheses</title>
-<!-- 2014-07-18 Fri 16:16 -->
+<!-- 2015-03-18 Wed 14:22 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -206,25 +206,25 @@ Sample Output: "((()))", "(()())", "(())()", "()(())", "()()()"
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">ArrayList</span>&lt;String&gt; generateParenthesis(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">n</span>) {
-        ArrayList&lt;String&gt; ret = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ArrayList</span>&lt;String&gt;();
-        genP(n, n, <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">StringBuilder</span>(), ret);
-        <span style="color: #859900; font-weight: bold;">return</span> ret;
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Solution</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">ArrayList</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>&gt; <span style="color: #C6B032;">generateParenthesis</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">n</span>) {
+        <span style="color: #C6B032; font-style: italic;">ArrayList</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>&gt; <span style="color: #46657B;">ret</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">ArrayList</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>&gt;();
+        genP(n, n, <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">StringBuilder</span>(), ret);
+        <span style="color: #AE5825;">return</span> ret;
     }
 
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">genP</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">left</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">right</span>, <span style="color: #b58900;">StringBuilder</span> <span style="color: #268bd2;">tmp</span>, ArrayList&lt;String&gt; result) {
-        <span style="color: #859900; font-weight: bold;">if</span> (0 == left &amp;&amp; left == right) {
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">genP</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">left</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">right</span>, <span style="color: #C6B032; font-style: italic;">StringBuilder</span> <span style="color: #46657B;">tmp</span>, <span style="color: #C6B032; font-style: italic;">ArrayList</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>&gt; <span style="color: #46657B;">result</span>) {
+        <span style="color: #AE5825;">if</span> (0 == left &amp;&amp; left == right) {
             result.add(tmp.toString());
-            <span style="color: #859900; font-weight: bold;">return</span>;
+            <span style="color: #AE5825;">return</span>;
         }
-        <span style="color: #859900; font-weight: bold;">if</span> (left &gt; 0) {
-            tmp.append(<span style="color: #2aa198;">'('</span>);
+        <span style="color: #AE5825;">if</span> (left &gt; 0) {
+            tmp.append(<span style="color: #5A7644;">'('</span>);
             genP(left-1, right, tmp, result);
             tmp.deleteCharAt(tmp.length()-1);
         } 
-        <span style="color: #859900; font-weight: bold;">if</span> (right &gt; left) {
-            tmp.append(<span style="color: #2aa198;">')'</span>);
+        <span style="color: #AE5825;">if</span> (right &gt; left) {
+            tmp.append(<span style="color: #5A7644;">')'</span>);
             genP(left, right-1, tmp, result);
             tmp.deleteCharAt(tmp.length()-1);
         }

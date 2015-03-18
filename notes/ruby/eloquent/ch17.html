@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 17: Use Blocks to Iterate</title>
-<!-- 2014-07-18 Fri 16:03 -->
+<!-- 2015-03-18 Wed 14:09 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -197,16 +197,16 @@ for the JavaScript code in this tag.
 <li>在Ruby中,你可以把code block放到一个函数的后面,像如下一样使用
 <div class="org-src-container">
 
-<pre class="src src-ruby">do_domething <span style="color: #4856F7; font-weight: bold;">do</span>
-  puts <span style="color: #A2925E;">"Hello from inside the block"</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby">do_domething <span style="color: #AE5825;">do</span>
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Hello from inside the block"</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>或者使用一个{}来替代do/end
 <div class="org-src-container">
 
-<pre class="src src-ruby">do_something {puts <span style="color: #A2925E;">"Hello from inside the block"</span>}
+<pre class="src src-ruby">do_something {<span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Hello from inside the block"</span>}
 </pre>
 </div>
 </li>
@@ -217,19 +217,19 @@ Ruby解释器内部是把这个code block包裹成一个"秘密参数", 然后�
 <li>这个秘密参数也可以再函数内部,通过block_gen?来判断
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">do_something</span>
-  <span style="color: #4856F7; font-weight: bold;">yield</span> <span style="color: #4856F7; font-weight: bold;">if</span> block_given?
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">do_something</span>
+  <span style="color: #AE5825;">yield</span> <span style="color: #AE5825;">if</span> <span style="color: #86453A;">block_given?</span>
+<span style="color: #AE5825;">end</span>
 
-do_something {puts <span style="color: #A2925E;">"testing"</span>}
-puts <span style="color: #A2925E;">"-----------------------&gt;"</span>
+do_something {<span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"testing"</span>}
+<span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"-----------------------&gt;"</span>
 do_something
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">testing                                        #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">-----------------------&gt;                       #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">testing                                        #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">-----------------------&gt;                       #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -239,18 +239,18 @@ do_something
 数,然后这个参数就可以在code block里面使用了
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">do_something_with_an_arg</span>
-  <span style="color: #4856F7; font-weight: bold;">yield</span>(<span style="color: #A2925E;">"Hello World"</span>) <span style="color: #4856F7; font-weight: bold;">if</span> block_given?
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">do_something_with_an_arg</span>
+  <span style="color: #AE5825;">yield</span>(<span style="color: #5A7644;">"Hello World"</span>) <span style="color: #AE5825;">if</span> <span style="color: #86453A;">block_given?</span>
+<span style="color: #AE5825;">end</span>
 
-do_something_with_an_arg <span style="color: #4856F7; font-weight: bold;">do</span> |message|
-  puts <span style="color: #A2925E;">"The message is</span><span style="color: #C1C144;"> #{message}</span><span style="color: #A2925E;">"</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+do_something_with_an_arg <span style="color: #AE5825;">do</span> |message|
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"The message is </span><span style="color: #46657B;">#{message}</span><span style="color: #5A7644;">"</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The message is Hello World                     #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The message is Hello World                     #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -258,19 +258,19 @@ do_something_with_an_arg <span style="color: #4856F7; font-weight: bold;">do</sp
 return的数据)会作为yield函数的返回值在method里面有所体现
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">print_the_value_returned_by_the_block</span>
-  <span style="color: #4856F7; font-weight: bold;">if</span> block_given?
-    value = <span style="color: #4856F7; font-weight: bold;">yield</span>
-    puts <span style="color: #A2925E;">"The block returned</span><span style="color: #C1C144;"> #{value}</span><span style="color: #A2925E;">"</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">print_the_value_returned_by_the_block</span>
+  <span style="color: #AE5825;">if</span> <span style="color: #86453A;">block_given?</span>
+    value = <span style="color: #AE5825;">yield</span>
+    <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"The block returned </span><span style="color: #46657B;">#{value}</span><span style="color: #5A7644;">"</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
 print_the_value_returned_by_the_block {3.14159 / 4.0}
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">0.7853975                                      #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">0.7853975                                      #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -295,46 +295,46 @@ print_the_value_returned_by_the_block {3.14159 / 4.0}
 素都作为yield的参数,yield的参数也就是code block的变量啦
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  attr_accessor <span style="color: #DF7921; font-weight: bold;">:content</span>, <span style="color: #DF7921; font-weight: bold;">:words</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:content</span>, <span style="color: #86453A;">:words</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(content)
-    <span style="color: #C1C144;">@content</span> = content
-    <span style="color: #C1C144;">@words</span> = content.split
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(content)
+    <span style="color: #46657B;">@content</span> = content
+    <span style="color: #46657B;">@words</span> = content.split
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each_word</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">each_word</span>
     word_array = words
     index = 0
-    <span style="color: #4856F7; font-weight: bold;">while</span> index &lt; words.size
-      <span style="color: #4856F7; font-weight: bold;">yield</span>(word_array[index])
+    <span style="color: #AE5825;">while</span> index &lt; words.size
+      <span style="color: #AE5825;">yield</span>(word_array[index])
       index += 1
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-d = <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">'Life is like a box of ...'</span>)
-d.each_word {|word| puts word}
+d = <span style="color: #C6B032; font-style: italic;">Document</span>.new(<span style="color: #5A7644;">'Life is like a box of ...'</span>)
+d.each_word {|word| <span style="color: #86453A;">puts</span> word}
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Life                                           #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">is                                             #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">like                                           #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">a                                              #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">box                                            #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">of                                             #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">...                                            #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Life                                           #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">is                                             #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">like                                           #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">a                                              #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">box                                            #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">of                                             #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...                                            #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
 <li>当然了,我们真正实现each_word的方法是依赖已经存在的Array#each函数
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each_word</span>
-  words.each {|word| <span style="color: #4856F7; font-weight: bold;">yield</span>(word)}
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">each_word</span>
+  words.each {|word| <span style="color: #AE5825;">yield</span>(word)}
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -359,23 +359,23 @@ d.each_word {|word| puts word}
 collection"所有的数据
 <div class="org-src-container">
 
-<pre class="src src-ruby">12.times {|x| puts <span style="color: #A2925E;">"The number is</span><span style="color: #C1C144;"> #{x}</span><span style="color: #A2925E;">"</span>}
+<pre class="src src-ruby">12.times {|x| <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"The number is </span><span style="color: #46657B;">#{x}</span><span style="color: #5A7644;">"</span>}
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 0                                #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 1                                #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 2                                #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 3                                #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 4                                #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 5                                #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 6                                #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 7                                #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 8                                #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 9                                #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 10                               #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">The number is 11                               #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The number is 0                                #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The number is 1                                #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The number is 2                                #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The number is 3                                #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The number is 4                                #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The number is 5                                #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The number is 6                                #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The number is 7                                #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The number is 8                                #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The number is 9                                #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The number is 10                               #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">The number is 11                               #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -384,33 +384,33 @@ collection"所有的数据
 过这种"两个"单词为一组的,长度为4的array
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(content)
-    <span style="color: #C1C144;">@content</span> = content
-    <span style="color: #C1C144;">@words</span> = content.split
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(content)
+    <span style="color: #46657B;">@content</span> = content
+    <span style="color: #46657B;">@words</span> = content.split
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each_word_pair</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">each_word_pair</span>
     word_array = words
     index = 0
-    <span style="color: #4856F7; font-weight: bold;">while</span> index &lt; (word_array.size-1)
-      <span style="color: #4856F7; font-weight: bold;">yield</span> word_array[index], word_array[index+1]
+    <span style="color: #AE5825;">while</span> index &lt; (word_array.size-1)
+      <span style="color: #AE5825;">yield</span> word_array[index], word_array[index+1]
       index += 1
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-doc = <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">'I love donuts mmmm donuts'</span>)
-doc.each_word_pair{|first, second| puts <span style="color: #C1C144;">"#{first} #{second}</span><span style="color: #A2925E;">"</span>}
+doc = <span style="color: #C6B032; font-style: italic;">Document</span>.new(<span style="color: #5A7644;">'I love donuts mmmm donuts'</span>)
+doc.each_word_pair{|first, second| <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"</span><span style="color: #46657B;">#{first}</span><span style="color: #5A7644;"> </span><span style="color: #46657B;">#{second}</span><span style="color: #5A7644;">"</span>}
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">I love                                         #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">love donuts                                    #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">donuts mmmm                                    #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">mmmm donuts                                    #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">I love                                         #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">love donuts                                    #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">donuts mmmm                                    #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">mmmm donuts                                    #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -430,62 +430,62 @@ Enumerable的代码里面了)
 使用Enumerable提供的helper函数
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  include <span style="color: #DADADA;">Enumerable</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">Enumerable</span>
 
-  attr_accessor <span style="color: #DF7921; font-weight: bold;">:words</span>
+  <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:words</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(content)
-    <span style="color: #C1C144;">@content</span> = content
-    <span style="color: #C1C144;">@words</span> = content.split
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(content)
+    <span style="color: #46657B;">@content</span> = content
+    <span style="color: #46657B;">@words</span> = content.split
+  <span style="color: #AE5825;">end</span>
 
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each</span>
-    words.each {|word| <span style="color: #4856F7; font-weight: bold;">yield</span>(word)}
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">each</span>
+    words.each {|word| <span style="color: #AE5825;">yield</span>(word)}
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-doc = <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">'Go ahead make my day'</span>)
-puts doc.include?(<span style="color: #A2925E;">"make"</span>)
-puts doc.include?(<span style="color: #A2925E;">"Punk"</span>)
+doc = <span style="color: #C6B032; font-style: italic;">Document</span>.new(<span style="color: #5A7644;">'Go ahead make my day'</span>)
+<span style="color: #86453A;">puts</span> doc.include?(<span style="color: #5A7644;">"make"</span>)
+<span style="color: #86453A;">puts</span> doc.include?(<span style="color: #5A7644;">"Punk"</span>)
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">true                                           #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">false                                          #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">true                                           #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">false                                          #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
 <li>Enumerable还提供了each_cons, 也就是会把相邻的n个参数组成数组,并返回
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  include <span style="color: #DADADA;">Enumerable</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">Enumerable</span>
 
-  attr_accessor <span style="color: #DF7921; font-weight: bold;">:words</span>
+  <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:words</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(content)
-    <span style="color: #C1C144;">@content</span> = content
-    <span style="color: #C1C144;">@words</span> = content.split
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(content)
+    <span style="color: #46657B;">@content</span> = content
+    <span style="color: #46657B;">@words</span> = content.split
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each</span>
-    words.each {|word| <span style="color: #4856F7; font-weight: bold;">yield</span>(word)}
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">each</span>
+    words.each {|word| <span style="color: #AE5825;">yield</span>(word)}
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-doc = <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">'Go ahead make my day'</span>)
-doc.each_cons(2) {|array| p array}
+doc = <span style="color: #C6B032; font-style: italic;">Document</span>.new(<span style="color: #5A7644;">'Go ahead make my day'</span>)
+doc.each_cons(2) {|array| <span style="color: #86453A;">p</span> array}
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["Go", "ahead"]                                #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["ahead", "make"]                              #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["make", "my"]                                 #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["my", "day"]                                  #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">["Go", "ahead"]                                #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">["ahead", "make"]                              #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">["make", "my"]                                 #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">["my", "day"]                                  #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -497,42 +497,42 @@ doc.each_cons(2) {|array| p array}
 <li>除了提供函数, Enumerable还在内部实现了Enumerator class
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  include <span style="color: #DADADA;">Enumerable</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #86453A;">include</span> <span style="color: #C6B032; font-style: italic;">Enumerable</span>
 
-  attr_accessor <span style="color: #DF7921; font-weight: bold;">:words</span>
+  <span style="color: #86453A;">attr_accessor</span> <span style="color: #86453A;">:words</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(content)
-    <span style="color: #C1C144;">@content</span> = content
-    <span style="color: #C1C144;">@words</span> = content.split
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(content)
+    <span style="color: #46657B;">@content</span> = content
+    <span style="color: #46657B;">@words</span> = content.split
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each</span>
-    words.each {|word| <span style="color: #4856F7; font-weight: bold;">yield</span> word}
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">each</span>
+    words.each {|word| <span style="color: #AE5825;">yield</span> word}
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each_characters</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">each_characters</span>
     index = 0
-    <span style="color: #4856F7; font-weight: bold;">while</span> index &lt; <span style="color: #C1C144;">@content</span>.size
-      <span style="color: #4856F7; font-weight: bold;">yield</span>(<span style="color: #C1C144;">@content</span>[index])
+    <span style="color: #AE5825;">while</span> index &lt; <span style="color: #46657B;">@content</span>.size
+      <span style="color: #AE5825;">yield</span>(<span style="color: #46657B;">@content</span>[index])
       index += 1
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-doc = <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">'hello world, american'</span>)
-enum = <span style="color: #DADADA;">Enumerator</span>.new(doc, <span style="color: #DF7921; font-weight: bold;">:each</span>)
-p enum.sort
-enum = <span style="color: #DADADA;">Enumerator</span>.new(doc, <span style="color: #DF7921; font-weight: bold;">:each_characters</span>)
-p enum.sort
+doc = <span style="color: #C6B032; font-style: italic;">Document</span>.new(<span style="color: #5A7644;">'hello world, american'</span>)
+enum = <span style="color: #C6B032; font-style: italic;">Enumerator</span>.new(doc, <span style="color: #86453A;">:each</span>)
+<span style="color: #86453A;">p</span> enum.sort
+enum = <span style="color: #C6B032; font-style: italic;">Enumerator</span>.new(doc, <span style="color: #86453A;">:each_characters</span>)
+<span style="color: #86453A;">p</span> enum.sort
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">["american", "hello", "world,"]                #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">[" ", " ", ",", "a", "a", "c", "d", "e", "e",  #</span>
-<span style="color: #ed5b15;">#  </span><span style="color: #ed5b15;">"h", "i", "l", "l", "l", "m", "n", "o", "o",  #</span>
-<span style="color: #ed5b15;">#  </span><span style="color: #ed5b15;">"r", "r", "w"]                                #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">["american", "hello", "world,"]                #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">[" ", " ", ",", "a", "a", "c", "d", "e", "e",  #</span>
+<span style="color: #4C565D;">#  </span><span style="color: #333B40; font-style: italic;">"h", "i", "l", "l", "l", "m", "n", "o", "o",  #</span>
+<span style="color: #4C565D;">#  </span><span style="color: #333B40; font-style: italic;">"r", "r", "w"]                                #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -558,36 +558,36 @@ collection.
 其他不知道哪里的代码流程)
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">iterator code in one place</span>
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">iterator code in one place</span>
 
-<span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each_name</span>
-  name_server = open_name_server <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Get some expensive resource</span>
-  <span style="color: #4856F7; font-weight: bold;">while</span> name_server.has_more?
-    <span style="color: #4856F7; font-weight: bold;">yield</span> name_server.read_name
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-  name_server.close             <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">may never closed</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">def</span> <span style="color: #C6B032;">each_name</span>
+  name_server = open_name_server <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Get some expensive resource</span>
+  <span style="color: #AE5825;">while</span> name_server.has_more?
+    <span style="color: #AE5825;">yield</span> name_server.read_name
+  <span style="color: #AE5825;">end</span>
+  name_server.close             <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">may never closed</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">code bloc code in somewhere else</span>
-doc.each_word <span style="color: #4856F7; font-weight: bold;">do</span> |word|
-  <span style="color: #4856F7; font-weight: bold;">raise</span> <span style="color: #A2925E;">'boom'</span> <span style="color: #4856F7; font-weight: bold;">if</span> word == <span style="color: #A2925E;">'now'</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">code bloc code in somewhere else</span>
+doc.each_word <span style="color: #AE5825;">do</span> |word|
+  <span style="color: #86453A;">raise</span> <span style="color: #5A7644;">'boom'</span> <span style="color: #AE5825;">if</span> word == <span style="color: #5A7644;">'now'</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>解决的办法当然有: ensure
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">each_name</span>
-  name_server = open_name_server <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Get some expensive resouce</span>
-  <span style="color: #4856F7; font-weight: bold;">begin</span>
-    <span style="color: #4856F7; font-weight: bold;">while</span> name_server.has_more?
-      <span style="color: #4856F7; font-weight: bold;">yield</span> name_server.read_name
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-  <span style="color: #4856F7; font-weight: bold;">ensure</span>
-    name_server.close           <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Close the expensive resource</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">each_name</span>
+  name_server = open_name_server <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Get some expensive resouce</span>
+  <span style="color: #AE5825;">begin</span>
+    <span style="color: #AE5825;">while</span> name_server.has_more?
+      <span style="color: #AE5825;">yield</span> name_server.read_name
+    <span style="color: #AE5825;">end</span>
+  <span style="color: #AE5825;">ensure</span>
+    name_server.close           <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Close the expensive resource</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -603,35 +603,35 @@ doc.each_word <span style="color: #4856F7; font-weight: bold;">do</span> |word|
 <li>Array和Hash有each不奇怪,奇怪的是Dir也有each函数
 <div class="org-src-container">
 
-<pre class="src src-ruby">puts <span style="color: #A2925E;">"Contents of /etc directory:"</span>
-etc_dir = <span style="color: #DADADA;">Dir</span>.new(<span style="color: #A2925E;">"/Users/hfeng/tmp"</span>)
-etc_dir.each {|entry| puts entry}
+<pre class="src src-ruby"><span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Contents of /etc directory:"</span>
+etc_dir = <span style="color: #C6B032; font-style: italic;">Dir</span>.new(<span style="color: #5A7644;">"/Users/hfeng/tmp"</span>)
+etc_dir.each {|entry| <span style="color: #86453A;">puts</span> entry}
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Contents of /etc directory:                    #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">.                                              #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">..                                             #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">passwd.txt                                     #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">sel-intro.txt                                  #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Contents of /etc directory:                    #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">.                                              #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">..                                             #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">passwd.txt                                     #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">sel-intro.txt                                  #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
 <li>还有一个非常有趣的函数, Resolv#each_address:能够找出某个域名的所有的ip地址
 <div class="org-src-container">
 
-<pre class="src src-ruby">require <span style="color: #A2925E;">'resolv'</span>
-<span style="color: #DADADA;">Resolv</span>.each_address(<span style="color: #A2925E;">"www.google.com"</span>) {|x| puts x}
+<pre class="src src-ruby"><span style="color: #86453A;">require</span> <span style="color: #5A7644;">'resolv'</span>
+<span style="color: #C6B032; font-style: italic;">Resolv</span>.each_address(<span style="color: #5A7644;">"www.google.com"</span>) {|x| <span style="color: #86453A;">puts</span> x}
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">173.194.127.179                                #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">173.194.127.180                                #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">173.194.127.176                                #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">173.194.127.177                                #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">173.194.127.178                                #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">173.194.127.179                                #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">173.194.127.180                                #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">173.194.127.176                                #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">173.194.127.177                                #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">173.194.127.178                                #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>

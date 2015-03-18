@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 19: Save Blocks to Execute Later</title>
-<!-- 2014-07-18 Fri 16:03 -->
+<!-- 2015-03-18 Wed 14:09 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -207,11 +207,11 @@ for the JavaScript code in this tag.
 可以使用"explicit"的把code block作为函数的一个参数
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">run_the_block</span>(&amp;that_block)
-  puts <span style="color: #A2925E;">"About to run the block"</span>
-  that_block.call <span style="color: #4856F7; font-weight: bold;">if</span> that_block
-  puts <span style="color: #A2925E;">"Done running the block"</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">run_the_block</span>(&amp;that_block)
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"About to run the block"</span>
+  that_block.call <span style="color: #AE5825;">if</span> that_block
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Done running the block"</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -228,37 +228,37 @@ for the JavaScript code in this tag.
 <li>常规的做法是为这两个行为设计两个listener class
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DocumentSaveListener</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">on_save</span>(doc, path)
-    puts <span style="color: #A2925E;">" Hey, I've been saved!"</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">DocumentSaveListener</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">on_save</span>(doc, path)
+    <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">" Hey, I've been saved!"</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">DocumentLoadListener</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">on_load</span>(doc, path)
-    puts <span style="color: #A2925E;">" Hey, I've been loaded!"</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">DocumentLoadListener</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">on_load</span>(doc, path)
+    <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">" Hey, I've been loaded!"</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>然后再Document里面注入这些listener
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  attr_accesor <span style="color: #DF7921; font-weight: bold;">:load_listener</span>
-  attr_accesor <span style="color: #DF7921; font-weight: bold;">:save_listener</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  attr_accesor <span style="color: #86453A;">:load_listener</span>
+  attr_accesor <span style="color: #86453A;">:save_listener</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">load</span>(path)
-    <span style="color: #C1C144;">@content</span> = <span style="color: #DADADA;">File</span>.read(path)
-    load_listener.on_load(<span style="color: #C1C144;">self</span>, path) <span style="color: #4856F7; font-weight: bold;">if</span> load_listener
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">load</span>(path)
+    <span style="color: #46657B;">@content</span> = <span style="color: #C6B032; font-style: italic;">File</span>.read(path)
+    load_listener.on_load(<span style="color: #46657B;">self</span>, path) <span style="color: #AE5825;">if</span> load_listener
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">save</span>(path)
-    <span style="color: #DADADA;">File</span>.open(path, <span style="color: #A2925E;">'w'</span>) { |f| f.print(<span style="color: #C1C144;">@content</span>)}
-    save_listener.on_save(<span style="color: #C1C144;">self</span>, path) <span style="color: #4856F7; font-weight: bold;">if</span> save_listener
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">save</span>(path)
+    <span style="color: #C6B032; font-style: italic;">File</span>.open(path, <span style="color: #5A7644;">'w'</span>) { |f| f.print(<span style="color: #46657B;">@content</span>)}
+    save_listener.on_save(<span style="color: #46657B;">self</span>, path) <span style="color: #AE5825;">if</span> save_listener
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -272,50 +272,50 @@ for the JavaScript code in this tag.
 <li>不说传统的好坏吧,反正我们是为了引出Ruby是如何做listener的
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(content)
-    <span style="color: #C1C144;">@content</span> = content
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(content)
+    <span style="color: #46657B;">@content</span> = content
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">on_save</span>(&amp;block)
-    <span style="color: #C1C144;">@save_listener</span> = block
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">on_save</span>(&amp;block)
+    <span style="color: #46657B;">@save_listener</span> = block
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">on_load</span>(&amp;block)
-    <span style="color: #C1C144;">@load_listener</span> = block
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">on_load</span>(&amp;block)
+    <span style="color: #46657B;">@load_listener</span> = block
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">load</span>(path)
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">@content = File.read(path)</span>
-    <span style="color: #C1C144;">@load_listener</span>.call <span style="color: #4856F7; font-weight: bold;">if</span> <span style="color: #C1C144;">@load_listener</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">load</span>(path)
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">@content = File.read(path)</span>
+    <span style="color: #46657B;">@load_listener</span>.call <span style="color: #AE5825;">if</span> <span style="color: #46657B;">@load_listener</span>
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">save</span>(path)
-    <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">File.open(path, 'w') {|f| f.print(@content)}</span>
-    <span style="color: #C1C144;">@save_listener</span>.call <span style="color: #4856F7; font-weight: bold;">if</span> <span style="color: #C1C144;">@save_listener</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">save</span>(path)
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">File.open(path, 'w') {|f| f.print(@content)}</span>
+    <span style="color: #46657B;">@save_listener</span>.call <span style="color: #AE5825;">if</span> <span style="color: #46657B;">@save_listener</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-my_doc = <span style="color: #DADADA;">Document</span>.new(<span style="color: #A2925E;">'Block Based Example'</span>)
+my_doc = <span style="color: #C6B032; font-style: italic;">Document</span>.new(<span style="color: #5A7644;">'Block Based Example'</span>)
 
-my_doc.on_load <span style="color: #4856F7; font-weight: bold;">do</span> |doc|
-  puts <span style="color: #A2925E;">"Hey, I've been loaded!</span><span style="color: #C1C144;"> #{doc}</span><span style="color: #A2925E;">"</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+my_doc.on_load <span style="color: #AE5825;">do</span> |doc|
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Hey, I've been loaded! </span><span style="color: #46657B;">#{doc}</span><span style="color: #5A7644;">"</span>
+<span style="color: #AE5825;">end</span>
 
-my_doc.on_save <span style="color: #4856F7; font-weight: bold;">do</span> |doc|
-  puts <span style="color: #A2925E;">"Hey, I've been saved!</span><span style="color: #C1C144;"> #{doc}</span><span style="color: #A2925E;">"</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+my_doc.on_save <span style="color: #AE5825;">do</span> |doc|
+  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Hey, I've been saved! </span><span style="color: #46657B;">#{doc}</span><span style="color: #5A7644;">"</span>
+<span style="color: #AE5825;">end</span>
 
-puts <span style="color: #A2925E;">"----------------------&gt;"</span>
-my_doc.load(<span style="color: #C1C144;">nil</span>)
-my_doc.save(<span style="color: #C1C144;">nil</span>)
+<span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"----------------------&gt;"</span>
+my_doc.load(<span style="color: #46657B;">nil</span>)
+my_doc.save(<span style="color: #46657B;">nil</span>)
 
-<span style="color: #ed5b15;">##################################################</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">----------------------&gt;                        #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Hey, I've been loaded!                         #</span>
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Hey, I've been saved!                          #</span>
-<span style="color: #ed5b15;">##################################################</span>
+<span style="color: #4C565D;">##################################################</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">----------------------&gt;                        #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Hey, I've been loaded!                         #</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Hey, I've been saved!                          #</span>
+<span style="color: #4C565D;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -334,19 +334,19 @@ bank么
 个别需要的时候才读取内容,所以我们立马有了如下的代码
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">ArchivalDocument</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:title</span>, <span style="color: #DF7921; font-weight: bold;">:author</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">ArchivalDocument</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:title</span>, <span style="color: #86453A;">:author</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(title, author, path)
-    <span style="color: #C1C144;">@title</span> = title
-    <span style="color: #C1C144;">@author</span> = author
-    <span style="color: #C1C144;">@path</span> = path
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(title, author, path)
+    <span style="color: #46657B;">@title</span> = title
+    <span style="color: #46657B;">@author</span> = author
+    <span style="color: #46657B;">@path</span> = path
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">content</span>
-    <span style="color: #C1C144;">@content</span> ||= <span style="color: #DADADA;">File</span>.read(<span style="color: #C1C144;">@path</span>)
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">content</span>
+    <span style="color: #46657B;">@content</span> ||= <span style="color: #C6B032; font-style: italic;">File</span>.read(<span style="color: #46657B;">@path</span>)
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -356,36 +356,36 @@ bank么
 block能够解决这个问题
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">BlockBasedArchivalDocument</span>
-  attr_reader <span style="color: #DF7921; font-weight: bold;">:title</span>, <span style="color: #DF7921; font-weight: bold;">:author</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">BlockBasedArchivalDocument</span>
+  <span style="color: #86453A;">attr_reader</span> <span style="color: #86453A;">:title</span>, <span style="color: #86453A;">:author</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">initialize</span>(title, author, &amp;block)
-    <span style="color: #C1C144;">@title</span> = title
-    <span style="color: #C1C144;">@author</span> = author
-    <span style="color: #C1C144;">@initializer_block</span> = block
-  <span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(title, author, &amp;block)
+    <span style="color: #46657B;">@title</span> = title
+    <span style="color: #46657B;">@author</span> = author
+    <span style="color: #46657B;">@initializer_block</span> = block
+  <span style="color: #AE5825;">end</span>
 
-  <span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">content</span>
-    <span style="color: #4856F7; font-weight: bold;">if</span> <span style="color: #C1C144;">@initializer_block</span>
-      <span style="color: #C1C144;">@content</span> = <span style="color: #C1C144;">@initializer_block</span>.call
-      <span style="color: #C1C144;">@initializer_block</span> = <span style="color: #C1C144;">nil</span>
-    <span style="color: #4856F7; font-weight: bold;">end</span>
-    <span style="color: #C1C144;">@content</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">content</span>
+    <span style="color: #AE5825;">if</span> <span style="color: #46657B;">@initializer_block</span>
+      <span style="color: #46657B;">@content</span> = <span style="color: #46657B;">@initializer_block</span>.call
+      <span style="color: #46657B;">@initializer_block</span> = <span style="color: #46657B;">nil</span>
+    <span style="color: #AE5825;">end</span>
+    <span style="color: #46657B;">@content</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 
-<span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">You can use all kind of resource</span>
-file_doc = <span style="color: #DADADA;">BlockBasedArchivalDocument</span>.new(<span style="color: #A2925E;">'file'</span>, <span style="color: #A2925E;">'russ'</span>) <span style="color: #4856F7; font-weight: bold;">do</span>
-  <span style="color: #DADADA;">File</span>.read(<span style="color: #A2925E;">'some_text.txt'</span>)
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">You can use all kind of resource</span>
+file_doc = <span style="color: #C6B032; font-style: italic;">BlockBasedArchivalDocument</span>.new(<span style="color: #5A7644;">'file'</span>, <span style="color: #5A7644;">'russ'</span>) <span style="color: #AE5825;">do</span>
+  <span style="color: #C6B032; font-style: italic;">File</span>.read(<span style="color: #5A7644;">'some_text.txt'</span>)
+<span style="color: #AE5825;">end</span>
 
-google_doc = <span style="color: #DADADA;">BlockBasedArchivalDocument</span>.new(<span style="color: #A2925E;">'http'</span>, <span style="color: #A2925E;">'russ'</span>) <span style="color: #4856F7; font-weight: bold;">do</span>
-  <span style="color: #DADADA;">Net</span>::<span style="color: #DADADA;">HTTP</span>.get_response(<span style="color: #A2925E;">'www.google.com'</span>, <span style="color: #A2925E;">'/index.html'</span>).body
-<span style="color: #4856F7; font-weight: bold;">end</span>
+google_doc = <span style="color: #C6B032; font-style: italic;">BlockBasedArchivalDocument</span>.new(<span style="color: #5A7644;">'http'</span>, <span style="color: #5A7644;">'russ'</span>) <span style="color: #AE5825;">do</span>
+  <span style="color: #C6B032; font-style: italic;">Net</span>::<span style="color: #C6B032; font-style: italic;">HTTP</span>.get_response(<span style="color: #5A7644;">'www.google.com'</span>, <span style="color: #5A7644;">'/index.html'</span>).body
+<span style="color: #AE5825;">end</span>
 
-boring_doc = <span style="color: #DADADA;">BlockBasedArchivalDocument</span>.new(<span style="color: #A2925E;">'sily'</span>, <span style="color: #A2925E;">'russ'</span>) <span style="color: #4856F7; font-weight: bold;">do</span>
-  <span style="color: #A2925E;">'Ya'</span> * 100
-<span style="color: #4856F7; font-weight: bold;">end</span>
+boring_doc = <span style="color: #C6B032; font-style: italic;">BlockBasedArchivalDocument</span>.new(<span style="color: #5A7644;">'sily'</span>, <span style="color: #5A7644;">'russ'</span>) <span style="color: #AE5825;">do</span>
+  <span style="color: #5A7644;">'Ya'</span> * 100
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -407,11 +407,11 @@ boring_doc = <span style="color: #DADADA;">BlockBasedArchivalDocument</span>.new
 <li>lambda函数的输入为code block,输出为Proc object
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">class</span> <span style="color: #DADADA;">Document</span>
-  <span style="color: #DADADA;">DEFAULT_LOAD_LISTENER</span> = lambda <span style="color: #4856F7; font-weight: bold;">do</span> |doc, path|
-    puts <span style="color: #A2925E;">"Loaded:</span><span style="color: #C1C144;"> #{path}</span><span style="color: #A2925E;">"</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Document</span>
+  <span style="color: #C6B032; font-style: italic;">DEFAULT_LOAD_LISTENER</span> = <span style="color: #86453A;">lambda</span> <span style="color: #AE5825;">do</span> |doc, path|
+    <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Loaded: </span><span style="color: #46657B;">#{path}</span><span style="color: #5A7644;">"</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
@@ -425,7 +425,7 @@ boring_doc = <span style="color: #DADADA;">BlockBasedArchivalDocument</span>.new
 <li>还有一种最原始的创建的Proc objec他方法是Proc.new
 <div class="org-src-container">
 
-<pre class="src src-ruby">from_proc_new = <span style="color: #DADADA;">Proc</span>.new {puts <span style="color: #A2925E;">"hello from a block"</span>}
+<pre class="src src-ruby">from_proc_new = <span style="color: #C6B032; font-style: italic;">Proc</span>.new {<span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"hello from a block"</span>}
 </pre>
 </div>
 </li>
@@ -445,33 +445,33 @@ variable都记着(都放在内存里面).所以下面的代码(使用了非常�
 创建code block),就会导致这些数组和code block会一直存在内存里面.非常浪费
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">some_method</span>(doc)
-  big_array = <span style="color: #DADADA;">Array</span>.new(100000000)
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">some_method</span>(doc)
+  big_array = <span style="color: #C6B032; font-style: italic;">Array</span>.new(100000000)
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Do something with big_array</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Do something with big_array</span>
 
-  doc.on_load <span style="color: #4856F7; font-weight: bold;">do</span> |d|
-    puts <span style="color: #A2925E;">"Hey, I've been loaded!"</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  doc.on_load <span style="color: #AE5825;">do</span> |d|
+    <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Hey, I've been loaded!"</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>
 <li>应对的办法很简单, 把big_array用完后,设置为nil
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #4856F7; font-weight: bold;">def</span> <span style="color: #A1A1FF;">some_method</span>(doc)
-  big_array = <span style="color: #DADADA;">Array</span>.new(100000000)
+<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">some_method</span>(doc)
+  big_array = <span style="color: #C6B032; font-style: italic;">Array</span>.new(100000000)
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">Do something with big_array</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Do something with big_array</span>
 
-  <span style="color: #ed5b15;"># </span><span style="color: #ed5b15;">And now get rid of it!</span>
-  big_array = <span style="color: #C1C144;">nil</span>
+  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">And now get rid of it!</span>
+  big_array = <span style="color: #46657B;">nil</span>
 
-  doc.on_load <span style="color: #4856F7; font-weight: bold;">do</span> |d|
-    puts <span style="color: #A2925E;">"Hey, I've been loaded!"</span>
-  <span style="color: #4856F7; font-weight: bold;">end</span>
-<span style="color: #4856F7; font-weight: bold;">end</span>
+  doc.on_load <span style="color: #AE5825;">do</span> |d|
+    <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"Hey, I've been loaded!"</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
 </pre>
 </div>
 </li>

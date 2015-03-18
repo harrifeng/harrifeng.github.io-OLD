@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 12: Error Handling with Exceptions</title>
-<!-- 2014-07-18 Fri 16:14 -->
+<!-- 2015-03-18 Wed 14:14 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -230,8 +230,8 @@ handler", 它会试图恢复当前错误, 让原来中断的程序继续.
 <li>下面来看一个抛出异常的例子:查看某个对象是否被初始化过, 没有的话,抛出异常.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">if</span> (t == <span style="color: #268bd2; font-weight: bold;">null</span>) {
-    <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">NullPointerException</span>();
+<pre class="src src-java"><span style="color: #AE5825;">if</span> (t == <span style="color: #86453A;">null</span>) {
+    <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">NullPointerException</span>();
 }
 </pre>
 </div>
@@ -259,7 +259,7 @@ If anything goes wrong, we'll just blow away the whole computation.
 <li>带一个参数的ctor: 这个参数是说明这个exception是怎么回事的
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">NullPointerException</span>(<span style="color: #2aa198;">"t = null"</span>)
+<pre class="src src-java"><span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">NullPointerException</span>(<span style="color: #5A7644;">"t = null"</span>)
 </pre>
 </div>
 </li>
@@ -296,8 +296,8 @@ followed by the code to handle those exceptions
 话,一定会退出当前的method, 如果你不想退出当前的method,那么你就使用try block
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">try</span> {
-    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Code that might generate exceptions</span>
+<pre class="src src-java"><span style="color: #AE5825;">try</span> {
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Code that might generate exceptions</span>
 }
 </pre>
 </div>
@@ -317,14 +317,14 @@ throw exception, 然后统一处理. 如果没有try的这种机制,那么你就
 exception handler的关键字是catch
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">try</span> {
-    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Code that might generate exceptions</span>
-} <span style="color: #859900; font-weight: bold;">catch</span>(<span style="color: #b58900;">Type1</span> <span style="color: #268bd2;">id1</span>) {
-    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Handle exceptions of Type1</span>
-} <span style="color: #859900; font-weight: bold;">catch</span>(<span style="color: #b58900;">Type2</span> <span style="color: #268bd2;">id2</span>) {
-    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Handle exceptions of Type2</span>
-} <span style="color: #859900; font-weight: bold;">catch</span>(<span style="color: #b58900;">Type3</span> <span style="color: #268bd2;">id3</span>) {
-    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Handle exceptions of Type3</span>
+<pre class="src src-java"><span style="color: #AE5825;">try</span> {
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Code that might generate exceptions</span>
+} <span style="color: #AE5825;">catch</span>(<span style="color: #C6B032; font-style: italic;">Type1</span> <span style="color: #46657B;">id1</span>) {
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Handle exceptions of Type1</span>
+} <span style="color: #AE5825;">catch</span>(<span style="color: #C6B032; font-style: italic;">Type2</span> <span style="color: #46657B;">id2</span>) {
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Handle exceptions of Type2</span>
+} <span style="color: #AE5825;">catch</span>(<span style="color: #C6B032; font-style: italic;">Type3</span> <span style="color: #46657B;">id3</span>) {
+    <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Handle exceptions of Type3</span>
 }
 </pre>
 </div>
@@ -358,31 +358,31 @@ class(继承自和你最像的class就可以), 如果你没有特殊的要求,�
 器给你提供的default ctor就好了.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">exceptions</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.tij4.<span style="color: #86453A;">exceptions</span>;
 
-<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">SimpleException</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Exception</span> {}
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">SimpleException</span> <span style="color: #AE5825;">extends</span> <span style="color: #C6B032; font-style: italic;">Exception</span> {}
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">InheritingExceptions</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() <span style="color: #859900; font-weight: bold;">throws</span> <span style="color: #b58900;">SimpleException</span> {
-        System.out.println(<span style="color: #2aa198;">"Throw SimpleException from f()"</span>);
-        <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">SimpleException</span>();
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">InheritingExceptions</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">f</span>() <span style="color: #AE5825;">throws</span> <span style="color: #C6B032; font-style: italic;">SimpleException</span> {
+        System.out.println(<span style="color: #5A7644;">"Throw SimpleException from f()"</span>);
+        <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">SimpleException</span>();
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #b58900;">InheritingExceptions</span> <span style="color: #268bd2;">sed</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">InheritingExceptions</span>();
-        <span style="color: #859900; font-weight: bold;">try</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">InheritingExceptions</span> <span style="color: #46657B;">sed</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">InheritingExceptions</span>();
+        <span style="color: #AE5825;">try</span> {
             sed.f();
-        } <span style="color: #859900; font-weight: bold;">catch</span> (<span style="color: #b58900;">SimpleException</span> <span style="color: #268bd2;">e</span>) {
-            System.out.println(<span style="color: #2aa198;">"Caught it!"</span>);
+        } <span style="color: #AE5825;">catch</span> (<span style="color: #C6B032; font-style: italic;">SimpleException</span> <span style="color: #46657B;">e</span>) {
+            System.out.println(<span style="color: #5A7644;">"Caught it!"</span>);
         }
     }
 }
 
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Throw SimpleException from f()                 //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Caught it!                                     //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Throw SimpleException from f()                 //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Caught it!                                     //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -391,58 +391,58 @@ class(继承自和你最像的class就可以), 如果你没有特殊的要求,�
 如果你不加,printStackTrace会直接打印错误到System.err
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">exceptions</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.tij4.<span style="color: #86453A;">exceptions</span>;
 
-<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MyException</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Exception</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> MyException() {}
-    <span style="color: #859900; font-weight: bold;">public</span> MyException(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">msg</span>) { <span style="color: #859900; font-weight: bold;">super</span>(msg);}
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">MyException</span> <span style="color: #AE5825;">extends</span> <span style="color: #C6B032; font-style: italic;">Exception</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">MyException</span>() {}
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">MyException</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">msg</span>) { <span style="color: #AE5825;">super</span>(msg);}
 }
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">FullConstructors</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">f</span>() <span style="color: #859900; font-weight: bold;">throws</span> <span style="color: #b58900;">MyException</span> {
-        System.out.println(<span style="color: #2aa198;">"Throwing MyException from f()"</span>);
-        <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">MyException</span>();
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">FullConstructors</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">f</span>() <span style="color: #AE5825;">throws</span> <span style="color: #C6B032; font-style: italic;">MyException</span> {
+        System.out.println(<span style="color: #5A7644;">"Throwing MyException from f()"</span>);
+        <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">MyException</span>();
     }
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">g</span>() <span style="color: #859900; font-weight: bold;">throws</span> <span style="color: #b58900;">MyException</span> {
-        System.out.println(<span style="color: #2aa198;">"Throwing MyException from g()"</span>);
-        <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">MyException</span>();
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">g</span>() <span style="color: #AE5825;">throws</span> <span style="color: #C6B032; font-style: italic;">MyException</span> {
+        System.out.println(<span style="color: #5A7644;">"Throwing MyException from g()"</span>);
+        <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">MyException</span>();
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #859900; font-weight: bold;">try</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #AE5825;">try</span> {
             f();
-        } <span style="color: #859900; font-weight: bold;">catch</span>(<span style="color: #b58900;">MyException</span> <span style="color: #268bd2;">e</span>) {
+        } <span style="color: #AE5825;">catch</span>(<span style="color: #C6B032; font-style: italic;">MyException</span> <span style="color: #46657B;">e</span>) {
             e.printStackTrace(System.out);
         }
-        <span style="color: #859900; font-weight: bold;">try</span> {
+        <span style="color: #AE5825;">try</span> {
             g();
-        } <span style="color: #859900; font-weight: bold;">catch</span> (<span style="color: #b58900;">MyException</span> <span style="color: #268bd2;">e</span>) {
+        } <span style="color: #AE5825;">catch</span> (<span style="color: #C6B032; font-style: italic;">MyException</span> <span style="color: #46657B;">e</span>) {
             e.printStackTrace(System.out);
         }
     }
 }
 
-<span style="color: #93a1a1;">/////////////////////////////////////////////////////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;                                                  //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Throwing MyException from f()                                                                   //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">lang.tij4.exceptions.MyException                                                                //</span>
-<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">at lang.tij4.exceptions.FullConstructors.f(FullConstructors.java:11)                           //</span>
-<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">at lang.tij4.exceptions.FullConstructors.main(FullConstructors.java:20)                        //</span>
-<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)                                 //</span>
-<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)               //</span>
-<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)       //</span>
-<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">at java.lang.reflect.Method.invoke(Method.java:483)                                            //</span>
-<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">at com.intellij.rt.execution.application.AppMain.main(AppMain.java:134)                        //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Throwing MyException from g()                                                                   //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">lang.tij4.exceptions.MyException                                                                //</span>
-<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">at lang.tij4.exceptions.FullConstructors.g(FullConstructors.java:15)                           //</span>
-<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">at lang.tij4.exceptions.FullConstructors.main(FullConstructors.java:25)                        //</span>
-<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)                                 //</span>
-<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)               //</span>
-<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)       //</span>
-<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">at java.lang.reflect.Method.invoke(Method.java:483)                                            //</span>
-<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">at com.intellij.rt.execution.application.AppMain.main(AppMain.java:134)                        //</span>
-<span style="color: #93a1a1;">/////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">/////////////////////////////////////////////////////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt;                                                  //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Throwing MyException from f()                                                                   //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">org.hfeng.tij4.exceptions.MyException                                                                //</span>
+<span style="color: #4C565D;">//  </span><span style="color: #333B40; font-style: italic;">at org.hfeng.tij4.exceptions.FullConstructors.f(FullConstructors.java:11)                           //</span>
+<span style="color: #4C565D;">//  </span><span style="color: #333B40; font-style: italic;">at org.hfeng.tij4.exceptions.FullConstructors.main(FullConstructors.java:20)                        //</span>
+<span style="color: #4C565D;">//  </span><span style="color: #333B40; font-style: italic;">at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)                                 //</span>
+<span style="color: #4C565D;">//  </span><span style="color: #333B40; font-style: italic;">at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)               //</span>
+<span style="color: #4C565D;">//  </span><span style="color: #333B40; font-style: italic;">at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)       //</span>
+<span style="color: #4C565D;">//  </span><span style="color: #333B40; font-style: italic;">at java.lang.reflect.Method.invoke(Method.java:483)                                            //</span>
+<span style="color: #4C565D;">//  </span><span style="color: #333B40; font-style: italic;">at com.intellij.rt.execution.application.AppMain.main(AppMain.java:134)                        //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Throwing MyException from g()                                                                   //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">org.hfeng.tij4.exceptions.MyException                                                                //</span>
+<span style="color: #4C565D;">//  </span><span style="color: #333B40; font-style: italic;">at org.hfeng.tij4.exceptions.FullConstructors.g(FullConstructors.java:15)                           //</span>
+<span style="color: #4C565D;">//  </span><span style="color: #333B40; font-style: italic;">at org.hfeng.tij4.exceptions.FullConstructors.main(FullConstructors.java:25)                        //</span>
+<span style="color: #4C565D;">//  </span><span style="color: #333B40; font-style: italic;">at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)                                 //</span>
+<span style="color: #4C565D;">//  </span><span style="color: #333B40; font-style: italic;">at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)               //</span>
+<span style="color: #4C565D;">//  </span><span style="color: #333B40; font-style: italic;">at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)       //</span>
+<span style="color: #4C565D;">//  </span><span style="color: #333B40; font-style: italic;">at java.lang.reflect.Method.invoke(Method.java:483)                                            //</span>
+<span style="color: #4C565D;">//  </span><span style="color: #333B40; font-style: italic;">at com.intellij.rt.execution.application.AppMain.main(AppMain.java:134)                        //</span>
+<span style="color: #4C565D;">/////////////////////////////////////////////////////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -455,50 +455,50 @@ class(继承自和你最像的class就可以), 如果你没有特殊的要求,�
 <li>exception和log经常在一起使用,下面就是一个例子
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">exceptions</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.tij4.<span style="color: #86453A;">exceptions</span>;
 
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">io</span>.<span style="color: #b58900;">PrintWriter</span>;
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">io</span>.<span style="color: #b58900;">StringWriter</span>;
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #268bd2; font-weight: bold;">logging</span>.<span style="color: #b58900;">Logger</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">io</span>.<span style="color: #C6B032; font-style: italic;">PrintWriter</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">io</span>.<span style="color: #C6B032; font-style: italic;">StringWriter</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #86453A;">logging</span>.<span style="color: #C6B032; font-style: italic;">Logger</span>;
 
-<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">LoggingException</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Exception</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">Logger</span> <span style="color: #268bd2;">logger</span> =
-            Logger.getLogger(<span style="color: #2aa198;">"LoggingException"</span>);
-    <span style="color: #859900; font-weight: bold;">public</span> LoggingException() {
-        <span style="color: #b58900;">StringWriter</span> <span style="color: #268bd2;">trace</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">StringWriter</span>();
-        printStackTrace(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">PrintWriter</span>(trace));
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">LoggingException</span> <span style="color: #AE5825;">extends</span> <span style="color: #C6B032; font-style: italic;">Exception</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">Logger</span> <span style="color: #46657B;">logger</span> =
+            Logger.getLogger(<span style="color: #5A7644;">"LoggingException"</span>);
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">LoggingException</span>() {
+        <span style="color: #C6B032; font-style: italic;">StringWriter</span> <span style="color: #46657B;">trace</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">StringWriter</span>();
+        printStackTrace(<span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">PrintWriter</span>(trace));
         logger.severe(trace.toString());
     }
 }
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">LoggingExceptions</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #859900; font-weight: bold;">try</span> {
-            <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">LoggingException</span>();
-        } <span style="color: #859900; font-weight: bold;">catch</span>(<span style="color: #b58900;">LoggingException</span> <span style="color: #268bd2;">e</span>) {
-            System.err.println(<span style="color: #2aa198;">"Caught "</span> + e);
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">LoggingExceptions</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #AE5825;">try</span> {
+            <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">LoggingException</span>();
+        } <span style="color: #AE5825;">catch</span>(<span style="color: #C6B032; font-style: italic;">LoggingException</span> <span style="color: #46657B;">e</span>) {
+            System.err.println(<span style="color: #5A7644;">"Caught "</span> + e);
         }
-        <span style="color: #859900; font-weight: bold;">try</span> {
-            <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">LoggingException</span>();
-        } <span style="color: #859900; font-weight: bold;">catch</span> (<span style="color: #b58900;">LoggingException</span> <span style="color: #268bd2;">e</span>) {
-            System.err.println(<span style="color: #2aa198;">"Caught "</span> + e);
+        <span style="color: #AE5825;">try</span> {
+            <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">LoggingException</span>();
+        } <span style="color: #AE5825;">catch</span> (<span style="color: #C6B032; font-style: italic;">LoggingException</span> <span style="color: #46657B;">e</span>) {
+            System.err.println(<span style="color: #5A7644;">"Caught "</span> + e);
         }
     }
 }
 
-<span style="color: #93a1a1;">////////////////////////////////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;                             //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#20116;&#26376; 01, 2014 8:43:43 &#19979;&#21320; lang.tij4.exceptions.LoggingException &lt;init&gt;    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#20005;&#37325;: lang.tij4.exceptions.LoggingException                                //</span>
-<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">at lang.tij4.exceptions.LoggingExceptions.main(Unknown Source)            //</span>
-<span style="color: #93a1a1;">//                                                                            </span><span style="color: #93a1a1;">//</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Caught lang.tij4.exceptions.LoggingException                               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#20116;&#26376; 01, 2014 8:43:43 &#19979;&#21320; lang.tij4.exceptions.LoggingException &lt;init&gt;    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&#20005;&#37325;: lang.tij4.exceptions.LoggingException                                //</span>
-<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">at lang.tij4.exceptions.LoggingExceptions.main(Unknown Source)            //</span>
-<span style="color: #93a1a1;">//                                                                            </span><span style="color: #93a1a1;">//</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Caught lang.tij4.exceptions.LoggingException                               //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt;                             //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&#20116;&#26376; 01, 2014 8:43:43 &#19979;&#21320; org.hfeng.tij4.exceptions.LoggingException &lt;init&gt;    //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&#20005;&#37325;: org.hfeng.tij4.exceptions.LoggingException                                //</span>
+<span style="color: #4C565D;">//  </span><span style="color: #333B40; font-style: italic;">at org.hfeng.tij4.exceptions.LoggingExceptions.main(Unknown Source)            //</span>
+<span style="color: #4C565D;">//                                                                            </span><span style="color: #333B40; font-style: italic;">//</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Caught org.hfeng.tij4.exceptions.LoggingException                               //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&#20116;&#26376; 01, 2014 8:43:43 &#19979;&#21320; org.hfeng.tij4.exceptions.LoggingException &lt;init&gt;    //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&#20005;&#37325;: org.hfeng.tij4.exceptions.LoggingException                                //</span>
+<span style="color: #4C565D;">//  </span><span style="color: #333B40; font-style: italic;">at org.hfeng.tij4.exceptions.LoggingExceptions.main(Unknown Source)            //</span>
+<span style="color: #4C565D;">//                                                                            </span><span style="color: #333B40; font-style: italic;">//</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Caught org.hfeng.tij4.exceptions.LoggingException                               //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -519,7 +519,7 @@ object.
 函数
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">printStackTrace</span>(<span style="color: #b58900;">PrintWriter</span> <span style="color: #268bd2;">s</span>)
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">printStackTrace</span>(<span style="color: #C6B032; font-style: italic;">PrintWriter</span> <span style="color: #46657B;">s</span>)
 </pre>
 </div>
 </li>
@@ -527,7 +527,7 @@ object.
 toString.. java真麻烦
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> PrintWriter(<span style="color: #b58900;">Writer</span> <span style="color: #268bd2;">out</span>)
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #C6B032;">PrintWriter</span>(<span style="color: #C6B032; font-style: italic;">Writer</span> <span style="color: #46657B;">out</span>)
 </pre>
 </div>
 </li>

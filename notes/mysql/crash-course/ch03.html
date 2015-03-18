@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 03: Working with MySQL</title>
+<!-- 2015-03-18 Wed 14:11 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 03: Working with MySQL</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Working with MySQL</a>
+<ul>
+<li><a href="#sec-1-1">Making the Connection</a></li>
+<li><a href="#sec-1-2">Selecting a Database</a></li>
+<li><a href="#sec-1-3">Learning About Databases and Tables</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Working with MySQL</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Making the Connection</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>client需要链接了Server以后,才能进行访问. 链接的时候需要:
+<ul class="org-ul">
+<li>hostname
+</li>
+<li>port
+</li>
+<li>valid user name
+</li>
+<li>user password
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Selecting a Database</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>在链接了MySQl server之后, 需要选择某个数据库,使用USE命令
+<div class="org-src-container">
+
+<pre class="src src-sql">mysql&gt; USE mysql
+USE mysql
+Database changed
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Learning About Databases and Tables</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>我们如何知道自己有哪些数据库, 数据库中哪些表, 表中哪些列? mysql全部有准备:
+<ul class="org-ul">
+<li>Server里面有哪些database
+<div class="org-src-container">
+
+<pre class="src src-sql">mysql&gt; SHOW DATABASES;
+SHOW DATABASES;
++<span style="color: #333B40; font-style: italic;">--------------------+</span>
+| Database           |
++<span style="color: #333B40; font-style: italic;">--------------------+</span>
+| information_schema |
+| ct_development     |
+| ct_onprem          |
+| ct_perf            |
+| ct_production      |
+| ct_stage           |
+| ct_test            |
+| depot_development  |
+| depot_test         |
+| mysql              |
+| performance_schema |
+| test               |
++<span style="color: #333B40; font-style: italic;">--------------------+</span>
+12 <span style="color: #AE5825;">rows</span> <span style="color: #AE5825;">in</span> <span style="color: #AE5825;">set</span> (0.00 sec)
+</pre>
+</div>
+</li>
+<li>database里面有哪些表
+<div class="org-src-container">
+
+<pre class="src src-sql">mysql&gt; SHOW TABLES;
+SHOW TABLES;
++<span style="color: #333B40; font-style: italic;">---------------------------+</span>
+| Tables_in_mysql           |
++<span style="color: #333B40; font-style: italic;">---------------------------+</span>
+| columns_priv              |
+| db                        |
+| event                     |
+| func                      |
+| general_log               |
+| help_category             |
+| help_keyword              |
+| help_relation             |
+| help_topic                |
+| innodb_index_stats        |
+| innodb_table_stats        |
+| ndb_binlog_index          |
+| plugin                    |
+| proc                      |
+| procs_priv                |
+| proxies_priv              |
+| servers                   |
+| slave_master_info         |
+| slave_relay_log_info      |
+| slave_worker_info         |
+| slow_log                  |
+| tables_priv               |
+| time_zone                 |
+| time_zone_leap_second     |
+| time_zone_name            |
+| time_zone_transition      |
+| time_zone_transition_type |
+| <span style="color: #86453A;">user</span>                      |
++<span style="color: #333B40; font-style: italic;">---------------------------+</span>
+28 <span style="color: #AE5825;">rows</span> <span style="color: #AE5825;">in</span> <span style="color: #AE5825;">set</span> (0.00 sec)
+</pre>
+</div>
+</li>
+<li>表里面有哪些列 (两种方法)
+<div class="org-src-container">
+
+<pre class="src src-sql">mysql&gt; SHOW COLUMNS <span style="color: #AE5825;">FROM</span> servers;
+SHOW COLUMNS <span style="color: #AE5825;">FROM</span> servers;
++<span style="color: #333B40; font-style: italic;">-------------+----------+------+-----+---------+-------+</span>
+| Field       | <span style="color: #AE5825;">Type</span>     | <span style="color: #AE5825;">Null</span> | <span style="color: #AE5825;">Key</span> | <span style="color: #AE5825;">Default</span> | Extra |
++<span style="color: #333B40; font-style: italic;">-------------+----------+------+-----+---------+-------+</span>
+| <span style="color: #AE5825;">Server_name</span> | <span style="color: #C6B032; font-style: italic;">char</span>(64) | <span style="color: #AE5825;">NO</span>   | PRI |         |       |
+| <span style="color: #AE5825;">Host</span>        | <span style="color: #C6B032; font-style: italic;">char</span>(64) | <span style="color: #AE5825;">NO</span>   |     |         |       |
+| Db          | <span style="color: #C6B032; font-style: italic;">char</span>(64) | <span style="color: #AE5825;">NO</span>   |     |         |       |
+| Username    | <span style="color: #C6B032; font-style: italic;">char</span>(64) | <span style="color: #AE5825;">NO</span>   |     |         |       |
+| Password    | <span style="color: #C6B032; font-style: italic;">char</span>(64) | <span style="color: #AE5825;">NO</span>   |     |         |       |
+| Port        | <span style="color: #C6B032; font-style: italic;">int</span>(4)   | <span style="color: #AE5825;">NO</span>   |     | 0       |       |
+| Socket      | <span style="color: #C6B032; font-style: italic;">char</span>(64) | <span style="color: #AE5825;">NO</span>   |     |         |       |
+| Wrapper     | <span style="color: #C6B032; font-style: italic;">char</span>(64) | <span style="color: #AE5825;">NO</span>   |     |         |       |
+| Owner       | <span style="color: #C6B032; font-style: italic;">char</span>(64) | <span style="color: #AE5825;">NO</span>   |     |         |       |
++<span style="color: #333B40; font-style: italic;">-------------+----------+------+-----+---------+-------+</span>
+9 <span style="color: #AE5825;">rows</span> <span style="color: #AE5825;">in</span> <span style="color: #AE5825;">set</span> (0.00 sec)
+
+mysql&gt; <span style="color: #AE5825;">DESCRIBE</span> servers;
+<span style="color: #AE5825;">DESCRIBE</span> servers;
++<span style="color: #333B40; font-style: italic;">-------------+----------+------+-----+---------+-------+</span>
+| Field       | <span style="color: #AE5825;">Type</span>     | <span style="color: #AE5825;">Null</span> | <span style="color: #AE5825;">Key</span> | <span style="color: #AE5825;">Default</span> | Extra |
++<span style="color: #333B40; font-style: italic;">-------------+----------+------+-----+---------+-------+</span>
+| <span style="color: #AE5825;">Server_name</span> | <span style="color: #C6B032; font-style: italic;">char</span>(64) | <span style="color: #AE5825;">NO</span>   | PRI |         |       |
+| <span style="color: #AE5825;">Host</span>        | <span style="color: #C6B032; font-style: italic;">char</span>(64) | <span style="color: #AE5825;">NO</span>   |     |         |       |
+| Db          | <span style="color: #C6B032; font-style: italic;">char</span>(64) | <span style="color: #AE5825;">NO</span>   |     |         |       |
+| Username    | <span style="color: #C6B032; font-style: italic;">char</span>(64) | <span style="color: #AE5825;">NO</span>   |     |         |       |
+| Password    | <span style="color: #C6B032; font-style: italic;">char</span>(64) | <span style="color: #AE5825;">NO</span>   |     |         |       |
+| Port        | <span style="color: #C6B032; font-style: italic;">int</span>(4)   | <span style="color: #AE5825;">NO</span>   |     | 0       |       |
+| Socket      | <span style="color: #C6B032; font-style: italic;">char</span>(64) | <span style="color: #AE5825;">NO</span>   |     |         |       |
+| Wrapper     | <span style="color: #C6B032; font-style: italic;">char</span>(64) | <span style="color: #AE5825;">NO</span>   |     |         |       |
+| Owner       | <span style="color: #C6B032; font-style: italic;">char</span>(64) | <span style="color: #AE5825;">NO</span>   |     |         |       |
++<span style="color: #333B40; font-style: italic;">-------------+----------+------+-----+---------+-------+</span>
+9 <span style="color: #AE5825;">rows</span> <span style="color: #AE5825;">in</span> <span style="color: #AE5825;">set</span> (0.01 sec)
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>查看当前server状态
+<div class="org-src-container">
+
+<pre class="src src-sql">mysql&gt; SHOW STATUS;
+SHOW STATUS;
++<span style="color: #333B40; font-style: italic;">-----------------------------------------------+-------------+</span>
+| Variable_name                                 | <span style="color: #AE5825;">Value</span>       |
++<span style="color: #333B40; font-style: italic;">-----------------------------------------------+-------------+</span>
+| Aborted_clients                               | 6           |
+| Aborted_connects                              | 0           |
+| Binlog_cache_disk_use                         | 0           |
+| Binlog_cache_use                              | 0           |
+| Binlog_stmt_cache_disk_use                    | 0           |
+| Binlog_stmt_cache_use                         | 0           |
+| Bytes_received                                | 7715        |
+| Bytes_sent                                    | 309423      |
++<span style="color: #333B40; font-style: italic;">-----------------------------------------------+-------------+</span>
+</pre>
+</div>
+</li>
+<li>已经有的database, table, 还可以通过SHOW来看看创建他们的SQL语句是什么.(下面使
+用了\G, 所以就没有表格啦!)
+<div class="org-src-container">
+
+<pre class="src src-sql">mysql&gt; SHOW <span style="color: #AE5825;">CREATE</span> DATABASE mysql\G
+SHOW <span style="color: #AE5825;">CREATE</span> DATABASE mysql\G
+*************************** 1. <span style="color: #C6B032; font-style: italic;">row</span> ***************************
+       Database: mysql
+<span style="color: #AE5825;">Create</span> Database: <span style="color: #AE5825;">CREATE</span> DATABASE `mysql` <span style="color: #333B40; font-style: italic;">/*!40100 DEFAULT CHARACTER SET utf8 */</span>
+1 <span style="color: #C6B032; font-style: italic;">row</span> <span style="color: #AE5825;">in</span> <span style="color: #AE5825;">set</span> (0.00 sec)
+
+mysql&gt; SHOW <span style="color: #AE5825;">CREATE</span> <span style="color: #AE5825;">TABLE</span> servers\G
+SHOW <span style="color: #AE5825;">CREATE</span> <span style="color: #AE5825;">TABLE</span> servers\G
+*************************** 1. <span style="color: #C6B032; font-style: italic;">row</span> ***************************
+       <span style="color: #AE5825;">Table</span>: servers
+<span style="color: #AE5825;">Create</span> <span style="color: #AE5825;">Table</span>: <span style="color: #AE5825;">CREATE</span> <span style="color: #AE5825;">TABLE</span> `servers` (
+  `<span style="color: #AE5825;">Server_name</span>` <span style="color: #C6B032; font-style: italic;">char</span>(64) <span style="color: #AE5825;">NOT</span> <span style="color: #AE5825;">NULL</span> <span style="color: #AE5825;">DEFAULT</span> <span style="color: #5A7644;">''</span>,
+  `<span style="color: #AE5825;">Host</span>` <span style="color: #C6B032; font-style: italic;">char</span>(64) <span style="color: #AE5825;">NOT</span> <span style="color: #AE5825;">NULL</span> <span style="color: #AE5825;">DEFAULT</span> <span style="color: #5A7644;">''</span>,
+  `Db` <span style="color: #C6B032; font-style: italic;">char</span>(64) <span style="color: #AE5825;">NOT</span> <span style="color: #AE5825;">NULL</span> <span style="color: #AE5825;">DEFAULT</span> <span style="color: #5A7644;">''</span>,
+  `Username` <span style="color: #C6B032; font-style: italic;">char</span>(64) <span style="color: #AE5825;">NOT</span> <span style="color: #AE5825;">NULL</span> <span style="color: #AE5825;">DEFAULT</span> <span style="color: #5A7644;">''</span>,
+  `Password` <span style="color: #C6B032; font-style: italic;">char</span>(64) <span style="color: #AE5825;">NOT</span> <span style="color: #AE5825;">NULL</span> <span style="color: #AE5825;">DEFAULT</span> <span style="color: #5A7644;">''</span>,
+  `Port` <span style="color: #C6B032; font-style: italic;">int</span>(4) <span style="color: #AE5825;">NOT</span> <span style="color: #AE5825;">NULL</span> <span style="color: #AE5825;">DEFAULT</span> <span style="color: #5A7644;">'0'</span>,
+  `Socket` <span style="color: #C6B032; font-style: italic;">char</span>(64) <span style="color: #AE5825;">NOT</span> <span style="color: #AE5825;">NULL</span> <span style="color: #AE5825;">DEFAULT</span> <span style="color: #5A7644;">''</span>,
+  `Wrapper` <span style="color: #C6B032; font-style: italic;">char</span>(64) <span style="color: #AE5825;">NOT</span> <span style="color: #AE5825;">NULL</span> <span style="color: #AE5825;">DEFAULT</span> <span style="color: #5A7644;">''</span>,
+  `Owner` <span style="color: #C6B032; font-style: italic;">char</span>(64) <span style="color: #AE5825;">NOT</span> <span style="color: #AE5825;">NULL</span> <span style="color: #AE5825;">DEFAULT</span> <span style="color: #5A7644;">''</span>,
+  <span style="color: #AE5825;">PRIMARY</span> <span style="color: #AE5825;">KEY</span> (`<span style="color: #AE5825;">Server_name</span>`)
+) ENGINE=MyISAM <span style="color: #AE5825;">DEFAULT</span> CHARSET=utf8 COMMENT=<span style="color: #5A7644;">'MySQL Foreign Servers table'</span>
+1 <span style="color: #C6B032; font-style: italic;">row</span> <span style="color: #AE5825;">in</span> <span style="color: #AE5825;">set</span> (0.00 sec)
+</pre>
+</div>
+</li>
+<li>SHOW GRANT会显示权限信息
+<div class="org-src-container">
+
+<pre class="src src-sql">mysql&gt; SHOW GRANTS;
+SHOW GRANTS;
++<span style="color: #333B40; font-style: italic;">---------------------------------------------------------------------+</span>
+| Grants <span style="color: #AE5825;">for</span> root@localhost                                           |
++<span style="color: #333B40; font-style: italic;">---------------------------------------------------------------------+</span>
+| <span style="color: #AE5825;">GRANT</span> <span style="color: #AE5825;">ALL</span> <span style="color: #AE5825;">PRIVILEGES</span> <span style="color: #AE5825;">ON</span> *.* <span style="color: #AE5825;">TO</span> <span style="color: #5A7644;">'root'</span>@<span style="color: #5A7644;">'localhost'</span> <span style="color: #AE5825;">WITH</span> <span style="color: #AE5825;">GRANT</span> <span style="color: #AE5825;">OPTION</span> |
+| <span style="color: #AE5825;">GRANT</span> PROXY <span style="color: #AE5825;">ON</span> <span style="color: #5A7644;">''</span>@<span style="color: #5A7644;">''</span> <span style="color: #AE5825;">TO</span> <span style="color: #5A7644;">'root'</span>@<span style="color: #5A7644;">'localhost'</span> <span style="color: #AE5825;">WITH</span> <span style="color: #AE5825;">GRANT</span> <span style="color: #AE5825;">OPTION</span>        |
++<span style="color: #333B40; font-style: italic;">---------------------------------------------------------------------+</span>
+2 <span style="color: #AE5825;">rows</span> <span style="color: #AE5825;">in</span> <span style="color: #AE5825;">set</span> (0.00 sec)
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

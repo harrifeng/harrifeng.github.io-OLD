@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>逆波兰式的生成和计算</title>
-<!-- 2014-07-18 Fri 16:16 -->
+<!-- 2015-03-18 Wed 14:22 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -240,81 +240,81 @@ Sample Output: rpn is  ['2', '3', '+', '5', '*', '8', '-']
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #859900; font-weight: bold;">import</span> re
+<pre class="src src-python"><span style="color: #AE5825;">import</span> re
 
 
-<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">RPN</span>:
-    <span style="color: #2aa198;">""" RPN stands for reversed polish notation, is</span>
-<span style="color: #2aa198;">    used to caculate the math express by computer</span>
-<span style="color: #2aa198;">    """</span>
-    <span style="color: #268bd2;">OPERATORS</span> = {
-        <span style="color: #2aa198;">'+'</span>: (0, <span style="color: #859900; font-weight: bold;">lambda</span> a, b: a + b),
-        <span style="color: #2aa198;">'-'</span>: (0, <span style="color: #859900; font-weight: bold;">lambda</span> a, b: a - b),
-        <span style="color: #2aa198;">'*'</span>: (5, <span style="color: #859900; font-weight: bold;">lambda</span> a, b: a * b),
-        <span style="color: #2aa198;">'/'</span>: (5, <span style="color: #859900; font-weight: bold;">lambda</span> a, b: a / b),
-        <span style="color: #2aa198;">'%'</span>: (5, <span style="color: #859900; font-weight: bold;">lambda</span> a, b: a % b)
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">RPN</span>:
+    <span style="color: #5A7644;">""" RPN stands for reversed polish notation, is</span>
+<span style="color: #5A7644;">    used to caculate the math express by computer</span>
+<span style="color: #5A7644;">    """</span>
+    <span style="color: #46657B;">OPERATORS</span> = {
+        <span style="color: #5A7644;">'+'</span>: (0, <span style="color: #AE5825;">lambda</span> a, b: a + b),
+        <span style="color: #5A7644;">'-'</span>: (0, <span style="color: #AE5825;">lambda</span> a, b: a - b),
+        <span style="color: #5A7644;">'*'</span>: (5, <span style="color: #AE5825;">lambda</span> a, b: a * b),
+        <span style="color: #5A7644;">'/'</span>: (5, <span style="color: #AE5825;">lambda</span> a, b: a / b),
+        <span style="color: #5A7644;">'%'</span>: (5, <span style="color: #AE5825;">lambda</span> a, b: a % b)
     }
 
-    <span style="color: #268bd2;">token_map</span> = {<span style="color: #2aa198;">'+'</span>: <span style="color: #2aa198;">'ADD'</span>, <span style="color: #2aa198;">'-'</span>: <span style="color: #2aa198;">'ADD'</span>, <span style="color: #2aa198;">'*'</span>: <span style="color: #2aa198;">'MUL'</span>, <span style="color: #2aa198;">'/'</span>: <span style="color: #2aa198;">'DIV'</span>,
-                 <span style="color: #2aa198;">'('</span>: <span style="color: #2aa198;">'LPAR'</span>, <span style="color: #2aa198;">')'</span>: <span style="color: #2aa198;">'RPAR'</span>}
+    <span style="color: #46657B;">token_map</span> = {<span style="color: #5A7644;">'+'</span>: <span style="color: #5A7644;">'ADD'</span>, <span style="color: #5A7644;">'-'</span>: <span style="color: #5A7644;">'ADD'</span>, <span style="color: #5A7644;">'*'</span>: <span style="color: #5A7644;">'MUL'</span>, <span style="color: #5A7644;">'/'</span>: <span style="color: #5A7644;">'DIV'</span>,
+                 <span style="color: #5A7644;">'('</span>: <span style="color: #5A7644;">'LPAR'</span>, <span style="color: #5A7644;">')'</span>: <span style="color: #5A7644;">'RPAR'</span>}
 
-    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">__init__</span>(<span style="color: #859900; font-weight: bold;">self</span>, exp=<span style="color: #2aa198;">""</span>):
-        <span style="color: #2aa198;">"""Given the RPN a normal math express as input</span>
-<span style="color: #2aa198;">        """</span>
-        <span style="color: #859900; font-weight: bold;">self</span>.infix = re.findall(<span style="color: #2aa198;">'[\d.]+|[%s]'</span> % <span style="color: #2aa198;">''</span>.join(<span style="color: #859900; font-weight: bold;">self</span>.token_map),
+    <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">__init__</span>(<span style="color: #AE5825;">self</span>, exp=<span style="color: #5A7644;">""</span>):
+        <span style="color: #5A7644;">"""Given the RPN a normal math express as input</span>
+<span style="color: #5A7644;">        """</span>
+        <span style="color: #AE5825;">self</span>.infix = re.findall(<span style="color: #5A7644;">'[\d.]+|[%s]'</span> % <span style="color: #5A7644;">''</span>.join(<span style="color: #AE5825;">self</span>.token_map),
                                 exp)
-        <span style="color: #859900; font-weight: bold;">self</span>.rpn = <span style="color: #859900; font-weight: bold;">self</span>.infix_to_rpn()
+        <span style="color: #AE5825;">self</span>.rpn = <span style="color: #AE5825;">self</span>.infix_to_rpn()
 
-    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">is_operator</span>(<span style="color: #859900; font-weight: bold;">self</span>, token):
-        <span style="color: #859900; font-weight: bold;">return</span> token <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #859900; font-weight: bold;">self</span>.OPERATORS.keys()
+    <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">is_operator</span>(<span style="color: #AE5825;">self</span>, token):
+        <span style="color: #AE5825;">return</span> token <span style="color: #AE5825;">in</span> <span style="color: #AE5825;">self</span>.OPERATORS.keys()
 
-    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">cmp_pre</span>(<span style="color: #859900; font-weight: bold;">self</span>, tk1, tk2):
-        <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #859900; font-weight: bold;">not</span> <span style="color: #859900; font-weight: bold;">self</span>.is_operator(tk1) <span style="color: #859900; font-weight: bold;">or</span> <span style="color: #859900; font-weight: bold;">not</span> <span style="color: #859900; font-weight: bold;">self</span>.is_operator(tk2):
-            <span style="color: #859900; font-weight: bold;">raise</span> <span style="color: #b58900;">ValueError</span>(<span style="color: #2aa198;">'Invalid token: %s %s'</span> % (tk1, tk2))
-        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">self</span>.OPERATORS[tk1][0] - <span style="color: #859900; font-weight: bold;">self</span>.OPERATORS[tk2][0]
+    <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">cmp_pre</span>(<span style="color: #AE5825;">self</span>, tk1, tk2):
+        <span style="color: #AE5825;">if</span> <span style="color: #AE5825;">not</span> <span style="color: #AE5825;">self</span>.is_operator(tk1) <span style="color: #AE5825;">or</span> <span style="color: #AE5825;">not</span> <span style="color: #AE5825;">self</span>.is_operator(tk2):
+            <span style="color: #AE5825;">raise</span> <span style="color: #C6B032; font-style: italic;">ValueError</span>(<span style="color: #5A7644;">'Invalid token: %s %s'</span> % (tk1, tk2))
+        <span style="color: #AE5825;">return</span> <span style="color: #AE5825;">self</span>.OPERATORS[tk1][0] - <span style="color: #AE5825;">self</span>.OPERATORS[tk2][0]
 
-    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">infix_to_rpn</span>(<span style="color: #859900; font-weight: bold;">self</span>):
-        <span style="color: #268bd2;">out</span> = []
-        <span style="color: #268bd2;">stack</span> = []
-        <span style="color: #859900; font-weight: bold;">for</span> token <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #859900; font-weight: bold;">self</span>.infix:
-            <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #859900; font-weight: bold;">self</span>.is_operator(token):
-                <span style="color: #859900; font-weight: bold;">while</span> <span style="color: #657b83; font-weight: bold;">len</span>(stack) != 0 <span style="color: #859900; font-weight: bold;">and</span> <span style="color: #859900; font-weight: bold;">self</span>.is_operator(stack[-1]):
-                    <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #859900; font-weight: bold;">self</span>.cmp_pre(token, stack[-1]) &lt;= 0:
+    <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">infix_to_rpn</span>(<span style="color: #AE5825;">self</span>):
+        <span style="color: #46657B;">out</span> = []
+        <span style="color: #46657B;">stack</span> = []
+        <span style="color: #AE5825;">for</span> token <span style="color: #AE5825;">in</span> <span style="color: #AE5825;">self</span>.infix:
+            <span style="color: #AE5825;">if</span> <span style="color: #AE5825;">self</span>.is_operator(token):
+                <span style="color: #AE5825;">while</span> <span style="color: #86453A;">len</span>(stack) != 0 <span style="color: #AE5825;">and</span> <span style="color: #AE5825;">self</span>.is_operator(stack[-1]):
+                    <span style="color: #AE5825;">if</span> <span style="color: #AE5825;">self</span>.cmp_pre(token, stack[-1]) &lt;= 0:
                         out.append(stack.pop())
-                        <span style="color: #859900; font-weight: bold;">continue</span>
-                    <span style="color: #859900; font-weight: bold;">break</span>
+                        <span style="color: #AE5825;">continue</span>
+                    <span style="color: #AE5825;">break</span>
                 stack.append(token)
-            <span style="color: #859900; font-weight: bold;">elif</span> token == <span style="color: #2aa198;">'('</span>:
+            <span style="color: #AE5825;">elif</span> token == <span style="color: #5A7644;">'('</span>:
                 stack.append(token)
-            <span style="color: #859900; font-weight: bold;">elif</span> token == <span style="color: #2aa198;">')'</span>:
-                <span style="color: #859900; font-weight: bold;">while</span> <span style="color: #657b83; font-weight: bold;">len</span>(stack) != 0 <span style="color: #859900; font-weight: bold;">and</span> stack[-1] != <span style="color: #2aa198;">'('</span>:
+            <span style="color: #AE5825;">elif</span> token == <span style="color: #5A7644;">')'</span>:
+                <span style="color: #AE5825;">while</span> <span style="color: #86453A;">len</span>(stack) != 0 <span style="color: #AE5825;">and</span> stack[-1] != <span style="color: #5A7644;">'('</span>:
                     out.append(stack.pop())
                 stack.pop()
-            <span style="color: #859900; font-weight: bold;">else</span>:
+            <span style="color: #AE5825;">else</span>:
                 out.append(token)
-        <span style="color: #859900; font-weight: bold;">while</span> <span style="color: #657b83; font-weight: bold;">len</span>(stack) != 0:
+        <span style="color: #AE5825;">while</span> <span style="color: #86453A;">len</span>(stack) != 0:
             out.append(stack.pop())
-        <span style="color: #859900; font-weight: bold;">return</span> out
+        <span style="color: #AE5825;">return</span> out
 
-    <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">rpn_eval</span>(<span style="color: #859900; font-weight: bold;">self</span>):
-        out = []
-        <span style="color: #859900; font-weight: bold;">for</span> token <span style="color: #859900; font-weight: bold;">in</span> <span style="color: #859900; font-weight: bold;">self</span>.rpn:
-            <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #859900; font-weight: bold;">self</span>.is_operator(token):
-                p1 = out.pop()
-                p2 = out.pop()
-                out.append(<span style="color: #859900; font-weight: bold;">self</span>.OPERATORS[token][1](p2, p1))
-            <span style="color: #859900; font-weight: bold;">else</span>:
-                out.append(<span style="color: #657b83; font-weight: bold;">int</span>(token))
-        <span style="color: #859900; font-weight: bold;">return</span> out[0]
-
-
-<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">main</span>():
-    r = RPN(<span style="color: #2aa198;">'(2+3)*5 - 8'</span>)
-    <span style="color: #859900; font-weight: bold;">print</span> r.infix_to_rpn()
-    <span style="color: #859900; font-weight: bold;">print</span> r.rpn_eval()
+    <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">rpn_eval</span>(<span style="color: #AE5825;">self</span>):
+        <span style="color: #46657B;">out</span> = []
+        <span style="color: #AE5825;">for</span> token <span style="color: #AE5825;">in</span> <span style="color: #AE5825;">self</span>.rpn:
+            <span style="color: #AE5825;">if</span> <span style="color: #AE5825;">self</span>.is_operator(token):
+                <span style="color: #46657B;">p1</span> = out.pop()
+                <span style="color: #46657B;">p2</span> = out.pop()
+                out.append(<span style="color: #AE5825;">self</span>.OPERATORS[token][1](p2, p1))
+            <span style="color: #AE5825;">else</span>:
+                out.append(<span style="color: #86453A;">int</span>(token))
+        <span style="color: #AE5825;">return</span> out[0]
 
 
-<span style="color: #859900; font-weight: bold;">if</span> <span style="color: #657b83; font-weight: bold;">__name__</span> == <span style="color: #2aa198;">'__main__'</span>:
+<span style="color: #AE5825;">def</span> <span style="color: #C6B032;">main</span>():
+    <span style="color: #46657B;">r</span> = RPN(<span style="color: #5A7644;">'(2+3)*5 - 8'</span>)
+    <span style="color: #AE5825;">print</span> r.infix_to_rpn()
+    <span style="color: #AE5825;">print</span> r.rpn_eval()
+
+
+<span style="color: #AE5825;">if</span> <span style="color: #86453A;">__name__</span> == <span style="color: #5A7644;">'__main__'</span>:
     main()
 </pre>
 </div>

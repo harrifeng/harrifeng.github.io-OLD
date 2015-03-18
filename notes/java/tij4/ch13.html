@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 13: Strings</title>
-<!-- 2014-07-18 Fri 16:14 -->
+<!-- 2015-03-18 Wed 14:14 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -204,29 +204,29 @@ Objects of the Sring class are immutable in Java
 上都是进行的值传递,所以参数不会被改变
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">strings</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.tij4.<span style="color: #86453A;">strings</span>;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Immutable</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">upcase</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>) {
-        <span style="color: #859900; font-weight: bold;">return</span> s.toUpperCase();
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Immutable</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #C6B032;">upcase</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">s</span>) {
+        <span style="color: #AE5825;">return</span> s.toUpperCase();
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #b58900;">String</span> <span style="color: #268bd2;">q</span> = <span style="color: #2aa198;">"howdy"</span>;
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">q</span> = <span style="color: #5A7644;">"howdy"</span>;
         System.out.println(q);
 
-        <span style="color: #b58900;">String</span> <span style="color: #268bd2;">qq</span> = upcase(q);
+        <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">qq</span> = upcase(q);
         System.out.println(qq);
         System.out.println(q);
     }
 }
 
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">howdy                                          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">HOWDY                                          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">howdy                                          //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">howdy                                          //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">HOWDY                                          //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">howdy                                          //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -241,19 +241,19 @@ Objects of the Sring class are immutable in Java
 的String是immutable的,应用+, +=就会有效率上面的问题
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">strings</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.tij4.<span style="color: #86453A;">strings</span>;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Concatenation</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #b58900;">String</span> <span style="color: #268bd2;">mango</span> = <span style="color: #2aa198;">"mango"</span>;
-        <span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span> = <span style="color: #2aa198;">"abc"</span> + mango + <span style="color: #2aa198;">"def"</span> + 47;
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Concatenation</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">mango</span> = <span style="color: #5A7644;">"mango"</span>;
+        <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">s</span> = <span style="color: #5A7644;">"abc"</span> + mango + <span style="color: #5A7644;">"def"</span> + 47;
         System.out.println(s);
     }
 }
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">abcmangodef47                                  //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">abcmangodef47                                  //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -269,23 +269,23 @@ Objects of the Sring class are immutable in Java
 StringBuilder就可以了
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">strings</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.tij4.<span style="color: #86453A;">strings</span>;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">WhitherStringBuilder</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">implicit</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">fields</span>) {
-        <span style="color: #b58900;">String</span> <span style="color: #268bd2;">result</span> = <span style="color: #2aa198;">""</span>;
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; fields.length; i++) {
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">WhitherStringBuilder</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #C6B032;">implicit</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">fields</span>) {
+        <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">result</span> = <span style="color: #5A7644;">""</span>;
+        <span style="color: #AE5825;">for</span> (<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">i</span> = 0; i &lt; fields.<span style="color: #C6B032; font-style: italic;">length</span>; i++) {
             result += fields[i];
         }
-        <span style="color: #859900; font-weight: bold;">return</span> result;
+        <span style="color: #AE5825;">return</span> result;
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">explicit</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">fields</span>) {
-        <span style="color: #b58900;">StringBuilder</span> <span style="color: #268bd2;">result</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">StringBuilder</span>();
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; fields.length; i++) {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #C6B032;">explicit</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">fields</span>) {
+        <span style="color: #C6B032; font-style: italic;">StringBuilder</span> <span style="color: #46657B;">result</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">StringBuilder</span>();
+        <span style="color: #AE5825;">for</span> (<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">i</span> = 0; i &lt; fields.<span style="color: #C6B032; font-style: italic;">length</span>; i++) {
             result.append(fields[i]);
         }
-        <span style="color: #859900; font-weight: bold;">return</span> result.toString();
+        <span style="color: #AE5825;">return</span> result.toString();
     }
 }
 </pre>
@@ -295,35 +295,35 @@ StringBuilder就可以了
 建, 而创建的过程有loop的话,通常会依赖StringBuilder
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">strings</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.tij4.<span style="color: #86453A;">strings</span>;
 
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Random</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">Random</span>;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">UsingStringBuilder</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">Random</span> <span style="color: #268bd2;">rand</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Random</span>(47);
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">UsingStringBuilder</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">Random</span> <span style="color: #46657B;">rand</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Random</span>(47);
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
-        <span style="color: #b58900;">StringBuilder</span> <span style="color: #268bd2;">result</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">StringBuilder</span>(<span style="color: #2aa198;">"["</span>);
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; 25; i++) {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #C6B032;">toString</span>() {
+        <span style="color: #C6B032; font-style: italic;">StringBuilder</span> <span style="color: #46657B;">result</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">StringBuilder</span>(<span style="color: #5A7644;">"["</span>);
+        <span style="color: #AE5825;">for</span> (<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">i</span> = 0; i &lt; 25; i++) {
             result.append(rand.nextInt(100));
-            result.append(<span style="color: #2aa198;">", "</span>);
+            result.append(<span style="color: #5A7644;">", "</span>);
         }
         result.delete(result.length() - 2, result.length());
-        result.append(<span style="color: #2aa198;">"]"</span>);
-        <span style="color: #859900; font-weight: bold;">return</span> result.toString();
+        result.append(<span style="color: #5A7644;">"]"</span>);
+        <span style="color: #AE5825;">return</span> result.toString();
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #b58900;">UsingStringBuilder</span> <span style="color: #268bd2;">usb</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">UsingStringBuilder</span>();
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">UsingStringBuilder</span> <span style="color: #46657B;">usb</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">UsingStringBuilder</span>();
         System.out.println(usb);
     }
 }
 
-<span style="color: #93a1a1;">///////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">[58, 55, 93, 61, 61, 29, 68, 0, 22, 7, 88, 28, \  //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">51, 89, 9, 78, 98, 61, 20, 58, 16, 40, 11, 22, 4] //</span>
-<span style="color: #93a1a1;">///////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">///////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt;    //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">[58, 55, 93, 61, 61, 29, 68, 0, 22, 7, 88, 28, \  //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">51, 89, 9, 78, 98, 61, 20, 58, 16, 40, 11, 22, 4] //</span>
+<span style="color: #4C565D;">///////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -339,57 +339,57 @@ StringBuilder就可以了
 面的成员.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">strings</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.tij4.<span style="color: #86453A;">strings</span>;
 
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">lang</span>.<span style="color: #268bd2; font-weight: bold;">tij4</span>.<span style="color: #268bd2; font-weight: bold;">generics</span>.<span style="color: #268bd2; font-weight: bold;">coffee</span>.<span style="color: #b58900;">Coffee</span>;
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">lang</span>.<span style="color: #268bd2; font-weight: bold;">tij4</span>.<span style="color: #268bd2; font-weight: bold;">generics</span>.<span style="color: #268bd2; font-weight: bold;">coffee</span>.<span style="color: #b58900;">CoffeeGenerator</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">org</span>.<span style="color: #86453A;">hfeng</span>.<span style="color: #86453A;">tij4</span>.<span style="color: #86453A;">generics</span>.<span style="color: #86453A;">coffee</span>.<span style="color: #C6B032; font-style: italic;">Coffee</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">org</span>.<span style="color: #86453A;">hfeng</span>.<span style="color: #86453A;">tij4</span>.<span style="color: #86453A;">generics</span>.<span style="color: #86453A;">coffee</span>.<span style="color: #C6B032; font-style: italic;">CoffeeGenerator</span>;
 
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">ArrayList</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">ArrayList</span>;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ArrayListDisplay</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        ArrayList&lt;Coffee&gt; coffees = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ArrayList</span>&lt;Coffee&gt;();
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">Coffee</span> <span style="color: #268bd2;">c</span> : <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">CoffeeGenerator</span>(10)) {
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">ArrayListDisplay</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">ArrayList</span>&lt;<span style="color: #C6B032; font-style: italic;">Coffee</span>&gt; <span style="color: #46657B;">coffees</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">ArrayList</span>&lt;<span style="color: #C6B032; font-style: italic;">Coffee</span>&gt;();
+        <span style="color: #AE5825;">for</span> (<span style="color: #C6B032; font-style: italic;">Coffee</span> <span style="color: #46657B;">c</span> : <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">CoffeeGenerator</span>(10)) {
             coffees.add(c);
         }
         System.out.println(coffees);
     }
 }
-<span style="color: #93a1a1;">/////////////////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;              //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">[Americano 0, Latte 1, Americano 2, Mocha 3, Mocha 4, \     //</span>
-<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1;">Breve 5, Americano 6, Latte 7, Cappuccino 8, Cappuccino 9] //</span>
-<span style="color: #93a1a1;">/////////////////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">/////////////////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt;              //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">[Americano 0, Latte 1, Americano 2, Mocha 3, Mocha 4, \     //</span>
+<span style="color: #4C565D;">//  </span><span style="color: #333B40; font-style: italic;">Breve 5, Americano 6, Latte 7, Cappuccino 8, Cappuccino 9] //</span>
+<span style="color: #4C565D;">/////////////////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
 <li>下面这段代码会产生无限循环的引用,从而导致exception. 
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">strings</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.tij4.<span style="color: #86453A;">strings</span>;
 
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">ArrayList</span>;
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">List</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">ArrayList</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">List</span>;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">InfiniteRecursion</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">toString</span>() {
-        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">" InfiniteRecursion address: "</span> + <span style="color: #859900; font-weight: bold;">this</span> + <span style="color: #2aa198;">"\n"</span>;
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">InfiniteRecursion</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #C6B032;">toString</span>() {
+        <span style="color: #AE5825;">return</span> <span style="color: #5A7644;">" InfiniteRecursion address: "</span> + <span style="color: #AE5825;">this</span> + <span style="color: #5A7644;">"\n"</span>;
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        List&lt;InfiniteRecursion&gt; v =
-                <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ArrayList</span>&lt;InfiniteRecursion&gt;();
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; 10; i++) {
-            v.add(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">InfiniteRecursion</span>());
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">List</span>&lt;<span style="color: #C6B032; font-style: italic;">InfiniteRecursion</span>&gt; <span style="color: #46657B;">v</span> =
+                <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">ArrayList</span>&lt;<span style="color: #C6B032; font-style: italic;">InfiniteRecursion</span>&gt;();
+        <span style="color: #AE5825;">for</span> (<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">i</span> = 0; i &lt; 10; i++) {
+            v.add(<span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">InfiniteRecursion</span>());
         }
         System.out.println(v);
     }
 }
 
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Will create very long sequence of exceptions   //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Will create very long sequence of exceptions   //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -397,7 +397,7 @@ StringBuilder就可以了
 话恰巧就是在toString函数里面.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #2aa198;">"InfiniteRecursion address"</span> + <span style="color: #859900; font-weight: bold;">this</span>
+<pre class="src src-java"><span style="color: #5A7644;">"InfiniteRecursion address"</span> + <span style="color: #AE5825;">this</span>
 </pre>
 </div>
 </li>
@@ -424,27 +424,27 @@ StringBuilder就可以了
 <li>java中使用System.out.format()来达到c语言printf的作用
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">strings</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.tij4.<span style="color: #86453A;">strings</span>;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">SimpleFormat</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span> = 5;
-        <span style="color: #b58900;">double</span> <span style="color: #268bd2;">y</span> = 5.332542;
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">The old way:</span>
-        System.out.println(<span style="color: #2aa198;">"Row 1: ["</span> + x + <span style="color: #2aa198;">" "</span> + y + <span style="color: #2aa198;">"]"</span>);
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">The new way:</span>
-        System.out.format(<span style="color: #2aa198;">"Row 1: [%d %f]\n"</span>, x, y);
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Or</span>
-        System.out.printf(<span style="color: #2aa198;">"Row 1: [%d %f]\n"</span>, x, y);
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">SimpleFormat</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">x</span> = 5;
+        <span style="color: #C6B032; font-style: italic;">double</span> <span style="color: #46657B;">y</span> = 5.332542;
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">The old way:</span>
+        System.out.println(<span style="color: #5A7644;">"Row 1: ["</span> + x + <span style="color: #5A7644;">" "</span> + y + <span style="color: #5A7644;">"]"</span>);
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">The new way:</span>
+        System.out.format(<span style="color: #5A7644;">"Row 1: [%d %f]\n"</span>, x, y);
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Or</span>
+        System.out.printf(<span style="color: #5A7644;">"Row 1: [%d %f]\n"</span>, x, y);
     }
 }
 
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Row 1: [5 5.332542]                            //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Row 1: [5 5.332542]                            //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Row 1: [5 5.332542]                            //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Row 1: [5 5.332542]                            //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Row 1: [5 5.332542]                            //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Row 1: [5 5.332542]                            //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -459,29 +459,29 @@ StringBuilder就可以了
 成你想要的信息. 其ctor的时候可以指定打印的位置,我们的例子中是将结果打印到System.out
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">strings</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.tij4.<span style="color: #86453A;">strings</span>;
 
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">io</span>.<span style="color: #b58900;">PrintStream</span>;
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Formatter</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">io</span>.<span style="color: #C6B032; font-style: italic;">PrintStream</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">Formatter</span>;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Turtle</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">name</span>;
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Formatter</span> <span style="color: #268bd2;">f</span>;
-    <span style="color: #859900; font-weight: bold;">public</span> Turtle(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">name</span>, <span style="color: #b58900;">Formatter</span> <span style="color: #268bd2;">f</span>) {
-        <span style="color: #859900; font-weight: bold;">this</span>.name = name;
-        <span style="color: #859900; font-weight: bold;">this</span>.f = f;
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Turtle</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">name</span>;
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">Formatter</span> <span style="color: #46657B;">f</span>;
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">Turtle</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">name</span>, <span style="color: #C6B032; font-style: italic;">Formatter</span> <span style="color: #46657B;">f</span>) {
+        <span style="color: #AE5825;">this</span>.name = name;
+        <span style="color: #AE5825;">this</span>.f = f;
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">move</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">y</span>) {
-        f.format(<span style="color: #2aa198;">"%s The Turtle is at (%d %d)\n"</span>, name, x, y);
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">move</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">x</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">y</span>) {
+        f.format(<span style="color: #5A7644;">"%s The Turtle is at (%d %d)\n"</span>, name, x, y);
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #b58900;">PrintStream</span> <span style="color: #268bd2;">outAlias</span> = System.out;
-        <span style="color: #b58900;">Turtle</span> <span style="color: #268bd2;">tommy</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Turtle</span>(<span style="color: #2aa198;">"Tommy"</span>,
-                <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Formatter</span>(System.out));
-        <span style="color: #b58900;">Turtle</span> <span style="color: #268bd2;">terry</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Turtle</span>(<span style="color: #2aa198;">"Terry"</span>,
-                <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Formatter</span>(outAlias));
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">PrintStream</span> <span style="color: #46657B;">outAlias</span> = System.out;
+        <span style="color: #C6B032; font-style: italic;">Turtle</span> <span style="color: #46657B;">tommy</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Turtle</span>(<span style="color: #5A7644;">"Tommy"</span>,
+                <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Formatter</span>(System.out));
+        <span style="color: #C6B032; font-style: italic;">Turtle</span> <span style="color: #46657B;">terry</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Turtle</span>(<span style="color: #5A7644;">"Terry"</span>,
+                <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Formatter</span>(outAlias));
         tommy.move(0, 0);
         terry.move(4, 8);
         tommy.move(3, 4);
@@ -491,15 +491,15 @@ StringBuilder就可以了
     }
 }
 
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Tommy The Turtle is at (0 0)                   //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Terry The Turtle is at (4 8)                   //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Tommy The Turtle is at (3 4)                   //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Terry The Turtle is at (2 5)                   //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Tommy The Turtle is at (3 3)                   //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Terry The Turtle is at (3 3)                   //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Tommy The Turtle is at (0 0)                   //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Terry The Turtle is at (4 8)                   //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Tommy The Turtle is at (3 4)                   //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Terry The Turtle is at (2 5)                   //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Tommy The Turtle is at (3 3)                   //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Terry The Turtle is at (3 3)                   //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -514,48 +514,48 @@ StringBuilder就可以了
 "left justified"的
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">strings</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.tij4.<span style="color: #86453A;">strings</span>;
 
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Formatter</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">Formatter</span>;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Receipt</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">double</span> <span style="color: #268bd2;">total</span> = 0;
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">Formatter</span> <span style="color: #268bd2;">f</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Formatter</span>(System.out);
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">printTitle</span>() {
-        f.format(<span style="color: #2aa198;">"%-15s %5s %10s\n"</span>, <span style="color: #2aa198;">"Item"</span>, <span style="color: #2aa198;">"Qty"</span>, <span style="color: #2aa198;">"Price"</span>);
-        f.format(<span style="color: #2aa198;">"%-15s %5s %10s\n"</span>, <span style="color: #2aa198;">"----"</span>, <span style="color: #2aa198;">"---"</span>, <span style="color: #2aa198;">"-----"</span>);
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Receipt</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">double</span> <span style="color: #46657B;">total</span> = 0;
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">Formatter</span> <span style="color: #46657B;">f</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Formatter</span>(System.out);
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">printTitle</span>() {
+        f.format(<span style="color: #5A7644;">"%-15s %5s %10s\n"</span>, <span style="color: #5A7644;">"Item"</span>, <span style="color: #5A7644;">"Qty"</span>, <span style="color: #5A7644;">"Price"</span>);
+        f.format(<span style="color: #5A7644;">"%-15s %5s %10s\n"</span>, <span style="color: #5A7644;">"----"</span>, <span style="color: #5A7644;">"---"</span>, <span style="color: #5A7644;">"-----"</span>);
     }
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">print</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">name</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">qty</span>, <span style="color: #b58900;">double</span> <span style="color: #268bd2;">price</span>) {
-        f.format(<span style="color: #2aa198;">"%-15.15s %5d %10.2f\n"</span>, name, qty, price);
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">print</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">name</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">qty</span>, <span style="color: #C6B032; font-style: italic;">double</span> <span style="color: #46657B;">price</span>) {
+        f.format(<span style="color: #5A7644;">"%-15.15s %5d %10.2f\n"</span>, name, qty, price);
         total += price;
     }
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">printTotal</span>() {
-        f.format(<span style="color: #2aa198;">"%-15s %5s %10.2f\n"</span>, <span style="color: #2aa198;">"Tax"</span>, <span style="color: #2aa198;">""</span>, total * 0.06);
-        f.format(<span style="color: #2aa198;">"%-15s %5s %10s\n"</span>, <span style="color: #2aa198;">""</span>, <span style="color: #2aa198;">""</span>, <span style="color: #2aa198;">"-----"</span>);
-        f.format(<span style="color: #2aa198;">"%-15s %5s %10.2f\n"</span>, <span style="color: #2aa198;">"Total"</span>, <span style="color: #2aa198;">""</span>, total * 1.06);
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">printTotal</span>() {
+        f.format(<span style="color: #5A7644;">"%-15s %5s %10.2f\n"</span>, <span style="color: #5A7644;">"Tax"</span>, <span style="color: #5A7644;">""</span>, total * 0.06);
+        f.format(<span style="color: #5A7644;">"%-15s %5s %10s\n"</span>, <span style="color: #5A7644;">""</span>, <span style="color: #5A7644;">""</span>, <span style="color: #5A7644;">"-----"</span>);
+        f.format(<span style="color: #5A7644;">"%-15s %5s %10.2f\n"</span>, <span style="color: #5A7644;">"Total"</span>, <span style="color: #5A7644;">""</span>, total * 1.06);
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #b58900;">Receipt</span> <span style="color: #268bd2;">receipt</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Receipt</span>();
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">Receipt</span> <span style="color: #46657B;">receipt</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Receipt</span>();
         receipt.printTitle();
-        receipt.print(<span style="color: #2aa198;">"Jack's Magic Beans"</span>, 4, 4.25);
-        receipt.print(<span style="color: #2aa198;">"Princess Peas"</span>, 3, 5.1);
-        receipt.print(<span style="color: #2aa198;">"Three Bears Porridge"</span>, 1, 14.29);
+        receipt.print(<span style="color: #5A7644;">"Jack's Magic Beans"</span>, 4, 4.25);
+        receipt.print(<span style="color: #5A7644;">"Princess Peas"</span>, 3, 5.1);
+        receipt.print(<span style="color: #5A7644;">"Three Bears Porridge"</span>, 1, 14.29);
         receipt.printTotal();
     }
 }
 
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Item              Qty      Price               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">----              ---      -----               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Jack's Magic Be     4       4.25               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Princess Peas       3       5.10               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Three Bears Por     1      14.29               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Tax                         1.42               //</span>
-<span style="color: #93a1a1;">//                            </span><span style="color: #93a1a1;">-----               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Total                      25.06               //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Item              Qty      Price               //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">----              ---      -----               //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Jack's Magic Be     4       4.25               //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Princess Peas       3       5.10               //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Three Bears Por     1      14.29               //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Tax                         1.42               //</span>
+<span style="color: #4C565D;">//                            </span><span style="color: #333B40; font-style: italic;">-----               //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Total                      25.06               //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -632,131 +632,131 @@ StringBuilder就可以了
 <li>下面是一个具体的使用例子
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">strings</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.tij4.<span style="color: #86453A;">strings</span>;
 
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">math</span>.<span style="color: #b58900;">BigInteger</span>;
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Formatter</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">math</span>.<span style="color: #C6B032; font-style: italic;">BigInteger</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">Formatter</span>;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Conversion</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #b58900;">Formatter</span> <span style="color: #268bd2;">f</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Formatter</span>(System.out);
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Conversion</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">Formatter</span> <span style="color: #46657B;">f</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Formatter</span>(System.out);
 
-        <span style="color: #b58900;">char</span> <span style="color: #268bd2;">u</span> = <span style="color: #2aa198;">'a'</span>;
-        System.out.println(<span style="color: #2aa198;">"u = 'a'"</span>);
-        f.format(<span style="color: #2aa198;">"s: %s\n"</span>, u);
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("d: %d\n", u);</span>
-        f.format(<span style="color: #2aa198;">"c: %c\n"</span>, u);
-        f.format(<span style="color: #2aa198;">"b: %b\n"</span>, u);
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("f: %f\n", u);</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("e: %e\n", u);</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("x: %x\n", u);</span>
-        f.format(<span style="color: #2aa198;">"h: %h\n"</span>, u);
-        System.out.println(<span style="color: #2aa198;">"--------------------------------"</span>);
+        <span style="color: #C6B032; font-style: italic;">char</span> <span style="color: #46657B;">u</span> = <span style="color: #5A7644;">'a'</span>;
+        System.out.println(<span style="color: #5A7644;">"u = 'a'"</span>);
+        f.format(<span style="color: #5A7644;">"s: %s\n"</span>, u);
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("d: %d\n", u);</span>
+        f.format(<span style="color: #5A7644;">"c: %c\n"</span>, u);
+        f.format(<span style="color: #5A7644;">"b: %b\n"</span>, u);
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("f: %f\n", u);</span>
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("e: %e\n", u);</span>
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("x: %x\n", u);</span>
+        f.format(<span style="color: #5A7644;">"h: %h\n"</span>, u);
+        System.out.println(<span style="color: #5A7644;">"--------------------------------"</span>);
 
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">v</span> = 121;
-        System.out.println(<span style="color: #2aa198;">"v = 121"</span>);
-        f.format(<span style="color: #2aa198;">"s: %s\n"</span>, v);
-        f.format(<span style="color: #2aa198;">"d: %d\n"</span>, v);
-        f.format(<span style="color: #2aa198;">"c: %c\n"</span>, v);
-        f.format(<span style="color: #2aa198;">"b: %b\n"</span>, v);
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("f: %f\n", v);</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("e: %e\n", v);</span>
-        f.format(<span style="color: #2aa198;">"x: %x\n"</span>, v);
-        f.format(<span style="color: #2aa198;">"h: %h\n"</span>, v);
-        System.out.println(<span style="color: #2aa198;">"--------------------------------"</span>);
+        <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">v</span> = 121;
+        System.out.println(<span style="color: #5A7644;">"v = 121"</span>);
+        f.format(<span style="color: #5A7644;">"s: %s\n"</span>, v);
+        f.format(<span style="color: #5A7644;">"d: %d\n"</span>, v);
+        f.format(<span style="color: #5A7644;">"c: %c\n"</span>, v);
+        f.format(<span style="color: #5A7644;">"b: %b\n"</span>, v);
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("f: %f\n", v);</span>
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("e: %e\n", v);</span>
+        f.format(<span style="color: #5A7644;">"x: %x\n"</span>, v);
+        f.format(<span style="color: #5A7644;">"h: %h\n"</span>, v);
+        System.out.println(<span style="color: #5A7644;">"--------------------------------"</span>);
 
-        <span style="color: #b58900;">BigInteger</span> <span style="color: #268bd2;">w</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">BigInteger</span>(<span style="color: #2aa198;">"50000000000000"</span>);
-        System.out.println(<span style="color: #2aa198;">"w = new BigInteger(\"50000000000000\")"</span>);
-        f.format(<span style="color: #2aa198;">"s: %s\n"</span>, w);
-        f.format(<span style="color: #2aa198;">"d: %d\n"</span>, w);
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("c: %c\n", w);</span>
-        f.format(<span style="color: #2aa198;">"b: %b\n"</span>, w);
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("f: %f\n", w);</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("e: %e\n", w);</span>
-        f.format(<span style="color: #2aa198;">"x: %x\n"</span>, w);
-        f.format(<span style="color: #2aa198;">"h: %h\n"</span>, w);
-        System.out.println(<span style="color: #2aa198;">"--------------------------------"</span>);
+        <span style="color: #C6B032; font-style: italic;">BigInteger</span> <span style="color: #46657B;">w</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">BigInteger</span>(<span style="color: #5A7644;">"50000000000000"</span>);
+        System.out.println(<span style="color: #5A7644;">"w = new BigInteger(\"50000000000000\")"</span>);
+        f.format(<span style="color: #5A7644;">"s: %s\n"</span>, w);
+        f.format(<span style="color: #5A7644;">"d: %d\n"</span>, w);
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("c: %c\n", w);</span>
+        f.format(<span style="color: #5A7644;">"b: %b\n"</span>, w);
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("f: %f\n", w);</span>
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("e: %e\n", w);</span>
+        f.format(<span style="color: #5A7644;">"x: %x\n"</span>, w);
+        f.format(<span style="color: #5A7644;">"h: %h\n"</span>, w);
+        System.out.println(<span style="color: #5A7644;">"--------------------------------"</span>);
 
 
-        <span style="color: #b58900;">double</span> <span style="color: #268bd2;">x</span> = 179.543;
-        System.out.println(<span style="color: #2aa198;">"x = 179.543"</span>);
-        f.format(<span style="color: #2aa198;">"s: %s\n"</span>, x);
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("d: %d\n", x);</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("c: %c\n", x);</span>
-        f.format(<span style="color: #2aa198;">"b: %b\n"</span>, x);
-        f.format(<span style="color: #2aa198;">"f: %f\n"</span>, x);
-        f.format(<span style="color: #2aa198;">"e: %e\n"</span>, x);
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("x: %x\n", x);</span>
-        f.format(<span style="color: #2aa198;">"h: %h\n"</span>, x);
-        System.out.println(<span style="color: #2aa198;">"--------------------------------"</span>);
+        <span style="color: #C6B032; font-style: italic;">double</span> <span style="color: #46657B;">x</span> = 179.543;
+        System.out.println(<span style="color: #5A7644;">"x = 179.543"</span>);
+        f.format(<span style="color: #5A7644;">"s: %s\n"</span>, x);
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("d: %d\n", x);</span>
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("c: %c\n", x);</span>
+        f.format(<span style="color: #5A7644;">"b: %b\n"</span>, x);
+        f.format(<span style="color: #5A7644;">"f: %f\n"</span>, x);
+        f.format(<span style="color: #5A7644;">"e: %e\n"</span>, x);
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("x: %x\n", x);</span>
+        f.format(<span style="color: #5A7644;">"h: %h\n"</span>, x);
+        System.out.println(<span style="color: #5A7644;">"--------------------------------"</span>);
 
-        <span style="color: #b58900;">Conversion</span> <span style="color: #268bd2;">y</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Conversion</span>();
-        System.out.println(<span style="color: #2aa198;">"y = new Conversion()"</span>);
-        f.format(<span style="color: #2aa198;">"s: %s\n"</span>, y);
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("d: %d\n", y);</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("c: %c\n", y);</span>
-        f.format(<span style="color: #2aa198;">"b: %b\n"</span>, y);
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("f: %f\n", y);</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("e: %e\n", y);</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("x: %x\n", y);</span>
-        f.format(<span style="color: #2aa198;">"h: %h\n"</span>, y);
-        System.out.println(<span style="color: #2aa198;">"--------------------------------"</span>);
+        <span style="color: #C6B032; font-style: italic;">Conversion</span> <span style="color: #46657B;">y</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Conversion</span>();
+        System.out.println(<span style="color: #5A7644;">"y = new Conversion()"</span>);
+        f.format(<span style="color: #5A7644;">"s: %s\n"</span>, y);
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("d: %d\n", y);</span>
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("c: %c\n", y);</span>
+        f.format(<span style="color: #5A7644;">"b: %b\n"</span>, y);
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("f: %f\n", y);</span>
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("e: %e\n", y);</span>
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("x: %x\n", y);</span>
+        f.format(<span style="color: #5A7644;">"h: %h\n"</span>, y);
+        System.out.println(<span style="color: #5A7644;">"--------------------------------"</span>);
 
-        <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">z</span> = <span style="color: #268bd2; font-weight: bold;">false</span>;
-        System.out.println(<span style="color: #2aa198;">"z = false"</span>);
-        f.format(<span style="color: #2aa198;">"s: %s\n"</span>, z);
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("d: %d\n", z);</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("c: %c\n", z);</span>
-        f.format(<span style="color: #2aa198;">"b: %b\n"</span>, z);
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("f: %f\n", z);</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("e: %e\n", z);</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f.format("x: %x\n", z);</span>
-        f.format(<span style="color: #2aa198;">"h: %h\n"</span>, z);
-        System.out.println(<span style="color: #2aa198;">"--------------------------------"</span>);
+        <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #46657B;">z</span> = <span style="color: #86453A;">false</span>;
+        System.out.println(<span style="color: #5A7644;">"z = false"</span>);
+        f.format(<span style="color: #5A7644;">"s: %s\n"</span>, z);
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("d: %d\n", z);</span>
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("c: %c\n", z);</span>
+        f.format(<span style="color: #5A7644;">"b: %b\n"</span>, z);
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("f: %f\n", z);</span>
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("e: %e\n", z);</span>
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f.format("x: %x\n", z);</span>
+        f.format(<span style="color: #5A7644;">"h: %h\n"</span>, z);
+        System.out.println(<span style="color: #5A7644;">"--------------------------------"</span>);
     }
 }
 
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">u = 'a'                                        //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">s: a                                           //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">c: a                                           //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">b: true                                        //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">h: 61                                          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">--------------------------------               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">v = 121                                        //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">s: 121                                         //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">d: 121                                         //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">c: y                                           //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">b: true                                        //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">x: 79                                          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">h: 79                                          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">--------------------------------               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">w = new BigInteger("50000000000000")           //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">s: 50000000000000                              //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">d: 50000000000000                              //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">b: true                                        //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">x: 2d79883d2000                                //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">h: 8842a1a7                                    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">--------------------------------               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">x = 179.543                                    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">s: 179.543                                     //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">b: true                                        //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">f: 179.543000                                  //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">e: 1.795430e+02                                //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">h: 1ef462c                                     //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">--------------------------------               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">y = new Conversion()                           //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">s: lang.tij4.strings.Conversion@266474c2       //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">b: true                                        //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">h: 266474c2                                    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">--------------------------------               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">z = false                                      //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">s: false                                       //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">b: false                                       //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">h: 4d5                                         //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">--------------------------------               //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">u = 'a'                                        //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">s: a                                           //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">c: a                                           //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">b: true                                        //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">h: 61                                          //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">--------------------------------               //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">v = 121                                        //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">s: 121                                         //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">d: 121                                         //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">c: y                                           //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">b: true                                        //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">x: 79                                          //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">h: 79                                          //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">--------------------------------               //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">w = new BigInteger("50000000000000")           //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">s: 50000000000000                              //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">d: 50000000000000                              //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">b: true                                        //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">x: 2d79883d2000                                //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">h: 8842a1a7                                    //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">--------------------------------               //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">x = 179.543                                    //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">s: 179.543                                     //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">b: true                                        //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">f: 179.543000                                  //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">e: 1.795430e+02                                //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">h: 1ef462c                                     //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">--------------------------------               //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">y = new Conversion()                           //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">s: org.hfeng.tij4.strings.Conversion@266474c2       //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">b: true                                        //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">h: 266474c2                                    //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">--------------------------------               //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">z = false                                      //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">s: false                                       //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">b: false                                       //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">h: 4d5                                         //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">--------------------------------               //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -771,74 +771,74 @@ StringBuilder就可以了
 值是一个String类型.和C的sprintf()有异曲同工之妙
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">strings</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.tij4.<span style="color: #86453A;">strings</span>;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">DatabaseException</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Exception</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> DatabaseException(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">transactionID</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">queryID</span>,
-                             <span style="color: #b58900;">String</span> <span style="color: #268bd2;">message</span>) {
-        <span style="color: #859900; font-weight: bold;">super</span>(String.format(<span style="color: #2aa198;">"(t%d, q%d) %s"</span>, transactionID,
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">DatabaseException</span> <span style="color: #AE5825;">extends</span> <span style="color: #C6B032; font-style: italic;">Exception</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">DatabaseException</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">transactionID</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">queryID</span>,
+                             <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">message</span>) {
+        <span style="color: #AE5825;">super</span>(String.format(<span style="color: #5A7644;">"(t%d, q%d) %s"</span>, transactionID,
                             queryID, message));
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #859900; font-weight: bold;">try</span> {
-            <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">DatabaseException</span>(3, 7, <span style="color: #2aa198;">"Write failed"</span>);
-        } <span style="color: #859900; font-weight: bold;">catch</span> (<span style="color: #b58900;">Exception</span> <span style="color: #268bd2;">e</span>) {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #AE5825;">try</span> {
+            <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">DatabaseException</span>(3, 7, <span style="color: #5A7644;">"Write failed"</span>);
+        } <span style="color: #AE5825;">catch</span> (<span style="color: #C6B032; font-style: italic;">Exception</span> <span style="color: #46657B;">e</span>) {
             System.out.println(e);
         }
     }
 }
 
-<span style="color: #93a1a1;">////////////////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;             //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">lang.tij4.strings.DatabaseException: (t3, q7) Write failed //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt;             //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">org.hfeng.tij4.strings.DatabaseException: (t3, q7) Write failed //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
 <li>String.format()还可以做一个简单的二进制查看器(使用十六位来查看binary文件)
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> lang.tij4.<span style="color: #268bd2; font-weight: bold;">strings</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.tij4.<span style="color: #86453A;">strings</span>;
 
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">lang</span>.<span style="color: #268bd2; font-weight: bold;">tij4</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">BinaryFile</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">org</span>.<span style="color: #86453A;">hfeng</span>.<span style="color: #86453A;">tij4</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">BinaryFile</span>;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Hex</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">format</span>(<span style="color: #b58900;">byte</span>[] <span style="color: #268bd2;">data</span>) {
-        <span style="color: #b58900;">StringBuilder</span> <span style="color: #268bd2;">result</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">StringBuilder</span>();
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">n</span> = 0;
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">byte</span> <span style="color: #268bd2;">b</span> : data) {
-            <span style="color: #859900; font-weight: bold;">if</span> (n % 16 == 0) {
-                result.append(String.format(<span style="color: #2aa198;">"%05X:"</span>, n));
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Hex</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #C6B032;">format</span>(<span style="color: #C6B032; font-style: italic;">byte</span>[] <span style="color: #46657B;">data</span>) {
+        <span style="color: #C6B032; font-style: italic;">StringBuilder</span> <span style="color: #46657B;">result</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">StringBuilder</span>();
+        <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">n</span> = 0;
+        <span style="color: #AE5825;">for</span> (<span style="color: #C6B032; font-style: italic;">byte</span> <span style="color: #46657B;">b</span> : data) {
+            <span style="color: #AE5825;">if</span> (n % 16 == 0) {
+                result.append(String.format(<span style="color: #5A7644;">"%05X:"</span>, n));
             }
-            result.append(String.format(<span style="color: #2aa198;">"%02X "</span>, b));
+            result.append(String.format(<span style="color: #5A7644;">"%02X "</span>, b));
             n++;
-            <span style="color: #859900; font-weight: bold;">if</span> (n % 16 == 0) {
-                result.append(<span style="color: #2aa198;">"\n"</span>);
+            <span style="color: #AE5825;">if</span> (n % 16 == 0) {
+                result.append(<span style="color: #5A7644;">"\n"</span>);
             }
         }
-        result.append(<span style="color: #2aa198;">"\n"</span>);
-        <span style="color: #859900; font-weight: bold;">return</span> result.toString();
+        result.append(<span style="color: #5A7644;">"\n"</span>);
+        <span style="color: #AE5825;">return</span> result.toString();
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #859900; font-weight: bold;">try</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #AE5825;">try</span> {
             System.out.println(format(BinaryFile.read(
-                    <span style="color: #2aa198;">"build/classes/lang/tij4/strings/Hex.class"</span>)));
-        } <span style="color: #859900; font-weight: bold;">catch</span> (<span style="color: #b58900;">Exception</span> <span style="color: #268bd2;">e</span>) {
+                    <span style="color: #5A7644;">"build/classes/org.hfeng.tij4.strings/Hex.class"</span>)));
+        } <span style="color: #AE5825;">catch</span> (<span style="color: #C6B032; font-style: italic;">Exception</span> <span style="color: #46657B;">e</span>) {
             e.printStackTrace();
         }
     }
 }
 
-<span style="color: #93a1a1;">////////////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;         //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">00000:CA FE BA BE 00 00 00 34 00 4F 0A 00 05 00 20 07  //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">00010:00 21 0A 00 02 00 20 08 00 22 07 00 23 0A 00 24  //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">00020:00 25 0A 00 26 00 27 0A 00 02 00 28 08 00 29 0A  //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">00030:00 2A 00 2B 08 00 2C 0A 00 02 00 2D 09 00 2E 00  //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">.....                                                  //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt;         //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">00000:CA FE BA BE 00 00 00 34 00 4F 0A 00 05 00 20 07  //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">00010:00 21 0A 00 02 00 20 08 00 22 07 00 23 0A 00 24  //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">00020:00 25 0A 00 26 00 27 0A 00 02 00 28 08 00 29 0A  //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">00030:00 2A 00 2B 08 00 2C 0A 00 02 00 2D 09 00 2E 00  //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">.....                                                  //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>

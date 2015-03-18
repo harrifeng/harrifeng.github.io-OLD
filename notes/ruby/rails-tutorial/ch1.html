@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 01: From zero to deploy</title>
-<!-- 2014-07-18 Fri 16:02 -->
+<!-- 2015-03-18 Wed 14:07 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -182,6 +182,15 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1-2-1">Development environments</a></li>
 <li><a href="#sec-1-2-2">Ruby, RubyGems, Rails, and Git</a></li>
 <li><a href="#sec-1-2-3">The first application</a></li>
+<li><a href="#sec-1-2-4">Bundler</a></li>
+<li><a href="#sec-1-2-5">rails server</a></li>
+<li><a href="#sec-1-2-6">Model-view-controller (MVC)</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">Version control with Git</a></li>
+<li><a href="#sec-1-4">Deploying</a>
+<ul>
+<li><a href="#sec-1-4-1">Heroku commands</a></li>
 </ul>
 </li>
 </ul>
@@ -282,7 +291,7 @@ for the JavaScript code in this tag.
 <li>rvm再第一次安装后,需要重启terminal,或者
 <div class="org-src-container">
 
-<pre class="src src-sh"><span style="color: #7171F3; font-weight: bold;">source</span> ~/.rvm/scripts/rvm
+<pre class="src src-sh"><span style="color: #86453A;">source</span> ~/.rvm/scripts/rvm
 </pre>
 </div>
 </li>
@@ -300,7 +309,274 @@ for the JavaScript code in this tag.
 </pre>
 </div>
 </li>
+<li>我们还需要安装libyaml(新版的 rvm requirements 会提示的)
+<div class="org-src-container">
+
+<pre class="src src-sh">brew install libyaml
+</pre>
+</div>
+</li>
 </ol>
+</li>
+<li>rvm 搞定以后,下一步就是安装ruby了. 安装的时候,我们要指出OpenSSL的位置
+<div class="org-src-container">
+
+<pre class="src src-sh">hfengdeMacBook-Air:rails-tutorial hfeng$ rvm install 2.0.0 --with-openssl-dir=/usr/local/opt/openssl
+Checking requirements for osx.
+Certificates<span style="color: #AE5825;"> in</span> <span style="color: #5A7644;">'/usr/local/etc/openssl/cert.pem'</span> are already up to date.
+Requirements installation successful.
+Installing Ruby from source to: /Users/hfeng/.rvm/rubies/ruby-2.0.0-p481, this may take a while depending on your cpu(s)...
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">downloading ruby-2.0.0-p481, this may take a while depending on your connection...</span>
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 10.2M  100 10.2M    0     0  50421      0  0:03:32  0:03:32 --:--:--  141k
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">extracting ruby-2.0.0-p481 to /Users/hfeng/.rvm/src/ruby-2.0.0-p481....</span>
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">configuring.................................................</span>
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">post-configuration.</span>
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">compiling................................................................................</span>
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">installing..............</span>
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">making binaries executable..</span>
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">downloading rubygems-2.2.2</span>
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  404k  100  404k    0     0  95267      0  0:00:04  0:00:04 --:--:-- 95285
+No checksum for downloaded archive, recording checksum<span style="color: #AE5825;"> in</span> user configuration.
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">extracting rubygems-2.2.2....</span>
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">removing old rubygems.........</span>
+$<span style="color: #46657B;">LANG</span> was empty, setting up <span style="color: #46657B;">LANG</span>=en_US, if it fails again try setting LANG to something sane and try again.
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">installing rubygems-2.2.2...............</span>
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">gemset created /Users/hfeng/.rvm/gems/ruby-2.0.0-p481@global</span>
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">importing gemset /Users/hfeng/.rvm/gemsets/global.gems.........................................................</span>
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">generating global wrappers........</span>
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">gemset created /Users/hfeng/.rvm/gems/ruby-2.0.0-p481</span>
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">importing gemsetfile /Users/hfeng/.rvm/gemsets/default.gems evaluated to empty gem list</span>
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">generating default wrappers........</span>
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">adjusting #shebangs for (gem irb erb ri rdoc testrb rake).</span>
+Install of ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">complete</span>
+Ruby was built without documentation, to build it run: rvm docs generate-ri
+hfengdeMacBook-Air:rails-tutorial hfeng$ which ruby
+/Users/hfeng/.rvm/rubies/ruby-2.0.0-p481/bin/ruby
+hfengdeMacBook-Air:rails-tutorial hfeng$ ruby --version
+ruby 2.0.0p481 (2014-05-08 revision 45883) [x86_64-darwin13.2.0]
+hfengdeMacBook-Air:rails-tutorial hfeng$ rvm list
+
+rvm rubies
+
+=* ruby-2.0.0-p481 [ x86_64 ]
+
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=&gt; - current</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=* - current &amp;&amp; default</span>
+<span style="color: #4C565D;">#  </span><span style="color: #333B40; font-style: italic;">* - default</span>
+
+hfengdeMacBook-Air:rails-tutorial hfeng$
+</pre>
+</div>
+</li>
+<li>rvm 的ruby是全局的, 创建的gemset也是要依靠某个ruby版本,比如我们创建一个新
+的gemset(名字叫railstutorial_rails_4_0), 在这之前一定要指定ruby版本.
+创建gemset之后,还可以指定某个gemset为默认的gemset
+<div class="org-src-container">
+
+<pre class="src src-sh">hfengdeMacBook-Air:rails-tutorial hfeng$ rvm 2.0.0
+hfengdeMacBook-Air:rails-tutorial hfeng$ rvm list
+
+rvm rubies
+
+=* ruby-2.0.0-p481 [ x86_64 ]
+
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=&gt; - current</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">=* - current &amp;&amp; default</span>
+<span style="color: #4C565D;">#  </span><span style="color: #333B40; font-style: italic;">* - default</span>
+
+hfengdeMacBook-Air:rails-tutorial hfeng$ rvm gemset list
+
+gemsets for ruby-2.0.0-p481 (found<span style="color: #AE5825;"> in</span> /Users/hfeng/.rvm/gems/ruby-2.0.0-p481)
+=&gt; (default)
+   global
+
+hfengdeMacBook-Air:rails-tutorial hfeng$ rvm gemset create railstutorial_rails_4_0
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">gemset created /Users/hfeng/.rvm/gems/ruby-2.0.0-p481@railstutorial_rails_4_0</span>
+ruby-2.0.0-p481 - <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">generating railstutorial_rails_4_0 wrappers........</span>
+hfengdeMacBook-Air:rails-tutorial hfeng$ rvm gemset list
+
+gemsets for ruby-2.0.0-p481 (found<span style="color: #AE5825;"> in</span> /Users/hfeng/.rvm/gems/ruby-2.0.0-p481)
+=&gt; (default)
+   global
+   railstutorial_rails_4_0
+
+hfengdeMacBook-Air:rails-tutorial hfeng$ rvm use 2.0.0@railstutorial_rails_4_0 --default
+Using /Users/hfeng/.rvm/gems/ruby-2.0.0-p481 with gemset railstutorial_rails_4_0
+hfengdeMacBook-Air:rails-tutorial hfeng$ rvm gemset list
+
+gemsets for ruby-2.0.0-p481 (found<span style="color: #AE5825;"> in</span> /Users/hfeng/.rvm/gems/ruby-2.0.0-p481)
+   (default)
+   global
+=&gt; railstutorial_rails_4_0
+</pre>
+</div>
+</li>
+<li>gem 这个binary是和ruby相关联的,gemset跟着一个特定版本的ruby,也就跟着一个特定版本的gem
+<div class="org-src-container">
+
+<pre class="src src-sh">hfengdeMacBook-Air:rails-tutorial hfeng$ which gem
+/Users/hfeng/.rvm/rubies/ruby-2.0.0-p481/bin/gem
+hfengdeMacBook-Air:rails-tutorial hfeng$ gem --version
+2.2.2
+</pre>
+</div>
+</li>
+<li>我们要把默认的跟着ruby-2.0.0的gem更改为2.1.9 (本书所选的gem版本)
+<div class="org-src-container">
+
+<pre class="src src-sh">hfengdeMacBook-Air:rails-tutorial hfeng$ gem update --system 2.1.9
+Updating rubygems-update
+Fetching: rubygems-update-2.1.9.gem (100%)
+Successfully installed rubygems-update-2.1.9
+Installing RubyGems 2.1.9
+RubyGems 2.1.9 installed
+
+
+
+------------------------------------------------------------------------------
+
+RubyGems installed the following executables:
+    /Users/hfeng/.rvm/rubies/ruby-2.0.0-p481/bin/gem
+
+RubyGems system software updated
+hfengdeMacBook-Air:rails-tutorial hfeng$ gem --version
+2.1.9
+</pre>
+</div>
+</li>
+<li>下面我们要开始gem来安装gems了!为了不安装rdoc和ri,我们可以disable它们,通过
+如下设置~/.gemrc
+<div class="org-src-container">
+
+<pre class="src src-sh">install: --no-rdoc --no-ri
+update: --no-rdoc --no-ri
+</pre>
+</div>
+</li>
+<li>在安装第一个gem之前,先确认一下环境
+<div class="org-src-container">
+
+<pre class="src src-sh">hfengdeMacBook-Air:rails-tutorial hfeng$ rvm gemset list
+
+gemsets for ruby-2.0.0-p481 (found<span style="color: #AE5825;"> in</span> /Users/hfeng/.rvm/gems/ruby-2.0.0-p481)
+   (default)
+   global
+=&gt; railstutorial_rails_4_0
+
+hfengdeMacBook-Air:rails-tutorial hfeng$ which gem
+/Users/hfeng/.rvm/rubies/ruby-2.0.0-p481/bin/gem
+hfengdeMacBook-Air:rails-tutorial hfeng$ rvm info
+
+ruby-2.0.0-p481@railstutorial_rails_4_0:
+
+  system:
+    uname:       <span style="color: #5A7644;">"Darwin hfengdeMacBook-Air.local 13.2.0 Darwin Kernel Version 13.2.0: Thu Apr 17 23:03:13 PDT 2014; root:xnu-2422.100.13~1/RELEASE_X86_64 x86_64"</span>
+    system:      <span style="color: #5A7644;">"osx/10.9/x86_64"</span>
+    bash:        <span style="color: #5A7644;">"/bin/bash =&gt; GNU bash, version 3.2.51(1)-release (x86_64-apple-darwin13)"</span>
+    zsh:         <span style="color: #5A7644;">"/bin/zsh =&gt; zsh 5.0.2 (x86_64-apple-darwin13.0)"</span>
+
+  rvm:
+    version:      <span style="color: #5A7644;">"rvm 1.25.28 (stable) by Wayne E. Seguin <a href="mailto:wayneeseguin%40gmail.com">&lt;wayneeseguin@gmail.com&gt;</a>, Michal Papis <a href="mailto:mpapis%40gmail.com">&lt;mpapis@gmail.com&gt;</a> [https://rvm.io/]"</span>
+    updated:      <span style="color: #5A7644;">"7 hours 7 minutes 2 seconds ago"</span>
+    path:         <span style="color: #5A7644;">"/Users/hfeng/.rvm"</span>
+
+  ruby:
+    interpreter:  <span style="color: #5A7644;">"ruby"</span>
+    version:      <span style="color: #5A7644;">"2.0.0p481"</span>
+    date:         <span style="color: #5A7644;">"2014-05-08"</span>
+    platform:     <span style="color: #5A7644;">"x86_64-darwin13.2.0"</span>
+    patchlevel:   <span style="color: #5A7644;">"2014-05-08 revision 45883"</span>
+    full_version: <span style="color: #5A7644;">"ruby 2.0.0p481 (2014-05-08 revision 45883) [x86_64-darwin13.2.0]"</span>
+
+  homes:
+    gem:          <span style="color: #5A7644;">"/Users/hfeng/.rvm/gems/ruby-2.0.0-p481@railstutorial_rails_4_0"</span>
+    ruby:         <span style="color: #5A7644;">"/Users/hfeng/.rvm/rubies/ruby-2.0.0-p481"</span>
+
+  binaries:
+    ruby:         <span style="color: #5A7644;">"/Users/hfeng/.rvm/rubies/ruby-2.0.0-p481/bin/ruby"</span>
+    irb:          <span style="color: #5A7644;">"/Users/hfeng/.rvm/rubies/ruby-2.0.0-p481/bin/irb"</span>
+    gem:          <span style="color: #5A7644;">"/Users/hfeng/.rvm/rubies/ruby-2.0.0-p481/bin/gem"</span>
+    rake:         <span style="color: #5A7644;">"/Users/hfeng/.rvm/rubies/ruby-2.0.0-p481/bin/rake"</span>
+
+  environment:
+    PATH:         <span style="color: #5A7644;">"/Users/hfeng/.rvm/gems/ruby-2.0.0-p481@railstutorial_rails_4_0/bin:/Users/hfeng/.rvm/gems/ruby-2.0.0-p481@global/bin:/Users/hfeng/.rvm/rubies/ruby-2.0.0-p481/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr:/Users/hfeng/.rvm/bin"</span>
+    GEM_HOME:     <span style="color: #5A7644;">"/Users/hfeng/.rvm/gems/ruby-2.0.0-p481@railstutorial_rails_4_0"</span>
+    GEM_PATH:     <span style="color: #5A7644;">"/Users/hfeng/.rvm/gems/ruby-2.0.0-p481@railstutorial_rails_4_0:/Users/hfeng/.rvm/gems/ruby-2.0.0-p481@global"</span>
+    MY_RUBY_HOME: <span style="color: #5A7644;">"/Users/hfeng/.rvm/rubies/ruby-2.0.0-p481"</span>
+    IRBRC:        <span style="color: #5A7644;">"/Users/hfeng/.rvm/rubies/ruby-2.0.0-p481/.irbrc"</span>
+    RUBYOPT:      <span style="color: #5A7644;">""</span>
+    gemset:       <span style="color: #5A7644;">"railstutorial_rails_4_0"</span>
+</pre>
+</div>
+</li>
+<li>安装第一个gem, rails. 安装完之后确认rails是在gemset ruby-2.0.0-p481@railstutorial_rails_4_0
+      里面的
+<div class="org-src-container">
+
+<pre class="src src-sh">hfengdeMacBook-Air:rails-tutorial hfeng$ gem install rails --version 4.0.8
+Fetching: i18n-0.6.11.gem (100%)
+Successfully installed i18n-0.6.11
+Fetching: multi_json-1.10.1.gem (100%)
+Successfully installed multi_json-1.10.1
+Fetching: tzinfo-0.3.40.gem (100%)
+Successfully installed tzinfo-0.3.40
+Fetching: thread_safe-0.3.4.gem (100%)
+Successfully installed thread_safe-0.3.4
+Fetching: activesupport-4.0.8.gem (100%)
+Successfully installed activesupport-4.0.8
+Fetching: builder-3.1.4.gem (100%)
+Successfully installed builder-3.1.4
+Fetching: rack-1.5.2.gem (100%)
+Successfully installed rack-1.5.2
+Fetching: rack-test-0.6.2.gem (100%)
+Successfully installed rack-test-0.6.2
+Fetching: erubis-2.7.0.gem (100%)
+Successfully installed erubis-2.7.0
+Fetching: actionpack-4.0.8.gem (100%)
+Successfully installed actionpack-4.0.8
+Fetching: activemodel-4.0.8.gem (100%)
+Successfully installed activemodel-4.0.8
+Fetching: arel-4.0.2.gem (100%)
+Successfully installed arel-4.0.2
+Fetching: activerecord-deprecated_finders-1.0.3.gem (100%)
+Successfully installed activerecord-deprecated_finders-1.0.3
+Fetching: activerecord-4.0.8.gem (100%)
+Successfully installed activerecord-4.0.8
+Fetching: mime-types-1.25.1.gem (100%)
+Successfully installed mime-types-1.25.1
+Fetching: polyglot-0.3.5.gem (100%)
+Successfully installed polyglot-0.3.5
+Fetching: treetop-1.4.15.gem (100%)
+Successfully installed treetop-1.4.15
+Fetching: mail-2.5.4.gem (100%)
+Successfully installed mail-2.5.4
+Fetching: actionmailer-4.0.8.gem (100%)
+Successfully installed actionmailer-4.0.8
+Fetching: thor-0.19.1.gem (100%)
+Successfully installed thor-0.19.1
+Fetching: railties-4.0.8.gem (100%)
+Successfully installed railties-4.0.8
+Fetching: hike-1.2.3.gem (100%)
+Successfully installed hike-1.2.3
+Fetching: tilt-1.4.1.gem (100%)
+Successfully installed tilt-1.4.1
+Fetching: sprockets-2.12.1.gem (100%)
+Successfully installed sprockets-2.12.1
+Fetching: sprockets-rails-2.1.3.gem (100%)
+Successfully installed sprockets-rails-2.1.3
+Fetching: rails-4.0.8.gem (100%)
+Successfully installed rails-4.0.8
+26 gems installed
+hfengdeMacBook-Air:rails-tutorial hfeng$ which rails
+/Users/hfeng/.rvm/gems/ruby-2.0.0-p481@railstutorial_rails_4_0/bin/rails
+hfengdeMacBook-Air:rails-tutorial hfeng$ rails -v
+Rails 4.0.8
+</pre>
+</div>
 </li>
 </ul>
 </div>
@@ -310,8 +586,1043 @@ for the JavaScript code in this tag.
 <div class="outline-text-4" id="text-1-2-3">
 <ul class="org-ul">
 <li>所有的 rails 应用程序都是从 rails new 命令开始的.
+<div class="org-src-container">
+
+<pre class="src src-sh">hfengdeMacBook-Air:exam hfeng$ mkdir rails_projects
+hfengdeMacBook-Air:exam hfeng$ cd rails_projects/
+hfengdeMacBook-Air:rails_projects hfeng$ which rails
+/Users/hfeng/.rvm/gems/ruby-2.0.0-p481@railstutorial_rails_4_0/bin/rails
+hfengdeMacBook-Air:rails_projects hfeng$ rails --version
+Rails 4.0.8
+hfengdeMacBook-Air:rails_projects hfeng$ rails new first_app
+      create
+      create  README.rdoc
+      create  Rakefile
+      create  config.ru
+      create  .gitignore
+      create  Gemfile
+      create  app
+      create  app/assets/javascripts/application.js
+      create  app/assets/stylesheets/application.css
+      create  app/controllers/application_controller.rb
+      create  app/helpers/application_helper.rb
+      create  app/views/layouts/application.html.erb
+      create  app/assets/images/.keep
+      create  app/mailers/.keep
+      create  app/models/.keep
+      create  app/controllers/concerns/.keep
+      create  app/models/concerns/.keep
+      create  bin
+      create  bin/bundle
+      create  bin/rails
+      create  bin/rake
+      create  config
+      create  config/routes.rb
+      create  config/application.rb
+      create  config/environment.rb
+      create  config/environments
+      create  config/environments/development.rb
+      create  config/environments/production.rb
+      create  config/environments/test.rb
+      create  config/initializers
+      create  config/initializers/backtrace_silencers.rb
+      create  config/initializers/filter_parameter_logging.rb
+      create  config/initializers/inflections.rb
+      create  config/initializers/mime_types.rb
+      create  config/initializers/secret_token.rb
+      create  config/initializers/session_store.rb
+      create  config/initializers/wrap_parameters.rb
+      create  config/locales
+      create  config/locales/en.yml
+      create  config/boot.rb
+      create  config/database.yml
+      create  db
+      create  db/seeds.rb
+      create  lib
+      create  lib/tasks
+      create  lib/tasks/.keep
+      create  lib/assets
+      create  lib/assets/.keep
+      create  log
+      create  log/.keep
+      create  public
+      create  public/404.html
+      create  public/422.html
+      create  public/500.html
+      create  public/favicon.ico
+      create  public/robots.txt
+      create  test/fixtures
+      create  test/fixtures/.keep
+      create  test/controllers
+      create  test/controllers/.keep
+      create  test/mailers
+      create  test/mailers/.keep
+      create  test/models
+      create  test/models/.keep
+      create  test/helpers
+      create  test/helpers/.keep
+      create  test/integration
+      create  test/integration/.keep
+      create  test/test_helper.rb
+      create  tmp/cache
+      create  tmp/cache/assets
+      create  vendor/assets/javascripts
+      create  vendor/assets/javascripts/.keep
+      create  vendor/assets/stylesheets
+      create  vendor/assets/stylesheets/.keep
+         run  bundle install
+Fetching gem metadata from https://rubygems.org/..........
+Fetching additional metadata from https://rubygems.org/..
+Resolving dependencies...
+Installing rake 10.3.2
+Using i18n 0.6.11
+Installing minitest 4.7.5
+Using multi_json 1.10.1
+Using thread_safe 0.3.4
+Using tzinfo 0.3.40
+Using activesupport 4.0.8
+Using builder 3.1.4
+Using erubis 2.7.0
+Using rack 1.5.2
+Using rack-test 0.6.2
+Using actionpack 4.0.8
+Using mime-types 1.25.1
+Using polyglot 0.3.5
+Using treetop 1.4.15
+Using mail 2.5.4
+Using actionmailer 4.0.8
+Using activemodel 4.0.8
+Using activerecord-deprecated_finders 1.0.3
+Using arel 4.0.2
+Using activerecord 4.0.8
+Using bundler 1.6.4
+Installing coffee-script-source 1.7.1
+Installing execjs 2.2.1
+Installing coffee-script 2.3.0
+Using thor 0.19.1
+Using railties 4.0.8
+Installing coffee-rails 4.0.1
+Using hike 1.2.3
+Installing jbuilder 1.5.3
+Installing jquery-rails 3.1.1
+Installing json 1.8.1
+Using tilt 1.4.1
+Installing sprockets 2.11.0
+Using sprockets-rails 2.1.3
+Using rails 4.0.8
+Installing rdoc 4.1.1
+Installing sass 3.2.19
+Installing sass-rails 4.0.3
+Installing sdoc 0.4.0
+Installing sqlite3 1.3.9
+Installing turbolinks 2.2.2
+Installing uglifier 2.5.1
+Your bundle is complete!
+Use <span style="color: #fa8072;">`bundle show [gemname]`</span> to see where a bundled gem is installed.
+Post-install message from rdoc:
+Depending on your version of ruby, you may need to install ruby rdoc/ri data:
+
+&lt;= 1.8.6 : unsupported
+ = 1.8.7 : gem install rdoc-data; rdoc-data --install
+ = 1.9.1 : gem install rdoc-data; rdoc-data --install
+&gt;= 1.9.2 : nothing to do! Yay!
+</pre>
+</div>
 </li>
 <li>我们来看看每个 folder 的意义都是什么
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">File/ Directory</th>
+<th scope="col" class="left">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">app/</td>
+<td class="left">Core application code, including models, views, controllers and helpers</td>
+</tr>
+
+<tr>
+<td class="left">app/assets</td>
+<td class="left">Applications assets such as CSS, JavaScript and images</td>
+</tr>
+
+<tr>
+<td class="left">bin/</td>
+<td class="left">Binary executable files</td>
+</tr>
+
+<tr>
+<td class="left">config/</td>
+<td class="left">Application configuration</td>
+</tr>
+
+<tr>
+<td class="left">db/</td>
+<td class="left">Database files</td>
+</tr>
+
+<tr>
+<td class="left">doc/</td>
+<td class="left">Documentation for the application</td>
+</tr>
+
+<tr>
+<td class="left">lib/</td>
+<td class="left">Library modules</td>
+</tr>
+
+<tr>
+<td class="left">lib/assets</td>
+<td class="left">Library assets such as CSS, JavaScript and images</td>
+</tr>
+
+<tr>
+<td class="left">log/</td>
+<td class="left">application log files</td>
+</tr>
+
+<tr>
+<td class="left">public/</td>
+<td class="left">Data accessible to the public, such as error pages</td>
+</tr>
+
+<tr>
+<td class="left">bin/rails</td>
+<td class="left">A program for generating code, opening console sessions, or starting a local server</td>
+</tr>
+
+<tr>
+<td class="left">test/</td>
+<td class="left">Application tests</td>
+</tr>
+
+<tr>
+<td class="left">tmp/</td>
+<td class="left">Temporary files</td>
+</tr>
+
+<tr>
+<td class="left">vendor</td>
+<td class="left">Third-party code such as plugins and gems</td>
+</tr>
+
+<tr>
+<td class="left">vender/assets</td>
+<td class="left">Third-part assets such as CSS, JS, and images</td>
+</tr>
+
+<tr>
+<td class="left">README.rdoc</td>
+<td class="left">A brief description of the application</td>
+</tr>
+
+<tr>
+<td class="left">Rakefile</td>
+<td class="left">Utility tasks available via the rake command</td>
+</tr>
+
+<tr>
+<td class="left">Gemfile</td>
+<td class="left">Gem requirements for this app</td>
+</tr>
+
+<tr>
+<td class="left">Gemfile.lock</td>
+<td class="left">A list of gems used to ensure that all copies of the app use the same gem versions</td>
+</tr>
+
+<tr>
+<td class="left">config.ru</td>
+<td class="left">A configuration file for Rack middleware</td>
+</tr>
+
+<tr>
+<td class="left">.gitignore</td>
+<td class="left">Patterns for files that shoulde be ignored by Git</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-4" class="outline-4">
+<h4 id="sec-1-2-4">Bundler</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<ul class="org-ul">
+<li>一般创建rails项目之后,下一个步骤就是安装项目Gemfile里面的gem(通过bundle
+install命令).
+</li>
+<li>不过如果你细心的话,会注意到rails new最后会自动调用run bundle install,所以
+我们这里要对Gemfile进行一些更改,然后继续调用bundle来使得更改起效.
+</li>
+<li>更改大部分是使用版本准确的gem(而不再是一个范围内的gem), 下面是我们做的更改
+和原来初始版本的diff
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;"> source 'https://rubygems.org'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">ruby '2.0.0'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">#ruby-gemsets=railstutorial_rails_4_0</span>
+
+<span style="color: #b3b3b3;"> # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'</span>
+<span style="color: #b3b3b3;"> gem 'rails', '4.0.8'</span>
+
+<span style="color: #b3b3b3;"> # Use sqlite3 as the database for Active Record</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">gem 'sqlite3'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">group :development do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  gem 'sqlite3', '1.3.8'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">end</span>
+
+<span style="color: #b3b3b3;"> # Use SCSS for stylesheets</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">gem 'sass-rails', '~&gt; 4.0.2'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">gem 'sass-rails', '4.0.1'</span>
+
+<span style="color: #b3b3b3;"> # Use Uglifier as compressor for JavaScript assets</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">gem 'uglifier', '&gt;= 1.3.0'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">gem 'uglifier', '2.1.1'</span>
+
+<span style="color: #b3b3b3;"> # Use CoffeeScript for .js.coffee assets and views</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">gem 'coffee-rails', '~&gt; 4.0.0'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">gem 'coffee-rails', '4.0.1'</span>
+
+<span style="color: #b3b3b3;"> # See https://github.com/sstephenson/execjs#readme for more supported runtimes</span>
+<span style="color: #b3b3b3;"> # gem 'therubyracer', platforms: :ruby</span>
+
+<span style="color: #b3b3b3;"> # Use jquery as the JavaScript library</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">gem 'jquery-rails'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">gem 'jquery-rails', '3.0.4'</span>
+
+<span style="color: #b3b3b3;"> # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">gem 'turbolinks'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">gem 'turbolinks', '1.1.1'</span>
+
+<span style="color: #b3b3b3;"> # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">gem 'jbuilder', '~&gt; 1.2'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">gem 'jbuilder', '1.0.2'</span>
+
+<span style="color: #b3b3b3;"> group :doc do</span>
+<span style="color: #b3b3b3;">   # bundle exec rake doc:rails generates the API under doc/api.</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">  gem 'sdoc', require: false</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  gem 'sdoc', '0.3.20', require: false</span>
+<span style="color: #b3b3b3;"> end</span>
+
+<span style="color: #b3b3b3;"> # Use ActiveModel has_secure_password</span>
+</pre>
+</div>
+</li>
+<li>开头的两行主要是确定ruby和gemset版本, 如果使用RVM的话,它会来使用的
+<div class="org-src-container">
+
+<pre class="src src-ruby">ruby <span style="color: #5A7644;">'2.0.0'</span>
+<span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">ruby-gemset=railstutorial_rails_4_0</span>
+</pre>
+</div>
+</li>
+<li>我们看看diff文件,就会发现很多种Gemfile定义模糊gem文件版本的方法
+<ul class="org-ul">
+<li>安装大于某个版本的最新版本:比如下面的例子中,只要uglifier最新版本比1.3.0
+大,那么就会安装.比如7.2
+<div class="org-src-container">
+
+<pre class="src src-ruby">gem <span style="color: #5A7644;">'uglifier'</span>, <span style="color: #5A7644;">'&gt;= 1.3.0'</span>
+</pre>
+</div>
+</li>
+<li>安装某个区间的最新版本:比如下面的例子中, 安装和所列版本的major和minor版
+本一样的,最新版本,比如4.0.11
+<div class="org-src-container">
+
+<pre class="src src-ruby">gem <span style="color: #5A7644;">'coffee-rails'</span>, <span style="color: #5A7644;">'~&gt; 4.0.0'</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>这一切之后,我们就可以bundle install啦!, 在之前可以先bundle update一下, bundle
+update其实是进化版本的的bundle install: bundle update比bundle install多做
+了两步:
+<ol class="org-ol">
+<li>如果Gemfile里面的gem没有设置版本,那么就要把它更新到最新
+</li>
+
+<li>如果Gemfile里面的gem设置了模糊版本,比如~&gt;, 那么要更新到其"认可的"最新
+</li>
+</ol>
+</li>
+<li>也就是说bundle update更新Gemfile.lock里面版本的可能性很大,因为很可能有gem
+会更新,下面的结果印证了我们的判断.
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/first_app$ bundle update
+Fetching source index from https://rubygems.org/
+Resolving dependencies........................
+Using rake 10.3.2
+Using i18n 0.6.11
+Using minitest 4.7.5
+Using multi_json 1.10.1
+Using thread_safe 0.3.4
+Using tzinfo 0.3.40
+Using activesupport 4.0.8
+Using builder 3.1.4
+Using erubis 2.7.0
+Using rack 1.5.2
+Using rack-test 0.6.2
+Using actionpack 4.0.8
+Using mime-types 1.25.1
+Using polyglot 0.3.5
+Using treetop 1.4.15
+Using mail 2.5.4
+Using actionmailer 4.0.8
+Using activemodel 4.0.8
+Using activerecord-deprecated_finders 1.0.3
+Using arel 4.0.2
+Using activerecord 4.0.8
+Using bundler 1.6.2
+Using coffee-script-source 1.7.1
+Using execjs 2.2.1
+Using coffee-script 2.3.0
+Using thor 0.19.1
+Using railties 4.0.8
+Using coffee-rails 4.0.1
+Using hike 1.2.3
+Installing jbuilder 1.0.2 (was 1.5.3)
+Installing jquery-rails 3.0.4 (was 3.1.1)
+Using json 1.8.1
+Using tilt 1.4.1
+Using sprockets 2.12.1 (was 2.11.0)
+Installing sprockets-rails 2.0.1 (was 2.1.3)
+Using rails 4.0.8
+Installing rdoc 3.12.2 (was 4.1.1)
+Installing sass 3.3.10 (was 3.2.19)
+Installing sass-rails 4.0.1 (was 4.0.3)
+Installing sdoc 0.3.20 (was 0.4.0)
+Installing sqlite3 1.3.8 (was 1.3.9)
+Installing turbolinks 1.1.1 (was 2.2.2)
+Installing uglifier 2.1.1 (was 2.5.3)
+Your bundle is updated!
+</pre>
+</div>
+</li>
+<li>再更新好Gemfile.lock之后,我们就可以开始build install啦. 从log可见,其实在bundle
+update的时候,都已经安装好了
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/first_app$ bundle install
+Using rake 10.3.2
+Using i18n 0.6.11
+Using minitest 4.7.5
+Using multi_json 1.10.1
+Using thread_safe 0.3.4
+Using tzinfo 0.3.40
+Using activesupport 4.0.8
+Using builder 3.1.4
+Using erubis 2.7.0
+Using rack 1.5.2
+Using rack-test 0.6.2
+Using actionpack 4.0.8
+Using mime-types 1.25.1
+Using polyglot 0.3.5
+Using treetop 1.4.15
+Using mail 2.5.4
+Using actionmailer 4.0.8
+Using activemodel 4.0.8
+Using activerecord-deprecated_finders 1.0.3
+Using arel 4.0.2
+Using activerecord 4.0.8
+Using coffee-script-source 1.7.1
+Using execjs 2.2.1
+Using coffee-script 2.3.0
+Using thor 0.19.1
+Using railties 4.0.8
+Using coffee-rails 4.0.1
+Using hike 1.2.3
+Using jbuilder 1.0.2
+Using jquery-rails 3.0.4
+Using json 1.8.1
+Using bundler 1.6.2
+Using tilt 1.4.1
+Using sprockets 2.12.1
+Using sprockets-rails 2.0.1
+Using rails 4.0.8
+Using rdoc 3.12.2
+Using sass 3.3.10
+Using sass-rails 4.0.1
+Using sdoc 0.3.20
+Using sqlite3 1.3.8
+Using turbolinks 1.1.1
+Using uglifier 2.1.1
+Your bundle is complete!
+Use <span style="color: #fa8072;">`bundle show [gemname]`</span> to see where a bundled gem is installed.
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-5" class="outline-4">
+<h4 id="sec-1-2-5">rails server</h4>
+<div class="outline-text-4" id="text-1-2-5">
+<ul class="org-ul">
+<li>准备都做好之后,就可以开始启动rails server啦! 当然在这之前可能会报一些缺少
+javascript runtime的错误apt-get install nodejs就可以了
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/first_app$ rails server
+/home/hfeng/.rvm/gems/ruby-2.0.0-p481@railstutorial_rails_4_0/gems/execjs-2.2.1/lib/execjs/runtimes.rb:51:in <span style="color: #fa8072;">`autodetect': Could not find a JavaScript runtime. See https://github.com/sstephenson/execjs for a list of available runtimes. (ExecJS::RuntimeUnavailable)</span>
+<span style="color: #fa8072;">    from /home/hfeng/.rvm/gems/ruby-2.0.0-p481@railstutorial_rails_4_0/gems/execjs-2.2.1/lib/execjs.rb:5:in `</span>&lt;module:ExecJS&gt;<span style="color: #5A7644;">'</span>
+<span style="color: #5A7644;">    from /home/hfeng/.rvm/gems/ruby-2.0.0-p481@railstutorial_rails_4_0/gems/execjs-2.2.1/lib/execjs.rb:4:in `&lt;top (required)&gt;'</span>
+    from /home/hfeng/.rvm/gems/ruby-2.0.0-p481@railstutorial_rails_4_0/gems/uglifier-2.1.1/lib/uglifier.rb:3:in <span style="color: #fa8072;">`require'</span>
+<span style="color: #fa8072;">    from /home/hfeng/.rvm/gems/ruby-2.0.0-p481@railstutorial_rails_4_0/gems/uglifier-2.1.1/lib/uglifier.rb:3:in `</span>&lt;top (required)&gt;<span style="color: #5A7644;">'</span>
+<span style="color: #5A7644;">    from /home/hfeng/.rvm/gems/ruby-2.0.0-p481@global/gems/bundler-1.6.2/lib/bundler/runtime.rb:76:in `require'</span>
+    from /home/hfeng/.rvm/gems/ruby-2.0.0-p481@global/gems/bundler-1.6.2/lib/bundler/runtime.rb:76:in <span style="color: #fa8072;">`block (2 levels) in require'</span>
+<span style="color: #fa8072;">    from /home/hfeng/.rvm/gems/ruby-2.0.0-p481@global/gems/bundler-1.6.2/lib/bundler/runtime.rb:72:in `</span>each<span style="color: #5A7644;">'</span>
+<span style="color: #5A7644;">    from /home/hfeng/.rvm/gems/ruby-2.0.0-p481@global/gems/bundler-1.6.2/lib/bundler/runtime.rb:72:in `block in require'</span>
+    from /home/hfeng/.rvm/gems/ruby-2.0.0-p481@global/gems/bundler-1.6.2/lib/bundler/runtime.rb:61:in <span style="color: #fa8072;">`each'</span>
+<span style="color: #fa8072;">    from /home/hfeng/.rvm/gems/ruby-2.0.0-p481@global/gems/bundler-1.6.2/lib/bundler/runtime.rb:61:in `</span>require<span style="color: #5A7644;">'</span>
+<span style="color: #5A7644;">    from /home/hfeng/.rvm/gems/ruby-2.0.0-p481@global/gems/bundler-1.6.2/lib/bundler.rb:132:in `require'</span>
+    from /home/hfeng/rails_projects/first_app/config/application.rb:7:in <span style="color: #fa8072;">`&lt;top (required)&gt;'</span>
+<span style="color: #fa8072;">    from /home/hfeng/.rvm/gems/ruby-2.0.0-p481@railstutorial_rails_4_0/gems/railties-4.0.8/lib/rails/commands.rb:74:in `</span>require<span style="color: #5A7644;">'</span>
+<span style="color: #5A7644;">    from /home/hfeng/.rvm/gems/ruby-2.0.0-p481@railstutorial_rails_4_0/gems/railties-4.0.8/lib/rails/commands.rb:74:in `block in &lt;top (required)&gt;'</span>
+    from /home/hfeng/.rvm/gems/ruby-2.0.0-p481@railstutorial_rails_4_0/gems/railties-4.0.8/lib/rails/commands.rb:71:in <span style="color: #fa8072;">`tap'</span>
+<span style="color: #fa8072;">    from /home/hfeng/.rvm/gems/ruby-2.0.0-p481@railstutorial_rails_4_0/gems/railties-4.0.8/lib/rails/commands.rb:71:in `</span>&lt;top (required)&gt;<span style="color: #5A7644;">'</span>
+<span style="color: #5A7644;">    from bin/rails:4:in `require'</span>
+    from bin/rails:4:in <span style="color: #fa8072;">`&lt;main&gt;'</span>
+<span style="color: #fa8072;">hfeng@ubuntu1204:~/rails_projects/first_app$ sudo apt-get install nodejs</span>
+<span style="color: #fa8072;">[sudo] password for hfeng:</span>
+<span style="color: #fa8072;">Reading package lists... Done</span>
+<span style="color: #fa8072;">Building dependency tree</span>
+<span style="color: #fa8072;">Reading state information... Done</span>
+<span style="color: #fa8072;">The following extra packages will be installed:</span>
+<span style="color: #fa8072;">  libc-ares2 libev4 libicu48 libv8-3.7.12.22</span>
+<span style="color: #fa8072;">The following NEW packages will be installed:</span>
+<span style="color: #fa8072;">  libc-ares2 libev4 libicu48 libv8-3.7.12.22 nodejs</span>
+<span style="color: #fa8072;">0 upgraded, 5 newly installed, 0 to remove and 56 not upgraded.</span>
+<span style="color: #fa8072;">Need to get 10.2 MB of archives.</span>
+<span style="color: #fa8072;">After this operation, 28.6 MB of additional disk space will be used.</span>
+<span style="color: #fa8072;">Do you want to continue [Y/n]? y</span>
+<span style="color: #fa8072;">Get:1 http://us.archive.ubuntu.com/ubuntu/ precise/main libc-ares2 amd64 1.7.5-1 [36.6 kB]</span>
+<span style="color: #fa8072;">Get:2 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libicu48 amd64 4.8.1.1-3ubuntu0.1 [8105 kB]</span>
+<span style="color: #fa8072;">Get:3 http://us.archive.ubuntu.com/ubuntu/ precise/universe libv8-3.7.12.22 amd64 3.7.12.22-3 [1369 kB]</span>
+<span style="color: #fa8072;">Get:4 http://us.archive.ubuntu.com/ubuntu/ precise/universe libev4 amd64 1:4.11-1 [29.0 kB]</span>
+<span style="color: #fa8072;">Get:5 http://us.archive.ubuntu.com/ubuntu/ precise/universe nodejs amd64 0.6.12~dfsg1-1ubuntu1 [664 kB]</span>
+<span style="color: #fa8072;">Fetched 10.2 MB in 1min 26s (119 kB/s)</span>
+<span style="color: #fa8072;">debconf: unable to initialize frontend: Dialog</span>
+<span style="color: #fa8072;">debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)</span>
+<span style="color: #fa8072;">debconf: falling back to frontend: Readline</span>
+<span style="color: #fa8072;">Selecting previously unselected package libc-ares2.</span>
+<span style="color: #fa8072;">(Reading database ... 57743 files and directories currently installed.)</span>
+<span style="color: #fa8072;">Unpacking libc-ares2 (from .../libc-ares2_1.7.5-1_amd64.deb) ...</span>
+<span style="color: #fa8072;">Selecting previously unselected package libicu48.</span>
+<span style="color: #fa8072;">Unpacking libicu48 (from .../libicu48_4.8.1.1-3ubuntu0.1_amd64.deb) ...</span>
+<span style="color: #fa8072;">Selecting previously unselected package libv8-3.7.12.22.</span>
+<span style="color: #fa8072;">Unpacking libv8-3.7.12.22 (from .../libv8-3.7.12.22_3.7.12.22-3_amd64.deb) ...</span>
+<span style="color: #fa8072;">Selecting previously unselected package libev4.</span>
+<span style="color: #fa8072;">Unpacking libev4 (from .../libev4_1%3a4.11-1_amd64.deb) ...</span>
+<span style="color: #fa8072;">Selecting previously unselected package nodejs.</span>
+<span style="color: #fa8072;">Unpacking nodejs (from .../nodejs_0.6.12~dfsg1-1ubuntu1_amd64.deb) ...</span>
+<span style="color: #fa8072;">Processing triggers for man-db ...</span>
+<span style="color: #fa8072;">debconf: unable to initialize frontend: Dialog</span>
+<span style="color: #fa8072;">debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)</span>
+<span style="color: #fa8072;">debconf: falling back to frontend: Readline</span>
+<span style="color: #fa8072;">Setting up libc-ares2 (1.7.5-1) ...</span>
+<span style="color: #fa8072;">Setting up libicu48 (4.8.1.1-3ubuntu0.1) ...</span>
+<span style="color: #fa8072;">Setting up libv8-3.7.12.22 (3.7.12.22-3) ...</span>
+<span style="color: #fa8072;">Setting up libev4 (1:4.11-1) ...</span>
+<span style="color: #fa8072;">Setting up nodejs (0.6.12~dfsg1-1ubuntu1) ...</span>
+<span style="color: #fa8072;">update-alternatives: using /usr/bin/node to provide /usr/bin/js (js) in auto mode.</span>
+<span style="color: #fa8072;">Processing triggers for libc-bin ...</span>
+<span style="color: #fa8072;">ldconfig deferred processing now taking place</span>
+<span style="color: #fa8072;">hfeng@ubuntu1204:~/rails_projects/first_app$ rails server</span>
+<span style="color: #fa8072;">=&gt; Booting WEBrick</span>
+<span style="color: #fa8072;">=&gt; Rails 4.0.8 application starting in development on http://0.0.0.0:3000</span>
+<span style="color: #fa8072;">=&gt; Run `</span>rails server -h<span style="color: #fa8072;">` for more startup options</span>
+<span style="color: #fa8072;">=&gt; Ctrl-C to shutdown server</span>
+<span style="color: #fa8072;">[2014-07-06 02:32:27] INFO  WEBrick 1.3.1</span>
+<span style="color: #fa8072;">[2014-07-06 02:32:27] INFO  ruby 2.0.0 (2014-05-08) [x86_64-linux]</span>
+<span style="color: #fa8072;">[2014-07-06 02:32:27] INFO  WEBrick::HTTPServer#start: pid=19734 port=3000</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-6" class="outline-4">
+<h4 id="sec-1-2-6">Model-view-controller (MVC)</h4>
+<div class="outline-text-4" id="text-1-2-6">
+<ul class="org-ul">
+<li>rails是一个完全的mvc框架:
+<ol class="org-ol">
+<li>浏览器发送一个requst给web server(不一定是rails server, rails server只是
+测试和开发时候用到的, 真正部署的时候可能会使用其他的server)
+</li>
+<li>web server收到request以后,转给Rails controller
+</li>
+<li>少部分情况下Rails controller会直接返回一个HTML(view) 页面给浏览器
+</li>
+<li>多数情况下,Rails controller会和model交流,互通有无. 在rails里面, model就
+是Ruby对象,负责存储数据(会利用数据库进行存储). 在和model交互完数据后,把
+得到的数据转换成html返回给浏览器.
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Version control with Git</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>从略.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Deploying</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>使用heroku来进行部署, heroku使用的是postgre数据库,所以要对Gem进行如下修改:
+增加pg相关的gem
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;"> # Use debugger</span>
+<span style="color: #b3b3b3;"> # gem 'debugger', group: [:development, :test]</span>
+<span style="background-color: #335533;">+</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">group :production do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  gem 'pg', '0.15.1'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  gem 'rails_12factor', '0.0.2'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">end</span>
+</pre>
+</div>
+</li>
+<li>然后我们要调用bundle install (不使用bundle update的原因是,我们没有更新版本,
+只是更新了pg, 贸然的使用bundle update,很可能会引入一些新的版本,导致应用崩溃)
+这次还使用了&#x2013;with production, 其作用"不要"安装任何production的gem,在这个
+例子里面就是pg和rails_12factor
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/first_app$ bundle install --without production
+Fetching source index from https://rubygems.org/
+Resolving dependencies.........................
+Using rake 10.3.2
+Using i18n 0.6.11
+Using minitest 4.7.5
+Using multi_json 1.10.1
+Using thread_safe 0.3.4
+Using tzinfo 0.3.40
+Using activesupport 4.0.8
+Using builder 3.1.4
+Using erubis 2.7.0
+Using rack 1.5.2
+Using rack-test 0.6.2
+Using actionpack 4.0.8
+Using mime-types 1.25.1
+Using polyglot 0.3.5
+Using treetop 1.4.15
+Using mail 2.5.4
+Using actionmailer 4.0.8
+Using activemodel 4.0.8
+Using activerecord-deprecated_finders 1.0.3
+Using arel 4.0.2
+Using activerecord 4.0.8
+Using bundler 1.6.2
+Using coffee-script-source 1.7.1
+Using execjs 2.2.1
+Using coffee-script 2.3.0
+Using thor 0.19.1
+Using railties 4.0.8
+Using coffee-rails 4.0.1
+Using hike 1.2.3
+Using jbuilder 1.0.2
+Using jquery-rails 3.0.4
+Using json 1.8.1
+Using tilt 1.4.1
+Using sprockets 2.12.1
+Using sprockets-rails 2.0.1
+Using rails 4.0.8
+Using rdoc 3.12.2
+Using sass 3.3.10
+Using sass-rails 4.0.1
+Using sdoc 0.3.20
+Using sqlite3 1.3.8
+Using turbolinks 1.1.1
+Using uglifier 2.1.1
+Your bundle is complete!
+Gems<span style="color: #AE5825;"> in</span> the group production were not installed.
+Use <span style="color: #fa8072;">`bundle show [gemname]`</span> to see where a bundled gem is installed.
+</pre>
+</div>
+</li>
+<li>虽然我们没有更改gem版本,但是我们增加了production的内容,所以Gemfile.lock还是
+会改变,我们要把这个改变加入到版本管理系统里面.
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/Gemfile.lock</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/Gemfile.lock</span>
+<span style="background-color: #737373;">@@ -50,6 +50,7 @@</span><span style="background-color: #737373;"> GEM</span>
+<span style="color: #b3b3b3;">     mime-types (1.25.1)</span>
+<span style="color: #b3b3b3;">     minitest (4.7.5)</span>
+<span style="color: #b3b3b3;">     multi_json (1.10.1)</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    pg (0.15.1)</span>
+<span style="color: #b3b3b3;">     polyglot (0.3.5)</span>
+<span style="color: #b3b3b3;">     rack (1.5.2)</span>
+<span style="color: #b3b3b3;">     rack-test (0.6.2)</span>
+<span style="background-color: #737373;">@@ -62,6 +63,11 @@</span><span style="background-color: #737373;"> GEM</span>
+<span style="color: #b3b3b3;">       bundler (&gt;= 1.3.0, &lt; 2.0)</span>
+<span style="color: #b3b3b3;">       railties (= 4.0.8)</span>
+<span style="color: #b3b3b3;">       sprockets-rails (~&gt; 2.0)</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    rails_12factor (0.0.2)</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      rails_serve_static_assets</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      rails_stdout_logging</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    rails_serve_static_assets (0.0.2)</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    rails_stdout_logging (0.0.3)</span>
+<span style="color: #b3b3b3;">     railties (4.0.8)</span>
+<span style="color: #b3b3b3;">       actionpack (= 4.0.8)</span>
+<span style="color: #b3b3b3;">       activesupport (= 4.0.8)</span>
+<span style="background-color: #737373;">@@ -108,7 +114,9 @@</span><span style="background-color: #737373;"> DEPENDENCIES</span>
+<span style="color: #b3b3b3;">   coffee-rails (= 4.0.1)</span>
+<span style="color: #b3b3b3;">   jbuilder (= 1.0.2)</span>
+<span style="color: #b3b3b3;">   jquery-rails (= 3.0.4)</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  pg (= 0.15.1)</span>
+<span style="color: #b3b3b3;">   rails (= 4.0.8)</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  rails_12factor (= 0.0.2)</span>
+<span style="color: #b3b3b3;">   sass-rails (= 4.0.1)</span>
+<span style="color: #b3b3b3;">   sdoc (= 0.3.20)</span>
+<span style="color: #b3b3b3;">   sqlite3 (= 1.3.8)</span>
+</pre>
+</div>
+</li>
+<li>然后是要安装heroku公司的cli工具, ubuntu上的安装过程如下
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/first_app$ wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+This script requires superuser access to install apt packages.
+You will be prompted for your password by sudo.
+[sudo] password for hfeng:
+--2014-07-06 03:26:49--  https://toolbelt.heroku.com/apt/release.key
+Resolving toolbelt.heroku.com (toolbelt.heroku.com)... 23.23.227.87, 107.22.186.187, 50.19.233.212
+Connecting to toolbelt.heroku.com (toolbelt.heroku.com)|23.23.227.87|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1737 (1.7K) [application/octet-stream]
+Saving to: <span style="color: #fa8072;">`STDOUT'</span>
+
+<span style="color: #fa8072;">100%[======================================&gt;] 1,737       --.-K/s   in 0.002s</span>
+
+<span style="color: #fa8072;">2014-07-06 03:26:51 (858 KB/s) - written to stdout [1737/1737]</span>
+
+<span style="color: #fa8072;">OK</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise Release.gpg</span>
+<span style="color: #fa8072;">Get:1 http://us.archive.ubuntu.com precise-updates Release.gpg [198 B]</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports Release.gpg</span>
+<span style="color: #fa8072;">Get:2 http://security.ubuntu.com precise-security Release.gpg [198 B]</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise Release</span>
+<span style="color: #fa8072;">Get:3 http://us.archive.ubuntu.com precise-updates Release [49.6 kB]</span>
+<span style="color: #fa8072;">Get:4 http://security.ubuntu.com precise-security Release [49.6 kB]</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports Release</span>
+<span style="color: #fa8072;">Get:5 http://toolbelt.heroku.com ./ Release.gpg [490 B]</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/main Sources</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/restricted Sources</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/universe Sources</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/multiverse Sources</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/main amd64 Packages</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/restricted amd64 Packages</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/universe amd64 Packages</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/multiverse amd64 Packages</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/main i386 Packages</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/restricted i386 Packages</span>
+<span style="color: #fa8072;">Get:6 http://security.ubuntu.com precise-security/main Sources [106 kB]</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/universe i386 Packages</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/multiverse i386 Packages</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/main TranslationIndex</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/multiverse TranslationIndex</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/restricted TranslationIndex</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/universe TranslationIndex</span>
+<span style="color: #fa8072;">Get:7 http://us.archive.ubuntu.com precise-updates/main Sources [475 kB]</span>
+<span style="color: #fa8072;">Get:8 http://security.ubuntu.com precise-security/restricted Sources [2494 B]</span>
+<span style="color: #fa8072;">Get:9 http://security.ubuntu.com precise-security/universe Sources [30.7 kB]</span>
+<span style="color: #fa8072;">Get:10 http://toolbelt.heroku.com ./ Release [1609 B]</span>
+<span style="color: #fa8072;">Get:11 http://security.ubuntu.com precise-security/multiverse Sources [1795 B]</span>
+<span style="color: #fa8072;">Get:12 http://security.ubuntu.com precise-security/main amd64 Packages [412 kB]</span>
+<span style="color: #fa8072;">Get:13 http://us.archive.ubuntu.com precise-updates/restricted Sources [8056 B]</span>
+<span style="color: #fa8072;">Get:14 http://us.archive.ubuntu.com precise-updates/universe Sources [108 kB]</span>
+<span style="color: #fa8072;">Get:15 http://toolbelt.heroku.com ./ Packages [1064 B]</span>
+<span style="color: #fa8072;">Get:16 http://us.archive.ubuntu.com precise-updates/multiverse Sources [8905 B]</span>
+<span style="color: #fa8072;">Get:17 http://security.ubuntu.com precise-security/restricted amd64 Packages [4627 B]</span>
+<span style="color: #fa8072;">Get:18 http://us.archive.ubuntu.com precise-updates/main amd64 Packages [821 kB]</span>
+<span style="color: #fa8072;">Get:19 http://security.ubuntu.com precise-security/universe amd64 Packages [94.1 kB]</span>
+<span style="color: #fa8072;">Get:20 http://security.ubuntu.com precise-security/multiverse amd64 Packages [2442 B]</span>
+<span style="color: #fa8072;">Get:21 http://security.ubuntu.com precise-security/main i386 Packages [440 kB]</span>
+<span style="color: #fa8072;">Get:22 http://security.ubuntu.com precise-security/restricted i386 Packages [4620 B]</span>
+<span style="color: #fa8072;">Get:23 http://security.ubuntu.com precise-security/universe i386 Packages [99.7 kB]</span>
+<span style="color: #fa8072;">Get:24 http://security.ubuntu.com precise-security/multiverse i386 Packages [2650 B]</span>
+<span style="color: #fa8072;">Hit http://security.ubuntu.com precise-security/main TranslationIndex</span>
+<span style="color: #fa8072;">Hit http://security.ubuntu.com precise-security/multiverse TranslationIndex</span>
+<span style="color: #fa8072;">Hit http://security.ubuntu.com precise-security/restricted TranslationIndex</span>
+<span style="color: #fa8072;">Hit http://security.ubuntu.com precise-security/universe TranslationIndex</span>
+<span style="color: #fa8072;">Get:25 http://us.archive.ubuntu.com precise-updates/restricted amd64 Packages [13.7 kB]</span>
+<span style="color: #fa8072;">Get:26 http://us.archive.ubuntu.com precise-updates/universe amd64 Packages [244 kB]</span>
+<span style="color: #fa8072;">Hit http://security.ubuntu.com precise-security/main Translation-en</span>
+<span style="color: #fa8072;">Hit http://security.ubuntu.com precise-security/multiverse Translation-en</span>
+<span style="color: #fa8072;">Hit http://security.ubuntu.com precise-security/restricted Translation-en</span>
+<span style="color: #fa8072;">Get:27 http://us.archive.ubuntu.com precise-updates/multiverse amd64 Packages [15.3 kB]</span>
+<span style="color: #fa8072;">Get:28 http://us.archive.ubuntu.com precise-updates/main i386 Packages [853 kB]</span>
+<span style="color: #fa8072;">Hit http://security.ubuntu.com precise-security/universe Translation-en</span>
+<span style="color: #fa8072;">Get:29 http://us.archive.ubuntu.com precise-updates/restricted i386 Packages [13.7 kB]</span>
+<span style="color: #fa8072;">Get:30 http://us.archive.ubuntu.com precise-updates/universe i386 Packages [251 kB]</span>
+<span style="color: #fa8072;">Get:31 http://us.archive.ubuntu.com precise-updates/multiverse i386 Packages [15.5 kB]</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-updates/main TranslationIndex</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-updates/multiverse TranslationIndex</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-updates/restricted TranslationIndex</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-updates/universe TranslationIndex</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/main Sources</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/restricted Sources</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/universe Sources</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/multiverse Sources</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/main amd64 Packages</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/restricted amd64 Packages</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/universe amd64 Packages</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/multiverse amd64 Packages</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/main i386 Packages</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/restricted i386 Packages</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/universe i386 Packages</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/multiverse i386 Packages</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/main TranslationIndex</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/multiverse TranslationIndex</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/restricted TranslationIndex</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/universe TranslationIndex</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/main Translation-en</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/multiverse Translation-en</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/restricted Translation-en</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise/universe Translation-en</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-updates/main Translation-en</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-updates/multiverse Translation-en</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-updates/restricted Translation-en</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-updates/universe Translation-en</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/main Translation-en</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/multiverse Translation-en</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/restricted Translation-en</span>
+<span style="color: #fa8072;">Hit http://us.archive.ubuntu.com precise-backports/universe Translation-en</span>
+<span style="color: #fa8072;">Ign http://toolbelt.heroku.com ./ Translation-en</span>
+<span style="color: #fa8072;">Fetched 4131 kB in 17s (238 kB/s)</span>
+<span style="color: #fa8072;">Reading package lists... Done</span>
+<span style="color: #fa8072;">Reading package lists... Done</span>
+<span style="color: #fa8072;">Building dependency tree</span>
+<span style="color: #fa8072;">Reading state information... Done</span>
+<span style="color: #fa8072;">The following extra packages will be installed:</span>
+<span style="color: #fa8072;">  foreman heroku libruby1.9.1 ruby1.9.1</span>
+<span style="color: #fa8072;">Suggested packages:</span>
+<span style="color: #fa8072;">  ruby1.9.1-examples ri1.9.1 graphviz ruby1.9.1-dev</span>
+<span style="color: #fa8072;">The following NEW packages will be installed:</span>
+<span style="color: #fa8072;">  foreman heroku heroku-toolbelt libruby1.9.1 ruby1.9.1</span>
+<span style="color: #fa8072;">0 upgraded, 5 newly installed, 0 to remove and 56 not upgraded.</span>
+<span style="color: #fa8072;">Need to get 4971 kB of archives.</span>
+<span style="color: #fa8072;">After this operation, 12.6 MB of additional disk space will be used.</span>
+<span style="color: #fa8072;">Get:1 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main libruby1.9.1 amd64 1.9.3.0-1ubuntu2.8 [4104 kB]</span>
+<span style="color: #fa8072;">Get:2 http://toolbelt.heroku.com/ubuntu/ ./ foreman 0.74.0 [113 kB]</span>
+<span style="color: #fa8072;">Get:3 http://toolbelt.heroku.com/ubuntu/ ./ heroku 3.9.1 [716 kB]</span>
+<span style="color: #fa8072;">Get:4 http://toolbelt.heroku.com/ubuntu/ ./ heroku-toolbelt 3.9.1 [614 B]</span>
+<span style="color: #fa8072;">Get:5 http://us.archive.ubuntu.com/ubuntu/ precise-updates/main ruby1.9.1 amd64 1.9.3.0-1ubuntu2.8 [37.1 kB]</span>
+<span style="color: #fa8072;">Fetched 4971 kB in 28s (174 kB/s)</span>
+<span style="color: #fa8072;">debconf: unable to initialize frontend: Dialog</span>
+<span style="color: #fa8072;">debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)</span>
+<span style="color: #fa8072;">debconf: falling back to frontend: Readline</span>
+<span style="color: #fa8072;">Selecting previously unselected package libruby1.9.1.</span>
+<span style="color: #fa8072;">(Reading database ... 57830 files and directories currently installed.)</span>
+<span style="color: #fa8072;">Unpacking libruby1.9.1 (from .../libruby1.9.1_1.9.3.0-1ubuntu2.8_amd64.deb) ...</span>
+<span style="color: #fa8072;">Selecting previously unselected package ruby1.9.1.</span>
+<span style="color: #fa8072;">Unpacking ruby1.9.1 (from .../ruby1.9.1_1.9.3.0-1ubuntu2.8_amd64.deb) ...</span>
+<span style="color: #fa8072;">Selecting previously unselected package foreman.</span>
+<span style="color: #fa8072;">Unpacking foreman (from .../foreman_0.74.0_all.deb) ...</span>
+<span style="color: #fa8072;">Selecting previously unselected package heroku.</span>
+<span style="color: #fa8072;">Unpacking heroku (from .../archives/heroku_3.9.1_all.deb) ...</span>
+<span style="color: #fa8072;">Selecting previously unselected package heroku-toolbelt.</span>
+<span style="color: #fa8072;">Unpacking heroku-toolbelt (from .../heroku-toolbelt_3.9.1_all.deb) ...</span>
+<span style="color: #fa8072;">Processing triggers for man-db ...</span>
+<span style="color: #fa8072;">debconf: unable to initialize frontend: Dialog</span>
+<span style="color: #fa8072;">debconf: (Dialog frontend will not work on a dumb terminal, an emacs shell buffer, or without a controlling terminal.)</span>
+<span style="color: #fa8072;">debconf: falling back to frontend: Readline</span>
+<span style="color: #fa8072;">Setting up libruby1.9.1 (1.9.3.0-1ubuntu2.8) ...</span>
+<span style="color: #fa8072;">Setting up ruby1.9.1 (1.9.3.0-1ubuntu2.8) ...</span>
+<span style="color: #fa8072;">update-alternatives: using /usr/bin/gem1.9.1 to provide /usr/bin/gem (gem) in auto mode.</span>
+<span style="color: #fa8072;">update-alternatives: using /usr/bin/ruby1.9.1 to provide /usr/bin/ruby (ruby) in auto mode.</span>
+<span style="color: #fa8072;">Setting up foreman (0.74.0) ...</span>
+<span style="color: #fa8072;">Setting up heroku (3.9.1) ...</span>
+<span style="color: #fa8072;">Setting up heroku-toolbelt (3.9.1) ...</span>
+<span style="color: #fa8072;">Processing triggers for libc-bin ...</span>
+<span style="color: #fa8072;">ldconfig deferred processing now taking place</span>
+<span style="color: #fa8072;">hfeng@ubuntu1204:~/rails_projects/first_app$ which heroku</span>
+<span style="color: #fa8072;">/usr/bin/heroku</span>
+<span style="color: #fa8072;">hfeng@ubuntu1204:~/rails_projects/first_app$ heroku --version</span>
+<span style="color: #fa8072;">heroku-toolbelt/3.9.1 (x86_64-linux) ruby/1.9.3</span>
+</pre>
+</div>
+</li>
+<li>然后就可以部署啦!
+<ul class="org-ul">
+<li>首先,要登录
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/first_app$ heroku login
+Enter your Heroku credentials.
+Email: harrifeng@gmail.com
+<span style="color: #C6B032;">Password</span> (typing will be hidden):
+
+Authentication successful.
+</pre>
+</div>
+</li>
+<li>其次,是部署
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/first_app$ pwd
+<span style="color: #86453A;">pwd</span>
+/home/hfeng/rails_projects/first_app
+hfeng@ubuntu1204:~/rails_projects/first_app$ git branch
+git branch
+  heroku
+* master
+hfeng@ubuntu1204:~/rails_projects/first_app$ heroku create
+heroku create
+Creating peaceful-falls-3143... done, stack is cedar
+http://peaceful-falls-3143.herokuapp.com/ | git@heroku.com:peaceful-falls-3143.git
+Git remote heroku added
+hfeng@ubuntu1204:~/rails_projects/first_app$ git remote -v
+git remote -v
+heroku  git@heroku.com:peaceful-falls-3143.git (fetch)
+heroku  git@heroku.com:peaceful-falls-3143.git (push)
+hfeng@ubuntu1204:~/rails_projects/first_app$ git push heroku master
+git push heroku master
+Warning: Permanently added the RSA host key for IP address <span style="color: #5A7644;">'50.19.85.132'</span> to the list of known hosts.
+Initializing repository, done.
+Counting objects: 72, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (61/61), done.
+Writing objects: 100% (72/72), 15.69 KiB, done.
+Total 72 (delta 10), reused 0 (delta 0)
+
+-----&gt; Ruby app detected
+-----&gt; Compiling Ruby/Rails
+-----&gt; Using Ruby version: ruby-2.0.0
+-----&gt; Installing dependencies using 1.6.3
+       Running: bundle install --without development:test --path vendor/bundle --binstubs vendor/bundle/bin -j4 --deployment
+       Fetching gem metadata from https://rubygems.org/..........
+       Fetching additional metadata from https://rubygems.org/..
+       Installing minitest 4.7.5
+       Installing i18n 0.6.11
+       Installing multi_json 1.10.1
+       Installing rake 10.3.2
+       Installing thread_safe 0.3.4
+       Installing builder 3.1.4
+       Installing erubis 2.7.0
+       Installing rack 1.5.2
+       Installing tzinfo 0.3.40
+       Installing mime-types 1.25.1
+       Installing activerecord-deprecated_finders 1.0.3
+       Installing polyglot 0.3.5
+       Installing execjs 2.2.1
+       Installing arel 4.0.2
+       Installing coffee-script-source 1.7.1
+       Installing thor 0.19.1
+       Installing hike 1.2.3
+       Using bundler 1.6.3
+       Installing tilt 1.4.1
+       Installing rails_serve_static_assets 0.0.2
+       Installing rails_stdout_logging 0.0.3
+       Installing json 1.8.1
+       Installing rack-test 0.6.2
+       Installing activesupport 4.0.8
+       Installing sass 3.3.10
+       Installing uglifier 2.1.1
+       Installing treetop 1.4.15
+       Installing coffee-script 2.3.0
+       Installing rails_12factor 0.0.2
+       Installing sprockets 2.12.1
+       Installing rdoc 3.12.2
+       Installing actionpack 4.0.8
+       Installing jbuilder 1.0.2
+       Installing activemodel 4.0.8
+       Installing sdoc 0.3.20
+       Installing mail 2.5.4
+       Installing railties 4.0.8
+       Installing sprockets-rails 2.0.1
+       Installing actionmailer 4.0.8
+       Installing coffee-rails 4.0.1
+       Installing activerecord 4.0.8
+       Installing jquery-rails 3.0.4
+       Installing sass-rails 4.0.1
+       Installing turbolinks 1.1.1
+       Installing pg 0.15.1
+       Installing rails 4.0.8
+       Your bundle is complete!
+       Gems<span style="color: #AE5825;"> in</span> the groups development and test were not installed.
+       It was installed into ./vendor/bundle
+       Post-install message from rdoc:
+       Depending on your version of ruby, you may need to install ruby rdoc/ri data:
+       &lt;= 1.8.6 : unsupported
+       = 1.8.7 : gem install rdoc-data; rdoc-data --install
+       = 1.9.1 : gem install rdoc-data; rdoc-data --install
+       &gt;= 1.9.2 : nothing to do! Yay!
+       Bundle completed (23.17s)
+       Cleaning up the bundler cache.
+-----&gt; Writing config/database.yml to read from DATABASE_URL
+-----&gt; Preparing app for Rails asset pipeline
+       Running: rake assets:precompile
+       I, [2014-07-19T10:17:28.533402 <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">1061]  INFO -- : Writing /tmp/build_d9f77b59-def0-4971-a5fc-146f03a6350b/public/assets/application-ca8bf38828b1ee4126682823eb3fa49c.js</span>
+       I, [2014-07-19T10:17:28.556921 <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">1061]  INFO -- : Writing /tmp/build_d9f77b59-def0-4971-a5fc-146f03a6350b/public/assets/application-98f28c7358913ad23ff595d3f8287e32.css</span>
+       Asset precompilation completed (6.56s)
+       Cleaning assets
+       Running: rake assets:clean
+-----&gt; WARNINGS:
+       No Procfile detected, using the default web server (webrick)
+       https://devcenter.heroku.com/articles/ruby-default-web-server
+-----&gt; Discovering process types
+       Procfile declares types -&gt; (none)
+       Default types for Ruby  -&gt; console, rake, web, worker
+
+-----&gt; Compressing... done, 21.1MB
+-----&gt; Launching... done, v6
+       http://peaceful-falls-3143.herokuapp.com/ deployed to Heroku
+
+To git@heroku.com:peaceful-falls-3143.git
+ * [new branch]      master -&gt; master
+</pre>
+</div>
+</li>
+<li>再次,打开浏览器,输入<a href="http://peaceful-falls-3143.herokuapp.com">http://peaceful-falls-3143.herokuapp.com</a> 会发现&#x2026;.还
+是不对!但是这个状况是必定发生的,在我们config好root route之后,就不会再发生了.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1">Heroku commands</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<ul class="org-ul">
+<li>使用heroku cli改下名字,容易记忆一点
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/first_app$ heroku rename hfeng-railstutorial
+heroku rename hfeng-railstutorial
+Renaming peaceful-falls-3143 to hfeng-railstutorial... done
+http://hfeng-railstutorial.herokuapp.com/ | git@heroku.com:hfeng-railstutorial.git
+Git remote heroku updated
+hfeng@ubuntu1204:~/rails_projects/first_app$ git remote -v
+git remote -v
+heroku  git@heroku.com:hfeng-railstutorial.git (fetch)
+heroku  git@heroku.com:hfeng-railstutorial.git (push)
+</pre>
+</div>
 </li>
 </ul>
 </div>

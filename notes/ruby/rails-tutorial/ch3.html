@@ -1,0 +1,1821 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Chapter 03: Mostly static pages</title>
+<!-- 2015-03-18 Wed 14:07 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/notes.html">读书笔记</a></li>
+                    <li><a href="/algo.html">算法</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Chapter 03: Mostly static pages</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Mostly static pages</a>
+<ul>
+<li><a href="#sec-1-1">Static pages</a></li>
+<li><a href="#sec-1-2">Our first tests</a>
+<ul>
+<li><a href="#sec-1-2-1">Test-driven development</a></li>
+<li><a href="#sec-1-2-2">Adding a page</a>
+<ul>
+<li><a href="#sec-1-2-2-1">Red:</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-2-3">Green</a></li>
+<li><a href="#sec-1-2-4">Refactor</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">Slightly dynamic pages</a>
+<ul>
+<li><a href="#sec-1-3-1">Testing a title change</a></li>
+<li><a href="#sec-1-3-2">Passing title tests</a></li>
+<li><a href="#sec-1-3-3">Embedded Ruby</a></li>
+<li><a href="#sec-1-3-4">Eliminating duplication with layouts</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">Conclusion</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Mostly static pages</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>虽然rails是为冬天网页设计的,但是使用rail来设计静态的网页也有其优点
+</li>
+<li>首先,我们来创建一个rails项目,但是去掉rails默认的unit test部分. 并非是我们不想
+做测试,而是我们要使用Rspec来做rails的测试部分
+<div class="org-src-container">
+
+<pre class="src src-sh">hfengdeMacBook-Air:rails_projects hfeng$ rails new sample_app --skip-test-unit
+rails new sample_app --skip-test-unit
+      create
+      create  README.rdoc
+      create  Rakefile
+      create  config.ru
+      create  .gitignore
+      create  Gemfile
+      create  app
+      create  app/assets/javascripts/application.js
+      create  app/assets/stylesheets/application.css
+      create  app/controllers/application_controller.rb
+      create  app/helpers/application_helper.rb
+      create  app/views/layouts/application.html.erb
+      create  app/assets/images/.keep
+      create  app/mailers/.keep
+      create  app/models/.keep
+      create  app/controllers/concerns/.keep
+      create  app/models/concerns/.keep
+      create  bin
+      create  bin/bundle
+      create  bin/rails
+      create  bin/rake
+      create  config
+      create  config/routes.rb
+      create  config/application.rb
+      create  config/environment.rb
+      create  config/environments
+      create  config/environments/development.rb
+      create  config/environments/production.rb
+      create  config/environments/test.rb
+      create  config/initializers
+      create  config/initializers/backtrace_silencers.rb
+      create  config/initializers/filter_parameter_logging.rb
+      create  config/initializers/inflections.rb
+      create  config/initializers/mime_types.rb
+      create  config/initializers/secret_token.rb
+      create  config/initializers/session_store.rb
+      create  config/initializers/wrap_parameters.rb
+      create  config/locales
+      create  config/locales/en.yml
+      create  config/boot.rb
+      create  config/database.yml
+      create  db
+      create  db/seeds.rb
+      create  lib
+      create  lib/tasks
+      create  lib/tasks/.keep
+      create  lib/assets
+      create  lib/assets/.keep
+      create  log
+      create  log/.keep
+      create  public
+      create  public/404.html
+      create  public/422.html
+      create  public/500.html
+      create  public/favicon.ico
+      create  public/robots.txt
+      create  tmp/cache
+      create  tmp/cache/assets
+      create  vendor/assets/javascripts
+      create  vendor/assets/javascripts/.keep
+      create  vendor/assets/stylesheets
+      create  vendor/assets/stylesheets/.keep
+         run  bundle install
+Fetching gem metadata from https://rubygems.org/..........
+Fetching additional metadata from https://rubygems.org/..
+Resolving dependencies...
+Using rake 10.3.2
+Using i18n 0.6.11
+Using minitest 4.7.5
+Using multi_json 1.10.1
+Using thread_safe 0.3.4
+Using tzinfo 0.3.40
+Using activesupport 4.0.8
+Using builder 3.1.4
+Using erubis 2.7.0
+Using rack 1.5.2
+Using rack-test 0.6.2
+Using actionpack 4.0.8
+Using mime-types 1.25.1
+Using polyglot 0.3.5
+Using treetop 1.4.15
+Using mail 2.5.4
+Using actionmailer 4.0.8
+Using activemodel 4.0.8
+Using activerecord-deprecated_finders 1.0.3
+Using arel 4.0.2
+Using activerecord 4.0.8
+Using bundler 1.6.4
+Using coffee-script-source 1.7.1
+Using execjs 2.2.1
+Using coffee-script 2.3.0
+Using thor 0.19.1
+Using railties 4.0.8
+Using coffee-rails 4.0.1
+Using hike 1.2.3
+Using jbuilder 1.5.3
+Using jquery-rails 3.1.1
+Using json 1.8.1
+Using tilt 1.4.1
+Using sprockets 2.11.0
+Using sprockets-rails 2.1.3
+Using rails 4.0.8
+Using rdoc 4.1.1
+Using sass 3.2.19
+Using sass-rails 4.0.3
+Using sdoc 0.4.0
+Using sqlite3 1.3.9
+Using turbolinks 2.2.2
+Using uglifier 2.5.3
+Your bundle is complete!
+Use <span style="color: #fa8072;">`bundle show [gemname]`</span> to see where a bundled gem is installed.
+</pre>
+</div>
+</li>
+<li>然后,很自然的,我们又要hack一下Gemfile
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">diff --git a/Gemfile b/Gemfile</span>
+<span style="color: #b3b3b3;">index bb6d51a..02f186f 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/Gemfile</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/Gemfile</span>
+<span style="background-color: #737373;">@@ -1,35 +1,48 @@</span>
+<span style="color: #b3b3b3;"> source 'https://rubygems.org'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">ruby '2.0.0'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">#ruby-gemset=railstutorial_rails_4_0</span>
+
+<span style="color: #b3b3b3;"> # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'</span>
+<span style="color: #b3b3b3;"> gem 'rails', '4.0.8'</span>
+
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;"># Use sqlite3 as the database for Active Record</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">gem 'sqlite3'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">group :development, :test do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  gem 'sqlite3'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  gem 'rspec-rails', '2.13.1'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">end</span>
+<span style="background-color: #335533;">+</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">group :test do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  gem 'selenium-webdriver', '2.35.1'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  gem 'capybara', '2.1.0'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">end</span>
+
+<span style="color: #b3b3b3;"> # Use SCSS for stylesheets</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">gem 'sass-rails', '~&gt; 4.0.2'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">gem 'sass-rails', '4.0.1'</span>
+
+<span style="color: #b3b3b3;"> # Use Uglifier as compressor for JavaScript assets</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">gem 'uglifier', '&gt;= 1.3.0'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">gem 'uglifier', '2.1.1'</span>
+
+<span style="color: #b3b3b3;"> # Use CoffeeScript for .js.coffee assets and views</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">gem 'coffee-rails', '~&gt; 4.0.0'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">gem 'coffee-rails', '4.0.1'</span>
+
+<span style="color: #b3b3b3;"> # See https://github.com/sstephenson/execjs#readme for more supported runtimes</span>
+<span style="color: #b3b3b3;"> # gem 'therubyracer', platforms: :ruby</span>
+
+<span style="color: #b3b3b3;"> # Use jquery as the JavaScript library</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">gem 'jquery-rails'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">gem 'jquery-rails', '3.0.4'</span>
+
+<span style="color: #b3b3b3;"> # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">gem 'turbolinks'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">gem 'turbolinks', '1.1.1'</span>
+
+<span style="color: #b3b3b3;"> # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">gem 'jbuilder', '~&gt; 1.2'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">gem 'jbuilder', '1.0.2'</span>
+
+<span style="color: #b3b3b3;"> group :doc do</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">  # bundle exec rake doc:rails generates the API under doc/api.</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">  gem 'sdoc', require: false</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  gem 'sdoc', '0.3.20', require: false</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">end</span>
+<span style="background-color: #335533;">+</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">group :production do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  gem 'pg', '0.15.1'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  gem 'rails_12factor', '0.0.2'</span>
+<span style="color: #b3b3b3;"> end</span>
+
+<span style="color: #b3b3b3;"> # Use ActiveModel has_secure_password</span>
+</pre>
+</div>
+</li>
+<li>修改Gemfile之后是bundle install自然也要without production
+<div class="org-src-container">
+
+<pre class="src src-sh">hfengdeMacBook-Air:sample_app hfeng$ bundle install --without production
+bundle install --without production
+Fetching gem metadata from https://rubygems.org/.........
+Fetching additional metadata from https://rubygems.org/..
+Resolving dependencies...
+Bundler could not find compatible versions for gem <span style="color: #5A7644;">"sprockets-rails"</span>:
+  In snapshot (Gemfile.lock):
+    sprockets-rails (2.1.3)
+
+  In Gemfile:
+    sass-rails (= 4.0.1) ruby depends on
+      sprockets-rails (~&gt; 2.0.0) ruby
+
+Running <span style="color: #fa8072;">`bundle update`</span> will rebuild your snapshot from scratch, using only
+the gems<span style="color: #AE5825;"> in</span> your Gemfile, which may resolve the conflict.
+</pre>
+</div>
+</li>
+<li>从上面看,without production的结果并不成功. 需要bundle update. 然后再bundle
+install(注意,没有 &#x2013;without production了)
+<div class="org-src-container">
+
+<pre class="src src-sh">hfengdeMacBook-Air:sample_app hfeng$ bundle update --without production
+bundle update --without production
+Unknown switches <span style="color: #5A7644;">'--without'</span>
+hfengdeMacBook-Air:sample_app hfeng$ bundle update
+bundle update
+Fetching gem metadata from https://rubygems.org/.........
+Fetching additional metadata from https://rubygems.org/..
+Resolving dependencies...
+Using rake 10.3.2
+Using i18n 0.6.11
+Using minitest 4.7.5
+Using multi_json 1.10.1
+Using thread_safe 0.3.4
+Using tzinfo 0.3.40
+Using activesupport 4.0.8
+Using builder 3.1.4
+Using erubis 2.7.0
+Using rack 1.5.2
+Using rack-test 0.6.2
+Using actionpack 4.0.8
+Using mime-types 1.25.1
+Using polyglot 0.3.5
+Using treetop 1.4.15
+Using mail 2.5.4
+Using actionmailer 4.0.8
+Using activemodel 4.0.8
+Using activerecord-deprecated_finders 1.0.3
+Using arel 4.0.2
+Using activerecord 4.0.8
+Using bundler 1.6.4
+Installing mini_portile 0.6.0
+Building nokogiri using packaged libraries.
+Building libxml2-2.8.0 for nokogiri with the following patches applied:
+    - 0001-Fix-parser-local-buffers-size-problems.patch
+    - 0002-Fix-entities-local-buffers-size-problems.patch
+    - 0003-Fix-an-error-in-previous-commit.patch
+    - 0004-Fix-potential-out-of-bound-access.patch
+    - 0005-Detect-excessive-entities-expansion-upon-replacement.patch
+    - 0006-Do-not-fetch-external-parsed-entities.patch
+    - 0007-Enforce-XML_PARSER_EOF-state-handling-through-the-pa.patch
+    - 0008-Improve-handling-of-xmlStopParser.patch
+    - 0009-Fix-a-couple-of-return-without-value.patch
+    - 0010-Keep-non-significant-blanks-node-in-HTML-parser.patch
+    - 0011-Do-not-fetch-external-parameter-entities.patch
+************************************************************************
+IMPORTANT!  Nokogiri builds and uses a packaged version of libxml2.
+
+If this is a concern for you and you want to use the system library
+instead, abort this installation process and reinstall nokogiri as
+follows:
+
+    gem install nokogiri -- --use-system-libraries
+
+If you are using Bundler, tell it to use the option:
+
+    bundle config build.nokogiri --use-system-libraries
+    bundle install
+
+However, note that nokogiri does not necessarily support all versions
+of libxml2.
+
+For example, libxml2-2.9.0 and higher are currently known to be broken
+and thus unsupported by nokogiri, due to compatibility problems and
+XPath optimization bugs.
+************************************************************************
+Building libxslt-1.1.28 for nokogiri with the following patches applied:
+    - 0001-Adding-doc-update-related-to-1.1.28.patch
+    - 0002-Fix-a-couple-of-places-where-f-printf-parameters-wer.patch
+    - 0003-Initialize-pseudo-random-number-generator-with-curre.patch
+    - 0004-EXSLT-function-str-replace-is-broken-as-is.patch
+    - 0006-Fix-str-padding-to-work-with-UTF-8-strings.patch
+    - 0007-Separate-function-for-predicate-matching-in-patterns.patch
+    - 0008-Fix-direct-pattern-matching.patch
+    - 0009-Fix-certain-patterns-with-predicates.patch
+    - 0010-Fix-handling-of-UTF-8-strings-in-EXSLT-crypto-module.patch
+    - 0013-Memory-leak-in-xsltCompileIdKeyPattern-error-path.patch
+    - 0014-Fix-for-bug-436589.patch
+    - 0015-Fix-mkdir-for-mingw.patch
+************************************************************************
+IMPORTANT!  Nokogiri builds and uses a packaged version of libxslt.
+
+If this is a concern for you and you want to use the system library
+instead, abort this installation process and reinstall nokogiri as
+follows:
+
+    gem install nokogiri -- --use-system-libraries
+
+If you are using Bundler, tell it to use the option:
+
+    bundle config build.nokogiri --use-system-libraries
+    bundle install
+************************************************************************
+Installing nokogiri 1.6.3.1
+Installing xpath 2.0.0
+Installing capybara 2.1.0
+Installing ffi 1.9.3
+Installing childprocess 0.5.3
+Using coffee-script-source 1.7.1
+Using execjs 2.2.1
+Using coffee-script 2.3.0
+Using thor 0.19.1
+Using railties 4.0.8
+Using coffee-rails 4.0.1
+Installing diff-lcs 1.2.5
+Using hike 1.2.3
+Using jbuilder 1.0.2 (was 1.5.3)
+Using jquery-rails 3.0.4 (was 3.1.1)
+Using json 1.8.1
+Using tilt 1.4.1
+Using sprockets 2.12.1 (was 2.11.0)
+Using sprockets-rails 2.0.1 (was 2.1.3)
+Using rails 4.0.8
+Using rdoc 3.12.2 (was 4.1.1)
+Installing rspec-core 2.13.1
+Installing rspec-expectations 2.13.0
+Installing rspec-mocks 2.13.1
+Installing rspec-rails 2.13.1
+Installing rubyzip 0.9.9
+Using sass 3.3.10 (was 3.2.19)
+Using sass-rails 4.0.1 (was 4.0.3)
+Using sdoc 0.3.20 (was 0.4.0)
+Installing websocket 1.0.7
+Installing selenium-webdriver 2.35.1
+Using sqlite3 1.3.9
+Using turbolinks 1.1.1 (was 2.2.2)
+Using uglifier 2.1.1 (was 2.5.3)
+Your bundle is updated!
+Gems<span style="color: #AE5825;"> in</span> the group production were not installed.
+hfengdeMacBook-Air:sample_app hfeng$ bundle install
+bundle install --without production
+Using rake 10.3.2
+Using i18n 0.6.11
+Using minitest 4.7.5
+Using multi_json 1.10.1
+Using thread_safe 0.3.4
+Using tzinfo 0.3.40
+Using activesupport 4.0.8
+Using builder 3.1.4
+Using erubis 2.7.0
+Using rack 1.5.2
+Using rack-test 0.6.2
+Using actionpack 4.0.8
+Using mime-types 1.25.1
+Using polyglot 0.3.5
+Using treetop 1.4.15
+Using mail 2.5.4
+Using actionmailer 4.0.8
+Using activemodel 4.0.8
+Using activerecord-deprecated_finders 1.0.3
+Using arel 4.0.2
+Using activerecord 4.0.8
+Using mini_portile 0.6.0
+Using nokogiri 1.6.3.1
+Using xpath 2.0.0
+Using capybara 2.1.0
+Using ffi 1.9.3
+Using childprocess 0.5.3
+Using coffee-script-source 1.7.1
+Using execjs 2.2.1
+Using coffee-script 2.3.0
+Using thor 0.19.1
+Using railties 4.0.8
+Using coffee-rails 4.0.1
+Using diff-lcs 1.2.5
+Using hike 1.2.3
+Using jbuilder 1.0.2
+Using jquery-rails 3.0.4
+Using json 1.8.1
+Using bundler 1.6.4
+Using tilt 1.4.1
+Using sprockets 2.12.1
+Using sprockets-rails 2.0.1
+Using rails 4.0.8
+Using rdoc 3.12.2
+Using rspec-core 2.13.1
+Using rspec-expectations 2.13.0
+Using rspec-mocks 2.13.1
+Using rspec-rails 2.13.1
+Using rubyzip 0.9.9
+Using sass 3.3.10
+Using sass-rails 4.0.1
+Using sdoc 0.3.20
+Using websocket 1.0.7
+Using selenium-webdriver 2.35.1
+Using sqlite3 1.3.9
+Using turbolinks 1.1.1
+Using uglifier 2.1.1
+Your bundle is complete!
+Gems<span style="color: #AE5825;"> in</span> the group production were not installed.
+Use <span style="color: #fa8072;">`bundle show [gemname]`</span> to see where a bundled gem is installed.
+</pre>
+</div>
+</li>
+<li>这里为什么bundle install不再加 &#x2013;withou production了?
+<pre class="example">
+      因为--without production是一个"remembered option", 一旦你加过一次,以后就不用再加了
+</pre>
+</li>
+<li>这也同时解释了,我们为什么"不用bundle update"来代替"bundle install", 直接输入
+一次bundle update不是比1. bundle install &#x2013;without production 2. bundle
+update 3. bundle install强么?
+<pre class="example">
+第一个bundle install的作用,其实就是加入一个--without production的参数,
+bundle update 在最后会调用bundle install, 但是如果没有第一个bundle install
+那么直接bundle update的话,就会"必然"引入production, 这不是我们想要的.
+所以要"三步走"
+</pre>
+</li>
+<li>下面我们的工作,是创建一个动态的.secret:
+<ul class="org-ul">
+<li>首先,在root文件夹下面创建一个叫做.secret的文件(不加也可以,一会自动创建)
+</li>
+<li>其次,在.gitignore里面加入这个文件,防止其被版本管理
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">    Modified   .gitignore</span>
+<span style="color: #b3b3b3;">diff --git a/.gitignore b/.gitignore</span>
+<span style="color: #b3b3b3;">index 6a502e9..b603f56 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/.gitignore</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/.gitignore</span>
+<span style="background-color: #737373;">@@ -14,3 +14,4 @@</span>
+<span style="color: #b3b3b3;"> # Ignore all logfiles and tempfiles.</span>
+<span style="color: #b3b3b3;"> /log/*.log</span>
+<span style="color: #b3b3b3;"> /tmp</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">.secret</span>
+</pre>
+</div>
+</li>
+<li>更改config/initializers/secret_token.rb文件如下
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Be sure to restart your server when you modify this file.</span>
+
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Your secret key is used for verifying the integrity of signed cookies.</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">If you change this key, all old signed cookies will become invalid!</span>
+
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Make sure the secret is at least 30 characters and all random,</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">no regular words or you'll be exposed to dictionary attacks.</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">You can use `rake secret` to generate a secure secret key.</span>
+
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Make sure your secret_key_base is kept private</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">if you're sharing your code publicly.</span>
+<span style="color: #86453A;">require</span> <span style="color: #5A7644;">'securerandom'</span>
+
+<span style="color: #AE5825;">def</span> <span style="color: #C6B032;">secure_token</span>
+  token_file = <span style="color: #C6B032; font-style: italic;">Rails</span>.root.join(<span style="color: #5A7644;">'.secret'</span>)
+  <span style="color: #AE5825;">if</span> <span style="color: #C6B032; font-style: italic;">File</span>.exist?(token_file)
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Use the existing token.</span>
+    <span style="color: #C6B032; font-style: italic;">File</span>.read(token_file).chomp
+  <span style="color: #AE5825;">else</span>
+    <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Generate a new token and store it in token_file</span>
+    token = <span style="color: #C6B032; font-style: italic;">SecureRandom</span>.hex(64)
+    <span style="color: #C6B032; font-style: italic;">File</span>.write(token_file, token)
+    token
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+
+<span style="color: #C6B032; font-style: italic;">SampleApp</span>::<span style="color: #C6B032; font-style: italic;">Application</span>.config.secret_key_base = secure_token
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>好的,万事俱备,下面我们来看看如何使用rspec来替代Test::Unit
+<div class="org-src-container">
+
+<pre class="src src-ruby">hfeng<span style="color: #46657B;">@ubuntu1204</span><span style="color: #86453A;">:~</span><span style="color: #5A7644;">/rails_projects/</span>sample_app$ rails generate <span style="color: #86453A;">rspec:install</span>
+      create  .rspec
+      create  spec
+      create  spec/spec_helper.rb
+</pre>
+</div>
+</li>
+<li>然后我们像往常一样
+<ol class="org-ol">
+<li>创建heroku(重命名)
+<div class="org-src-container">
+
+<pre class="src src-sh">heroku login
+heroku create
+heroku rename
+</pre>
+</div>
+</li>
+<li>加入heroku的版本管理
+<div class="org-src-container">
+
+<pre class="src src-sh">git push heroku master
+</pre>
+</div>
+</li>
+<li>运行数据库更改
+<div class="org-src-container">
+
+<pre class="src src-sh">heroku run rakd db:migrate
+</pre>
+</div>
+</li>
+<li>还可以看log
+<div class="org-src-container">
+
+<pre class="src src-sh">heroku log
+</pre>
+</div>
+</li>
+</ol>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Static pages</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>墨迹这么久之后,终于开始要探究static网页的内容了,为此我们专门创建一个branch
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/sample_app$ git checkout -b static-pages
+git checkout -b static-pages
+Switched to a new branch <span style="color: #5A7644;">'static-pages'</span>
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git branch -a
+git branch -a
+  master
+* static-pages
+  remotes/heroku/master
+  remotes/origin/master
+</pre>
+</div>
+</li>
+<li>好,我们的任务开始了,我们要创建三个静态网页:
+<ol class="org-ol">
+<li>Home page
+</li>
+<li>Help page
+</li>
+<li>About page
+</li>
+</ol>
+</li>
+<li>我们希望这三个静态网页都由一个controller来管理,这个controller叫做StaticPage
+controller从这个名字你就能猜出来,以后有了新的其他的静态网页,我也想用这个controller,
+这从一个侧面揭示了controller的一个事实:
+<pre class="example">
+controller从某种意义上来说,是某些相关页面的"容器".
+</pre>
+</li>
+<li>下面就是创建controller的过程,创建的时候可以同时初始化一些页面,我们这里把home
+和help都写上了,about留着以后写
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/sample_app$ rails generate controller StaticPages home help --no-test-framework
+rails generate controller StaticPages home help --no-test-framework
+      create  app/controllers/static_pages_controller.rb
+       route  get <span style="color: #5A7644;">"static_pages/help"</span>
+       route  get <span style="color: #5A7644;">"static_pages/home"</span>
+      invoke  erb
+      create    app/views/static_pages
+      create    app/views/static_pages/home.html.erb
+      create    app/views/static_pages/help.html.erb
+      invoke  helper
+      create    app/helpers/static_pages_helper.rb
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/static_pages.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/static_pages.css.scss
+</pre>
+</div>
+</li>
+<li>尽管你很小心,有时候,你还是会出错误,而自动生成代码一般是好几个文件,你也不知道
+到底改了什么,这个时候具备undo是非常重要的. 而rails正好有这个功能
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/sample_app$ git checkout -b undo-test
+git checkout -b undo-test
+A   app/assets/javascripts/static_pages.js.coffee
+A   app/assets/stylesheets/static_pages.css.scss
+A   app/controllers/static_pages_controller.rb
+A   app/helpers/static_pages_helper.rb
+A   app/views/static_pages/help.html.erb
+A   app/views/static_pages/home.html.erb
+M   config/routes.rb
+Switched to a new branch <span style="color: #5A7644;">'undo-test'</span>
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git branch
+git branch
+  master
+  static-pages
+* undo-test
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git add .
+git add .
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git commit -m <span style="color: #5A7644;">"StaticPages controller"</span>
+git commit -m <span style="color: #5A7644;">"StaticPages controller"</span>
+[undo-test 0293b1f] StaticPages controller
+ 7 files changed, 21 insertions(+)
+ create mode 100644 app/assets/javascripts/static_pages.js.coffee
+ create mode 100644 app/assets/stylesheets/static_pages.css.scss
+ create mode 100644 app/controllers/static_pages_controller.rb
+ create mode 100644 app/helpers/static_pages_helper.rb
+ create mode 100644 app/views/static_pages/help.html.erb
+ create mode 100644 app/views/static_pages/home.html.erb
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git log -2
+git log -2
+commit 0293b1f819b2cdac66dda1e94c5ad560ca11fed2
+Author: harri feng <a href="mailto:harrifeng%40gmail.com">&lt;harrifeng@gmail.com&gt;</a>
+Date:   Sat Jul 26 21:08:41 2014 +0800
+
+    StaticPages controller
+
+commit 932b6873d0031f65aa88723735e44da7984a3303
+Author: harri feng <a href="mailto:harrifeng%40gmail.com">&lt;harrifeng@gmail.com&gt;</a>
+Date:   Sat Jul 26 20:35:06 2014 +0800
+
+    improve the readme
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git checkout static-pages
+git checkout static-pages
+Switched to branch <span style="color: #5A7644;">'static-pages'</span>
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git log -2
+git log -2
+commit 932b6873d0031f65aa88723735e44da7984a3303
+Author: harri feng <a href="mailto:harrifeng%40gmail.com">&lt;harrifeng@gmail.com&gt;</a>
+Date:   Sat Jul 26 20:35:06 2014 +0800
+
+    improve the readme
+
+commit 23fc2ef76a4c7dcc78b0ac0184876e5dae5032d0
+Author: harri feng <a href="mailto:harrifeng%40gmail.com">&lt;harrifeng@gmail.com&gt;</a>
+Date:   Sat Jul 26 20:34:41 2014 +0800
+
+    use RSpec instead of Test::Unit
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git diff static-pages --stat
+git diff static-pages --stat
+ app/assets/javascripts/static_pages.js.coffee |    3 +++
+ app/assets/stylesheets/static_pages.css.scss  |    3 +++
+ app/controllers/static_pages_controller.rb    |    7 +++++++
+ app/helpers/static_pages_helper.rb            |    2 ++
+ app/views/static_pages/help.html.erb          |    2 ++
+ app/views/static_pages/home.html.erb          |    2 ++
+ config/routes.rb                              |    2 ++
+ 7 files changed, 21 insertions(+)
+hfeng@ubuntu1204:~/rails_projects/sample_app$ rails destroy controller StaticPages home help --no-test-framework
+rails destroy controller StaticPages home help --no-test-framework
+      remove  app/controllers/static_pages_controller.rb
+       route  get <span style="color: #5A7644;">"static_pages/help"</span>
+       route  get <span style="color: #5A7644;">"static_pages/home"</span>
+      invoke  erb
+      remove    app/views/static_pages
+      remove    app/views/static_pages/home.html.erb
+      remove    app/views/static_pages/help.html.erb
+      invoke  helper
+      remove    app/helpers/static_pages_helper.rb
+      invoke  assets
+      invoke    coffee
+      remove      app/assets/javascripts/static_pages.js.coffee
+      invoke    scss
+      remove      app/assets/stylesheets/static_pages.css.scss
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git branch
+git branch
+  master
+  static-pages
+* undo-test
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git diff static-pages --stat
+git diff static-pages --stat
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git log -2
+git log -2
+commit 0293b1f819b2cdac66dda1e94c5ad560ca11fed2
+Author: harri feng <a href="mailto:harrifeng%40gmail.com">&lt;harrifeng@gmail.com&gt;</a>
+Date:   Sat Jul 26 21:08:41 2014 +0800
+
+    StaticPages controller
+
+commit 932b6873d0031f65aa88723735e44da7984a3303
+Author: harri feng <a href="mailto:harrifeng%40gmail.com">&lt;harrifeng@gmail.com&gt;</a>
+Date:   Sat Jul 26 20:35:06 2014 +0800
+
+    improve the readme
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git status
+git status
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">On branch undo-test</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Changes not staged for commit:</span>
+<span style="color: #4C565D;">#   </span><span style="color: #333B40; font-style: italic;">(use "git add/rm &lt;file&gt;..." to update what will be committed)</span>
+<span style="color: #4C565D;">#   </span><span style="color: #333B40; font-style: italic;">(use "git checkout -- &lt;file&gt;..." to discard changes in working directory)</span>
+<span style="color: #4C565D;">#</span>
+<span style="color: #4C565D;">#   </span><span style="color: #333B40; font-style: italic;">deleted:    app/assets/javascripts/static_pages.js.coffee</span>
+<span style="color: #4C565D;">#   </span><span style="color: #333B40; font-style: italic;">deleted:    app/assets/stylesheets/static_pages.css.scss</span>
+<span style="color: #4C565D;">#   </span><span style="color: #333B40; font-style: italic;">deleted:    app/controllers/static_pages_controller.rb</span>
+<span style="color: #4C565D;">#   </span><span style="color: #333B40; font-style: italic;">deleted:    app/helpers/static_pages_helper.rb</span>
+<span style="color: #4C565D;">#   </span><span style="color: #333B40; font-style: italic;">deleted:    app/views/static_pages/help.html.erb</span>
+<span style="color: #4C565D;">#   </span><span style="color: #333B40; font-style: italic;">deleted:    app/views/static_pages/home.html.erb</span>
+<span style="color: #4C565D;">#   </span><span style="color: #333B40; font-style: italic;">modified:   config/routes.rb</span>
+<span style="color: #4C565D;">#</span>
+no changes added to commit (use <span style="color: #5A7644;">"git add"</span> and/or <span style="color: #5A7644;">"git commit -a"</span>)
+</pre>
+</div>
+</li>
+<li>数据库也有创建,和"破坏(回滚)"的方法
+<div class="org-src-container">
+
+<pre class="src src-sh"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">generate</span>
+rake db:migrate
+
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">destroy</span>
+rake db:rollback
+</pre>
+</div>
+</li>
+<li>你可以看到,我们这里使用了"驼峰"命名法写StaticPages,这个会产生一个名字为static_pages_controller.rb
+的文件. 当然了,其实你就算写static_pages代替StaticPages,也是可以的(rails内部
+使用undersocre命令来转换把所有"驼峰"命名转换成"蛇形"命名). 借助上面的branch
+undo-test我们来看看使用"蛇形"命名的结果: 我们可以看到,只有一行注释不同.
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/sample_app$ git checkout static-pages
+git checkout static-pages
+Switched to branch <span style="color: #5A7644;">'static-pages'</span>
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git diff undo-test --stat
+git diff undo-test --stat
+ app/assets/javascripts/static_pages.js.coffee |    3 ---
+ app/assets/stylesheets/static_pages.css.scss  |    3 ---
+ app/controllers/static_pages_controller.rb    |    7 -------
+ app/helpers/static_pages_helper.rb            |    2 --
+ app/views/static_pages/help.html.erb          |    2 --
+ app/views/static_pages/home.html.erb          |    2 --
+ config/routes.rb                              |    2 --
+ 7 files changed, 21 deletions(-)
+hfeng@ubuntu1204:~/rails_projects/sample_app$ rails generate controller static_pages home help --no-test-framework
+rails generate controller static_pages home help --no-test-framework
+      create  app/controllers/static_pages_controller.rb
+       route  get <span style="color: #5A7644;">"static_pages/help"</span>
+       route  get <span style="color: #5A7644;">"static_pages/home"</span>
+      invoke  erb
+      create    app/views/static_pages
+      create    app/views/static_pages/home.html.erb
+      create    app/views/static_pages/help.html.erb
+      invoke  helper
+      create    app/helpers/static_pages_helper.rb
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/static_pages.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/static_pages.css.scss
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git diff undo-test --cached --stat
+git diff undo-test --cached --stat
+ app/assets/stylesheets/static_pages.css.scss |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git diff undo-test --cached
+git diff undo-test --cached
+diff --git a/app/assets/stylesheets/static_pages.css.scss b/app/assets/stylesheets/static_pages.css.scss
+index d55836c..40608b2 100644
+--- a/app/assets/stylesheets/static_pages.css.scss
++++ b/app/assets/stylesheets/static_pages.css.scss
+@@ -1,3 +1,3 @@
+-// Place all the styles related to the StaticPages controller here.
++// Place all the styles related to the static_pages controller here.
+ // They will automatically be included<span style="color: #AE5825;"> in</span> application.css.
+ // You can use Sass (SCSS) here: http://sass-lang.com/
+</pre>
+</div>
+</li>
+<li>我们的routes.rb里面多了这么几行
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">    Modified   config/routes.rb</span>
+<span style="color: #b3b3b3;">diff --git a/config/routes.rb b/config/routes.rb</span>
+<span style="color: #b3b3b3;">index d2facc2..f3d176d 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/config/routes.rb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/config/routes.rb</span>
+<span style="background-color: #737373;">@@ -1,4 +1,6 @@</span>
+<span style="color: #b3b3b3;"> SampleApp::Application.routes.draw do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  get "static_pages/home"</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  get "static_pages/help"</span>
+<span style="color: #b3b3b3;">   # The priority is based upon order of creation: first created -&gt; highest priority.</span>
+<span style="color: #b3b3b3;">   # See how all your routes lay out with "rake routes".</span>
+</pre>
+</div>
+</li>
+<li>我们就会从get static_pages/home这一句里面得到如下信息:我们使用GET method的
+时候,会触发static_pages_controller里面的home页面
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/ruby/ch3/static-page-home.png" alt="static-page-home.png" />
+</p>
+<p><span class="figure-number">Figure 1:</span> static-page-home.png</p>
+</div>
+</li>
+<li>如果我们看看StaticPages Controller的代码的话,我们就会发现. 其并不是RESTful的
+API, 这是因为这个世界上也没有绝对的事情, 静态的网页很难抽象出resource的概念,
+也就不需要RESTful API啦.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">app/controllers/static_pages_controller.rb</span>
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">StaticPagesController</span> &lt; <span style="color: #C6B032; font-style: italic;">ApplicationController</span>
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">home</span>
+  <span style="color: #AE5825;">end</span>
+
+  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">help</span>
+  <span style="color: #AE5825;">end</span>
+<span style="color: #AE5825;">end</span>
+</pre>
+</div>
+</li>
+<li>我们可以看到home和help两个函数是空的!但是由于StaticPagesController继承了
+ApplicationController,所以所有的子函数都"默认自带"转发请求到"View"的功能.到
+哪个view呢?还是通过"名字"来的!,刚才创建了两个ViewPage,一个是为home 函数准备
+的,一个是为help函数准备的.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">app/view/static_pages/home.html.erb</span>
+&lt;h1&gt;<span style="color: #C6B032; font-style: italic;">StaticPages</span><span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">home&lt;/h1&gt;</span>
+&lt;<span style="color: #86453A;">p</span>&gt;<span style="color: #C6B032; font-style: italic;">Find</span> me <span style="color: #AE5825;">in</span> app/views/static_pages/home.html.erb&lt;<span style="color: #5A7644;">/p&gt;</span>
+
+<span style="color: #5A7644;"># app/</span>view/static_pages/help.html.erb
+&lt;h1&gt;<span style="color: #C6B032; font-style: italic;">StaticPages</span><span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">help&lt;/h1&gt;</span>
+&lt;<span style="color: #86453A;">p</span>&gt;<span style="color: #C6B032; font-style: italic;">Find</span> me <span style="color: #AE5825;">in</span> app/views/static_pages/help.html.erb&lt;<span style="color: #5A7644;">/p&gt;</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Our first tests</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>Rails是一种强调behavior的框架(对于内部如何实现,不是特别关心), 所以它使用了
+一种叫做BDD(Behavior-driven development)的开发模式
+</li>
+<li>rails里面主要有两种类型的测试:
+<ul class="org-ul">
+<li>integration test: 模仿用户使用浏览器来和我们的server进行交互
+</li>
+<li>unit test
+</li>
+</ul>
+</li>
+<li>BDD是TDD(Test-driven development)的一种变形, 强调在写代码之前,先写测试, 当然
+了凡事没有绝对,并不是一定要每次都先写测试
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">Test-driven development</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>在test-driven的开发流程中,我们要遵循一个"Red, Green, Refactor"的过程:
+<ul class="org-ul">
+<li>red: 首先写一个会fail的测试
+</li>
+<li>green: 写一个成功的fail的测试
+</li>
+<li>refactor: 不改变函数,重构函数内容,再运行测试,保证测试能够成功
+</li>
+</ul>
+</li>
+<li>下面开始写第一个integration测试用例:
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/sample_app$ rails generate integration_test static_pages
+      invoke  rspec
+      create    spec/requests/static_pages_spec.rb
+</pre>
+</div>
+</li>
+<li>首先写一个red的测试:
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">diff --git a/spec/requests/static_pages_spec.rb b/spec/requests/static_pages_spec.rb</span>
+<span style="color: #b3b3b3;">index 7c64515..f3993c0 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/spec/requests/static_pages_spec.rb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/spec/requests/static_pages_spec.rb</span>
+<span style="background-color: #737373;">@@ -1,11 +1,10 @@</span>
+<span style="color: #b3b3b3;"> require 'spec_helper'</span>
+
+<span style="color: #b3b3b3;"> describe "Static Pages" do</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">  describe "GET /static_pages" do</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">    it "works! (now write some real specs)" do</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">      # Run the generator again with the --webrat flag if you want to use webrat methods/matchers</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">      get static_pages_index_path</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">      response.status.should be(200)</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  describe "Home page" do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    it "should have the content 'Sample App'" do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      visit '/static_pages/home'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      expect(page).to have_content('Sample App')</span>
+<span style="color: #b3b3b3;">     end</span>
+<span style="color: #b3b3b3;">   end</span>
+<span style="color: #b3b3b3;"> end</span>
+</pre>
+</div>
+</li>
+<li>测试要能够使用visit函数,必须在helper函数里面加上如下配置
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">diff --git a/spec/spec_helper.rb b/spec/spec_helper.rb</span>
+<span style="color: #b3b3b3;">index 943bc19..031f92c 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/spec/spec_helper.rb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/spec/spec_helper.rb</span>
+<span style="background-color: #737373;">@@ -39,4 +39,5 @@</span><span style="background-color: #737373;"> RSpec.configure do |config|</span>
+<span style="color: #b3b3b3;">   # the seed, which is printed after each run.</span>
+<span style="color: #b3b3b3;">   #     --seed 1234</span>
+<span style="color: #b3b3b3;">   config.order = "random"</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  config.include Capybara::DSL</span>
+<span style="color: #b3b3b3;"> end</span>
+</pre>
+</div>
+</li>
+<li>测试的结果必然是寒心的.
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/sample_app$ rspec spec/requests/static_pages_spec.rb
+F
+
+Failures:
+
+  1) Static Pages Home page should have the content <span style="color: #5A7644;">'Sample App'</span>
+     Failure/Error: expect(page).to have_content(<span style="color: #5A7644;">'Sample App'</span>)
+       expected <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">has_content?("Sample App") to return true, got false</span>
+     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">./spec/requests/static_pages_spec.rb:7:in `block (3 levels) in &lt;top (required)&gt;'</span>
+
+Finished<span style="color: #AE5825;"> in</span> 0.33291 seconds
+1 example, 1 failure
+
+Failed examples:
+
+rspec ./spec/requests/static_pages_spec.rb:5 <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Static Pages Home page should have the content 'Sample App'</span>
+
+Randomized with seed 44199
+</pre>
+</div>
+</li>
+<li>在页面添加必要的字符,就通过了测试,来到了green stage
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">diff --git a/app/views/static_pages/home.html.erb b/app/views/static_pages/home.html.erb</span>
+<span style="color: #b3b3b3;">index af94c7f..d4f4fe7 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/app/views/static_pages/home.html.erb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/views/static_pages/home.html.erb</span>
+<span style="background-color: #737373;">@@ -1,2 +1,6 @@</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">&lt;h1&gt;StaticPages#home&lt;/h1&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">&lt;p&gt;Find me in app/views/static_pages/home.html.erb&lt;/p&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">&lt;h1&gt;Sample App&lt;/h1&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">&lt;p&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  This is the ome page for the</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;a href="http://railstutorial.org/"&gt;Ruby on Rails Tutorial&lt;/a&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  sample application.</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">&lt;/p&gt;</span>
+</pre>
+</div>
+</li>
+<li>如法炮制,就得到了help的green stage
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">diff --git a/app/views/static_pages/help.html.erb b/app/views/static_pages/help.html.erb</span>
+<span style="color: #b3b3b3;">index 61896f5..bb57b44 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/app/views/static_pages/help.html.erb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/views/static_pages/help.html.erb</span>
+<span style="background-color: #737373;">@@ -1,2 +1,7 @@</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">&lt;h1&gt;StaticPages#help&lt;/h1&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">&lt;p&gt;Find me in app/views/static_pages/help.html.erb&lt;/p&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">&lt;h1&gt;Help&lt;/h1&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">&lt;p&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  Get help on the Ruby on Rails Tutorial at the</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;a href="http://railstutorial.org/help"&gt;Rails Tutorial help page&lt;/a&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  To get help on this sample app, see the</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;a href="http://railstutorial.org/book"&gt;Rails Tutorial book&lt;/a&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">&lt;/p&gt;</span>
+<span style="color: #b3b3b3;">diff --git a/spec/requests/static_pages_spec.rb b/spec/requests/static_pages_spec.rb</span>
+<span style="color: #b3b3b3;">index 432450c..2f65d48 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/spec/requests/static_pages_spec.rb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/spec/requests/static_pages_spec.rb</span>
+<span style="background-color: #737373;">@@ -2,9 +2,17 @@</span><span style="background-color: #737373;"> require 'spec_helper'</span>
+
+<span style="color: #b3b3b3;"> describe "Static Pages" do</span>
+<span style="color: #b3b3b3;">   describe "Home page" do</span>
+<span style="background-color: #335533;">+</span>
+<span style="color: #b3b3b3;">     it "should have the content 'Sample App'" do</span>
+<span style="color: #b3b3b3;">       visit '/static_pages/home'</span>
+<span style="color: #b3b3b3;">       expect(page).to have_content('Sample App')</span>
+<span style="color: #b3b3b3;">     end</span>
+<span style="color: #b3b3b3;">   end</span>
+<span style="background-color: #335533;">+</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  describe "Help page" do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    it "should have the content 'Help'" do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      visit '/static_pages/help'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      expect(page).to have_content('Help')</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    end</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  end</span>
+<span style="color: #b3b3b3;"> end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2">Adding a page</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>我们前面故意遗漏了一个About的页面,这里就是通过"Red, Green, Refator"的三步来添加.
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-2-1" class="outline-5">
+<h5 id="sec-1-2-2-1">Red:</h5>
+<div class="outline-text-5" id="text-1-2-2-1">
+<ul class="org-ul">
+<li>先添加测试如下
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">diff --git a/spec/requests/static_pages_spec.rb b/spec/requests/static_pages_spec.rb</span>
+<span style="color: #b3b3b3;">index 2f65d48..23cddaf 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/spec/requests/static_pages_spec.rb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/spec/requests/static_pages_spec.rb</span>
+<span style="background-color: #737373;">@@ -15,4 +15,12 @@</span><span style="background-color: #737373;"> describe "Static Pages" do</span>
+<span style="color: #b3b3b3;">       expect(page).to have_content('Help')</span>
+<span style="color: #b3b3b3;">     end</span>
+<span style="color: #b3b3b3;">   end</span>
+<span style="background-color: #335533;">+</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  describe "About page" do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    it "should have the content 'About Us'" do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      visit '/static_pages/about'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      expect(page).to have_content('About Us')</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    end</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  end</span>
+<span style="background-color: #335533;">+</span>
+<span style="color: #b3b3b3;"> end</span>
+</pre>
+</div>
+</li>
+<li>然后,测试很"如所料"的挂掉了
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/sample_app$ rspec spec/requests/static_pages_spec.rb
+..F
+
+Failures:
+
+  1) Static Pages About page should have the content <span style="color: #5A7644;">'About Us'</span>
+     Failure/Error: visit <span style="color: #5A7644;">'/static_pages/about'</span>
+     ActionController::RoutingError:
+       No route matches [GET] <span style="color: #5A7644;">"/static_pages/about"</span>
+     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">./spec/requests/static_pages_spec.rb:21:in `block (3 levels) in &lt;top (required)&gt;'</span>
+
+Finished<span style="color: #AE5825;"> in</span> 0.0552 seconds
+3 examples, 1 failure
+
+Failed examples:
+
+rspec ./spec/requests/static_pages_spec.rb:20 <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Static Pages About page should have the content 'About Us'</span>
+
+Randomized with seed 43839
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3">Green</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<ul class="org-ul">
+<li>上面的抱怨是我们根本没有/static_pages/about.这是routes没设置对, 改之
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">diff --git a/config/routes.rb b/config/routes.rb</span>
+<span style="color: #b3b3b3;">index f3d176d..d13c93c 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/config/routes.rb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/config/routes.rb</span>
+<span style="background-color: #737373;">@@ -1,6 +1,7 @@</span>
+<span style="color: #b3b3b3;"> SampleApp::Application.routes.draw do</span>
+<span style="color: #b3b3b3;">   get "static_pages/home"</span>
+<span style="color: #b3b3b3;">   get "static_pages/help"</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  get "static_pages/about"</span>
+<span style="color: #b3b3b3;">   # The priority is based upon order of creation: first created -&gt; highest priority.</span>
+<span style="color: #b3b3b3;">   # See how all your routes lay out with "rake routes".</span>
+</pre>
+</div>
+</li>
+<li>依然不对,抱怨controller没有相应的函数
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/sample_app$ rspec spec/requests/static_pages_spec.rb
+F..
+
+Failures:
+
+  1) Static Pages About page should have the content <span style="color: #5A7644;">'About Us'</span>
+     Failure/Error: visit <span style="color: #5A7644;">'/static_pages/about'</span>
+     AbstractController::ActionNotFound:
+       The action <span style="color: #5A7644;">'about'</span> could not be found for StaticPagesController
+     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">./spec/requests/static_pages_spec.rb:21:in `block (3 levels) in &lt;top (required)&gt;'</span>
+</pre>
+</div>
+</li>
+<li>那么我们就加上响应的函数
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">diff --git a/app/controllers/static_pages_controller.rb b/app/controllers/static_pages_controller.rb</span>
+<span style="color: #b3b3b3;">index c76b925..19f79a9 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/app/controllers/static_pages_controller.rb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/controllers/static_pages_controller.rb</span>
+<span style="background-color: #737373;">@@ -4,4 +4,7 @@</span><span style="background-color: #737373;"> class StaticPagesController &lt; ApplicationController</span>
+
+<span style="color: #b3b3b3;">   def help</span>
+<span style="color: #b3b3b3;">   end</span>
+<span style="background-color: #335533;">+</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  def about</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  end</span>
+<span style="color: #b3b3b3;"> end</span>
+</pre>
+</div>
+</li>
+<li>这次的抱怨是没有template
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/sample_app$ rspec spec/requests/static_pages_spec.rb
+F..
+
+Failures:
+
+  1) Static Pages About page should have the content <span style="color: #5A7644;">'About Us'</span>
+     Failure/Error: visit <span style="color: #5A7644;">'/static_pages/about'</span>
+     ActionView::MissingTemplate:
+       Missing template static_pages/about, application/about with {:<span style="color: #46657B;">locale</span>=&gt;[:en], :<span style="color: #46657B;">formats</span>=&gt;[:html], :<span style="color: #46657B;">handlers</span>=&gt;[:erb, :builder, :raw, :ruby, :jbuilder, :coffee]}<span style="color: #86453A;">.</span> Searched<span style="color: #AE5825;"> in</span>:
+         * <span style="color: #5A7644;">"/home/hfeng/rails_projects/sample_app/app/views"</span>
+     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">./spec/requests/static_pages_spec.rb:21:in `block (3 levels) in &lt;top (required)&gt;'</span>
+
+Finished<span style="color: #AE5825;"> in</span> 0.05173 seconds
+3 examples, 1 failure
+
+Failed examples:
+
+rspec ./spec/requests/static_pages_spec.rb:20 <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Static Pages About page should have the content 'About Us'</span>
+
+Randomized with seed 63833
+</pre>
+</div>
+</li>
+<li>没有template其实就是没有View,然后我们添加一下
+<div class="org-src-container">
+
+<pre class="src src-html"><span style="color: #4C565D;">&lt;!-- </span><span style="color: #333B40; font-style: italic;">sample_app/app/views/static_pages/about.html.erb </span><span style="color: #4C565D;">--&gt;</span>
+
+&lt;<span style="color: #C6B032;">h1</span>&gt;<span style="font-weight: bold; text-decoration: underline;">About Us</span>&lt;/<span style="color: #C6B032;">h1</span>&gt;
+&lt;<span style="color: #C6B032;">p</span>&gt;
+  The &lt;<span style="color: #C6B032;">a</span> <span style="color: #46657B;">href</span>=<span style="color: #5A7644;">"http://railstutorial.org/"</span>&gt;Ruby on Rails Tutorial&lt;/<span style="color: #C6B032;">a</span>&gt;
+  is a project to make a book and screencasts to teach web development
+  with &lt;<span style="color: #C6B032;">a</span> <span style="color: #46657B;">href</span>=<span style="color: #5A7644;">"http://rubyonrails.org/"</span>&gt;Ruby on Rails&lt;/<span style="color: #C6B032;">a</span>&gt;. This
+  is the sample application for the tutorial.
+&lt;/<span style="color: #C6B032;">p</span>&gt;
+</pre>
+</div>
+</li>
+<li>这下终于green了
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/sample_app$ rspec spec/requests/static_pages_spec.rb
+...
+
+Finished<span style="color: #AE5825;"> in</span> 0.05589 seconds
+3 examples, 0 failures
+
+Randomized with seed 39259
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-4" class="outline-4">
+<h4 id="sec-1-2-4">Refactor</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<ul class="org-ul">
+<li>现阶段我们还没有重构的必要,但是拥有健壮的测试是重构的基础.
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Slightly dynamic pages</h3>
+<div class="outline-text-3" id="text-1-3">
+</div><div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">Testing a title change</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>这次我们是要满足title包含(注意是包含,不是完全匹配)某些字符
+</li>
+<li>首先我们还是要做red part,所以得把rails提供的默认的layout给先屏蔽掉
+<div class="org-src-container">
+
+<pre class="src src-sh">mv app/views/layouts/application.html.erb foobar
+</pre>
+</div>
+</li>
+<li>然后是更改测试代码
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="background-color: #737373;">@@ -2,11 +2,14 @@</span><span style="background-color: #737373;"> require 'spec_helper'</span>
+
+<span style="color: #b3b3b3;"> describe "Static Pages" do</span>
+<span style="color: #b3b3b3;">   describe "Home page" do</span>
+<span style="background-color: #553333;">-</span>
+<span style="color: #b3b3b3;">     it "should have the content 'Sample App'" do</span>
+<span style="color: #b3b3b3;">       visit '/static_pages/home'</span>
+<span style="color: #b3b3b3;">       expect(page).to have_content('Sample App')</span>
+<span style="color: #b3b3b3;">     end</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    it "should have the right title 'Home'" do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      visit '/static_pages/home'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      expect(page).to have_title("Ruby on Rails Tutorial Sample App | Home")</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    end</span>
+<span style="color: #b3b3b3;">   end</span>
+
+<span style="color: #b3b3b3;">   describe "Help page" do</span>
+<span style="background-color: #737373;">@@ -14,6 +17,10 @@</span><span style="background-color: #737373;"> describe "Static Pages" do</span>
+<span style="color: #b3b3b3;">       visit '/static_pages/help'</span>
+<span style="color: #b3b3b3;">       expect(page).to have_content('Help')</span>
+<span style="color: #b3b3b3;">     end</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    it "should have the right title 'Help'" do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      visit '/static_pages/help'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      expect(page).to have_title("Ruby on Rails Tutorial Sample App | Help")</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    end</span>
+<span style="color: #b3b3b3;">   end</span>
+
+<span style="color: #b3b3b3;">   describe "About page" do</span>
+<span style="background-color: #737373;">@@ -21,6 +28,9 @@</span><span style="background-color: #737373;"> describe "Static Pages" do</span>
+<span style="color: #b3b3b3;">       visit '/static_pages/about'</span>
+<span style="color: #b3b3b3;">       expect(page).to have_content('About Us')</span>
+<span style="color: #b3b3b3;">     end</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    it "should have the right title 'About Us'" do</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      visit '/static_pages/about'</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">      expect(page).to have_title("Ruby on Rails Tutorial Sample App | About Us")</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">    end</span>
+<span style="color: #b3b3b3;">   end</span>
+<span style="background-color: #553333;">-</span>
+<span style="color: #b3b3b3;"> end</span>
+</pre>
+</div>
+</li>
+<li>注定凄凉的结果
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/sample_app$ rspec spec/requests/static_pages_spec.rb
+F.F.F.
+
+Failures:
+
+  1) Static Pages Home page should have the right title <span style="color: #5A7644;">'Home'</span>
+     Failure/Error: expect(page).to have_title(<span style="color: #5A7644;">"Ruby on Rails Tutorial Sample App | Home"</span>)
+       expected <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">has_title?("Ruby on Rails Tutorial Sample App | Home") to return true, got false</span>
+     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">./spec/requests/static_pages_spec.rb:11:in `block (3 levels) in &lt;top (required)&gt;'</span>
+
+  2) Static Pages Help page should have the right title <span style="color: #5A7644;">'Help'</span>
+     Failure/Error: expect(page).to have_title(<span style="color: #5A7644;">"Ruby on Rails Tutorial Sample App | Help"</span>)
+       expected <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">has_title?("Ruby on Rails Tutorial Sample App | Help") to return true, got false</span>
+     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">./spec/requests/static_pages_spec.rb:22:in `block (3 levels) in &lt;top (required)&gt;'</span>
+
+  3) Static Pages About page should have the right title <span style="color: #5A7644;">'About Us'</span>
+     Failure/Error: expect(page).to have_title(<span style="color: #5A7644;">"Ruby on Rails Tutorial Sample App | About Us"</span>)
+       expected <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">has_title?("Ruby on Rails Tutorial Sample App | About Us") to return true, got false</span>
+     <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">./spec/requests/static_pages_spec.rb:33:in `block (3 levels) in &lt;top (required)&gt;'</span>
+
+Finished<span style="color: #AE5825;"> in</span> 0.05635 seconds
+6 examples, 3 failures
+
+Failed examples:
+
+rspec ./spec/requests/static_pages_spec.rb:9 <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Static Pages Home page should have the right title 'Home'</span>
+rspec ./spec/requests/static_pages_spec.rb:20 <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Static Pages Help page should have the right title 'Help'</span>
+rspec ./spec/requests/static_pages_spec.rb:31 <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Static Pages About page should have the right title 'About Us'</span>
+
+Randomized with seed 2602
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2">Passing title tests</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li>下面就要来让这些测试通过啦,想通过也就很简单,让他们的title含有响应字符就可以了
+<ul class="org-ul">
+<li>对于home来说就是
+<div class="org-src-container">
+
+<pre class="src src-html"><span style="color: #4C565D;">&lt;!-- </span><span style="color: #333B40; font-style: italic;">app/views/static_pages/home.html.erb </span><span style="color: #4C565D;">--&gt;</span>
+
+&lt;<span style="color: #AE5825;">!DOCTYPE</span> html&gt;
+&lt;<span style="color: #C6B032;">html</span>&gt;
+  &lt;<span style="color: #C6B032;">head</span>&gt;
+    &lt;<span style="color: #C6B032;">title</span>&gt;<span style="font-weight: bold; text-decoration: underline;">Ruby on Rails Tutorial Sample App | Home</span>&lt;/<span style="color: #C6B032;">title</span>&gt;
+  &lt;/<span style="color: #C6B032;">head</span>&gt;
+  &lt;<span style="color: #C6B032;">body</span>&gt;
+    &lt;<span style="color: #C6B032;">h1</span>&gt;<span style="font-weight: bold; text-decoration: underline;">Sample App</span>&lt;/<span style="color: #C6B032;">h1</span>&gt;
+    &lt;<span style="color: #C6B032;">p</span>&gt;
+      This is the home page for the
+      &lt;<span style="color: #C6B032;">a</span> <span style="color: #46657B;">href</span>=<span style="color: #5A7644;">"http://railstutorial.org/"</span>&gt;Ruby on Rails Tutorial&lt;/<span style="color: #C6B032;">a</span>&gt;
+      sample application.
+    &lt;/<span style="color: #C6B032;">p</span>&gt;
+  &lt;/<span style="color: #C6B032;">body</span>&gt;
+&lt;/<span style="color: #C6B032;">html</span>&gt;
+</pre>
+</div>
+</li>
+<li>对于help来说就是
+<div class="org-src-container">
+
+<pre class="src src-html"><span style="color: #4C565D;">&lt;!-- </span><span style="color: #333B40; font-style: italic;">app/views/static_pages/help.html.erb </span><span style="color: #4C565D;">--&gt;</span>
+
+&lt;<span style="color: #AE5825;">!DOCTYPE</span> html&gt;
+&lt;<span style="color: #C6B032;">html</span>&gt;
+  &lt;<span style="color: #C6B032;">head</span>&gt;
+    &lt;<span style="color: #C6B032;">title</span>&gt;<span style="font-weight: bold; text-decoration: underline;">Ruby on Rails Tutorial Sample App | Help</span>&lt;/<span style="color: #C6B032;">title</span>&gt;
+  &lt;/<span style="color: #C6B032;">head</span>&gt;
+  &lt;<span style="color: #C6B032;">body</span>&gt;
+    &lt;<span style="color: #C6B032;">h1</span>&gt;<span style="font-weight: bold; text-decoration: underline;">Sample App</span>&lt;/<span style="color: #C6B032;">h1</span>&gt;
+    &lt;<span style="color: #C6B032;">p</span>&gt;
+      This is the help page for the
+      &lt;<span style="color: #C6B032;">a</span> <span style="color: #46657B;">href</span>=<span style="color: #5A7644;">"http://railstutorial.org/"</span>&gt;Ruby on Rails Tutorial&lt;/<span style="color: #C6B032;">a</span>&gt;
+      sample application.
+    &lt;/<span style="color: #C6B032;">p</span>&gt;
+  &lt;/<span style="color: #C6B032;">body</span>&gt;
+&lt;/<span style="color: #C6B032;">html</span>&gt;
+</pre>
+</div>
+</li>
+<li>对于about来说就是
+<div class="org-src-container">
+
+<pre class="src src-html"><span style="color: #4C565D;">&lt;!-- </span><span style="color: #333B40; font-style: italic;">app/views/static_pages/about.html.erb </span><span style="color: #4C565D;">--&gt;</span>
+
+&lt;<span style="color: #AE5825;">!DOCTYPE</span> html&gt;
+&lt;<span style="color: #C6B032;">html</span>&gt;
+  &lt;<span style="color: #C6B032;">head</span>&gt;
+    &lt;<span style="color: #C6B032;">title</span>&gt;<span style="font-weight: bold; text-decoration: underline;">Ruby on Rails Tutorial Sample App | About Us</span>&lt;/<span style="color: #C6B032;">title</span>&gt;
+  &lt;/<span style="color: #C6B032;">head</span>&gt;
+  &lt;<span style="color: #C6B032;">body</span>&gt;
+    &lt;<span style="color: #C6B032;">h1</span>&gt;<span style="font-weight: bold; text-decoration: underline;">Sample App</span>&lt;/<span style="color: #C6B032;">h1</span>&gt;
+    &lt;<span style="color: #C6B032;">p</span>&gt;
+      This is the about page for the
+      &lt;<span style="color: #C6B032;">a</span> <span style="color: #46657B;">href</span>=<span style="color: #5A7644;">"http://railstutorial.org/"</span>&gt;Ruby on Rails Tutorial&lt;/<span style="color: #C6B032;">a</span>&gt;
+      sample application.
+    &lt;/<span style="color: #C6B032;">p</span>&gt;
+  &lt;/<span style="color: #C6B032;">body</span>&gt;
+&lt;/<span style="color: #C6B032;">html</span>&gt;
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3">Embedded Ruby</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<ul class="org-ul">
+<li>上面三个Html页面最大的特点,就是"重复", Rails是为了DRY原则设计的一个框架,如
+此频繁的重复肯定无法容忍.需要通过某些方式引入"变量",替代可变部分.
+</li>
+<li>以Home为例, 其他类似
+<div class="org-src-container">
+
+<pre class="src src-html"><span style="color: #4C565D;">&lt;!-- </span><span style="color: #333B40; font-style: italic;">app/views/static_pages/home.html.erb </span><span style="color: #4C565D;">--&gt;</span>
+&lt;% provide(:title, 'Home') %&gt;
+&lt;<span style="color: #AE5825;">!DOCTYPE</span> html&gt;
+&lt;<span style="color: #C6B032;">html</span>&gt;
+  &lt;<span style="color: #C6B032;">head</span>&gt;
+    &lt;<span style="color: #C6B032;">title</span>&gt;Ruby on Rails Tutorial Sample App | &lt;%= yield(:title) %&gt;&lt;/<span style="color: #C6B032;">title</span>&gt;
+  &lt;/<span style="color: #C6B032;">head</span>&gt;
+  &lt;<span style="color: #C6B032;">body</span>&gt;
+    &lt;<span style="color: #C6B032;">h1</span>&gt;<span style="font-weight: bold; text-decoration: underline;">Sample App</span>&lt;/<span style="color: #C6B032;">h1</span>&gt;
+    &lt;<span style="color: #C6B032;">p</span>&gt;
+      This is the home page for the
+      &lt;<span style="color: #C6B032;">a</span> <span style="color: #46657B;">href</span>=<span style="color: #5A7644;">"http://railstutorial.org/"</span>&gt;Ruby on Rails Tutorial&lt;/<span style="color: #C6B032;">a</span>&gt;
+      sample application.
+    &lt;/<span style="color: #C6B032;">p</span>&gt;
+  &lt;/<span style="color: #C6B032;">body</span>&gt;
+&lt;/<span style="color: #C6B032;">html</span>&gt;
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4">Eliminating duplication with layouts</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<ul class="org-ul">
+<li>为每个html.erb页面在头上加上如下这么一句, 肯定是非常麻烦的
+<div class="org-src-container">
+
+<pre class="src src-html">&lt;% provide(:title, 'Foo') %&gt;
+&lt;<span style="color: #AE5825;">!DOCTYPE</span> html&gt;
+&lt;<span style="color: #C6B032;">html</span>&gt;
+  &lt;<span style="color: #C6B032;">head</span>&gt;
+    &lt;<span style="color: #C6B032;">title</span>&gt;Ruby on Rails Tutorial Sample App | &lt;%= yield(:title) %&gt;&lt;/<span style="color: #C6B032;">title</span>&gt;
+  &lt;/<span style="color: #C6B032;">head</span>&gt;
+
+
+  <span style="color: #4C565D;">&lt;!-- </span><span style="color: #333B40; font-style: italic;">.... </span><span style="color: #4C565D;">--&gt;</span>
+&lt;/<span style="color: #C6B032;">html</span>&gt;
+</pre>
+</div>
+</li>
+<li>rails的解决办法,是把相同的部分抽出来,设计成layout, 然后每个页面都include layout
+</li>
+<li>在默认的模板生成的代码之下,只需要更改一部分就可以得到预想的功能
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;"> &lt;html&gt;</span>
+<span style="color: #b3b3b3;"> &lt;head&gt;</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">  &lt;title&gt;SampleApp&lt;/title&gt;</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">  &lt;title&gt;Ruby on Rails Tutorial Sample App | &lt;% yield(:title) %&gt;&lt;/title&gt;</span>
+</pre>
+</div>
+</li>
+<li>我们顺便来研究下app/views/layouts/application.html.erb的全部代码
+<div class="org-src-container">
+
+<pre class="src src-ruby">&lt;!<span style="color: #C6B032; font-style: italic;">DOCTYPE</span> html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;title&gt;<span style="color: #C6B032; font-style: italic;">Ruby</span> on <span style="color: #C6B032; font-style: italic;">Rails</span> <span style="color: #C6B032; font-style: italic;">Tutorial</span> <span style="color: #C6B032; font-style: italic;">Sample</span> <span style="color: #C6B032; font-style: italic;">App</span> | &lt;% <span style="color: #AE5825;">yield</span>(<span style="color: #86453A;">:title</span>) <span style="color: #5A7644;">%&gt;&lt;/title&gt;</span>
+  &lt;<span style="color: #5A7644;">%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" =</span>&gt; <span style="color: #46657B;">true</span> <span style="color: #5A7644;">%&gt;</span>
+<span style="color: #5A7644;">  &lt;%</span>= javascript_include_tag <span style="color: #5A7644;">"application"</span>, <span style="color: #5A7644;">"data-turbolinks-track"</span> =<span style="color: #5A7644;">&gt; true %</span>&gt;
+  &lt;<span style="color: #5A7644;">%= csrf_meta_tags %</span>&gt;
+&lt;<span style="color: #5A7644;">/head&gt;</span>
+<span style="color: #5A7644;">&lt;body&gt;</span>
+
+<span style="color: #5A7644;">&lt;%= yield %&gt;</span>
+
+<span style="color: #5A7644;">&lt;/</span>body&gt;
+&lt;<span style="color: #5A7644;">/html&gt;</span>
+</pre>
+</div>
+</li>
+<li>代码有这个几个需要注意的点:
+<ul class="org-ul">
+<li>&lt;%= stylesheet_lik_tag %&gt;是引入style
+</li>
+<li>&lt;%= javascript_include_tag %&gt;是引入javascript
+</li>
+<li>&lt;%= csrf_meta_tags %&gt;的引入,是为了防止某些恶意攻击
+</li>
+<li>&lt;% yield(:title) %&gt; 就是会使用对应页面(比如home.html.erb)的:title的值啦
+</li>
+<li>&lt;%= yield %&gt; 这个很关键, 对应页面(比如home.html.erb)就会加载到这个地方来.
+对应页面就像block一样,被引入,然后在这个地方和layout结合成一个页面.用法和
+ruby的block很类似.
+</li>
+</ul>
+</li>
+<li>对html.erb稍加改动
+<div class="org-src-container">
+
+<pre class="src src-diff"><span style="color: #b3b3b3;">diff --git a/app/views/static_pages/about.html.erb b/app/views/static_pages/about.html.erb</span>
+<span style="color: #b3b3b3;">index 463bdb3..26012f2 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/app/views/static_pages/about.html.erb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/views/static_pages/about.html.erb</span>
+<span style="background-color: #737373;">@@ -1,5 +1,4 @@</span>
+<span style="background-color: #553333;">-</span><span style="background-color: #553333;">&lt;!-- sample_app/app/views/static_pages/about.html.erb --&gt;</span>
+<span style="background-color: #553333;">-</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">&lt;% provide(:title, 'About Us') %&gt;</span>
+<span style="color: #b3b3b3;"> &lt;h1&gt;About Us&lt;/h1&gt;</span>
+<span style="color: #b3b3b3;"> &lt;p&gt;</span>
+<span style="color: #b3b3b3;">   The &lt;a href="http://railstutorial.org/"&gt;Ruby on Rails Tutorial&lt;/a&gt;</span>
+<span style="color: #b3b3b3;">    Modified   app/views/static_pages/help.html.erb</span>
+<span style="color: #b3b3b3;">diff --git a/app/views/static_pages/help.html.erb b/app/views/static_pages/help.html.erb</span>
+<span style="color: #b3b3b3;">index bb57b44..50245e4 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/app/views/static_pages/help.html.erb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/views/static_pages/help.html.erb</span>
+<span style="background-color: #737373;">@@ -1,3 +1,4 @@</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">&lt;% provide(:title, 'Help') %&gt;</span>
+<span style="color: #b3b3b3;"> &lt;h1&gt;Help&lt;/h1&gt;</span>
+<span style="color: #b3b3b3;"> &lt;p&gt;</span>
+<span style="color: #b3b3b3;">   Get help on the Ruby on Rails Tutorial at the</span>
+<span style="color: #b3b3b3;">    Modified   app/views/static_pages/home.html.erb</span>
+<span style="color: #b3b3b3;">diff --git a/app/views/static_pages/home.html.erb b/app/views/static_pages/home.html.erb</span>
+<span style="color: #b3b3b3;">index d4f4fe7..f184b43 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/app/views/static_pages/home.html.erb</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/app/views/static_pages/home.html.erb</span>
+<span style="background-color: #737373;">@@ -1,3 +1,4 @@</span>
+<span style="background-color: #335533;">+</span><span style="background-color: #335533;">&lt;% provide(:title, 'Home') %&gt;</span>
+<span style="color: #b3b3b3;"> &lt;h1&gt;Sample App&lt;/h1&gt;</span>
+<span style="color: #b3b3b3;"> &lt;p&gt;</span>
+<span style="color: #b3b3b3;">   This is the ome page for the</span>
+<span style="color: #b3b3b3;">    Modified   spec/requests/static_pages_spec.rb</span>
+</pre>
+</div>
+</li>
+<li>结果就很满意啦(Green stage)
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/sample_app$ rspec spec/requests/static_pages_spec.rb
+......
+
+Finished<span style="color: #AE5825;"> in</span> 0.06567 seconds
+6 examples, 0 failures
+
+Randomized with seed 19940
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Conclusion</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>操作做完以后,把branch更改后merge到master
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@ubuntu1204:~/rails_projects/sample_app$ git status
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">On branch static-pages</span>
+<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">Changes not staged for commit:</span>
+<span style="color: #4C565D;">#   </span><span style="color: #333B40; font-style: italic;">(use "git add &lt;file&gt;..." to update what will be committed)</span>
+<span style="color: #4C565D;">#   </span><span style="color: #333B40; font-style: italic;">(use "git checkout -- &lt;file&gt;..." to discard changes in working directory)</span>
+<span style="color: #4C565D;">#</span>
+<span style="color: #4C565D;">#   </span><span style="color: #333B40; font-style: italic;">modified:   app/views/layouts/application.html.erb</span>
+<span style="color: #4C565D;">#   </span><span style="color: #333B40; font-style: italic;">modified:   app/views/static_pages/about.html.erb</span>
+<span style="color: #4C565D;">#   </span><span style="color: #333B40; font-style: italic;">modified:   app/views/static_pages/help.html.erb</span>
+<span style="color: #4C565D;">#   </span><span style="color: #333B40; font-style: italic;">modified:   app/views/static_pages/home.html.erb</span>
+<span style="color: #4C565D;">#   </span><span style="color: #333B40; font-style: italic;">modified:   spec/requests/static_pages_spec.rb</span>
+<span style="color: #4C565D;">#</span>
+no changes added to commit (use <span style="color: #5A7644;">"git add"</span> and/or <span style="color: #5A7644;">"git commit -a"</span>)
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git add .
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git branch
+  master
+* static-pages
+  undo-test
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git add .
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git commit -m <span style="color: #5A7644;">"Finish static pages"</span>
+[static-pages 77fb631] Finish static pages
+ 5 files changed, 17 insertions(+), 6 deletions(-)
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git checkout master
+Switched to branch <span style="color: #5A7644;">'master'</span>
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git merge static-pages
+Updating 932b687..77fb631
+Fast-forward
+ app/assets/javascripts/static_pages.js.coffee |    3 +++
+ app/assets/stylesheets/static_pages.css.scss  |    3 +++
+ app/controllers/static_pages_controller.rb    |   10 +++++++
+ app/helpers/static_pages_helper.rb            |    2 ++
+ app/views/layouts/application.html.erb        |    4 +--
+ app/views/static_pages/about.html.erb         |    8 ++++++
+ app/views/static_pages/help.html.erb          |    8 ++++++
+ app/views/static_pages/home.html.erb          |    7 +++++
+ config/routes.rb                              |    3 +++
+ spec/requests/static_pages_spec.rb            |   36 +++++++++++++++++++++++++
+ spec/spec_helper.rb                           |    1 +
+ 11 files changed, 83 insertions(+), 2 deletions(-)
+ create mode 100644 app/assets/javascripts/static_pages.js.coffee
+ create mode 100644 app/assets/stylesheets/static_pages.css.scss
+ create mode 100644 app/controllers/static_pages_controller.rb
+ create mode 100644 app/helpers/static_pages_helper.rb
+ create mode 100644 app/views/static_pages/about.html.erb
+ create mode 100644 app/views/static_pages/help.html.erb
+ create mode 100644 app/views/static_pages/home.html.erb
+ create mode 100644 spec/requests/static_pages_spec.rb
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git remote -v
+heroku  git@heroku.com:hfeng-sample-app.git (fetch)
+heroku  git@heroku.com:hfeng-sample-app.git (push)
+origin  git@github.com:harrifeng/sample_app.git (fetch)
+origin  git@github.com:harrifeng/sample_app.git (push)
+hfeng@ubuntu1204:~/rails_projects/sample_app$ git push origin master
+Counting objects: 25, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (11/11), done.
+Writing objects: 100% (13/13), 1.18 KiB, done.
+Total 13 (delta 7), reused 0 (delta 0)
+To git@github.com:harrifeng/sample_app.git
+   932b687..77fb631  master -&gt; master
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

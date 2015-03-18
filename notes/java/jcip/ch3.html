@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 3</title>
-<!-- 2014-07-18 Fri 16:15 -->
+<!-- 2015-03-18 Wed 14:16 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -201,7 +201,7 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1-5-1">Improper Publication: When Good Objects Go Bad</a></li>
 <li><a href="#sec-1-5-2">Immutable Objects and Initialization Safety</a></li>
 <li><a href="#sec-1-5-3">Safe Publication Idioms</a></li>
-<li><a href="#sec-1-5-4">Effectively Immutable Objects</a></li>
+<li><a href="#sec-1-5-4">Effectively(事实上的) Immutable Objects</a></li>
 <li><a href="#sec-1-5-5">Mutable Objects</a></li>
 <li><a href="#sec-1-5-6">Sharing Objects Safety</a></li>
 </ul>
@@ -217,9 +217,11 @@ for the JavaScript code in this tag.
 <ul class="org-ul">
 <li>第二章我们讲到过了,并发编程的关键,是管理对共享,可变数据的访问.
 </li>
-<li>所以第二章主要讲的是,如何利用同步来防止多个线程在同一时间访问同一个数据. 这
-一章讲的则是,通过"其他技巧"让对象能够共享,而且被多个线程同时访问,当然是线程
-安全的访问
+<li>所以第二章主要讲的是,如何利用'各种技巧(锁，原子化）’来防止'多个线程在同一时间
+访问同一个数据'.
+</li>
+<li>这一章讲的则是,通过"其他技巧"(而不是靠锁）让对象能够共享,而且被多个线程同时访
+问,当然是线程安全的访问
 </li>
 <li>第二章的介绍,很容易让人误以为同步"只能":
 <ol class="org-ol">
@@ -229,9 +231,11 @@ for the JavaScript code in this tag.
 </li>
 </ol>
 </li>
-<li>其实同步还有其他的不易察觉却非常重要的作用:内存的可见性(memory visibility):
-我们不仅仅想阻止线程A在线程B使用数据X的时候得到这个数据, 我们还想让A可以在B
-使用更改X的时候,能够"看到"数据X的最新值
+<li>其实同步还有其他的不易察觉却非常重要的作用:内存的可见性(memory visibility).
+</li>
+<li>所谓内存可见性，是指:我们不仅仅想阻止线程A在线程B使用数据X的时候得到这个数据,
+我们还想让A可以在B更改X的时候,能够"看到"数据X的最新值.如果没有正确的同步,是
+不可能做到内存可见的
 </li>
 </ul>
 </div>
@@ -239,34 +243,37 @@ for the JavaScript code in this tag.
 <h3 id="sec-1-1">Visibility</h3>
 <div class="outline-text-3" id="text-1-1">
 <ul class="org-ul">
-<li>下面这个例子,有两个线程,main线程和reader线程, main线程首先启动reader线程, 
+<li>在single-thread进程环境里面, 如果你写入一个值到一个变量,然后再读取,那么结果
+是显而易见的.但是,如果'读取'和'写入'操作是在两个不同的线程里面的话,结果很可能
+是reading thread无法看到writing thread写入的值
+</li>
+<li>下面这个例子,有两个线程,main线程和reader线程, main线程首先启动reader线程,
 然后设置ready为true, 并给予number一个非零值.reader线程不停的check readay
 的状态是否为true,如果是的情况下,就打印number的值
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">NoVisibility</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">ready</span>;
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">number</span>;
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">NoVisibility</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #46657B;">ready</span>;
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">number</span>;
 
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ReaerThread</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Thread</span> {
-        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">run</span>() {
-            <span style="color: #859900; font-weight: bold;">while</span> (<span style="color: #b58900; font-weight: bold;">!</span>ready) {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">static</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">ReaderThread</span> <span style="color: #AE5825;">extends</span> <span style="color: #C6B032; font-style: italic;">Thread</span> {
+        <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">run</span>() {
+            <span style="color: #AE5825;">while</span> (!ready) {
                 Thread.yield();
             }
             System.out.println(number);
         }
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ReaerThread</span>().start();
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">ReaderThread</span>().start();
         number = 42;
-        ready = <span style="color: #268bd2; font-weight: bold;">true</span>;
+        ready = <span style="color: #86453A;">true</span>;
     }
 }
 </pre>
 </div>
 </li>
-
 <li>虽然上面的例子在大多数情况下都能成功打印42, 但是还是存在着下面两种可能的错误:
 <ol class="org-ol">
 <li>死循环:因为读不到ready变成true
@@ -295,37 +302,50 @@ for the JavaScript code in this tag.
 getter的时候,线程B可能在setter.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@NotThreadSafe</span>
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MutableInteger</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">value</span>;
+<pre class="src src-java"><span style="color: #86453A;">@NotThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">MutableInteger</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">value</span>;
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">get</span>() {
-        <span style="color: #859900; font-weight: bold;">return</span> value;
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #C6B032;">get</span>() {
+        <span style="color: #AE5825;">return</span> value;
     }
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">set</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">value</span>) {
-        <span style="color: #859900; font-weight: bold;">this</span>.value = value;
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">set</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">value</span>) {
+        <span style="color: #AE5825;">this</span>.value = value;
     }
 }
 </pre>
 </div>
 </li>
-<li>更改的方法,就是给两个函数都加上同步机制:仅仅给予setter同步是不够的,因为某个线程
-还是可以在getter的时候,得到"失效"的数据
+<li>更改的方法,就是给两个函数都加上同步机制
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #268bd2; font-weight: bold;">@ThreadSafe</span>
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">SynchronizedInteger</span> {
-    <span style="color: #268bd2; font-weight: bold;">@GuardeBy</span>(<span style="color: #2aa198;">"this"</span>) <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">value</span>;
+<pre class="src src-java"><span style="color: #86453A;">@ThreadSafe</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">SynchronizedInteger</span> {
+    <span style="color: #86453A;">@GuardeBy</span>(<span style="color: #5A7644;">"this"</span>) <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">value</span>;
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">synchronized</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">get</span>() {
-        <span style="color: #859900; font-weight: bold;">return</span> value;
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #C6B032;">get</span>() {
+        <span style="color: #AE5825;">return</span> value;
     }
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">synchronized</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">set</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">value</span>) {
-        <span style="color: #859900; font-weight: bold;">this</span>.value = value;
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">synchronized</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">set</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">value</span>) {
+        <span style="color: #AE5825;">this</span>.value = value;
     }
 }
 </pre>
 </div>
+</li>
+<li>仅仅给予setter同步是不够的,因为某个线程还是可以在getter的时候,得到"失效"的数据:
+<ul class="org-ul">
+<li>value开始的时候值是5
+</li>
+<li>线程A进入setter,然后被调度出去,
+</li>
+<li>线程B虽然不能进入setter,但是还是可以进入getter,也就看到了老的value值5
+</li>
+<li>线程A重新被调度到,把value改成了100
+</li>
+<li>线程B拿到的是老的值5
+</li>
+</ul>
 </li>
 </ul>
 </div>
@@ -391,6 +411,11 @@ getter的时候,线程B可能在setter.
 </li>
 <li>所以,"锁"并不是只是为了"互相排斥(mutual excusion)", 而且也为了能够让其他
 线程看到"有效的"内存值
+<pre class="example">
+Locking is not just about mutual exclusion; it is also about memory visibility.
+To ensure that all threads see the most up-to-date values of shared mutable variables,
+the reading and riting threads must synchronize on a common lock.
+</pre>
 </li>
 </ul>
 </div>
@@ -404,7 +429,7 @@ getter的时候,线程B可能在setter.
 <ol class="org-ol">
 <li>编译器不会把对volatile变量的操作reorder
 </li>
-<li>编译器不会把volatile变量放入寄存器进行缓存
+<li>编译器不会把volatile变量放入寄存器进行缓存(缓存是其他的cpu core看不到的)
 </li>
 </ol>
 </li>
@@ -420,9 +445,9 @@ getter的时候,线程B可能在setter.
 的用法也就是flag:
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">volatile</span> <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">asleep</span>;
+<pre class="src src-java"><span style="color: #AE5825;">volatile</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #46657B;">asleep</span>;
 
-<span style="color: #859900; font-weight: bold;">while</span>(<span style="color: #b58900; font-weight: bold;">!</span>asleep) {
+<span style="color: #AE5825;">while</span>(!asleep) {
     countSomeSheep();
 }
 </pre>
@@ -463,67 +488,76 @@ getter的时候,线程B可能在setter.
 </li>
 <li>如果一个对象还没准备好, 就被不小心的发布了,叫做逃逸(escaped)
 </li>
-<li>最明显的发布方式,就是存储一个对象的引用在public static的变量里面, 这样所有
+<li>最明显的发布方式,就是'存储一个对象的引用在public static的变量'里面, 这样所有
 的人都可以通过knownSecrets得到引用然后知道了Secret的所有内容
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">Set</span>&lt;Secret&gt; knownSecrets;
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">Set</span>&lt;<span style="color: #C6B032; font-style: italic;">Secret</span>&gt; <span style="color: #46657B;">knownSecrets</span>;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">initialize</span>() {
-    knownSecrets = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">HashSet</span>&lt;Secret&gt;();
+<span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">initialize</span>() {
+    knownSecrets = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">HashSet</span>&lt;<span style="color: #C6B032; font-style: italic;">Secret</span>&gt;();
 }
 </pre>
 </div>
 </li>
-<li>通过从非private的函数里面返回值的方式,也容易publish不合适的内容, 比如下面这
+<li>通过'从非private的函数里面返回值'的方式,也容易publish不合适的内容, 比如下面这
 个例子,通过返回的引用,我可以轻松的改动本来private的值
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">UnsafeStates</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">getStates</span>() {
-        <span style="color: #859900; font-weight: bold;">return</span> states;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.jcip.<span style="color: #86453A;">ch3</span>;
+
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">UnsafeStates</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #C6B032;">getStates</span>() {
+        <span style="color: #AE5825;">return</span> states;
     }
 
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">states</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">String</span>[] { <span style="color: #2aa198;">"AA"</span>, <span style="color: #2aa198;">"BB"</span>};
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">states</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">String</span>[] { <span style="color: #5A7644;">"AA"</span>, <span style="color: #5A7644;">"BB"</span>};
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #b58900;">UnsafeStates</span> <span style="color: #268bd2;">us</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">UnsafeStates</span>();
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">UnsafeStates</span> <span style="color: #46657B;">us</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">UnsafeStates</span>();
         System.out.println(us.getStates()[0]);
-        us.getStates()[0] = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">String</span>(<span style="color: #2aa198;">"ZZ"</span>);
+        us.getStates()[0] = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">String</span>(<span style="color: #5A7644;">"ZZ"</span>);
         System.out.println(us.getStates()[0]);
     }
-
 }
+
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">AA                                             //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">ZZ                                             //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
-<li>最后一种可能的发布内部state的方法,是返回一个inner class instance的时候,比如
-下面虽然看似是publish了EventListener, 但是其实EventListener里面含有ref到
-ThisEscape, 所以其实也同时publish了ThisEscape
+<li>'把一个对象当作某个函数的参数'是最后一种可能的发布内部state的方法. 下面是返回
+一个inner class instance的例子,下面虽然看似是publish了EventListener, 但是其
+实EventListener里面含有ref到ThisEscape, 所以其实也同时publish了ThisEscape.
+因为EventListener是一个inner class(interface), 它必然包括对enclosing instance
+的引用
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ThisEscape</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> ThisEscape(<span style="color: #b58900;">EventSource</span> <span style="color: #268bd2;">source</span>) {
-        source.registerListener(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">EventListener</span>() {
-            <span style="color: #268bd2; font-weight: bold;">@Override</span>
-            <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">onEvent</span>(<span style="color: #b58900;">Event</span> <span style="color: #268bd2;">e</span>) {
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">ThisEscape</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">ThisEscape</span>(<span style="color: #C6B032; font-style: italic;">EventSource</span> <span style="color: #46657B;">source</span>) {
+        source.registerListener(<span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">EventListener</span>() {
+            <span style="color: #86453A;">@Override</span>
+            <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">onEvent</span>(<span style="color: #C6B032; font-style: italic;">Event</span> <span style="color: #46657B;">e</span>) {
                 doSomething(e);
             }
         });
     }
 
-    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">doSomething</span>(<span style="color: #b58900;">Event</span> <span style="color: #268bd2;">e</span>) {
+    <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">doSomething</span>(<span style="color: #C6B032; font-style: italic;">Event</span> <span style="color: #46657B;">e</span>) {
     }
 
-    <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">EventSource</span> {
-        <span style="color: #b58900;">void</span> <span style="color: #268bd2;">registerListener</span>(<span style="color: #b58900;">EventListener</span> <span style="color: #268bd2;">e</span>);
+    <span style="color: #AE5825;">interface</span> <span style="color: #C6B032; font-style: italic;">EventSource</span> {
+        <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">registerListener</span>(<span style="color: #C6B032; font-style: italic;">EventListener</span> <span style="color: #46657B;">e</span>);
     }
 
-    <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">EventListener</span> {
-        <span style="color: #b58900;">void</span> <span style="color: #268bd2;">onEvent</span>(<span style="color: #b58900;">Event</span> <span style="color: #268bd2;">e</span>);
+    <span style="color: #AE5825;">interface</span> <span style="color: #C6B032; font-style: italic;">EventListener</span> {
+        <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">onEvent</span>(<span style="color: #C6B032; font-style: italic;">Event</span> <span style="color: #46657B;">e</span>);
     }
 
-    <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">Event</span> {
+    <span style="color: #AE5825;">interface</span> <span style="color: #C6B032; font-style: italic;">Event</span> {
     }
 }
 </pre>
@@ -535,56 +569,59 @@ ThisEscape, 所以其实也同时publish了ThisEscape
 <h4 id="sec-1-2-1">Safte Construction Practices</h4>
 <div class="outline-text-4" id="text-1-2-1">
 <ul class="org-ul">
-<li>上面的例子告诉我们,在ctor里面publish 对象的结果,很可能是publish了一个没有构造
-好的对象
+<li>上面的例子告诉我们,在ctor里面publish 对象(在ctor里面有一个register的过程,其
+实就是发布)的结果,很可能是publish了一个没有构造好的对象
 </li>
 <li>一个常见的在构造阶段escape this引用的做法就是在构造函数里面开启线程. 因为构造
 函数里面this是和其他线程共享的, 所以:
 <ul class="org-ul">
 <li>this引用可以作为参数"显示"的传递给线程
 </li>
-<li>this引用也可以"隐性"的被调用,因为Thread是inner class
+<li>this引用也可以"隐性"的被调用,因为Thread或者Runnable是当前class的inner class
+的话
 </li>
 </ul>
 </li>
-<li>从ctor里面调用线程不是错误的关键,关键是不要那么着急. 从构造函数里面调用被重载的
-函数(比如上面的调用public void onEvent)肯定即不是private,也不是final, 肯定会
-this引用泄漏.
+<li>一旦在ctor里面创建了新的thread, 新的thread会看到没有创建好的当前的class
 </li>
-<li>如果实在想在构造函数里面注册一个event listenr或者开启一个线程,那么可以选择把构造
-函数设计成private, 然后用public的工厂方法,如下:
+<li>但这不是错误的关键,关键是不要那么着急start().
+</li>
+<li>从构造函数里面调用被重载的函数(比如上面的调用public void onEvent)肯定会this引用泄漏.
+</li>
+<li>如果实在想在构造函数里面注册一个event listenr或者start()一个线程,那么可以
+选择把构造函数设计成private, 然后用public的工厂方法,如下:
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">SafeListener</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">EventListener</span> <span style="color: #268bd2;">listener</span>;
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">SafeListener</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">EventListener</span> <span style="color: #46657B;">listener</span>;
 
-    <span style="color: #859900; font-weight: bold;">private</span> SafeListener() {
-        listener = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">EventListener</span>() {
-            <span style="color: #268bd2; font-weight: bold;">@Override</span>
-            <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">onEvent</span>(<span style="color: #b58900;">Event</span> <span style="color: #268bd2;">e</span>) {
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032;">SafeListener</span>() {
+        listener = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">EventListener</span>() {
+            <span style="color: #86453A;">@Override</span>
+            <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">onEvent</span>(<span style="color: #C6B032; font-style: italic;">Event</span> <span style="color: #46657B;">e</span>) {
                 doSomething();
             }
         };
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">SafeListener</span> <span style="color: #268bd2;">newInstance</span>(<span style="color: #b58900;">EventSource</span> <span style="color: #268bd2;">source</span>) {
-        <span style="color: #b58900;">SafeListener</span> <span style="color: #268bd2;">safe</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">SafeListener</span>();
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">SafeListener</span> <span style="color: #C6B032;">newInstance</span>(<span style="color: #C6B032; font-style: italic;">EventSource</span> <span style="color: #46657B;">source</span>) {
+        <span style="color: #C6B032; font-style: italic;">SafeListener</span> <span style="color: #46657B;">safe</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">SafeListener</span>();
         source.registerListener(safe.listener);
-        <span style="color: #859900; font-weight: bold;">return</span> safe;
+        <span style="color: #AE5825;">return</span> safe;
     }
 
-    <span style="color: #b58900;">void</span> <span style="color: #268bd2;">doSomething</span>() {
+    <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">doSomething</span>() {
     }
 
-    <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">EventSource</span> {
-        <span style="color: #b58900;">void</span> <span style="color: #268bd2;">registerListener</span>(<span style="color: #b58900;">EventListener</span> <span style="color: #268bd2;">e</span>);
+    <span style="color: #AE5825;">interface</span> <span style="color: #C6B032; font-style: italic;">EventSource</span> {
+        <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">registerListener</span>(<span style="color: #C6B032; font-style: italic;">EventListener</span> <span style="color: #46657B;">e</span>);
     }
 
-    <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">EventListener</span> {
-        <span style="color: #b58900;">void</span> <span style="color: #268bd2;">onEvent</span>(<span style="color: #b58900;">Event</span> <span style="color: #268bd2;">e</span>);
+    <span style="color: #AE5825;">interface</span> <span style="color: #C6B032; font-style: italic;">EventListener</span> {
+        <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">onEvent</span>(<span style="color: #C6B032; font-style: italic;">Event</span> <span style="color: #46657B;">e</span>);
     }
 
-    <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900;">Event</span> {
+    <span style="color: #AE5825;">interface</span> <span style="color: #C6B032; font-style: italic;">Event</span> {
     }
 }
 </pre>
@@ -601,16 +638,35 @@ this引用泄漏.
 <li>前面说过, "共享且可变"的函数访问必须需要同步机制, 一个不需要同步的方法说来
 简单,就是"不要共享", 如果一个变量只被一个线程访问,当然用不到同步机制.
 </li>
-<li>不共享数据的方法又较thread confinement,是最简单的线程安全的方法.
+<li>这种不共享数据的方法又叫thread confinement,是最简单的线程安全的方法.
+</li>
+<li>一个object就算自己不是thread-safe的,但是从来不共享它的话,那么可以看做'对这个
+object的访问是thread-safe的'
 </li>
 <li>一个常见的使用thread confinment来实现线程安全的例子是JDBC(Java Database
-Connectivity): 在一个服务器端, 一个线程会从connection 池中请求一个connection
-然后等用完了之后,再换回去,期间不会把这个connection共享给其他线程.所以,通过
+Connectivity):
+<ul class="org-ul">
+<li>JDBC规范没有要求Connection object是thread-safe的(当然connection pool必须
+是thread-safe的,否则无法满足多个线程访问)
+</li>
+<li>在一个服务器应用中, '一个线程'会从connection pool中请求一个connection,然
+后等用完了之后,再还回去,期间不会把这个connection共享给其他线程.所以,通过
 不共享资源的方法, 实现了线程安全.
+</li>
+</ul>
 </li>
 <li>不共享资源的方法不是从java语言的角度来保证的.(前面的JDBC的例子, JDBC的spec
 没有要求一定要线程安全, 而线程不共享connection是由servlet 和EJB request的
-结构造成的), 而是要求软件的设计来保证的(当然可以借助本地变量, ThreadLocal类)
+结构造成的), 而是要求软件的设计来保证的.
+</li>
+<li>与之相反,如果软件设计有漏洞,无法做到"thread不safe的object不被其他thread访问"
+的话,我们可以借助java语言的两个特性来让变量无法被其他thread访问:
+<ul class="org-ul">
+<li>local variable
+</li>
+<li>ThreadLocal class
+</li>
+</ul>
 </li>
 </ul>
 </div>
@@ -620,6 +676,9 @@ Connectivity): 在一个服务器端, 一个线程会从connection 池中请求�
 <ul class="org-ul">
 <li>临时性的线程封闭(ad-hoc thread confinement)只是说如果你的代码保证是单线程了
 才可以使用(比如GUI), 其实不是很鼓励使用
+</li>
+<li>比如,使用volatile variable的时候,需要保证'只有一个writer', 多个reader才可
+以读到最update的值.
 </li>
 </ul>
 </div>
@@ -631,88 +690,51 @@ Connectivity): 在一个服务器端, 一个线程会从connection 池中请求�
 <li>stack confinement是thread confinement的一种, 其实就是用local variable来
 代替全局或者作用域更大的变量.
 </li>
+<li>就像封装可以更容易实现"不变式"一样, local variable可以更容易的把object限定
+在thread里面. 其实java的local variable更容易表示,因为它一般'不能'加public
+private, protected等符号
+</li>
 <li>之所以叫stack,是因为local variable一般都是存放在stack上的, 而每个thread都有
-自己的stack, 不和其他thread共享.
+自己的stack(call stack), 不和其他thread共享:每当一个thread进入这个函数的时
+候都会压(自己的)栈来创建local variable
 </li>
 <li>stack confinement更易于实现,健壮性也强于ad-hoc thread confinement
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.*;
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #C6B032;">loadTheArk</span>(<span style="color: #C6B032; font-style: italic;">Collection</span>&lt;<span style="color: #C6B032; font-style: italic;">Animal</span>&gt; <span style="color: #46657B;">candidates</span>) {
+    <span style="color: #C6B032; font-style: italic;">SortedSet</span>&lt;<span style="color: #C6B032; font-style: italic;">Animal</span>&gt; <span style="color: #46657B;">animals</span>;
+    <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">numPairs</span> = 0;
+    <span style="color: #C6B032; font-style: italic;">Animal</span> <span style="color: #46657B;">candidate</span> = <span style="color: #86453A;">null</span>;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Animals</span> {
-    <span style="color: #b58900;">Ark</span> <span style="color: #268bd2;">ark</span>;
-    <span style="color: #b58900;">Species</span> <span style="color: #268bd2;">species</span>;
-    <span style="color: #b58900;">Gender</span> <span style="color: #268bd2;">gender</span>;
+    <span style="color: #4C565D;">//</span><span style="color: #333B40; font-style: italic;">animals confined to method, don't let them escape!</span>
+    animals = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">TreeSet</span>&lt;<span style="color: #C6B032; font-style: italic;">Animal</span>&gt;(<span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">SpeciesGenderComparator</span>());
+    animals.addAll(candidates);
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">loadTheArk</span>(Collection&lt;Animal&gt; candidates) {
-        SortedSet&lt;Animal&gt; animals;
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">numPairs</span> = 0;
-        <span style="color: #b58900;">Animal</span> <span style="color: #268bd2;">candidate</span> = <span style="color: #268bd2; font-weight: bold;">null</span>;
-
-        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">animals confined to method, don't let them escape!</span>
-        animals = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">TreeSet</span>&lt;Animal&gt;(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">SpeciesGenderComparator</span>());
-        animals.addAll(candidates);
-
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">Animal</span> <span style="color: #268bd2;">a</span> : animals) {
-            <span style="color: #859900; font-weight: bold;">if</span> (candidate == <span style="color: #268bd2; font-weight: bold;">null</span> || <span style="color: #b58900; font-weight: bold;">!</span>candidate.isPotentialMate(a))
-                candidate = a;
-            <span style="color: #859900; font-weight: bold;">else</span> {
-                ark.load(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">AnimalPair</span>(candidate, a));
-                ++numPairs;
-                candidate = <span style="color: #268bd2; font-weight: bold;">null</span>;
-            }
-        }
-        <span style="color: #859900; font-weight: bold;">return</span> numPairs;
-    }
-    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Animal</span> {
-        <span style="color: #b58900;">Species</span> <span style="color: #268bd2;">species</span>;
-        <span style="color: #b58900;">Gender</span> <span style="color: #268bd2;">gender</span>;
-
-        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">isPotentialMate</span>(<span style="color: #b58900;">Animal</span> <span style="color: #268bd2;">other</span>) {
-            <span style="color: #859900; font-weight: bold;">return</span> species == other.species &amp;&amp; gender != other.gender;
+    <span style="color: #AE5825;">for</span> (<span style="color: #C6B032; font-style: italic;">Animal</span> <span style="color: #46657B;">a</span> : animals) {
+        <span style="color: #AE5825;">if</span> (candidate == <span style="color: #86453A;">null</span> || !candidate.isPotentialMate(a))
+            candidate = a;
+        <span style="color: #AE5825;">else</span> {
+            ark.load(<span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">AnimalPair</span>(candidate, a));
+            ++numPairs;
+            candidate = <span style="color: #86453A;">null</span>;
         }
     }
-
-    <span style="color: #859900; font-weight: bold;">enum</span> <span style="color: #b58900;">Species</span> {
-        <span style="color: #268bd2;">AARDVARK</span>, <span style="color: #268bd2;">BENGAL_TIGER</span>, <span style="color: #268bd2;">CARIBOU</span>, <span style="color: #268bd2;">DINGO</span>, <span style="color: #268bd2;">ELEPHANT</span>, <span style="color: #268bd2;">FROG</span>, <span style="color: #268bd2;">GNU</span>, <span style="color: #268bd2;">HYENA</span>,
-        <span style="color: #268bd2;">IGUANA</span>, <span style="color: #268bd2;">JAGUAR</span>, <span style="color: #268bd2;">KIWI</span>, <span style="color: #268bd2;">LEOPARD</span>, <span style="color: #268bd2;">MASTADON</span>, <span style="color: #268bd2;">NEWT</span>, <span style="color: #268bd2;">OCTOPUS</span>,
-        <span style="color: #268bd2;">PIRANHA</span>, <span style="color: #268bd2;">QUETZAL</span>, <span style="color: #268bd2;">RHINOCEROS</span>, <span style="color: #268bd2;">SALAMANDER</span>, <span style="color: #268bd2;">THREE_TOED_SLOTH</span>,
-        <span style="color: #268bd2;">UNICORN</span>, <span style="color: #268bd2;">VIPER</span>, <span style="color: #268bd2;">WEREWOLF</span>, <span style="color: #268bd2;">XANTHUS_HUMMINBIRD</span>, <span style="color: #268bd2;">YAK</span>, <span style="color: #268bd2;">ZEBRA</span>
-    }
-
-    <span style="color: #859900; font-weight: bold;">enum</span> <span style="color: #b58900;">Gender</span> {
-        <span style="color: #268bd2;">MALE</span>, <span style="color: #268bd2;">FEMALE</span>
-    }
-
-    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">AnimalPair</span> {
-        <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">Animal</span> <span style="color: #268bd2;">one</span>, <span style="color: #268bd2;">two</span>;
-
-        <span style="color: #859900; font-weight: bold;">public</span> AnimalPair(<span style="color: #b58900;">Animal</span> <span style="color: #268bd2;">one</span>, <span style="color: #b58900;">Animal</span> <span style="color: #268bd2;">two</span>) {
-            <span style="color: #859900; font-weight: bold;">this</span>.one = one;
-            <span style="color: #859900; font-weight: bold;">this</span>.two = two;
-        }
-    }
-
-    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">SpeciesGenderComparator</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Comparator</span>&lt;Animal&gt; {
-        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">compare</span>(<span style="color: #b58900;">Animal</span> <span style="color: #268bd2;">one</span>, <span style="color: #b58900;">Animal</span> <span style="color: #268bd2;">two</span>) {
-            <span style="color: #b58900;">int</span> <span style="color: #268bd2;">speciesCompare</span> = one.species.compareTo(two.species);
-            <span style="color: #859900; font-weight: bold;">return</span> (speciesCompare != 0) ? speciesCompare : one.gender.compareTo(two.gender);
-        }
-    }
-
-    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Ark</span> {
-        <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">Set</span>&lt;AnimalPair&gt; loadedAnimals = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">HashSet</span>&lt;AnimalPair&gt;();
-
-        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">load</span>(<span style="color: #b58900;">AnimalPair</span> <span style="color: #268bd2;">pair</span>) {
-            loadedAnimals.add(<span style="color: #b58900;">pair</span>);
-        }
-    }
+    <span style="color: #AE5825;">return</span> numPairs;
 }
 </pre>
 </div>
 </li>
-<li>在线程内部使用线程不安全的对象(保证其local)也是可以保证整个线程安全的, 但是要
-注意:
+<li>比如上面的例子中, animals, numParis都是local variable,不能被其他thread共享:
+<ul class="org-ul">
+<li>numParis,是primitive类型,所以不用担心ref泄露
+</li>
+<li>animals, 是object reference,所以要防止ref泄露. 也就是不能publish animals
+这个ref到外部
+</li>
+</ul>
+</li>
+<li>在线程内部使用线程不安全的对象(比如TreeSet类型的animals)保证其local也是可以
+保证整个线程安全的, 但是要注意:
 <ul class="org-ul">
 <li>这个线程不安全对象只属于这个线程
 </li>
@@ -738,26 +760,65 @@ Connectivity): 在一个服务器端, 一个线程会从connection 池中请求�
 <li>而同步机制,就是"用时间换空间":只有一份变量,大家排好队依次取用.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ConnectionDispenser</span> {
-    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">DB_URL</span> = <span style="color: #2aa198;">"jdbc:mysql://localhost/mydatabase"</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.jcip.<span style="color: #86453A;">ch3</span>;
 
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">ThreadLocal</span>&lt;Connection&gt; connectionHolder
-        = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ThreadLocal</span>&lt;Connection&gt;() {
-        <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Connection</span> <span style="color: #268bd2;">initialValue</span>() {
-            <span style="color: #859900; font-weight: bold;">try</span> {
-                <span style="color: #859900; font-weight: bold;">return</span> DriverManager.getConnection(DB_URL);
-            } <span style="color: #859900; font-weight: bold;">catch</span> (<span style="color: #b58900;">SQLException</span> <span style="color: #268bd2;">e</span>) {
-                <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">RuntimeException</span>(<span style="color: #2aa198;">"Unable to acquire Connection, e"</span>);
-            }
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Connection</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">url</span>;
+
+    <span style="color: #C6B032;">Connection</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">url</span>) {
+        <span style="color: #AE5825;">this</span>.url = url;
+    }
+}
+
+<span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">DriverManager</span> {
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">Connection</span> <span style="color: #C6B032;">getConnection</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">db_url</span>) {
+        <span style="color: #AE5825;">return</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Connection</span>(db_url);
+    }
+}
+
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">TestThreadLocal</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">DB_URL</span> = <span style="color: #5A7644;">"jdbc:mysql://localhost/mydatabase"</span>;
+
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">ThreadLocal</span>&lt;<span style="color: #C6B032; font-style: italic;">Connection</span>&gt; <span style="color: #46657B;">connectionHolder</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">ThreadLocal</span>&lt;<span style="color: #C6B032; font-style: italic;">Connection</span>&gt;() {
+        <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">Connection</span> <span style="color: #C6B032;">initialValue</span>() {
+            <span style="color: #AE5825;">return</span> DriverManager.getConnection(DB_URL);
         }
     };
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Connection</span> <span style="color: #268bd2;">getConnection</span>() {
-        <span style="color: #859900; font-weight: bold;">return</span> connectionHolder.get();
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Thread1</span> <span style="color: #AE5825;">extends</span> <span style="color: #C6B032; font-style: italic;">Thread</span> {
+        <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">run</span>() {
+            System.out.println(<span style="color: #5A7644;">"Connection is "</span> + connectionHolder.get());
+        }
+    }
+
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Thread2</span> <span style="color: #AE5825;">extends</span> <span style="color: #C6B032; font-style: italic;">Thread</span> {
+        <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">run</span>() {
+            System.out.println(<span style="color: #5A7644;">"Connection is "</span> + connectionHolder.get());
+        }
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">display</span>() {
+        <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Thread1</span>().start();
+        <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Thread2</span>().start();
+    }
+
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #C6B032; font-style: italic;">TestThreadLocal</span> <span style="color: #46657B;">testThreadLocal</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">TestThreadLocal</span>();
+        testThreadLocal.display();
     }
 }
+
+<span style="color: #4C565D;">////////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt;     //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Connection is org.hfeng.jcip.ch3.Connection@fe268a //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Connection is org.hfeng.jcip.ch3.Connection@52b16b //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////////</span>
 </pre>
 </div>
+</li>
+<li>Thread设计的原理很想Map,也就是ThreadLocal&lt;T&gt;其实就是Map&lt;Thread, T&gt;,也就是为
+每一个Thread创建并存储一份T的instance.
 </li>
 <li>ThreadLocal最开始的初衷就是建立thread confinement的,为每个线程创建一份自己
 的数据,所以不要在其他方面滥用
@@ -782,7 +843,7 @@ Immutable objects are always thread-safe
 <ul class="org-ul">
 <li>对象的state在构造以后无法改变
 </li>
-<li>对象所有的域都是final的
+<li>对象所有的域都是final的 (String这种天然的immutable当然可以)
 </li>
 <li>对象构造的过程是没有差错的(不会导致引用逃逸 reference escape)
 </li>
@@ -790,35 +851,48 @@ Immutable objects are always thread-safe
 </li>
 <li>如果细心会发现,Immutable对象的构建过程并没有要求自己所有的成员都是immutable
 的, 如果那样要求的话,java除了final static的内置类型,和本身就不可变的String
-就没其他候选了.
+以外就没其他候选了.
 </li>
-<li>下面就是一个Immutable对象的内部使用mutable的例子,这里的Set类型肯定是可以改
-变的.(内容改变), 因为java里面final 修饰的只不过是stooges本事, 它无法再指向
-其他的Set类(或者Set的子类)了, 但是你final了stooges, 它内部的数据还是可以不
-停的增加的. 我们通过将这个类的Set成员设计成private,那么别人就不可能看到它,也
-就不可能再给它增加新的内容了!
+<li>下面就是一个Immutable对象的内部使用mutable的例子
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ThreeStooges</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">Set</span>&lt;String&gt; stooges = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">HashSet</span>&lt;String&gt;();
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">ThreeStooges</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">Set</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>&gt; <span style="color: #46657B;">stooges</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">HashSet</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>&gt;();
 
-    <span style="color: #859900; font-weight: bold;">public</span> ThreeStooges() {
-        stooges.add(<span style="color: #2aa198;">"Moe"</span>);
-        stooges.add(<span style="color: #2aa198;">"Larry"</span>);
-        stooges.add(<span style="color: #2aa198;">"Curly"</span>);
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">ThreeStooges</span>() {
+        stooges.add(<span style="color: #5A7644;">"Moe"</span>);
+        stooges.add(<span style="color: #5A7644;">"Larry"</span>);
+        stooges.add(<span style="color: #5A7644;">"Curly"</span>);
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">isStooge</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">name</span>) {
-        <span style="color: #859900; font-weight: bold;">return</span> stooges.contains(name);
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">isStooge</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">name</span>) {
+        <span style="color: #AE5825;">return</span> stooges.contains(name);
     }
 
 }
 </pre>
 </div>
 </li>
-<li>即便是使用了immutable的对象,其实也是可以"改变"它的值的,方法就是:"使用一个新
-的内容不一样的对象", 不要害怕创建新对象,多余的空间换取immutablity还是非常值
-得的
+<li>这里的Set类型肯定是可以改变的.(内容改变), 因为java里面final 修饰的只不过是
+stooges本身, 它无法再指向其他的Set类(或者Set的子类)了, 但是你final了stooges,
+它内部的数据还是可以不停的增加的.
+</li>
+<li>我们通过将这个类的Set成员设计成private,那么别人就不可能看到它,也就不可能再
+给它增加新的内容了!
+</li>
+<li>同时,看我们的ctor: public ThreeStooges, 过程本身没有泄露reference
+</li>
+<li>刚接触到immutable的新手可能会觉得immutable object没有什么用,其实不然:
+<ul class="org-ul">
+<li>nonfinal ref 指向一个immutabl object, object是不可变的
+</li>
+<li>但是ref是可以指向新的object
+</li>
+<li>创建一个新的immutable object(老的就放弃了),然后ref指向它
+</li>
+<li>从ref的角度看,其值肯定是改变了,而且object都是immutable,肯定是thread-safe
+</li>
+</ul>
 </li>
 </ul>
 </div>
@@ -835,6 +909,11 @@ Immutable objects are always thread-safe
 </ul>
 </li>
 <li>除非某个变量可能会改变,把所有的变量声明为final是一个good practice
+<pre class="example">
+Just as it is a good practice to make all fields private unless they need greater
+visibility, it is a good practice to make all fields final unless they need to
+be mutable.
+</pre>
 </li>
 </ul>
 </div>
@@ -846,48 +925,83 @@ Immutable objects are always thread-safe
 <li>下面这个例子就是创建了一个immutable holder class,来确保线程安全
 </li>
 <li>如果用mutable holder object,你必须使用lock. 下面的immutable object
-一旦创建就无法更改. 如果想要更改变量,那么就要创建一个新的immutable 
+一旦创建就无法更改. 如果想要更改变量,那么就要创建一个新的immutable
 object.
 </li>
-<li>下面这个例子能够成功也要得益于在ctor和返回值里面都用到的java6的新特性, 
+<li>下面这个例子能够成功也要得益于在ctor和返回值里面都用到的java6的新特性,
 Arrays.copyOf. 虽然没有使用任何的lock手段,但由于对象是immutable的,所以可以
 成功的保证值在设置以后马上就能被其他函数"看到"
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> tmp.<span style="color: #268bd2; font-weight: bold;">util</span>;
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.jcip.<span style="color: #86453A;">ch3</span>;
 
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">math</span>.<span style="color: #b58900;">BigInteger</span>;
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Arrays</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">org</span>.<span style="color: #86453A;">apache</span>.<span style="color: #86453A;">http</span>.<span style="color: #86453A;">annotation</span>.<span style="color: #C6B032; font-style: italic;">Immutable</span>;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">OneValueCache</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">BigInteger</span> <span style="color: #268bd2;">lastNumber</span>;
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900;">BigInteger</span>[] <span style="color: #268bd2;">lastFactors</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">math</span>.<span style="color: #C6B032; font-style: italic;">BigInteger</span>;
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">util</span>.<span style="color: #C6B032; font-style: italic;">Arrays</span>;
 
-    <span style="color: #859900; font-weight: bold;">public</span> OneValueCache(<span style="color: #b58900;">BigInteger</span> <span style="color: #268bd2;">i</span>, <span style="color: #b58900;">BigInteger</span>[] <span style="color: #268bd2;">factors</span>) {
+<span style="color: #86453A;">@Immutable</span>
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">OneValueCache</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">BigInteger</span> <span style="color: #46657B;">lastNumber</span>;
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">final</span> <span style="color: #C6B032; font-style: italic;">BigInteger</span>[] <span style="color: #46657B;">lastFactors</span>;
+
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">OneValueCache</span>(<span style="color: #C6B032; font-style: italic;">BigInteger</span> <span style="color: #46657B;">i</span>, <span style="color: #C6B032; font-style: italic;">BigInteger</span>[] <span style="color: #46657B;">factors</span>) {
         lastNumber = i;
         lastFactors = Arrays.copyOf(factors, factors.length);
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">BigInteger</span>[] <span style="color: #268bd2;">getFactors</span>(<span style="color: #b58900;">BigInteger</span> <span style="color: #268bd2;">i</span>) {
-        <span style="color: #859900; font-weight: bold;">if</span> (lastNumber == <span style="color: #268bd2; font-weight: bold;">null</span> || <span style="color: #b58900; font-weight: bold;">!</span>lastNumber.equals(i)) {
-            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">null</span>;
-        } <span style="color: #859900; font-weight: bold;">else</span> {
-            <span style="color: #859900; font-weight: bold;">return</span> Arrays.copyOf(lastFactors, lastFactors.length);
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">BigInteger</span>[] <span style="color: #C6B032;">getLastFactors</span>(<span style="color: #C6B032; font-style: italic;">BigInteger</span> <span style="color: #46657B;">i</span>) {
+        <span style="color: #AE5825;">if</span> (lastNumber == <span style="color: #86453A;">null</span> || !lastNumber.equals(i)) {
+            <span style="color: #AE5825;">return</span> <span style="color: #86453A;">null</span>;
+        } <span style="color: #AE5825;">else</span> {
+            <span style="color: #AE5825;">return</span> Arrays.copyOf(lastFactors, lastFactors.length);
+        }
+    }
+}
+</pre>
+</div>
+</li>
+<li>我们可以看到数组的ref value都不一样,肯定是thread-safe的
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">package</span> org.hfeng.jcip.<span style="color: #86453A;">ch3</span>;
+
+<span style="color: #AE5825;">import</span> <span style="color: #86453A;">java</span>.<span style="color: #86453A;">math</span>.<span style="color: #C6B032; font-style: italic;">BigInteger</span>;
+
+<span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">TestImmutable</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">BigInteger</span>[] <span style="color: #46657B;">bigIntegers</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">BigInteger</span>[] {<span style="color: #86453A;">BigInteger</span>.ONE, <span style="color: #86453A;">BigInteger</span>.TEN};
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">OneValueCache</span> <span style="color: #46657B;">oneValueCache</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">OneValueCache</span>(<span style="color: #86453A;">BigInteger</span>.ONE, bigIntegers);
+
+    <span style="color: #AE5825;">private</span> <span style="color: #AE5825;">static</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Thread1</span> <span style="color: #AE5825;">extends</span> <span style="color: #C6B032; font-style: italic;">Thread</span> {
+        <span style="color: #86453A;">@Override</span>
+        <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">run</span>() {
+            System.out.println(oneValueCache.getLastFactors(<span style="color: #86453A;">BigInteger</span>.ONE));
         }
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #b58900;">BigInteger</span>[] <span style="color: #268bd2;">tmpB</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">BigInteger</span>[] {<span style="color: #268bd2; font-weight: bold;">BigInteger</span>.ONE, <span style="color: #268bd2; font-weight: bold;">BigInteger</span>.TEN};
-        <span style="color: #b58900;">OneValueCache</span> <span style="color: #268bd2;">ovc</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">OneValueCache</span>(<span style="color: #268bd2; font-weight: bold;">BigInteger</span>.ONE, tmpB);
 
-        System.out.println(Arrays.toString(ovc.getFactors(<span style="color: #268bd2; font-weight: bold;">BigInteger</span>.ONE)));
+    <span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">args</span>) {
+        <span style="color: #AE5825;">for</span> (<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">i</span> = 0; i &lt; 10; i++) {
+            <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Thread1</span>().start();
+        }
+        System.out.println(oneValueCache.getLastFactors(<span style="color: #86453A;">BigInteger</span>.ONE));
     }
 }
 
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">[1, 10]                                        //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">[Ljava.math.BigInteger;@ff5996                 //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">[Ljava.math.BigInteger;@52b16b                 //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">[Ljava.math.BigInteger;@fe268a                 //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">[Ljava.math.BigInteger;@a39c81                 //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">[Ljava.math.BigInteger;@178069d                //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">[Ljava.math.BigInteger;@a3bdc                  //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">[Ljava.math.BigInteger;@186a830                //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">[Ljava.math.BigInteger;@25c6e8                 //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">[Ljava.math.BigInteger;@25cc4c                 //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">[Ljava.math.BigInteger;@18797cf                //</span>
+<span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">[Ljava.math.BigInteger;@ff99df                 //</span>
+<span style="color: #4C565D;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
 </li>
@@ -899,22 +1013,23 @@ Arrays.copyOf. 虽然没有使用任何的lock手段,但由于对象是immutable
 <h3 id="sec-1-5">Safe Publication</h3>
 <div class="outline-text-3" id="text-1-5">
 <ul class="org-ul">
-<li>到现在为止,我们的策略主要是"堵":就是不让对象publish,当然就不会有问题
+<li>到现在为止,我们的策略主要是"堵":就是不让对象publish, 或者object只在某个thread
+里面,当然就不会有问题
 </li>
 <li>但是有时候,我们的确要发布一个对象,这个时候就要注意很多问题, 下面的这种简单
 的把一个指向对象的ref抛到public区域的做法无法保证publish的安全
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Unsafe publication</span>
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Holder</span> <span style="color: #268bd2;">holder</span>;
+<pre class="src src-java"><span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">Unsafe publication</span>
+<span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">Holder</span> <span style="color: #46657B;">holder</span>;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">initialize</span>() {
-    holder = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Holder</span>(42);
+<span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">initialize</span>() {
+    holder = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Holder</span>(42);
 }
 </pre>
 </div>
 </li>
-<li>这个例子主要的问题是可能会展示给其他线程一个"不完全构造"的对象
+<li>这个例子问题是在于:会展示给其他线程一个"不完全构造"的对象
 </li>
 </ul>
 </div>
@@ -922,19 +1037,22 @@ Arrays.copyOf. 虽然没有使用任何的lock手段,但由于对象是immutable
 <h4 id="sec-1-5-1">Improper Publication: When Good Objects Go Bad</h4>
 <div class="outline-text-4" id="text-1-5-1">
 <ul class="org-ul">
-<li>看下面的例子, 由于没有进行必要的"同步", 一个线程可能开始看到一个值是"过时的",
+<li>上面的例子Holder如果应用起来的话,竟然会出现'刚看到的n'和'过一会看到的n'值
+不相等
+</li>
+<li>如下, 由于没有进行必要的"同步", 一个线程可能开始看到一个值是"过时的",
 但是紧接着,它有看到了正确的值,这种情况下,会让下面的assertSanity函数抛出
 AssertionError
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Holder</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">n</span>;
-    <span style="color: #859900; font-weight: bold;">public</span> Holder(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">n</span>) {
-        <span style="color: #859900; font-weight: bold;">this</span>.n = n;
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Holder</span> {
+    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">n</span>;
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032;">Holder</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">n</span>) {
+        <span style="color: #AE5825;">this</span>.n = n;
     }
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">assertSanity</span>() {
-        <span style="color: #859900; font-weight: bold;">if</span> (n != n) {
-            <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">AssertionError</span>(<span style="color: #2aa198;">"This is statement is false"</span>);
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">assertSanity</span>() {
+        <span style="color: #AE5825;">if</span> (n != n) {
+            <span style="color: #AE5825;">throw</span> <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">AssertionError</span>(<span style="color: #5A7644;">"This is statement is false"</span>);
         }
     }
 }
@@ -951,12 +1069,27 @@ AssertionError
 <h4 id="sec-1-5-2">Immutable Objects and Initialization Safety</h4>
 <div class="outline-text-4" id="text-1-5-2">
 <ul class="org-ul">
-<li>因为immutable对象如此重要, java虚拟机专门提供了一个保证:"共享的不变量的
-初始化是安全的"
+<li>通过上面的例子我们可以看到"一个object reference对其他thread看起来变的visible,
+并不意味着这个object的state对这个thureadvisible"
+<pre class="example">
+An object reference becomes  visible to another thread does not
+necessarily mean that the state of that object is visible to the
+consuming thread.
+</pre>
+</li>
+<li>所以为了保证mutable object的"consistent view", 如果要publish mutable object
+的话,同步手段是必须的
+</li>
+<li>反之,对于immutable对象, java虚拟机专门提供了一个保证:"共享的不变量的初始化
+是安全的"
 </li>
 <li>java虚拟机提供的这一保证特别重要, 它让线程间共享数据有了一个捷径(不使用同
-步手段的捷径),那就是使用不变对象(不变对象的条件:无法更改的state, 所有域都
-是final的, prper的创建过程).
+步手段的捷径),那就是使用immutable对象(不变对象的条件:无法更改的state, 所有域都
+是final的, proper construction).
+<pre class="example">
+Immutable objects can be used safely by any thread without additional synchronization,
+even when synchronization is not used to publish them
+</pre>
 </li>
 </ul>
 </div>
@@ -967,20 +1100,23 @@ AssertionError
 <ul class="org-ul">
 <li>如果我们不能使用不变对象,那么就要采用"同步"的手段来保证publish的正确,而且:
 <ul class="org-ul">
-<li>不仅仅要同"步发布(publish)对象"的线程
+<li>不仅仅要synchronized"发布(publish)对象"的线程
 </li>
-<li>还要同步"消费这些发布的对象"的线程
+<li>还要synchronized"消费(consuming)这些发布的对象"的线程
 </li>
 </ul>
 </li>
-<li>我们首先讨论的是,如何"消费这些发布的对象"看到"发布的对象":
+<li>我们首先讨论的是,如何保证"consuming thread"看到"成功发布的对象",换句话说下
+面是保证safe publish的几种方法, 这几种方法可以看做是在发布时候的synchronized
+手段(在后面的叙述中,我们提到safely publish意思就是如下的几种方式,也即意味着
+在publishing端的synchronized手段):
 <ul class="org-ul">
 <li>最常见的办法:用static initializer来初始化object reference, JVM会在
-class初始化的时候,就初始化static initializer, 借助于JVM内部的同步机制,
-这种初始化的方法可以保证安全的发布(publish)对象
+class初始化的时候(而不是instance初始化),就初始化static initializer, 借助
+于'JVM内部的同步机制',这种初始化的方法可以保证安全的发布(publish)对象
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">Holder</span> <span style="color: #268bd2;">holder</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Holder</span>(42);
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">static</span> <span style="color: #C6B032; font-style: italic;">Holder</span> <span style="color: #46657B;">holder</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">Holder</span>(42);
 </pre>
 </div>
 </li>
@@ -988,38 +1124,49 @@ class初始化的时候,就初始化static initializer, 借助于JVM内部的同
 </li>
 <li>把object reference存储到一个properly constructed对象的final域里面
 </li>
-<li>把object reference存储到一个被lock很好保护的域里面(比如collection), 
-这一条举例就是线程A把对象X放入到线程安全的vector里面(或者其他collection), 
-线程B紧接着从这个vector里面读取对象X,虽然没有任何的"同步"手段,但是我们能
-保证线程B能够看到准确的X的state
+<li>把object reference存储到一个被lock很好保护的域里面(比如collection), 这一
+条举例就是线程A把对象X放入到线程安全的vector里面(或者其他collection), 线
+程B紧接着从这个vector里面读取对象X,虽然没有任何的"同步"手段,但是我们能保
+证线程B能够看到准确的X的state
 </li>
 </ul>
+</li>
+<li>上面我们提到了可以使用thread-safe library collection来"转存"object,从而能
+够做到safe publication的保证.
 </li>
 </ul>
 </div>
 </div>
 <div id="outline-container-sec-1-5-4" class="outline-4">
-<h4 id="sec-1-5-4">Effectively Immutable Objects</h4>
+<h4 id="sec-1-5-4">Effectively(事实上的) Immutable Objects</h4>
 <div class="outline-text-4" id="text-1-5-4">
 <ul class="org-ul">
-<li>如果一个对象被某个线程"安全的publish"出来了以后,其他线程就可以看到它的值了.但是
-还不一定能成功的取得这个值,因为要考虑到其他线程会修改这个对象,那么如果不使用"同步"
-的话,取得的值是不值得信任
+<li>前面讲的safe publication object的几种手段,都是从"publishing的"thread的角度
+来看的.做到诸如static initialization的话,在publishing端就没有其他的好说了.
 </li>
-<li>我们这里首先假设能够保证这个值在安全publish以后,就不再改变了,那么其他线程再取用
-这个线程的时候,就不需要其他的同步手段了. 这种不是严格医院上的"不变"(不是final修
-饰的),而是程序业务逻辑上的"不变",导致publish后不需要"同步手段"的情景,我们叫做
-effectively immutable.
+<li>这些诸如static initialization的做法,相当于在publishing端加了synchronized机制
 </li>
-<li>下面是一个effectively immutable的例子,用一个Map来存储上次登陆的用户,用户对象
-放入到线程安全的Map中以后,就可以被其他线程看到了.如果我们再能保证这个数据不再改变,
-那么就可以不使用任何其他的"同步"手段,而达到安全正确取用publish完的数据
+<li>前面我们讲了,除了在publishing thread端加synchronized机制外,还要在consuming
+thread 端加同步机制
+</li>
+<li>所谓effectively(事实上)的immutable objects, 意思是,发布的时候,已经做了
+synchronized,但是consuming thread在"业务逻辑"上不会去改动这个object,这个
+object虽然在technically上说肯定不算immutable的,但是因为不会被改动,所以我们
+叫它"事实上的immutable object"
+</li>
+<li>下面是一个effectively immutable的例子
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">Map</span>&lt;String, Date&gt; lastLogin =
-    Collections.synchronizedMap(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">HashMap</span>&lt;String, Date&gt;());
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">Map</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">Date</span>&gt; <span style="color: #46657B;">lastLogin</span> =
+    Collections.synchronizedMap(<span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">HashMap</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>, <span style="color: #C6B032; font-style: italic;">Date</span>&gt;());
 </pre>
 </div>
+</li>
+<li>Date不是immutable的, 把它放入到线程安全的Map中以后,就做到了publishing thread
+端的synchronized机制,也可以被其他线程看到了.
+</li>
+<li>如果我们再能保证这个Date不再改变(String是immutable的),那么就可以在consuming
+thread端,也就是使用(access)这个变量的时候,不使用任何其他的"同步"手段了.
 </li>
 </ul>
 </div>
@@ -1028,9 +1175,26 @@ effectively immutable.
 <h4 id="sec-1-5-5">Mutable Objects</h4>
 <div class="outline-text-4" id="text-1-5-5">
 <ul class="org-ul">
-<li>如果我们不能保证一个对象在"安全发布"之后保证不更改,那么"安全发布"仅仅能保证其他
-线程能够看到这个"发布的state", 但是如果他们想使用,那么每次都要加上"同步"来保证
-取值的正确性. 同步的手段主要是线程安全,或者是锁.
+<li>如果我们不能保证一个对象在"安全发布"之后保证不更改,那么除了在publising thread
+端的努力,我们还要在consuming thread端使用synchronized手段:
+<ul class="org-ul">
+<li>把object做成, thread-safe(immutable天生thread-safe)
+</li>
+<li>使用锁(synchronized block, synchronized method)
+</li>
+</ul>
+</li>
+<li>我们总结一下就是安全的发布一个object,并安全的让其被使用,其难度是根据mutability
+不同而不同的:
+<ul class="org-ul">
+<li>如果是immutable的话,publishing thread和consuming thread都不需要做任何处理
+</li>
+<li>如果是"事实上immutable"的话, publishing thread需要safe publish
+</li>
+<li>如果是mutable的话,publishing thread端需要safely publish, consuming端需要
+thread-safe或者lock
+</li>
+</ul>
 </li>
 </ul>
 </div>
@@ -1039,27 +1203,33 @@ effectively immutable.
 <h4 id="sec-1-5-6">Sharing Objects Safety</h4>
 <div class="outline-text-4" id="text-1-5-6">
 <ul class="org-ul">
-<li>无论合适,你要取得一个对象的reference的时候,你一定要知道你可以对它做什么(下面的问题
-也是文档中需要积极记录的):
-<ul class="org-ul">
-<li>你需要获得锁,然后访问它么
+<li>最后,我们从consuming thread端的角度来看看这个问题
 </li>
-<li>你可以更改它的值么,还是仅仅能读取它的值
+<li>在consuming thread端,如果你得到了一个reference(能得到,说明你已经可以visible
+这个object了), 但是能visible的话,却不一定能使用,还是要根据mutability:
+<ul class="org-ul">
+<li>如果是immutable object的话: 直接使用
+</li>
+<li>如果是"事实上immutable"的话: 可以使用但是千万不要去更改ref的值
+</li>
+<li>如果是mutable的话,如果这个object不是thread-safe的话,要加锁访问
 </li>
 </ul>
 </li>
-<li>在线程间共享对象的方法简单总结如下:
+<li>所有这些情况的正确处理,在于publishing thread端能够正确的document自己所publish
+的object的性质,以及consuming thread端能够做什么
+</li>
+<li>就我们所学过的几种情况,来做下总结, 如果我们在consuming thread里面拥有了如下
+的reference:
 <ul class="org-ul">
-<li>Thread-confined, 每个线程都自己的一份数据
+<li>Thread-confined object: 可以"读取"并且"更改"ref所指的object内容
 </li>
-<li>Shared read-only, 只读数据可以在没有锁的情况下被分享. immutable 是只读, 
-effectively immutable也是只读
+<li>Shared-read-only object: 包括immutable和"effectively immutable", 只可以
+"读取",不能"更改"
 </li>
-<li>Shared thread-safe, 线程安全的对象自己内部就能实现同步,可以不加"同步方法"
-在线程间共享
+<li>Shared-thred-safe object: 因为对象是thread-safe的,所以可以"读取"并且"更改"
 </li>
-<li>Guarded, guarded对象一定要通过特定的锁来访问. guarded对象要么是在其他线程
-安全对象里面的对象,要么是被特定锁保护的对象.
+<li>Guarded: 因为对象有锁保护: 只有在获取了"那个"锁的情况下,可以"读取"并且"更改"
 </li>
 </ul>
 </li>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Chapter 8: Elementary UDP Socket</title>
-<!-- 2014-07-18 Fri 16:04 -->
+<!-- 2015-03-18 Wed 14:10 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -208,15 +208,15 @@ UDP是被TCP简单很多
 <li>这两个函数和read, write相似,只不过多了几个参数
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">&lt;sys/socket.h&gt;</span>
+<pre class="src src-c"><span style="color: #007575;">#include</span> <span style="color: #5A7644;">&lt;sys/socket.h&gt;</span>
 
-<span style="color: #ed5b15;">/*******************************************************************/</span>
-<span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">Both return: number of bytes read or written if OK, -1 on error </span><span style="color: #ed5b15;">*/</span>
-<span style="color: #ed5b15;">/*******************************************************************/</span>
-<span style="color: #DADADA;">ssize_t</span> <span style="color: #A1A1FF;">recvfrom</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">sockfd</span>, <span style="color: #DADADA;">void</span>* <span style="color: #C1C144;">buff</span>, <span style="color: #DADADA;">size_t</span> <span style="color: #C1C144;">nbytes</span>, <span style="color: #DADADA;">int</span> <span style="color: #C1C144;">flags</span>,
-                 <span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">sockaddr</span>* <span style="color: #C1C144;">from</span>, <span style="color: #DADADA;">socklen_t</span>* <span style="color: #C1C144;">addrlen</span>);
-<span style="color: #DADADA;">ssize_t</span> <span style="color: #A1A1FF;">sendto</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">sockfd</span>, <span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #DADADA;">void</span>* <span style="color: #C1C144;">buff</span>, <span style="color: #DADADA;">size_t</span> <span style="color: #C1C144;">nbytes</span>, <span style="color: #DADADA;">int</span> <span style="color: #C1C144;">flags</span>,
-               <span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">sockaddr</span>* <span style="color: #C1C144;">to</span>, <span style="color: #DADADA;">socklen_t</span> <span style="color: #C1C144;">addrlen</span>);
+<span style="color: #4C565D;">/*******************************************************************/</span>
+<span style="color: #4C565D;">/* </span><span style="color: #333B40; font-style: italic;">Both return: number of bytes read or written if OK, -1 on error </span><span style="color: #4C565D;">*/</span>
+<span style="color: #4C565D;">/*******************************************************************/</span>
+<span style="color: #C6B032; font-style: italic;">ssize_t</span> <span style="color: #C6B032;">recvfrom</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">sockfd</span>, <span style="color: #C6B032; font-style: italic;">void</span>* <span style="color: #46657B;">buff</span>, <span style="color: #C6B032; font-style: italic;">size_t</span> <span style="color: #46657B;">nbytes</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">flags</span>,
+                 <span style="color: #AE5825;">struct</span> <span style="color: #C6B032; font-style: italic;">sockaddr</span>* <span style="color: #46657B;">from</span>, <span style="color: #C6B032; font-style: italic;">socklen_t</span>* <span style="color: #46657B;">addrlen</span>);
+<span style="color: #C6B032; font-style: italic;">ssize_t</span> <span style="color: #C6B032;">sendto</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">sockfd</span>, <span style="color: #AE5825;">const</span> <span style="color: #C6B032; font-style: italic;">void</span>* <span style="color: #46657B;">buff</span>, <span style="color: #C6B032; font-style: italic;">size_t</span> <span style="color: #46657B;">nbytes</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">flags</span>,
+               <span style="color: #AE5825;">const</span> <span style="color: #AE5825;">struct</span> <span style="color: #C6B032; font-style: italic;">sockaddr</span>* <span style="color: #46657B;">to</span>, <span style="color: #C6B032; font-style: italic;">socklen_t</span> <span style="color: #46657B;">addrlen</span>);
 </pre>
 </div>
 </li>
@@ -249,24 +249,24 @@ connection,话说回来了,UDP里面就没有connection
 <li>我们来看一个UDP server的例子
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span>      <span style="color: #A2925E;">"unp.h"</span>
+<pre class="src src-c"><span style="color: #007575;">#include</span>      <span style="color: #5A7644;">"unp.h"</span>
 
-<span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">main</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">argc</span>, <span style="color: #DADADA;">char</span> *<span style="color: #C1C144;">argv</span>[])
+<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">argc</span>, <span style="color: #C6B032; font-style: italic;">char</span> *<span style="color: #46657B;">argv</span>[])
 {
-    <span style="color: #DADADA;">int</span>   <span style="color: #C1C144;">sockfd</span>;
-    <span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">sockaddr_in</span> <span style="color: #C1C144;">servaddr</span>, <span style="color: #C1C144;">cliaddr</span>;
+    <span style="color: #C6B032; font-style: italic;">int</span>   <span style="color: #46657B;">sockfd</span>;
+    <span style="color: #AE5825;">struct</span> <span style="color: #C6B032; font-style: italic;">sockaddr_in</span> <span style="color: #46657B;">servaddr</span>, <span style="color: #46657B;">cliaddr</span>;
 
     sockfd = Socket(AF_INET, SOCK_DGRAM, 0);
 
-    bzero(&amp;servaddr, <span style="color: #4856F7; font-weight: bold;">sizeof</span>(servaddr));
+    bzero(&amp;servaddr, <span style="color: #AE5825;">sizeof</span>(servaddr));
     servadr.sin_family = AF_INET;
     servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
     servaddr.sin_port = htons(SERV_PORT);
 
-    Bind(sockfd, (<span style="color: #DADADA;">SA</span>*)&amp;servaddr, <span style="color: #4856F7; font-weight: bold;">sizeof</span>(servaddr));
+    Bind(sockfd, (<span style="color: #C6B032; font-style: italic;">SA</span>*)&amp;servaddr, <span style="color: #AE5825;">sizeof</span>(servaddr));
 
-    dg_echo(sockfd, (<span style="color: #DADADA;">SA</span>*)&amp;cliaddr, <span style="color: #4856F7; font-weight: bold;">sizeof</span>(cliaddr));
-    <span style="color: #4856F7; font-weight: bold;">return</span> 0;
+    dg_echo(sockfd, (<span style="color: #C6B032; font-style: italic;">SA</span>*)&amp;cliaddr, <span style="color: #AE5825;">sizeof</span>(cliaddr));
+    <span style="color: #AE5825;">return</span> 0;
 }
 </pre>
 </div>
@@ -284,14 +284,14 @@ stream).这也是两者的重要不同.
 <li>server的主要工作都是dg_echo完成的
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">"unp.h"</span>
+<pre class="src src-c"><span style="color: #007575;">#include</span> <span style="color: #5A7644;">"unp.h"</span>
 
-<span style="color: #DADADA;">void</span> <span style="color: #A1A1FF;">dg_echo</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">sockfd</span>, <span style="color: #DADADA;">SA</span>* <span style="color: #C1C144;">pcliaddr</span>, <span style="color: #DADADA;">socklen_t</span> <span style="color: #C1C144;">clilen</span>) {
-    <span style="color: #DADADA;">int</span>   <span style="color: #C1C144;">n</span>;
-    <span style="color: #DADADA;">socklen_t</span> <span style="color: #C1C144;">len</span>;
-    <span style="color: #DADADA;">char</span> <span style="color: #C1C144;">mesg</span>[MAXLINE];
+<span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">dg_echo</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">sockfd</span>, <span style="color: #C6B032; font-style: italic;">SA</span>* <span style="color: #46657B;">pcliaddr</span>, <span style="color: #C6B032; font-style: italic;">socklen_t</span> <span style="color: #46657B;">clilen</span>) {
+    <span style="color: #C6B032; font-style: italic;">int</span>   <span style="color: #46657B;">n</span>;
+    <span style="color: #C6B032; font-style: italic;">socklen_t</span> <span style="color: #46657B;">len</span>;
+    <span style="color: #C6B032; font-style: italic;">char</span> <span style="color: #46657B;">mesg</span>[MAXLINE];
 
-    <span style="color: #4856F7; font-weight: bold;">for</span> (; ;) {
+    <span style="color: #AE5825;">for</span> (; ;) {
         len = clilen;
         n = Recvfrom(sockfd, mesg, MAXLINE, 0, pcliaddr, &amp;len);
 
@@ -343,24 +343,24 @@ recvfrom和sendto直接传递而已.
 <li>udp client的代码如下
 <div class="org-src-container">
 
-<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">"unp.h"</span>
-<span class="linenr"> 2: </span><span style="color: #DADADA;">int</span> <span style="color: #A1A1FF;">main</span>(<span style="color: #DADADA;">int</span> <span style="color: #C1C144;">argc</span>, <span style="color: #DADADA;">char</span> *<span style="color: #C1C144;">argv</span>[])
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #007575;">#include</span> <span style="color: #5A7644;">"unp.h"</span>
+<span class="linenr"> 2: </span><span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #C6B032;">main</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">argc</span>, <span style="color: #C6B032; font-style: italic;">char</span> *<span style="color: #46657B;">argv</span>[])
 <span class="linenr"> 3: </span>{
-<span class="linenr"> 4: </span>    <span style="color: #DADADA;">int</span>    <span style="color: #C1C144;">sockfd</span>;
-<span class="linenr"> 5: </span>    <span style="color: #4856F7; font-weight: bold;">struct</span> <span style="color: #DADADA;">sockaddr_in</span> <span style="color: #C1C144;">servaddr</span>;
+<span class="linenr"> 4: </span>    <span style="color: #C6B032; font-style: italic;">int</span>    <span style="color: #46657B;">sockfd</span>;
+<span class="linenr"> 5: </span>    <span style="color: #AE5825;">struct</span> <span style="color: #C6B032; font-style: italic;">sockaddr_in</span> <span style="color: #46657B;">servaddr</span>;
 <span class="linenr"> 6: </span>
-<span class="linenr"> 7: </span>    <span style="color: #4856F7; font-weight: bold;">if</span> (argc != 2) {
-<span class="linenr"> 8: </span>        err_quit(<span style="color: #A2925E;">"usage: udpcli &lt;IPaddress&gt;"</span>);
+<span class="linenr"> 7: </span>    <span style="color: #AE5825;">if</span> (argc != 2) {
+<span class="linenr"> 8: </span>        err_quit(<span style="color: #5A7644;">"usage: udpcli &lt;IPaddress&gt;"</span>);
 <span class="linenr"> 9: </span>    }
 <span class="linenr">10: </span>
-<span class="linenr">11: </span>    bzero(&amp;servaddr, <span style="color: #4856F7; font-weight: bold;">sizeof</span>(servaddr));
+<span class="linenr">11: </span>    bzero(&amp;servaddr, <span style="color: #AE5825;">sizeof</span>(servaddr));
 <span class="linenr">12: </span>    servaddr.sin_family = AF_INET;
 <span class="linenr">13: </span>    servaddr.sin_port = htons(SERV_PORT);
 <span class="linenr">14: </span>    Inet_pton(AF_INET, argv[1], &amp;servaddr.sin_addr);
 <span class="linenr">15: </span>
 <span class="linenr">16: </span>    sockfd = Socket(AF_INET, SOCK_DGRAM, 0);
-<span class="linenr">17: </span>    dg_cli(stdin, sockfd, (<span style="color: #DADADA;">SA</span>*) &amp;servaddr, <span style="color: #4856F7; font-weight: bold;">sizeof</span>(servaddr));
-<span class="linenr">18: </span>    <span style="color: #4856F7; font-weight: bold;">return</span> 0;
+<span class="linenr">17: </span>    dg_cli(stdin, sockfd, (<span style="color: #C6B032; font-style: italic;">SA</span>*) &amp;servaddr, <span style="color: #AE5825;">sizeof</span>(servaddr));
+<span class="linenr">18: </span>    <span style="color: #AE5825;">return</span> 0;
 <span class="linenr">19: </span>}
 </pre>
 </div>
@@ -379,18 +379,18 @@ recvfrom和sendto直接传递而已.
 <li>dg_cli完成了主要的client的工作
 <div class="org-src-container">
 
-<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #4856F7; font-weight: bold;">#include</span> <span style="color: #A2925E;">"unp.h"</span>
+<pre class="src src-c"><span class="linenr"> 1: </span><span style="color: #007575;">#include</span> <span style="color: #5A7644;">"unp.h"</span>
 <span class="linenr"> 2: </span>
-<span class="linenr"> 3: </span><span style="color: #DADADA;">void</span> <span style="color: #A1A1FF;">dg_cli</span>(<span style="color: #DADADA;">FILE</span>* <span style="color: #C1C144;">fp</span>, <span style="color: #DADADA;">int</span> <span style="color: #C1C144;">sockfd</span>, <span style="color: #4856F7; font-weight: bold;">const</span> <span style="color: #DADADA;">SA</span>* <span style="color: #C1C144;">pservaddr</span>, <span style="color: #DADADA;">socklen_t</span> <span style="color: #C1C144;">servlen</span>) {
-<span class="linenr"> 4: </span>    <span style="color: #DADADA;">int</span>    <span style="color: #C1C144;">n</span>;
-<span class="linenr"> 5: </span>    <span style="color: #DADADA;">char</span>   <span style="color: #C1C144;">sendline</span>[MAXLINE], <span style="color: #C1C144;">recvline</span>[MAXLINE + 1];
+<span class="linenr"> 3: </span><span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">dg_cli</span>(<span style="color: #C6B032; font-style: italic;">FILE</span>* <span style="color: #46657B;">fp</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">sockfd</span>, <span style="color: #AE5825;">const</span> <span style="color: #C6B032; font-style: italic;">SA</span>* <span style="color: #46657B;">pservaddr</span>, <span style="color: #C6B032; font-style: italic;">socklen_t</span> <span style="color: #46657B;">servlen</span>) {
+<span class="linenr"> 4: </span>    <span style="color: #C6B032; font-style: italic;">int</span>    <span style="color: #46657B;">n</span>;
+<span class="linenr"> 5: </span>    <span style="color: #C6B032; font-style: italic;">char</span>   <span style="color: #46657B;">sendline</span>[MAXLINE], <span style="color: #46657B;">recvline</span>[MAXLINE + 1];
 <span class="linenr"> 6: </span>
-<span class="linenr"> 7: </span>    <span style="color: #4856F7; font-weight: bold;">while</span> (Fgets(sendline, MAXLINE, fp) ! = <span style="color: #DF7921; font-weight: bold;">NULL</span>) {
+<span class="linenr"> 7: </span>    <span style="color: #AE5825;">while</span> (Fgets(sendline, MAXLINE, fp) ! = <span style="color: #86453A;">NULL</span>) {
 <span class="linenr"> 8: </span>        Sendto(sockfd, sendlin, strlen(sendline), 0, pservaddr, servlen);
 <span class="linenr"> 9: </span>
-<span class="linenr">10: </span>        n = Recvfrom(sockfd, recvline, MAXLINE, 0, <span style="color: #DF7921; font-weight: bold;">NULL</span>, <span style="color: #DF7921; font-weight: bold;">NULL</span>);
+<span class="linenr">10: </span>        n = Recvfrom(sockfd, recvline, MAXLINE, 0, <span style="color: #86453A;">NULL</span>, <span style="color: #86453A;">NULL</span>);
 <span class="linenr">11: </span>
-<span class="linenr">12: </span>        recvline[n] = 0;   <span style="color: #ed5b15;">/* </span><span style="color: #ed5b15;">null terminate </span><span style="color: #ed5b15;">*/</span>
+<span class="linenr">12: </span>        recvline[n] = 0;   <span style="color: #4C565D;">/* </span><span style="color: #333B40; font-style: italic;">null terminate </span><span style="color: #4C565D;">*/</span>
 <span class="linenr">13: </span>        Fputs(recvline, stdout);
 <span class="linenr">14: </span>    }
 <span class="linenr">15: </span>}
