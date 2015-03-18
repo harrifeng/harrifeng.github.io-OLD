@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Version Control with Git</title>
-<!-- 2015-03-18 Wed 14:14 -->
+<!-- 2015-03-18 Wed 17:26 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -153,8 +153,6 @@ for the JavaScript code in this tag.
             <div id="nav">
                 <ul>
                     <li><a href="/">首页</a></li>
-                    <li><a href="/notes.html">读书笔记</a></li>
-                    <li><a href="/algo.html">算法</a></li>
                     <li><a href="/about.html">About Me</a></li>
                     <li>
                     </li>
@@ -164,6 +162,5974 @@ for the JavaScript code in this tag.
 </div>
 <div id="content">
 <h1 class="title">Version Control with Git</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Chapter 1: Introduction</a></li>
+<li><a href="#sec-2">Chapter 2: Installing Git</a></li>
+<li><a href="#sec-3">Chapter 3: Getting Started</a>
+<ul>
+<li><a href="#sec-3-1">The Git Command Line</a></li>
+<li><a href="#sec-3-2">Creating an Initial Repository</a></li>
+<li><a href="#sec-3-3">Adding a File to Your Repository</a></li>
+<li><a href="#sec-3-4">Making Another Commit</a></li>
+<li><a href="#sec-3-5">Viewing Your Commits</a></li>
+<li><a href="#sec-3-6">Viewing Comit Differences</a></li>
+<li><a href="#sec-3-7">Removing and Renaming Files in Your Repository</a></li>
+<li><a href="#sec-3-8">Configuration Files</a></li>
+<li><a href="#sec-3-9">Configuring an Alias</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">Chapter 4: Basic Git Concepts</a>
+<ul>
+<li><a href="#sec-4-1">Repositories</a></li>
+<li><a href="#sec-4-2">Git Object Types (Types in Object Store)</a></li>
+<li><a href="#sec-4-3">Index</a></li>
+<li><a href="#sec-4-4">Content-Addressable Names</a></li>
+<li><a href="#sec-4-5">Git Tracks Content</a></li>
+<li><a href="#sec-4-6">Pathname Versus Content</a></li>
+<li><a href="#sec-4-7">Pack Files</a></li>
+<li><a href="#sec-4-8">Object Store Pictures</a></li>
+<li><a href="#sec-4-9">Inside the .git Directory</a></li>
+<li><a href="#sec-4-10">Objects, Hashes, and Blobs</a></li>
+<li><a href="#sec-4-11">Files and Trees</a></li>
+<li><a href="#sec-4-12">Tree Hierarchies</a></li>
+<li><a href="#sec-4-13">Commits</a></li>
+<li><a href="#sec-4-14">Tags</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">Chapter 5: File Management and the Index</a>
+<ul>
+<li><a href="#sec-5-1">It's All About the Index</a></li>
+<li><a href="#sec-5-2">Using git add</a></li>
+<li><a href="#sec-5-3">Using git commit &#x2013;all</a></li>
+<li><a href="#sec-5-4">Using git rm</a></li>
+<li><a href="#sec-5-5">Using git mv</a></li>
+<li><a href="#sec-5-6">The .gitingore File</a></li>
+<li><a href="#sec-5-7">A Detailed View of Git's Object Model and Files</a></li>
+</ul>
+</li>
+<li><a href="#sec-6">Chapter 6: Commits</a>
+<ul>
+<li><a href="#sec-6-1">Identifying Commits</a></li>
+<li><a href="#sec-6-2">refs and symrefs</a></li>
+<li><a href="#sec-6-3">Relative Commit Names</a></li>
+<li><a href="#sec-6-4">Viewing Old Commits</a></li>
+<li><a href="#sec-6-5">Commit Graphs</a></li>
+<li><a href="#sec-6-6">Commit Ranges</a></li>
+<li><a href="#sec-6-7">Finding Commits</a></li>
+<li><a href="#sec-6-8">Using git blame</a></li>
+<li><a href="#sec-6-9">Using Pickaxe</a></li>
+</ul>
+</li>
+<li><a href="#sec-7">Chapter 7: Branches</a>
+<ul>
+<li><a href="#sec-7-1">Reasons for Using Branches</a></li>
+<li><a href="#sec-7-2">Branch Names</a></li>
+<li><a href="#sec-7-3">Dos and Don't in Branch Names</a></li>
+<li><a href="#sec-7-4">Using Branches</a></li>
+<li><a href="#sec-7-5">Creating Branches</a></li>
+<li><a href="#sec-7-6">Listing Branch Names</a></li>
+<li><a href="#sec-7-7">Viewing Brnches</a></li>
+<li><a href="#sec-7-8">Merging Changes into a Different Branch</a></li>
+<li><a href="#sec-7-9">Creating and Checking out a New Branch</a></li>
+<li><a href="#sec-7-10">Detached HEAD Branches</a></li>
+<li><a href="#sec-7-11">Deleting Branches</a></li>
+</ul>
+</li>
+<li><a href="#sec-8">Chapter 8: Diffs</a>
+<ul>
+<li><a href="#sec-8-1">Forms of the git diff Command</a>
+<ul>
+<li><a href="#sec-8-1-1">Simple git diff Example</a></li>
+<li><a href="#sec-8-1-2">git diff and Commit Ranges</a></li>
+<li><a href="#sec-8-1-3">git diff with Path Limiting</a></li>
+<li><a href="#sec-8-1-4">Comparing How Subversion and Git Derive diffs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-9">Chapter 9: Merges</a>
+<ul>
+<li><a href="#sec-9-1">Working with Merge Conflicts</a></li>
+<li><a href="#sec-9-2">Locating Conflicted Files</a></li>
+<li><a href="#sec-9-3">Inspecting Conflicts</a></li>
+<li><a href="#sec-9-4">git log with conflicts</a></li>
+<li><a href="#sec-9-5">How Git Keeps Track of Conflicts</a></li>
+<li><a href="#sec-9-6">Finishing Up a Conflict Resolution</a></li>
+<li><a href="#sec-9-7">Aborting or Restarting a Merge</a></li>
+<li><a href="#sec-9-8">Degenerate Merges</a></li>
+<li><a href="#sec-9-9">Normal Merge</a></li>
+<li><a href="#sec-9-10">Applying Merge Strategies</a></li>
+</ul>
+</li>
+<li><a href="#sec-10">Chapter 10: Altering Commits</a>
+<ul>
+<li><a href="#sec-10-1">Caution About Altering History</a></li>
+<li><a href="#sec-10-2">Using git reset</a></li>
+<li><a href="#sec-10-3">Using git cherry-pick</a></li>
+<li><a href="#sec-10-4">Using git revert</a></li>
+<li><a href="#sec-10-5">Changing the Top Commit</a></li>
+<li><a href="#sec-10-6">Rebasing Commits</a></li>
+<li><a href="#sec-10-7">Using git rebase -i</a></li>
+</ul>
+</li>
+<li><a href="#sec-11">Chapter 11: The Stash and the Reflog</a>
+<ul>
+<li><a href="#sec-11-1">The Stash</a></li>
+<li><a href="#sec-11-2">The Reflog</a></li>
+</ul>
+</li>
+<li><a href="#sec-12">Chapter 12: Remote Repositories</a>
+<ul>
+<li><a href="#sec-12-1">Repository Concepts</a></li>
+<li><a href="#sec-12-2">Repository Clones</a></li>
+</ul>
+</li>
+<li><a href="#sec-13">Chapter 13: Repository Management</a>
+<ul>
+<li><a href="#sec-13-1">A Word About Servers</a></li>
+<li><a href="#sec-13-2">Upstream and Downstream Flows</a></li>
+</ul>
+</li>
+<li><a href="#sec-14">Chapter 17: Submodule Best Practices</a>
+<ul>
+<li><a href="#sec-14-1">Submodule Commands</a></li>
+<li><a href="#sec-14-2">Why Submodules?</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Chapter 1: Introduction</h2>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Chapter 2: Installing Git</h2>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Chapter 3: Getting Started</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">The Git Command Line</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>直接书写git就会得到命令提示
+<pre class="example">
+$ git
+git
+usage: git [--version] [--help] [-C &lt;path&gt;] [-c name=value]
+           [--exec-path[=&lt;path&gt;]] [--html-path] [--man-path] [--info-path]
+           [-p|--paginate|--no-pager] [--no-replace-objects] [--bare]
+           [--git-dir=&lt;path&gt;] [--work-tree=&lt;path&gt;] [--namespace=&lt;name&gt;]
+           &lt;command&gt; [&lt;args&gt;]
+
+The most commonly used git commands are:
+   add        Add file contents to the index
+   bisect     Find by binary search the change that introduced a bug
+   branch     List, create, or delete branches
+   checkout   Checkout a branch or paths to the working tree
+   clone      Clone a repository into a new directory
+   commit     Record changes to the repository
+   diff       Show changes between commits, commit and working tree, etc
+   fetch      Download objects and refs from another repository
+   grep       Print lines matching a pattern
+   init       Create an empty Git repository or reinitialize an existing one
+   log        Show commit logs
+   merge      Join two or more development histories together
+   mv         Move or rename a file, a directory, or a symlink
+   pull       Fetch from and integrate with another repository or a local branch
+   push       Update remote refs along with associated objects
+   rebase     Forward-port local commits to the updated upstream head
+   reset      Reset current HEAD to the specified state
+   rm         Remove files from the working tree and from the index
+   show       Show various types of objects
+   status     Show the working tree status
+   tag        Create, list, delete or verify a tag object signed with GPG
+
+'git help -a' and 'git help -g' lists available subcommands and some
+concept guides. See 'git help &lt;command&gt;' or 'git help &lt;concept&gt;'
+to read about a specific subcommand or concept.
+</pre>
+</li>
+<li>git 最繁杂的部分来自于option也就是上面的[&lt;args&gt;]部分, 也就是&#x2013;&lt;some-option&gt;
+这种option主要是为了subcommand， 比如
+<pre class="example">
+$ git commit --amend
+</pre>
+</li>
+<li>当然了也有例外，比如&#x2013;version就是为git自己准备的， 不过这种情况不多
+<pre class="example">
+$ git --version
+</pre>
+</li>
+<li>所有的option都有"长"和"短"两种形式, 分别用'-' 和 '&#x2013;'代替
+<pre class="example">
+$ git commit -m "Fixed a typo."
+$ git commit --message="Fixed a type"
+</pre>
+</li>
+<li>对于'&#x2013;' git 还有另外一个非常重要的用处,那就是用来
+<pre class="example">
+       分割'option'和'argument'
+</pre>
+</li>
+<li>比如下面的 '&#x2013;'(注意后面有个空格) ,就是把'控制部分'和文件名分开了
+<pre class="example">
+$ git diff -w master origin -- tols/Makefile
+</pre>
+</li>
+<li>'&#x2013;' 后面跟的一定是文件名,这样就可以最大限度的减少歧义
+<pre class="example">
+# Checkout the tag named "main.c"
+$ git checkout main.c
+# Checkout the file named "main.c"
+$ git checkout -- main.c
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">Creating an Initial Repository</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>如下创建一个空的repo
+<pre class="example">
+~ &gt;&gt;&gt; mkdir ~/public_html
+~ &gt;&gt;&gt; cd ~/public_html
+~/public_html &gt;&gt;&gt; echo 'My website is alive!' &gt; index.html
+~/public_html &gt;&gt;&gt; git init
+Initialized empty Git repository in c:/Users/hfeng/AppData/Roaming/public_html/.git/
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3">Adding a File to Your Repository</h3>
+<div class="outline-text-3" id="text-3-3">
+<ul class="org-ul">
+<li>添加食用add, 查看使用status
+<pre class="example">
+~/public_html &gt;&gt;&gt; git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use "git rm --cached &lt;file&gt;..." to unstage)
+
+    new file:   index.html
+</pre>
+</li>
+
+<li>提交使用comment(这里我们学到了两个commit的option, -m和&#x2013;author)
+<pre class="example">
+~/public_html &gt;&gt;&gt; git commit -m "Initial content of public_html" --author="haoran feng &lt;hfeng@gmail.com&gt;"
+[master (root-commit) dd533a0] Initial content of public_html
+ Author: haoran feng &lt;hfeng@gmail.com&gt;
+ 1 file changed, 1 insertion(+)
+ create mode 100644 index.html
+~/public_html &gt;&gt;&gt; git status
+On branch master
+nothing to commit, working directory clean
+</pre>
+</li>
+<li>每次commit的时候都加&#x2013;author太麻烦,可以通过更改git里面的两个变量达到每次都默
+认添加author的目的
+<pre class="example">
+$ git config user.name "Haoran Feng"
+$ git config user.email "hfeng@example.com"
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4">Making Another Commit</h3>
+<div class="outline-text-3" id="text-3-4">
+<ul class="org-ul">
+<li>如果文件已经存在repo里面了(不是第一次创建), 那么git commit + &lt;filename&gt;
+就等于先add 再commit了 (注意git commit 不加文件名是不行的)
+<pre class="example">
+~/public_html &gt;&gt;&gt; cat index.html
+&lt;html&gt;
+    &lt;body&gt;
+        My website is alive!
+    &lt;/body&gt;
+&lt;/html&gt;
+~/public_html &gt;&gt;&gt; git commit -m "Convert to HTML"
+On branch master
+Changes not staged for commit:
+    modified:   index.html
+
+no changes added to commit
+~/public_html &gt;&gt;&gt; git commit index.html -m "Convert to HTML"
+[master 48af027] Convert to HTML
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5">Viewing Your Commits</h3>
+<div class="outline-text-3" id="text-3-5">
+<ul class="org-ul">
+<li>git 最重要的命令之一就是git log, 用它来可以查看git的历史记录
+<pre class="example">
+$ git log
+commit 48af027b08e2bfbb3d615b613b94a76a188793fd
+Author: harri feng &lt;harri.feng@gmail.com&gt;
+Date:   Wed Dec 31 16:33:23 2014 +0800
+
+    Convert to HTML
+
+commit dd533a0c29c3619a22fe4c17af425dc759b7b50a
+Author: haoran feng &lt;hfeng@gmail.com&gt;
+Date:   Wed Dec 31 16:26:19 2014 +0800
+
+    Initial content of public_html
+</pre>
+</li>
+<li>还可以通过git show来查看某一个特定的commit(通过uudi来唯一判定某个commit)
+<pre class="example">
+git show dd533a0c29c3619a22fe4c17af425dc759b7b50a
+commit dd533a0c29c3619a22fe4c17af425dc759b7b50a
+Author: haoran feng &lt;hfeng@gmail.com&gt;
+Date:   Wed Dec 31 16:26:19 2014 +0800
+
+    Initial content of public_html
+
+diff --git a/index.html b/index.html
+new file mode 100644
+index 0000000..34217e9
+--- /dev/null
++++ b/index.html
+@@ -0,0 +1 @@
++My website is alive!
+</pre>
+</li>
+<li>如果show后面没有uuid,那么就是最近一条的commit信息
+<pre class="example">
+git show
+commit 48af027b08e2bfbb3d615b613b94a76a188793fd
+Author: harri feng &lt;harri.feng@gmail.com&gt;
+Date:   Wed Dec 31 16:33:23 2014 +0800
+
+    Convert to HTML
+
+diff --git a/index.html b/index.html
+index 34217e9..26964a6 100644
+--- a/index.html
++++ b/index.html
+@@ -1 +1,5 @@
+-My website is alive!
++&lt;html&gt;
++    &lt;body&gt;
++        My website is alive!
++    &lt;/body&gt;
++&lt;/html&gt;
+</pre>
+</li>
+<li>show-branch是'一行信息'的表示当前branch的形式(顺便学习一个option &#x2013;more,最
+多几个列出来)
+<pre class="example">
+$ git show-branch --more=10
+[master] Convert to HTML
+[master^] Initial content of public_html
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6">Viewing Comit Differences</h3>
+<div class="outline-text-3" id="text-3-6">
+<ul class="org-ul">
+<li>git diff 是来显示commit之间的差距的, diff后面第一个参数(这里是uuid)"老", 第
+二个参数(这里是uuid)是"新". "新"的比"老"的多,就用"+",否则,就用"-"
+<pre class="example">
+$ git diff dd533a0c29c3619a22fe4c17af425dc759b7b50a 48af027b08e2bfbb3d615b613b94a76a188793fd
+diff --git a/index.html b/index.html
+index 34217e9..26964a6 100644
+--- a/index.html
++++ b/index.html
+@@ -1 +1,5 @@
+-My website is alive!
++&lt;html&gt;
++    &lt;body&gt;
++        My website is alive!
++    &lt;/body&gt;
++&lt;/html&gt;
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-7" class="outline-3">
+<h3 id="sec-3-7">Removing and Renaming Files in Your Repository</h3>
+<div class="outline-text-3" id="text-3-7">
+<ul class="org-ul">
+<li>git 里面的rename是有一个固定的命令的,叫做git-mv, 更改完必须commit
+<pre class="example">
+~/public_html &gt;&gt;&gt; git mv index.html index-two.html
+~/public_html &gt;&gt;&gt; git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    renamed:    index.html -&gt; index-two.html
+
+~/public_html &gt;&gt;&gt; git commit -m "Moved to new name"
+[master b58389a] Moved to new name
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename index.html =&gt; index-two.html (100%)
+~/public_html &gt;&gt;&gt; git show
+commit b58389abebc109236e91e38117d21777123e57b7
+Author: harri feng &lt;harri.feng@gmail.com&gt;
+Date:   Wed Dec 31 16:47:42 2014 +0800
+
+    Moved to new name
+
+diff --git a/index-two.html b/index-two.html
+new file mode 100644
+index 0000000..26964a6
+--- /dev/null
++++ b/index-two.html
+@@ -0,0 +1,5 @@
++&lt;html&gt;
++    &lt;body&gt;
++        My website is alive!
++    &lt;/body&gt;
++&lt;/html&gt;
+diff --git a/index.html b/index.html
+deleted file mode 100644
+index 26964a6..0000000
+--- a/index.html
++++ /dev/null
+@@ -1,5 +0,0 @@
+-&lt;html&gt;
+-    &lt;body&gt;
+-        My website is alive!
+-    &lt;/body&gt;
+-&lt;/html&gt;
+</pre>
+</li>
+<li>当然了,你可以使用bash 命令,先mv, 然后git-rm git add, 同样效果
+<pre class="example">
+~/public_html &gt;&gt;&gt; mv index-two.html index-three.html
+~/public_html &gt;&gt;&gt; git status
+On branch master
+Changes not staged for commit:
+  (use "git add/rm &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    deleted:    index-two.html
+
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+    index-three.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+~/public_html &gt;&gt;&gt; git rm index-two.html
+rm 'index-two.html'
+~/public_html &gt;&gt;&gt; git add index-three.html
+~/public_html &gt;&gt;&gt; git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    renamed:    index-two.html -&gt; index-three.html
+
+~/public_html &gt;&gt;&gt; git commit -m "Moved to 3rd name"
+[master 06b2bf0] Moved to 3rd name
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename index-two.html =&gt; index-three.html (100%)
+~/public_html &gt;&gt;&gt; git show
+commit 06b2bf0bcd6adebea08aa6bd11375285fbf737c1
+Author: harri feng &lt;harri.feng@gmail.com&gt;
+Date:   Wed Dec 31 16:50:47 2014 +0800
+
+    Moved to 3rd name
+
+diff --git a/index-three.html b/index-three.html
+new file mode 100644
+index 0000000..26964a6
+--- /dev/null
++++ b/index-three.html
+@@ -0,0 +1,5 @@
++&lt;html&gt;
++    &lt;body&gt;
++        My website is alive!
++    &lt;/body&gt;
++&lt;/html&gt;
+diff --git a/index-two.html b/index-two.html
+deleted file mode 100644
+index 26964a6..0000000
+--- a/index-two.html
++++ /dev/null
+@@ -1,5 +0,0 @@
+-&lt;html&gt;
+-    &lt;body&gt;
+-        My website is alive!
+-    &lt;/body&gt;
+-&lt;/html&gt;
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-8" class="outline-3">
+<h3 id="sec-3-8">Configuration Files</h3>
+<div class="outline-text-3" id="text-3-8">
+<ul class="org-ul">
+<li>对于Git来说,有如下三个位置的配置信息
+<ol class="org-ol">
+<li>.git/config : 这个是repository level的配置信息,其优先级最高. git-config命
+令配合默认会设置这个域(如果使用&#x2013;file option则可以指定另外的config文件位置),
+<pre class="example">
+~/my_website &gt;&gt;&gt; cat .git/config
+[core]
+    repositoryformatversion = 0
+    filemode = false
+    bare = false
+    logallrefupdates = true
+    symlinks = false
+    ignorecase = true
+    hideDotFiles = dotGitOnly
+[remote "origin"]
+    url = c:/Users/hfeng/AppData/Roaming/public_html/
+    fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+    remote = origin
+    merge = refs/heads/master
+~/my_website &gt;&gt;&gt; git config core.filemode true
+~/my_website &gt;&gt;&gt; cat .git/config
+[core]
+    repositoryformatversion = 0
+    filemode = true
+    bare = false
+    logallrefupdates = true
+    symlinks = false
+    ignorecase = true
+    hideDotFiles = dotGitOnly
+[remote "origin"]
+    url = c:/Users/hfeng/AppData/Roaming/public_html/
+    fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+    remote = origin
+    merge = refs/heads/master
+</pre>
+<p>
+前面我们介绍git config user.name的时候, 没有使用任何option,更改的就肯定是
+这个文件
+</p>
+<pre class="example">
+~/my_website &gt;&gt;&gt; git config user.name "my website"
+~/my_website &gt;&gt;&gt; cat .git/config
+[core]
+    repositoryformatversion = 0
+    filemode = true
+    bare = false
+    logallrefupdates = true
+    symlinks = false
+    ignorecase = true
+    hideDotFiles = dotGitOnly
+[remote "origin"]
+    url = c:/Users/hfeng/AppData/Roaming/public_html/
+    fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+    remote = origin
+    merge = refs/heads/master
+[user]
+    name = my website
+</pre>
+</li>
+<li>~/.gitconfig: 这个是User level的配置信息,其优先级低于repository level, git-config
+要使用&#x2013;global 才能设置这个文件
+<pre class="example">
+$ git config --global user.name "harri feng"
+$ git config --blogal user.email "harri.feng@gmail.com"
+</pre>
+
+<p>
+我们刚才设置了repository level的新user.name,这个优先级高于user level的,如下例
+</p>
+<pre class="example">
+~/my_website &gt;&gt;&gt; cat ~/.gitconfig
+[user]
+    email = harri.feng@gmail.com
+    name = harri feng
+~/my_website &gt;&gt;&gt; cat .git/config | grep user -A 3
+[user]
+    name = my website
+~/my_website &gt;&gt;&gt; echo "another file" &gt;&gt; af.txt
+~/my_website &gt;&gt;&gt; git add af.txt
+~/my_website &gt;&gt;&gt; git commit -m "new commit to show different user name"
+[master 61b2bdc] new commit to show different user name
+ 1 file changed, 1 insertion(+)
+ create mode 100644 af.txt
+~/my_website &gt;&gt;&gt; git log -2
+commit 61b2bdc1497212a1e58e0fab045a8cc48f487199
+Author: my website &lt;harri.feng@gmail.com&gt;
+Date:   Wed Dec 31 17:06:40 2014 +0800
+
+    new commit to show different user name
+
+commit 06b2bf0bcd6adebea08aa6bd11375285fbf737c1
+Author: harri feng &lt;harri.feng@gmail.com&gt;
+Date:   Wed Dec 31 16:50:47 2014 +0800
+
+    Moved to 3rd name
+</pre>
+</li>
+<li>/etc/gitconfig, system level的配置,需要git-config 配合&#x2013;system来更改
+</li>
+</ol>
+</li>
+<li>我们可以通过git config -l 来列出所有的setting
+<pre class="example">
+~/my_website &gt;&gt;&gt; git config -l
+core.symlinks=false
+core.autocrlf=true
+color.diff=auto
+color.status=auto
+color.branch=auto
+color.interactive=true
+pack.packsizelimit=2g
+help.format=html
+http.sslcainfo=/bin/curl-ca-bundle.crt
+sendemail.smtpserver=/bin/msmtp.exe
+diff.astextplain.textconv=astextplain
+rebase.autosquash=true
+user.email=harri.feng@gmail.com
+user.name=harri feng
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+core.symlinks=false
+core.ignorecase=true
+core.hidedotfiles=dotGitOnly
+remote.origin.url=c:/Users/hfeng/AppData/Roaming/public_html/
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.master.remote=origin
+branch.master.merge=refs/heads/master
+user.name=my website
+</pre>
+</li>
+<li>每个setting都可以靠 &#x2013;unset这个option来去掉
+<pre class="example">
+~/my_website &gt;&gt;&gt; cat ~/.gitconfig
+[user]
+    email = harri.feng@gmail.com
+    name = harri feng
+~/my_website &gt;&gt;&gt; git config --unset --global user.email
+~/my_website &gt;&gt;&gt; cat ~/.gitconfig
+[user]
+    name = harri feng
+</pre>
+</li>
+<li>因为所有的setting都是放在几个文本里面的,所以你完全可以用编辑器去改动他们, 保
+存即生效.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-9" class="outline-3">
+<h3 id="sec-3-9">Configuring an Alias</h3>
+<div class="outline-text-3" id="text-3-9">
+<ul class="org-ul">
+<li>config一个非常好用的功能是配置alias(当然,对于emacs yasnippet用户来说不必要啦)
+<pre class="example">
+~/my_website &gt;&gt;&gt; git config --global alias.show-graph 'log --graph --abbrev-commit --pretty=oneline'
+~/my_website &gt;&gt;&gt; git show-graph
+* 61b2bdc new commit to show different user name
+* 06b2bf0 Moved to 3rd name
+* b58389a Moved to new name
+* 48af027 Convert to HTML
+* dd533a0 Initial content of public_html
+</pre>
+</li>
+<li>从这里我们也可以看到setting总是分两个部分的alias + show-graph,前面是它的
+namespace,表现在config文件里面就是
+<pre class="example">
+# ~/.gitconfig
+[user]
+    name = harri feng
+    email = harrifeng@gmail.com
+[alias]
+    show-graph = log --graph --abbrev-commit --pretty=oneline
+</pre>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Chapter 4: Basic Git Concepts</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">Repositories</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li>Repository就是包含代码所有历史版本的数据库
+</li>
+<li>对于Git来说,除了所有的文件都有历史记录以外(所有VCS都自然有这个功能),还会保
+存repository的setting. 换句话说,clone了一个repository以后,就会自带一些
+.git/config. 需要注意的是.git/config里面的设置不是"完全"和"被clone"里的.git/config
+一样的.
+</li>
+<li>为了保存所有文件的历史记录, git在repository的根目录下面建立了.git文件夹,然后
+里面保存了两种数据结构:
+<ul class="org-ul">
+<li>object store
+</li>
+<li>index
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2">Git Object Types (Types in Object Store)</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li>前面说了, git里面最重要的是object store 和 index, 而object store又分成了四种type:
+<ul class="org-ul">
+<li>Blobs: 每个版本的每一个文件都被存储为blob. blob是以binary的形式存在的,也就
+是说,其内容我们不借助于git的话无法了解.他只存储了文件的data, meta信息(如文
+件名等)都没有在blob里面保存
+</li>
+<li>Trees: 每个版本的每个文件夹都被存储为tree. 文件夹是可以嵌套的,所有tree也是
+可以嵌套的. tree就会在自己的内容里面包括tree(嵌套的)和blob, 并且会存储blob
+的标示, 路径等meta信息.
+</li>
+<li>Commits: 每一次的提交其实都是把那一次的信息存储在一个commit的对象里面.这些信息包括:
+author, committer, commit date, log message等.
+<ul class="org-ul">
+<li>每一个commit都会指向一个tree object. 而这个tree object会包含提交这个
+commit那一个时刻整个代码库(repository)的snapshot!
+</li>
+<li>除了root commit,所有的commit都至少有一个parent
+</li>
+</ul>
+</li>
+<li>Tags: tag是给某个git里面的object(通常是commit)一个"human redable"的名字,比
+如我们前面看到的commit通常是uuid代表的9da581d910c9c4ac93557ca4859e767f5caf5169
+这种commit代表方法显然不如Ver-1.0-Alpha更容易识别
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3">Index</h3>
+<div class="outline-text-3" id="text-4-3">
+<ul class="org-ul">
+<li>index是git的发明,也就是一种"王储"的设计,通过git-add git-mv或者git-rm进行一些
+操作以后, 再提交git-commit以前,存在一种"pre-commit"的状态,这个状态就是index
+保持的.一旦提交commit,那么一个index 就会变成一个tree object (然后被某个commit
+object所指示着)
+</li>
+<li>值得注意的是index是一个binary file,而不是git里面的object
+</li>
+<li>index的设计,让git的merge变的更加容易
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4">Content-Addressable Names</h3>
+<div class="outline-text-3" id="text-4-4">
+<ul class="org-ul">
+<li>前面说到的Git object store有四种type object. 这四种object都有自己的'名字',
+这些'名字'是object'所有的内容'通过SHA1得到的一个160-bit长的二进制数. 通常使
+用40位的十六进制数表示,比如9da581d910c9c4ac93557ca4859e767f5caf5169
+</li>
+<li>SHA1 哈希算法的特点是:相同的内容产生的哈希结果总是一样的,所以相同的文件内容
+在不同的文件夹,甚至是不同的电脑上面,都是能产生相同的哈希结果!这样就能通过SHA1
+hash ID来比较两个文件是否相同!
+</li>
+<li>值得注意的是,由于commit object的内容包括提交者,时间等信息,所以基本不会出现
+两个commit object相同的情况.而blob object因为没有任何的meta信息,只有文件的
+content 二进制存储.所以blob object如果在不同的文件夹甚至不同的repository里面
+也是会有相同的SHA1 哈希结果的.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5">Git Tracks Content</h3>
+<div class="outline-text-3" id="text-4-5">
+<ul class="org-ul">
+<li>Git更应该被看做是content tracking system,而不仅仅是VCS,所以其比VCS的功能要多.
+主要体现在下面两点:
+<ul class="org-ul">
+<li>Git 的object store存储是建立在文件的content的哈希值上的.而跟文件的名字或者
+路径是没有关系的.所以如果两个文件的content 哈希值是相同的,即便名字不同,位置
+不同,但是哈希值相同的话, Git就会只保存一份内容, 两个指针指向这个内容(如果其中
+一个改变,再更改指针.跟文件系统很像)
+</li>
+<li>Git会保存某个文件的'每个历史版本',而不是'基础版本'+每个版本的diff. 这是由
+于git使用了每个文件的content hash作为'name', 那就每次都必须对"完整的文件"
+进行哈希, '基础版本' + 每个版本diff的解决方案肯定是不行了.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-6" class="outline-3">
+<h3 id="sec-4-6">Pathname Versus Content</h3>
+<div class="outline-text-3" id="text-4-6">
+<ul class="org-ul">
+<li>对于Git来说, 文件的文件名它是不怎么关心的.它只是记录一下filename,然后配合blob
+里面的content从而能够重现'snapshot'
+</li>
+<li>也就是说,Git内部存储文件和文件名的方法是和文件系统完全不同的.Git内部的存储方
+法对于Git来说更加便利而已
+</li>
+<li>当Git需要重现某个'snapshot'的working directory的时候,它会拿着自己存储的pathname
+和blob然后告诉操作系统'这里有blob,它应该在path/to/directory/file, 请你帮我放好'
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-7" class="outline-3">
+<h3 id="sec-4-7">Pack Files</h3>
+<div class="outline-text-3" id="text-4-7">
+<ul class="org-ul">
+<li>读者很快就会发现,即便是经过了压缩,"实心实意"的存储每个版本的每个文件,还是会
+非常的低效. 比如有个500KB的大文件,我们改了一行, 又多了一个500KB的大文件.难道
+我们要把这两个500KB的文件都保存起来? 如果真是这样,repository的增长就会很快
+</li>
+<li>Git当然不是这样存储的.比如刚才的例子,Git会只存储新的500K的文件,然后把更改的
+那一行作为delta文件记录下来.这种存储方法的文件,在Git里面叫做Pack file
+</li>
+<li>存储delta文件的方法,已经存在了几个世纪了.Git对此是有突破的,因为Git存储的时候
+"不在乎文件名", 只在乎内容.所以,在整个repository里面如果有几个文件都非常相似
+的话,我可以存储一个base文件,然后存储几个小的delta文件.Pack file也是在object
+store里面和其他object 一起共存的.只是我们讨论的时候往往忽略这个模型,而认为所有
+的内容都是blob存储的
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-8" class="outline-3">
+<h3 id="sec-4-8">Object Store Pictures</h3>
+<div class="outline-text-3" id="text-4-8">
+<ul class="org-ul">
+<li>下面我们通过离子来看看git里面各个部分是如何相互联系的
+<ul class="org-ul">
+<li>下图中有如下部分:
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/misc/git-object-1.png" alt="git-object-1.png" />
+</p>
+<p><span class="figure-number">Figure 1:</span> git-object-1</p>
+</div>
+<ol class="org-ol">
+<li>长方形的是blob,只有content. 它们只能被tree object指向.我们可以看到一开
+始有两个文件, 其'name'是dead23和feeb1e
+</li>
+<li>三角形的是tree,它们指向blob.(当然tree也还可以指向其他tree,只是这里没有),
+当前文件夹的content就是两个blob(其实还有文件名,后面会看到),然后当前文件
+夹的'name'是8675309
+</li>
+<li>圆形是commit, 一个commit指向一个特定的tree.'name'是1492
+</li>
+<li>菱形是tag, 一个tag可以也仅仅可以指向一个commit, 'name'是2504624
+</li>
+<li>圆角矩形是branch, 它也指向某个commit. 它不是Git object,所以没有'name'
+</li>
+</ol>
+</li>
+<li>我们在上面的情况下,做一下更改.我们再原来的文件夹下面增加一个子文件夹,再在
+子文件夹下面增加一个文件:
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/misc/git-object-2.png" alt="git-object-2.png" />
+</p>
+<p><span class="figure-number">Figure 2:</span> git-object-2</p>
+</div>
+<ol class="org-ol">
+<li>文件dead23和feeb1e还是那两个文件没动,所以blob不动,新增加了一个blob 1010b
+</li>
+<li>文件夹多了一个新的tree 1010220, 原来的文件夹发生了改变,内容从'bolb dead23
+bolb feeble'变成了'tree 1010220 bolb dead23 bolb feeble',所以得重新
+生成一个tree object,其'name'成了cafed00d
+</li>
+<li>commit也指向了新的'top tree':cafed00d.同时新的commit(11235)要指向老的
+commit(1429), 形成一个反向列表
+</li>
+<li>tag保持不动的
+</li>
+<li>branch跟着最新的commit向前移动
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-9" class="outline-3">
+<h3 id="sec-4-9">Inside the .git Directory</h3>
+<div class="outline-text-3" id="text-4-9">
+<ul class="org-ul">
+<li>我们新建一个空的git repository,来看看里面有什么内容
+<pre class="example">
+~ &gt;&gt;&gt; mkdir -p tmp/hello
+~ &gt;&gt;&gt; cd tmp/hello/
+~/tmp/hello &gt;&gt;&gt; git init
+Initialized empty Git repository in c:/Users/hfeng/AppData/Roaming/tmp/hello/.git/
+~/tmp/hello &gt;&gt;&gt; find .
+.
+./.git
+./.git/branches
+./.git/config
+./.git/description
+./.git/HEAD
+./.git/hooks
+./.git/hooks/applypatch-msg.sample
+./.git/hooks/commit-msg.sample
+./.git/hooks/post-update.sample
+./.git/hooks/pre-applypatch.sample
+./.git/hooks/pre-commit.sample
+./.git/hooks/pre-push.sample
+./.git/hooks/pre-rebase.sample
+./.git/hooks/prepare-commit-msg.sample
+./.git/hooks/update.sample
+./.git/info
+./.git/info/exclude
+./.git/objects
+./.git/objects/info
+./.git/objects/pack
+./.git/refs
+./.git/refs/heads
+./.git/refs/tags
+</pre>
+</li>
+<li>我们看到即便是空的git repository,也是有很多文件的,只是这些文件大部分都是git
+的配置文件,我们暂时不用去了解.
+</li>
+<li>我们的object store里面的objects都是存在.git/objects文件夹里面的,在开始的时
+候,这里除了占位符,什么也没有
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; find .git/objects/
+.git/objects/
+.git/objects/info
+.git/objects/pack
+</pre>
+</li>
+<li>如果你增加了一个文件,而且你的内容是'hello world'的话,其结果是肯定的(hash内容
+也一致,因为blob只含有文件内容)
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; echo "hello world" &gt; hello.txt
+~/tmp/hello &gt;&gt;&gt; git add hello.txt
+~/tmp/hello &gt;&gt;&gt; find .git/objects/
+.git/objects/
+.git/objects/3b
+.git/objects/3b/18e512dba79e4c8300dd08aeb37f8e728b8dad
+.git/objects/info
+.git/objects/pack
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-10" class="outline-3">
+<h3 id="sec-4-10">Objects, Hashes, and Blobs</h3>
+<div class="outline-text-3" id="text-4-10">
+<ul class="org-ul">
+<li>你创建了一个文件hello.txt的话,git对于hello.txt这个名字毫不在意,而是把"hello world"
+这11个字符一起hash,得到了一个3b18e512dba79e4c8300dd08aeb37f8e728b8dad(为了
+防止索引过慢,加了一层文件夹3b),我们可以更改文件名字,发现hash还是一致的
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; git mv hello.txt hello2.txt
+~/tmp/hello &gt;&gt;&gt; find .git/objects/
+.git/objects/
+.git/objects/3b
+.git/objects/3b/18e512dba79e4c8300dd08aeb37f8e728b8dad
+.git/objects/info
+.git/objects/pack
+</pre>
+</li>
+<li>我们可以通过cat-file -p 加hash的方式来看看content是什么
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; git cat-file -p 3b18e512dba79e4c8300dd08aeb37f8e728b8dad
+hello world
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-11" class="outline-3">
+<h3 id="sec-4-11">Files and Trees</h3>
+<div class="outline-text-3" id="text-4-11">
+<ul class="org-ul">
+<li>我们知道,虽然文件名不是在blob里面存储的,但是应该有另外的object type(也就是
+tree object)来存储文件名,但是tree object只有在git-commit以后才能创建.
+</li>
+<li>在git-add, git-rm, git-mv的情况下,tree object是以'pre-commit'的形态,也就是
+index的形态存在的!具体位置在.git/index, 但是由于index是binary file,所以
+直接cat是没用的(但是也是隐隐约约可以看到hello2.txt)
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; cat .git/index
+</pre>
+</li>
+<li>我们使用git ls-files  &#x2013;stage来看下
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; git ls-files --stage
+100644 3b18e512dba79e4c8300dd08aeb37f8e728b8dad 0   hello2.txt
+</pre>
+</li>
+<li>这个时候,hello.txt还是hello2.txt就不一样了,如果我们提交的话,因为文件名是
+tree object的一个部分,会显示出不同的hash. 当然改过来的话object hash又一样了,
+不过跟书本上不同的是,我们多一次commit,自然会多出两个commit的object hash.
+commit的hash包含了tree, parnt, author, time等等信息,很难做出一样的hash来
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; git status
+On branch master
+
+Initial commit
+
+Changes to be committed:
+  (use "git rm --cached &lt;file&gt;..." to unstage)
+
+    new file:   hello2.txt
+
+~/tmp/hello &gt;&gt;&gt; git commit -m "hello2.txt"
+[master (root-commit) 245f516] hello2.txt
+ 1 file changed, 1 insertion(+)
+ create mode 100644 hello2.txt
+~/tmp/hello &gt;&gt;&gt; find .git/objects/
+.git/objects/
+.git/objects/24
+.git/objects/24/5f51611ce7a99fbc900a6a66543e437cf41c11
+.git/objects/3b
+.git/objects/3b/18e512dba79e4c8300dd08aeb37f8e728b8dad
+.git/objects/60
+.git/objects/60/118b96010f676e8fa28ecbefc98c125abbafcc
+.git/objects/info
+.git/objects/pack
+~/tmp/hello &gt;&gt;&gt; git cat-file -p 245f51611ce7a99fbc900a6a66543e437cf41c11
+tree 60118b96010f676e8fa28ecbefc98c125abbafcc
+author harri feng &lt;harrifeng@gmail.com&gt; 1420107076 +0800
+committer harri feng &lt;harrifeng@gmail.com&gt; 1420107076 +0800
+
+hello2.txt
+~/tmp/hello &gt;&gt;&gt; git cat-file -p 60118b96010f676e8fa28ecbefc98c125abbafcc
+100644 blob 3b18e512dba79e4c8300dd08aeb37f8e728b8dad    hello2.txt
+~/tmp/hello &gt;&gt;&gt; git mv hello2.txt hello.txt
+~/tmp/hello &gt;&gt;&gt; git commit -m "hello.txt again"
+[master 767f0cb] hello.txt again
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename hello2.txt =&gt; hello.txt (100%)
+~/tmp/hello &gt;&gt;&gt; find .git/objects/
+.git/objects/
+.git/objects/24
+.git/objects/24/5f51611ce7a99fbc900a6a66543e437cf41c11
+.git/objects/3b
+.git/objects/3b/18e512dba79e4c8300dd08aeb37f8e728b8dad
+.git/objects/60
+.git/objects/60/118b96010f676e8fa28ecbefc98c125abbafcc
+.git/objects/68
+.git/objects/68/aba62e560c0ebc3396e8ae9335232cd93a3f60
+.git/objects/76
+.git/objects/76/7f0cb4ef37793f7b51f47f3ad8e29eae2ae53d
+.git/objects/info
+.git/objects/pack
+~/tmp/hello &gt;&gt;&gt; git cat-file -p 68aba62e560c0ebc3396e8ae9335232cd93a3f60
+100644 blob 3b18e512dba79e4c8300dd08aeb37f8e728b8dad    hello.txt
+~/tmp/hello &gt;&gt;&gt; git cat-file -p 767f0cb4ef37793f7b51f47f3ad8e29eae2ae53d
+tree 68aba62e560c0ebc3396e8ae9335232cd93a3f60
+parent 245f51611ce7a99fbc900a6a66543e437cf41c11
+author harri feng &lt;harrifeng@gmail.com&gt; 1420107188 +0800
+committer harri feng &lt;harrifeng@gmail.com&gt; 1420107188 +0800
+
+hello.txt again
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-12" class="outline-3">
+<h3 id="sec-4-12">Tree Hierarchies</h3>
+<div class="outline-text-3" id="text-4-12">
+<ul class="org-ul">
+<li>可以想见,如果我们把hello.txt的内容放到另外一个地方,即便是文件夹不同,名字不同,
+但是blob肯定还是那个blob. 下面用到的write-tree 命令是只把index内容建立出真实
+的tree object来,但是并不真正提交(也就没有响应的commit.
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; mkdir subdir
+~/tmp/hello &gt;&gt;&gt; cp hello.txt subdir/
+~/tmp/hello &gt;&gt;&gt; mv subdir/hello.txt subdir/hello3.txt
+~/tmp/hello &gt;&gt;&gt; git status
+On branch master
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+    subdir/
+
+nothing added to commit but untracked files present (use "git add" to track)
+~/tmp/hello &gt;&gt;&gt; git add .
+~/tmp/hello &gt;&gt;&gt; git write-tree
+26d539dd991740d4fdfaa555d17e38059037b2bc
+~/tmp/hello &gt;&gt;&gt; git cat-file -p  26d539dd991740d4fdfaa555d17e38059037b2bc
+100644 blob 3b18e512dba79e4c8300dd08aeb37f8e728b8dad    hello.txt
+040000 tree a40ae950a3698126d248493bb9aaf549797acab0    subdir
+~/tmp/hello &gt;&gt;&gt;  find .git/objects/
+.git/objects/
+.git/objects/24
+.git/objects/24/5f51611ce7a99fbc900a6a66543e437cf41c11
+.git/objects/26
+.git/objects/26/d539dd991740d4fdfaa555d17e38059037b2bc
+.git/objects/3b
+.git/objects/3b/18e512dba79e4c8300dd08aeb37f8e728b8dad
+.git/objects/60
+.git/objects/60/118b96010f676e8fa28ecbefc98c125abbafcc
+.git/objects/68
+.git/objects/68/aba62e560c0ebc3396e8ae9335232cd93a3f60
+.git/objects/76
+.git/objects/76/7f0cb4ef37793f7b51f47f3ad8e29eae2ae53d
+.git/objects/a4
+.git/objects/a4/0ae950a3698126d248493bb9aaf549797acab0
+.git/objects/info
+.git/objects/pack
+~/tmp/hello &gt;&gt;&gt; git cat-file -p a40ae950a3698126d248493bb9aaf549797acab0
+100644 blob 3b18e512dba79e4c8300dd08aeb37f8e728b8dad    hello3.txt
+~/tmp/hello &gt;&gt;&gt; git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    new file:   subdir/hello3.txt
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-13" class="outline-3">
+<h3 id="sec-4-13">Commits</h3>
+<div class="outline-text-3" id="text-4-13">
+<ul class="org-ul">
+<li>当然了,如果你想把index转换成tree的同时,还要创建commit(有真正的commit历史),
+那么就必须使用git commit啦(不过下面,我们为了得到commit object的hash,采用了
+git commit-tree命令.
+<pre class="example">
+$ echo -n "hello3.txt" | git commit-tree 26d539dd991740d4fdfaa555d17e38059037b2bc
+3c4303f0bf6e251b5189b2d5c6030f095f5b2301
+</pre>
+</li>
+<li>我们可以看看commit object的内容
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; git cat-file -p 3c4303f0bf6e251b5189b2d5c6030f095f5b2301
+tree 26d539dd991740d4fdfaa555d17e38059037b2bc
+author harrifeng &lt;harrifeng@gmail.com&gt; 1420108601 +0800
+committer harrifeng &lt;harrifeng@gmail.com&gt; 1420108601 +0800
+
+hello3.txt
+</pre>
+</li>
+<li>可以发现commit中会贡献hash值的content部分有(所以commit 哈希值很难重复):
+<ul class="org-ul">
+<li>The name of tree object (尽可能root的tree object,不是所有tree object, 因为
+最root的tree object里面还含有其他tree object)
+</li>
+<li>The name of the person who compose the new verson and the time
+</li>
+<li>The name of the person who placed the new version into the repository
+</li>
+<li>A description f the reason for this revision
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-14" class="outline-3">
+<h3 id="sec-4-14">Tags</h3>
+<div class="outline-text-3" id="text-4-14">
+<ul class="org-ul">
+<li>最后一个object type就是tag, Git有两种tag:
+<ul class="org-ul">
+<li>lighweight :不会创建自己的tag object,而只是一个指向commit object的指针.
+</li>
+<li>annotated: 会创建自己的tag object,也指向commit object,有自己的annoted message
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; git tag -m "Tag version 1.0" V1.0 3c4303f0bf6e251b5189b2d5c6030f095f5b2301
+~/tmp/hello &gt;&gt;&gt; git rev-parse V1.0
+441ff4cb059968348a2daf3af889c9ec7395ac99
+~/tmp/hello &gt;&gt;&gt; git cat-file -p 441ff4cb059968348a2daf3af889c9ec7395ac99
+object 3c4303f0bf6e251b5189b2d5c6030f095f5b2301
+type commit
+tag V1.0
+tagger harri feng &lt;harrifeng@gmail.com&gt; 1420109001 +0800
+
+Tag version 1.0
+~/tmp/hello &gt;&gt;&gt; find . | grep f4cb059968348a2daf3af889c9ec7395ac99
+./.git/objects/44/1ff4cb059968348a2daf3af889c9ec7395ac99
+</pre>
+</li>
+</ul>
+</li>
+<li>很多git command都只能对annotated tag起作用,因为它有自己的object才被看做是
+permanent object
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Chapter 5: File Management and the Index</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>git中和传统的VCS不同的一点是, 增加了index层,所有的代码都要先通过git-add, git-rm
+git-mv添加到index(这个时候其实blob object已经产生了), 然后再提交
+</li>
+<li>当然了,Git也有些能够"一步"提交的情况,比如一个文件已经存在了,对他进行了一些改
+动,那么你git commit + &lt;file name&gt;就可以直接跳过index生成commit啦
+</li>
+<li>只有这种git-add的情况可以.其他git-add, 已经所有git-rm git-mv的情况都不可以,必
+须两步
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1">It's All About the Index</h3>
+<div class="outline-text-3" id="text-5-1">
+<ul class="org-ul">
+<li>Git的index里面不包括任何的文件内容,它只是记录你更改了什么(其实就是tree object
+的准备阶段), 所以git commit的时候,其实是查看index,而不是去看代码库的文件系统
+</li>
+<li>我们是通过git status来查看index里面的内容的(git status更通俗的名字应该是git
+index's status)
+<pre class="example">
+~ &gt;&gt;&gt; mkdir tmp/world
+~ &gt;&gt;&gt; cd tmp/world/
+~/tmp/world &gt;&gt;&gt; echo "hello" &gt;&gt; hello.txt
+~/tmp/world &gt;&gt;&gt; git init
+Initialized empty Git repository in c:/Users/hfeng/AppData/Roaming/tmp/world/.git/
+~/tmp/world &gt;&gt;&gt; git add .
+~/tmp/world &gt;&gt;&gt; git commit -m "first hello"
+[master (root-commit) 2db39b5] first hello
+ 1 file changed, 1 insertion(+)
+ create mode 100644 hello.txt
+~/tmp/world &gt;&gt;&gt; git status
+On branch master
+nothing to commit, working directory clean
+</pre>
+</li>
+<li>当然了git status只能看看index的status,想要具体了解更改了哪些,需要git diff
+<pre class="example">
+~/tmp/world &gt;&gt;&gt; echo 'world' &gt;&gt; hello.txt
+~/tmp/world &gt;&gt;&gt; git status
+On branch master
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   hello.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+~/tmp/world &gt;&gt;&gt; git diff
+diff --git a/hello.txt b/hello.txt
+index ce01362..94954ab 100644
+--- a/hello.txt
++++ b/hello.txt
+@@ -1 +1,2 @@
+ hello
++world
+</pre>
+</li>
+<li>有两个重要的区别:
+<ul class="org-ul">
+<li>git diff什么option都不加是区别的index和working directory的区别
+<pre class="example">
+~/tmp/world &gt;&gt;&gt; echo 'again' &gt;&gt; hello.txt
+~/tmp/world &gt;&gt;&gt; git diff
+diff --git a/hello.txt b/hello.txt
+index 94954ab..0056b4a 100644
+--- a/hello.txt
++++ b/hello.txt
+@@ -1,2 +1,3 @@
+ hello
+ world
++again
+</pre>
+</li>
+<li>如果git diff加了参数cached,那么就是index和代码库里面的区别(也就是你git-commit
+后会产生的结果)
+<pre class="example">
+~/tmp/world &gt;&gt;&gt; git diff --cached
+diff --git a/hello.txt b/hello.txt
+index ce01362..94954ab 100644
+--- a/hello.txt
++++ b/hello.txt
+@@ -1 +1,2 @@
+ hello
++world
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2">Using git add</h3>
+<div class="outline-text-3" id="text-5-2">
+<ul class="org-ul">
+<li>把文件加入index里面的命令是git-add,也就是说,输入git-add的时候,文件的'内容'
+就已经添加(或者更新)在.git/objects/里面了.
+<pre class="example">
+~/tmp/world &gt;&gt;&gt; git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    modified:   hello.txt
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   hello.txt
+
+~/tmp/world &gt;&gt;&gt; git ls-files --stage
+100644 94954abda49de8615a048f8d2e64b5de848e27a1 0   hello.txt
+~/tmp/world &gt;&gt;&gt; git hash-object hello.txt
+0056b4ab5bae17e5bd426bcdd9f73103d9109e80
+~/tmp/world &gt;&gt;&gt; git add hello.txt
+~/tmp/world &gt;&gt;&gt; git ls-files --stage
+100644 0056b4ab5bae17e5bd426bcdd9f73103d9109e80 0   hello.txt
+</pre>
+</li>
+<li>git-add 有一个参数是&#x2013;interactive,可以来部分的选择添加改动进入index
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-3" class="outline-3">
+<h3 id="sec-5-3">Using git commit &#x2013;all</h3>
+<div class="outline-text-3" id="text-5-3">
+<ul class="org-ul">
+<li>git-commit最常用的参数就是-a(或者&#x2013;all)啦,因为它是用来stage'所有已经tracked,
+但是还没stage'的文件, 然后马上进行一次commit
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-4" class="outline-3">
+<h3 id="sec-5-4">Using git rm</h3>
+<div class="outline-text-3" id="text-5-4">
+<ul class="org-ul">
+<li>git-rm是git-add的相反方向,其作用是
+<pre class="example">
+       第一步,把一个文件从index移除, 第二步紧接着把文件从working directory删除.
+       第一步失败的话,第二步无法进行, 如果加了--cached参数,只进行第一步
+</pre>
+</li>
+<li>上面的话有点绕,说白了,git-rm经常遇到如下三种情形:
+<ul class="org-ul">
+<li>只将文件从index移除, 而不删除working directory的文件
+<pre class="example">
+~/tmp/world &gt;&gt;&gt; git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    modified:   hello.txt
+
+~/tmp/world &gt;&gt;&gt; git diff --cached
+diff --git a/hello.txt b/hello.txt
+index ce01362..0056b4a 100644
+--- a/hello.txt
++++ b/hello.txt
+@@ -1 +1,3 @@
+ hello
++world
++again
+~/tmp/world &gt;&gt;&gt; git ls-files --stage
+100644 7e99e367f8443d86e5e8825b9fda39dfbb39630d 0   .gitignore
+100644 0056b4ab5bae17e5bd426bcdd9f73103d9109e80 0   hello.txt
+~/tmp/world &gt;&gt;&gt; cat hello.txt
+hello
+world
+again
+~/tmp/world &gt;&gt;&gt; git rm --cached hello.txt
+rm 'hello.txt'
+~/tmp/world &gt;&gt;&gt; git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    deleted:    hello.txt
+
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+    hello.txt
+
+~/tmp/world &gt;&gt;&gt; git ls-files --stage
+100644 7e99e367f8443d86e5e8825b9fda39dfbb39630d 0   .gitignore
+~/tmp/world &gt;&gt;&gt; cat hello.txt
+hello
+world
+again
+</pre>
+</li>
+<li>将文件从index移除,同时删除working directory的文件, 这又分两种情况:
+<ol class="org-ol">
+<li>如果文件所有的内容都提交过,也就是说要删除的文件没有"未commit只stage"的内
+容,那么删除起来轻松惬意!因为git会保留所有以往commit的'snapshot', 如果你
+愿意,你可以随时把这个文件找回来
+<pre class="example">
+~/tmp/world &gt;&gt;&gt; git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    modified:   hello.txt
+
+~/tmp/world &gt;&gt;&gt; git ls-files --stage
+100644 7e99e367f8443d86e5e8825b9fda39dfbb39630d 0   .gitignore
+100644 0056b4ab5bae17e5bd426bcdd9f73103d9109e80 0   hello.txt
+~/tmp/world &gt;&gt;&gt; ls -al
+total 8
+drwxrwxrwx   1 hfeng          None     4096 2015-01-02 14:52 .
+drwxrwxrwx   1 hfeng          None        0 2015-01-02 14:22 ..
+drwxrwxrwx   1 hfeng          None     4096 2015-01-02 15:00 .git
+-rw-rw-rw-   1 hfeng          None        5 2015-01-02 14:52 .gitignore
+-rw-rw-rw-   1 hfeng          None       21 2015-01-02 14:24 hello.txt
+~/tmp/world &gt;&gt;&gt; git rm .gitignore
+rm '.gitignore'
+~/tmp/world &gt;&gt;&gt; git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    deleted:    .gitignore
+    modified:   hello.txt
+
+~/tmp/world &gt;&gt;&gt; ls -al
+total 8
+drwxrwxrwx   1 hfeng          None     4096 2015-01-02 15:01 .
+drwxrwxrwx   1 hfeng          None        0 2015-01-02 14:22 ..
+drwxrwxrwx   1 hfeng          None     4096 2015-01-02 15:01 .git
+-rw-rw-rw-   1 hfeng          None       21 2015-01-02 14:24 hello.txt
+~/tmp/world &gt;&gt;&gt; git ls-files --stage
+100644 0056b4ab5bae17e5bd426bcdd9f73103d9109e80 0   hello.txt
+</pre>
+</li>
+<li>如果文件有内容"未commit只stage"的话, git会提醒你必须要&#x2013;force来删除,因
+为你的改动可能永远都找不回来了
+<pre class="example">
+~/tmp/world &gt;&gt;&gt; git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    modified:   hello.txt
+
+~/tmp/world &gt;&gt;&gt; git ls-files --stage
+100644 7e99e367f8443d86e5e8825b9fda39dfbb39630d 0   .gitignore
+100644 0056b4ab5bae17e5bd426bcdd9f73103d9109e80 0   hello.txt
+~/tmp/world &gt;&gt;&gt; git diff --cached
+diff --git a/hello.txt b/hello.txt
+index ce01362..0056b4a 100644
+--- a/hello.txt
++++ b/hello.txt
+@@ -1 +1,3 @@
+ hello
++world
++again
+~/tmp/world &gt;&gt;&gt; git rm hello.txt
+error: the following file has changes staged in the index:
+    hello.txt
+(use --cached to keep the file, or -f to force removal)
+~/tmp/world &gt;&gt;&gt; git rm --force hello.txt
+rm 'hello.txt'
+~/tmp/world &gt;&gt;&gt; git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    deleted:    hello.txt
+
+~/tmp/world &gt;&gt;&gt; git ls-files --stage
+100644 7e99e367f8443d86e5e8825b9fda39dfbb39630d 0   .gitignore
+~/tmp/world &gt;&gt;&gt; ls -al
+total 8
+drwxrwxrwx   1 hfeng          None     4096 2015-01-02 15:05 .
+drwxrwxrwx   1 hfeng          None        0 2015-01-02 14:22 ..
+drwxrwxrwx   1 hfeng          None     4096 2015-01-02 15:05 .git
+-rw-rw-rw-   1 hfeng          None        5 2015-01-02 15:05 .gitignore
+</pre>
+</li>
+</ol>
+</li>
+<li>将文件从index移除的时候就出错了. 如果一个文件只是在working directory里面有,
+但是未加入到index, 你git-rm肯定会出错, 后面从working directory移除就没法
+进行了: 这种情况下,其实直接rm才是正解!
+<pre class="example">
+~/tmp/world &gt;&gt;&gt; echo "world" &gt;&gt; world.txt
+~/tmp/world &gt;&gt;&gt; git status
+On branch master
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+    world.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+~/tmp/world &gt;&gt;&gt; git rm world.txt
+fatal: pathspec 'world.txt' did not match any files
+</pre>
+</li>
+</ul>
+</li>
+<li>对于git rm来说, 只要原来这个文件commit了的话,肯定存在那个commit的'snapshot'
+里面,所以不用担心,随时可以找回来
+<pre class="example">
+~/tmp/world &gt;&gt;&gt; git ls-files --stage
+100644 7e99e367f8443d86e5e8825b9fda39dfbb39630d 0   .gitignore
+100644 ce013625030ba8dba906f756967f9e9ca394464a 0   hello.txt
+~/tmp/world &gt;&gt;&gt; git rm .gitignore
+rm '.gitignore'
+~/tmp/world &gt;&gt;&gt; git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    deleted:    .gitignore
+
+~/tmp/world &gt;&gt;&gt; git commit -m "rm ignore'
+~/tmp/world &gt;&gt;&gt; git commit -m "rm ignore"
+[master e71dd20] rm ignore
+ 1 file changed, 1 deletion(-)
+ delete mode 100644 .gitignore
+~/tmp/world &gt;&gt;&gt; git ls-files --stage
+100644 ce013625030ba8dba906f756967f9e9ca394464a 0   hello.txt
+~/tmp/world &gt;&gt;&gt; git checkout HEAD^ -- .gitignore
+~/tmp/world &gt;&gt;&gt; git ls-files --stage
+100644 7e99e367f8443d86e5e8825b9fda39dfbb39630d 0   .gitignore
+100644 ce013625030ba8dba906f756967f9e9ca394464a 0   hello.txt
+~/tmp/world &gt;&gt;&gt; git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    new file:   .gitignore
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-5" class="outline-3">
+<h3 id="sec-5-5">Using git mv</h3>
+<div class="outline-text-3" id="text-5-5">
+<ul class="org-ul">
+<li>git-mv其实就相当于下面三条命令的组合
+<pre class="example">
+$ mv stuff newstuff
+$ git rm stuff
+$ git add newstuff
+</pre>
+</li>
+<li>git-mv在重命名文件后,文件的log如果不加&#x2013;follow的话,会无法找到"前世"
+<pre class="example">
+~/tmp/world &gt;&gt;&gt; git log -- data
+commit 30b8737b14f5db581c58bba045fb84c4d58693ac
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Fri Jan 2 15:37:21 2015 +0800
+
+    2nd
+
+commit 00ee6f938ac63b11f5f94a3fec4b2b2c95c364cd
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Fri Jan 2 15:37:05 2015 +0800
+
+    1st data
+~/tmp/world &gt;&gt;&gt; git mv data mydata
+~/tmp/world &gt;&gt;&gt; git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    renamed:    data -&gt; mydata
+
+~/tmp/world &gt;&gt;&gt; git commit -m "rename data"
+[master e8a35ed] rename data
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename data =&gt; mydata (100%)
+~/tmp/world &gt;&gt;&gt; git log mydata
+commit e8a35ed4c54214708ec28766f0b7e8284ad58132
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Fri Jan 2 15:37:52 2015 +0800
+
+    rename data
+~/tmp/world &gt;&gt;&gt; git log --follow mydata
+commit e8a35ed4c54214708ec28766f0b7e8284ad58132
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Fri Jan 2 15:37:52 2015 +0800
+
+    rename data
+
+commit 30b8737b14f5db581c58bba045fb84c4d58693ac
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Fri Jan 2 15:37:21 2015 +0800
+
+    2nd
+
+commit 00ee6f938ac63b11f5f94a3fec4b2b2c95c364cd
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Fri Jan 2 15:37:05 2015 +0800
+
+    1st data~/tmp/world &gt;&gt;&gt; git log -- data
+commit 30b8737b14f5db581c58bba045fb84c4d58693ac
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Fri Jan 2 15:37:21 2015 +0800
+
+    2nd
+
+commit 00ee6f938ac63b11f5f94a3fec4b2b2c95c364cd
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Fri Jan 2 15:37:05 2015 +0800
+
+    1st data
+~/tmp/world &gt;&gt;&gt; git mv data mydata
+~/tmp/world &gt;&gt;&gt; git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    renamed:    data -&gt; mydata
+
+~/tmp/world &gt;&gt;&gt; git commit -m "rename data"
+[master e8a35ed] rename data
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename data =&gt; mydata (100%)
+~/tmp/world &gt;&gt;&gt; git log mydata
+commit e8a35ed4c54214708ec28766f0b7e8284ad58132
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Fri Jan 2 15:37:52 2015 +0800
+
+    rename data
+~/tmp/world &gt;&gt;&gt; git log --follow mydata
+commit e8a35ed4c54214708ec28766f0b7e8284ad58132
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Fri Jan 2 15:37:52 2015 +0800
+
+    rename data
+
+commit 30b8737b14f5db581c58bba045fb84c4d58693ac
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Fri Jan 2 15:37:21 2015 +0800
+
+    2nd
+
+commit 00ee6f938ac63b11f5f94a3fec4b2b2c95c364cd
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Fri Jan 2 15:37:05 2015 +0800
+
+    1st data
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-6" class="outline-3">
+<h3 id="sec-5-6">The .gitingore File</h3>
+<div class="outline-text-3" id="text-5-6">
+<ul class="org-ul">
+<li>前面说过,我们总想忽略某些文件,git给出的办法是.gitignore文件.每个文件夹都可以
+有.gitignore文件,但是多个.gitignore文件总有一个调用的先后级别(从高到低如下):
+<ul class="org-ul">
+<li>Patterns specified on the command line
+</li>
+<li>Patterns read from .gitignore in the same directory
+</li>
+<li>Pattern in parent directories
+</li>
+<li>Pattern from the .git/info/exclude file
+</li>
+<li>Pattern from the fiel specified by the configuration variable core.excludefile
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-7" class="outline-3">
+<h3 id="sec-5-7">A Detailed View of Git's Object Model and Files</h3>
+<div class="outline-text-3" id="text-5-7">
+<ul class="org-ul">
+<li>我们这里通过一个例子来看看上节object type和git操作之间的关系:
+<ul class="org-ul">
+<li>首先是开始时候的状态:
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/misc/wd-index-obj-1.png" alt="wd-index-obj-1.png" />
+</p>
+<p><span class="figure-number">Figure 3:</span> WorkingDirectory-Index-ObjectStore-1.png</p>
+</div>
+<ol class="org-ol">
+<li>这个时候是git已经clean,git已经"版本控制"了两个文件file1和file2,file1, file2
+是他们Working directory的名字, 在object store里面他们分别叫做a23bf, 9d3a2
+</li>
+<li>master branch指向一个commit
+</li>
+<li>这个commit指向一个tree object,这个tree object指向a23bf, 和9d3a2
+</li>
+<li>index里面的"pre-commit"的tree也指向a23bf, 和9d3a2
+</li>
+<li>这个时候working directory 和 index 和object store 里面的tree是三者内容
+完全相同的,clean的状态
+</li>
+</ol>
+</li>
+<li>然后是更改了file1的内容为"quux"的时候啦,这个时候只有working directory有改动,其他
+index和object store都是不变的(因为没有任何git-add git-mv git-rm操作).但是这个时候
+working directory 和 index ,object store不完全相同了,所以repo不再clean
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/misc/wd-index-obj-1.png" alt="wd-index-obj-1.png" />
+</p>
+<p><span class="figure-number">Figure 4:</span> WorkingDirectory-Index-ObjectStore-1.png</p>
+</div>
+</li>
+<li>第三步,我们git add file,之后的结果是Working directory和index两者相互同步了,但是
+index和object store里面的tree-object不再同步了. 这个时候index是下一次commit
+tree object的"pre-commit"状态了
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/misc/wd-index-obj-1.png" alt="wd-index-obj-1.png" />
+</p>
+<p><span class="figure-number">Figure 5:</span> WorkingDirectory-Index-ObjectStore-1.png</p>
+</div>
+</li>
+<li>第四步,我们git-commit以后:
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/misc/wd-index-obj-1.png" alt="wd-index-obj-1.png" />
+</p>
+<p><span class="figure-number">Figure 6:</span> WorkingDirectory-Index-ObjectStore-1.png</p>
+</div>
+<ol class="org-ol">
+<li>直接把index复制一遍,就得到一个新的的tree object,
+</li>
+<li>然后新的commit指向它,然后是新commit指向老的commit
+</li>
+<li>master指向新的commit
+</li>
+<li>因为上一步index已经和working directory同步了,这一次一旦commit,那么index被
+复制了,所以index和object store里面的tree又同步了
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Chapter 6: Commits</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>Git的commit和原来的VCS完全不同,每次commit产生的时候,都会把当前的index保存成
+一个新的根节点的tree object,然后创建一个commit object指向这个tree object.
+每个根节点的tree object会向下延伸,包括其他tree object, bolob object(如果这些
+object没有改变,那么就被指向就可以了,不用创建新的). 这样,也就包含了这个commit
+产生时候,代码库的"snapshot"(而且因为很多文件没有改变,不用创建很多新的object)
+</li>
+<li>代码库引入改变的唯一途径是commit, 这也解释了为什么有些commit是git自己引入的:
+因为merge的时候代码库的确出现了改变,必须有commit为这个改变负责
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1">Identifying Commits</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li>前面我们说过了,每个commit都有一个40-digit的SHA1 hash, 这个天然唯一的标示肯定
+是commit最好的名字. 但是这个名字太不容易记忆了,所以Git设计了一个叫做HEAD的标
+示这个commit永远指向最新的comit
+</li>
+<li>如果你坚持使用40-digit Hash的话, git 提供了一个办法来判断你用最前面几位就可
+以标示这个commit,而且在repo内部唯一
+<pre class="example">
+~/.emacs.d &gt;&gt;&gt; git log -1 --pretty=oneline HEAD
+8731151b41416c7893dc996a513c9253a0b09c55 new snippets
+~/.emacs.d &gt;&gt;&gt; git log -1 --pretty=oneline 8731
+8731151b41416c7893dc996a513c9253a0b09c55 new snippets
+~/.emacs.d &gt;&gt;&gt; git log -1 --pretty=oneline 873
+fatal: ambiguous argument '873': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git &lt;command&gt; [&lt;revision&gt;...] -- [&lt;file&gt;...]'
+~/.emacs.d &gt;&gt;&gt; git log -1 --pretty=oneline 8731
+8731151b41416c7893dc996a513c9253a0b09c55 new snippets
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2">refs and symrefs</h3>
+<div class="outline-text-3" id="text-6-2">
+<ul class="org-ul">
+<li>所谓refs呢,其实就是指的object store里面四个类型的某个类型的hash值, ref的文件
+内部只有一个hash值. 这个很像文件系统的硬链接
+<pre class="example">
+~/.emacs.d &gt;&gt;&gt; cat .git/refs/heads/master
+e29b6922b4c6340eb29342d17291977a7e2840b2
+</pre>
+</li>
+<li>symbolic reference(也叫做symref)呢就是有个变量,里面装着ref: + hash值,这个设计
+很像文件系统的软连接(refs: + hash值里面的hash值可能不存在的)
+<pre class="example">
+~/.emacs.d &gt;&gt;&gt; cat .git/HEAD
+ref: refs/heads/master
+</pre>
+</li>
+<li>所有的这些refs,都是在.git/refs/文件夹下保存的:
+<ul class="org-ul">
+<li>local branch name:
+<pre class="example">
+~/.emacs.d &gt;&gt;&gt; git branch
+* master
+~/.emacs.d &gt;&gt;&gt; git log -1
+commit 8731151b41416c7893dc996a513c9253a0b09c55
+Author: harri feng &lt;harri.feng@gmail.com&gt;
+Date:   Sun Dec 28 23:09:03 2014 +0800
+
+    new snippets
+~/.emacs.d &gt;&gt;&gt; cat .git/refs/heads/master
+8731151b41416c7893dc996a513c9253a0b09c55
+</pre>
+</li>
+<li>remote branch
+<pre class="example">
+~/.emacs.d &gt;&gt;&gt; git branch -a
+  * master
+  remotes/origin/auto-el
+  remotes/origin/cygwin
+  remotes/origin/jekyll
+  remotes/origin/linux
+  remotes/origin/mac
+  remotes/origin/master
+  remotes/origin/nt
+  remotes/origin/test
+~/.emacs.d &gt;&gt;&gt; find ./.git/refs/remotes/ -type f
+./.git/refs/remotes/origin/auto-el
+./.git/refs/remotes/origin/cygwin
+./.git/refs/remotes/origin/jekyll
+./.git/refs/remotes/origin/linux
+./.git/refs/remotes/origin/mac
+./.git/refs/remotes/origin/master
+./.git/refs/remotes/origin/nt
+./.git/refs/remotes/origin/test
+</pre>
+</li>
+<li>local tag (本地创建,但是也可能在remote的tag)
+<ul class="org-ul">
+<li>tag如果不了解的仔细的话,是个很奇怪的东西,本地.git/refs/tags里面只存储了
+你clone以后,自己创建的tag!也就是说大部分的tags都不是存在本地的.
+</li>
+<li>我们可以通过git tag -l来显示所有的tag(但是无法区分哪些是本地,哪些是remote)
+<pre class="example">
+~/.emacs.d &gt;&gt;&gt; git tag -l
+mac-v0.2
+nt-v0.2
+shell-gbk
+v0.1
+v0.2
+v0.3
+v0.4
+v0.5
+v0.6
+v0.7
+v0.7-again
+</pre>
+</li>
+<li>区分本地tag的方法只剩下去.git/refs/tags下面列出了
+<pre class="example">
+~/.emacs.d &gt;&gt;&gt; ls .git/refs/tags/
+v0.7  v0.7-again
+</pre>
+</li>
+<li>那也就是说remote应该有剩下的tags,验证一下
+<pre class="example">
+~/.emacs.d &gt;&gt;&gt; git ls-remote --tags
+bf165655a80720028848927e9be2b507430de5e4    refs/tags/mac-v0.2
+5285c79f63368f0597b6296e4225d7990fe07bee    refs/tags/nt-v0.2
+dcc121694b438ab0e05b226f3ce5b0dca150cfea    refs/tags/shell-gbk
+187727c90c67e9dcdd51fe260d22b039947055ab    refs/tags/shell-gbk^{}
+d868a12bc84cdc9f58142c0adc22614e9d1d7cfd    refs/tags/v0.1
+6041533af53bf776a06bcaf770a76679122e5c55    refs/tags/v0.1^{}
+13d093a62dbd00e81ff913de8647e86df50de46b    refs/tags/v0.2
+8a2141838fc0960e81bd937fad57c825a2cb4397    refs/tags/v0.3
+741a25f3837eb2c21aeb8695328c8ec28297404b    refs/tags/v0.3^{}
+3e568f4594fde3af6dd149a58c9e9e9a60aef817    refs/tags/v0.4
+d5f57787eab3569bdbd3fef388d692b4f5103d07    refs/tags/v0.4^{}
+d15df6dcd97ea9e503b381affa878934e3744d11    refs/tags/v0.5
+d89d05591553051d5c20b74ff6519d5897748a27    refs/tags/v0.5^{}
+3f2482d6202aa64b7f4304497bb3f0463a18898d    refs/tags/v0.6
+From git@github.com:harrifeng/.emacs.d.git
+</pre>
+</li>
+<li>注意到上面类似'^{}'的符号了么,有这个符号,说明这个tag是一个annotation tag
+<ol class="org-ol">
+<li>不带'^{}'的比如'refs/tags/v0.1'指向的是annotation的tag object(object
+store type的一种), 这里就很容易混淆了, 'refs/tags/v0.1'是ref的'name',
+而'd868a12bc84cdc9f58142c0adc22614e9d1d7cfd' 是tag object的'name'
+<pre class="example">
+~/.emacs.d &gt;&gt;&gt; git show d868a12bc84cdc9f58142c0adc22614e9d1d7cfd --stat
+tag v0.1
+Tagger: hfeng-air &lt;harrifeng@gmail.com&gt;
+Date:   Sat Jul 27 16:02:51 2013 +0800
+
+basic setting, on plugins, some pure habit configuration
+
+commit 6041533af53bf776a06bcaf770a76679122e5c55
+Author: hfeng-air &lt;harrifeng@gmail.com&gt;
+Date:   Sat Jul 27 16:01:00 2013 +0800
+
+    emacs shell to be more functional
+
+ config/basic-setting.el | 2 ++
+ 1 file changed, 2 insertions(+)
+</pre>
+</li>
+<li>带'^{}'的,比如'refs/tags/v0.1^{}', 指向的是annotation tag指向的那个commit
+<pre class="example">
+~/.emacs.d &gt;&gt;&gt; git show 6041533af53bf776a06bcaf770a76679122e5c55 --stat
+commit 6041533af53bf776a06bcaf770a76679122e5c55
+Author: hfeng-air &lt;harrifeng@gmail.com&gt;
+Date:   Sat Jul 27 16:01:00 2013 +0800
+
+    emacs shell to be more functional
+
+ config/basic-setting.el | 2 ++
+ 1 file changed, 2 insertions(+)
+</pre>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>而某些symref则是存在了.git的根目录(原来是在.git/refs文件夹下面):
+<pre class="example">
+</pre>
+</li>
+<li>我们分别来看看这些HEAD:
+<ul class="org-ul">
+<li>HEAD: 指向当前branch的最近的commit. 每当branch改变的时候, HEAD的值也改变
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; cat .git/HEAD
+ref: refs/heads/master
+~/tmp/hello &gt;&gt;&gt; git checkout change
+Switched to branch 'change'
+~/tmp/hello &gt;&gt;&gt; cat .git/HEAD
+ref: refs/heads/change
+</pre>
+</li>
+<li>ORIG_HEAD: 有些时候,我们要进行一个操作(比如reset, merge)那么这个时候HEAD
+会临时回滚, 我们需要一个变量来记住我们原来HEAD的值,这个变量就是ORIG_HEAD
+<pre class="example">
+~/.emacs.d &gt;&gt;&gt; git log -2
+commit e29b6922b4c6340eb29342d17291977a7e2840b2
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Sat Jan 3 12:00:26 2015 +0800
+
+    new incoming mode groovy
+
+commit 8731151b41416c7893dc996a513c9253a0b09c55
+Author: harri feng &lt;harri.feng@gmail.com&gt;
+Date:   Sun Dec 28 23:09:03 2014 +0800
+
+    new snippets
+~/.emacs.d &gt;&gt;&gt; git reset --hard 8731151b41416c7893dc996a513c9253a0b09c55
+HEAD is now at 8731151 new snippets
+~/.emacs.d &gt;&gt;&gt; cat .git/ORIG_HEAD
+e29b6922b4c6340eb29342d17291977a7e2840b2
+</pre>
+</li>
+<li>FETCH_HEAD:这里面记录了你fetch成功那一刻,所有remote branch的head
+<pre class="example">
+~/.emacs.d &gt;&gt;&gt; cat .git/FETCH_HEAD
+3d358c0e03dcb550dcee198d87ae7ca28803b971    not-for-merge   branch 'auto-el' of github.com:harrifeng/.emacs.d
+71259b8564a191b7533653556927a0014d0c13cb    not-for-merge   branch 'cygwin' of github.com:harrifeng/.emacs.d
+afca0a9af2d83254b9c7fc69201041a26c9bea94    not-for-merge   branch 'jekyll' of github.com:harrifeng/.emacs.d
+300764b331d03d103563850239ecdb9a1ef82416    not-for-merge   branch 'linux' of github.com:harrifeng/.emacs.d
+2253776b6552070d1d412c5bcf35a8f0b84c5fcf    not-for-merge   branch 'mac' of github.com:harrifeng/.emacs.d
+ad57b9d27d6a67721cccddfa7cdb27ddf2c37410    not-for-merge   branch 'master' of github.com:harrifeng/.emacs.d
+52c05457de2a49ebc7b22806f4be48d02ab5a684    not-for-merge   branch 'nt' of github.com:harrifeng/.emacs.d
+0212c6a27f031a2369c7336b20ae2fdb4daa7722    not-for-merge   branch 'test' of github.com:harrifeng/.emacs.d
+</pre>
+</li>
+<li>MERGE_HEAD: 当我们进行merge的时候, 不是每次都会不改动就能成功的, 如果不成
+功会进入一个"under merging"的状态,这个时候MERGE_HEAD就保存那个要"被merge"的
+commit hash
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; git branch
+* change
+  master
+~/tmp/hello &gt;&gt;&gt; find .git/ | grep HEAD
+.git/HEAD
+.git/logs/HEAD
+~/tmp/hello &gt;&gt;&gt; git show master --stat
+commit ea877209282922feb7b4b96ee0cb5f269ede0b28
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Sat Jan 3 12:28:58 2015 +0800
+
+    hello branch chagned
+
+ hello.txt | 1 +
+ 1 file changed, 1 insertion(+)
+~/tmp/hello &gt;&gt;&gt; git show change --stat
+commit e2bafc7f7c03d802ce0a97db68e2d75439a9b386
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Sat Jan 3 12:28:20 2015 +0800
+
+    change one line
+
+ hello.txt | 1 +
+ 1 file changed, 1 insertion(+)
+~/tmp/hello &gt;&gt;&gt; git merge master
+Auto-merging hello.txt
+CONFLICT (content): Merge conflict in hello.txt
+Automatic merge failed; fix conflicts and then commit the result.
+~/tmp/hello &gt;&gt;&gt; find .git/ | grep HEAD
+.git/HEAD
+.git/logs/HEAD
+.git/MERGE_HEAD
+.git/ORIG_HEAD
+~/tmp/hello &gt;&gt;&gt; cat .git/MERGE_HEAD
+ea877209282922feb7b4b96ee0cb5f269ede0b28
+~/tmp/hello &gt;&gt;&gt; git show ea877209282922feb7b4b96ee0cb5f269ede0b28 --stat
+commit ea877209282922feb7b4b96ee0cb5f269ede0b28
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Sat Jan 3 12:28:58 2015 +0800
+
+    hello branch chagned
+
+ hello.txt | 1 +
+ 1 file changed, 1 insertion(+)
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-3" class="outline-3">
+<h3 id="sec-6-3">Relative Commit Names</h3>
+<div class="outline-text-3" id="text-6-3">
+<ul class="org-ul">
+<li>我们到现在位置看到了很多的"ref"(也就是human-readable)的方法来指明一个commit:
+<ul class="org-ul">
+<li>branch name:比如 master, dev
+</li>
+<li>tag name :比如 v0.1
+</li>
+<li>其他ref name :比如HEAD
+</li>
+</ul>
+</li>
+<li>这些ref不可能无限制的取名字,而git里面commit之间是通过单向链表联系起来的, 所
+以git发明了在ref name后面加个后缀(和数字)来代表将对于当前ref(commit)之"前"
+的第N个commit:
+<pre class="example">
+~/.emacs.d &gt;&gt;&gt; git log HEAD --pretty=oneline -3
+8731151b41416c7893dc996a513c9253a0b09c55 new snippets
+1dd0a7f9a7bd17095148921e5c94b9632cd3ac88 same with shell mode
+94a85d519fa2420feef4cb59ec96e4b350fe8d05 eshell sync shell mode
+~/.emacs.d &gt;&gt;&gt; git log HEAD~ --pretty=oneline -2
+1dd0a7f9a7bd17095148921e5c94b9632cd3ac88 same with shell mode
+94a85d519fa2420feef4cb59ec96e4b350fe8d05 eshell sync shell mode
+~/.emacs.d &gt;&gt;&gt; git log HEAD~2 --pretty=oneline -1
+94a85d519fa2420feef4cb59ec96e4b350fe8d05 eshell sync shell mode
+</pre>
+</li>
+<li>上面只是最简单的一个情况(每个commit只有一个parent),实际情况下除了root commit
+以外,commit是可以有一或者多个commit作为其parent的.这种情况下,tilde(~)后缀就
+不能单独完成工作了:
+<ul class="org-ul">
+<li>caret(^): 是用来选择第几个parent:
+<ol class="org-ol">
+<li>假设我们的最新commit是由两个commit贡献来的:如下
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; git log --graph --oneline --all
+* 739cfb5 again
+*   924c89e fix merging
+|\
+| * ea87720 hello branch chagned
+* | e2bafc7 change one line
+|/
+* 5d9bbe3 hello world 3
+* 767f0cb hello.txt again
+* 245f516 hello2.txt
+* 3c4303f hello3.txt
+</pre>
+</li>
+<li>这种情况下~是会忽略掉另外一条线里面的ea87720的(注意打*的地方才表示某个
+commit在哪个line, e2bafc7在左边的line)
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; git log --graph --all --oneline
+* 739cfb5 again
+*   924c89e fix merging
+|\
+| * ea87720 hello branch chagned
+* | e2bafc7 change one line
+|/
+* 5d9bbe3 hello world 3
+* 767f0cb hello.txt again
+* 245f516 hello2.txt
+* 3c4303f hello3.txt
+~/tmp/hello &gt;&gt;&gt; git log HEAD~ --oneline -1
+924c89e fix merging
+~/tmp/hello &gt;&gt;&gt; git log HEAD~2 --oneline -1
+e2bafc7 change one line
+~/tmp/hello &gt;&gt;&gt; git log HEAD^3 --oneline -1
+fatal: ambiguous argument 'HEAD^3': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions like this:
+'git &lt;command&gt; [&lt;revision&gt;...] -- [&lt;file&gt;...]'
+~/tmp/hello &gt;&gt;&gt; git log HEAD~3 --oneline -1
+5d9bbe3 hello world 3
+~/tmp/hello &gt;&gt;&gt; git log HEAD~4 --oneline -1
+767f0cb hello.txt again
+</pre>
+</li>
+<li>如果我们想访问ea87720, 我们就要先HEAD~到达924c89e, 然后^2, 选择第"2"个
+parent! (注意HEAD^2是没有结果的,因为开始的commit不是多个commit merge的
+结果.要回溯到merge的点才能^2)
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; git log HEAD^2 --oneline -1
+fatal: ambiguous argument 'HEAD^2': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git &lt;command&gt; [&lt;revision&gt;...] -- [&lt;file&gt;...]'
+~/tmp/hello &gt;&gt;&gt; git log HEAD~^2 --oneline -1
+ea87720 hello branch chagned
+</pre>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-4" class="outline-3">
+<h3 id="sec-6-4">Viewing Old Commits</h3>
+<div class="outline-text-3" id="text-6-4">
+<ul class="org-ul">
+<li>Git中查看历史记录的方法是git log, 如果不加任何参数的话,git log 就等同于git log HEAD
+</li>
+<li>git log 本质是从某个commit开始往前算,所以git log后面虽然可以跟ref, 比如HEAD,
+master, 但是ref的核心其实还是commit. commit是单向链表 git log commit-x,其实
+就是从commit-x开始向前遍历到root commit
+</li>
+<li>git log默认是遍历到root commit的,这显然是没有意义的, git log支持一种since..until
+的格式,可以打印从(since到until]的commit (注意是前面exclusive,  后面inclusive)
+</li>
+<li>git log 还可以用option-&lt;number&gt;来确定你要显示多少条信息
+<pre class="example">
+$ git log -1
+commit 6622b7342b8dfc19d9b932ff8fcca2aa77ab7e6a
+Author: Harri Feng &lt;harrifeng@gmail.com&gt;
+Date:   Thu May 1 21:13:33 2014 +0800
+
+    test again
+</pre>
+</li>
+<li>相比于-1, -p会列出patch(也就是diff)的内容
+<pre class="example">
+$ git log -1 -p
+commit 6622b7342b8dfc19d9b932ff8fcca2aa77ab7e6a
+Author: Harri Feng &lt;harrifeng@gmail.com&gt;
+Date:   Thu May 1 21:13:33 2014 +0800
+
+    test again
+
+diff --git a/test.org b/test.org
+index 1face7e..919bd9d 100644
+--- a/test.org
++++ b/test.org
+@@ -1,2 +1,7 @@
+ * hello
+-  +  [[https://raw.githubusercontent.com/harrifeng/harrifeng.github.io/master/static/images/cpf9.png][cpf9]]
++  + pic
++    #+CAPTION: This is the caption for the next figure link (or table)
++    #+NAME:   fig:SED-HR4049
++    [[https://raw.githubusercontent.com/harrifeng/harrifeng.github.io/master/static/images/cpf9.png]]
+</pre>
+</li>
+<li>&#x2013;stat参数会列出更改了哪些文件,以及文件的内容增减
+<pre class="example">
+$ git log -1 --stat
+commit 6622b7342b8dfc19d9b932ff8fcca2aa77ab7e6a
+Author: Harri Feng &lt;harrifeng@gmail.com&gt;
+Date:   Thu May 1 21:13:33 2014 +0800
+
+    test again
+
+ test.org | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+</pre>
+</li>
+<li>git-show本来是用来显示object store里面的对象的, 比如显示origin/master里面
+test.c这个object(Blob)的内容
+<pre class="example">
+(master) i309511:testCode $ git show origin/master:test.c
+#include &lt;iostream&gt;
+ddd
+helo
+cc
+we
+helo
+</pre>
+</li>
+<li>因为commit object也是object store里面的一员,那么显然也是可以显示commit object
+<pre class="example">
+(master) i309511:testCode $ git show HEAD
+commit 6bf86d469440d29192f9282739812bf2dac745a9
+Author: Harri Feng &lt;harri.feng@gmail.com&gt;
+Date:   Sun Jan 4 22:30:52 2015 -0800
+
+    modified one c file
+
+diff --git a/test.c b/test.c
+index a92d288..ce71567 100644
+--- a/test.c
++++ b/test.c
+@@ -4,3 +4,4 @@ helo
+ cc
+ we
+ helo
++and another line
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-5" class="outline-3">
+<h3 id="sec-6-5">Commit Graphs</h3>
+<div class="outline-text-3" id="text-6-5">
+<ul class="org-ul">
+<li>我们可以使用gitk来查看git的graph, 从下图看一般存在三种commit:
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/misc/gitk-commit-show.png" alt="gitk-commit-show.png" />
+</p>
+<p><span class="figure-number">Figure 7:</span> gitk-commit-show.png</p>
+</div>
+<ul class="org-ul">
+<li>initial commit, 比如"Initial contents of pubilc_html", 没有parent commit
+</li>
+<li>普通commit,比如"Add a poem", 只有一个 parent commit
+</li>
+<li>merge commit, 比如"Merge branch 'master'..", 有两个parent commit
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-6" class="outline-3">
+<h3 id="sec-6-6">Commit Ranges</h3>
+<div class="outline-text-3" id="text-6-6">
+<ul class="org-ul">
+<li>commit range有两种格式:
+<ul class="org-ul">
+<li>start..end 格式, 前面的exclusive,后面的inclusive.比如git log master~12..master~10
+就是会返回前11th, 10th两个commit
+</li>
+<li>^X Y格式. git ^X Y, 就等于git log X..Y (包括Y,但是不包括X)
+</li>
+</ul>
+</li>
+<li>至于为什么git的range并不是两边都inclusive的,这是由range的定义来决定的:
+<pre class="example">
+git log Y 的意思是:所有从Y开始,reachable的commit.所以Y本身肯定要包括.
+你可以缩小这个range,使用^X,表示从X开始,reachable的commit,我全部都不要,所以X肯定要被"剔除"
+</pre>
+</li>
+<li>reachable是计算机数据结构图里面的术语:
+<pre class="example">
+In graph theory, a node X is said to be reachable from another nod A if you can
+start at A, travel along the arcs of the graph according to the rule, and arrive at X.
+</pre>
+</li>
+<li>在Git里面,可以reachable commit 集合,是指从某个commit开始,使用指针向前遍历,
+能够遍历的所有commit
+</li>
+<li>我们再看几个例子:
+<ul class="org-ul">
+<li>下面的例子中,git log topic..master, 就是要所有:能够reachable master(所指向
+commit)的commit集合, 减去能够reachable topic(所指向commit)的commit集合. 其
+最后的结果是W,X, Y,Z
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/misc/topic-master-1.png" alt="topic-master-1.png" />
+</p>
+<p><span class="figure-number">Figure 8:</span> topic-master-1.png</p>
+</div>
+</li>
+<li>下面的例子中git log topic..master的结果就是V,W,X,Y,Z
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/misc/topic-master-2.png" alt="topic-master-2.png" />
+</p>
+<p><span class="figure-number">Figure 9:</span> topic-master-2.png</p>
+</div>
+</li>
+
+<li>下面例子git log topic..master的结果就是W,X,Y,Z. 而A, V, U都是可以从D reachable
+的,所以不能选
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/misc/topic-master-3.png" alt="topic-master-3.png" />
+</p>
+<p><span class="figure-number">Figure 10:</span> topic-master-3.png</p>
+</div>
+</li>
+</ul>
+</li>
+<li>如果你把这个理念在抽象一点,就会发现git甚至支持如下的log(其意思就是master可
+以reachable,但是dev topic bugfix不可以reachable的commit)
+<pre class="example">
+$ git log ^dev ^topic ^bugfix master
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-7" class="outline-3">
+<h3 id="sec-6-7">Finding Commits</h3>
+<div class="outline-text-3" id="text-6-7">
+<ul class="org-ul">
+<li>git bisect是寻找最开始的错误commit (oldest break commit), 因为开始的时候(不
+一定是最开始,也可能是确信某个tag的时候)代码肯定是好的, 但是当前代码发现是错
+的.我们通过二分查找来找到"最原始的罪恶", 主要有几个命令:
+<ul class="org-ul">
+<li>git-bisect start负责开始
+</li>
+<li>git-bisect good表示当前commit是通过测试的
+</li>
+<li>git-bisect bad表示当前commit 是没有通过测试的
+</li>
+</ul>
+</li>
+<li>下面是一个bisect最终找到"最原始罪恶"commit的例子
+<pre class="example">
+(master) i309511:testCode $ git log --pretty=oneline
+0ba2e3185ed1c8885fcabf03dac09e98a3a77ed0 in master branch
+bc592e44dacd87043c32a6245fbfdccf99d5146f hello rebae
+f02ba0faee68d1594f72f69376b5ef3d4bf70574 merge point
+cc9a521ae1f59168f50226acd5dbb62a46db0c56 deleting some spaces
+7bda51613069f79d7991dab2d5ff67e7896c3fe1 add something world
+6bf86d469440d29192f9282739812bf2dac745a9 modified one c file
+6622b7342b8dfc19d9b932ff8fcca2aa77ab7e6a test again
+2af1664215fa9c8a990e841384faf652f2f3c920 test new way of org pic show
+42c962189094731755bf8c123eb60d9a7c1a4f22 銆€chinese encoding help text file
+9ef0c995e232cfaf74b1682f21f10de66d668a0a another
+d4893ab3b954667b5b803fea988927b547b33163 ew
+cbd13884a4634e1a718d1fad53ec3e33de50d92a again
+6780387230171e0e123bd6c4be484b4bc705823d test  # ----&gt; oldest BAD one!!
+fef6f49ee4df802de123eab7742367c8876136bb d
+d9d21ee85a6c9e8d0192bb1db36d52c5c19a3235 can I ?
+ee748adf48a6930fb0070a9b4887965cf7d33ef9 Hello World
+ff5868998b7c7bea1bb756fadbc7e31fc055814c fix conflict
+e0810a49526df2c2e1ca3e4a544cd50734675303 all remote merge
+c66b75f47bbaac397adbe2c0da6662fbc3b81e78 all merge test
+8f50dcbdb4409689d579ace4440ed8b129b9a456 merge prob
+a8dc4609aa4f07b1b936a2bd7fff783122dd5b40 hello
+41b5c7794f97902524272131837c92a2b455501c test commit for diff
+1b0ee2c6fd219951248faa2d071e09397bfe6588 reorg
+0886c7c8f3e156018ebc0f447b20a1038a665c70 rename test to apihelper
+0f209ed7af71ea2b37339f7b9f13d888019409b8 update readme
+a89a17c07c4946b784ca01655758595e7270db9b test for python
+fd51795efb1cdb8c6bf09a9448caffdad6b8bcc9 Initial commit
+(master) i309511:testCode $ git bisect start
+(master) i309511:testCode $ git bisect bad
+(master) i309511:testCode $ git bisect good fd51795efb1cdb8c6bf09a9448caffdad6b8bcc9
+Bisecting: 12 revisions left to test after this (roughly 4 steps)
+[fef6f49ee4df802de123eab7742367c8876136bb] d
+((no branch, bisect started on master)) i309511:testCode $ git log -1 --pretty=oneline
+fef6f49ee4df802de123eab7742367c8876136bb d
+((no branch, bisect started on master)) i309511:testCode $ git bisect good
+Bisecting: 6 revisions left to test after this (roughly 3 steps)
+[2af1664215fa9c8a990e841384faf652f2f3c920] test new way of org pic show
+((no branch, bisect started on master)) i309511:testCode $ git bisect bad
+Bisecting: 2 revisions left to test after this (roughly 2 steps)
+((no branch, bisect started on master)) i309511:testCode $ git bisect bad
+Bisecting: 0 revisions left to test after this (roughly 1 step)
+[cbd13884a4634e1a718d1fad53ec3e33de50d92a] again
+((no branch, bisect started on master)) i309511:testCode $ git bisect bad
+Bisecting: 0 revisions left to test after this (roughly 0 steps)
+[6780387230171e0e123bd6c4be484b4bc705823d] test
+((no branch, bisect started on master)) i309511:testCode $ git bisect bad
+6780387230171e0e123bd6c4be484b4bc705823d is the first bad commit
+commit 6780387230171e0e123bd6c4be484b4bc705823d
+Author: Harri Feng &lt;harrifeng@gmail.com&gt;
+Date:   Sun Nov 4 21:42:19 2012 +0800
+
+    test
+
+:100644 100644 8cd3609ac96e668a53c429580858f2250800ceec d4dfacd59c298ebc29f2a4018eabec2bf70254dd M  test.c
+((no branch, bisect started on master)) i309511:testCode $ git bisect reset
+Previous HEAD position was 6780387... test
+Switched to branch 'master'
+Your branch is ahead of 'origin/master' by 6 commits.
+  (use "git push" to publish your local commits)
+(master) i309511:testCode $ git branch
+* master
+  test
+  test-rebase
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-8" class="outline-3">
+<h3 id="sec-6-8">Using git blame</h3>
+<div class="outline-text-3" id="text-6-8">
+<ul class="org-ul">
+<li>git-blame可以确定某一行是从哪个commit引入的,这个是找到问题的很好的手段
+<pre class="example">
+$ git blame -L 3 test.c
+67803872 (Harri Feng 2012-11-04 21:42:19 +0800 3) helo
+cbd13884 (Harri Feng 2012-11-04 21:42:48 +0800 4) cc
+d4893ab3 (Harri Feng 2012-11-04 21:47:58 +0800 5) we
+bc592e44 (Harri Feng 2015-01-04 23:00:06 -0800 6) helo world rebase
+6bf86d46 (Harri Feng 2015-01-04 22:30:52 -0800 7) and another line
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-9" class="outline-3">
+<h3 id="sec-6-9">Using Pickaxe</h3>
+<div class="outline-text-3" id="text-6-9">
+<ul class="org-ul">
+<li>git log里面有一个-S option, 被亲切的誉为"pickaxe",其可以寻找"每个commit里面的
+diff文件", 然后匹配某个S后面的word. 注意,搜索的不算commit log,是commit 之间
+的diff文件
+<pre class="example">
+(master) i309511:testCode $ git log -Shello --pretty=oneline  --abbrev-commit
+2af1664 test new way of org pic show
+d9d21ee can I ?
+(master) i309511:testCode $ git show 2af1664
+commit 2af1664215fa9c8a990e841384faf652f2f3c920
+Author: Harri Feng &lt;harrifeng@gmail.com&gt;
+Date:   Thu May 1 21:10:07 2014 +0800
+
+    test new way of org pic show
+
+diff --git a/test.org b/test.org
+new file mode 100644
+index 0000000..1face7e
+--- /dev/null
++++ b/test.org
+@@ -0,0 +1,2 @@
++* hello
++  +  [[https://raw.githubusercontent.com/harrifeng/harrifeng.github.io/master/static/images/cpf9.png][cpf9]]
+(master) i309511:testCode $ git show d9d21ee
+commit d9d21ee85a6c9e8d0192bb1db36d52c5c19a3235
+Author: unknown &lt;hfeng@sh-rd-hfeng.apac.corp.natinst.com&gt;
+Date:   Wed Jul 25 17:56:30 2012 +0800
+
+    can I ?
+
+diff --git a/README.md b/README.md
+index 0edde9f..3a707ba 100644
+--- a/README.md
++++ b/README.md
+@@ -7,3 +7,4 @@ I will update the .gitignore everytime I add a new language.
+
+ helo  dddd
+ GitHub.com
++hello two
+\ No newline at end of file
+</pre>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Chapter 7: Branches</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li>所谓branch,就是让软件开发的时候,重新开一条线.
+</li>
+<li>Git允许同时存在多个branch,而且由于Git的merge非常高效,所以git是鼓励大家开branch
+来解决问题的
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1">Reasons for Using Branches</h3>
+<div class="outline-text-3" id="text-7-1">
+<ul class="org-ul">
+<li>git里面通常重新开启一个branch的原因有如下:
+<ul class="org-ul">
+<li>一个新branch可以着一个新的单独的customer release
+</li>
+<li>一个新的branch可以意味着开发的不同阶段
+</li>
+<li>一个新的branch可以意味着修复一个bug
+</li>
+<li>一个新的branch可以意味着是某个开发者特定的版本
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-2" class="outline-3">
+<h3 id="sec-7-2">Branch Names</h3>
+<div class="outline-text-3" id="text-7-2">
+<ul class="org-ul">
+<li>branch的起名没有什么特别的要求,你可以选择使用unix命名法来给某些branch起名字
+这样做的好处是利用git show-branch支持wildcards的特性,比如有两个branch的名字
+叫做bug/pr-1023和bug/pr-17, 那么可以使用下面的命令来取得两者
+<pre class="example">
+$ git show-branch 'bug/*'
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-3" class="outline-3">
+<h3 id="sec-7-3">Dos and Don't in Branch Names</h3>
+<div class="outline-text-3" id="text-7-3">
+<ul class="org-ul">
+<li>branch name可以使用'/',但是不要以'/'开头
+</li>
+<li>branch name不能以'-'开头
+</li>
+<li>不能以'.'开头
+</li>
+<li>不能包含'..'内容
+</li>
+<li>不能包含空格
+</li>
+<li>不能包含Git特殊字符(~), (^), (:), (?), (*), ([)
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-4" class="outline-3">
+<h3 id="sec-7-4">Using Branches</h3>
+<div class="outline-text-3" id="text-7-4">
+<ul class="org-ul">
+<li>一个repo里面可以有很多的branch, 带(*)号的是active branch,默认是master
+</li>
+<li>Git的branch永远指向最新的一个commit,所以你想记住当前的commit,最好给它打一个
+ligh-weight tag
+</li>
+<li>branch也不会记得当前的branch和某个其他的branch的"最近祖先"是哪个, 记住如果
+两个branch都在一个repo里面,那么它们必定有共同祖先(大不了是root commit),git
+merge-base负责寻找"最近的祖先"
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-5" class="outline-3">
+<h3 id="sec-7-5">Creating Branches</h3>
+<div class="outline-text-3" id="text-7-5">
+<ul class="org-ul">
+<li>创建新branch的命令如下. 如果没有明确表示[starting-commit]就是HEAD
+<pre class="example">
+$ git branch new-branch-name [starting-commit]
+</pre>
+</li>
+<li>git-branch只是创建branch,如果转到那个branch工作需要git checkout
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-6" class="outline-3">
+<h3 id="sec-7-6">Listing Branch Names</h3>
+<div class="outline-text-3" id="text-7-6">
+<ul class="org-ul">
+<li>git branch 什么都不加是列出所有branch, -r列出remote branch, -a列出所有branch
+<pre class="example">
+~/.emacs.d &gt;&gt;&gt; git branch
+* master
+  test-0.1
+~/.emacs.d &gt;&gt;&gt; git branch -r
+  origin/auto-el
+  origin/cygwin
+  origin/jekyll
+  origin/linux
+  origin/mac
+  origin/master
+  origin/nt
+  origin/test
+~/.emacs.d &gt;&gt;&gt; git branch -a
+* master
+  test-0.1
+  remotes/origin/auto-el
+  remotes/origin/cygwin
+  remotes/origin/jekyll
+  remotes/origin/linux
+  remotes/origin/mac
+  remotes/origin/master
+  remotes/origin/nt
+  remotes/origin/test
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-7" class="outline-3">
+<h3 id="sec-7-7">Viewing Brnches</h3>
+<div class="outline-text-3" id="text-7-7">
+<ul class="org-ul">
+<li>git show-branch是更能体现branch相互关系,比git-branch更进一步的命令
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; git show-branch
+! [bug/pr-1] hello world 3
+ * [bug/pr-2] hello2.txt
+  ! [change] again
+   ! [master] hello branch chagned
+----
+  +  [change] again
+  ++ [master] hello branch chagned
+  +  [change~2] change one line
++ ++ [bug/pr-1] hello world 3
++ ++ [bug/pr-1^] hello.txt again
++*++ [bug/pr-2] hello2.txt
+</pre>
+</li>
+<li>仔细分析下结果,分成两部分:
+<ul class="org-ul">
+<li>"-&#x2014;"之前,其实和git-branch的结果差不多,'*'代表active branch, 顺序是随机
+的,因为branch之间是没有高低的
+</li>
+<li>"-&#x2014;"之后,是一个列表从"当前commit"到所有branch"共同祖先commit",每个commit
+都要有自己的名字:
+<ul class="org-ul">
+<li>'again'这个commit只能使用change branch name
+</li>
+<li>'hello branch changed'这个commit可以使用master或者change~,但是因为change
+出现过了,所以选择master(但是前面的'+'表示这个也出现在了change branch)
+</li>
+<li>'change one line'这个commit只出现在了change branch,所以使用[change~2]
+</li>
+<li>'hello world 3'出现在了master,change, bug/pr-1里面,因为前两者都出现过了
+所以名字是[bug/pr-1]
+</li>
+<li>'hello.txt again'使用了[bug/pr-1^]
+</li>
+<li>'hello2.txt'出现在了所有的branch,因为bug/pr-2没有使用过,所以显示了它
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>我们也可以加参数,从而不用显示那么多branch
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; git show-branch bug/pr-1 bug/pr-2
+! [bug/pr-1] hello world 3
+ ! [bug/pr-2] hello2.txt
+--
++  [bug/pr-1] hello world 3
++  [bug/pr-1^] hello.txt again
+++ [bug/pr-2] hello2.txt
+</pre>
+</li>
+<li>show-branch还可以使用wildcard
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; git show-branch bug/*
+! [bug/pr-1] hello world 3
+ ! [bug/pr-2] hello2.txt
+--
++  [bug/pr-1] hello world 3
++  [bug/pr-1^] hello.txt again
+++ [bug/pr-2] hello2.txt
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-8" class="outline-3">
+<h3 id="sec-7-8">Merging Changes into a Different Branch</h3>
+<div class="outline-text-3" id="text-7-8">
+<ul class="org-ul">
+<li>如果想把你当前的改动,带入到新的branch,可以再checkout的时候,加option -m,这个
+改动不会形成一个新的merge commit,但是的确会改动文件,要注意
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; git checkout -m change
+M   hello.txt
+Switched to branch 'change'
+~/tmp/hello &gt;&gt;&gt; git status
+On branch change
+Unmerged paths:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+  (use "git add &lt;file&gt;..." to mark resolution)
+
+    both modified:   hello.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+~/tmp/hello &gt;&gt;&gt; git diff
+diff --cc hello.txt
+index 093703c,b0a043f..0000000
+--- a/hello.txt
++++ b/hello.txt
+@@@ -1,4 -1,3 +1,8 @@@
+  hello world
+ +change branch changed
+  hello branch here
+++&lt;&lt;&lt;&lt;&lt;&lt;&lt; change
+ +text again
+++=======
++ hello master
+++&gt;&gt;&gt;&gt;&gt;&gt;&gt; local
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-9" class="outline-3">
+<h3 id="sec-7-9">Creating and Checking out a New Branch</h3>
+<div class="outline-text-3" id="text-7-9">
+<ul class="org-ul">
+<li>一般来说有两种创建新branch的方法,常用的是
+<pre class="example">
+$ git checkout -b &lt;new-branch&gt; &lt;start-point&gt;
+</pre>
+</li>
+<li>和上面完全等价的方法是
+<pre class="example">
+git branch &lt;new-branch&gt; &lt;start-point&gt;
+git checkout new-branch
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-10" class="outline-3">
+<h3 id="sec-7-10">Detached HEAD Branches</h3>
+<div class="outline-text-3" id="text-7-10">
+<ul class="org-ul">
+<li>有些情况下,git无法给当前的环境一个"准确的branch",那么就会创建一个匿名的branch,
+(也叫Detached HEAD branch). 无法判断的情况有如下:
+<ul class="org-ul">
+<li>Checkout a commit that is not the head of branch: 我们知道,branch name其实
+只是一个ref而已, branch name 的ref永远指向一个branch的HEAD,所以,除此以外使
+用branchname~2等情况下,都是detached HEAD
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; git checkout change~2
+Note: checking out 'change~2'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b new_branch_name
+
+HEAD is now at 924c89e... fix merging
+</pre>
+</li>
+
+<li>Checkout a tracking branch
+</li>
+<li>Start a git bisect
+</li>
+<li>Use git submodule update
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-11" class="outline-3">
+<h3 id="sec-7-11">Deleting Branches</h3>
+<div class="outline-text-3" id="text-7-11">
+<ul class="org-ul">
+<li>删除的方法是使用option(-d), 当然了,必须是commit已经全部merge了,否则的话,可以
+使用-D来强制删除branch
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">Chapter 8: Diffs</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>diff 是Unix里面比较两个文件的程序.
+<pre class="example">
+diff &lt;older-file&gt; &lt;newer-file&gt;
+</pre>
+</li>
+<li>diff 的功能不仅仅是比较,它更说明了一个文件如何更改能够达到另外一个文件!
+</li>
+<li>Unix diff是可以通过git diff -r -u 来比较两个文件夹.
+</li>
+<li>git diff更进一步的可以比较两个tree object! 如果比较的是tree object(你看到的
+commit id 都是tree object, 普通用户也找不到其他的tree object) 那么就可以比较
+'两次提交时刻snapshot'的不同!
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-8-1" class="outline-3">
+<h3 id="sec-8-1">Forms of the git diff Command</h3>
+<div class="outline-text-3" id="text-8-1">
+<ul class="org-ul">
+<li>对于git diff来说,它能够diff的数据结构类型有如下:
+<ul class="org-ul">
+<li>Any tree object anywhere within the entire commit graph, 单单对于这项来说
+合格的成员有:
+<ol class="org-ol">
+<li>commit (commit指向root tree)
+</li>
+<li>branch name (其实也是指向commit)
+</li>
+<li>tags (其实是指向commit)
+</li>
+</ol>
+</li>
+<li>Your working directory
+</li>
+<li>The Index
+</li>
+</ul>
+</li>
+<li>git diff 的四种表现形式是
+<ul class="org-ul">
+<li>git diff : 如果什么都不加的话,就是
+<pre class="example">
+git diff &lt;old: Index&gt; &lt;new: Working Directory&gt;
+</pre>
+</li>
+<li>git diff &lt;commit&gt; : 如果加了commit就是
+<pre class="example">
+git diff &lt;new: Commit&gt; &lt;old: Working Directory&gt;
+</pre>
+</li>
+<li>git diff &#x2013;cached commit: &#x2013;cached这个参数就是表示index(在1.6以后&#x2013;staged
+也起到同样的作用), 所以这里的总的意思是
+<pre class="example">
+git diff &lt;old: Commit&gt; &lt;new: Index&gt;
+</pre>
+</li>
+<li>git diff commit1 commit1: 和diff的顺序就一样了是
+<pre class="example">
+git diff &lt;old: commit1&gt; &lt;new: commit2&gt;
+</pre>
+</li>
+</ul>
+</li>
+<li>上面提到的git diff表现形式的前三种都是非常常用的,可以通过下面的图来详细了解下
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/misc/git-diff-example.png" alt="git-diff-example.png" />
+</p>
+<p><span class="figure-number">Figure 11:</span> git-diff-example.png</p>
+</div>
+</li>
+<li>从上面的例子我们可以看出git diff 是一个检查你工作的过程:
+<ul class="org-ul">
+<li>git diff 一下,看看自己做了什么改动
+</li>
+<li>如果对改动满意,git add &lt;modified-file&gt;
+</li>
+<li>再次git diff就什么都没有了,只有改动了git diff才会显示出内容.对于小的改动,
+这种方法会"积少成多", 最终形成有意义的提交的内容,然后再commit
+</li>
+</ul>
+</li>
+<li>除了图上展示的三种diff以外,唯一一种没有涉及到的diff就是
+<pre class="example">
+git diff &lt;one-commit&gt; &lt;the-other-commit&gt;
+</pre>
+</li>
+<li>而最后这种git,因为diff的内容"任意",形式会比较复杂,可能会用到diff的复杂的参数,
+来帮助其实现功能
+<ol class="org-ol">
+<li>&#x2013;M: diif的同时,会发现rename的文件
+</li>
+<li>&#x2013;ignore-all-space: 忽略只有空白的更改
+</li>
+<li>&#x2013;stat: 只列举哪些文件更改,和更改的行数
+</li>
+<li>&#x2013;color: 绿色是添加,红色是删除
+</li>
+</ol>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-8-1-1" class="outline-4">
+<h4 id="sec-8-1-1">Simple git diff Example</h4>
+<div class="outline-text-4" id="text-8-1-1">
+<ul class="org-ul">
+<li>一个git diff的例子, 首先建立环境
+<pre class="example">
+i309511:/ $ mkdir /tmp/diff_example
+i309511:/ $ cd /tmp/diff_example/
+i309511:diff_example $ echo "foo" &gt;&gt; file1
+i309511:diff_example $ echo "bar" &gt;&gt; file2
+i309511:diff_example $ git init
+Initialized empty Git repository in /private/tmp/diff_example/.git/
+i309511:diff_example $ git add file1 file2
+i309511:diff_example $ git commit -m "Add file1 and file2"
+[master (root-commit) 67cccde] Add file1 and file2
+ 2 files changed, 2 insertions(+)
+ create mode 100644 file1
+ create mode 100644 file2
+</pre>
+</li>
+<li>更改其中一个文件,而不加入index后的情况是
+<pre class="example">
+(master) i309511:diff_example $ echo "quux" &gt; file1
+(master) i309511:diff_example $ git diff
+diff --git a/file1 b/file1
+index 257cc56..d90bda0 100644
+--- a/file1
++++ b/file1
+@@ -1 +1 @@
+-foo
++quux
+(master) i309511:diff_example $ git diff HEAD
+diff --git a/file1 b/file1
+index 257cc56..d90bda0 100644
+--- a/file1
++++ b/file1
+@@ -1 +1 @@
+-foo
++quux
+#index vs HEAD, identical still
+(master) i309511:diff_example $ git diff --cached
+</pre>
+</li>
+<li>将这个文件加入index后的情况是
+<pre class="example">
+(master) i309511:diff_example $ git add file1
+(master) i309511:diff_example $ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    modified:   file1
+
+# working directory versus index, identical now
+(master) i309511:diff_example $ git diff
+(master) i309511:diff_example $ git diff HEAD
+diff --git a/file1 b/file1
+index 257cc56..d90bda0 100644
+--- a/file1
++++ b/file1
+@@ -1 +1 @@
+-foo
++quux
+(master) i309511:diff_example $ git diff --cached
+diff --git a/file1 b/file1
+index 257cc56..d90bda0 100644
+--- a/file1
++++ b/file1
+@@ -1 +1 @@
+-foo
++quux
+</pre>
+</li>
+<li>这个时候如果我们commit的话,就会把这个改动(也就是index里面的内容)保存到历史
+记录.如果我们不commit,而是直接更改文件内容, 会出现 working directory, index
+和HEAD三者都完全不一样的情况!
+<pre class="example">
+(master) i309511:diff_example $ git diff
+diff --git a/file1 b/file1
+index d90bda0..7601807 100644
+--- a/file1
++++ b/file1
+@@ -1 +1 @@
+-quux
++baz
+(master) i309511:diff_example $ git diff HEAd
+diff --git a/file1 b/file1
+index 257cc56..7601807 100644
+--- a/file1
++++ b/file1
+@@ -1 +1 @@
+-foo
++baz
+(master) i309511:diff_example $ git diff --cached
+diff --git a/file1 b/file1
+index 257cc56..d90bda0 100644
+--- a/file1
++++ b/file1
+@@ -1 +1 @@
+-foo
++quux
+</pre>
+</li>
+<li>现在commit的话,也只会commit index的内容,我们可以验证
+<pre class="example">
+(master) i309511:diff_example $ git commit -m "quux uber alles"
+[master 8064da3] quux uber alles
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+(master) i309511:diff_example $ git diff HEAD^ HEAD
+diff --git a/file1 b/file1
+index 257cc56..d90bda0 100644
+--- a/file1
++++ b/file1
+@@ -1 +1 @@
+-foo
++quux
+</pre>
+</li>
+<li>commit完了以后, working directory还是dirty的
+<pre class="example">
+(master) i309511:diff_example $ git status
+On branch master
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   file1
+
+no changes added to commit (use "git add" and/or "git commit -a")
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-8-1-2" class="outline-4">
+<h4 id="sec-8-1-2">git diff and Commit Ranges</h4>
+<div class="outline-text-4" id="text-8-1-2">
+<ul class="org-ul">
+<li>git diff 也支持两个commit之间使用".."来代替,所以本质上来讲这两者是一样的
+<pre class="example">
+git diff master bug/pr-1
+git diff master..bug/pr-1
+</pre>
+</li>
+<li>可以用例子证明
+<pre class="example">
+(master) i309511:diff_example $ git diff HEAD^ HEAD
+diff --git a/file1 b/file1
+index 257cc56..d90bda0 100644
+--- a/file1
++++ b/file1
+@@ -1 +1 @@
+-foo
++quux
+(master) i309511:diff_example $ git diff HEAD^..HEAD
+diff --git a/file1 b/file1
+index 257cc56..d90bda0 100644
+--- a/file1
++++ b/file1
+@@ -1 +1 @@
+-foo
++quux
+</pre>
+</li>
+<li>而另外一种也支持&lt;commit&gt;..&lt;the-other-commit&gt;的是git log, git log的侧重方向
+和git diff完全不一样,比如我们有如下的情况
+<pre class="example">
+* 640b1bd - (HEAD, master) Added a bug fix for pr-3 (4 minutes ago) &lt;Haoran Feng&gt;
+| * 6ba6d53 - (bug/pr-1) Fix Problem report 1 (5 minutes ago) &lt;Haoran Feng&gt;
+|/
+* 8064da3 - (bug/pr-3) quux uber alles (21 minutes ago) &lt;Haoran Feng&gt;
+* 67cccde - Add file1 and file2 (64 minutes ago) &lt;Haoran Feng&gt;
+</pre>
+</li>
+<li>如果我们git diff 的话,只会产生两个snapshot的不同而已
+<pre class="example">
+(master) i309511:diff_example $ git diff master..bug/pr-1
+diff --git a/file1 b/file1
+index d90bda0..7601807 100644
+--- a/file1
++++ b/file1
+@@ -1 +1 @@
+-quux
++baz
+diff --git a/file2 b/file2
+index 70f4850..5716ca5 100644
+--- a/file2
++++ b/file2
+@@ -1,2 +1 @@
+ bar
+-bug 2
+</pre>
+</li>
+<li>而git log则会产生"能达到new-commit,却不能达到old-commit"的commit列表
+<pre class="example">
+(master) i309511:diff_example $ git log master..bug/pr-1
+commit 6ba6d53d47ddefaf721b66c370257b798ac0a0b8
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Tue Jan 27 23:42:15 2015 -0800
+
+    Fix Problem report 1
+(master) i309511:diff_example $ git log bug/pr-1..master
+commit 640b1bd7e54fba18823b4a5f50655cd6e3d2284c
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Tue Jan 27 23:43:45 2015 -0800
+
+    Added a bug fix for pr-3
+</pre>
+</li>
+<li>好啦,下面看个新的操作符symmetrical difference(&#x2026;), 看清楚了,是三个点. 三
+个点的diff是
+<pre class="example">
+git diff &lt;两个commit的merge base&gt; &lt;new-commit&gt;
+</pre>
+</li>
+<li>证明如下
+<pre class="example">
+(master) i309511:diff_example $ git diff HEAD~ HEAD
+diff --git a/file2 b/file2
+index 5716ca5..70f4850 100644
+--- a/file2
++++ b/file2
+@@ -1 +1,2 @@
+ bar
++bug 2
+(master) i309511:diff_example $ git diff bug/pr-1...master
+diff --git a/file2 b/file2
+index 5716ca5..70f4850 100644
+--- a/file2
++++ b/file2
+@@ -1 +1,2 @@
+ bar
++bug 2
+</pre>
+</li>
+<li>最后附带说明一句git log A&#x2026;B, 是所有'A或者B'特有的,但是不是AB共有的commit
+这个时候,两个commit的前后顺序已经不重要了
+<pre class="example">
+(master) i309511:diff_example $ git log bug/pr-1...master
+commit 640b1bd7e54fba18823b4a5f50655cd6e3d2284c
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Tue Jan 27 23:43:45 2015 -0800
+
+    Added a bug fix for pr-3
+
+commit 6ba6d53d47ddefaf721b66c370257b798ac0a0b8
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Tue Jan 27 23:42:15 2015 -0800
+
+    Fix Problem report 1
+(master) i309511:diff_example $ git log master...bug/pr-1
+commit 640b1bd7e54fba18823b4a5f50655cd6e3d2284c
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Tue Jan 27 23:43:45 2015 -0800
+
+    Added a bug fix for pr-3
+
+commit 6ba6d53d47ddefaf721b66c370257b798ac0a0b8
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Tue Jan 27 23:42:15 2015 -0800
+
+    Fix Problem report 1
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-8-1-3" class="outline-4">
+<h4 id="sec-8-1-3">git diff with Path Limiting</h4>
+<div class="outline-text-4" id="text-8-1-3">
+<ul class="org-ul">
+<li>先看一个diff,是现在和五个之前的commit的对比
+<pre class="example">
+(master) i309511:.emacs.d $ git diff --stat master~5 master
+ config/el-setting.el       | 1 +
+ config/sub/sub-mac-font.el | 2 +-
+ config/sub/sub-nt-path.el  | 6 +++++-
+ snippets/c++-mode/ott      | 4 ++++
+ snippets/eshell-mode/glg   | 4 ++++
+ snippets/eshell-mode/gpa   | 4 ++++
+ snippets/eshell-mode/j32   | 4 ++++
+ snippets/eshell-mode/j64   | 2 +-
+ snippets/nxml-mode/resad   | 4 ++++
+ snippets/shell-mode/glg    | 4 ++++
+ snippets/shell-mode/gpa    | 4 ++++
+ snippets/shell-mode/j32    | 4 ++++
+ snippets/shell-mode/j64    | 2 +-
+ 13 files changed, 41 insertions(+), 4 deletions(-)
+</pre>
+</li>
+<li>我们可以指定文件夹的,比如指定snippets文件夹(可以加&#x2013;,也可以不加)
+<pre class="example">
+(master) i309511:.emacs.d $ git diff --stat master~5 master snippets
+ snippets/c++-mode/ott    | 4 ++++
+ snippets/eshell-mode/glg | 4 ++++
+ snippets/eshell-mode/gpa | 4 ++++
+ snippets/eshell-mode/j32 | 4 ++++
+ snippets/eshell-mode/j64 | 2 +-
+ snippets/nxml-mode/resad | 4 ++++
+ snippets/shell-mode/glg  | 4 ++++
+ snippets/shell-mode/gpa  | 4 ++++
+ snippets/shell-mode/j32  | 4 ++++
+ snippets/shell-mode/j64  | 2 +-
+ 10 files changed, 34 insertions(+), 2 deletions(-)
+(master) i309511:.emacs.d $ git diff --stat master~5 master -- snippets
+ snippets/c++-mode/ott    | 4 ++++
+ snippets/eshell-mode/glg | 4 ++++
+ snippets/eshell-mode/gpa | 4 ++++
+ snippets/eshell-mode/j32 | 4 ++++
+ snippets/eshell-mode/j64 | 2 +-
+ snippets/nxml-mode/resad | 4 ++++
+ snippets/shell-mode/glg  | 4 ++++
+ snippets/shell-mode/gpa  | 4 ++++
+ snippets/shell-mode/j32  | 4 ++++
+ snippets/shell-mode/j64  | 2 +-
+ 10 files changed, 34 insertions(+), 2 deletions(-)
+</pre>
+</li>
+<li>git diff也支持git log里面的Pickaxe (-S), 只不过威力大减, 因为对于git diff来说-S
+找的,只是两个commit diff里面的的'+'或者'-'的数据,很小,意义不大
+</li>
+<li>而git log -S找的是"所有的log"里面的 "+"或者"-"里面的数据,很大,可能结果很多.
+注意在git log -S里面, -n的效果是有几个结果显示出来,而不是在几个log里面寻找!
+<pre class="example">
+(master) i309511:.emacs.d $ git log -S"byebug"
+commit 1dd0a7f9a7bd17095148921e5c94b9632cd3ac88
+Author: harri feng &lt;harri.feng@gmail.com&gt;
+Date:   Sat Dec 27 11:11:37 2014 +0800
+
+    same with shell mode
+
+commit 3d3f78a0ed6faf98486e82bb58e8c95846e32b3c
+Author: Harri Feng &lt;harri.feng@gmail.com&gt;
+Date:   Tue Dec 9 21:34:33 2014 -0800
+
+    new snippet
+
+commit 6da3570f4e1372d42f4728230d028e005c9dbac8
+Author: Harri Feng &lt;harri.feng@gmail.com&gt;
+Date:   Mon Nov 17 21:23:10 2014 -0800
+
+    changes to make better life
+
+commit 1a3ac48626aecb3e1d6a9d2a62de68673ae6984f
+Author: hfeng &lt;haoran.feng@sap.com&gt;
+Date:   Mon Oct 27 03:08:52 2014 -0700
+
+    use rbenv now
+(master) i309511:.emacs.d $ git log -2 -S"byebug"
+commit 1dd0a7f9a7bd17095148921e5c94b9632cd3ac88
+Author: harri feng &lt;harri.feng@gmail.com&gt;
+Date:   Sat Dec 27 11:11:37 2014 +0800
+
+    same with shell mode
+
+commit 3d3f78a0ed6faf98486e82bb58e8c95846e32b3c
+Author: Harri Feng &lt;harri.feng@gmail.com&gt;
+Date:   Tue Dec 9 21:34:33 2014 -0800
+
+    new snippet
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-8-1-4" class="outline-4">
+<h4 id="sec-8-1-4">Comparing How Subversion and Git Derive diffs</h4>
+<div class="outline-text-4" id="text-8-1-4">
+<ul class="org-ul">
+<li>因为git的每一个commit都保存着一切,所以diff起来才那么的快
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9">Chapter 9: Merges</h2>
+<div class="outline-text-2" id="text-9">
+<ul class="org-ul">
+<li>Git是分布式的版本管理系统,所以Git允许不同的开发人员在不同的地点分别提交
+</li>
+<li>但是无论如何分别提交,都要有一个方法把两个(或者多个)开发人员的提交unify,这个
+方法就叫做merge.
+</li>
+<li>在Git里面, 一个merge必须在一个repository的范围内进行讨论,也就是说,所有的要merge
+到一块的几个branch必须在一个repository里面
+</li>
+<li>当一个branch里面的内容(其实也就是head commit)和另外一个branch里面的内容(其实
+也就是head commit)没有"父子关系"的话,就无法进行fast-forward的merge. 但是如果
+两者没有直接冲突(直接冲突是改变发生在同一个文件中才会出现). 那么git就自动给两
+者merge&#x2013;通过创建一个新的merge head的方法
+<pre class="example">
+~/tmp/hello &gt;&gt;&gt; git branch
+  bug/pr-1
+  bug/pr-2
+* master
+  master-tmp
+  one-merge-child
+~/tmp/hello &gt;&gt;&gt; git log -2
+commit 9acf35b4395cd8567addc1259987183725092d81
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Sun Jan 25 12:32:52 2015 +0800
+
+    new world file
+
+commit f7fd5142c890a58702a1143e48c2e44168879afa
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Sat Jan 10 18:05:36 2015 +0800
+
+    change
+~/tmp/hello &gt;&gt;&gt; git log -2 one-merge-child
+commit 99491c124e9ad1e9ab11fd94fbca461295bf8bfd
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Sun Jan 25 12:31:51 2015 +0800
+
+    ending in child branch
+
+commit f7fd5142c890a58702a1143e48c2e44168879afa
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Sat Jan 10 18:05:36 2015 +0800
+
+    change
+~/tmp/hello &gt;&gt;&gt; git merge one-merge-child
+Merge made by the 'recursive' strategy.
+ hello.txt | 1 +
+ 1 file changed, 1 insertion(+)
+~/tmp/hello &gt;&gt;&gt; git log -4
+commit bbae6d3cfddcdd4171f736eae747a1b38aec8289
+Merge: 9acf35b 99491c1
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Sun Jan 25 12:33:15 2015 +0800
+
+    Merge branch 'one-merge-child'
+
+commit 9acf35b4395cd8567addc1259987183725092d81
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Sun Jan 25 12:32:52 2015 +0800
+
+    new world file
+
+commit 99491c124e9ad1e9ab11fd94fbca461295bf8bfd
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Sun Jan 25 12:31:51 2015 +0800
+
+    ending in child branch
+
+commit f7fd5142c890a58702a1143e48c2e44168879afa
+Author: harri feng &lt;harrifeng@gmail.com&gt;
+Date:   Sat Jan 10 18:05:36 2015 +0800
+
+    change
+~/tmp/hello &gt;&gt;&gt; git log --graph --oneline --all
+*   bbae6d3 Merge branch 'one-merge-child'
+|\
+| * 99491c1 ending in child branch
+* | 9acf35b new world file
+|/
+* f7fd514 change
+* 739cfb5 again
+*   924c89e fix merging
+|\
+| * ea87720 hello branch chagned
+* | e2bafc7 change one line
+|/
+* 5d9bbe3 hello world 3
+* 767f0cb hello.txt again
+* 245f516 hello2.txt
+* 3c4303f hello3.txt
+</pre>
+</li>
+<li>如果两者有直接冲突,那么git会把改动放到index里面,等着开发人员来进行修改!然后再
+次提交就会出现新的merge head
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-9-1" class="outline-3">
+<h3 id="sec-9-1">Working with Merge Conflicts</h3>
+<div class="outline-text-3" id="text-9-1">
+<ul class="org-ul">
+<li>我们先人为的制造一个merge conflict的例子: 两个branch里面某个文件的某一行相
+差一个字母
+<pre class="example">
+i309511:conflict $ git init
+Initialized empty Git repository in /private/tmp/conflict/.git/
+i309511:conflict $ echo hello &gt; hello
+i309511:conflict $ git add hello
+i309511:conflict $ git commit -m "Initial hello file"
+[master (root-commit) fae8714] Initial hello file
+ 1 file changed, 1 insertion(+)
+ create mode 100644 hello
+(master) i309511:conflict $ git status
+On branch master
+nothing to commit, working directory clean
+(master) i309511:conflict $ git checkout -b alt
+Switched to a new branch 'alt'
+(alt) i309511:conflict $ echo world &gt;&gt; hello
+(alt) i309511:conflict $ echo 'Yay!' &gt;&gt; hello
+(alt) i309511:conflict $ git commit -a -m "One world"
+[alt e5e7c70] One world
+ 1 file changed, 2 insertions(+)
+(alt) i309511:conflict $ git checkout master
+Switched to branch 'master'
+(master) i309511:conflict $ echo worlds &gt;&gt; hello
+(master) i309511:conflict $ echo 'Yay!' &gt;&gt; hello
+(master) i309511:conflict $ git commit -a -m "All worlds"
+[master 9a6c9b8] All worlds
+ 1 file changed, 2 insertions(+)
+(master) i309511:conflict $ git merge alt
+Auto-merging hello
+CONFLICT (content): Merge conflict in hello
+Automatic merge failed; fix conflicts and then commit the result.
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-2" class="outline-3">
+<h3 id="sec-9-2">Locating Conflicted Files</h3>
+<div class="outline-text-3" id="text-9-2">
+<ul class="org-ul">
+<li>在所有文件里面寻找"&gt;&gt;&gt;&gt;&gt;&gt;&gt;"之类的字符串来寻找merge失败的地方显然是不合理的,
+更好的办法是git status.
+<pre class="example">
+(master) i309511:conflict $ git status
+On branch master
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+
+Unmerged paths:
+  (use "git add &lt;file&gt;..." to mark resolution)
+
+    both modified:   hello
+
+no changes added to commit (use "git add" and/or "git commit -a")
+</pre>
+</li>
+<li>同时git ls-files -u 也会列出working tree里面没有merge成功的文件
+<pre class="example">
+(master) i309511:conflict $ git ls-files -u
+100644 ce013625030ba8dba906f756967f9e9ca394464a 1   hello
+100644 e63164d9518b1e6caf28f455ac86c8246f78ab70 2   hello
+100644 562080a4c6518e1bf67a9f58a32a67bff72d4f00 3   hello
+</pre>
+</li>
+<li>想必你也能想到,这三个文件,分别是:
+<ul class="org-ul">
+<li>master branch里面的blob
+</li>
+<li>alter branch里面的blob
+</li>
+<li>Index里面带"&gt;&gt;&gt;&gt;&gt;"的blob
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-3" class="outline-3">
+<h3 id="sec-9-3">Inspecting Conflicts</h3>
+<div class="outline-text-3" id="text-9-3">
+<ul class="org-ul">
+<li>一旦conflict出现了以后,working directory里面的文件就会呈现出如下形式
+<pre class="example">
+(master) i309511:conflict $ cat hello
+hello
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+worlds
+=======
+world
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; alt
+Yay!
+</pre>
+</li>
+<li>这样清晰的把一个文件某个部分的可能性分成了两种: 要么是world,要么是words,
+如果你觉得是其中一种,那么可以去掉所有的其他"&gt;&gt;&gt;"和"&lt;&lt;&lt;"等,然后git add, git
+commit
+</li>
+<li>有时候改动不是一个地方,查看起来需要一些工具. 最常见的工具是git diff. 我们知
+道git diff是比较index和working directory的. 而如果你是在"merge"途中的话,那么
+git diff会呈现出一种新的形式: 即, diff with 两个index :
+<ul class="org-ul">
+<li>一个是当前branch的HEAD commit, 它的index和commit还是一致的
+</li>
+<li>一个是被mergebranch的HEAD commit, 它的index和commit也还是一致的
+</li>
+</ul>
+</li>
+<li>所以结果是这个样的, '+' 有两列,是相互错开的. 两列column分别表示更改是否在某
+个branch存在. "&gt;&gt;&gt;"等被加了两个'+'(因为两个版本里面都有这几行)
+<pre class="example">
+(master) i309511:conflict $ git diff
+diff --cc hello
+index e63164d,562080a..0000000
+--- a/hello
++++ b/hello
+@@@ -1,3 -1,3 +1,7 @@@
+  hello
+++&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+ +worlds
+++=======
++ world
+++&gt;&gt;&gt;&gt;&gt;&gt;&gt; alt
+  Yay!
+</pre>
+</li>
+<li>我们来更改一下hello的内容,选择不同于任何一个branch的内容,然后diff结果如下
+<pre class="example">
+(master) i309511:conflict $ cat hello
+hello
+worldly ones
+Yay!
+(master) i309511:conflict $ git diff
+diff --cc hello
+index e63164d,562080a..0000000
+--- a/hello
++++ b/hello
+@@@ -1,3 -1,3 +1,3 @@@
+  hello
+- worlds
+ -world
+++worldly ones
+  Yay!
+</pre>
+</li>
+<li>到此为止,都还比较正常,下面是不正常的情况开始了. 如果你把hello改成了和MERGE_HEAD
+     一致
+<pre class="example">
+(master) i309511:conflict $ cat hello
+hello
+world
+Yay!
+(master) i309511:conflict $ git diff
+diff --cc hello
+index e63164d,562080a..0000000
+--- a/hello
++++ b/hello
+</pre>
+</li>
+<li>你会发现所有的diff都不存在了!, 改成HEAD也是一样的结果
+<pre class="example">
+(master) i309511:conflict $ cat hello
+hello
+worlds
+Yay!
+(master) i309511:conflict $ git diff
+diff --cc hello
+index e63164d,562080a..0000000
+--- a/hello
++++ b/hello
+</pre>
+</li>
+<li>这是因为在git看来,只有那些"内容和其中一个branch"不一样的情况. 如果内容和其
+中一个一致(而不是和两个都不一致), 它会认为这个内容对于用户来说没有意义.也就
+是说
+<pre class="example">
+If a section has changes versus only one side, that section isn't shown.
+</pre>
+</li>
+<li>这种与众不同的diff while merging的策略可能会给你带来一些困扰,但是也有好处
+<pre class="example">
+       一旦你决定某些文件"顺从"于某个一branch,那么你就不必要关心它了
+</pre>
+</li>
+<li>所以git diff更多的被看做是一种处理 stil conflicted的工具, 一旦这个conflict解
+决了, git diff也就不再关注了
+</li>
+<li>这样的场景看起来是显示的挺多的,但是会让很多用户不知所措,看起来麻烦. 很多用
+户想"分别"diff这两个"index"(也就是两个HEAD), 为了这部分用户考虑git设计了两
+个大写的ref, 用户直接diff这两个ref就更加清晰了:
+<ul class="org-ul">
+<li>HEAD: 当前branch最靠前的commit
+<pre class="example">
+(master) i309511:conflict $ git diff HEAD
+diff --git a/hello b/hello
+index e63164d..1f2f61c 100644
+--- a/hello
++++ b/hello
+@@ -1,3 +1,7 @@
+ hello
++&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+ worlds
++=======
++world
++&gt;&gt;&gt;&gt;&gt;&gt;&gt; alt
+ Yay!
+</pre>
+</li>
+<li>MERGE_HEAD: 被merge的branch的最靠前的commit
+<pre class="example">
+(master) i309511:conflict $ git diff MERGE_HEAD
+diff --git a/hello b/hello
+index 562080a..1f2f61c 100644
+--- a/hello
++++ b/hello
+@@ -1,3 +1,7 @@
+ hello
++&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
++worlds
++=======
+ world
++&gt;&gt;&gt;&gt;&gt;&gt;&gt; alt
+ Yay!
+</pre>
+</li>
+</ul>
+</li>
+<li>这样的比较就更加的清晰了.而且git在最新版本中,还添加了使用option(而不是额外
+的记住几个大写ref)的办法来比较merge conflict:
+<ul class="org-ul">
+<li>参数ours,就相当于 git diff HEAD. "我们"是等待merge加入的branch,就是当前branch.
+<pre class="example">
+(master) i309511:conflict $ git diff --ours
+* Unmerged path hello
+diff --git a/hello b/hello
+index e63164d..1f2f61c 100644
+--- a/hello
++++ b/hello
+@@ -1,3 +1,7 @@
+ hello
++&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+ worlds
++=======
++world
++&gt;&gt;&gt;&gt;&gt;&gt;&gt; alt
+ Yay!
+</pre>
+</li>
+<li>参数theirs,就相当于MERGE_HEAD, "他们"是要加入"我们"的branch
+<pre class="example">
+(master) i309511:conflict $ git diff --theirs
+* Unmerged path hello
+diff --git a/hello b/hello
+index 562080a..1f2f61c 100644
+--- a/hello
++++ b/hello
+@@ -1,3 +1,7 @@
+ hello
++&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
++worlds
++=======
+ world
++&gt;&gt;&gt;&gt;&gt;&gt;&gt; alt
+ Yay!
+</pre>
+</li>
+<li>参数base,其实就相当于git diff $(git merge-base HEAD MERGE_HEAD), 换句话说
+就是找到两个branch的"根基"(base), 然后开始diff
+<pre class="example">
+(master) i309511:conflict $ git diff --base
+* Unmerged path hello
+diff --git a/hello b/hello
+index ce01362..1f2f61c 100644
+--- a/hello
++++ b/hello
+@@ -1 +1,7 @@
+ hello
++&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
++worlds
++=======
++world
++&gt;&gt;&gt;&gt;&gt;&gt;&gt; alt
++Yay!
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-4" class="outline-3">
+<h3 id="sec-9-4">git log with conflicts</h3>
+<div class="outline-text-3" id="text-9-4">
+<ul class="org-ul">
+<li>当你在处理conflict的过程中, 你可以使用添加特殊option版本git log来帮助你判断
+你的merge head是从哪些(一般是两个)commit来的. 还可以选择只显示当前branch的
+commit, 或者只显示对方branch的commit
+<pre class="example">
+(master) i309511:conflict $ git log --merge
+commit 9a6c9b81ef9fec217f5c182315375b53a8e74f10
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Mon Feb 9 16:41:29 2015 -0800
+
+    All worlds
+
+commit e5e7c70818cc0fed3d9cdb195cca5efe86d1dea8
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Mon Feb 9 16:40:45 2015 -0800
+
+    One world
+(master) i309511:conflict $ git log --merge --left-only
+commit 9a6c9b81ef9fec217f5c182315375b53a8e74f10
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Mon Feb 9 16:41:29 2015 -0800
+
+    All worlds
+(master) i309511:conflict $ git log --merge --right-only
+commit e5e7c70818cc0fed3d9cdb195cca5efe86d1dea8
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Mon Feb 9 16:40:45 2015 -0800
+
+    One world
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-5" class="outline-3">
+<h3 id="sec-9-5">How Git Keeps Track of Conflicts</h3>
+<div class="outline-text-3" id="text-9-5">
+<ul class="org-ul">
+<li>Git 通过下面的一些配置来时刻保持着对conflict merge的控制:
+<ul class="org-ul">
+<li>.git/MERGE_HEAD : merge进来的theirs head commit id
+<pre class="example">
+(master) i309511:conflict $ git log --merge --right-only
+commit e5e7c70818cc0fed3d9cdb195cca5efe86d1dea8
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Mon Feb 9 16:40:45 2015 -0800
+
+    One world
+(master) i309511:conflict $ cat .git/MERGE_HEAD
+e5e7c70818cc0fed3d9cdb195cca5efe86d1dea8
+</pre>
+</li>
+<li>.git/MERGE_MSG : 这次conflict涉及到哪些文件
+<pre class="example">
+(master) i309511:conflict $ cat .git/MERGE_MSG
+Merge branch 'alt'
+
+Conflicts:
+    hello
+</pre>
+</li>
+<li>index里面包含着conflict file的三个版本:
+<ol class="org-ol">
+<li>merge base commit 版本
+</li>
+<li>ours HEAD commit 版本
+</li>
+<li>theirs HEAD commit 版本
+</li>
+</ol>
+</li>
+<li>带"&gt;&gt;&gt;&gt;"等标记的文件,则是存在了working directory. 所以你diff比较的时候,才
+能比较出"和另外两个branch"的不同
+</li>
+</ul>
+</li>
+<li>查看index是通过git ls-files.比如我们当前的环境是干净的, index就和最新的commit
+相同(注意-s是显示所有被index文件的uuid, -u是显示被index同时conflict文件的uuid)
+<pre class="example">
+(master) i309511:ttt $ git status
+On branch master
+nothing to commit, working directory clean
+(master) i309511:ttt $ git log
+commit 9e904f8bf87bb4caaf9a35f8d9cfe787c2402a41
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Mon Feb 9 21:31:44 2015 -0800
+
+    1
+(master) i309511:ttt $ git ls-files -s
+100644 d00491fd7e5bb6fa28c517a0bb32b8b506539d4d 0   1
+100644 d00491fd7e5bb6fa28c517a0bb32b8b506539d4d 0   first.cpp
+(master) i309511:ttt $ git ls-files -u
+(master) i309511:ttt $
+</pre>
+</li>
+<li>增加一个文件,只有add了以后才会在ls-fils中显示
+<pre class="example">
+(master) i309511:ttt $ echo "2" &gt; 2.cpp
+(master) i309511:ttt $ git ls-files -s
+100644 d00491fd7e5bb6fa28c517a0bb32b8b506539d4d 0   1
+100644 d00491fd7e5bb6fa28c517a0bb32b8b506539d4d 0   first.cpp
+(master) i309511:ttt $ git add 2.cpp
+(master) i309511:ttt $ git ls-files -s
+100644 d00491fd7e5bb6fa28c517a0bb32b8b506539d4d 0   1
+100644 0cfbf08886fca9a91cb753ec8734c84fcbe52c9f 0   2.cpp
+100644 d00491fd7e5bb6fa28c517a0bb32b8b506539d4d 0   first.cpp
+</pre>
+</li>
+<li>再回到我们正在merging的项目我们可以通过git lis-files -u来看看那些正在被conflict
+困扰的文件
+<pre class="example">
+(master) i309511:conflict $ git ls-files -u
+100644 ce013625030ba8dba906f756967f9e9ca394464a 1   hello
+100644 e63164d9518b1e6caf28f455ac86c8246f78ab70 2   hello
+100644 562080a4c6518e1bf67a9f58a32a67bff72d4f00 3   hello
+(master) i309511:conflict $ git show ce013625030ba8dba906f756967f9e9ca394464a
+hello
+(master) i309511:conflict $ git show e63164d9518b1e6caf28f455ac86c8246f78ab70
+hello
+worlds
+Yay!
+(master) i309511:conflict $ git show 562080a4c6518e1bf67a9f58a32a67bff72d4f00
+hello
+world
+Yay!
+(master) i309511:conflict $ git show HEAD
+commit 9a6c9b81ef9fec217f5c182315375b53a8e74f10
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Mon Feb 9 16:41:29 2015 -0800
+
+    All worlds
+
+diff --git a/hello b/hello
+index ce01362..e63164d 100644
+--- a/hello
++++ b/hello
+@@ -1 +1,3 @@
+ hello
++worlds
++Yay!
+(master) i309511:conflict $ git show MERGE_HEAD
+commit e5e7c70818cc0fed3d9cdb195cca5efe86d1dea8
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Mon Feb 9 16:40:45 2015 -0800
+
+    One world
+
+diff --git a/hello b/hello
+index ce01362..562080a 100644
+--- a/hello
++++ b/hello
+@@ -1 +1,3 @@
+ hello
++world
++Yay!
+(master) i309511:conflict $ git diff --base
+* Unmerged path hello
+diff --git a/hello b/hello
+index ce01362..5405956 100644
+--- a/hello
++++ b/hello
+@@ -1 +1,3 @@
+ hello
++worldss
++Yay!
+</pre>
+</li>
+<li>我们明晰的看到了在index里面存了三个hello文件,分别是
+<ol class="org-ol">
+<li>代表base commit里面的文件
+</li>
+<li>代表ours 里面的文件
+</li>
+<li>代表theris 里面的文件
+</li>
+</ol>
+</li>
+<li>我们甚至可以使用stage number来表示这个文件,然后diff
+<pre class="example">
+(master) i309511:conflict $ git diff :1:hello :2:hello
+diff --git a/:1:hello b/:2:hello
+index ce01362..e63164d 100644
+--- a/:1:hello
++++ b/:2:hello
+@@ -1 +1,3 @@
+ hello
++worlds
++Yay!
+(master) i309511:conflict $ git diff :1:hello :3:hello
+diff --git a/:1:hello b/:3:hello
+index ce01362..562080a 100644
+--- a/:1:hello
++++ b/:3:hello
+@@ -1 +1,3 @@
+ hello
++world
++Yay!
+</pre>
+</li>
+<li>当然了,这些diff都是在index里面的,和git diff while merging完全不一样.前面说到
+过git diff &#x2013;theirs会产生和index 里面their commit 的diff, 如果你更改了当前
+working directory里面的文件,和their一样的话,你会发现diff没有效果.结果就是一
+句Unmerged path hello
+<pre class="example">
+(master) i309511:conflict $ cat hello
+hello
+world
+Yay!
+(master) i309511:conflict $ git diff --theirs
+* Unmerged path hello
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-6" class="outline-3">
+<h3 id="sec-9-6">Finishing Up a Conflict Resolution</h3>
+<div class="outline-text-3" id="text-9-6">
+<ul class="org-ul">
+<li>我们一旦git add &lt;conflict 文件&gt;, 那么index里面,里面只有这个我们"认证"过的版
+本了.
+<pre class="example">
+(master) i309511:conflict $ cat hello
+hello
+everyone
+Yay!
+(master) i309511:conflict $ git diff
+diff --cc hello
+index e63164d,562080a..0000000
+--- a/hello
++++ b/hello
+@@@ -1,3 -1,3 +1,3 @@@
+  hello
+- worlds
+ -world
+++everyone
+  Yay!
+(master) i309511:conflict $ git ls-files -u
+100644 ce013625030ba8dba906f756967f9e9ca394464a 1   hello
+100644 e63164d9518b1e6caf28f455ac86c8246f78ab70 2   hello
+100644 562080a4c6518e1bf67a9f58a32a67bff72d4f00 3   hello
+(master) i309511:conflict $ git add hello
+(master) i309511:conflict $ git ls-files -u
+(master) i309511:conflict $ git ls-files -s
+100644 ebc56522386c504db37db907882c9dbd0d05a0f0 0   hello
+</pre>
+</li>
+<li>在add"自己的意见"到index以后, 我们就可以commit了, commit的时候,默认的commit
+log来自于.git/MERGE_MSG
+<pre class="example">
+(master) i309511:conflict $ cat .git/MERGE_MSG
+Merge branch 'alt'
+
+Conflicts:
+    hello
+(master) i309511:conflict $ git commit
+error: Terminal is dumb, but EDITOR unset
+Please supply the message using either -m or -F option.
+(master) i309511:conflict $ git log -1
+commit 2c622f69b8572ed26ab21cc59a3ded70387fc2b7
+Merge: 9a6c9b8 e5e7c70
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Tue Feb 10 14:28:57 2015 +0800
+
+    Merge branch 'alt'
+
+    Conflicts:
+        hello
+</pre>
+</li>
+<li>我们再来看看这个commit, 和普通的git commit不同哦
+<pre class="example">
+(master) i309511:conflict $ git show
+commit 2c622f69b8572ed26ab21cc59a3ded70387fc2b7
+Merge: 9a6c9b8 e5e7c70
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Tue Feb 10 14:28:57 2015 +0800
+
+    Merge branch 'alt'
+
+    Conflicts:
+        hello
+
+diff --cc hello
+index e63164d,562080a..ebc5652
+--- a/hello
++++ b/hello
+@@@ -1,3 -1,3 +1,3 @@@
+  hello
+- worlds
+ -world
+++everyone
+  Yay!
+</pre>
+</li>
+<li>不同点如下:
+<ul class="org-ul">
+<li>merge head commit是有两个parent的,所以Merge:后面跟了两个commit的id
+</li>
+<li>会有默认的commit,来自.git/MERGE_MSG
+</li>
+<li>这里的diff还是"必须和两个文件都不一样"的conflicted diff. 也就是说如果处理
+冲突的过程中某个文件被改的和其中一个branch里面一样的话,是不会show在这里的.
+因为两个branch commit都是它的parent. 和其中之一commit相同的话,不能算diff!
+<pre class="example">
+(master) i309511:ttt $ git show
+commit a9e3afd751c5d11849939525d1f162c22b7af4f7
+Merge: 096e937 2027130
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Tue Feb 10 14:39:05 2015 +0800
+
+    Merge branch 'alt'
+
+    Conflicts:
+        1
+        2.cpp
+
+diff --cc 2.cpp
+index ccd6ab1,af0f92c..6297e35
+--- a/2.cpp
++++ b/2.cpp
+@@@ -1,2 -1,2 +1,3 @@@
+  2
+ +Left
++ right
+(master) i309511:ttt $ git diff HEAD~
+diff --git a/1 b/1
+index 27f28e4..ee3120d 100644
+--- a/1
++++ b/1
+@@ -1,3 +1,2 @@
+-Left
+ 1
+-Left
+\ No newline at end of file
++Right
+diff --git a/2.cpp b/2.cpp
+index ccd6ab1..6297e35 100644
+--- a/2.cpp
++++ b/2.cpp
+@@ -1,2 +1,3 @@
+ 2
+ Left
++right
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-7" class="outline-3">
+<h3 id="sec-9-7">Aborting or Restarting a Merge</h3>
+<div class="outline-text-3" id="text-9-7">
+<ul class="org-ul">
+<li>merge是项很麻烦的工作,我们有可能会觉得麻烦,然后决定终止或重新开始一个merge,
+也就是通常说的"后悔药", git为我们准备了三种后悔药
+<ul class="org-ul">
+<li>最常见的是merge到一半,觉得改动太多了,决定不再merge了
+<pre class="example">
+(master) i309511:abort-merge $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+* a94b1ad (HEAD, master) left
+| * 27adb6f (alter) right
+|/
+* ce26c31 1st
+(master) i309511:abort-merge $ git merge alter
+Auto-merging first.txt
+CONFLICT (content): Merge conflict in first.txt
+Automatic merge failed; fix conflicts and then commit the result.
+(master) i309511:abort-merge $ git status
+On branch master
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+
+Unmerged paths:
+  (use "git add &lt;file&gt;..." to mark resolution)
+
+    both modified:   first.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")
+(master) i309511:abort-merge $ git reset --hard HEAD
+HEAD is now at a94b1ad left
+(master) i309511:abort-merge $ git status
+On branch master
+nothing to commit, working directory clean
+</pre>
+</li>
+<li>还有就是你已经commit了(有了新的merge head了), 后悔了.想回到"没merge"之前
+的那个状态, 那么就可以checkout之前的commit id(会被保存在ORIG_HEAD). 同学
+们要记住,之所以checkout到老的commit就可以去掉merge的那个"环", 是因为commit
+之间联系的"链表"是"反向链表"
+<pre class="example">
+(master) i309511:abort-merge $ git merge alter
+Auto-merging first.txt
+CONFLICT (content): Merge conflict in first.txt
+Automatic merge failed; fix conflicts and then commit the result.
+(master) i309511:abort-merge $ git ls-files -u
+100644 d00491fd7e5bb6fa28c517a0bb32b8b506539d4d 1   first.txt
+100644 ba0301bbbd8ebc83691ad7073846941eac307f63 2   first.txt
+100644 5ceb75f6ef1647763ee22d4411ab6b7bda2b8007 3   first.txt
+(master) i309511:abort-merge $ git checkout --theirs .
+(master) i309511:abort-merge $ git ls-files -u
+100644 d00491fd7e5bb6fa28c517a0bb32b8b506539d4d 1   first.txt
+100644 ba0301bbbd8ebc83691ad7073846941eac307f63 2   first.txt
+100644 5ceb75f6ef1647763ee22d4411ab6b7bda2b8007 3   first.txt
+(master) i309511:abort-merge $ cat first.txt
+1
+right
+(master) i309511:abort-merge $ git add . &amp;&amp; git diff --cached --check
+(master) i309511:abort-merge $ git commit -m "Merge from alter"
+[master f0775cc] Merge from alter
+(master) i309511:abort-merge $ cat .git/ORIG_HEAD
+a94b1ade57d5fecf77cc771bccdf800f659b845f
+(master) i309511:abort-merge $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+*   f0775cc (HEAD, master) Merge from alter
+|\
+| * 27adb6f (alter) right
+* | a94b1ad left
+|/
+* ce26c31 1st
+(master) i309511:abort-merge $ git reset --hard ORIG_HEAD
+HEAD is now at a94b1ad left
+(master) i309511:abort-merge $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+* a94b1ad (HEAD, master) left
+| * 27adb6f (alter) right
+|/
+* ce26c31 1st
+</pre>
+</li>
+<li>如果你出现了conflict,然后进文件修改.不过修改了很多以后,不满意.想从头修改(也
+就是回到git刚merge的时候). 只要没commit(出现merge head),那么永远能回到那个
+状态.
+<pre class="example">
+(master) i309511:abort-merge $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+* a94b1ad (HEAD, master) left
+| * 27adb6f (alter) right
+|/
+* ce26c31 1st
+(master) i309511:abort-merge $ git merge alter
+Auto-merging first.txt
+CONFLICT (content): Merge conflict in first.txt
+Automatic merge failed; fix conflicts and then commit the result.
+(master) i309511:abort-merge $ cat first.txt
+1
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+left
+=======
+right
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; alter
+(master) i309511:abort-merge $ git checkout --theirs first.txt
+(master) i309511:abort-merge $ cat first.txt
+1
+right
+(master) i309511:abort-merge $ git checkout -m first.txt
+(master) i309511:abort-merge $ cat first.txt
+1
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; ours
+left
+=======
+right
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; theirs
+(master) i309511:abort-merge $ git checkout --theirs first.txt
+(master) i309511:abort-merge $ cat first.txt
+1
+right
+(master) i309511:abort-merge $ git add .
+(master) i309511:abort-merge $ git ls-files -s
+100644 5ceb75f6ef1647763ee22d4411ab6b7bda2b8007 0   first.txt
+(master) i309511:abort-merge $ git checkout -m first.txt
+(master) i309511:abort-merge $ cat first.txt
+1
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; ours
+left
+=======
+right
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; theirs
+(master) i309511:abort-merge $ git ls-files -s
+100644 d00491fd7e5bb6fa28c517a0bb32b8b506539d4d 1   first.txt
+100644 ba0301bbbd8ebc83691ad7073846941eac307f63 2   first.txt
+100644 5ceb75f6ef1647763ee22d4411ab6b7bda2b8007 3   first.txt
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-8" class="outline-3">
+<h3 id="sec-9-8">Degenerate Merges</h3>
+<div class="outline-text-3" id="text-9-8">
+<ul class="org-ul">
+<li>所谓degenerate merge,可以理解为使用了merge命令,但是不产生merge head的merge
+git中的degerate merge有两种:
+<ul class="org-ul">
+<li>Already up-to-date: git merge后面跟的branch所有的内容都在当前的branch里面
+了. 也就是说,被merge的branch比较落后.我们就说当前的branch (already up-to-date)
+因为无法再引入新的commit了
+<pre class="example">
+(master) i309511:abort-merge $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+*   10a72f9 (HEAD, master) Merge from alter
+|\
+| * 27adb6f (alter) right
+* | a94b1ad left
+|/
+* ce26c31 1st
+(master) i309511:abort-merge $ git merge alter
+Already up-to-date.
+</pre>
+</li>
+<li>Fast-forward: 反过来说,如果merge 一个"领先"的branch(也就是说,你的HEAD在人
+家的branch里面), 那么这个merge就叫fast-forward
+<pre class="example">
+(master) i309511:abort-merge $ git checkout alter
+Switched to branch 'alter'
+(alter) i309511:abort-merge $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+*   10a72f9 (master) Merge from alter
+|\
+| * 27adb6f (HEAD, alter) right
+* | a94b1ad left
+|/
+* ce26c31 1st
+(alter) i309511:abort-merge $ git merge master
+Updating 27adb6f..10a72f9
+Fast-forward
+(alter) i309511:abort-merge $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+*   10a72f9 (HEAD, master, alter) Merge from alter
+|\
+| * 27adb6f right
+* | a94b1ad left
+|/
+* ce26c31 1st
+</pre>
+</li>
+</ul>
+</li>
+<li>值得一提的是,我们完全可以在fast-forward的时候,使用&#x2013;no-ff来强制的加上一个
+commit,这个commit的两个parent分别是master的HEAD和alter的HEAD.弄完了以后图像
+就是这个样子的. 这从一个侧面说明了degenerate merge的必要性
+<pre class="example">
+(alter) i309511:abort-merge $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+*   10a72f9 (master) Merge from alter
+|\
+| * 27adb6f (HEAD, alter) right
+* | a94b1ad left
+|/
+* ce26c31 1st
+(alter) i309511:abort-merge $ git merge master
+Already up-to-date!
+Merge made by the 'recursive' strategy.
+(alter) i309511:abort-merge $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+*   46fcc69 (HEAD, alter) Merge branch 'master' into alter
+|\
+| *   10a72f9 (master) Merge from alter
+| |\
+| |/
+|/|
+* | 27adb6f right
+| * a94b1ad left
+|/
+* ce26c31 1st
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-9" class="outline-3">
+<h3 id="sec-9-9">Normal Merge</h3>
+<div class="outline-text-3" id="text-9-9">
+<ul class="org-ul">
+<li>正常的merge是回产生一个merge head的,通常来说,有如下三种策略
+<ul class="org-ul">
+<li>Resolve: 这种策略只是对两个branch merge的时候起作用.它的方法是
+<ol class="org-ol">
+<li>找到两个commit的公共祖先,也就是git merge-base 两个commit
+</li>
+<li>diff 两个commit: branch commit 和 merge-base commit 得到一个diff 文件
+</li>
+<li>把这个diff文件apply到目标branch上面
+</li>
+</ol>
+</li>
+<li>Recursive: 大部分处理方式是和resolve是一样的.是为了处理一种特殊的resolve无
+法良好解决的情况而设计的. 这种情况就是:
+<ul class="org-ul">
+<li>两个branch有不止一个的merge-base
+</li>
+<li>传统的resolve解决这种特殊情况的办法是"随便选一个作为base"
+<pre class="example">
+(master) i309511:cross $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+*   056f2bb (HEAD, master) Merge alter
+|\
+| | *   b5b68a1 (alter) Merge master
+| | |\
+| |/ /
+| | /
+| |/
+|/|
+* | 1642f88 left 2nd
+| * 87b54da 2nd
+|/
+* 686bbac left first
+(master) i309511:cross $ git merge alter -s resolve
+Trying simple merge.
+Simple merge failed, trying Automatic merge.
+Auto-merging first.cpp
+Merge made by the 'resolve' strategy.
+ first.cpp | 1 +
+ 1 file changed, 1 insertion(+)
+(master) i309511:cross $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+*   afe70ee (HEAD, master) Merge branch 'alter'
+|\
+| *   b5b68a1 (alter) Merge master
+| |\
+* | \   056f2bb Merge alter
+|\ \ \
+| |/ /
+| | /
+| |/
+|/|
+| * 87b54da 2nd
+* | 1642f88 left 2nd
+|/
+* 686bbac left first
+</pre>
+</li>
+<li>上面的例子明显是选了当前branch的commit 1642f88 而不是commit87b54da来做base
+的
+<pre class="example">
+(master) i309511:cross $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+*   5fe8261 (HEAD, master) Merge branch 'alter'
+|\
+| *   b5b68a1 (alter) Merge master
+| |\
+* | \   056f2bb Merge alter
+|\ \ \
+| |/ /
+| | /
+| |/
+|/|
+| * 87b54da 2nd
+* | 1642f88 left 2nd
+|/
+* 686bbac left first
+(master) i309511:cross $ git show 87b54da
+commit 87b54da6705c5d693c193a0ca16a085ea59a4416
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Tue Feb 10 19:29:50 2015 -0800
+
+    2nd
+
+diff --git a/first.cpp b/first.cpp
+index 2a5d015..8d9518e 100644
+--- a/first.cpp
++++ b/first.cpp
+@@ -1 +1,2 @@
+ 1st
++right
+(master) i309511:cross $ git show 1642f88
+commit 1642f88db8c030ebe308aeb65fd1aac7fa4b4d70
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Tue Feb 10 19:31:00 2015 -0800
+
+    left 2nd
+
+diff --git a/first.cpp b/first.cpp
+index 2a5d015..f9b2f68 100644
+--- a/first.cpp
++++ b/first.cpp
+@@ -1 +1,2 @@
+ 1st
++left
+(master) i309511:cross $ git show
+commit 5fe8261ad6c2b6bbfb93aefcdf430713c98ea5c9
+Merge: 056f2bb b5b68a1
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Tue Feb 10 21:35:52 2015 -0800
+
+    Merge branch 'alter'
+
+diff --cc first.cpp
+index 2071f22,dc1a347..e0f495e
+--- a/first.cpp
++++ b/first.cpp
+@@@ -1,4 -1,3 +1,5 @@@
+  1st
++ right
+  left
+ +right
+ +left again
+</pre>
+</li>
+<li>这个问题如果让recursive来解决,方法完全不一样. recursive策略会把可能的两
+个候选人都考虑进来, 考虑的办法是为了两个commit做一个临时的merge base. 比
+如下面的例子,显然是创建了一个新的merge base. 也就是4e68cf260
+<pre class="example">
+(master) i309511:cross $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+*   056f2bb (HEAD, master) Merge alter
+|\
+| | *   b5b68a1 (alter) Merge master
+| | |\
+| |/ /
+| | /
+| |/
+|/|
+* | 1642f88 left 2nd
+| * 87b54da 2nd
+|/
+* 686bbac left first
+(master) i309511:cross $ git merge  alter
+Auto-merging first.cpp
+CONFLICT (content): Merge conflict in first.cpp
+Automatic merge failed; fix conflicts and then commit the result.
+(master) i309511:cross $ git diff
+diff --cc first.cpp
+index 2071f22,dc1a347..0000000
+--- a/first.cpp
++++ b/first.cpp
+@@@ -1,4 -1,3 +1,9 @@@
+  1st
+++&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+ +left
+ +right
+ +left again
+++=======
++ right
++ left
+++&gt;&gt;&gt;&gt;&gt;&gt;&gt; alter
+(master) i309511:cross $ git ls-files -u
+100644 4e68cf2606ed7f4630fe01168d9ffaf1c020fb97 1   first.cpp
+100644 2071f22eae23a6fafcc8aa5667b1dca0345b2310 2   first.cpp
+100644 dc1a347e21439e5e059315bd7ba85e3f4f21a9f8 3   first.cpp
+(master) i309511:cross $ git cat-file -p 4e68cf2606ed7f4630fe01168d9ffaf1c020fb97
+1st
+&lt;&lt;&lt;&lt;&lt;&lt;&lt; Temporary merge branch 1
+right
+=======
+left
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; Temporary merge branch 2
+</pre>
+</li>
+<li>recursive名字的来历是因为两个merge base在merge 时候可能又发现他们有两个
+merge base,这是一个递归的过程.
+</li>
+</ul>
+</li>
+<li>Octopus:这种策略,只不过是图会看起来比较帅而已(本质上就是两两merge,最后merge
+在一块而已), 如果想要那种N个branch最终汇聚到一块的情况,这个是首选
+<pre class="example">
+(master) i309511:octopus $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+* 682dfe9 (bone) another new file
+| * 8b93a31 (HEAD, master) new file
+| | * b8e3f76 (btwo) 3rd
+| |/
+|/|
+* | 5b8853b 2nd
+|/
+* b623f4b 1st
+(master) i309511:octopus $ git merge bone btwo
+Trying simple merge with bone
+Trying simple merge with btwo
+Merge made by the 'octopus' strategy.
+ first.cpp | 2 ++
+ third.cpp | 1 +
+ 2 files changed, 3 insertions(+)
+ create mode 100644 third.cpp
+(master) i309511:octopus $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+*-.   a83df2f (HEAD, master) Merge branches 'bone' and 'btwo'
+|\ \
+| | * b8e3f76 (btwo) 3rd
+| * | 682dfe9 (bone) another new file
+| |/
+| * 5b8853b 2nd
+* | 8b93a31 new file
+|/
+* b623f4b 1st
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-10" class="outline-3">
+<h3 id="sec-9-10">Applying Merge Strategies</h3>
+<div class="outline-text-3" id="text-9-10">
+<ul class="org-ul">
+<li>前面提到的如下名词都是merge strategy:
+<ul class="org-ul">
+<li>fast-forward
+</li>
+<li>up-to-date
+</li>
+<li>resolve
+</li>
+<li>recursive
+</li>
+<li>octopus
+</li>
+</ul>
+</li>
+<li>Git会自动帮你选择"它认为"最合适的strategy:
+<ul class="org-ul">
+<li>Git的策略是哪个简单用哪个,所以fast-forward和up-to-date的优先级都很高
+</li>
+<li>如果是merge多于一个的情况,那么octopus是唯一的选择
+</li>
+<li>如果正好是两个branch merge, 原来git是默认resovle,后来使用recursive作为默认
+策略, 可以使用 -s &lt;strategy-name&gt;来改变.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10">Chapter 10: Altering Commits</h2>
+<div class="outline-text-2" id="text-10">
+</div><div id="outline-container-sec-10-1" class="outline-3">
+<h3 id="sec-10-1">Caution About Altering History</h3>
+<div class="outline-text-3" id="text-10-1">
+<ul class="org-ul">
+<li>我们来决定一个commit是否能被更改,要看这个commit是否已经被其他的developer所
+获得了.如果已经"有可能"被他人获得了,那么就不要再修改了
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-10-2" class="outline-3">
+<h3 id="sec-10-2">Using git reset</h3>
+<div class="outline-text-3" id="text-10-2">
+<ul class="org-ul">
+<li>我们通常会使用git来改变当前branch最前面的commit. 其实也就是改变HEAD这个ref
+指向的commit
+</li>
+<li>git reset有三个更改"力度":
+<ul class="org-ul">
+<li>soft: 只把HEAD移动,不动index, 不动working directory
+<pre class="example">
+(master) i309511:reset $ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    new file:   third.cpp
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   third.cpp
+
+(master) i309511:reset $ git log
+commit 179afe7e849383fb7c2de107be50025572e00bf7
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Wed Feb 11 17:07:15 2015 -0800
+
+    2nd
+
+commit 041636e1b577902cae0f40915912c0957ac64cc0
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Wed Feb 11 17:07:01 2015 -0800
+
+    1st
+(master) i309511:reset $ git reset --soft 041636e1b577902cae0f40915912c0957ac64cc0
+(master) i309511:reset $ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    new file:   second.cpp
+    new file:   third.cpp
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   third.cpp
+</pre>
+</li>
+<li>mixed: HEAD移动, index也会和新的HEAD一致, working directory不动.注意mixed是reset的默认mode
+<pre class="example">
+(master) i309511:reset $ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    new file:   third.cpp
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   third.cpp
+
+(master) i309511:reset $ git log
+commit 179afe7e849383fb7c2de107be50025572e00bf7
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Wed Feb 11 17:07:15 2015 -0800
+
+    2nd
+
+commit 041636e1b577902cae0f40915912c0957ac64cc0
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Wed Feb 11 17:07:01 2015 -0800
+
+    1st
+(master) i309511:reset $ git reset --mixed 041636e1b577902cae0f40915912c0957ac64cc0
+(master) i309511:reset $ git status
+On branch master
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+    second.cpp
+    third.cpp
+
+nothing added to commit but untracked files present (use "git add" to track)
+</pre>
+</li>
+<li>hard: HEAD移动, index和新的HEAD一致, working directory也会和新的HEAD一致
+<pre class="example">
+(master) i309511:reset $ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    new file:   third.cpp
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   third.cpp
+
+(master) i309511:reset $ git log
+commit 179afe7e849383fb7c2de107be50025572e00bf7
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Wed Feb 11 17:07:15 2015 -0800
+
+    2nd
+
+commit 041636e1b577902cae0f40915912c0957ac64cc0
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Wed Feb 11 17:07:01 2015 -0800
+
+    1st
+(master) i309511:reset $ git reset --hard 041636e1b577902cae0f40915912c0957ac64cc0
+HEAD is now at 041636e 1st
+(master) i309511:reset $ git status
+On branch master
+nothing to commit, working directory clean
+</pre>
+</li>
+</ul>
+</li>
+<li>git reset 会保持原来的HEAD到ORIG_HEAD
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-10-3" class="outline-3">
+<h3 id="sec-10-3">Using git cherry-pick</h3>
+<div class="outline-text-3" id="text-10-3">
+<ul class="org-ul">
+<li>就是从其他branch上面"攫取"一个或者多个commit, 可能需要解决conflict, 新来的
+commit虽然有可能内容和原来完全一致,但已经完全是新的commit啦.
+</li>
+<li>攫取多个commit的时候,还是要注意
+<pre class="example">
+git的range A..B意思是: 从A后面的commit(不包括A)开始,一直到commit B结束,中间所有的commit
+</pre>
+</li>
+<li>所以如果你真的想cherry-pick range[A,B]呢,正确的做法是
+<pre class="example">
+&gt; git cherry-pick A^..B
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-10-4" class="outline-3">
+<h3 id="sec-10-4">Using git revert</h3>
+<div class="outline-text-3" id="text-10-4">
+<ul class="org-ul">
+<li>git revert 的作用,是"抵消"某一次的commit(就是让某个commit的作用消失)
+<pre class="example">
+(master) i309511:reset $ git show 041636e1b577902cae0f40915912c0957ac64cc0
+commit 041636e1b577902cae0f40915912c0957ac64cc0
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Wed Feb 11 17:07:01 2015 -0800
+
+    1st
+
+diff --git a/first.cpp b/first.cpp
+new file mode 100644
+index 0000000..d00491f
+--- /dev/null
++++ b/first.cpp
+@@ -0,0 +1 @@
++1
+(master) i309511:reset $ git show 179afe7e849383fb7c2de107be50025572e00bf7
+commit 179afe7e849383fb7c2de107be50025572e00bf7
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Wed Feb 11 17:07:15 2015 -0800
+
+    2nd
+
+diff --git a/second.cpp b/second.cpp
+new file mode 100644
+index 0000000..0cfbf08
+--- /dev/null
++++ b/second.cpp
+@@ -0,0 +1 @@
++2
+(master) i309511:reset $ git show 39a7ac263720ecbb58e45fed3253faa53528721c
+commit 39a7ac263720ecbb58e45fed3253faa53528721c
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Wed Feb 11 18:06:32 2015 -0800
+
+    third
+
+diff --git a/third.cpp b/third.cpp
+new file mode 100644
+index 0000000..b944734
+--- /dev/null
++++ b/third.cpp
+@@ -0,0 +1,2 @@
++3
++4
+(master) i309511:reset $ git revert HEAD~
+[master c4b1157] Revert "2nd"
+ 1 file changed, 1 deletion(-)
+ delete mode 100644 second.cpp
+ (master) i309511:reset $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+* c4b1157 (HEAD, master) Revert "2nd"
+* 39a7ac2 third
+* 179afe7 2nd
+* 041636e 1st
+(master) i309511:reset $ git show
+commit c4b1157992629f514923e859eb2536643b26100d
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Wed Feb 11 18:10:34 2015 -0800
+
+    Revert "2nd"
+
+    This reverts commit 179afe7e849383fb7c2de107be50025572e00bf7.
+
+diff --git a/second.cpp b/second.cpp
+deleted file mode 100644
+index 0cfbf08..0000000
+--- a/second.cpp
++++ /dev/null
+@@ -1 +0,0 @@
+-2
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-10-5" class="outline-3">
+<h3 id="sec-10-5">Changing the Top Commit</h3>
+<div class="outline-text-3" id="text-10-5">
+<ul class="org-ul">
+<li>更改"最新一次commit message"的方法是git commit &#x2013;amend, 但是还是要注意,commit
+如果已经有可能被其他developer看到了,就不要再使用这个命令了.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-10-6" class="outline-3">
+<h3 id="sec-10-6">Rebasing Commits</h3>
+<div class="outline-text-3" id="text-10-6">
+<ul class="org-ul">
+<li>git rebase的作用,是"更改一系列commit的base到一个新的location", 所以你至少要
+知道一个新的location来让这些commit来"着陆"
+</li>
+<li>通常来说, 这个"着陆点"是一个其他branch的name. 所有不在这个remote branch上面
+的"当前branch的"commit都会被"relocate":
+<ul class="org-ul">
+<li>一开始我们的branch的状态是这样的:
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/misc/git-rebase-before.png" alt="git-rebase-before.png" />
+</p>
+<p><span class="figure-number">Figure 12:</span> git-rebase-before.png</p>
+</div>
+</li>
+<li>然后我们运行下面的命令:
+<pre class="example">
+git checkout topic
+git rebase master
+# Equals with
+git rebase master topic
+</pre>
+</li>
+<li>最终得到下图
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/misc/git-rebase-after.png" alt="git-rebase-after.png" />
+</p>
+<p><span class="figure-number">Figure 13:</span> git-rebase-after.png</p>
+</div>
+</li>
+</ul>
+</li>
+<li>既然git rebase的本质其实就是把"一系列commit"换到另外的一个"落脚点",那么显然
+git rebase的能力不仅限于两个branch, 它完全可以:
+<ul class="org-ul">
+<li>定义一个"一系列commit", 一般是通过两个branch定义(当然,完全可以是两个commit id)
+</li>
+<li>定义一个"落脚点". 使用参数&#x2013;onto
+</li>
+</ul>
+</li>
+<li>上面的这种rebase叫做transplant rebase, 下面是一个例子:
+<ul class="org-ul">
+<li>开始的时候, 我们的样子是
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/misc/git-rebase-transplant-before.png" alt="git-rebase-transplant-before.png" />
+</p>
+<p><span class="figure-number">Figure 14:</span> git-rebase-transplant-before.png</p>
+</div>
+</li>
+<li>我们使用下面的命令, master是"落脚点"
+<pre class="example">
+git rebase --onto master maint^ feature
+</pre>
+</li>
+<li>rebase过后,我们的样子是这样的
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/misc/git-rebase-transplant-after.png" alt="git-rebase-transplant-after.png" />
+</p>
+<p><span class="figure-number">Figure 15:</span> git-rebase-transplant-after.png</p>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-10-7" class="outline-3">
+<h3 id="sec-10-7">Using git rebase -i</h3>
+<div class="outline-text-3" id="text-10-7">
+<ul class="org-ul">
+<li>git因为鼓励commit, 会产生很多的小的commit,这些小的commit有时候只有一两行.在
+公司项目中,有时候会要求"一些有意义的代码"作为一个commit, 那么就要合并已有的
+commit,对于这个操作,git给出的解决方案也是git rebase
+</li>
+<li>这个git rebase需要参数-i (或者&#x2013;interactive), option后面跟的还是"落脚点"!也
+就是说,要更改的是"落脚点"以后到HEAD的这"一系列"commit, 落脚点不受影响.
+<pre class="example">
+(master) i309511:rebase-i $ git log
+commit 1b5941430649f6b16e66cd00f8601de6fae5ea7d
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Wed Feb 11 22:50:34 2015 -0800
+
+    3rd
+
+commit 2d3284848d0628334d9aa626038caa87ea02723f
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Wed Feb 11 22:50:24 2015 -0800
+
+    2nd
+
+commit fb077cfff556b5b4e3309d74390b7ed585d4e972
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Wed Feb 11 22:50:15 2015 -0800
+
+    1st
+
+commit 5e4a32f4a0ce1d400674d88fd0f1f36ab694e88d
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Wed Feb 11 22:49:19 2015 -0800
+
+    Base part, from here to go
+</pre>
+</li>
+<li>在中间会显示成如下
+<pre class="example">
+pick fb077cf 1st
+pick 2d32848 2nd
+pick 1b59414 3rd
+
+# Rebase 5e4a32f..1b59414 onto 5e4a32f
+#
+# Commands:
+#  p, pick = use commit
+#  r, reword = use commit, but edit the commit message
+#  e, edit = use commit, but stop for amending
+#  s, squash = use commit, but meld into previous commit
+#  f, fixup = like "squash", but discard this commit's log message
+#  x, exec = run command (the rest of the line) using shell
+#
+# These lines can be re-ordered; they are executed from top to bottom.
+#
+# If you remove a line here THAT COMMIT WILL BE LOST.
+#
+# However, if you remove everything, the rebase will be aborted.
+#
+# Note that empty commits are commented out
+</pre>
+</li>
+<li>做成如下选择,就可以把三个commit合并成一个了(其还可以做reorder, 合并其中两个
+等工作, 但是这些工作不一定能保证成功, 而合并肯定能成功)
+<pre class="example">
+pick fb077cf 1st
+s 2d32848 2nd
+s 1b59414 3rd
+</pre>
+</li>
+<li>完成之后,结果如下
+<pre class="example">
+(master) i309511:rebase-i $ git log
+commit 4fb9839f90f9b16cd95acaa33cd99dd32401d441
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Wed Feb 11 22:50:15 2015 -0800
+
+    1st
+
+    2nd
+
+    3rd
+
+commit 5e4a32f4a0ce1d400674d88fd0f1f36ab694e88d
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Wed Feb 11 22:49:19 2015 -0800
+
+    Base part, from here to go
+</pre>
+</li>
+<li>总体来说git rebase是要修改commit的,所以再使用的时候,要非常小心,防止更改那些
+已经被其他developer使用的commit
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11">Chapter 11: The Stash and the Reflog</h2>
+<div class="outline-text-2" id="text-11">
+</div><div id="outline-container-sec-11-1" class="outline-3">
+<h3 id="sec-11-1">The Stash</h3>
+<div class="outline-text-3" id="text-11-1">
+<ul class="org-ul">
+<li>stash的设计是为了应对一种叫做"interrupted work flow"的情况: 也就是说当你做一
+件事情的时候被其他"优先级"更高的工作打断了,你当前所做的工作"有用",但是确不适
+合作为一个commit.
+</li>
+<li>stash会按照下面流程运行:
+<ol class="org-ol">
+<li>把当前的working directory存入到index. 也就是说stash不会在apply以后给你区
+分出working directory和index
+</li>
+<li>原因是, stash的实现原理,是把index 做成一个到一个"隐蔽的commit", 保存在 -&gt; :refs/stash
+<pre class="example">
+(master) i309511:git-project $ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    modified:   first.cpp
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   first.cpp
+
+(master) i309511:git-project $ git stash list
+(master) i309511:git-project $ git stash save
+Saved working directory and index state WIP on master: 6b4d5df 1st
+HEAD is now at 6b4d5df 1st
+(master) i309511:git-project $ git stash list
+stash@{0}: WIP on master: 6b4d5df 1st
+(master) i309511:git-project $ git branch -a
+* master
+(master) i309511:git-project $ cat .git/refs/stash
+7728a055ada54cf325c4744eb2fd8efeb8d25ef5
+(master) i309511:git-project $ git show 7728a055ada54cf325c4744eb2fd8efeb8d25ef5
+commit 7728a055ada54cf325c4744eb2fd8efeb8d25ef5
+Merge: 6b4d5df dfaeb1f
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Fri Feb 27 02:01:10 2015 -0800
+
+    WIP on master: 6b4d5df 1st
+
+diff --cc first.cpp
+index d00491f,fa1b0c6..a0bc73a
+--- a/first.cpp
++++ b/first.cpp
+@@@ -1,1 -1,2 +1,3 @@@
+  1
++ 2nd
+++3rd
+(master) i309511:git-project $ git stash apply
+On branch master
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   first.cpp
+
+no changes added to commit (use "git add" and/or "git commit -a")
+(master) i309511:git-project $ git diff
+diff --git a/first.cpp b/first.cpp
+index d00491f..a0bc73a 100644
+--- a/first.cpp
++++ b/first.cpp
+@@ -1 +1,3 @@
+ 1
++2nd
++3rd
+(master) i309511:git-project $ git show stash
+commit 7728a055ada54cf325c4744eb2fd8efeb8d25ef5
+Merge: 6b4d5df dfaeb1f
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Fri Feb 27 02:01:10 2015 -0800
+
+    WIP on master: 6b4d5df 1st
+
+diff --cc first.cpp
+index d00491f,fa1b0c6..a0bc73a
+--- a/first.cpp
++++ b/first.cpp
+@@@ -1,1 -1,2 +1,3 @@@
+  1
++ 2nd
+++3rd
+</pre>
+</li>
+</ol>
+</li>
+<li>git stash默认的命令就是git stash save, 但是如果你想自己写commit,那么就得显示
+的加上stash
+</li>
+<li>git stash pop就等同于git stash apply + git stash drop
+</li>
+<li>我们知道了stash是一个ref(也就是一个branch啦), 那么git show肯定可以查看stash,
+但是git还是实现了stash自己的一些查看命令
+<pre class="example">
+(master) i309511:git-project $ git show stash
+commit 0beb9a6b3b18a470ba8fe3e32bed2e83f7d755b3
+Merge: a997e35 c48b6ed
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Fri Feb 27 02:21:35 2015 -0800
+
+    WIP on master: a997e35 second
+
+diff --cc first.cpp
+index d00491f,d00491f..a0bc73a
+--- a/first.cpp
++++ b/first.cpp
+@@@ -1,1 -1,1 +1,3 @@@
+  1
+++2nd
+++3rd
+diff --cc second.cpp
+index e019be0,e019be0..8690a1f
+--- a/second.cpp
++++ b/second.cpp
+@@@ -1,1 -1,1 +1,2 @@@
+  second
+++12
+(master) i309511:git-project $ git stash show
+ first.cpp  | 2 ++
+ second.cpp | 1 +
+ 2 files changed, 3 insertions(+)
+(master) i309511:git-project $ git stash list
+stash@{0}: WIP on master: a997e35 second
+stash@{1}: WIP on master: 6b4d5df 1st
+</pre>
+</li>
+<li>下面我们来介绍一下stash的几个option:
+<ul class="org-ul">
+<li>include-untracked : 还记得git clean -df么,就是把所有untracked的都删掉, 这
+是原来唯一考虑到"untracked文件"感受的命令, 这个include-untracked是git stash
+的时候,同时stash untracked文件的参数
+<pre class="example">
+(master) i309511:git-project $ git ls-files
+first.cpp
+second.cpp
+(master) i309511:git-project $ echo "212" &gt;&gt; second.cpp
+(master) i309511:git-project $ git add .
+(master) i309511:git-project $ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    modified:   second.cpp
+
+(master) i309511:git-project $ echo "213" &gt;&gt; second.cpp
+(master) i309511:git-project $ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    modified:   second.cpp
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   second.cpp
+
+(master) i309511:git-project $ echo "3rd" &gt;&gt; third.cpp
+(master) i309511:git-project $ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    modified:   second.cpp
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   second.cpp
+
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+    third.cpp
+
+(master) i309511:git-project $ git stash --include-untracked
+Saved working directory and index state WIP on master: a997e35 second
+HEAD is now at a997e35 second
+(master) i309511:git-project $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+*-.   763c6db (refs/stash) WIP on master: a997e35 second
+|\ \
+| | * 5b1cf88 untracked files on master: a997e35 second
+| * ecaa6f2 index on master: a997e35 second
+|/
+* a997e35 (HEAD, master) second
+* 6b4d5df 1st
+(master) i309511:git-project $ git show ecaa6f2
+commit ecaa6f2e81ac59c71f6754fc6d9aa53ff7ff65f9
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Sun Mar 1 17:09:51 2015 -0800
+
+    index on master: a997e35 second
+
+diff --git a/second.cpp b/second.cpp
+index e019be0..994c6f1 100644
+--- a/second.cpp
++++ b/second.cpp
+@@ -1 +1,2 @@
+ second
++212
+(master) i309511:git-project $ git show 5b1cf88
+commit 5b1cf8894e1cf13f2ece0fcf51e8e295a8ad49ea
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Sun Mar 1 17:09:51 2015 -0800
+
+    untracked files on master: a997e35 second
+
+diff --git a/third.cpp b/third.cpp
+new file mode 100644
+index 0000000..e5404b8
+--- /dev/null
++++ b/third.cpp
+@@ -0,0 +1 @@
++3rd
+(master) i309511:git-project $ git show 763c6db
+commit 763c6db7533d1b96155f5ed5910e2a5f2dcfb6d9
+Merge: a997e35 ecaa6f2 5b1cf88
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Sun Mar 1 17:09:51 2015 -0800
+
+    WIP on master: a997e35 second
+
+diff --cc second.cpp
+index e019be0,994c6f1,0000000..8f63c39
+mode 100644,100644,000000..100644
+--- a/second.cpp
++++ b/second.cpp
+@@@@ -1,1 -1,2 -1,0 +1,3 @@@@
+  +second
++ +212
++++213
+</pre>
+</li>
+<li>上面这个例子,深刻的解读了,stash是如何存储untracked files的. 其实就是763c6db
+这个commit(这个commit本身是保存了tracked了但没index的内容), 拥有三个parents:
+<ol class="org-ol">
+<li>master: 这个不用说了
+</li>
+<li>ecaa6f2: 这个是stash的原来index的内容(其commit也暴露了这一点)
+</li>
+<li>5b1cf88: 这个是stash的原来untracked的文件, 也就是&#x2013;include-untracked参
+数起了作用才会加上这个commit
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>既然知道了stash的原理(分别用不同commit保存untracked, working directory, index)
+所以,我们必然可以在pop或者apply的时候同时修改index
+<pre class="example">
+(master) i309511:git-project $ git log --graph --decorate --pretty=oneline --abbrev-commit --all -10
+*-.   5fd1e89 (refs/stash) WIP on master: a997e35 second
+|\ \
+| | * 1018f7e untracked files on master: a997e35 second
+| * df73014 index on master: a997e35 second
+|/
+* a997e35 (HEAD, master) second
+* 6b4d5df 1st
+(master) i309511:git-project $ git stash pop --index
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    modified:   second.cpp
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   second.cpp
+
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+    third.cpp
+
+Dropped refs/stash@{0} (5fd1e892f67e40cb7468eada8af8fdcc7c5c2a26)
+(master) i309511:git-project $ git status
+On branch master
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    modified:   second.cpp
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   second.cpp
+
+Untracked files:
+  (use "git add &lt;file&gt;..." to include in what will be committed)
+
+    third.cpp
+</pre>
+</li>
+<li>你还可以使用git stash -p 来选择"部分stash", 和interactive add 相似.
+</li>
+<li>stash一大用处就是在pull失败的时候,可以清理现场,然后继续pull(当然了,使用fetch
+就不会有问题了)
+<pre class="example">
+$ git pull
+# ... pull fails due to merge conflicts ...
+$ git stash save
+$ git pull
+$ git stash pop
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-11-2" class="outline-3">
+<h3 id="sec-11-2">The Reflog</h3>
+<div class="outline-text-3" id="text-11-2">
+<ul class="org-ul">
+<li>有时候Git会做出一些神奇的操作,让人迷惑. 或者是你的不慎操作让很多commit找不
+到了.
+</li>
+<li>这些问题的诊断命令就是我们要介绍的reflog
+</li>
+<li>git的核心是一些branch, 而branch只是指向一些commit的ref而已, 但是branch通常
+只能指向"最开始"的commit, 因为
+<pre class="example">
+commit是一个反向链表!一旦你指向了某个commit, 比他更新的commit,
+即便有,你也无法找到!
+</pre>
+</li>
+<li>所以reflog的诊断方法就是记录一切跟ref改动有关的事件!比如:
+<ul class="org-ul">
+<li>Cloning
+</li>
+<li>Pushing
+</li>
+<li>Making new commits
+</li>
+<li>Changing or creating branches
+</li>
+<li>Rebase operations
+</li>
+<li>Reset operations
+</li>
+</ul>
+</li>
+<li>所以git reflog show + &lt;ref&gt; 就是命令的核心了:对某个ref(主要是branch name)的
+历史记录(前面的hash id是动作"完成"以后的id):
+<ul class="org-ul">
+<li>需要注意的是如果不加&lt;ref&gt;那么默认的是HEAD, 这个是一个ref而不是branch name
+<pre class="example">
+(master) i309511:testCode $ git reflog show HEAD
+e3b5f6c HEAD@{0}: reset: moving to HEAD~2
+828fa91 HEAD@{1}: checkout: moving from bug-01 to master
+3a08fa2 HEAD@{2}: checkout: moving from master to bug-01
+828fa91 HEAD@{3}: clone: from https://github.com/harrifeng/testCode.git
+(master) i309511:testCode $ git reflog show
+e3b5f6c HEAD@{0}: reset: moving to HEAD~2
+828fa91 HEAD@{1}: checkout: moving from bug-01 to master
+3a08fa2 HEAD@{2}: checkout: moving from master to bug-01
+828fa91 HEAD@{3}: clone: from https://github.com/harrifeng/testCode.git
+</pre>
+</li>
+<li>而branch name是ref,当然也可以追踪,记得默认是HEAD不是master就好
+<pre class="example">
+(master) i309511:testCode $ git reflog show master
+e3b5f6c master@{0}: reset: moving to HEAD~2
+828fa91 master@{1}: clone: from https://github.com/harrifeng/testCode.git
+(master) i309511:testCode $ git reflog show bug-01
+3a08fa2 bug-01@{0}: branch: Created from origin/bug-01
+</pre>
+</li>
+<li>上面显示的这些HEAD@{1} 等等, 完全也是可以当做ref来使用的. merge失败的时候
+ORIG_HEAD记不起来了,可以使用HEAD@{1}
+<pre class="example">
+(master) i309511:testCode $ git reflog show
+e3b5f6c HEAD@{0}: reset: moving to HEAD~2
+828fa91 HEAD@{1}: checkout: moving from bug-01 to master
+3a08fa2 HEAD@{2}: checkout: moving from master to bug-01
+828fa91 HEAD@{3}: clone: from https://github.com/harrifeng/testCode.git
+(master) i309511:testCode $ git show HEAD@{1}
+commit 828fa91d8acd7d84edd2e9417385fb4cb9bb16e7
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Mon Jan 5 22:43:19 2015 -0800
+
+    add submodule
+
+diff --git a/.gitmodules b/.gitmodules
+new file mode 100644
+index 0000000..9a73c6e
+--- /dev/null
++++ b/.gitmodules
+@@ -0,0 +1,3 @@
++[submodule "testSub"]
++   path = testSub
++   url = https://github.com/harrifeng/testSub.git
+diff --git a/testSub b/testSub
+new file mode 160000
+index 0000000..16e5f44
+--- /dev/null
++++ b/testSub
+@@ -0,0 +1 @@
++Subproject commit 16e5f44108d858694420ee17d723cc4aad44dd35
+</pre>
+</li>
+</ul>
+</li>
+<li>ref@{&lt;desc&gt;}的方式是广泛存在的,不只是加1,2,3,你完全可以使用英语描述你想要的
+commit和ref之间的差距. 不过要记住使用"-",或者"''" 来包裹它们,否则就会失败
+<pre class="example">
+(master) i309511:java-in-action $ git show HEAD@{last-thursday} --stat
+commit d754dd1c64deced7fc5a0fdcb06928d03dc23e9b
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Thu Feb 26 19:37:48 2015 -0800
+
+    1th
+
+ src/main/java/org/hfeng/oj/leet/addtwonumbers/Solution.java | 23 ++++++++++++-----------
+ src/main/java/org/hfeng/oj/leet/addtwonumbers/question.md   | 19 -------------------
+ src/main/java/org/hfeng/oj/leet/addtwonumbers/question.org  | 20 ++++++++++++++++++++
+ 3 files changed, 32 insertions(+), 30 deletions(-)
+(master) i309511:java-in-action $ git show HEAD@{3-days-ago} --stat
+commit d754dd1c64deced7fc5a0fdcb06928d03dc23e9b
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Thu Feb 26 19:37:48 2015 -0800
+
+    1th
+
+ src/main/java/org/hfeng/oj/leet/addtwonumbers/Solution.java | 23 ++++++++++++-----------
+ src/main/java/org/hfeng/oj/leet/addtwonumbers/question.md   | 19 -------------------
+ src/main/java/org/hfeng/oj/leet/addtwonumbers/question.org  | 20 ++++++++++++++++++++
+ 3 files changed, 32 insertions(+), 30 deletions(-)
+(master) i309511:java-in-action $ git show HEAD@{3 days ago} --stat
+fatal: ambiguous argument 'HEAD@{3': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git &lt;command&gt; [&lt;revision&gt;...] -- [&lt;file&gt;...]'
+(master) i309511:java-in-action $ git show 'HEAD@{3 days ago}' --stat
+commit d754dd1c64deced7fc5a0fdcb06928d03dc23e9b
+Author: Haoran Feng &lt;haoran.feng@sap.com&gt;
+Date:   Thu Feb 26 19:37:48 2015 -0800
+
+    1th
+
+ src/main/java/org/hfeng/oj/leet/addtwonumbers/Solution.java | 23 ++++++++++++-----------
+ src/main/java/org/hfeng/oj/leet/addtwonumbers/question.md   | 19 -------------------
+ src/main/java/org/hfeng/oj/leet/addtwonumbers/question.org  | 20 ++++++++++++++++++++
+ 3 files changed, 32 insertions(+), 30 deletions(-)
+</pre>
+</li>
+<li>我们可以看到ref其实从另一个侧面来看,就是从一个"commit长链表"里面,攫取了某几
+个"特殊的commit", 然后把他们组成一个新的链表. 而stash正是这样!一系列本来不
+连续的commit组成了一个"特殊commit列表". 这也是为什么reflog和stash在一起介绍
+的原因:stash是一个ref, 它是通过reflog refs/stash的方法实现的!
+<pre class="example">
+(master) i309511:git-project $ git reflog show
+a997e35 HEAD@{0}: checkout: moving from d781eccccef75d4a5d989f71b621f362ed26c422 to master
+d781ecc HEAD@{1}: checkout: moving from master to d781ecc
+a997e35 HEAD@{2}: commit: second
+6b4d5df HEAD@{3}: commit (initial): 1st
+(master) i309511:git-project $ git stash list
+stash@{0}: WIP on master: a997e35 second
+stash@{1}: WIP on master: a997e35 second
+</pre>
+</li>
+<li>reflog是存放在.git/logs里面的(当然了,你也看到了stash!)
+<pre class="example">
+(master) i309511:git-project $ find .git/logs
+.git/logs
+.git/logs/HEAD
+.git/logs/refs
+.git/logs/refs/heads
+.git/logs/refs/heads/master
+.git/logs/refs/stash
+(master) i309511:git-project $ cat .git/logs/HEAD
+0000000000000000000000000000000000000000 6b4d5dfb3ab46cd1ae5e09b96b34e776b9eca175 Haoran Feng &lt;haoran.feng@sap.com&gt; 1425030845 -0800    commit (initial): 1st
+6b4d5dfb3ab46cd1ae5e09b96b34e776b9eca175 a997e35d92368c095910e59d7f0ffe50e5e35abb Haoran Feng &lt;haoran.feng@sap.com&gt; 1425032479 -0800    commit: second
+a997e35d92368c095910e59d7f0ffe50e5e35abb d781eccccef75d4a5d989f71b621f362ed26c422 Haoran Feng &lt;haoran.feng@sap.com&gt; 1425257936 -0800    checkout: moving from master to d781ecc
+d781eccccef75d4a5d989f71b621f362ed26c422 a997e35d92368c095910e59d7f0ffe50e5e35abb Haoran Feng &lt;haoran.feng@sap.com&gt; 1425258197 -0800    checkout: moving from d781eccccef75d4a5d989f71b621f362ed26c422 to master
+</pre>
+</li>
+<li>我们可以选择删除掉这些历史记录,不会影响其他的工作
+<pre class="example">
+(master) i309511:git-project $ git reflog expire --expire=now --all
+(master) i309511:git-project $ git gc
+Counting objects: 10, done.
+Delta compression using up to 8 threads.
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (10/10), done.
+Total 10 (delta 1), reused 10 (delta 1)
+(master) i309511:git-project $ find .git/logs/
+.git/logs/
+.git/logs//HEAD
+.git/logs//refs
+.git/logs//refs/heads
+.git/logs//refs/heads/master
+.git/logs//refs/stash
+(master) i309511:git-project $ git reflog show master
+(master) i309511:git-project $ git reflog HEAD
+(master) i309511:git-project $ cat .git/logs/HEAD
+</pre>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12">Chapter 12: Remote Repositories</h2>
+<div class="outline-text-2" id="text-12">
+</div><div id="outline-container-sec-12-1" class="outline-3">
+<h3 id="sec-12-1">Repository Concepts</h3>
+<div class="outline-text-3" id="text-12-1">
+<ul class="org-ul">
+<li>Git repository分成两种类型:
+<ul class="org-ul">
+<li>bare repository
+</li>
+<li>development(nonbare) repository
+</li>
+</ul>
+</li>
+<li>我们前面介绍的所有的repository都是development repository, 而所谓的bare repository
+就是只有.git文件夹的development repo
+</li>
+<li>bare repository看起来对开发用处不大,但是它却是"保存工程"的最佳方案. github
+就是保存了一系列的bare repo, 我们可以从任何地方git clone, git push 这些bare
+repo,而得到development repo
+</li>
+<li>clone的&#x2013;bare option就可以clone bare repo(而不是dev repo)
+<pre class="example">
+(master) i309511:tc $ git clone --bare https://github.com/harrifeng/testCode.git
+Cloning into bare repository 'testCode.git'...
+remote: Counting objects: 83, done.
+remote: Total 83 (delta 0), reused 0 (delta 0), pack-reused 83
+Unpacking objects: 100% (83/83), done.
+Checking connectivity... done.
+(master) i309511:tc $ ls testCode.git/
+HEAD        branches    config      description hooks       info        objects     packed-refs refs
+(master) i309511:tc $ git clone https://github.com/harrifeng/testCode.git testCode2
+Cloning into 'testCode2'...
+remote: Counting objects: 83, done.
+remote: Total 83 (delta 0), reused 0 (delta 0), pack-reused 83
+Unpacking objects: 100% (83/83), done.
+Checking connectivity... done.
+(master) i309511:tc $ ls testCode2/
+README.md   car1.jpeg   python      test.org    testSub     test_chinese.el
+(master) i309511:tc $ ls testCode2/.git
+HEAD        config      hooks       info        objects     refs
+branches    description index       logs        packed-refs
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-12-2" class="outline-3">
+<h3 id="sec-12-2">Repository Clones</h3>
+<div class="outline-text-3" id="text-12-2">
+<ul class="org-ul">
+<li>git clone其实就是把remote repo的所有内容都复制下来, 当然了会有些变动,比如:
+<ul class="org-ul">
+<li>原来在refs/heads/下面的,现在变成了refs/remotes/
+</li>
+<li>原来在refs/remotes/下面的,当然就不用关心了.
+</li>
+</ul>
+</li>
+<li>原来repo的tags(其实也是ref)也会被拷贝的
+</li>
+<li>但并不是所有原来repo的内容都会被拷贝,比如下面的就不会被拷贝:
+<ul class="org-ul">
+<li>hooks
+</li>
+<li>configuration files
+</li>
+<li>reflog
+</li>
+<li>stash
+</li>
+</ul>
+</li>
+<li>git clone &lt;url&gt; 会把&lt;url&gt;的信息存放在remotes 里面名字叫做origin(这个名字只是
+约定俗成)
+<pre class="example">
+(master) i309511:testCode2 $ git branch
+* master
+(master) i309511:testCode2 $ cd ..
+(master) i309511:tc $ git clone testCode2 testCode3
+Cloning into 'testCode3'...
+done.
+(master) i309511:tc $ cd testCode3
+(master) i309511:testCode3 $ git remote -v
+origin  /Users/i309511/tmp/tc/testCode2 (fetch)
+origin  /Users/i309511/tmp/tc/testCode2 (push)
+</pre>
+</li>
+<li>这个git remote的信息是自从存在.git/config里面的, 同时"既然从&lt;url&gt;取得了开始
+代码, 我们以后还很有可能从这个&lt;url&gt;更新", 所以git还"擅自加了一个fetch信息"
+<div class="org-src-container">
+
+<pre class="src src-sh">(master) i309511:testCode3 $ cat .git/config
+[core]
+    repositoryformatversion = 0
+    filemode = true
+    bare = false
+    logallrefupdates = true
+    ignorecase = true
+    precomposeunicode = true
+[remote <span style="color: #5A7644;">"origin"</span>]
+    url = /Users/i309511/tmp/tc/testCode2
+    fetch = +refs/heads/*:refs/remotes/origin/*
+[branch <span style="color: #5A7644;">"master"</span>]
+    remote = origin
+    merge = refs/heads/master
+</pre>
+</div>
+</li>
+<li>除了"被动"的在clone的时候,增加remote以外, 我们还可以使用git remote命令来增
+加remote. 所有改动都放在了.git/config里面
+<pre class="example">
+(master) i309511:testCode3 $ git remote -v
+origin  /Users/i309511/tmp/tc/testCode2 (fetch)
+origin  /Users/i309511/tmp/tc/testCode2 (push)
+(master) i309511:testCode3 $ cat .git/config
+[core]
+    repositoryformatversion = 0
+    filemode = true
+    bare = false
+    logallrefupdates = true
+    ignorecase = true
+    precomposeunicode = true
+[remote "origin"]
+    url = /Users/i309511/tmp/tc/testCode2
+    fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+    remote = origin
+    merge = refs/heads/master
+(master) i309511:testCode3 $ git remote add github https://github.com/harrifeng/testCode.git
+(master) i309511:testCode3 $ git remote -v
+github  https://github.com/harrifeng/testCode.git (fetch)
+github  https://github.com/harrifeng/testCode.git (push)
+origin  /Users/i309511/tmp/tc/testCode2 (fetch)
+origin  /Users/i309511/tmp/tc/testCode2 (push)
+(master) i309511:testCode3 $ cat .git/config
+[core]
+    repositoryformatversion = 0
+    filemode = true
+    bare = false
+    logallrefupdates = true
+    ignorecase = true
+    precomposeunicode = true
+[remote "origin"]
+    url = /Users/i309511/tmp/tc/testCode2
+    fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+    remote = origin
+    merge = refs/heads/master
+[remote "github"]
+    url = https://github.com/harrifeng/testCode.git
+    fetch = +refs/heads/*:refs/remotes/github/*
+</pre>
+</li>
+<li>除了clone以外,还有如下命令和remote进行交互
+<ul class="org-ul">
+<li>git fetch : 获取remote更新
+</li>
+<li>git pull : git fetch &amp;&amp; git merge
+</li>
+<li>git push : 推送更新
+</li>
+<li>git ls-remote : 列出remote的ref
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-13" class="outline-2">
+<h2 id="sec-13">Chapter 13: Repository Management</h2>
+<div class="outline-text-2" id="text-13">
+</div><div id="outline-container-sec-13-1" class="outline-3">
+<h3 id="sec-13-1">A Word About Servers</h3>
+<div class="outline-text-3" id="text-13-1">
+<ul class="org-ul">
+<li>对于Git 而言, 其实有没有server是一样的,因为我可以很容易的git clone &lt;path&gt;,
+但是git还是引入了server的概念.更多的是因为server可以很好的起到access control
+的作用(判断哪些人能够访问哪些代码)
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-13-2" class="outline-3">
+<h3 id="sec-13-2">Upstream and Downstream Flows</h3>
+<div class="outline-text-3" id="text-13-2">
+<ul class="org-ul">
+<li>对于Git来说,分布式的环境意味着没有谁一定是upstream,谁是downstream, 设计这些
+概念只是为了更好的理解相互关系:
+<ul class="org-ul">
+<li>如果你想要往某个repo上面send代码改动,那么那个repo就是你的upstream
+</li>
+<li>同样的,所有想给你提交代码改动的repo都是你的downstream
+</li>
+</ul>
+</li>
+<li>在Git开放中,一般有两个角色:
+<ul class="org-ul">
+<li>Maintainer: 一般来说负责接受developer的改动,确保这些改动符合规范,然后统一
+把改动提交commit,然后"发布", 一旦改动"发布"就不能改动老的commit
+</li>
+<li>Developer: 在自己的私有repo里面开发功能,然后把改动提交给Maintainer
+</li>
+<li>Maintainer可以看做是Developer的upstream
+</li>
+<li>还是那句话, upstream, downstream或者maintainer, developer不是一成不变的,可
+能有些时候会倒过来.要具体情况具体分析
+</li>
+</ul>
+</li>
+<li>在git push和git branch命令中都有一个参数-u (git push 是&#x2013;set-upstream, git
+branch是&#x2013;set-upstream-to) 都是设置pull 默认的fetch remote位置,也就是.git/config
+里面[branch "master"]里面的remote和merge分布是什么:
+<pre class="example">
+i309511:tcc $ git clone https://github.com/harrifeng/testCode.git
+Cloning into 'testCode'...
+remote: Counting objects: 95, done.
+remote: Compressing objects: 100% (7/7), done.
+remote: Total 95 (delta 2), reused 0 (delta 0), pack-reused 88
+Unpacking objects: 100% (95/95), done.
+Checking connectivity... done.
+i309511:tcc $ git clone testCode testCode2
+Cloning into 'testCode2'...
+done.
+i309511:tcc $ cd testCode2
+(master) i309511:testCode2 $ git remote -v
+origin  /Users/i309511/tmp/tcc/testCode (fetch)
+origin  /Users/i309511/tmp/tcc/testCode (push)
+(master) i309511:testCode2 $ git remote add github https://github.com/harrifeng/testCode.git
+(master) i309511:testCode2 $ git remote -v
+github  https://github.com/harrifeng/testCode.git (fetch)
+github  https://github.com/harrifeng/testCode.git (push)
+origin  /Users/i309511/tmp/tcc/testCode (fetch)
+origin  /Users/i309511/tmp/tcc/testCode (push)
+(master) i309511:testCode2 $ cat .git/config
+[core]
+    repositoryformatversion = 0
+    filemode = true
+    bare = false
+    logallrefupdates = true
+    ignorecase = true
+    precomposeunicode = true
+[remote "origin"]
+    url = /Users/i309511/tmp/tcc/testCode
+    fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+    remote = origin
+    merge = refs/heads/master
+[remote "github"]
+    url = https://github.com/harrifeng/testCode.git
+    fetch = +refs/heads/*:refs/remotes/github/*
+(master) i309511:testCode2 $ git push -u github master
+Branch master set up to track remote branch master from github.
+Everything up-to-date
+(master) i309511:testCode2 $ cat .git/config
+[core]
+    repositoryformatversion = 0
+    filemode = true
+    bare = false
+    logallrefupdates = true
+    ignorecase = true
+    precomposeunicode = true
+[remote "origin"]
+    url = /Users/i309511/tmp/tcc/testCode
+    fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+    remote = github
+    merge = refs/heads/master
+[remote "github"]
+    url = https://github.com/harrifeng/testCode.git
+    fetch = +refs/heads/*:refs/remotes/github/*
+(master) i309511:testCode2 $ git branch --set-upstream-to=origin/master
+Branch master set up to track remote branch master from origin.
+(master) i309511:testCode2 $ cat .git/config
+[core]
+    repositoryformatversion = 0
+    filemode = true
+    bare = false
+    logallrefupdates = true
+    ignorecase = true
+    precomposeunicode = true
+[remote "origin"]
+    url = /Users/i309511/tmp/tcc/testCode
+    fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+    remote = origin
+    merge = refs/heads/master
+[remote "github"]
+    url = https://github.com/harrifeng/testCode.git
+    fetch = +refs/heads/*:refs/remotes/github/*
+</pre>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-14" class="outline-2">
+<h2 id="sec-14">Chapter 17: Submodule Best Practices</h2>
+<div class="outline-text-2" id="text-14">
+<ul class="org-ul">
+<li>submodules 是git强大的组成部分,其在git中的位置图示如下
+</li>
+<li>svn 也有Externals一说,但是仅仅是提供了一个网络地址而已, git submodule能够提
+供更强大的支持
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-14-1" class="outline-3">
+<h3 id="sec-14-1">Submodule Commands</h3>
+<div class="outline-text-3" id="text-14-1">
+<ul class="org-ul">
+<li>git submodule add &lt;repo&gt; : 就是注册一个submodule到当前的repo
+<pre class="example">
+(master) i309511:testCode $ git submodule add https://github.com/harrifeng/testSub.git
+Cloning into 'testSub'...
+remote: Counting objects: 4, done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 4 (delta 0), reused 0 (delta 0)
+Unpacking objects: 100% (4/4), done.
+Checking connectivity... done.
+(master) i309511:testCode $ ls
+README.md   car1.jpeg   python      test.org    testSub     test_chinese.el
+(master) i309511:testCode $ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+    new file:   .gitmodules
+    new file:   testSub
+
+(master) i309511:testCode $ cat .gitmodules
+[submodule "testSub"]
+    path = testSub
+    url = https://github.com/harrifeng/testSub.git
+(master) i309511:testCode $ git commit -a -m 'add submodule'
+[master 828fa91] add submodule
+ 2 files changed, 4 insertions(+)
+ create mode 100644 .gitmodules
+ create mode 160000 testSub
+</pre>
+</li>
+<li>git submodule init: git submodule init是一个一开始非常让人疑惑的的命令,因为
+他看起来什么都没有做!其实这个命令更改的是.git/config里面submodule的部分!
+<pre class="example">
+(master) i309511:tmp $ git clone https://github.com/harrifeng/testCode.git
+Cloning into 'testCode'...
+remote: Counting objects: 80, done.
+remote: Total 80 (delta 0), reused 0 (delta 0)
+Unpacking objects: 100% (80/80), done.
+Checking connectivity... done.
+(master) i309511:tmp $ cd testCode
+(master) i309511:testCode $ cat .git/config
+[core]
+    repositoryformatversion = 0
+    filemode = true
+    bare = false
+    logallrefupdates = true
+    ignorecase = true
+    precomposeunicode = true
+[remote "origin"]
+    url = https://github.com/harrifeng/testCode.git
+    fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+    remote = origin
+    merge = refs/heads/master
+(master) i309511:testCode $ git submodule init
+Submodule 'testSub' (https://github.com/harrifeng/testSub.git) registered for path 'testSub'
+(master) i309511:testCode $ cat .git/config
+[core]
+    repositoryformatversion = 0
+    filemode = true
+    bare = false
+    logallrefupdates = true
+    ignorecase = true
+    precomposeunicode = true
+[remote "origin"]
+    url = https://github.com/harrifeng/testCode.git
+    fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+    remote = origin
+    merge = refs/heads/master
+[submodule "testSub"]
+    url = https://github.com/harrifeng/testSub.git
+</pre>
+</li>
+<li>也只有git submodule init以后,才能进行git submodule update (否则.git/config里
+面没有submodule相关内容,无法下手), 这里插播一下git submodule status, 如果status
+的结果前面有"-",说明相应subproject代码还没有被clone下来.
+<pre class="example">
+(master) i309511:testCode $ git submodule status
+-16e5f44108d858694420ee17d723cc4aad44dd35 testSub
+(master) i309511:testCode $ git submodule status
+-16e5f44108d858694420ee17d723cc4aad44dd35 testSub
+(master) i309511:testCode $ ls testSub
+(master) i309511:testCode $ pwd
+/Users/i309511/tmp/testCode
+(master) i309511:testCode $ git submodule update
+Cloning into 'testSub'...
+remote: Counting objects: 7, done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 7 (delta 0), reused 3 (delta 0)
+Unpacking objects: 100% (7/7), done.
+Checking connectivity... done.
+Submodule path 'testSub': checked out '16e5f44108d858694420ee17d723cc4aad44dd35'
+(master) i309511:testCode $ git submodule status
+ 16e5f44108d858694420ee17d723cc4aad44dd35 testSub (16e5f44)
+(master) i309511:testCode $ ls testSub
+README.md
+</pre>
+</li>
+<li>git submodule status : 查看当前submodule的状态, 我们发现其实submodule其实记
+录的就是subproject的某个commit而已(git里面的commit是一个'snapshot', 其能够重
+现整个project).如果status的结果前面有
+<ol class="org-ol">
+<li>"-":说明相应subproject代码还没有被clone下来.
+</li>
+<li>"+":说明当前working directory里面的版本和index(也就是pre-commit tree, 查
+看命令为git ls-files &#x2013;stage)里面的版本不相同.
+<pre class="example">
+(master) i309511:testCode $ git submodule foreach git log -1 --oneline
+Entering 'testSub'
+faa2d96 modify readme
+(master) i309511:testCode $ git ls-files --stage | grep testSub
+160000 16e5f44108d858694420ee17d723cc4aad44dd35 0   testSub
+(master) i309511:testCode $ git submodule status
++faa2d96d260ccfca1d6d67405ec77cb936ec1ab2 testSub (heads/master)
+</pre>
+<p>
+这个区别是在index和working tree的,所以一旦add change到index(不需要提交),
+就能看出.p.s.从下面的diff可以看出,我们可以脑补一下,git是施加了一些"魔法",
+让本来用户不能编辑的'文件夹文件(Everything is File)'变成了可以被diff的.
+文件夹的content为'Subproject commit &lt;uuid&gt;'
+</p>
+<pre class="example">
+(master) i309511:testCode $ git submodule status
++faa2d96d260ccfca1d6d67405ec77cb936ec1ab2 testSub (heads/master)
+(master) i309511:testCode $ git status
+On branch master
+Your branch is up-to-date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+    modified:   testSub (new commits)
+
+no changes added to commit (use "git add" and/or "git commit -a")
+(master) i309511:testCode $ git diff
+diff --git a/testSub b/testSub
+index 16e5f44..faa2d96 160000
+--- a/testSub
++++ b/testSub
+@@ -1 +1 @@
+-Subproject commit 16e5f44108d858694420ee17d723cc4aad44dd35
++Subproject commit faa2d96d260ccfca1d6d67405ec77cb936ec1ab2
+(master) i309511:testCode $ git add .
+(master) i309511:testCode $ git submodule status
+ faa2d96d260ccfca1d6d67405ec77cb936ec1ab2 testSub (heads/master)
+</pre>
+</li>
+<li>"U":说明submodule有merge conflict
+</li>
+<li>如果什么都没有,就说明代码已经clone下来了
+<pre class="example">
+$ git submodule status
+faa2d96d260ccfca1d6d67405ec77cb936ec1ab2 testSub (heads/master)
+</pre>
+</li>
+</ol>
+</li>
+<li>git clone &#x2013;recursive &lt;, &#x2013;recurse-submodule&gt; : 就是在clone的时候就把相关的
+submodule都clone下来了.相当于git clone + git submodule init + git submodule update
+<pre class="example">
+(master) i309511:tmp $ git clone --recursive https://github.com/harrifeng/testCode.git testCode2
+Cloning into 'testCode2'...
+remote: Counting objects: 80, done.
+remote: Total 80 (delta 0), reused 0 (delta 0)
+Unpacking objects: 100% (80/80), done.
+Checking connectivity... done.
+Submodule 'testSub' (https://github.com/harrifeng/testSub.git) registered for path 'testSub'
+Cloning into 'testSub'...
+remote: Counting objects: 7, done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 7 (delta 0), reused 3 (delta 0)
+Unpacking objects: 100% (7/7), done.
+Checking connectivity... done.
+Submodule path 'testSub': checked out '16e5f44108d858694420ee17d723cc4aad44dd35'
+(master) i309511:tmp $ cd testCode2
+(master) i309511:testCode2 $ git submodule status
+ 16e5f44108d858694420ee17d723cc4aad44dd35 testSub (16e5f44)
+(master) i309511:testCode2 $ ls testSub
+README.md
+</pre>
+</li>
+<li>git submodule foreach &lt;command&gt; : 就是顺序进入每个子submodule,去执行&lt;command&gt;命令
+<pre class="example">
+(master) i309511:testCode $ git submodule foreach git ls-files
+Entering 'testSub'
+.gitignore
+README.md
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-14-2" class="outline-3">
+<h3 id="sec-14-2">Why Submodules?</h3>
+<div class="outline-text-3" id="text-14-2">
+<ul class="org-ul">
+<li>使用submodule可以更好的让开发模块化
+</li>
+<li>使用submodule还可以更方便的共享subproject:
+<ul class="org-ul">
+<li>多个superproject可以共享一个subproject
+</li>
+<li>多个superproject还可以使用同一个subproject的不同ref, 让这个subproject没有
+负担,勇敢前行.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 

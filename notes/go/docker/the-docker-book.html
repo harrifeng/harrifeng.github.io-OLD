@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>the-docker-book</title>
-<!-- 2015-03-18 Wed 14:21 -->
+<!-- 2015-03-18 Wed 17:27 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -153,8 +153,6 @@ for the JavaScript code in this tag.
             <div id="nav">
                 <ul>
                     <li><a href="/">首页</a></li>
-                    <li><a href="/notes.html">读书笔记</a></li>
-                    <li><a href="/algo.html">算法</a></li>
                     <li><a href="/about.html">About Me</a></li>
                     <li>
                     </li>
@@ -164,6 +162,512 @@ for the JavaScript code in this tag.
 </div>
 <div id="content">
 <h1 class="title">the-docker-book</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Chapter 1: Introduction</a>
+<ul>
+<li><a href="#sec-1-1">Introducing Docker</a></li>
+<li><a href="#sec-1-2">Docker client and Server</a></li>
+<li><a href="#sec-1-3">Docker images</a></li>
+<li><a href="#sec-1-4">Registries</a></li>
+<li><a href="#sec-1-5">Containers</a></li>
+<li><a href="#sec-1-6">Docker's technical components</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">Chapter 2: Installing Docker</a>
+<ul>
+<li><a href="#sec-2-1">Requirements</a></li>
+<li><a href="#sec-2-2">Boot2Docker installation on Windows and OSX</a></li>
+<li><a href="#sec-2-3">Using Boot2Docker with this book</a></li>
+<li><a href="#sec-2-4">The Docker daemon</a></li>
+<li><a href="#sec-2-5">Configuring the Docker daemon</a></li>
+<li><a href="#sec-2-6">Checking that the Docker daemon is running</a>
+<ul>
+<li><a href="#sec-2-6-1">Ubuntu like</a></li>
+<li><a href="#sec-2-6-2">RedHat like</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-3">Chapter 3: Getting Started with Docker</a>
+<ul>
+<li><a href="#sec-3-1">Ensuring Docker is ready</a></li>
+<li><a href="#sec-3-2">Building our first container</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Chapter 1: Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>首先我们要区分两个概念:
+<ul class="org-ul">
+<li>hypervisor virtualiation: 是指在一个物理机器上面,通过中间层,运行多个相互独
+立的"虚拟机(machine)". hypervisor 隔绝的是多个machine
+</li>
+<li>container: 是在user space运行的,不会创建独立的Machine. 所以container又叫做
+system-level virtualization. container隔绝的是多个user space instance
+</li>
+</ul>
+</li>
+<li>正是由于两者的差异, container可以说是不如hypervisor"灵活":
+<ul class="org-ul">
+<li>container只可以在ubuntu上面运行RedHat
+</li>
+<li>hypervisor不仅仅可以在ubuntu上面运行RedHat,还能在ubuntu上面运行windows
+</li>
+</ul>
+</li>
+<li>相比于拥有完整操作系统的hypervisor, docker有优点也有缺点:
+<ul class="org-ul">
+<li>缺点是可能没那么安全
+</li>
+<li>优点是比较节省资源
+</li>
+</ul>
+</li>
+<li>docker是新一代的container,旨在让container技术更加的容易使用.
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Introducing Docker</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>docker相比于其他container,有如下的优点:
+<ul class="org-ul">
+<li>轻量级: docker非常的轻量而且快速, 因为基于copy-on-write model, 只有需要改
+的地方才做了改动
+</li>
+<li>有了docker, 开发人员和运维人员的职责分开了: 开发人员专注于开发好container
+里面的内容, 运维人员维护管理好container就好了.在docker的帮助下,运维人员可
+以"百分百"的确认, 开发人员写的代码,和自己部署的代码是同一套,避免了在dev下
+成立,但是运维的时候失败的问题
+</li>
+</ul>
+</li>
+<li>Docker的组成部分有如下:
+<ul class="org-ul">
+<li>Docker Client和Docker server
+</li>
+<li>Docker Images
+</li>
+<li>Registries
+</li>
+<li>Docker Containers
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Docker client and Server</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>Docker整体上来看,是一个CS结构的应用, Docker Client是通过和Docker Server(或者
+是daemon)交流来获取能力的.
+</li>
+<li>你可以把Client以及Server放在同一个或者不同的机器上面
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Docker images</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>image是Docker世界的基石.container就是从image开始启动的.
+</li>
+<li>image是通过一系列指令来创建的, 比如:
+<ul class="org-ul">
+<li>添加一个文件
+</li>
+<li>运行一个命令
+</li>
+<li>打开一个端口
+</li>
+</ul>
+</li>
+<li>你可以把image想象成container的"source code", 而且image像git管理的代码一样,可
+以方便的进行分享,存储和升级.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Registries</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>Docker通过Registry来存储你的image,就像repo存储你的git code一样.
+</li>
+<li>registry也是区分public和private的, 和git的repo一样
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Containers</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>container就是启动了的image,里面可能有一个或者多个运行的process
+</li>
+<li>对, 如果把image看做是静态代码的话, container就是code的运行时态
+</li>
+<li>container保存的是process,所以就像process可以created, started, stopped, restarted,
+destroyed一样, container也可以有这些过程
+</li>
+<li>对于docker来说,container的运行方法是完全一样的,就好像对于船坞(docker)来说,集
+装箱都是一样的,堆起来就可以
+</li>
+<li>container里面有什么并不重要, docker会按照自己永远不变的程式运行它,就像船坞对
+待集装箱一样,拿一个一样大小的夹子,夹起来,放到卡车上
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Docker's technical components</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>docker需要x64位的Linux kernel支持(推荐version3.8以后版本)
+</li>
+<li>docker的一些基本要求如下:
+<ul class="org-ul">
+<li>Linux container format: libcontainer
+</li>
+<li>Linux kernel namespces: 用来隔绝filesystem, process, network
+</li>
+<li>Filesystem isolation: 每个container都有自己的root filesystem
+</li>
+<li>Process isolation: 每个container都有自己的process系统
+</li>
+<li>Network isolation: 不同的container有不同的virtual interface 和 IP Address
+</li>
+<li>Resource isolation and grouping: 像CPU和memory这种资源的分配,靠的是cgroups
+命令(Linux下面的特性)
+</li>
+<li>Copy-on-Write: 文件系统是copy-on-write的,也就是所有container用一套基础,有
+改动才增加一层.
+</li>
+<li>Logging: STDOUT, STDERR, STDIN都会被保存然后留以后进行分析
+</li>
+<li>Interactive shell: 可以创建一个shell连接STDIN
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Chapter 2: Installing Docker</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Requirements</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>Docker的安装需要一些基本的要求:
+<ul class="org-ul">
+<li>64-bit architecture, 32-bit的不支持
+</li>
+<li>需要Linux 3.8 以上版本的内核(某些2.6版本的可能也行)
+</li>
+<li>The kernel 必须支持一些storage driver:
+<ol class="org-ol">
+<li>Device Mapper (默认支持)
+</li>
+<li>AUFS
+</li>
+<li>vfs
+</li>
+<li>btrfs
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">Boot2Docker installation on Windows and OSX</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>Windows和Mac是没有Linux kernel支持的,所以需要virtualbox的支持, virtualbox其
+实内部就是装了一个tinyCoreLinux
+</li>
+<li>安装了virtualBox的tinyCoreLinux以后,你要能够连接这个Linux的话,那么就得有个
+command line连接这个tinyCoreLinux.这个工具就是The Docker client
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">Using Boot2Docker with this book</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li>如果是Boot2Docker来运行本书的例子的话,有时候你要连接localhost, 本书里面的
+localhost并不是127.0.01,而是tinyCoreLinux,所以要知道这个tinyCoreLinux的ip地
+址(也就是VirtualBox虚拟机的地址),需要如下命令
+<pre class="example">
+c:\code&gt;boot2docker ip
+boot2docker ip
+
+The VM's Host only interface IP address is: 192.168.59.103
+</pre>
+</li>
+<li>boot2docker是不支持-v这个参数的,因为tinyCoreLinux里面的盘分享给docker instance
+是没有意义的.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4">The Docker daemon</h3>
+<div class="outline-text-3" id="text-2-4">
+<ul class="org-ul">
+<li>安装Docker以后,我们必须确认Docker daemon是否在运行
+</li>
+<li>Docker的daemon是root-privileged的
+</li>
+<li>docker 命令行命令其实就是作为这个daemon(server)的client, 也同时需要root权限
+</li>
+<li>docker daemon是监听如下的一个Unix socket来接受incoming Docker request
+<pre class="example">
+&gt; ls -al /var/run/docker.sock
+srw-rw----    1 root     docker           0 Mar 15 03:49 /var/run/docker.sock
+</pre>
+</li>
+<li>从上面的输出我们可以看到:如果一个机器上面有个用户组名字是docker, 那么这个这
+个group docker就会被设置成/var/run/docker.sock的owner,也就不用sudo就可以调用
+了, 在linux下安装docker不一定会创建docker group的,但是boot2docker默认为我们
+创建了docker group
+<pre class="example">
+&gt; cat /etc/group
+root:x:0:
+lp:x:7:lp
+nogroup:x:65534:
+staff:x:50:docker
+docker:x:100:docker
+</pre>
+</li>
+<li>需要极为注意的是docker group虽然用起来方便,但的确是一个太高权限的group,有可
+能成为他人利用漏洞, 在向此group加成员的时候,要十分小心
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5">Configuring the Docker daemon</h3>
+<div class="outline-text-3" id="text-2-5">
+<ul class="org-ul">
+<li>默认情况下, docker daemon是绑定了某个端口的(比如2376)
+<pre class="example">
+&gt; sudo netstat -ltnp
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      623/sshd
+tcp        0      0 :::22                   :::*                    LISTEN      623/sshd
+tcp        0      0 :::2376                 :::*                    LISTEN      701/docker
+</pre>
+</li>
+<li>如果我们想把docker dameon, 换到2375这个端口,那么要使用参数-H, 下面这个例子
+就说明docker已经成功启动了.
+<pre class="example">
+sudo netstat -ltnp
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      623/sshd
+tcp        0      0 :::22                   :::*                    LISTEN      623/sshd
+tcp        0      0 :::2376                 :::*                    LISTEN      701/docker
+sudo kill -9 701
+sudo netstat -ltnp
+Active Internet connections (only servers)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      623/sshd
+tcp        0      0 :::22                   :::*                    LISTEN      623/sshd
+sudo docker -d -H tcp://0.0.0.0:2375
+2015/03/15 13:05:53 docker daemon: 1.3.1 4e9bbfa; execdriver: native; graphdriver:
+[ccef5f24] +job serveapi(tcp://0.0.0.0:2375)
+[info] Listening for HTTP on tcp (0.0.0.0:2375)
+[info] /!\ DON'T BIND ON ANOTHER IP ADDRESS THAN 127.0.0.1 IF YOU DON'T KNOW WHAT YOU'RE DOING /!\
+[ccef5f24] +job init_networkdriver()
+[ccef5f24] -job init_networkdriver() = OK (0)
+[info] Loading containers:
+..[info] : done.
+[ccef5f24] +job acceptconnections()
+[ccef5f24] -job acceptconnections() = OK (0)
+</pre>
+</li>
+<li>我们甚至可以使用-H来指定不是/var/run/docker.sock的另外的一个unix socket文件
+<pre class="example">
+$ sudo /usr/bin/docker -d -H unix://home/docker/docker.sock
+</pre>
+</li>
+<li>需要注意的是-d参数的作用是开启"debug模式", 你会在前一个例子中发现大量的[info]
+等,就是开启debug模式的结果
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6">Checking that the Docker daemon is running</h3>
+<div class="outline-text-3" id="text-2-6">
+</div><div id="outline-container-sec-2-6-1" class="outline-4">
+<h4 id="sec-2-6-1">Ubuntu like</h4>
+<div class="outline-text-4" id="text-2-6-1">
+<ul class="org-ul">
+<li>可以使用如下命令来查看docker的状态
+<pre class="example">
+&gt; sudo status docker
+[ OK ]
+</pre>
+</li>
+<li>可以使用start 和stop来启动docker
+<pre class="example">
+&gt; sudo stop docker
+&gt; sudo start docker
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-6-2" class="outline-4">
+<h4 id="sec-2-6-2">RedHat like</h4>
+<div class="outline-text-4" id="text-2-6-2">
+<ul class="org-ul">
+<li>可以使用如下命令开启关闭
+<pre class="example">
+&gt; sudo service docker stop
+&gt; sudo service docker start
+</pre>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Chapter 3: Getting Started with Docker</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">Ensuring Docker is ready</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>首先,我们要确认docker binary存在并且运行良好
+<pre class="example">
+&gt; docker info
+Containers: 2
+Images: 18
+Storage Driver: aufs
+ Root Dir: /mnt/sda1/var/lib/docker/aufs
+ Dirs: 22
+Execution Driver: native-0.2
+Kernel Version: 3.16.4-tinycore64
+Operating System: Boot2Docker 1.3.1 (TCL 5.4); master : 9a31a68 - Fri Oct 31 03:14:34 UTC 2014
+Debug mode (server): true
+Debug mode (client): false
+Fds: 11
+Goroutines: 11
+EventsListeners: 0
+Init Path: /usr/local/bin/docker
+</pre>
+</li>
+<li>docker这个binary在前面的章节是server的作用,在这里已经是client的作用了.就是
+发送request去docker daemon,然后得到反馈以后进行处理
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">Building our first container</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>我们下面使用docker run来创建Docker container(从image变成container),没有image
+下载的过程是因为原来下载过ubuntu image.
+<pre class="example">
+docker run -i -t ubuntu /bin/bash
+root@1cdeb856c365:
+</pre>
+</li>
+<li>分析一下这个命令:
+<ul class="org-ul">
+<li>docker run是命令主体.是创建container(从image开始)
+</li>
+<li>-i和-t两个参数的意思是: -i保证STDIN为container开启. -t保证为container提供
+一个pseudo-tty,也就是给container一个interactive shell
+</li>
+<li>下面ubuntu的意思是我们要使用image ubuntu, 这个image是base image(也就是没
+有x/y这种结构,而是只有y).base image是docker inc提供的.我们这里没有网络操作
+是因为本地有image, 如果没有image,那么会从网络下载
+</li>
+<li>/bin/bash, docker得到这个image以后,会在当前file system里面创建一个新的container
+然后在这个container的/bin/bash命令,也就是
+<pre class="example">
+root@1cdeb856c365:
+</pre>
+</li>
+</ul>
+</li>
+<li>Note: 如果我们需要所有的run的用法可以使用
+<pre class="example">
+docker help run
+
+Usage: docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+
+Run a command in a new container
+
+  -a, --attach=[]            Attach to STDIN, STDOUT or STDERR.
+  --add-host=[]              Add a custom host-to-IP mapping (host:ip)
+  -c, --cpu-shares=0         CPU shares (relative weight)
+  --cap-add=[]               Add Linux capabilities
+  --cap-drop=[]              Drop Linux capabilities
+  --cidfile=""               Write the container ID to the file
+  --cpuset=""                CPUs in which to allow execution (0-3, 0,1)
+  -d, --detach=false         Detached mode: run the container in the background and print the new container ID
+  --device=[]                Add a host device to the container (e.g. --device=/dev/sdc:/dev/xvdc)
+  --dns=[]                   Set custom DNS servers
+  --dns-search=[]            Set custom DNS search domains
+  -e, --env=[]               Set environment variables
+  --entrypoint=""            Overwrite the default ENTRYPOINT of the image
+  --env-file=[]              Read in a line delimited file of environment variables
+  --expose=[]                Expose a port from the container without publishing it to your host
+  -h, --hostname=""          Container host name
+  -i, --interactive=false    Keep STDIN open even if not attached
+  --link=[]                  Add link to another container in the form of name:alias
+  --lxc-conf=[]              (lxc exec-driver only) Add custom lxc options --lxc-conf="lxc.cgroup.cpuset.cpus = 0,1"
+  -m, --memory=""            Memory limit (format: &lt;number&gt;&lt;optional unit&gt;, where unit = b, k, m or g)
+  --name=""                  Assign a name to the container
+  --net="bridge"             Set the Network mode for the container
+                               'bridge': creates a new network stack for the container on the docker bridge
+                               'none': no networking for this container
+                               'container:&lt;name|id&gt;': reuses another container network stack
+                               'host': use the host network stack inside the container.  Note: the host mode gives the container full access to local system services such as D-bus and is therefore considered insecure.
+  -P, --publish-all=false    Publish all exposed ports to the host interfaces
+  -p, --publish=[]           Publish a container's port to the host
+                               format: ip:hostPort:containerPort | ip::containerPort | hostPort:containerPort | containerPort
+                               (use 'docker port' to see the actual mapping)
+  --privileged=false         Give extended privileges to this container
+  --restart=""               Restart policy to apply when a container exits (no, on-failure[:max-retry], always)
+  --rm=false                 Automatically remove the container when it exits (incompatible with -d)
+  --security-opt=[]          Security Options
+  --sig-proxy=true           Proxy received signals to the process (even in non-TTY mode). SIGCHLD, SIGSTOP, and SIGKILL are not proxied.
+  -t, --tty=false            Allocate a pseudo-TTY
+  -u, --user=""              Username or UID
+  -v, --volume=[]            Bind mount a volume (e.g., from the host: -v /host:/container, from Docker: -v /container)
+  --volumes-from=[]          Mount volumes from the specified container(s)
+  -w, --workdir=""           Working directory inside the container
+</pre>
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 
