@@ -1,0 +1,1887 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>mruby</title>
+<!-- 2015-04-03 Fri 09:00 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">mruby</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Chapter 01: Monday: The Object Model</a>
+<ul>
+<li><a href="#sec-1-1">Monday With Bill</a></li>
+<li><a href="#sec-1-2">Open Classes</a>
+<ul>
+<li><a href="#sec-1-2-1">Inside Class Definitions</a></li>
+<li><a href="#sec-1-2-2">The Money Example</a></li>
+<li><a href="#sec-1-2-3">The Problem with Open Classes</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">The Truth About Classes</a>
+<ul>
+<li><a href="#sec-1-3-1">What's in an Object</a></li>
+<li><a href="#sec-1-3-2">Instance Variables</a></li>
+<li><a href="#sec-1-3-3">Methods</a></li>
+<li><a href="#sec-1-3-4">Classes Revisited</a></li>
+<li><a href="#sec-1-3-5">Constants</a></li>
+<li><a href="#sec-1-3-6">The Rake Example</a></li>
+<li><a href="#sec-1-3-7">Objects and Classes Wrap-Up</a></li>
+<li><a href="#sec-1-3-8">Another Learning Opportunity</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">Quiz: Missing Lines</a></li>
+<li><a href="#sec-1-5">What Happens When You Call a Method?</a>
+<ul>
+<li><a href="#sec-1-5-1">Method Lookup</a></li>
+<li><a href="#sec-1-5-2">modules and Lookup</a></li>
+<li><a href="#sec-1-5-3">The Kernel</a></li>
+<li><a href="#sec-1-5-4">Method Execution</a></li>
+<li><a href="#sec-1-5-5">The Top Level</a></li>
+<li><a href="#sec-1-5-6">Class Definitions and self</a></li>
+<li><a href="#sec-1-5-7">Module include</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-2">Chapter 02: Tuesday: Methods</a>
+<ul>
+<li><a href="#sec-2-1">A Duplication Problem</a></li>
+<li><a href="#sec-2-2">Dynamic Methods</a>
+<ul>
+<li><a href="#sec-2-2-1">The Camping Example</a></li>
+<li><a href="#sec-2-2-2">The Test::Unit Example</a></li>
+<li><a href="#sec-2-2-3">Defining Methods Dynamically</a></li>
+<li><a href="#sec-2-2-4">Step 1: Adding Dynamic Dispatches</a></li>
+<li><a href="#sec-2-2-5">Step 2: Generating Methods Dynamically</a></li>
+<li><a href="#sec-2-2-6">Step 3: Sprinkling the Code with Introspection</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-3">method_missing()</a>
+<ul>
+<li><a href="#sec-2-3-1">Overriding method_missing()</a></li>
+<li><a href="#sec-2-3-2">Ghost Methods</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-3">Chapter 03: Wednesday: Blocks</a>
+<ul>
+<li><a href="#sec-3-1">How to Handle Hump Day</a>
+<ul>
+<li><a href="#sec-3-1-1">Back to the Basics</a></li>
+<li><a href="#sec-3-1-2">The Current Block</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-2">Quiz: Ruby#</a></li>
+<li><a href="#sec-3-3">Closures</a>
+<ul>
+<li><a href="#sec-3-3-1">Scope</a></li>
+<li><a href="#sec-3-3-2">Changing Scope</a></li>
+<li><a href="#sec-3-3-3">Scope Gates</a></li>
+<li><a href="#sec-3-3-4">Flattening the Scope</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-4">instance_eval()</a></li>
+<li><a href="#sec-3-5">Callable Objects</a>
+<ul>
+<li><a href="#sec-3-5-1">Proc Objects</a></li>
+<li><a href="#sec-3-5-2">The &amp; Operator</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-6">Writing a Domain-Specific Language</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Chapter 01: Monday: The Object Model</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Monday With Bill</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>你的任务是和Bill一起处理一个内部管理book的系统BookWorm
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Open Classes</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>BookWorm里面有个函数来去除字符里面的'标点'和'特殊字符', 只留下数字字母和空格
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">ruby-in-action/mruby/object-model/alphanumeric.rb</span>
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">to_alphanumeric</span>(s)
+  s.gsub <span style="color: #2aa198;">/[^\w\s]/</span>, <span style="color: #2aa198;">''</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #657b83; font-weight: bold;">require</span> <span style="color: #2aa198;">'test/unit'</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">ToAlphanumericTest</span> &lt; <span style="color: #b58900; font-style: italic;">Test</span>::<span style="color: #b58900; font-style: italic;">Unit</span>::<span style="color: #b58900; font-style: italic;">TestCase</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">test_strips_non_alphanumeric_characters</span>
+    assert_equal <span style="color: #2aa198;">'3 the Magic Number'</span>, to_alphanumeric(<span style="color: #2aa198;">'#3, the *Magic, Number*?'</span>)
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">###########################################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt;                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">ruby alphanumeric.rb                                                    #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">Run options:                                                            #</span>
+<span style="color: #93a1a1;">#                                                                         </span><span style="color: #93a1a1; font-style: italic;">#</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;"># Running tests:                                                        #</span>
+<span style="color: #93a1a1;">#                                                                         </span><span style="color: #93a1a1; font-style: italic;">#</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">.                                                                       #</span>
+<span style="color: #93a1a1;">#                                                                         </span><span style="color: #93a1a1; font-style: italic;">#</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">Finished tests in 0.000577s, 1733.1023 tests/s, 1733.1023 assertions/s. #</span>
+<span style="color: #93a1a1;">#                                                                         </span><span style="color: #93a1a1; font-style: italic;">#</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">1 tests, 1 assertions, 0 failures, 0 errors, 0 skips                    #</span>
+<span style="color: #93a1a1;">###########################################################################</span>
+</pre>
+</div>
+</li>
+<li>从面向对象的角度来讲,函数to_alphanumeric最好是定义成String的成员函数,因为在
+ruby里面,我们是可以直接更改类库的,在其他语言里面可能要重新设计一个AlphanumericString
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">ruby-in-action/mruby/object-model/alphanumeric2.rb</span>
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">String</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">to_alphanumeric</span>
+    gsub <span style="color: #2aa198;">/[^\w\s]/</span>, <span style="color: #2aa198;">''</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #657b83; font-weight: bold;">require</span> <span style="color: #2aa198;">'test/unit'</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">StringExtensionsTest</span> &lt; <span style="color: #b58900; font-style: italic;">Test</span>::<span style="color: #b58900; font-style: italic;">Unit</span>::<span style="color: #b58900; font-style: italic;">TestCase</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">test_strings_non_alphanumeric_characters</span>
+    assert_equal <span style="color: #2aa198;">'3 the Magic Number'</span>, <span style="color: #2aa198;">'#3, the *Magic, Number*?'</span>.to_alphanumeric
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">###########################################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt;                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">$ ruby alphanumeric2.rb                                                 #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">Run options:                                                            #</span>
+<span style="color: #93a1a1;">#                                                                         </span><span style="color: #93a1a1; font-style: italic;">#</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;"># Running tests:                                                        #</span>
+<span style="color: #93a1a1;">#                                                                         </span><span style="color: #93a1a1; font-style: italic;">#</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">.                                                                       #</span>
+<span style="color: #93a1a1;">#                                                                         </span><span style="color: #93a1a1; font-style: italic;">#</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">Finished tests in 0.000345s, 2898.5507 tests/s, 2898.5507 assertions/s. #</span>
+<span style="color: #93a1a1;">#                                                                         </span><span style="color: #93a1a1; font-style: italic;">#</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">1 tests, 1 assertions, 0 failures, 0 errors, 0 skips                    #</span>
+<span style="color: #93a1a1;">###########################################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">Inside Class Definitions</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>在ruby里面"定义class的语句"和"其他类型的语句"没有任何不同!(着意味着在其他
+大部分语言中,定义class的语句是更加"神圣"的)
+</li>
+<li>比如下面, 你可以把你的代码写到class定义里面,并加入循环3次,它们还是正常运行
+<div class="org-src-container">
+
+<pre class="src src-ruby">3.times <span style="color: #859900; font-weight: bold;">do</span>
+  <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">C</span>
+    <span style="color: #657b83; font-weight: bold;">puts</span> <span style="color: #2aa198;">"Hello"</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">Hello                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">Hello                                          #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">Hello                                          #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>正常运行,并"不"意味着你定义了三个名字相同的类, 实际上, 如果某个类前面定义
+过,再次定义只不过意味着"再次开启"
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">D</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">x;</span> <span style="color: #2aa198;">'x'</span>; <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">D</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">y;</span> <span style="color: #2aa198;">'y'</span>; <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+
+obj = <span style="color: #b58900; font-style: italic;">D</span>.new
+<span style="color: #657b83; font-weight: bold;">p</span> obj.x
+<span style="color: #657b83; font-weight: bold;">p</span> obj.y
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">"x"                                            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">"y"                                            #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>从上面的例子可以看出, 在ruby里面, class更像是一个"scope operator"(或者namespace),
+而不像一个"class declaration". 在ruby里面,class的定义更像是为了函数而创造一个空间
+</li>
+<li>在ruby里面,随时打开一个class(甚至包括String或者Array这种类)的技术叫做Open Class
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2">The Money Example</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>我们要设计一个Money类,常规的调用方法如下
+<div class="org-src-container">
+
+<pre class="src src-ruby">cents = 99.99
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">99.99 US Dollars:</span>
+bargain_price = <span style="color: #b58900; font-style: italic;">Money</span>.new(cents)
+</pre>
+</div>
+</li>
+<li>ruby里面嘛,希望帅气一点,直接如下调用
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">100.00 US Dollars:</span>
+standard_price = 100.to_money()
+</pre>
+</div>
+</li>
+<li>Open Class 的使用方法如下
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Numeric</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">to_money</span>
+    <span style="color: #b58900; font-style: italic;">Money</span>.new(<span style="color: #268bd2;">self</span> * 100)
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-3" class="outline-4">
+<h4 id="sec-1-2-3">The Problem with Open Classes</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<ul class="org-ul">
+<li>Open Class最大的问题是你可能会和类原本的设计"撞车",比如原来人家就有replace
+函数,你要是再写一遍,不就重复了么.
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">The Truth About Classes</h3>
+<div class="outline-text-3" id="text-1-3">
+</div><div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">What's in an Object</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>下面是一个Object的例子
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MyClass</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">my_method</span>
+    <span style="color: #268bd2;">@v</span> = 1
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+obj = <span style="color: #b58900; font-style: italic;">MyClass</span>.new
+obj.class                       <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">MyClass</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2">Instance Variables</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li>上面的obj就是Object,它首先包括instance varibles
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MyClass</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">my_method</span>
+    <span style="color: #268bd2;">@v</span> = 1
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+obj = <span style="color: #b58900; font-style: italic;">MyClass</span>.new
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">MUST CALL FIRST, otherwise, no instance_variables</span>
+obj.my_method
+<span style="color: #657b83; font-weight: bold;">p</span> obj.instance_variables        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; [:@v]</span>
+</pre>
+</div>
+</li>
+<li>和Java等静态语言不同,ruby的instance varible和object class之间没有什么联系!
+比如在Java中instance variables就是定义在class里面,却在method外面的变量
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">IronMan</span> {
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">These are all instance variables</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">realName</span>;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">String</span>[] <span style="color: #268bd2;">superPowers</span>;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">age</span>;
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">...</span>
+}
+</pre>
+</div>
+</li>
+<li>同一个类,可能不同的instance里面的instance variable的数目会不一样!!,比如下
+面的代码中, 因为没有调用my_method,所以instance_variables的数目为0
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MyClass</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">my_method</span>
+    <span style="color: #268bd2;">@v</span> = 1
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+obj = <span style="color: #b58900; font-style: italic;">MyClass</span>.new
+<span style="color: #657b83; font-weight: bold;">p</span> obj.instance_variables        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; []</span>
+</pre>
+</div>
+</li>
+<li>你可以把instance variable的名字和数值为hash的key和value.对每一个object来说
+key和value都可以不相同.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3">Methods</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<ul class="org-ul">
+<li>object除了含有instance, 还含有method.你可以通过Object#methods()来获取obj
+所有的method.大部分的class都继承了Object,所以methods()的结果都很长
+</li>
+<li>如果你可以看到obj的内存布局的话,你会发现obj都非常的小. 主要其只存了两个部
+分(当然还有id等次要部分)
+<ul class="org-ul">
+<li>instance variable
+</li>
+<li>指向其class的reference
+</li>
+</ul>
+</li>
+<li>而obj的函数则是存在class里面的,因为
+<pre class="example">
+Objects that share the same class also share the same methods, so the
+methods must be stored in the class, not the object
+</pre>
+</li>
+<li>由于instance和class错综复杂的关系,所以在命名上面有很些要注意的地方:
+<ul class="org-ul">
+<li>obj has a "method" called my_method()
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #b58900; font-style: italic;">String</span>.methods == <span style="color: #2aa198;">"abc"</span>.methods <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; false</span>
+</pre>
+</div>
+</li>
+<li>MyClass has a "instance method" called my_method()
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #b58900; font-style: italic;">String</span>.instance_methods == <span style="color: #2aa198;">"abc"</span>.methods <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; true</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>正是由于object的method是其class保存的,而object的instance variable保存的,
+所以不同object的instance variable不同,但是method相同
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-4" class="outline-4">
+<h4 id="sec-1-3-4">Classes Revisited</h4>
+<div class="outline-text-4" id="text-1-3-4">
+<ul class="org-ul">
+<li>ruby中一个重要的概念就是:
+<pre class="example">
+Classes themselves are nothing but objects
+</pre>
+</li>
+<li>正是因为class也是一种object,所以对于object适用的特性,class也适用, class也有自己的
+类型:Class
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #2aa198;">"hello"</span>.class                   <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; String</span>
+<span style="color: #b58900; font-style: italic;">String</span>.class                    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; Class</span>
+</pre>
+</div>
+</li>
+<li>class也肯定有method,因为class的类型是Class,那么就有
+<pre class="example">
+The methods of a class are the instance method of Class
+</pre>
+<p>
+Class.instance_methods(false)   # =&gt; [:allocate, :new, :superclass]
+</p>
+<p>
+String.superclass               # =&gt; Object
+Object.superclass               # =&gt; BasicObject
+BasicObject.superclass          # =&gt; nil
+</p>
+<p>
+Class.superclass                # =&gt; Module
+Module.superclass               # =&gt; Object
+</p>
+</li>
+<li>最后来看一个例子
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MyClass</span>; <span style="color: #859900; font-weight: bold;">end</span>
+obj1 = <span style="color: #b58900; font-style: italic;">MyClass</span>.new
+obj2 = <span style="color: #b58900; font-style: italic;">MyClass</span>.new
+</pre>
+</div>
+</li>
+<li>从上面的例子我们可以看到:obj1和obj2都是reference,这个和java中是一样的, 和
+java中不一样的是:MyClass也是一个reference!只不过它是"constant"罢了(不能更改)
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MyClass</span>; <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">is equals to following (with making MyClass constant)</span>
+<span style="color: #b58900; font-style: italic;">MyClass</span> = <span style="color: #b58900; font-style: italic;">Class</span>.new
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-5" class="outline-4">
+<h4 id="sec-1-3-5">Constants</h4>
+<div class="outline-text-4" id="text-1-3-5">
+<ul class="org-ul">
+<li>所有以答谢字母开头的(比如Class或者Module)reference,都是constant
+</li>
+<li>constant有自己特殊的和文件系统紧密相连的关系:
+<ul class="org-ul">
+<li>每个class或者module都是文件夹
+</li>
+<li>每个其他常规Constant都是其中的文件
+</li>
+</ul>
+</li>
+<li>比如下面的例子
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">module</span> <span style="color: #b58900; font-style: italic;">MyModule</span>
+  <span style="color: #b58900; font-style: italic;">MyConstant</span> = <span style="color: #2aa198;">'Outer constant'</span>
+
+  <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MyClass</span>
+    <span style="color: #b58900; font-style: italic;">MyConstant</span> = <span style="color: #2aa198;">'Inner constant'</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>它的文件系统图就是
+<pre class="example">
+MyModule
+   |______MyClass
+   |         |_____MyConstant
+   |______MyConstant
+</pre>
+</li>
+<li>然后你就可以MyModule::MyClass::MyConstant这样来使用ruby中的constant了,正是
+因为这种联系,所以ruby代码中,都是靠module和class来组织constant.就像操作系统使
+用文件夹来组织文件.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-6" class="outline-4">
+<h4 id="sec-1-3-6">The Rake Example</h4>
+<div class="outline-text-4" id="text-1-3-6">
+<ul class="org-ul">
+<li>Rake是ruby里面的makefile, 早期的时候rake没有注意到命名冲突的问题,所以定义
+class的时候定义的名字太容易clash,比如Task和FileTask
+</li>
+<li>所以最近版本的Rake就把这些class换到了Rake的module里面
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">gems/rake-0.8.7/lib/rake.rb</span>
+<span style="color: #859900; font-weight: bold;">module</span> <span style="color: #b58900; font-style: italic;">Rake</span>
+  <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Task</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">...</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>所以class Task就变成了class Rake::Task.
+</li>
+<li>Rake为了老的Rake build file,Rake提供了一个command-line option叫做classic-namespace,
+这个option导入new, safer的constant name赋给了old, unsafe constant
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">gems/rake-0.8.7/lib/rake/classic_namespace.rb</span>
+<span style="color: #b58900; font-style: italic;">Task</span> = <span style="color: #b58900; font-style: italic;">Rake</span>::<span style="color: #b58900; font-style: italic;">Task</span>
+<span style="color: #b58900; font-style: italic;">FileTask</span> = <span style="color: #b58900; font-style: italic;">Rake</span>::<span style="color: #b58900; font-style: italic;">FileTask</span>
+<span style="color: #b58900; font-style: italic;">FileCreationTask</span> = <span style="color: #b58900; font-style: italic;">Rake</span>::<span style="color: #b58900; font-style: italic;">FileCreationTask</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-7" class="outline-4">
+<h4 id="sec-1-3-7">Objects and Classes Wrap-Up</h4>
+<div class="outline-text-4" id="text-1-3-7">
+<ul class="org-ul">
+<li>什么是object?
+<pre class="example">
+object只不过是一些变量的集合,另外有一个link指向class.
+object的method不是生存在object里面,而是存在class里面
+object的method也叫class的instance method
+</pre>
+</li>
+<li>什么是class
+<pre class="example">
+class 是一种特殊的object(an instance of Class), 所以它也有很多的变量,同时也有指向Class的link
+class 的特殊性表现在它另外有许多的instance methods(为自己的instance使用), 同时还有link指向其superclass
+Class的superclass是Module, 所以class也是一个module
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-8" class="outline-4">
+<h4 id="sec-1-3-8">Another Learning Opportunity</h4>
+<div class="outline-text-4" id="text-1-3-8">
+<ul class="org-ul">
+<li>原来代码中有类似如下的命名方法
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">TEXT</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">....</span>
+</pre>
+</div>
+</li>
+<li>命名不规范,然后你改成了如下
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Text</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">....</span>
+</pre>
+</div>
+</li>
+<li>但是编译器却开始抱怨
+<pre class="example">
+TypeError: Text is not a class
+</pre>
+</li>
+<li>这是因为源代码中有如下的定义
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">module</span> <span style="color: #b58900; font-style: italic;">Text</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">...</span>
+</pre>
+</div>
+</li>
+<li>修改的办法是新建一个module(也就是一个新的域)
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">module</span> <span style="color: #b58900; font-style: italic;">Bookworm</span>
+  <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Text</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">...</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Quiz: Missing Lines</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>来看下面一个例子,深入了解class
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MyClass</span>; <span style="color: #859900; font-weight: bold;">end</span>
+obj1 = <span style="color: #b58900; font-style: italic;">MyClass</span>.new
+obj2 = <span style="color: #b58900; font-style: italic;">MyClass</span>.new
+
+<span style="color: #657b83; font-weight: bold;">puts</span> <span style="color: #2aa198;">"The class of Class is: </span><span style="color: #268bd2;">#{Class.class}</span><span style="color: #2aa198;">"</span>
+<span style="color: #657b83; font-weight: bold;">puts</span> <span style="color: #2aa198;">"The class of Object is: </span><span style="color: #268bd2;">#{Object.class}</span><span style="color: #2aa198;">"</span>
+<span style="color: #657b83; font-weight: bold;">puts</span> <span style="color: #2aa198;">"The superclass of Module is: </span><span style="color: #268bd2;">#{Module.superclass}</span><span style="color: #2aa198;">"</span>
+<span style="color: #657b83; font-weight: bold;">puts</span> <span style="color: #2aa198;">"The super superclass of Module is: </span><span style="color: #268bd2;">#{Module.superclass.superclass}</span><span style="color: #2aa198;">"</span>
+<span style="color: #657b83; font-weight: bold;">puts</span> <span style="color: #2aa198;">"The super super superclass of Module is: </span><span style="color: #268bd2;">#{"nil" unless Module.superclass.superclass.superclass}</span><span style="color: #2aa198;">"</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">The class of Class is: Class                   #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">The class of Object is: Class                  #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">The superclass of Module is: Object            #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">The super superclass of Module is: BasicObject #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">The super super superclass of Module is: nil   #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">What Happens When You Call a Method?</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>每当你调用method的时候,ruby都要做两件事情:
+<ul class="org-ul">
+<li>找到这个method,这叫做method lookup
+</li>
+<li>执行这个method,ruby需要一个self
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1">Method Lookup</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<ul class="org-ul">
+<li>最简单的method lookup当然就是去object里面的class link找到对应的class, 然后
+method就是class的instance method之一
+</li>
+<li>复杂的情况就涉及到两个概念receiver和ancestor chain:
+<ul class="org-ul">
+<li>所谓receiver就是调用函数(并想receive函数结果的那个物质!!), 比如my_string.reverse()
+里面my_string就是receiver
+</li>
+<li>所谓ancestor chain就是从子类通过superclass找到父类,然后调用父类的superclass
+找到父类的父类.
+</li>
+<li>了解这两个概念后,就知道复杂的情况下: receiver的父类没有我们要的method,然
+后就要不停的ancestor chain直到找到最后的结果
+</li>
+</ul>
+</li>
+<li>比如下面这个例子,寻找my_method()的过程就要ancestor chain到MyClass才能找到,
+具体chain的过程可以使用ancestors来查看!
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MyClass</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">my_method;</span> <span style="color: #2aa198;">'my_method()'</span>; <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MySubClass</span> &lt; <span style="color: #b58900; font-style: italic;">MyClass</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+obj = <span style="color: #b58900; font-style: italic;">MySubClass</span>.new
+obj.my_method()
+
+<span style="color: #b58900; font-style: italic;">MySubClass</span>.ancestors            <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; [MySubClass, MyClass, Object, Kernel, BasicObject]</span>
+</pre>
+</div>
+</li>
+<li>我们会惊奇的发现Kernel, 这个不是class而是module,也就是说虽然继承序列里面是
+不包括module的,但是ancestor chain的序列里面是有module的
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5-2" class="outline-4">
+<h4 id="sec-1-5-2">modules and Lookup</h4>
+<div class="outline-text-4" id="text-1-5-2">
+<ul class="org-ul">
+<li>从下面例子中我们就可以看到ruby处理module的方法:class C include了Module M,
+那么ruby在解析的时候,把Module M包裹起来做成一个匿名类,然后把匿名类作为include
+它的class的父类
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">module</span> <span style="color: #b58900; font-style: italic;">M</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">my_method</span>
+    <span style="color: #2aa198;">'M#my_method()'</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">C</span>
+  <span style="color: #657b83; font-weight: bold;">include</span> <span style="color: #b58900; font-style: italic;">M</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">D</span> &lt; <span style="color: #b58900; font-style: italic;">C</span>; <span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #b58900; font-style: italic;">D</span>.new.my_method()               <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; "M#my_method()"</span>
+<span style="color: #b58900; font-style: italic;">D</span>.ancestors                     <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; [D, C, M, Object, Kernel, BasicObject]</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5-3" class="outline-4">
+<h4 id="sec-1-5-3">The Kernel</h4>
+<div class="outline-text-4" id="text-1-5-3">
+<ul class="org-ul">
+<li>我们前面说过kernel是一个module, ruby之所以要在Object和BasicObject之间"硬生
+生"的插入一个Kernel module,是为了实现这样一些函数
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #b58900; font-style: italic;">Kernel</span>.private_instance_methods.grep(<span style="color: #2aa198;">/^p/</span>) <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; [:printf, :print, :putc, :puts, :p, :proc]</span>
+</pre>
+</div>
+</li>
+<li>上面例子中的print, puts, p, 我们都很熟悉,就是"在任何地方都可以使用的函数",
+为什么这些函数能够任意使用呢?看下面的例子
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">module</span> <span style="color: #b58900; font-style: italic;">M</span>
+  <span style="color: #657b83; font-weight: bold;">private</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">hello</span>
+    <span style="color: #2aa198;">"hello in module"</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #b58900; font-style: italic;">M</span>.private_instance_methods      <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; [:hello]</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">C</span>
+  <span style="color: #657b83; font-weight: bold;">include</span> <span style="color: #b58900; font-style: italic;">M</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">hello_c</span>
+    hello
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+obj = <span style="color: #b58900; font-style: italic;">C</span>.new
+obj.hello_c                     <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; "hello in module"</span>
+</pre>
+</div>
+</li>
+<li>因为定义了hello在一个"比C还大的module M"里面,所以在C里面hello就畅通无阻的
+使用了. Module是一个自动include到所有代码的module(#TODO),自然能在我们所有的代
+码里面直接使用!
+</li>
+<li>另外一个添加函数到Kernel来达到"哪里都可以直接调用这个函数"目的的做法是gem函数
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">gems/rubygems-update-1.3.3/lib/rubygems.rb</span>
+<span style="color: #859900; font-weight: bold;">module</span> <span style="color: #b58900; font-style: italic;">Kernel</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">gem</span>(gem_name, *version_requirements)
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">...</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5-4" class="outline-4">
+<h4 id="sec-1-5-4">Method Execution</h4>
+<div class="outline-text-4" id="text-1-5-4">
+<ul class="org-ul">
+<li>前面说完了如何找到这个函数，下面该开始叙述如何执行
+</li>
+<li>下面有一段代码
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">my_method</span>
+  temp = <span style="color: #268bd2;">@x</span> + 1
+  my_other_method(temp)
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>上面这段代码再找到函数位置后,在执行的时候,还需要解决如下两个问题:
+<ol class="org-ol">
+<li>@x 这个变量是属于谁的
+</li>
+<li>my_other_method是谁的method
+</li>
+</ol>
+</li>
+<li>这两个东西的所有者都是一个object 那就是self:
+<pre class="example">
+Every line of Ruby code is executed inside an object- the so-called current
+object. you can access current object with the self keyword
+</pre>
+</li>
+<li>一旦你调用了一个函数,那么self就被设置为receiver, 知道你"明确的"使用其他object
+来调用它自己的函数, 那么self就赋给那个object了
+</li>
+<li>下面是一个调用时候的例子
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MyClass</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">testing_self</span>
+    <span style="color: #268bd2;">@var</span> = 10
+    my_method()
+    <span style="color: #268bd2;">self</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">my_method</span>
+    <span style="color: #268bd2;">@var</span> = <span style="color: #268bd2;">@var</span> + 1
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+obj = <span style="color: #b58900; font-style: italic;">MyClass</span>.new
+obj.testing_self                <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; #&lt;MyClass:0x26172f0 @var=11&gt;</span>
+</pre>
+</div>
+</li>
+<li>obj开始被初始化,然后当obj调用testing_self的时候, self就成了obj, 在testing_self
+内部调用my_method的时候,self还是obj. 所以就有@var的值为11.然后我们在testing_self
+最后返回了self, 我们可以看到这个时候的self是一个MyClass的对象, 其instance
+variable @var结果为11
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5-5" class="outline-4">
+<h4 id="sec-1-5-5">The Top Level</h4>
+<div class="outline-text-4" id="text-1-5-5">
+<ul class="org-ul">
+<li>前面我们讲到了,每次我们调用method的时候,self就会变成当前的object.但是当你
+什么都不调用的时候,self是什么呢?在irb可以做测验
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #268bd2;">self</span>                            <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; main</span>
+<span style="color: #268bd2;">self</span>.class                      <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; Object</span>
+</pre>
+</div>
+</li>
+<li>也就是说,一旦你开启一个Ruby程序, 你就进入了一个叫做main的object, 这个是ruby
+interpreter为你创建的.
+</li>
+<li>这个main object也叫做top-level context, 是因为你的函数返回到"最顶层"就是这
+个object了
+</li>
+<li>ruby里面的main object是一个对象,这个和Java以及C里面的main函数是没有什么关系的
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5-6" class="outline-4">
+<h4 id="sec-1-5-6">Class Definitions and self</h4>
+<div class="outline-text-4" id="text-1-5-6">
+<ul class="org-ul">
+<li>self在公共空间"不调用函数的时候"是被赋予了main object, 那么在某个class或者
+module里面"不调用函数的时候"是被赋予了哪个object呢? 看irb
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MyClass</span>
+  <span style="color: #268bd2;">self</span>                          <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; MyClass</span>
+  <span style="color: #268bd2;">self</span>.class                    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; Class</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>可以看到,指向的是Myclass这个"object"(是Class类的object)
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5-7" class="outline-4">
+<h4 id="sec-1-5-7">Module include</h4>
+<div class="outline-text-4" id="text-1-5-7">
+<ul class="org-ul">
+<li>每当在class里面include module的时候,这个module就插入到当前class的ancestor
+里面,位置是class之上(紧挨着), 再插入再紧挨着class, 所以插入越早,chain里面
+的位置越高
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">module</span> <span style="color: #b58900; font-style: italic;">Printable</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">module</span> <span style="color: #b58900; font-style: italic;">Document</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Book</span>
+  <span style="color: #657b83; font-weight: bold;">include</span> <span style="color: #b58900; font-style: italic;">Printable</span>
+  <span style="color: #657b83; font-weight: bold;">include</span> <span style="color: #b58900; font-style: italic;">Document</span>
+
+  ancestors                     <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; [Book, Document, Printable, Object, Kernel, BasicObject]</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Chapter 02: Tuesday: Methods</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">A Duplication Problem</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>现在有一个问题要解决, 一个计算机的每个部分一旦超过99美元,就会有提示,整个系
+统原来的实现是:
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Computer</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>(computer_id, data_source)
+    <span style="color: #268bd2;">@id</span> = computer_id
+    <span style="color: #268bd2;">@data_source</span> = data_source
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">mouse</span>
+    info = <span style="color: #268bd2;">@data_source</span>.get_mouse_info(<span style="color: #268bd2;">@id</span>)
+    price = <span style="color: #268bd2;">@data_source</span>.get_mouse_price(<span style="color: #268bd2;">@id</span>)
+    result = <span style="color: #2aa198;">"Mouse: </span><span style="color: #268bd2;">#{info}</span><span style="color: #2aa198;"> ($</span><span style="color: #268bd2;">#{price}</span><span style="color: #2aa198;">)"</span>
+    <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"*</span><span style="color: #268bd2;">#{result}</span><span style="color: #2aa198;">"</span> <span style="color: #859900; font-weight: bold;">if</span> price &gt;= 100
+    result
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">cpu</span>
+    info = <span style="color: #268bd2;">@data_source</span>.get_cpu_info(<span style="color: #268bd2;">@id</span>)
+    price = <span style="color: #268bd2;">@data_source</span>.get_cpu_price(<span style="color: #268bd2;">@id</span>)
+    result = <span style="color: #2aa198;">"Cpu: </span><span style="color: #268bd2;">#{info}</span><span style="color: #2aa198;"> ($</span><span style="color: #268bd2;">#{price}</span><span style="color: #2aa198;">)"</span>
+    <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"*</span><span style="color: #268bd2;">#{result}</span><span style="color: #2aa198;">"</span> <span style="color: #859900; font-weight: bold;">if</span> price &gt;= 100
+    result
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">keyboard</span>
+    info = <span style="color: #268bd2;">@data_source</span>.get_keyboard_info(<span style="color: #268bd2;">@id</span>)
+    price = <span style="color: #268bd2;">@data_source</span>.get_keyboard_price(<span style="color: #268bd2;">@id</span>)
+    result = <span style="color: #2aa198;">"Keyboard: </span><span style="color: #268bd2;">#{info}</span><span style="color: #2aa198;"> ($</span><span style="color: #268bd2;">#{price}</span><span style="color: #2aa198;">)"</span>
+    <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"*</span><span style="color: #268bd2;">#{result}</span><span style="color: #2aa198;">"</span> <span style="color: #859900; font-weight: bold;">if</span> price &gt;= 100
+    result
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">Dynamic Methods</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>上面的例子我们可以看到,大部分函数的内容其实基本一致,这就要求我们不要重复这
+么多. (代码要符合DRY原则).
+</li>
+<li>再ruby中做到这一点的方法是dynamic method
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MyClass</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">my_method</span>(my_arg)
+    my_arg * 2
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+obj = <span style="color: #b58900; font-style: italic;">MyClass</span>.new
+obj.my_method(3)                <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; 6</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">Same with following way</span>
+obj.send(<span style="color: #268bd2; font-weight: bold;">:my_method</span>, 3)         <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; 6</span>
+</pre>
+</div>
+</li>
+<li>可能你会问使用send有什么好处. 好处是:知道最后一刻你才决定调用哪个函数.这样
+可以最大限度的把函数变成"变量"一样,在循环等处使用.下面是几个使用的例子
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-2-2-1" class="outline-4">
+<h4 id="sec-2-2-1">The Camping Example</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<ul class="org-ul">
+<li>camping是一个框架, 它希望在runtime的时候从一配置文件中读取一些参数,然后给
+这些参数赋值,比如:
+<div class="org-src-container">
+
+<pre class="src src-ruby">admin : <span style="color: #b58900; font-style: italic;">Bill</span>
+title : <span style="color: #b58900; font-style: italic;">Rubyland</span>
+topic : <span style="color: #b58900; font-style: italic;">Ruby</span> <span style="color: #859900; font-weight: bold;">and</span> more
+</pre>
+</div>
+</li>
+<li>它就使用了dynamic method, 每次读取一个配置文件的item, 然后把item的key作为
+函数名, item的value作为参数
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">Load configuration if any</span>
+<span style="color: #859900; font-weight: bold;">if</span> conf.rc <span style="color: #859900; font-weight: bold;">and</span> <span style="color: #b58900; font-style: italic;">File</span>.exists?(conf.rc)
+  <span style="color: #b58900; font-style: italic;">YAML</span>.load_file(conf.rc).each <span style="color: #859900; font-weight: bold;">do</span> |k, v|
+    conf.send(<span style="color: #2aa198;">"</span><span style="color: #268bd2;">#{k}</span><span style="color: #2aa198;">="</span>, v)       <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">in detail, it will be something like conf.admin = 'Bill'</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>需要值得注意的是,send函数具有超强的能力,甚至可以调用private函数, 新增的
+public_send是一个尊重send隐私的新send函数
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2-2" class="outline-4">
+<h4 id="sec-2-2-2">The Test::Unit Example</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<ul class="org-ul">
+<li>unit test 框架也是一个使用send的例子, unit test框架会寻找代码中,以test
+开头的函数名, 把他们存在一个数组里面,然后开始从头调用这个数组里面的函数
+<div class="org-src-container">
+
+<pre class="src src-ruby">methods_names = public_instance_methods(<span style="color: #268bd2;">true</span>)
+tests = methods_names.delete_if {|method_name| method_name !~ <span style="color: #2aa198;">/^test./</span>}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2-3" class="outline-4">
+<h4 id="sec-2-2-3">Defining Methods Dynamically</h4>
+<div class="outline-text-4" id="text-2-2-3">
+<ul class="org-ul">
+<li>你还可以使用defined_method来定义一个函数
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MyClass</span>
+  <span style="color: #657b83; font-weight: bold;">define_method</span> <span style="color: #268bd2; font-weight: bold;">:my_method</span> <span style="color: #859900; font-weight: bold;">do</span> | my_arg|
+    my_arg * 3
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+obj = <span style="color: #b58900; font-style: italic;">MyClass</span>.new
+obj.my_method(2)                <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; 6</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2-4" class="outline-4">
+<h4 id="sec-2-2-4">Step 1: Adding Dynamic Dispatches</h4>
+<div class="outline-text-4" id="text-2-2-4">
+<ul class="org-ul">
+<li>我们先使用send来简化前面的例子
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Computer</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>(computer_id, data_source)
+    <span style="color: #268bd2;">@id</span> = computer_id
+    <span style="color: #268bd2;">@data_source</span> = data_source
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">mouse</span>
+    component <span style="color: #268bd2; font-weight: bold;">:mouse</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">cpu</span>
+    component <span style="color: #268bd2; font-weight: bold;">:cpu</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">keyboard</span>
+    component <span style="color: #268bd2; font-weight: bold;">:keyboard</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">component</span>(name)
+    info = <span style="color: #268bd2;">@data_source</span>.send <span style="color: #2aa198;">"get_</span><span style="color: #268bd2;">#{name}</span><span style="color: #2aa198;">_info"</span>, <span style="color: #268bd2;">@id</span>
+    price = <span style="color: #268bd2;">@data_source</span>.send <span style="color: #2aa198;">"get_</span><span style="color: #268bd2;">#{name}</span><span style="color: #2aa198;">_price"</span>, <span style="color: #268bd2;">@id</span>
+    result = <span style="color: #2aa198;">"</span><span style="color: #268bd2;">#{name.to_s.capitalize}</span><span style="color: #2aa198;">: </span><span style="color: #268bd2;">#{info}</span><span style="color: #2aa198;"> ($</span><span style="color: #268bd2;">#{price}</span><span style="color: #2aa198;">)"</span>
+    <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"* </span><span style="color: #268bd2;">#{result}</span><span style="color: #2aa198;">"</span> <span style="color: #859900; font-weight: bold;">if</span> price &gt;= 100
+    result
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>以mouse()为例,我们先后调用的顺序是:
+<ol class="org-ol">
+<li>mouse()
+</li>
+<li>component()
+</li>
+<li>DS#get_mouse_info()
+</li>
+<li>DS#get_mouse_price()
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2-5" class="outline-4">
+<h4 id="sec-2-2-5">Step 2: Generating Methods Dynamically</h4>
+<div class="outline-text-4" id="text-2-2-5">
+<ul class="org-ul">
+<li>上面的例子已经很简约了,但是还是有重复(几个函数), 可以使用defind_method()来进一步简化
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Computer</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>(computer_id, data_source)
+    <span style="color: #268bd2;">@id</span> = computer_id
+    <span style="color: #268bd2;">@data_source</span> = data_source
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">self</span>.<span style="color: #268bd2;">define_component</span>(name)
+    <span style="color: #657b83; font-weight: bold;">define_method</span>(name) {
+      info = <span style="color: #268bd2;">@data_source</span>.send <span style="color: #2aa198;">"get_</span><span style="color: #268bd2;">#{name}</span><span style="color: #2aa198;">_info"</span>, <span style="color: #268bd2;">@id</span>
+      price = <span style="color: #268bd2;">@data_source</span>.send <span style="color: #2aa198;">"get_</span><span style="color: #268bd2;">#{name}</span><span style="color: #2aa198;">_price"</span>, <span style="color: #268bd2;">@id</span>
+      result = <span style="color: #2aa198;">"</span><span style="color: #268bd2;">#{name.to_s.capitalize}</span><span style="color: #2aa198;">: </span><span style="color: #268bd2;">#{info}</span><span style="color: #2aa198;"> ($</span><span style="color: #268bd2;">#{price}</span><span style="color: #2aa198;">)"</span>
+      <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"*</span><span style="color: #268bd2;">#{result}</span><span style="color: #2aa198;">"</span> <span style="color: #859900; font-weight: bold;">if</span> price &gt;= 100
+      result
+    }
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  define_component <span style="color: #268bd2; font-weight: bold;">:mouse</span>
+  define_component <span style="color: #268bd2; font-weight: bold;">:cpu</span>
+  define_component <span style="color: #268bd2; font-weight: bold;">:keyboard</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2-6" class="outline-4">
+<h4 id="sec-2-2-6">Step 3: Sprinkling the Code with Introspection</h4>
+<div class="outline-text-4" id="text-2-2-6">
+<ul class="org-ul">
+<li>上面的代码已经基本没有重复了,除了最后几行. 即便是最后几行, ruby也是可以把它给去掉的!
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Computer</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>(computer_id, data_source)
+    <span style="color: #268bd2;">@id</span> = computer_id
+    <span style="color: #268bd2;">@data_source</span> = data_source
+    data_source.methods.grep(<span style="color: #2aa198;">/^get_(.*)_info$/</span>) { <span style="color: #b58900; font-style: italic;">Computer</span>.define_component <span style="color: #657b83; font-weight: bold;">$1</span> }
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">self</span>.<span style="color: #268bd2;">define_component</span>(name)
+    <span style="color: #657b83; font-weight: bold;">define_method</span>(name) {
+      info = <span style="color: #268bd2;">@data_source</span>.send <span style="color: #2aa198;">"get_</span><span style="color: #268bd2;">#{name}</span><span style="color: #2aa198;">_info"</span>, <span style="color: #268bd2;">@id</span>
+      price = <span style="color: #268bd2;">@data_source</span>.send <span style="color: #2aa198;">"get_</span><span style="color: #268bd2;">#{name}</span><span style="color: #2aa198;">_price"</span>, <span style="color: #268bd2;">@id</span>
+      result = <span style="color: #2aa198;">"</span><span style="color: #268bd2;">#{name.to_s.capitalize}</span><span style="color: #2aa198;">: </span><span style="color: #268bd2;">#{info}</span><span style="color: #2aa198;"> ($</span><span style="color: #268bd2;">#{price}</span><span style="color: #2aa198;">)"</span>
+      <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"*</span><span style="color: #268bd2;">#{result}</span><span style="color: #2aa198;">"</span> <span style="color: #859900; font-weight: bold;">if</span> price &gt;= 100
+      result
+    }
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>这段代码较为难以理解,重点在initialize
+<ul class="org-ul">
+<li>如果你把一个block传给了String#grep(), 这个block就会在"每次grep配对成功的时候"执行一次
+</li>
+<li>grep的参数里面如果有括号,那么匹配的结果,会被存在$1里面传递给block,也就是说.
+<ol class="org-ol">
+<li>data_source有get_cpu_info()这个函数,那么就会匹配cpu,然后就会给define_component
+          一个参数"cpu".
+</li>
+<li>data_source有get_mouse_info()这个函数,那么就会匹配mouse,然后就会给define_component
+          一个参数"mouse".
+</li>
+<li>如此类推&#x2026;.
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>好了,我们看到,我们没有写任何一行冗余的代码,而且更难能可贵的是
+<pre class="example">
+        一旦我们引入了一个get_XXX_info函数,我们自动就拥有了XXX函数来显示其价格
+</pre>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">method_missing()</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li>上面的解决方案已经比较完美,但是ruby总有多种方法做一件事情,于是就有了method_missing()
+</li>
+<li>先来看一个例子,如果你调用一个self不存在的函数,那么会抛出一个错误
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Lawyer</span>; <span style="color: #859900; font-weight: bold;">end</span>
+
+nick = <span style="color: #b58900; font-style: italic;">Lawyer</span>.new
+nick.talk_simple
+
+<span style="color: #93a1a1;">################################################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt;                               #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">NoMethodError: undefined method `talk_simple' for #&lt;Lawyer:0x007fa25a8812c0&gt; #</span>
+<span style="color: #93a1a1;">################################################################################</span>
+</pre>
+</div>
+</li>
+<li>那这句话是编译器报的么?其实不是.是Ruby里面的method_missing()函数告诉你的.这个函数
+存在于module Kernel(我们前面说过,函数调用的过程就是一个'向右移动,然后向上寻
+找的过程', 而Kernel正是基本所有类的ancestor)
+</li>
+<li>你可以通过自己调用一下method_missing来体验一把(虽然method_missing是一个private
+     函数,但是我们可以使用send)
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Lawyer</span>; <span style="color: #859900; font-weight: bold;">end</span>
+
+nick = <span style="color: #b58900; font-style: italic;">Lawyer</span>.new
+nick.send <span style="color: #268bd2; font-weight: bold;">:method_missing</span>, <span style="color: #268bd2; font-weight: bold;">:my_method</span>
+
+<span style="color: #93a1a1;">############################################################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt;                                           #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">NameError: undefined local variable or method `my_method' for #&lt;Lawyer:0x007fa25a8c2d60&gt; #</span>
+<span style="color: #93a1a1;">############################################################################################</span>
+</pre>
+</div>
+</li>
+<li>这里我们也可以看到method_missing就像是object的"遗书办公室",所有不知其名的函
+数都会在这里被"终结"
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-2-3-1" class="outline-4">
+<h4 id="sec-2-3-1">Overriding method_missing()</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<ul class="org-ul">
+<li>你可以自己重载method_missing来达到"显示重要出错信息"的作用
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Lawyer</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">method_missing</span>(method, *args)
+    <span style="color: #657b83; font-weight: bold;">puts</span> <span style="color: #2aa198;">"You called </span><span style="color: #268bd2;">#{method}</span><span style="color: #2aa198;"> (</span><span style="color: #268bd2;">#{args.join(', ')}</span><span style="color: #2aa198;">)"</span>
+    <span style="color: #657b83; font-weight: bold;">puts</span> <span style="color: #2aa198;">"(You also passed it a block)"</span> <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #657b83; font-weight: bold;">block_given?</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+bob = <span style="color: #b58900; font-style: italic;">Lawyer</span>.new
+bob.talk_simple(<span style="color: #2aa198;">'a'</span>, <span style="color: #2aa198;">'b'</span>) <span style="color: #859900; font-weight: bold;">do</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">a block</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">You called talk_simple (a, b)                  #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">(You also passed it a block)                   #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-3-2" class="outline-4">
+<h4 id="sec-2-3-2">Ghost Methods</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<ul class="org-ul">
+<li>如果你要定义很多很多相似的函数,那么你不用一个一个的去定义,而是"不去定义",
+他们找不到定义,自然就会跑到method_missing来"告状"
+</li>
+<li>这种让用户看起来很正常,但是在receiver端确实没有相应的method实体的函数叫做
+ghost method. 下面就是一个ghost method的例子
+</li>
+<li>首先我们要了解一个库叫ruport,是用来做报告的
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #657b83; font-weight: bold;">require</span> <span style="color: #2aa198;">'ruport'</span>
+
+table = <span style="color: #b58900; font-style: italic;">Ruport</span>::<span style="color: #b58900; font-style: italic;">Data</span>::<span style="color: #b58900; font-style: italic;">Table</span>.new <span style="color: #268bd2; font-weight: bold;">:column_names</span> =&gt; [<span style="color: #2aa198;">"country"</span>, <span style="color: #2aa198;">"wine"</span>],
+<span style="color: #268bd2; font-weight: bold;">:data</span> =&gt; [[<span style="color: #2aa198;">"France"</span>, <span style="color: #2aa198;">"Bordeaux"</span>],
+          [<span style="color: #2aa198;">"Italy"</span>, <span style="color: #2aa198;">"Chianti"</span>],
+          [<span style="color: #2aa198;">"France"</span>, <span style="color: #2aa198;">"Chablis"</span>]]
+<span style="color: #657b83; font-weight: bold;">puts</span> table.to_text
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">+--------------------+                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">| country |   wine   |                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">+--------------------+                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">| France  | Bordeaux |                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">| Italy   | Chianti  |                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">| France  | Chablis  |                         #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">+--------------------+                         #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>在初始化完成后,我们可能要来做一些定制:比如下面,就是找到country列为"France"
+那些列,然后把结果列出来.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #657b83; font-weight: bold;">require</span> <span style="color: #2aa198;">'ruport'</span>
+
+table = <span style="color: #b58900; font-style: italic;">Ruport</span>::<span style="color: #b58900; font-style: italic;">Data</span>::<span style="color: #b58900; font-style: italic;">Table</span>.new <span style="color: #268bd2; font-weight: bold;">:column_names</span> =&gt; [<span style="color: #2aa198;">"country"</span>, <span style="color: #2aa198;">"wine"</span>],
+<span style="color: #268bd2; font-weight: bold;">:data</span> =&gt; [[<span style="color: #2aa198;">"France"</span>, <span style="color: #2aa198;">"Bordeaux"</span>],
+          [<span style="color: #2aa198;">"Italy"</span>, <span style="color: #2aa198;">"Chianti"</span>],
+          [<span style="color: #2aa198;">"France"</span>, <span style="color: #2aa198;">"Chablis"</span>]]
+
+found = table.rows_with_country(<span style="color: #2aa198;">"France"</span>)
+found.each <span style="color: #859900; font-weight: bold;">do</span> |row|
+  <span style="color: #657b83; font-weight: bold;">puts</span> row.to_csv
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">France,Bordeaux                                #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">France,Chablis                                 #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>我们看到,任务顺利的完成了,但是有个问题:ruport如何知道自己有个column叫做"country"
+的呢? 不知道的话,如何生成一个叫做rows_with_country的函数
+</li>
+<li>真实的原因是ruport库不知道自己有一个column叫country, 而是通过ghost method的
+方法来实现row_with_country和to_csv
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Table</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">method_missing</span>(id, *args, &amp;block)
+    <span style="color: #859900; font-weight: bold;">return</span> as(<span style="color: #657b83; font-weight: bold;">$1</span>.to_sym, *args, &amp;block) <span style="color: #859900; font-weight: bold;">if</span> id.to_s =~ <span style="color: #2aa198;">/^to_(.*)/</span>
+    <span style="color: #859900; font-weight: bold;">return</span> rows_with(<span style="color: #657b83; font-weight: bold;">$1</span>.to_sym =&gt; args[0]) <span style="color: #859900; font-weight: bold;">if</span> id.tos =~ <span style="color: #2aa198;">/^rows_with_(.*)/</span>
+    <span style="color: #859900; font-weight: bold;">super</span>                       <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">if neither match, will go here to throw NoMethodError</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">...</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>从上面例子可以看出, 所谓row_with_country()就改造成了row_with(:country), 然
+后to_csv就改造成了as(:csv)
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Chapter 03: Wednesday: Blocks</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>block的实质是control scope:
+<pre class="example">
+Block可以决定哪些函数和变量能够被哪些行看到
+</pre>
+</li>
+<li>有一大类的object是叫做"callable object", 它们包括:
+<ul class="org-ul">
+<li>blocks
+</li>
+<li>procs
+</li>
+<li>lambdas
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">How to Handle Hump Day</h3>
+<div class="outline-text-3" id="text-3-1">
+</div><div id="outline-container-sec-3-1-1" class="outline-4">
+<h4 id="sec-3-1-1">Back to the Basics</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<ul class="org-ul">
+<li>下面是一个block的例子, "只有在调用一个method的时候,你才能创建自己的block"
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">a_method</span>(a, b)
+  a + <span style="color: #859900; font-weight: bold;">yield</span>(a, b)
+<span style="color: #859900; font-weight: bold;">end</span>
+
+a_method(1, 2) { |x, y| (x + y) * 3} <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; 10</span>
+</pre>
+</div>
+</li>
+<li>block是和method同生共死的, 在method里面通过yield来执行block,并且得到返回值
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-1-2" class="outline-4">
+<h4 id="sec-3-1-2">The Current Block</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<ul class="org-ul">
+<li>在method内部,你可以通过询问Ruby当前的call是否有个block. 这样可以防止在没有
+block提供给method的情况下强行调用yield得到的错误提示
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">a_method</span>
+  <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">yield</span> <span style="color: #859900; font-weight: bold;">if</span> <span style="color: #657b83; font-weight: bold;">block_given?</span>
+  <span style="color: #2aa198;">'no block'</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+a_method                        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; "no block"</span>
+a_method { <span style="color: #2aa198;">"here's a block!"</span> }  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; "here's a block!"</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">Quiz: Ruby#</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>TODO
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3">Closures</h3>
+<div class="outline-text-3" id="text-3-3">
+<ul class="org-ul">
+<li>block是callable的object, 它需要environment(local variable, instance variable,
+self)等来运行.
+</li>
+<li>从下面的例子可以看出, block对method里面的x"直接无视", 它是从当前环境里面取x的.
+这也是为什么计算机科学家把block叫做closure. closure的一大特点就是能够解决改
+变"scope"的问题.
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">my_method</span>
+  x = <span style="color: #2aa198;">"Goodbye"</span>
+  <span style="color: #859900; font-weight: bold;">yield</span>(<span style="color: #2aa198;">"cruel"</span>)
+<span style="color: #859900; font-weight: bold;">end</span>
+
+x = <span style="color: #2aa198;">"Hello"</span>
+my_method { |y| <span style="color: #2aa198;">"</span><span style="color: #268bd2;">#{x}</span><span style="color: #2aa198;">, </span><span style="color: #268bd2;">#{y}</span><span style="color: #2aa198;"> world"</span> } <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; "Hello, cruel world"</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-3-3-1" class="outline-4">
+<h4 id="sec-3-3-1">Scope</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<ul class="org-ul">
+<li>当你使用单步调试到某个点的时候,你所能看到的local varialbe, instance variable,
+self等等,就是所谓的"scope"
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-3-2" class="outline-4">
+<h4 id="sec-3-3-2">Changing Scope</h4>
+<div class="outline-text-4" id="text-3-3-2">
+<p>
+v1 = 1
+</p>
+
+<p>
+class MyClass
+  v2 = 2
+  local_variables               # =&gt; [:v2]
+</p>
+
+<p>
+def my_method
+  v3 = 3
+  local_variables
+end
+</p>
+
+<p>
+  local_variables               # =&gt; [:v2]
+end
+</p>
+
+<p>
+obj = MyClass.new
+obj.my_method                   # =&gt; [:v3]
+obj.my_method                   # =&gt; [:v3]
+local_variables                 # [:v1, :obj, :_]
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-3-3" class="outline-4">
+<h4 id="sec-3-3-3">Scope Gates</h4>
+<div class="outline-text-4" id="text-3-3-3">
+<ul class="org-ul">
+<li>Ruby只在以下几种情况下转换scope,所以,我们可以说下面几种情况都叫做"Scope Gates"
+<ul class="org-ul">
+<li>Class definitions
+</li>
+<li>Module definitions
+</li>
+<li>Methods
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-3-4" class="outline-4">
+<h4 id="sec-3-3-4">Flattening the Scope</h4>
+<div class="outline-text-4" id="text-3-3-4">
+<ul class="org-ul">
+<li>好了,问题来了.如果你想把数据传入到不同的scope里面怎么办?
+<div class="org-src-container">
+
+<pre class="src src-ruby">my_var = <span style="color: #2aa198;">"Success"</span>
+
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MyClass</span>
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">We want to print my_var here ...</span>
+
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">my_method</span>
+    <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">... and here</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+</pre>
+</div>
+</li>
+<li>答案是使用Class.new 来替代 class, 使用define_method来代替def
+<div class="org-src-container">
+
+<pre class="src src-ruby">my_var = <span style="color: #2aa198;">"Success"</span>
+
+<span style="color: #b58900; font-style: italic;">MyClass</span> = <span style="color: #b58900; font-style: italic;">Class</span>.new <span style="color: #859900; font-weight: bold;">do</span>
+  <span style="color: #657b83; font-weight: bold;">puts</span> <span style="color: #2aa198;">"</span><span style="color: #268bd2;">#{my_var}</span><span style="color: #2aa198;"> in the class definition!"</span>
+
+  <span style="color: #657b83; font-weight: bold;">define_method</span> <span style="color: #268bd2; font-weight: bold;">:my_method</span> <span style="color: #859900; font-weight: bold;">do</span>
+    <span style="color: #657b83; font-weight: bold;">puts</span> <span style="color: #2aa198;">"</span><span style="color: #268bd2;">#{my_var}</span><span style="color: #2aa198;"> in the method!"</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #b58900; font-style: italic;">MyClass</span>.new.my_method
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">Success in the class definition!               #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">Success in the method!                         #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4">instance_eval()</h3>
+<div class="outline-text-3" id="text-3-4">
+<ul class="org-ul">
+<li>函数instance_eval非常强大,可以看到某个instance的private的内容, 不仅仅可以看,
+而且海可以改
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MyClass</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>
+    <span style="color: #268bd2;">@v</span> = 1
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+obj = <span style="color: #b58900; font-style: italic;">MyClass</span>.new
+obj.instance_eval <span style="color: #859900; font-weight: bold;">do</span>
+  <span style="color: #657b83; font-weight: bold;">p</span> <span style="color: #268bd2;">self</span>                        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; #&lt;MyClass:0x007fd052173778 @v=1&gt;</span>
+  <span style="color: #657b83; font-weight: bold;">p</span> <span style="color: #268bd2;">@v</span>                          <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; 1</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+v = 2
+obj.instance_eval { <span style="color: #268bd2;">@v</span> = v }
+obj.instance_eval { <span style="color: #268bd2;">@v</span> }        <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; 2</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5">Callable Objects</h3>
+<div class="outline-text-3" id="text-3-5">
+</div><div id="outline-container-sec-3-5-1" class="outline-4">
+<h4 id="sec-3-5-1">Proc Objects</h4>
+<div class="outline-text-4" id="text-3-5-1">
+<ul class="org-ul">
+<li>为了让"一切都是object", Ruby为block设计了Proc class. 你可以如下设计一个block object
+<div class="org-src-container">
+
+<pre class="src src-ruby">inc = <span style="color: #b58900; font-style: italic;">Proc</span>.new { |x| x + 1 }
+inc.call(2)                     <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">=&gt; 3</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-5-2" class="outline-4">
+<h4 id="sec-3-5-2">The &amp; Operator</h4>
+<div class="outline-text-4" id="text-3-5-2">
+<ul class="org-ul">
+<li>block从某种意义上来说,是method的一个additional, anonymous参数. 大多数情况下,
+block只是在method里面的yield执行. 但是yield在下面两个场景里面无能为力:
+<ul class="org-ul">
+<li>你想把block传递到其他的method
+</li>
+<li>你想把block转换成Proc
+</li>
+</ul>
+</li>
+<li>解决的办法就是block 参数化'&amp;'
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">math</span>(a, b)
+  <span style="color: #859900; font-weight: bold;">yield</span>(a, b)
+<span style="color: #859900; font-weight: bold;">end</span>
+
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">teach_math</span>(a, b, &amp;operation)
+  <span style="color: #657b83; font-weight: bold;">puts</span> <span style="color: #2aa198;">"Let's do the math:"</span>
+  <span style="color: #657b83; font-weight: bold;">puts</span> math(a, b, &amp;operation)
+<span style="color: #859900; font-weight: bold;">end</span>
+
+teach_math(2, 3) {|x, y| x * y }
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">Let's do the math:                             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">6                                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>如果想从block得到一个Proc object,那么
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">my_method</span>(&amp;the_proc)
+  the_proc
+<span style="color: #859900; font-weight: bold;">end</span>
+
+p = my_method {|name| <span style="color: #2aa198;">"Hello , </span><span style="color: #268bd2;">#{name}</span><span style="color: #2aa198;">!"</span>}
+<span style="color: #657b83; font-weight: bold;">puts</span> p.class
+<span style="color: #657b83; font-weight: bold;">puts</span> p.call(<span style="color: #2aa198;">"Bill"</span>)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">Proc                                           #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">Hello , Bill!                                  #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+<li>想把Proc转换回成block的话,还是&amp;
+<div class="org-src-container">
+
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">my_method</span>(greeting)
+  <span style="color: #657b83; font-weight: bold;">puts</span> <span style="color: #2aa198;">"</span><span style="color: #268bd2;">#{greeting}</span><span style="color: #2aa198;">, </span><span style="color: #268bd2;">#{yield}</span><span style="color: #2aa198;">!"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
+
+my_proc = <span style="color: #657b83; font-weight: bold;">proc</span> {<span style="color: #2aa198;">"Bill"</span>}
+my_method(<span style="color: #2aa198;">"Hello"</span>, &amp;my_proc)
+
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">Hello, Bill!                                   #</span>
+<span style="color: #93a1a1;">##################################################</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6">Writing a Domain-Specific Language</h3>
+<div class="outline-text-3" id="text-3-6">
+<ul class="org-ul">
+<li>RedFlag 系统是要在"很多种情况下"给销售们以提醒.
+</li>
+<li>我们先看一个简单的例子:
+<ul class="org-ul">
+<li>首先有一些的以events结尾的DSL文件,里面有些内容如下
+<div class="org-src-container">
+
+<pre class="src src-ruby"></pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

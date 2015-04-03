@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>route-set</title>
-<!-- 2015-03-18 Wed 17:23 -->
+<!-- 2015-04-02 Thu 17:49 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -177,53 +177,53 @@ for the JavaScript code in this tag.
 <li>这个文件主要介绍了RouteSet类
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">ActionDispatch</span>
-  <span style="color: #AE5825;">module</span> <span style="color: #C6B032; font-style: italic;">Routing</span>
-    <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">RouteSet</span> <span style="color: #4C565D;">#</span><span style="color: #333B40; font-style: italic;">:nodoc:</span>
-    <span style="color: #AE5825;">end</span>
-  <span style="color: #AE5825;">end</span>
-<span style="color: #AE5825;">end</span>
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">module</span> <span style="color: #b58900; font-style: italic;">ActionDispatch</span>
+  <span style="color: #859900; font-weight: bold;">module</span> <span style="color: #b58900; font-style: italic;">Routing</span>
+    <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">RouteSet</span> <span style="color: #93a1a1;">#</span><span style="color: #93a1a1; font-style: italic;">:nodoc:</span>
+    <span style="color: #859900; font-weight: bold;">end</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
 </pre>
 </div>
 </li>
 <li>RouteSet的初始化函数如下
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>(request_class = <span style="color: #C6B032; font-style: italic;">ActionDispatch</span>::<span style="color: #C6B032; font-style: italic;">Request</span>)
-  <span style="color: #46657B;">self</span>.routes = []
-  <span style="color: #46657B;">self</span>.named_routes = <span style="color: #C6B032; font-style: italic;">NamedRouteCollection</span>.new
-  <span style="color: #46657B;">self</span>.resources_path_names = <span style="color: #46657B;">self</span>.class.default_resources_path_names.dup
-  <span style="color: #46657B;">self</span>.controller_namespaces = <span style="color: #C6B032; font-style: italic;">Set</span>.new
-  <span style="color: #46657B;">self</span>.default_url_options = {}
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>(request_class = <span style="color: #b58900; font-style: italic;">ActionDispatch</span>::<span style="color: #b58900; font-style: italic;">Request</span>)
+  <span style="color: #268bd2;">self</span>.routes = []
+  <span style="color: #268bd2;">self</span>.named_routes = <span style="color: #b58900; font-style: italic;">NamedRouteCollection</span>.new
+  <span style="color: #268bd2;">self</span>.resources_path_names = <span style="color: #268bd2;">self</span>.class.default_resources_path_names.dup
+  <span style="color: #268bd2;">self</span>.controller_namespaces = <span style="color: #b58900; font-style: italic;">Set</span>.new
+  <span style="color: #268bd2;">self</span>.default_url_options = {}
 
-  <span style="color: #46657B;">self</span>.request_class = request_class
-  <span style="color: #46657B;">self</span>.valid_conditions = request_class.public_instance_methods.map { |m| m.to_sym }
-  <span style="color: #46657B;">self</span>.valid_conditions.delete(<span style="color: #86453A;">:id</span>)
-  <span style="color: #46657B;">self</span>.valid_conditions.push(<span style="color: #86453A;">:controller</span>, <span style="color: #86453A;">:action</span>)
+  <span style="color: #268bd2;">self</span>.request_class = request_class
+  <span style="color: #268bd2;">self</span>.valid_conditions = request_class.public_instance_methods.map { |m| m.to_sym }
+  <span style="color: #268bd2;">self</span>.valid_conditions.delete(<span style="color: #268bd2; font-weight: bold;">:id</span>)
+  <span style="color: #268bd2;">self</span>.valid_conditions.push(<span style="color: #268bd2; font-weight: bold;">:controller</span>, <span style="color: #268bd2; font-weight: bold;">:action</span>)
 
-  <span style="color: #46657B;">@disable_clear_and_finalize</span> = <span style="color: #46657B;">false</span>
+  <span style="color: #268bd2;">@disable_clear_and_finalize</span> = <span style="color: #268bd2;">false</span>
   clear!
-<span style="color: #AE5825;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
 </pre>
 </div>
 </li>
 <li>其中我们遇到的一个函数是draw
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #AE5825;">def</span> <span style="color: #C6B032;">draw</span>(&amp;block)
-  clear! <span style="color: #AE5825;">unless</span> <span style="color: #46657B;">@disable_clear_and_finalize</span>
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">draw</span>(&amp;block)
+  clear! <span style="color: #859900; font-weight: bold;">unless</span> <span style="color: #268bd2;">@disable_clear_and_finalize</span>
 
-  mapper = <span style="color: #C6B032; font-style: italic;">Mapper</span>.new(<span style="color: #46657B;">self</span>)
-  <span style="color: #AE5825;">if</span> block.arity == 1
-    mapper.instance_exec(<span style="color: #C6B032; font-style: italic;">DeprecatedMapper</span>.new(<span style="color: #46657B;">self</span>), &amp;block)
-  <span style="color: #AE5825;">else</span>
+  mapper = <span style="color: #b58900; font-style: italic;">Mapper</span>.new(<span style="color: #268bd2;">self</span>)
+  <span style="color: #859900; font-weight: bold;">if</span> block.arity == 1
+    mapper.instance_exec(<span style="color: #b58900; font-style: italic;">DeprecatedMapper</span>.new(<span style="color: #268bd2;">self</span>), &amp;block)
+  <span style="color: #859900; font-weight: bold;">else</span>
     mapper.instance_exec(&amp;block)
-  <span style="color: #AE5825;">end</span>
+  <span style="color: #859900; font-weight: bold;">end</span>
 
-  finalize! <span style="color: #AE5825;">unless</span> <span style="color: #46657B;">@disable_clear_and_finalize</span>
+  finalize! <span style="color: #859900; font-weight: bold;">unless</span> <span style="color: #268bd2;">@disable_clear_and_finalize</span>
 
-  <span style="color: #46657B;">nil</span>
-<span style="color: #AE5825;">end</span>
+  <span style="color: #268bd2;">nil</span>
+<span style="color: #859900; font-weight: bold;">end</span>
 </pre>
 </div>
 </li>
@@ -233,39 +233,39 @@ for the JavaScript code in this tag.
 <li>源代码如下
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #5A7644;">/*</span>
-<span style="color: #5A7644;"> *  call-seq:</span>
-<span style="color: #5A7644;"> *     obj.instance_exec(arg...) {|var...| block }                       =&gt; obj</span>
-<span style="color: #5A7644;"> *</span>
-<span style="color: #5A7644;"> *  Executes the given block within the context of the receiver</span>
-<span style="color: #5A7644;"> *  (_obj_). In order to set the context, the variable +self+ is set</span>
-<span style="color: #5A7644;"> *  to _obj_ while the code is executing, giving the code access to</span>
-<span style="color: #5A7644;"> *  _obj_'s instance variables.  Arguments are passed as block parameters.</span>
-<span style="color: #5A7644;"> *</span>
-<span style="color: #5A7644;"> *     class KlassWithSecret</span>
-<span style="color: #5A7644;"> *       def initialize</span>
-<span style="color: #5A7644;"> *         @secret = 99</span>
-<span style="color: #5A7644;"> *       end</span>
-<span style="color: #5A7644;"> *     end</span>
-<span style="color: #5A7644;"> *     k = KlassWithSecret.new</span>
-<span style="color: #5A7644;"> *     k.instance_exec(5) {|x| @secret+x }   #=&gt; 104</span>
-<span style="color: #5A7644;"> */</span>
+<pre class="src src-ruby"><span style="color: #2aa198;">/*</span>
+<span style="color: #2aa198;"> *  call-seq:</span>
+<span style="color: #2aa198;"> *     obj.instance_exec(arg...) {|var...| block }                       =&gt; obj</span>
+<span style="color: #2aa198;"> *</span>
+<span style="color: #2aa198;"> *  Executes the given block within the context of the receiver</span>
+<span style="color: #2aa198;"> *  (_obj_). In order to set the context, the variable +self+ is set</span>
+<span style="color: #2aa198;"> *  to _obj_ while the code is executing, giving the code access to</span>
+<span style="color: #2aa198;"> *  _obj_'s instance variables.  Arguments are passed as block parameters.</span>
+<span style="color: #2aa198;"> *</span>
+<span style="color: #2aa198;"> *     class KlassWithSecret</span>
+<span style="color: #2aa198;"> *       def initialize</span>
+<span style="color: #2aa198;"> *         @secret = 99</span>
+<span style="color: #2aa198;"> *       end</span>
+<span style="color: #2aa198;"> *     end</span>
+<span style="color: #2aa198;"> *     k = KlassWithSecret.new</span>
+<span style="color: #2aa198;"> *     k.instance_exec(5) {|x| @secret+x }   #=&gt; 104</span>
+<span style="color: #2aa198;"> */</span>
 
-<span style="color: #C6B032; font-style: italic;">VALUE</span>
-rb_obj_instance_exec(argc, argv, <span style="color: #46657B;">self</span>)
+<span style="color: #b58900; font-style: italic;">VALUE</span>
+rb_obj_instance_exec(argc, argv, <span style="color: #268bd2;">self</span>)
     int argc;
-    <span style="color: #C6B032; font-style: italic;">VALUE</span> *argv;
-    <span style="color: #C6B032; font-style: italic;">VALUE</span> <span style="color: #46657B;">self</span>;
+    <span style="color: #b58900; font-style: italic;">VALUE</span> *argv;
+    <span style="color: #b58900; font-style: italic;">VALUE</span> <span style="color: #268bd2;">self</span>;
 {
-    <span style="color: #C6B032; font-style: italic;">VALUE</span> klass;
+    <span style="color: #b58900; font-style: italic;">VALUE</span> klass;
 
-    <span style="color: #AE5825;">if</span> (SPECIAL_CONST_P(<span style="color: #46657B;">self</span>)) {
-        klass = <span style="color: #C6B032; font-style: italic;">Qnil</span>;
+    <span style="color: #859900; font-weight: bold;">if</span> (SPECIAL_CONST_P(<span style="color: #268bd2;">self</span>)) {
+        klass = <span style="color: #b58900; font-style: italic;">Qnil</span>;
     }
-    <span style="color: #AE5825;">else</span> {
-        klass = rb_singleton_class(<span style="color: #46657B;">self</span>);
+    <span style="color: #859900; font-weight: bold;">else</span> {
+        klass = rb_singleton_class(<span style="color: #268bd2;">self</span>);
     }
-    <span style="color: #AE5825;">return</span> yield_under(klass, <span style="color: #46657B;">self</span>, rb_ary_new4(argc, argv));
+    <span style="color: #859900; font-weight: bold;">return</span> yield_under(klass, <span style="color: #268bd2;">self</span>, rb_ary_new4(argc, argv));
 }
 </pre>
 </div>
@@ -274,26 +274,26 @@ rb_obj_instance_exec(argc, argv, <span style="color: #46657B;">self</span>)
 的改动
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">KlassWithSecret</span>
-  <span style="color: #AE5825;">def</span> <span style="color: #C6B032;">initialize</span>
-    <span style="color: #46657B;">@secret</span> = 99
-  <span style="color: #AE5825;">end</span>
-<span style="color: #AE5825;">end</span>
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">KlassWithSecret</span>
+  <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">initialize</span>
+    <span style="color: #268bd2;">@secret</span> = 99
+  <span style="color: #859900; font-weight: bold;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
 
-<span style="color: #AE5825;">def</span> <span style="color: #C6B032;">test</span>(&amp;block)
-  k = <span style="color: #C6B032; font-style: italic;">KlassWithSecret</span>.new
+<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">test</span>(&amp;block)
+  k = <span style="color: #b58900; font-style: italic;">KlassWithSecret</span>.new
   k.instance_exec(123, &amp;block)
-<span style="color: #AE5825;">end</span>
+<span style="color: #859900; font-weight: bold;">end</span>
 
-test <span style="color: #AE5825;">do</span> |map|
-  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">puts "hello #{@secret}"</span>
-  <span style="color: #86453A;">puts</span> <span style="color: #5A7644;">"map is </span><span style="color: #46657B;">#{map}</span><span style="color: #5A7644;">"</span>
-<span style="color: #AE5825;">end</span>
+test <span style="color: #859900; font-weight: bold;">do</span> |map|
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">puts "hello #{@secret}"</span>
+  <span style="color: #657b83; font-weight: bold;">puts</span> <span style="color: #2aa198;">"map is </span><span style="color: #268bd2;">#{map}</span><span style="color: #2aa198;">"</span>
+<span style="color: #859900; font-weight: bold;">end</span>
 
-<span style="color: #4C565D;">##################################################</span>
-<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">hello 99                                       #</span>
-<span style="color: #4C565D;">##################################################</span>
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">hello 99                                       #</span>
+<span style="color: #93a1a1;">##################################################</span>
 </pre>
 </div>
 </li>
@@ -304,33 +304,33 @@ test <span style="color: #AE5825;">do</span> |map|
 <li>在我们的routes.rb文件里面,调用了draw函数
 <div class="org-src-container">
 
-<pre class="src src-ruby">application_routes.draw <span style="color: #AE5825;">do</span> |map|
-  <span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">...</span>
-<span style="color: #AE5825;">end</span>
+<pre class="src src-ruby">application_routes.draw <span style="color: #859900; font-weight: bold;">do</span> |map|
+  <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">...</span>
+<span style="color: #859900; font-weight: bold;">end</span>
 </pre>
 </div>
 </li>
 <li>draw函数其实会扩展成如下带一个参赛的形式.
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #AE5825;">if</span> block.arity == 1
-  mapper.instance_exec(<span style="color: #C6B032; font-style: italic;">DeprecatedMapper</span>.new(<span style="color: #46657B;">self</span>), &amp;block)
+<pre class="src src-ruby"><span style="color: #859900; font-weight: bold;">if</span> block.arity == 1
+  mapper.instance_exec(<span style="color: #b58900; font-style: italic;">DeprecatedMapper</span>.new(<span style="color: #268bd2;">self</span>), &amp;block)
 </pre>
 </div>
 </li>
 <li>因为上面的 do&#x2026;end里面有一个map,所以这里的block.arity就是1.
 <div class="org-src-container">
 
-<pre class="src src-ruby"><span style="color: #86453A;">p</span> <span style="color: #C6B032; font-style: italic;">Proc</span>.new {}.arity
-<span style="color: #86453A;">p</span> <span style="color: #C6B032; font-style: italic;">Proc</span>.new {|map|}.arity
-<span style="color: #86453A;">p</span> <span style="color: #C6B032; font-style: italic;">Proc</span>.new {|map, a|}.arity
+<pre class="src src-ruby"><span style="color: #657b83; font-weight: bold;">p</span> <span style="color: #b58900; font-style: italic;">Proc</span>.new {}.arity
+<span style="color: #657b83; font-weight: bold;">p</span> <span style="color: #b58900; font-style: italic;">Proc</span>.new {|map|}.arity
+<span style="color: #657b83; font-weight: bold;">p</span> <span style="color: #b58900; font-style: italic;">Proc</span>.new {|map, a|}.arity
 
-<span style="color: #4C565D;">##################################################</span>
-<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">0                                              #</span>
-<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">1                                              #</span>
-<span style="color: #4C565D;"># </span><span style="color: #333B40; font-style: italic;">2                                              #</span>
-<span style="color: #4C565D;">##################################################</span>
+<span style="color: #93a1a1;">##################################################</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">0                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">1                                              #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">2                                              #</span>
+<span style="color: #93a1a1;">##################################################</span>
 </pre>
 </div>
 </li>

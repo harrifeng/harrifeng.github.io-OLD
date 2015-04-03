@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 018: Letter Combinations of a Phone Number</title>
-<!-- 2015-03-18 Wed 17:27 -->
+<!-- 2015-04-02 Thu 17:54 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -220,63 +220,63 @@ Sample Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Solution</span> {
-    <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">combine</span>(<span style="color: #C6B032; font-style: italic;">vector</span>&lt;<span style="color: #C6B032; font-style: italic;">string</span>&gt;&amp; <span style="color: #46657B;">result</span>, <span style="color: #C6B032; font-style: italic;">string</span> <span style="color: #46657B;">digits</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">level</span>,
-                 <span style="color: #C6B032; font-style: italic;">vector</span>&lt;<span style="color: #C6B032; font-style: italic;">string</span>&gt; <span style="color: #46657B;">summary</span>, <span style="color: #C6B032; font-style: italic;">string</span> <span style="color: #46657B;">tmp</span>) {
-        <span style="color: #AE5825;">if</span> (level == digits.size()) {
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Solution</span> {
+    <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">combine</span>(<span style="color: #b58900; font-style: italic;">vector</span>&lt;<span style="color: #b58900; font-style: italic;">string</span>&gt;&amp; <span style="color: #268bd2;">result</span>, <span style="color: #b58900; font-style: italic;">string</span> <span style="color: #268bd2;">digits</span>, <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">level</span>,
+                 <span style="color: #b58900; font-style: italic;">vector</span>&lt;<span style="color: #b58900; font-style: italic;">string</span>&gt; <span style="color: #268bd2;">summary</span>, <span style="color: #b58900; font-style: italic;">string</span> <span style="color: #268bd2;">tmp</span>) {
+        <span style="color: #859900; font-weight: bold;">if</span> (level == digits.size()) {
             result.push_back(tmp);
-            <span style="color: #AE5825;">return</span>;
+            <span style="color: #859900; font-weight: bold;">return</span>;
         }
-        <span style="color: #C6B032; font-style: italic;">string</span> <span style="color: #46657B;">current_sum</span> = summary[digits[level] - <span style="color: #5A7644;">'2'</span>];
-        <span style="color: #AE5825;">for</span>(<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">i</span> = 0; i &lt; current_sum.size(); i++) {
-            tmp.push_back(<span style="color: #C6B032; font-style: italic;">current_sum</span>[i]);
+        <span style="color: #b58900; font-style: italic;">string</span> <span style="color: #268bd2;">current_sum</span> = summary[digits[level] - <span style="color: #2aa198;">'2'</span>];
+        <span style="color: #859900; font-weight: bold;">for</span>(<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; current_sum.size(); i++) {
+            tmp.push_back(<span style="color: #b58900; font-style: italic;">current_sum</span>[i]);
             combine(result, digits, level + 1, summary, tmp);
-            <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">c++ 11, used to be ==&gt; tmp.erase(tmp.size()-1);</span>
+            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">c++ 11, used to be ==&gt; tmp.erase(tmp.size()-1);</span>
             tmp.pop_back();
         }
     }
-<span style="color: #AE5825;">public</span>:
-    <span style="color: #C6B032; font-style: italic;">vector</span>&lt;<span style="color: #C6B032; font-style: italic;">string</span>&gt; <span style="color: #C6B032;">letterCombinations</span>(<span style="color: #C6B032; font-style: italic;">string</span> <span style="color: #46657B;">digits</span>) {
-        <span style="color: #C6B032; font-style: italic;">vector</span>&lt;<span style="color: #C6B032; font-style: italic;">string</span>&gt; <span style="color: #46657B;">sum</span>;
-        sum.push_back(<span style="color: #5A7644;">"abc"</span>);
-        sum.push_back(<span style="color: #5A7644;">"def"</span>);
-        sum.push_back(<span style="color: #5A7644;">"ghi"</span>);
-        sum.push_back(<span style="color: #5A7644;">"jkl"</span>);
-        sum.push_back(<span style="color: #5A7644;">"mno"</span>);
-        sum.push_back(<span style="color: #5A7644;">"pqrs"</span>);
-        sum.push_back(<span style="color: #5A7644;">"tuv"</span>);
-        sum.push_back(<span style="color: #5A7644;">"wxyz"</span>);
+<span style="color: #859900; font-weight: bold;">public</span>:
+    <span style="color: #b58900; font-style: italic;">vector</span>&lt;<span style="color: #b58900; font-style: italic;">string</span>&gt; <span style="color: #268bd2;">letterCombinations</span>(<span style="color: #b58900; font-style: italic;">string</span> <span style="color: #268bd2;">digits</span>) {
+        <span style="color: #b58900; font-style: italic;">vector</span>&lt;<span style="color: #b58900; font-style: italic;">string</span>&gt; <span style="color: #268bd2;">sum</span>;
+        sum.push_back(<span style="color: #2aa198;">"abc"</span>);
+        sum.push_back(<span style="color: #2aa198;">"def"</span>);
+        sum.push_back(<span style="color: #2aa198;">"ghi"</span>);
+        sum.push_back(<span style="color: #2aa198;">"jkl"</span>);
+        sum.push_back(<span style="color: #2aa198;">"mno"</span>);
+        sum.push_back(<span style="color: #2aa198;">"pqrs"</span>);
+        sum.push_back(<span style="color: #2aa198;">"tuv"</span>);
+        sum.push_back(<span style="color: #2aa198;">"wxyz"</span>);
 
-        <span style="color: #C6B032; font-style: italic;">vector</span>&lt;<span style="color: #C6B032; font-style: italic;">string</span>&gt; <span style="color: #46657B;">ret</span>;
-        <span style="color: #C6B032; font-style: italic;">string</span> <span style="color: #46657B;">t</span>;
+        <span style="color: #b58900; font-style: italic;">vector</span>&lt;<span style="color: #b58900; font-style: italic;">string</span>&gt; <span style="color: #268bd2;">ret</span>;
+        <span style="color: #b58900; font-style: italic;">string</span> <span style="color: #268bd2;">t</span>;
 
         combine(ret, digits, 0, sum, t);
-        <span style="color: #AE5825;">return</span> ret;
+        <span style="color: #859900; font-weight: bold;">return</span> ret;
     }
 };
 </pre>
 </div>
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Solution</span> {
-    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">ArrayList</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>&gt; <span style="color: #C6B032;">letterCombinations</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">digits</span>) {
-        <span style="color: #C6B032; font-style: italic;">ArrayList</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>&gt; <span style="color: #46657B;">ret</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">ArrayList</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>&gt;();
-        <span style="color: #C6B032; font-style: italic;">StringBuffer</span> <span style="color: #46657B;">tmpString</span> = <span style="color: #AE5825;">new</span> <span style="color: #C6B032; font-style: italic;">StringBuffer</span>();
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Solution</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">ArrayList</span>&lt;<span style="color: #b58900; font-style: italic;">String</span>&gt; <span style="color: #268bd2;">letterCombinations</span>(<span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">digits</span>) {
+        <span style="color: #b58900; font-style: italic;">ArrayList</span>&lt;<span style="color: #b58900; font-style: italic;">String</span>&gt; <span style="color: #268bd2;">ret</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">ArrayList</span>&lt;<span style="color: #b58900; font-style: italic;">String</span>&gt;();
+        <span style="color: #b58900; font-style: italic;">StringBuffer</span> <span style="color: #268bd2;">tmpString</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">StringBuffer</span>();
         letterCom(digits, 0, tmpString, ret);
-        <span style="color: #AE5825;">return</span> ret;
+        <span style="color: #859900; font-weight: bold;">return</span> ret;
     }
 
-    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">String</span>[] <span style="color: #46657B;">num_letter</span> = {<span style="color: #5A7644;">""</span>, <span style="color: #5A7644;">""</span>, <span style="color: #5A7644;">"abc"</span>, <span style="color: #5A7644;">"def"</span>, <span style="color: #5A7644;">"ghi"</span>, <span style="color: #5A7644;">"jkl"</span>,
-            <span style="color: #5A7644;">"mno"</span>, <span style="color: #5A7644;">"pqrs"</span>, <span style="color: #5A7644;">"tuv"</span>, <span style="color: #5A7644;">"wxyz"</span>};
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">String</span>[] <span style="color: #268bd2;">num_letter</span> = {<span style="color: #2aa198;">""</span>, <span style="color: #2aa198;">""</span>, <span style="color: #2aa198;">"abc"</span>, <span style="color: #2aa198;">"def"</span>, <span style="color: #2aa198;">"ghi"</span>, <span style="color: #2aa198;">"jkl"</span>,
+            <span style="color: #2aa198;">"mno"</span>, <span style="color: #2aa198;">"pqrs"</span>, <span style="color: #2aa198;">"tuv"</span>, <span style="color: #2aa198;">"wxyz"</span>};
 
-    <span style="color: #AE5825;">private</span> <span style="color: #C6B032; font-style: italic;">void</span> <span style="color: #C6B032;">letterCom</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">digits</span>, <span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">level</span>, <span style="color: #C6B032; font-style: italic;">StringBuffer</span> <span style="color: #46657B;">tmpS</span>,
-                           <span style="color: #C6B032; font-style: italic;">ArrayList</span>&lt;<span style="color: #C6B032; font-style: italic;">String</span>&gt; <span style="color: #46657B;">result</span>) {
-        <span style="color: #AE5825;">if</span> (level == digits.length()) {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">letterCom</span>(<span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">digits</span>, <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">level</span>, <span style="color: #b58900; font-style: italic;">StringBuffer</span> <span style="color: #268bd2;">tmpS</span>,
+                           <span style="color: #b58900; font-style: italic;">ArrayList</span>&lt;<span style="color: #b58900; font-style: italic;">String</span>&gt; <span style="color: #268bd2;">result</span>) {
+        <span style="color: #859900; font-weight: bold;">if</span> (level == digits.length()) {
             result.add(tmpS.toString());
-            <span style="color: #AE5825;">return</span>;
+            <span style="color: #859900; font-weight: bold;">return</span>;
         }
-        <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">nowStr</span> = num_letter[digits.charAt(level) - <span style="color: #5A7644;">'0'</span>];
-        <span style="color: #AE5825;">for</span> (<span style="color: #C6B032; font-style: italic;">int</span> <span style="color: #46657B;">i</span> = 0; i &lt; nowStr.<span style="color: #C6B032; font-style: italic;">length</span>(); i++) {
+        <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">nowStr</span> = num_letter[digits.charAt(level) - <span style="color: #2aa198;">'0'</span>];
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; nowStr.<span style="color: #b58900; font-style: italic;">length</span>(); i++) {
             tmpS.append(nowStr.charAt(i));
             letterCom(digits, level + 1, tmpS, result);
             tmpS.deleteCharAt(tmpS.length() - 1);

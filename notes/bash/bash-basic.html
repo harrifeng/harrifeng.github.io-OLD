@@ -1,0 +1,4520 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Part 3: Common Tasks And Essential Tools</title>
+<!-- 2015-04-02 Thu 17:53 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">Part 3: Common Tasks And Essential Tools</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">What is the shell</a>
+<ul>
+<li><a href="#sec-1-1">Terminal Emulators</a></li>
+<li><a href="#sec-1-2">Your First keystrokes</a>
+<ul>
+<li><a href="#sec-1-2-1">Command History</a></li>
+<li><a href="#sec-1-2-2">Cursor Movement</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">Try Some Simple Commands</a></li>
+<li><a href="#sec-1-4">Ending a Terminal Session</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">Navigation</a>
+<ul>
+<li><a href="#sec-2-1">Understanding the Filesystem Tree</a></li>
+<li><a href="#sec-2-2">The Current Working Directory</a></li>
+<li><a href="#sec-2-3">Listing the Contents of a Directory</a></li>
+<li><a href="#sec-2-4">Changing the Current Working Directory</a>
+<ul>
+<li><a href="#sec-2-4-1">Absolute pathnames</a></li>
+<li><a href="#sec-2-4-2">Relative Pathnames</a></li>
+<li><a href="#sec-2-4-3">Some helpful Shortcuts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-3">Exploring The System</a>
+<ul>
+<li><a href="#sec-3-1">More Fun with ls</a>
+<ul>
+<li><a href="#sec-3-1-1">Options and Arguments</a></li>
+<li><a href="#sec-3-1-2">A Longer Look at Long Format</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-2">Determining a File's Type with file</a></li>
+<li><a href="#sec-3-3">Viewing File contents with less</a></li>
+<li><a href="#sec-3-4">A Guided Tour</a>
+<ul>
+<li><a href="#sec-3-4-1">Symbolic Links</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-4">Manipulating Files And Directories</a>
+<ul>
+<li><a href="#sec-4-1">Wildcards</a></li>
+<li><a href="#sec-4-2">mkdir-Create Directories</a></li>
+<li><a href="#sec-4-3">cp-Copy Files and Directories</a></li>
+<li><a href="#sec-4-4">mv-Move and Rename Files</a></li>
+<li><a href="#sec-4-5">rm-Remove Files and Directories</a></li>
+<li><a href="#sec-4-6">ln-Create Links</a>
+<ul>
+<li><a href="#sec-4-6-1">Hard links</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-7">Let's Build a Playground</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">Working With Commands</a>
+<ul>
+<li><a href="#sec-5-1">What Exactly Are Commands?</a></li>
+<li><a href="#sec-5-2">Identifying Commans</a>
+<ul>
+<li><a href="#sec-5-2-1">type-Display a Command's Type</a></li>
+<li><a href="#sec-5-2-2">which-Display an Executable's Location</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-3">Getting a Command's Documentation</a>
+<ul>
+<li><a href="#sec-5-3-1">help-Get Help for Shell Builtins</a></li>
+<li><a href="#sec-5-3-2">&#x2013;help-Display Usage Information</a></li>
+<li><a href="#sec-5-3-3">man-Display a Program's Manual Page</a></li>
+<li><a href="#sec-5-3-4">apropos-Display Appropriate Commands</a></li>
+<li><a href="#sec-5-3-5">whatis-Display a Very Brief Description of a Command</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-4">Creating Your Own Commands with alias</a></li>
+</ul>
+</li>
+<li><a href="#sec-6">Redirection</a>
+<ul>
+<li><a href="#sec-6-1">Standard Input, Output, and Error</a>
+<ul>
+<li><a href="#sec-6-1-1">Redirecting Standard Output</a></li>
+<li><a href="#sec-6-1-2">Redirecting Standard Error</a></li>
+<li><a href="#sec-6-1-3">Redirecting Standard Output and Standard Error to One File</a></li>
+<li><a href="#sec-6-1-4">Disposing of Unwanted Output</a></li>
+<li><a href="#sec-6-1-5">Redirecting Standard Input</a></li>
+</ul>
+</li>
+<li><a href="#sec-6-2">Pipelines</a>
+<ul>
+<li><a href="#sec-6-2-1">Filters</a></li>
+<li><a href="#sec-6-2-2">uniq-Report or Omit Repeated Lines</a></li>
+<li><a href="#sec-6-2-3">wc-Print Line, Word and Byte Counts</a></li>
+<li><a href="#sec-6-2-4">grep-Print Lines Matching a Pattern</a></li>
+<li><a href="#sec-6-2-5">head/tail-Print First/Last Part of Files</a></li>
+<li><a href="#sec-6-2-6">tee-Read from Stdin and Output to Stdout and Files</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-7">Seeing the world as the shell sees it</a>
+<ul>
+<li><a href="#sec-7-1">Expansion</a>
+<ul>
+<li><a href="#sec-7-1-1">Pathname Epansion</a></li>
+<li><a href="#sec-7-1-2">Tilde Expansion</a></li>
+<li><a href="#sec-7-1-3">Arithmetic Expansion</a></li>
+<li><a href="#sec-7-1-4">Brace Expansion</a></li>
+<li><a href="#sec-7-1-5">Parameter Expanison</a></li>
+<li><a href="#sec-7-1-6">Command Substitution</a></li>
+</ul>
+</li>
+<li><a href="#sec-7-2">Quoting</a>
+<ul>
+<li><a href="#sec-7-2-1">Single Quotes</a></li>
+<li><a href="#sec-7-2-2">Double Quotes</a></li>
+<li><a href="#sec-7-2-3">Escaping Characters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-8">Advanced keyboard tricks</a>
+<ul>
+<li><a href="#sec-8-1">Command Line Editing</a>
+<ul>
+<li><a href="#sec-8-1-1">Cursor Movement</a></li>
+<li><a href="#sec-8-1-2">Cutting and Pasting(Killing and Yanking) Text</a></li>
+<li><a href="#sec-8-1-3">Completion</a></li>
+</ul>
+</li>
+<li><a href="#sec-8-2">Using History</a>
+<ul>
+<li><a href="#sec-8-2-1">Searching History</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-9">Permissions</a>
+<ul>
+<li><a href="#sec-9-1">Owners, Group Members, and Everybody Else</a></li>
+<li><a href="#sec-9-2">Reading, Writing, and Executing</a>
+<ul>
+<li><a href="#sec-9-2-1">chmod-Change File Mod</a></li>
+</ul>
+</li>
+<li><a href="#sec-9-3">Changing Identities</a>
+<ul>
+<li><a href="#sec-9-3-1">su-Run a Shell with Substitute User and Group IDs</a></li>
+<li><a href="#sec-9-3-2">sudo-Execute a Command as Another User</a></li>
+<li><a href="#sec-9-3-3">chown-Change File Owner and Group</a></li>
+<li><a href="#sec-9-3-4">chgrp-Change Group Ownership</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-10">Processes</a>
+<ul>
+<li><a href="#sec-10-1">How a Proess Works</a>
+<ul>
+<li><a href="#sec-10-1-1">Viewing Processes with ps</a></li>
+<li><a href="#sec-10-1-2">Viewing Processes Dynamially with top</a></li>
+</ul>
+</li>
+<li><a href="#sec-10-2">Controlling Processes</a>
+<ul>
+<li><a href="#sec-10-2-1">Putting a Proces in the Background</a></li>
+<li><a href="#sec-10-2-2">Returning a Proces to the Foreground</a></li>
+<li><a href="#sec-10-2-3">Stopping (Pausing) a Process</a></li>
+</ul>
+</li>
+<li><a href="#sec-10-3">Signals</a>
+<ul>
+<li><a href="#sec-10-3-1">Sending Signals to Process with kill</a></li>
+<li><a href="#sec-10-3-2">Sending Signals to Multiple Processes with killall</a></li>
+</ul>
+</li>
+<li><a href="#sec-10-4">More Process-Related Commands</a></li>
+</ul>
+</li>
+<li><a href="#sec-11">The Environment</a>
+<ul>
+<li><a href="#sec-11-1">What Is Stored in the Environments?</a>
+<ul>
+<li><a href="#sec-11-1-1">Examining the Environment</a></li>
+</ul>
+</li>
+<li><a href="#sec-11-2">How Is the Environment Established?</a>
+<ul>
+<li><a href="#sec-11-2-1">Login and Non-login Shells</a></li>
+<li><a href="#sec-11-2-2">What's in a Starup File?</a></li>
+</ul>
+</li>
+<li><a href="#sec-11-3">Modifying the Environment</a>
+<ul>
+<li><a href="#sec-11-3-1">Which Files Should We Modify?</a></li>
+<li><a href="#sec-11-3-2">Activating Our Changes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-12">A Gentle Introduction to VI</a></li>
+<li><a href="#sec-13">Customizing The Prompt</a>
+<ul>
+<li><a href="#sec-13-1">Anatomy of a Prompt</a></li>
+<li><a href="#sec-13-2">Trying Some Alternative Prompt Designs</a></li>
+<li><a href="#sec-13-3">Adding Color</a></li>
+<li><a href="#sec-13-4">Saving the Prompt</a></li>
+</ul>
+</li>
+<li><a href="#sec-14">Package Management</a>
+<ul>
+<li><a href="#sec-14-1">Packaging Systems</a></li>
+<li><a href="#sec-14-2">How a Package System Works</a>
+<ul>
+<li><a href="#sec-14-2-1">Package Files</a></li>
+<li><a href="#sec-14-2-2">Repositories</a></li>
+<li><a href="#sec-14-2-3">Dependencies</a></li>
+<li><a href="#sec-14-2-4">High-and Low-Level Package Tools</a></li>
+</ul>
+</li>
+<li><a href="#sec-14-3">Common Package Management Tasks</a>
+<ul>
+<li><a href="#sec-14-3-1">Finding a Package in Repository</a></li>
+<li><a href="#sec-14-3-2">Installing a Package from a Repository</a></li>
+<li><a href="#sec-14-3-3">Installing a Package from a Package File</a></li>
+<li><a href="#sec-14-3-4">Removing a Package</a></li>
+<li><a href="#sec-14-3-5">Updating Packages from a Repository</a></li>
+<li><a href="#sec-14-3-6">Upgrading a Package from a Pckage File</a></li>
+<li><a href="#sec-14-3-7">Listing Installed Packages</a></li>
+<li><a href="#sec-14-3-8">Determining Whether a Package Is Installed</a></li>
+<li><a href="#sec-14-3-9">Displaying Information About an Installed Package</a></li>
+<li><a href="#sec-14-3-10">Finding Which Package Installed a File</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">What is the shell</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>当我们说到command line的时候,我们其实是说的shell. shell是一个从键盘接受信息
+传递给操作系统的程序.Linux默认的shell是bash
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Terminal Emulators</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>如果我们使用GUI界面的话,我们还要使用terminal emulator来和shell进行联系.KDE
+里面使用的是konsole, GNOME使用的是gnome-terminal
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Your First keystrokes</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>打开terminal emulator,应该是如下这个样子的
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$
+</pre>
+</div>
+</li>
+<li>$(dollar sign)代表一般用户, #(hash mark)代表超级用户.
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">Command History</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>上下键可以选择上一条下一条命令,一遍最少会保存500条历史
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2">Cursor Movement</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>左右键,可以让光标左右移动
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Try Some Simple Commands</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>date是日期命令
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ date
+Wed Feb 26 16:13:11 CST 2014
+</pre>
+</div>
+</li>
+<li>cal是日历命令
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ cal
+   February 2014
+Su Mo Tu We Th Fr Sa
+                   1
+ 2  3  4  5  6  7  8
+ 9 10 11 12 13 14 15
+16 17 18 19 20 21 22
+23 24 25 26 27 28
+</pre>
+</div>
+</li>
+<li>df可以查看当前驱动器下面的剩余空间
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ df
+Filesystem     1K-blocks    Used Available Use% Mounted on
+/dev/sda1       40120704 1944148  36131884   6% /
+none                   4       0         4   0% /sys/fs/cgroup
+udev              496420       4    496416   1% /dev
+tmpfs             101188     296    100892   1% /run
+none                5120       0      5120   0% /run/lock
+none              505932       0    505932   0% /run/shm
+none              102400       0    102400   0% /run/user
+</pre>
+</div>
+</li>
+<li>free产科内存的剩余
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ free
+             total       used       free     shared    buffers     cached
+Mem:       1011868     227332     784536          0      21464      78256
+-/+ buffers/cache:     127612     884256
+Swap:      1046524          0    1046524
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Ending a Terminal Session</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>我们使用exit来结束一个terminal session
+</li>
+<li>除了我们上面说的terminal emulator, Linux还会在GUI的背后运行一些terminal
+session.叫做virtual terminal,我们可以通过CTRL+ALT+F1~F6来调用,返回GUI
+桌面使用ALT-F7
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Navigation</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Understanding the Filesystem Tree</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>和windows一样,linux也是采用了树形结构的文件系统.第一个文件夹叫做root 文件夹(/)
+</li>
+<li>和windows不一样的是:windows为每一个分区准备了一个单独的"文件系统树", 对于Linux
+来说,无论有多少设备,都只有一套"文件系统树", 额外的设备是通过"mount"的形式来放在
+某个文件夹下面的
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">The Current Working Directory</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>我们的shell当前无论如何都会在某个文件夹下,使用pwd来表示
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~/tmp$ pwd
+/home/lvtest/tmp
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">Listing the Contents of a Directory</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li>当前文件夹下的内容使用ls
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~/tmp$ ls
+a.out  printf.c  testsig.c  unpbook
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4">Changing the Current Working Directory</h3>
+<div class="outline-text-3" id="text-2-4">
+</div><div id="outline-container-sec-2-4-1" class="outline-4">
+<h4 id="sec-2-4-1">Absolute pathnames</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<ul class="org-ul">
+<li>我们使用以"/"开头的绝对文件路名来cd到相应文件夹
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~/tmp$ cd /usr/bin
+lvtest@auto-inst:/usr/bin$ pwd
+/usr/bin
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-4-2" class="outline-4">
+<h4 id="sec-2-4-2">Relative Pathnames</h4>
+<div class="outline-text-4" id="text-2-4-2">
+<ul class="org-ul">
+<li>相对路径就是从pwd开始如何找到下一级,其中"."是当前文件夹".."是上层文件夹
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:/usr$ pwd
+/usr
+lvtest@auto-inst:/usr$ cd ./bin
+lvtest@auto-inst:/usr/bin$ pwd
+/usr/bin
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-4-3" class="outline-4">
+<h4 id="sec-2-4-3">Some helpful Shortcuts</h4>
+<div class="outline-text-4" id="text-2-4-3">
+<ul class="org-ul">
+<li>一些有用的cd快捷键
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Shortcut</th>
+<th scope="col" class="left">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">cd</td>
+<td class="left">Changes the working directory to your home directory</td>
+</tr>
+
+<tr>
+<td class="left">cd -</td>
+<td class="left">Changes the working directory to the previous working</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">directory</td>
+</tr>
+
+<tr>
+<td class="left">cd ~username</td>
+<td class="left">Changes the working directory to the home directory</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">of theusername.</td>
+</tr>
+</tbody>
+</table>
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:/usr/bin$ pwd
+/usr/bin
+lvtest@auto-inst:/usr/bin$ cd
+lvtest@auto-inst:~$ pwd
+/home/lvtest
+lvtest@auto-inst:~$ cd -
+/usr/bin
+lvtest@auto-inst:/usr/bin$ pwd
+/usr/bin
+lvtest@auto-inst:/usr/bin$ cd ~lvtest
+lvtest@auto-inst:~$ pwd
+/home/lvtest
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Exploring The System</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">More Fun with ls</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>ls 不仅仅可以列出当前文件夹的内容,还可以列出其他文件夹的内容,甚至多个文件夹的内容
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ ls /usr
+bin  games  include  lib  local  sbin  share  src
+lvtest@auto-inst:~$ ls ~ /usr
+/home/lvtest:
+authorized_keys  backupssh  test  tmp
+
+/usr:
+bin  games  include  lib  local  sbin  share  src
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-3-1-1" class="outline-4">
+<h4 id="sec-3-1-1">Options and Arguments</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<ul class="org-ul">
+<li>我们的命令都是由如下三部分组成的
+<pre class="example">
+command -options arguments
+</pre>
+</li>
+<li>ls就支持-l这种"单字母"参数,而且单字母参数可以写在一块,效果叠加,还支持通过
+"&#x2013;"来增加long options
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ ls -l
+total 16
+-rwx------ 1 lvtest lvtest  802 Oct 24 15:05 authorized_keys
+drwx------ 2 lvtest lvtest 4096 Oct 24 15:05 backupssh
+drwxrwxr-x 3 lvtest lvtest 4096 Oct 24 16:45 test
+drwxrwxr-x 3 lvtest lvtest 4096 Feb 21 16:33 tmp
+lvtest@auto-inst:~$ ls -lt
+total 16
+drwxrwxr-x 3 lvtest lvtest 4096 Feb 21 16:33 tmp
+drwxrwxr-x 3 lvtest lvtest 4096 Oct 24 16:45 test
+-rwx------ 1 lvtest lvtest  802 Oct 24 15:05 authorized_keys
+drwx------ 2 lvtest lvtest 4096 Oct 24 15:05 backupssh
+lvtest@auto-inst:~$ ls -lt --reverse
+total 16
+drwx------ 2 lvtest lvtest 4096 Oct 24 15:05 backupssh
+-rwx------ 1 lvtest lvtest  802 Oct 24 15:05 authorized_keys
+drwxrwxr-x 3 lvtest lvtest 4096 Oct 24 16:45 test
+drwxrwxr-x 3 lvtest lvtest 4096 Feb 21 16:33 tmp
+</pre>
+</div>
+</li>
+<li>下面就来总结一下ls的参数
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Option</th>
+<th scope="col" class="left">Long Option</th>
+<th scope="col" class="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">-a</td>
+<td class="left">&#x2013;all</td>
+<td class="left">List all files, even hidden files</td>
+</tr>
+
+<tr>
+<td class="left">-d</td>
+<td class="left">&#x2013;directory</td>
+<td class="left">if No -d dpecified, ls will list the contents</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">of directory. with -d, ls will list the</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">directory itself</td>
+</tr>
+
+<tr>
+<td class="left">-F</td>
+<td class="left">&#x2013;classify</td>
+<td class="left">This option will append an indicator character</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">to the end of each listed name(for example, a</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">forward slash for directory)</td>
+</tr>
+
+<tr>
+<td class="left">-h</td>
+<td class="left">&#x2013;human-readable</td>
+<td class="left">in long format listing(with -l), display the</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">sizes in human-readable format rather than in</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">&#xa0;</td>
+<td class="left">bytes</td>
+</tr>
+
+<tr>
+<td class="left">-l</td>
+<td class="left">&#xa0;</td>
+<td class="left">Display result in long format</td>
+</tr>
+
+<tr>
+<td class="left">-r</td>
+<td class="left">&#x2013;reverse</td>
+<td class="left">Display the results in reverse order</td>
+</tr>
+
+<tr>
+<td class="left">-S</td>
+<td class="left">&#xa0;</td>
+<td class="left">Sort result by file size</td>
+</tr>
+
+<tr>
+<td class="left">-t</td>
+<td class="left">&#xa0;</td>
+<td class="left">Sort by modification time</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-1-2" class="outline-4">
+<h4 id="sec-3-1-2">A Longer Look at Long Format</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<ul class="org-ul">
+<li>下面是一个long listing的例子
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~/tmp$ ls -l
+total 24
+-rwxrwxr-x  1 lvtest lvtest 8522 Feb 21 16:33 a.out
+-rw-rw-r--  1 lvtest lvtest  222 Feb 21 16:33 printf.c
+-rw-rw-r--  1 lvtest lvtest 1042 Feb 19 18:09 testsig.c
+drwxrwxr-x 40 lvtest lvtest 4096 Feb 20 16:48 unpbook
+</pre>
+</div>
+</li>
+<li>我们以最后一行来分析long listing
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">Field</td>
+<td class="left">Meaning</td>
+</tr>
+
+<tr>
+<td class="left">drwxrwxr-x</td>
+<td class="left">first character indicates the type fo file. "-"-&gt; regular file</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">"d"-&gt; directory next three characters"rwx"-&gt;access rights for</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">file's owner, next three characters"rwx"-&gt;access rights for</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">file's group, final thress"r-x" for everyone else</td>
+</tr>
+
+<tr>
+<td class="left">40</td>
+<td class="left">File's number of hard links</td>
+</tr>
+
+<tr>
+<td class="left">lvtest</td>
+<td class="left">The user naemfo the file's owner</td>
+</tr>
+
+<tr>
+<td class="left">lvtest</td>
+<td class="left">The name of the group that owns the file</td>
+</tr>
+
+<tr>
+<td class="left">4096</td>
+<td class="left">Size of the file in bytes</td>
+</tr>
+
+<tr>
+<td class="left">Feb 20 16:48</td>
+<td class="left">Date and time of the file's last modification</td>
+</tr>
+
+<tr>
+<td class="left">unpbook</td>
+<td class="left">Name of the file</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">Determining a File's Type with file</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>我们可以用file命令来判断文件类型
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~/tmp$ file printf.c
+printf.c: C source, ASCII text
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3">Viewing File contents with less</h3>
+<div class="outline-text-3" id="text-3-3">
+<ul class="org-ul">
+<li>我们可以使用less来查看text类型的文件, 期间所有的操作和VI一样!, 可以按h来查
+看帮助
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~/tmp$ less printf.c
+WARNING: terminal is not fully functional
+<span style="color: #268bd2;">printf.c</span>  (press RETURN)
+<span style="color: #93a1a1;">#</span><span style="color: #93a1a1; font-style: italic;">include &lt;stdio.h&gt;</span>
+
+int main(int argc, char *argv[])
+{
+    int ii = 0x01020304;
+    int i = 0;
+    char* ptr = &amp;ii;
+    <span style="color: #859900; font-weight: bold;">for</span> (i = 0; i &lt; 4; i++) {
+        <span style="color: #657b83; font-weight: bold;">printf</span>(<span style="color: #2aa198;">"%x\n"</span>, *ptr);
+        ptr++;
+    }
+
+    <span style="color: #859900; font-weight: bold;">return</span> 0;
+}
+<span style="color: #268bd2;">printf.c</span> (END)
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4">A Guided Tour</h3>
+<div class="outline-text-3" id="text-3-4">
+<ul class="org-ul">
+<li>我们在移动位置的时候,有很多时候要用到绝对路径,下面就是一些绝对路径的意义
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">Directory</td>
+<td class="left">Comments</td>
+</tr>
+
+<tr>
+<td class="left">//</td>
+<td class="left">The root directory, where everything begins</td>
+</tr>
+
+<tr>
+<td class="left">/bin</td>
+<td class="left">Contains binaries must be present for system to boot and run</td>
+</tr>
+
+<tr>
+<td class="left">/boot</td>
+<td class="left">Contains Linux Kernel, initial RAM disk image</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">/boot/grub/grub.conf-&gt;used to configure the boot loader</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">/boot/vmlinuz, the Linux kernel</td>
+</tr>
+
+<tr>
+<td class="left">/dev</td>
+<td class="left">Contains device nodes, nodes are also file</td>
+</tr>
+
+<tr>
+<td class="left">/etc</td>
+<td class="left">Contains system-wide configuration files</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">/etc/crontab-&gt;defines when automated job will run</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">/etc/fstab-&gt;a table of storage devices and their associated</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">mount points</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">/etc/passwd, a list of the user accounts</td>
+</tr>
+
+<tr>
+<td class="left">/home</td>
+<td class="left">Every user has one directory in /home</td>
+</tr>
+
+<tr>
+<td class="left">/lib</td>
+<td class="left">Contains shared library files used by the core system programs,</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">like the DLLs in Windows</td>
+</tr>
+
+<tr>
+<td class="left">/lost+found</td>
+<td class="left">Unless somethign really bad has happened to your system, this</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">directory will reman empty</td>
+</tr>
+
+<tr>
+<td class="left">/media</td>
+<td class="left">On modern Linux system, it will contain the mount pionts for</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">removable media such as USB, CD-ROM, that are mounted</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">automatically at insertion</td>
+</tr>
+
+<tr>
+<td class="left">/mnt</td>
+<td class="left">On older Linux systems, /mnt directory conatins mount points</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">for removable devices that habe been mounted manually</td>
+</tr>
+
+<tr>
+<td class="left">/opt</td>
+<td class="left">The /opt directory is used to install "optional" software</td>
+</tr>
+
+<tr>
+<td class="left">/proc</td>
+<td class="left">/proc is not a real filesystem. it is a virtual filesystem</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">maintained by the Linx kernel. The files are readable and will</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">give you a picture of how the kernel sees your computer</td>
+</tr>
+
+<tr>
+<td class="left">/root</td>
+<td class="left">home directory for the root account</td>
+</tr>
+
+<tr>
+<td class="left">/sbin</td>
+<td class="left">This directory conains "system" binaries. These are programs</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">that perform vital system tasks that are generally reserved</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">for the superuser</td>
+</tr>
+
+<tr>
+<td class="left">/tmp</td>
+<td class="left">Intended for staorage of temporary, transient files.</td>
+</tr>
+
+<tr>
+<td class="left">/usr</td>
+<td class="left">This directory is likely the largest one on a Linux system. It</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">contains all the programs and support files used by regular</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">users</td>
+</tr>
+
+<tr>
+<td class="left">/usr/bin</td>
+<td class="left">containst the executable programs installed by your Linux</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">distribution. It is common for this directory to hold thousands</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">of programs</td>
+</tr>
+
+<tr>
+<td class="left">/usr/lib</td>
+<td class="left">The shared libraries for the programs in /usr/bin</td>
+</tr>
+
+<tr>
+<td class="left">/usr/local</td>
+<td class="left">The /usr/local tree is where programs that are not included with</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">your distribution but are intended for system-wide use are</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">installed. Programs compiled from source code are normally</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">installed in /usr/local/bin</td>
+</tr>
+
+<tr>
+<td class="left">/usr/sbin</td>
+<td class="left">Contains more system administration programs</td>
+</tr>
+
+<tr>
+<td class="left">/usr/share</td>
+<td class="left">/usr/share contains all the shared data used by  programs in</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">/usr/bin. This includes things like defult configuration files,</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">icons, screen backgrounds, sound files, etc</td>
+</tr>
+
+<tr>
+<td class="left">/usr/share/oc</td>
+<td class="left">Most packages installed on the system will include some kind of</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">documentation files organized by package</td>
+</tr>
+
+<tr>
+<td class="left">/var</td>
+<td class="left">With the exception of /tmp and /home, the directories we showd</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">here keep their content static, in other words, their contents</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">are not changed. /var directory tree is where data that is</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">likely to chagne is stored. Various databases, spoll files, user</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">mail, for example</td>
+</tr>
+
+<tr>
+<td class="left">/val/log</td>
+<td class="left">/var/log contains log files, records of various sytem activity.</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">The most useful one is /var/log/messages, in some system, only</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">superuser can view log file</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-3-4-1" class="outline-4">
+<h4 id="sec-3-4-1">Symbolic Links</h4>
+<div class="outline-text-4" id="text-3-4-1">
+<ul class="org-ul">
+<li>在ls 的long format里面,如果第一个不是"-"或者"d", 而是"l"的话,就是symbolic links
+<div class="org-src-container">
+
+<pre class="src src-sh">lrwxrwxrwx  1 root root    17 Feb 20  2013 libip4tc.so.0 -&gt; libip4tc.so.0.0.0
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Manipulating Files And Directories</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">Wildcards</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li>因为shell经常使用文件名, 通配符为shell提供了一种快速定位"一组"文件的方法.下
+面是主要通配符
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Wildcard</th>
+<th scope="col" class="left">Matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">*</td>
+<td class="left">Any characters</td>
+</tr>
+
+<tr>
+<td class="left">?</td>
+<td class="left">Any single character</td>
+</tr>
+
+<tr>
+<td class="left">[characters]</td>
+<td class="left">Any character that is a member of the set characters</td>
+</tr>
+
+<tr>
+<td class="left">[!characters]</td>
+<td class="left">Any character that is not a member of the set characters</td>
+</tr>
+
+<tr>
+<td class="left">[\[:class:]\]</td>
+<td class="left">Any character that is a member of the specified class</td>
+</tr>
+
+<tr>
+<td class="left">[:alnum:]</td>
+<td class="left">Any alphanumeric character</td>
+</tr>
+
+<tr>
+<td class="left">[:alpha:]</td>
+<td class="left">Any alphabetic character</td>
+</tr>
+
+<tr>
+<td class="left">[:digit:]</td>
+<td class="left">Any numeral</td>
+</tr>
+
+<tr>
+<td class="left">[:lower:]</td>
+<td class="left">Any lowercase letter</td>
+</tr>
+
+<tr>
+<td class="left">[:upper:]</td>
+<td class="left">Any uppercase letter</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>下面是通配符例子
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Pattern</th>
+<th scope="col" class="left">Matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">*</td>
+<td class="left">All files</td>
+</tr>
+
+<tr>
+<td class="left">g*</td>
+<td class="left">Any file beginning with g</td>
+</tr>
+
+<tr>
+<td class="left">b*.txt</td>
+<td class="left">Any file beginning weith b followed by any characters and</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">characters and ending with .txt</td>
+</tr>
+
+<tr>
+<td class="left">Data??</td>
+<td class="left">Any file beginning with Data followed by exactly three chars</td>
+</tr>
+
+<tr>
+<td class="left">[abc]*</td>
+<td class="left">Any file beginning with either a, b, or c</td>
+</tr>
+
+<tr>
+<td class="left">BACKUP.[0-9][0-9][0-9]</td>
+<td class="left">Any file beginning weith BACKUP. followed by exactly 2 nums</td>
+</tr>
+
+<tr>
+<td class="left">[ [:upper:] ]*</td>
+<td class="left">Any file beginning with an uppercase letter</td>
+</tr>
+
+<tr>
+<td class="left">[![:digit:]]*</td>
+<td class="left">Any file not beginning with a number</td>
+</tr>
+
+<tr>
+<td class="left">*[[:lower:]123]</td>
+<td class="left">Any file ending with a lowercase letter or num 1, 2, 3</td>
+</tr>
+</tbody>
+</table>
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~/tmp/ttt/wc$ ls *
+12.txt  23.txt  ABC.txt  BACKUP.123  Datafhr  abc.txt  bca.txt  g1.txt  g2.txt
+lvtest@auto-inst:~/tmp/ttt/wc$ ls g*
+g1.txt  g2.txt
+lvtest@auto-inst:~/tmp/ttt/wc$ ls b*.txt
+bca.txt
+lvtest@auto-inst:~/tmp/ttt/wc$ ls Data???
+Datafhr
+lvtest@auto-inst:~/tmp/ttt/wc$ ls [abc]*
+abc.txt  bca.txt
+lvtest@auto-inst:~/tmp/ttt/wc$ ls BACKUP.[0-9][0-9][0-9]
+BACKUP.123
+lvtest@auto-inst:~/tmp/ttt/wc$ ls [[:upper:]]*
+ABC.txt  BACKUP.123  Datafhr
+lvtest@auto-inst:~/tmp/ttt/wc$ ls [<span style="color: #b58900; font-weight: bold;">!</span>[:digit:]]*
+ABC.txt  BACKUP.123  Datafhr  abc.txt  bca.txt  g1.txt  g2.txt
+lvtest@auto-inst:~/tmp/ttt/wc$ ls *[[:lower:]123]
+12.txt  23.txt  ABC.txt  BACKUP.123  Datafhr  abc.txt  bca.txt  g1.txt  g2.txt
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2">mkdir-Create Directories</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li>mkdir是建立文件夹的命令
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~/tmp/ttt/mk$ ls
+lvtest@auto-inst:~/tmp/ttt/mk$ mkdir dir1 dir2 dir3
+lvtest@auto-inst:~/tmp/ttt/mk$ ls
+dir1  dir2  dir3
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3">cp-Copy Files and Directories</h3>
+<div class="outline-text-3" id="text-4-3">
+<ul class="org-ul">
+<li>cp的用法主要就是下面三种
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~/tmp/ttt/mk$ ls
+dir1  dir2  dir3  f1  f2  f3  f4
+lvtest@auto-inst:~/tmp/ttt/mk$ cp f1 f5
+lvtest@auto-inst:~/tmp/ttt/mk$ ls
+dir1  dir2  dir3  f1  f2  f3  f4  f5
+lvtest@auto-inst:~/tmp/ttt/mk$ cp f1 dir1
+lvtest@auto-inst:~/tmp/ttt/mk$ find .
+<span style="color: #657b83; font-weight: bold;">.</span>
+./f5
+./dir3
+./dir2
+./f3
+./f2
+./f4
+./f1
+./dir1
+./dir1/f1
+lvtest@auto-inst:~/tmp/ttt/mk$ cp f2 f3 f4 f5 dir2
+lvtest@auto-inst:~/tmp/ttt/mk$ find .
+<span style="color: #657b83; font-weight: bold;">.</span>
+./f5
+./dir3
+./dir2
+./dir2/f5
+./dir2/f3
+./dir2/f2
+./dir2/f4
+./f3
+./f2
+./f4
+./f1
+./dir1
+./dir1/f1
+</pre>
+</div>
+</li>
+<li>cp的参数主要有
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Option</th>
+<th scope="col" class="left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">-a, &#x2013;archive</td>
+<td class="left">Copy the files and directories with all their attributes</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">It is default attributes for the user performing the copy</td>
+</tr>
+
+<tr>
+<td class="left">-i, &#x2013;interactive</td>
+<td class="left">If this option is not specified, cp will silently</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">overwrite files</td>
+</tr>
+
+<tr>
+<td class="left">-r, &#x2013;recursive</td>
+<td class="left">Recursively copy directories and their contesnts</td>
+</tr>
+
+<tr>
+<td class="left">-u, &#x2013;update</td>
+<td class="left">copy only files that either don't exist or are newer</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">than the existing corresponding files in the destination</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">directory</td>
+</tr>
+
+<tr>
+<td class="left">-v, &#x2013;verbose</td>
+<td class="left">Display informative messages</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4">mv-Move and Rename Files</h3>
+<div class="outline-text-3" id="text-4-4">
+<ul class="org-ul">
+<li>mv 和copy从参数和使用方面都是一样的.要注意的是,比如, mv a b, 如果a,b在一个
+文件夹下,那么mv就等同于rename了
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5">rm-Remove Files and Directories</h3>
+<div class="outline-text-3" id="text-4-5">
+<ul class="org-ul">
+<li>rm就是删除某个item.和前面的mv,copy使用方法一样,多了一个"-f, &#x2013;force"参数,忽
+略文件不存在的提示.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-6" class="outline-3">
+<h3 id="sec-4-6">ln-Create Links</h3>
+<div class="outline-text-3" id="text-4-6">
+</div><div id="outline-container-sec-4-6-1" class="outline-4">
+<h4 id="sec-4-6-1">Hard links</h4>
+<div class="outline-text-4" id="text-4-6-1">
+<ul class="org-ul">
+<li>创建hard link的方法为 ln file link, 注意先写file再写link, hard link只能link
+普通文件,不能link其他, hard link有如下缺点:
+<ul class="org-ul">
+<li>不能link其他partition的文件
+</li>
+<li>不能link文件夹
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~/tmp/ttt/hs$ ls
+f1
+lvtest@auto-inst:~/tmp/ttt/hs$ ln f1 hard-link
+lvtest@auto-inst:~/tmp/ttt/hs$ ls
+f1  hard-link
+lvtest@auto-inst:~/tmp/ttt/hs$ ls -al
+total 8
+drwxrwxr-x 2 lvtest lvtest 4096 Feb 27 18:58 .
+drwxrwxr-x 6 lvtest lvtest 4096 Feb 27 18:58 ..
+-rw-rw-r-- 2 lvtest lvtest    0 Feb 27 18:58 f1
+-rw-rw-r-- 2 lvtest lvtest    0 Feb 27 18:58 hard-link
+</pre>
+</div>
+</li>
+<li>创建Symbolic Link的方法是ln -s item link, symbolic link不仅仅能link普通文
+件, 也可以link文件夹等.
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~/tmp/ttt/hs$ ls
+f1  hard-link
+lvtest@auto-inst:~/tmp/ttt/hs$ ln -s f1 soft-link
+lvtest@auto-inst:~/tmp/ttt/hs$ ls -al
+total 8
+drwxrwxr-x 2 lvtest lvtest 4096 Feb 27 19:03 .
+drwxrwxr-x 6 lvtest lvtest 4096 Feb 27 18:58 ..
+-rw-rw-r-- 2 lvtest lvtest    0 Feb 27 18:58 f1
+-rw-rw-r-- 2 lvtest lvtest    0 Feb 27 18:58 hard-link
+lrwxrwxrwx 1 lvtest lvtest    2 Feb 27 19:03 soft-link -&gt; f1
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-7" class="outline-3">
+<h3 id="sec-4-7">Let's Build a Playground</h3>
+<div class="outline-text-3" id="text-4-7">
+<ul class="org-ul">
+<li>hard link和symbolic link的区别在于hard link不会创建一个新的inode,而是两个文
+件使用一个inode,使用ls -i可以创建这个inode
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~/tmp/ttt/hs$ ls -li
+total 0
+134897 -rw-rw-r-- 2 lvtest lvtest 0 Feb 27 18:58 f1
+134897 -rw-rw-r-- 2 lvtest lvtest 0 Feb 27 18:58 hard-link
+134898 lrwxrwxrwx 1 lvtest lvtest 2 Feb 27 19:03 soft-link -&gt; f1
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Working With Commands</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1">What Exactly Are Commands?</h3>
+<div class="outline-text-3" id="text-5-1">
+<ul class="org-ul">
+<li>一个命令其实质上可能会是下面四种中的一种:
+<ul class="org-ul">
+<li>An executable program: 所有的在/usr/bin下面的可执行程序都是这种, which的
+结果就是/usr/bin
+</li>
+<li>A command build into the shell itself:是shell自带的. which的结果是空,
+比如cd
+</li>
+<li>A shell function
+</li>
+<li>An alias: 在其他命令的基础上自己简单改变的命令,比如ll, which ll也是空的
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2">Identifying Commans</h3>
+<div class="outline-text-3" id="text-5-2">
+</div><div id="outline-container-sec-5-2-1" class="outline-4">
+<h4 id="sec-5-2-1">type-Display a Command's Type</h4>
+<div class="outline-text-4" id="text-5-2-1">
+<ul class="org-ul">
+<li>我们可以用type命令来判断命令的类型:
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ type type
+<span style="color: #657b83; font-weight: bold;">type</span> is a shell builtin
+lvtest@auto-inst:~$ type ls
+ls is aliased to <span style="color: #6c71c4; font-weight: bold;">`ls --color=auto'</span>
+<span style="color: #6c71c4; font-weight: bold;">lvtest@auto-inst:~$ type cp</span>
+<span style="color: #6c71c4; font-weight: bold;">cp is /bin/cp</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-2-2" class="outline-4">
+<h4 id="sec-5-2-2">which-Display an Executable's Location</h4>
+<div class="outline-text-4" id="text-5-2-2">
+<ul class="org-ul">
+<li>有时候我们一个可执行程序会有多个版本,which可以判断系统默认的使用哪个, which
+还只能作用在executable程序,对于builtin的程序不管用
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ which ls
+/bin/ls
+lvtest@auto-inst:~$ which cd
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5-3" class="outline-3">
+<h3 id="sec-5-3">Getting a Command's Documentation</h3>
+<div class="outline-text-3" id="text-5-3">
+</div><div id="outline-container-sec-5-3-1" class="outline-4">
+<h4 id="sec-5-3-1">help-Get Help for Shell Builtins</h4>
+<div class="outline-text-4" id="text-5-3-1">
+<ul class="org-ul">
+<li>help + buildin command的话可以查看其文档
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ help cd
+<span style="color: #657b83; font-weight: bold;">cd</span>: cd [-L|[-P [-e]]] [dir]
+    Change the shell working directory.
+
+    Change the current directory to DIR.  The default DIR is the value of the
+    HOME shell variable.
+
+    The variable CDPATH defines the search path for the directory containing
+    DIR.  Alternative directory names<span style="color: #859900; font-weight: bold;"> in</span> CDPATH are separated by a colon (:)<span style="color: #657b83; font-weight: bold;">.</span>
+    A null directory name is the same as the current directory.  If DIR begins
+    with a slash (/), then CDPATH is not used.
+
+    If the directory is not found, and the shell option <span style="color: #6c71c4; font-weight: bold;">`cdable_vars' is set,</span>
+<span style="color: #6c71c4; font-weight: bold;">    the word is assumed to be  a variable name.  If that variable has a value,</span>
+<span style="color: #6c71c4; font-weight: bold;">    its value is used for DIR.</span>
+
+<span style="color: #6c71c4; font-weight: bold;">    Options:</span>
+<span style="color: #6c71c4; font-weight: bold;">        -L  force symbolic links to be followed</span>
+<span style="color: #6c71c4; font-weight: bold;">        -P  use the physical directory structure without following symbolic</span>
+<span style="color: #6c71c4; font-weight: bold;">        links</span>
+<span style="color: #6c71c4; font-weight: bold;">        -e  if the -P option is supplied, and the current working directory</span>
+<span style="color: #6c71c4; font-weight: bold;">        cannot be determined successfully, exit with a non-zero status</span>
+
+<span style="color: #6c71c4; font-weight: bold;">    The default is to follow symbolic links, as if `</span>-L<span style="color: #2aa198;">' were specified.</span>
+
+<span style="color: #2aa198;">    Exit Status:</span>
+<span style="color: #2aa198;">    Returns 0 if the directory is changed, and if $PWD is set successfully when</span>
+<span style="color: #2aa198;">    -P is used; non-zero otherwise.</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-3-2" class="outline-4">
+<h4 id="sec-5-3-2">&#x2013;help-Display Usage Information</h4>
+<div class="outline-text-4" id="text-5-3-2">
+<ul class="org-ul">
+<li>buildin的可以使用help,那么如果是executable的话,help就不管用了,但是默认这种
+命令会加一个&#x2013;help参数(executable最开始都是c语言写的,c语言自然对于位于自己exe
+后面的参数,当然好分析了)
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ type mkdir
+mkdir is /bin/mkdir
+lvtest@auto-inst:~$ help mkdir
+bash: help: no help topics match <span style="color: #6c71c4; font-weight: bold;">`mkdir'.  Try `</span><span style="color: #657b83; font-weight: bold;">help</span> help<span style="color: #2aa198;">' or `man -k mkdir'</span> or <span style="color: #6c71c4; font-weight: bold;">`info mkdir'.</span>
+<span style="color: #6c71c4; font-weight: bold;">lvtest@auto-inst:~$ mkdir --help</span>
+<span style="color: #6c71c4; font-weight: bold;">Usage: mkdir [OPTION]... DIRECTORY...</span>
+<span style="color: #6c71c4; font-weight: bold;">Create the DIRECTORY(ies), if they do not already exist.</span>
+
+<span style="color: #6c71c4; font-weight: bold;">Mandatory arguments to long options are mandatory for short options too.</span>
+<span style="color: #6c71c4; font-weight: bold;">  -m, --mode=MODE   set file mode (as in chmod), not a=rwx - umask</span>
+<span style="color: #6c71c4; font-weight: bold;">  -p, --parents     no error if existing, make parent directories as needed</span>
+<span style="color: #6c71c4; font-weight: bold;">  -v, --verbose     print a message for each created directory</span>
+<span style="color: #6c71c4; font-weight: bold;">  -Z, --context=CTX  set the SELinux security context of each created</span>
+<span style="color: #6c71c4; font-weight: bold;">                      directory to CTX</span>
+<span style="color: #6c71c4; font-weight: bold;">      --help     display this help and exit</span>
+<span style="color: #6c71c4; font-weight: bold;">      --version  output version information and exit</span>
+
+<span style="color: #6c71c4; font-weight: bold;">Report mkdir bugs to bug-coreutils@gnu.org</span>
+<span style="color: #6c71c4; font-weight: bold;">GNU coreutils home page: <a href="http://www.gnu.org/software/coreutils/&gt;
+General help using GNU software: &lt;http://www.gnu.org/gethelp/&gt;
+Report mkdir translation bugs to &lt;http://translationproject.org/team/">&lt;http://www.gnu.org/software/coreutils/&gt;</a></span><a href="http://www.gnu.org/software/coreutils/&gt;
+General help using GNU software: &lt;http://www.gnu.org/gethelp/&gt;
+Report mkdir translation bugs to &lt;http://translationproject.org/team/">
+</a><span style="color: #6c71c4; font-weight: bold;"><a href="http://www.gnu.org/software/coreutils/&gt;
+General help using GNU software: &lt;http://www.gnu.org/gethelp/&gt;
+Report mkdir translation bugs to &lt;http://translationproject.org/team/">General help using GNU software: &lt;http://www.gnu.org/gethelp/&gt;</a></span><a href="http://www.gnu.org/software/coreutils/&gt;
+General help using GNU software: &lt;http://www.gnu.org/gethelp/&gt;
+Report mkdir translation bugs to &lt;http://translationproject.org/team/">
+</a><span style="color: #6c71c4; font-weight: bold;"><a href="http://www.gnu.org/software/coreutils/&gt;
+General help using GNU software: &lt;http://www.gnu.org/gethelp/&gt;
+Report mkdir translation bugs to &lt;http://translationproject.org/team/">Report mkdir translation bugs to &lt;http://translationproject.org/team/&gt;</a></span>
+<span style="color: #6c71c4; font-weight: bold;">For complete documentation, run: info coreutils 'mkdir invocation'</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-3-3" class="outline-4">
+<h4 id="sec-5-3-3">man-Display a Program's Manual Page</h4>
+<div class="outline-text-4" id="text-5-3-3">
+<ul class="org-ul">
+<li>对于buildin的命令,前置的查看方法是help cmd,对于executable(开始都是c语言写
+的)来说,前置的查看方法是man ls
+</li>
+<li>由于一个executable通常都是c语言写的,而这些命令都有c语言的相应函数(甚至是system
+call),所以我们有如下的常用默认显示类别
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="right" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="right">Section</th>
+<th scope="col" class="left">Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="right">1</td>
+<td class="left">User commands</td>
+</tr>
+
+<tr>
+<td class="right">2</td>
+<td class="left">Programming interfaces for kernel system calls</td>
+</tr>
+
+<tr>
+<td class="right">3</td>
+<td class="left">Programming interfaces to the C library</td>
+</tr>
+
+<tr>
+<td class="right">4</td>
+<td class="left">Special files such as device nodes and drivers</td>
+</tr>
+
+<tr>
+<td class="right">5</td>
+<td class="left">File formats</td>
+</tr>
+
+<tr>
+<td class="right">6</td>
+<td class="left">Games and amusements such as screensavers</td>
+</tr>
+
+<tr>
+<td class="right">7</td>
+<td class="left">Miscellaneous</td>
+</tr>
+
+<tr>
+<td class="right">8</td>
+<td class="left">System administration commands</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>类别的使用方法是把类别序号放在man和cmd之间
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ man 5 passwd
+<span style="color: #268bd2;">PASSWD</span>(5)                File Formats and Conversions                PASSWD(5)
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-3-4" class="outline-4">
+<h4 id="sec-5-3-4">apropos-Display Appropriate Commands</h4>
+<div class="outline-text-4" id="text-5-3-4">
+<ul class="org-ul">
+<li>可以看成是bash的google
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ apropos mkdir
+<span style="color: #268bd2;">mkdir</span> (1)            - make directories
+<span style="color: #268bd2;">mkdir</span> (2)            - create a directory
+<span style="color: #268bd2;">mkdirat</span> (2)          - create a directory relative to a directory file descri...
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-3-5" class="outline-4">
+<h4 id="sec-5-3-5">whatis-Display a Very Brief Description of a Command</h4>
+<div class="outline-text-4" id="text-5-3-5">
+<ul class="org-ul">
+<li>whatis 就是bash的百度百科
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ whatis ls
+<span style="color: #268bd2;">ls</span> (1)               - list directory contents
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5-4" class="outline-3">
+<h3 id="sec-5-4">Creating Your Own Commands with alias</h3>
+<div class="outline-text-3" id="text-5-4">
+<ul class="org-ul">
+<li>我们可以使用alias来重新组合一个命令
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ alias <span style="color: #268bd2;">foo</span>=<span style="color: #2aa198;">'cd /usr; ls; cd -'</span>
+lvtest@auto-inst:~$ which foo
+lvtest@auto-inst:~$ type foo
+foo is aliased to <span style="color: #6c71c4; font-weight: bold;">`cd /usr; ls; cd -'</span>
+<span style="color: #6c71c4; font-weight: bold;">lvtest@auto-inst:~$ foo</span>
+<span style="color: #6c71c4; font-weight: bold;">bin  games  include  lib  local  sbin  share  src</span>
+<span style="color: #6c71c4; font-weight: bold;">/home/lvtest</span>
+</pre>
+</div>
+</li>
+<li>使用unalias来去掉这个命令的alias
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ unalias foo
+lvtest@auto-inst:~$ type foo
+bash: type: foo: not found
+</pre>
+</div>
+</li>
+<li>使用alias不加参数的话,会列举系统上面所有的alias
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ alias
+<span style="color: #657b83; font-weight: bold;">alias</span> <span style="color: #268bd2;">alert</span>=<span style="color: #2aa198;">'notify-send --urgency=low -i "$([ $? = 0 ] &amp;&amp; echo terminal || echo error)" "$(</span><span style="color: #6c71c4; font-weight: bold;">history</span><span style="color: #2aa198;">|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&amp;|]\s*alert$//'\'')"'</span>
+<span style="color: #657b83; font-weight: bold;">alias</span> <span style="color: #268bd2;">egrep</span>=<span style="color: #2aa198;">'egrep --color=auto'</span>
+<span style="color: #657b83; font-weight: bold;">alias</span> <span style="color: #268bd2;">fgrep</span>=<span style="color: #2aa198;">'fgrep --color=auto'</span>
+<span style="color: #657b83; font-weight: bold;">alias</span> <span style="color: #268bd2;">grep</span>=<span style="color: #2aa198;">'grep --color=auto'</span>
+<span style="color: #657b83; font-weight: bold;">alias</span> <span style="color: #268bd2;">l</span>=<span style="color: #2aa198;">'ls -CF'</span>
+<span style="color: #657b83; font-weight: bold;">alias</span> <span style="color: #268bd2;">la</span>=<span style="color: #2aa198;">'ls -A'</span>
+<span style="color: #657b83; font-weight: bold;">alias</span> <span style="color: #268bd2;">ll</span>=<span style="color: #2aa198;">'ls -alF'</span>
+<span style="color: #657b83; font-weight: bold;">alias</span> <span style="color: #268bd2;">ls</span>=<span style="color: #2aa198;">'ls --color=auto'</span>
+</pre>
+</div>
+</li>
+<li>alias命令只有在当前shell的生命期内有用,一旦关掉当前的terminal,这次alias的就
+消失了.
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Redirection</h2>
+<div class="outline-text-2" id="text-6">
+</div><div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1">Standard Input, Output, and Error</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li>bash程序都会和standard input,output,error相关联的,比如ls就是把结构发送到
+standard output和standard error的.
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-6-1-1" class="outline-4">
+<h4 id="sec-6-1-1">Redirecting Standard Output</h4>
+<div class="outline-text-4" id="text-6-1-1">
+<ul class="org-ul">
+<li>我们是通过&gt;将standard output转移到&gt;指向的"文件"(从头开始,会覆盖以前的内容)
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ls /usr/bin/ &gt; ls-output.txt
+bash-3.2$ ls -l ls-output.txt
+-rw-r--r--  1 hfeng  staff  8911 Mar  4 20:43 ls-output.txt
+bash-3.2$ ls /usr/bin/ &gt; ls-output.txt
+bash-3.2$ ls -l ls-output.txt
+-rw-r--r--  1 hfeng  staff  8911 Mar  4 20:43 ls-output.txt
+</pre>
+</div>
+</li>
+<li>我们是通过&gt;&gt;将standard output叠加转移到&gt;指向的"文件"(从尾开始,会保留以前的内容)
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ls /usr/bin/ &gt;&gt; ls-output.txt
+bash-3.2$ ls /usr/bin/ &gt;&gt; ls-output.txt
+bash-3.2$ ls /usr/bin/ &gt;&gt; ls-output.txt
+bash-3.2$ ls -l ls-output.txt
+-rw-r--r--  1 hfeng  staff  26733 Mar  4 20:44 ls-output.txt
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-1-2" class="outline-4">
+<h4 id="sec-6-1-2">Redirecting Standard Error</h4>
+<div class="outline-text-4" id="text-6-1-2">
+<ul class="org-ul">
+<li>如果是redirect standard Error就稍微有点拐弯了,要借助file descriptor的概念,
+一个程序产生的输出会输出到三个"文件"上面,他们也默认拥有前三个file descriptor:
+0,1,2分别代表:stin, stdout, sterr,所以把sterr导入到某个文件的方法如下(注意
+2和&gt;是在一块的):
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ls -l /bin/usr 2&gt; ls-error.txt
+bash-3.2$ cat ls-error.txt
+ls: /bin/usr: No such file or directory
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-1-3" class="outline-4">
+<h4 id="sec-6-1-3">Redirecting Standard Output and Standard Error to One File</h4>
+<div class="outline-text-4" id="text-6-1-3">
+<ul class="org-ul">
+<li>有如下两种方法:
+<ul class="org-ul">
+<li>传统的方法,要转两次,利用了stdout的file descriptor为1
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ls -l /bin/usr &gt; ls-output.txt 2&gt;&amp;1
+bash-3.2$ cat ls-output.txt
+ls: /bin/usr: No such file or directory
+</pre>
+</div>
+</li>
+<li>新版本bash支持如下方法(更简介)
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ls -l /bin/usr &amp;&gt; ls-output.txt
+bash-3.2$ cat ls-output.txt
+ls: /bin/usr: No such file or directory
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-1-4" class="outline-4">
+<h4 id="sec-6-1-4">Disposing of Unwanted Output</h4>
+<div class="outline-text-4" id="text-6-1-4">
+<ul class="org-ul">
+<li>如果我们不想要某些输出,我们可以redirect它们到一个特殊的文件
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ls -l /bin/usr 2&gt; /dev/null
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-1-5" class="outline-4">
+<h4 id="sec-6-1-5">Redirecting Standard Input</h4>
+<div class="outline-text-4" id="text-6-1-5">
+<ul class="org-ul">
+<li>我们用"&gt;"把stdout转移到一个文件,其实我们还可以使用"&lt;"把文件内容作为standard
+input,如下
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ cat &gt; lazy_dog.txt
+The quick brown fox jumped over the lazy dog.
+bash-3.2$ cat lazy_dog.txt
+The quick brown fox jumped over the lazy dog.
+bash-3.2$ cat &lt; lazy_dog.txt
+The quick brown fox jumped over the lazy dog.
+</pre>
+</div>
+</li>
+<li>我们可以看到这里使用"&lt;"和不使用"&lt;",是没有什么区别的.但是也说明了&lt;的作用.
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2">Pipelines</h3>
+<div class="outline-text-3" id="text-6-2">
+<ul class="org-ul">
+<li>管道是bash的重要概念,我们可以通过"|"把一个程序的stout redirect到另一个
+程序的stdin
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ls -l /usr/bin | less
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-6-2-1" class="outline-4">
+<h4 id="sec-6-2-1">Filters</h4>
+<div class="outline-text-4" id="text-6-2-1">
+<ul class="org-ul">
+<li>我们还可以在管道中间进行一些filter操作,比如sort一下
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ls -l /usr/bin | more | less
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-2-2" class="outline-4">
+<h4 id="sec-6-2-2">uniq-Report or Omit Repeated Lines</h4>
+<div class="outline-text-4" id="text-6-2-2">
+<ul class="org-ul">
+<li>uniq是和sort配合最多的一个程序,它把重复的行只显示一次, 而加了-d参数以后,就
+是只显示那些重复的行
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ cat test.txt
+a
+n
+c
+n
+c
+n
+1
+2
+3
+4
+bash-3.2$ cat test.txt | sort | uniq
+1
+2
+3
+4
+a
+c
+n
+bash-3.2$ cat test.txt | sort | uniq -d
+c
+n
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-2-3" class="outline-4">
+<h4 id="sec-6-2-3">wc-Print Line, Word and Byte Counts</h4>
+<div class="outline-text-4" id="text-6-2-3">
+<ul class="org-ul">
+<li>wc会显示文件的1行数2word数3byte数
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ wc test.txt
+      10      10      20 test.txt
+</pre>
+</div>
+</li>
+<li>我们可以用前面学过的几个参数来统计我们总共有多个个executable程序在/usr和
+/usr/bin下面
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ls /bin /usr/bin | sort | uniq | wc -l
+    1078
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-2-4" class="outline-4">
+<h4 id="sec-6-2-4">grep-Print Lines Matching a Pattern</h4>
+<div class="outline-text-4" id="text-6-2-4">
+<ul class="org-ul">
+<li>grep是一个强大的命令,其主要就是"KMP"查找字符串,其使用格式是(注意如果没有
+files的话,那么就是grep stin了)
+<pre class="example">
+grep pattern [file...]
+</pre>
+</li>
+<li>grep的一个简单应用(-i ignore -v反向输出,等复杂的以后再研究)
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ls /usr/bin | sort | uniq | grep zip
+bunzip2
+bzip2
+bzip2recover
+funzip
+gunzip
+gzip
+unzip
+unzipsfx
+zip
+zipcloak
+zipdetails
+zipdetails5.16
+zipgrep
+zipinfo
+zipnote
+zipsplit
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-2-5" class="outline-4">
+<h4 id="sec-6-2-5">head/tail-Print First/Last Part of Files</h4>
+<div class="outline-text-4" id="text-6-2-5">
+<ul class="org-ul">
+<li>head 可以看文件的前n(n可以指定默认是10)行, tail反之
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ head -n 5 ls-output.txt
+2to3
+2to3-
+2to3-2.7
+2to32.6
+BuildStrings
+bash-3.2$ tail -n 5 ls-output.txt
+zipsplit
+zless
+zmore
+znew
+zprint
+</pre>
+</div>
+</li>
+<li>tail更重要的一个功能是在-f之后看log
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ tail -f /var/log/appstore.log
+        <span style="color: #2aa198;">"os_updates_to_install_on_restart"</span> = <span style="color: #2aa198;">""</span>;
+        result = pass;
+        <span style="color: #2aa198;">"user_initiated"</span> = no;
+        <span style="color: #2aa198;">"will_restart"</span> = no;
+    }
+Mar  4 20:29:34 hair.lan storeagent[263]: SoftwareMap: Software map rebuild took 0.0856 seconds for 0 records and produced: {
+    }
+Mar  4 20:29:34 hair.lan storeagent[263]: AutoUpdateOperation: Released BackgroundTask power assertion (returned 0)
+......
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-2-6" class="outline-4">
+<h4 id="sec-6-2-6">tee-Read from Stdin and Output to Stdout and Files</h4>
+<div class="outline-text-4" id="text-6-2-6">
+<ul class="org-ul">
+<li>tee其实是提供了一种"T"型的管道,就是结果不仅仅是传递给tee后面指定的文件,而且
+同时传递给了stdout(这样可以让管道继续叠加下去)
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ls /usr/bin | grep zip | tee out-grep.txt | grep un
+bunzip2
+funzip
+gunzip
+unzip
+unzipsfx
+bash-3.2$ cat out-grep.txt
+bunzip2
+bzip2
+bzip2recover
+funzip
+gunzip
+gzip
+unzip
+unzipsfx
+zip
+zipcloak
+zipdetails
+zipdetails5.16
+zipgrep
+zipinfo
+zipnote
+zipsplit
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Seeing the world as the shell sees it</h2>
+<div class="outline-text-2" id="text-7">
+</div><div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1">Expansion</h3>
+<div class="outline-text-3" id="text-7-1">
+<ul class="org-ul">
+<li>我们看到的bash执行,从宏观上可以分成两个部分,第一部分bash先做一些预处理,然后
+第二部分才开始正式的执行,比如下面的echo *, *就是第一部分进行了预处理,处理
+成了"match any chars in a filename",所以echo *就输出了当前文件夹下的name
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ echo this is a test
+this is a test
+bash-3.2$ echo *
+Desktop Documents Downloads Library Movies Music Pictures Public orgblog test tmp
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-7-1-1" class="outline-4">
+<h4 id="sec-7-1-1">Pathname Epansion</h4>
+<div class="outline-text-4" id="text-7-1-1">
+<ul class="org-ul">
+<li>wildcard能自动转换成"文件夹下"的文件的功能叫做pathname expansion.下面就是几
+个转换的例子
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ls
+Desktop         Downloads       Movies          Pictures        orgblog         tmp
+Documents       Library         Music           Public          test            &#30334;&#24230;&#20113;&#21516;&#27493;&#30424;
+bash-3.2$ echo D*
+Desktop Documents Downloads
+bash-3.2$ echo *s
+Documents Downloads Movies Pictures
+bash-3.2$ echo [[:upper:]]*
+Desktop Documents Downloads Library Movies Music Pictures Public
+</pre>
+</div>
+</li>
+<li>pathname epansion不会扩展出隐藏文件的,需要加个".", 也就是"echo .*"
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-1-2" class="outline-4">
+<h4 id="sec-7-1-2">Tilde Expansion</h4>
+<div class="outline-text-4" id="text-7-1-2">
+<ul class="org-ul">
+<li>~代表当前的用户home directory
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ echo ~
+/Users/hfeng
+bash-3.2$ echo ~root
+/var/root
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-1-3" class="outline-4">
+<h4 id="sec-7-1-3">Arithmetic Expansion</h4>
+<div class="outline-text-4" id="text-7-1-3">
+<ul class="org-ul">
+<li>我们还可以使用bash计算算术表达式,格式是$((expression)), 两个括号
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ echo $((2+2))
+4
+bash-3.2$ echo $(($((5**2)) * 3))
+75
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-1-4" class="outline-4">
+<h4 id="sec-7-1-4">Brace Expansion</h4>
+<div class="outline-text-4" id="text-7-1-4">
+<ul class="org-ul">
+<li>brace的扩展可以说是最不直观的,因为它会有Permutation的作用在里面,列表式的看
+起来还很简单
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ echo Front-{A,B,C}-Back
+Front-A-Back Front-B-Back Front-C-Back
+</pre>
+</div>
+</li>
+<li>一旦加入了..就麻烦起来了(注意是两点,而且必须没有空格)
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ echo Number_{1..5}
+Number_1 Number_2 Number_3 Number_4 Number_5
+bash-3.2$ echo {Z..A}
+Z Y X W V U T S R Q P O N M L K J I H G F E D C B A
+</pre>
+</div>
+</li>
+<li>复杂的扩展性通常也意味着最后会产生非常大的作用,比如为2009到2011每个月建一个folder
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ mkdir {2009..2011}-0{1..9} {2009..2011}-{10..12}
+bash-3.2$ ls
+2009-01 2009-03 2009-05 2009-07 2009-09 2009-11 2010-01 2010-03 2010-05 2010-07 2010-09 2010-11 2011-01 2011-03 2011-05 2011-07 2011-09 2011-11
+2009-02 2009-04 2009-06 2009-08 2009-10 2009-12 2010-02 2010-04 2010-06 2010-08 2010-10 2010-12 2011-02 2011-04 2011-06 2011-08 2011-10 2011-12
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-1-5" class="outline-4">
+<h4 id="sec-7-1-5">Parameter Expanison</h4>
+<div class="outline-text-4" id="text-7-1-5">
+<ul class="org-ul">
+<li>我们可以用$来表示bash自己的参数(可以被我们知道的参数可以用printenv来全部显示)
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ echo $<span style="color: #268bd2;">USER</span>
+hfeng
+bash-3.2$ printenv
+<span style="color: #268bd2;">SHELL</span>=/bin/bash
+<span style="color: #268bd2;">TERM</span>=dumb
+<span style="color: #268bd2;">TMPDIR</span>=/var/folders/2d/z9f32m_55_71lttsknj0b3980000gn/T/
+<span style="color: #268bd2;">Apple_PubSub_Socket_Render</span>=/tmp/launch-ymkMDD/Render
+<span style="color: #268bd2;">LC_ALL</span>=en_US.UTF-8
+<span style="color: #268bd2;">USER</span>=hfeng
+<span style="color: #268bd2;">EMACS</span>=t
+<span style="color: #268bd2;">RBENV_ROOT</span>=/usr/local/var/rbenv
+<span style="color: #268bd2;">SSH_AUTH_SOCK</span>=/tmp/launch-X7FGUA/Listeners
+<span style="color: #268bd2;">TERMCAP</span>=
+<span style="color: #268bd2;">__CF_USER_TEXT_ENCODING</span>=0x1F5:25:52
+<span style="color: #268bd2;">PAGER</span>=cat
+<span style="color: #268bd2;">COLUMNS</span>=177
+<span style="color: #268bd2;">PATH</span>=/usr/local/var/rbenv/shims:/usr/local/bin:/bin:/sbin:/usr:/usr/bin:/usr/sbin:/usr/bin:/bin:/usr/sbin:/sbin
+<span style="color: #268bd2;">__CHECKFIX1436934</span>=1
+<span style="color: #268bd2;">PWD</span>=/Users/hfeng/Pics
+<span style="color: #268bd2;">LANG</span>=en_US.UTF-8
+<span style="color: #268bd2;">SHLVL</span>=1
+<span style="color: #268bd2;">HOME</span>=/Users/hfeng
+<span style="color: #268bd2;">LOGNAME</span>=hfeng
+<span style="color: #268bd2;">DISPLAY</span>=hair.lan
+<span style="color: #268bd2;">INSIDE_EMACS</span>=24.3.1,comint
+<span style="color: #268bd2;">SECURITYSESSIONID</span>=186a5
+<span style="color: #268bd2;">_</span>=/usr/bin/printenv
+<span style="color: #268bd2;">OLDPWD</span>=/Users/hfeng
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-1-6" class="outline-4">
+<h4 id="sec-7-1-6">Command Substitution</h4>
+<div class="outline-text-4" id="text-7-1-6">
+<ul class="org-ul">
+<li>$(), 一个括号的情况是把一个bash命令的结果expand出来
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ls -l $(<span style="color: #6c71c4; font-weight: bold;">which</span> cp)
+-rwxr-xr-x  1 root  wheel  24848 Feb  7 21:09 /bin/cp
+bash-3.2$ file $(<span style="color: #6c71c4; font-weight: bold;">ls</span> /usr/bin/* | grep zip)
+/usr/bin/bunzip2:        Mach-O 64-bit executable x86_64
+/usr/bin/bzip2:          Mach-O 64-bit executable x86_64
+/usr/bin/bzip2recover:   Mach-O 64-bit executable x86_64
+/usr/bin/funzip:         Mach-O 64-bit executable x86_64
+/usr/bin/gunzip:         Mach-O 64-bit executable x86_64
+/usr/bin/gzip:           Mach-O 64-bit executable x86_64
+/usr/bin/unzip:          Mach-O 64-bit executable x86_64
+/usr/bin/unzipsfx:       Mach-O 64-bit executable x86_64
+/usr/bin/zip:            Mach-O 64-bit executable x86_64
+/usr/bin/zipcloak:       Mach-O 64-bit executable x86_64
+/usr/bin/zipdetails:     a /usr/bin/perl script text executable
+/usr/bin/zipdetails5.16: a /usr/bin/perl5.16 script text executable
+/usr/bin/zipgrep:        POSIX shell script text executable
+/usr/bin/zipinfo:        Mach-O 64-bit executable x86_64
+/usr/bin/zipnote:        Mach-O 64-bit executable x86_64
+/usr/bin/zipsplit:       Mach-O 64-bit executable x86_64
+</pre>
+</div>
+</li>
+<li>原来的bash是使用``(不是'')来代替$()的.
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ls -l <span style="color: #6c71c4; font-weight: bold;">`which cp`</span>
+-rwxr-xr-x  1 root  wheel  24848 Feb  7 21:09 /bin/cp
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7-2" class="outline-3">
+<h3 id="sec-7-2">Quoting</h3>
+<div class="outline-text-3" id="text-7-2">
+<ul class="org-ul">
+<li>quoting是为了解决由于shell要依靠某些字符(比如$)做转义,导致不需要转义的时候,
+就抓瞎的情况, 下面第一个例子多余的space被去掉了,第二个例子$1因为没有定义,被
+认为了是无定义的变量,就成了空
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ echo this a     test
+this a test
+bash-3.2$ echo The total is $<span style="color: #268bd2;">100</span>.00
+The total is 00.00
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-7-2-1" class="outline-4">
+<h4 id="sec-7-2-1">Single Quotes</h4>
+<div class="outline-text-4" id="text-7-2-1">
+<ul class="org-ul">
+<li>单引号的作用就是去除上面提到的所有的expanison,所有转义字符都不再起作用
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ echo <span style="color: #2aa198;">'text ~/*.txt {a, b} $(</span><span style="color: #6c71c4; font-weight: bold;">echo</span><span style="color: #2aa198;"> foo) $((2+2)) $USER'</span>
+text ~/*.txt {a, b} $(<span style="color: #6c71c4; font-weight: bold;">echo</span> foo) $((2+2)) $<span style="color: #268bd2;">USER</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-2-2" class="outline-4">
+<h4 id="sec-7-2-2">Double Quotes</h4>
+<div class="outline-text-4" id="text-7-2-2">
+<ul class="org-ul">
+<li>双引号做的就没那么绝:留下了三个活口:
+<ol class="org-ol">
+<li>$(dollar sign) : 依赖dollor的三个parameter expansion,command substitution,
+arithmetic都没问题
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ echo <span style="color: #2aa198;">"$USER"</span>
+hfeng
+bash-3.2$ ls -l <span style="color: #2aa198;">"$(</span><span style="color: #6c71c4; font-weight: bold;">which</span><span style="color: #2aa198;"> cp)"</span>
+-rwxr-xr-x  1 root  wheel  24848 Feb  7 21:09 /bin/cp
+bash-3.2$ echo <span style="color: #2aa198;">"$((2+2))"</span>
+4
+</pre>
+</div>
+</li>
+<li>\(backslash): 双引号不加入的话,backslash是不管用的,加了双引号,再echo加
+-e就能起到作用了
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ echo -e <span style="color: #2aa198;">"hello\nworld"</span>
+hello
+world
+</pre>
+</div>
+</li>
+<li>`(back tick): 这个是old-style的$()等价体,$()被特赦了,它也一样
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ echo <span style="color: #2aa198;">"`id -u`"</span>
+501
+</pre>
+</div>
+</li>
+</ol>
+</li>
+<li>由于双引号的加入,我们也可以查看带空格的文件了(虽然带空格的文件不推荐在linux
+上面使用),当然,单引号因为去掉了所有的"特权",也可以对付空格
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ls -l hello world.txt
+ls: hello: No such file or directory
+ls: world.txt: No such file or directory
+bash-3.2$ ls -l <span style="color: #2aa198;">"hello world.txt"</span>
+-rw-r--r--  1 hfeng  staff  3 Mar  5 22:07 hello world.txt
+bash-3.2$ ls -l <span style="color: #2aa198;">'hello world.txt'</span>
+-rw-r--r--  1 hfeng  staff  3 Mar  5 22:07 hello world.txt
+</pre>
+</div>
+</li>
+<li>多个空格被丢弃的问题也得到了解决
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ echo <span style="color: #2aa198;">"this is a      test"</span>
+this is a      test
+</pre>
+</div>
+</li>
+<li>事实上,空格的问题值得一说,前面的多个空格被解析成一个空格,是因为bash对待空
+格, 换行符和tab的态度是只把他们看做是delimiter(分隔符). 这个和高级语言
+比如c,java里面对待空格的态度一样.有些情况下我们希望保留格式,比如如下的cal
+那么双引号就非常重要:
+<ul class="org-ul">
+<li>这个时候单引号就不行了,因为其把$抛弃了,
+</li>
+<li>不加引号不行,因为他们把换行符tab,多余空格都抛弃了
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ echo $(<span style="color: #6c71c4; font-weight: bold;">cal</span>)
+March 2014 Su Mo Tu We Th Fr Sa 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
+bash-3.2$ echo <span style="color: #2aa198;">"$(</span><span style="color: #6c71c4; font-weight: bold;">cal</span><span style="color: #2aa198;">)"</span>
+March 2014
+Su Mo Tu We Th Fr Sa
+1
+2  3  4  5  6  7  8
+9 10 11 12 13 14 15
+16 17 18 19 20 21 22
+23 24 25 26 27 28 29
+30 31
+bash-3.2$ echo <span style="color: #2aa198;">'$(</span><span style="color: #6c71c4; font-weight: bold;">cal</span><span style="color: #2aa198;">)'</span>
+$(<span style="color: #6c71c4; font-weight: bold;">cal</span>)
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-2-3" class="outline-4">
+<h4 id="sec-7-2-3">Escaping Characters</h4>
+<div class="outline-text-4" id="text-7-2-3">
+<ul class="org-ul">
+<li>"\"是个神奇的字符,可以把特殊字符转移,比如$,!,&amp;,空格都不能出现在bash 文件名里面
+那么我们就可以使用\来转移
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ echo <span style="color: #2aa198;">"The balance for user $USER is : \$5.00"</span>
+The balance for user hfeng is : $<span style="color: #268bd2;">5</span>.00
+bash-3.2$ touch good<span style="color: #2aa198;">\$</span><span style="color: #268bd2;">work</span><span style="color: #2aa198;">\!</span>
+bash-3.2$ ls -l good*
+-rw-r--r--  1 hfeng  staff  0 Mar  5 23:16 good$<span style="color: #268bd2;">work</span>!
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">Advanced keyboard tricks</h2>
+<div class="outline-text-2" id="text-8">
+</div><div id="outline-container-sec-8-1" class="outline-3">
+<h3 id="sec-8-1">Command Line Editing</h3>
+<div class="outline-text-3" id="text-8-1">
+<ul class="org-ul">
+<li>bash使用了一个叫做Readline的方法来实现command line的编辑
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-8-1-1" class="outline-4">
+<h4 id="sec-8-1-1">Cursor Movement</h4>
+<div class="outline-text-4" id="text-8-1-1">
+<ul class="org-ul">
+<li>下表就是光标移动的快捷键,其实都是Emacs的快捷键
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">CTRL-A</td>
+<td class="left">Move ahead</td>
+</tr>
+
+<tr>
+<td class="left">CTRL-E</td>
+<td class="left">Move to the end</td>
+</tr>
+
+<tr>
+<td class="left">CTRL-F</td>
+<td class="left">Move forward one character</td>
+</tr>
+
+<tr>
+<td class="left">CTRL-B</td>
+<td class="left">Move backward one character</td>
+</tr>
+
+<tr>
+<td class="left">ALT-F</td>
+<td class="left">Move forward one word</td>
+</tr>
+
+<tr>
+<td class="left">ALT-B</td>
+<td class="left">Move backward one word</td>
+</tr>
+
+<tr>
+<td class="left">CTRL-L</td>
+<td class="left">Clear the screen</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-8-1-2" class="outline-4">
+<h4 id="sec-8-1-2">Cutting and Pasting(Killing and Yanking) Text</h4>
+<div class="outline-text-4" id="text-8-1-2">
+<ul class="org-ul">
+<li>还是大体和Emacs相似,除了使用Ctrl+T来exchange
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-8-1-3" class="outline-4">
+<h4 id="sec-8-1-3">Completion</h4>
+<div class="outline-text-4" id="text-8-1-3">
+<ul class="org-ul">
+<li>使用TAB可以进行补全
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-8-2" class="outline-3">
+<h3 id="sec-8-2">Using History</h3>
+<div class="outline-text-3" id="text-8-2">
+</div><div id="outline-container-sec-8-2-1" class="outline-4">
+<h4 id="sec-8-2-1">Searching History</h4>
+<div class="outline-text-4" id="text-8-2-1">
+<ul class="org-ul">
+<li>使用history加grep可以配合找到原来的命令,!+序号可以重复执行
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$  history | grep <span style="color: #2aa198;">"grep zip"</span>
+  448  ls /usr/bin | sort | uniq | grep zip
+  451  ls /usr/bin | sort | uniq | grep zip | wc -l
+  452  ls /usr/bin | sort | uniq | grep zip
+  470  ls /usr/bin | grep zip | tee out-grep.txt | grep un
+  504  ls /usr/bin | sort | uniq | grep zip
+  505   history | grep grep zip
+  506   history | grep <span style="color: #2aa198;">"grep zip"</span>
+bash-3.2$ !448
+ls /usr/bin | sort | uniq | grep zip
+bunzip2
+bzip2
+bzip2recover
+funzip
+gunzip
+gzip
+unzip
+unzipsfx
+zip
+zipcloak
+zipdetails
+zipdetails5.16
+zipgrep
+zipinfo
+zipnote
+zipsplit
+</pre>
+</div>
+</li>
+<li>CTRL + L可以关键字查找history命令
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9">Permissions</h2>
+<div class="outline-text-2" id="text-9">
+</div><div id="outline-container-sec-9-1" class="outline-3">
+<h3 id="sec-9-1">Owners, Group Members, and Everybody Else</h3>
+<div class="outline-text-3" id="text-9-1">
+<ul class="org-ul">
+<li>id 命令会列出当前用户(也可以指定)所属的user id, groupid,并且会指出其属于哪
+些group
+<div class="org-src-container">
+
+<pre class="src src-sh">[hfeng@harrifeng ~]$ id
+<span style="color: #268bd2;">uid</span>=1000(hfeng) <span style="color: #268bd2;">gid</span>=100(users) <span style="color: #268bd2;">groups</span>=100(users),10(wheel)
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-2" class="outline-3">
+<h3 id="sec-9-2">Reading, Writing, and Executing</h3>
+<div class="outline-text-3" id="text-9-2">
+<ul class="org-ul">
+<li>下图精确的表达了在ls -l出来的前10个字符是干嘛的. r就是可读, w是可写,x是可执
+行
+
+<div class="figure">
+<p><img src="../../static/images/permission.png" alt="permission.png" />
+</p>
+</div>
+</li>
+
+<li>其中的Type permission有如下几种:
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Attribute</th>
+<th scope="col" class="left">File Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">-</td>
+<td class="left">A regular file</td>
+</tr>
+
+<tr>
+<td class="left">d</td>
+<td class="left">A directory</td>
+</tr>
+
+<tr>
+<td class="left">l</td>
+<td class="left">A symbolic link</td>
+</tr>
+
+<tr>
+<td class="left">c</td>
+<td class="left">A character special file</td>
+</tr>
+
+<tr>
+<td class="left">b</td>
+<td class="left">A block file.</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-9-2-1" class="outline-4">
+<h4 id="sec-9-2-1">chmod-Change File Mod</h4>
+<div class="outline-text-4" id="text-9-2-1">
+<ul class="org-ul">
+<li>chmod命令就是为了更改rwx属性的,其使用下面列表的三种方式来表示想要改成的mode
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="right" />
+
+<col  class="right" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="right">Octal</th>
+<th scope="col" class="right">Binary</th>
+<th scope="col" class="left">File Mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="right">0</td>
+<td class="right">000</td>
+<td class="left">---</td>
+</tr>
+
+<tr>
+<td class="right">1</td>
+<td class="right">001</td>
+<td class="left">&#x2013;x</td>
+</tr>
+
+<tr>
+<td class="right">2</td>
+<td class="right">010</td>
+<td class="left">-w-</td>
+</tr>
+
+<tr>
+<td class="right">3</td>
+<td class="right">011</td>
+<td class="left">-wx</td>
+</tr>
+
+<tr>
+<td class="right">4</td>
+<td class="right">100</td>
+<td class="left">r--</td>
+</tr>
+
+<tr>
+<td class="right">5</td>
+<td class="right">101</td>
+<td class="left">r-x</td>
+</tr>
+
+<tr>
+<td class="right">6</td>
+<td class="right">110</td>
+<td class="left">rw-</td>
+</tr>
+
+<tr>
+<td class="right">7</td>
+<td class="right">111</td>
+<td class="left">rwx</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>要把上面的mode施加于不同的作用域,是下面图标要表示的
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Symbol</th>
+<th scope="col" class="left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">u</td>
+<td class="left">Short for user but means the file or directory owner</td>
+</tr>
+
+<tr>
+<td class="left">g</td>
+<td class="left">Group owner</td>
+</tr>
+
+<tr>
+<td class="left">o</td>
+<td class="left">Short for others but means world</td>
+</tr>
+
+<tr>
+<td class="left">a</td>
+<td class="left">Short for all; the combination of u, g, and o</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>下面是mode和作用域结合起来的例子
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Notation</th>
+<th scope="col" class="left">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">u+x</td>
+<td class="left">Add execute permission for the owner</td>
+</tr>
+
+<tr>
+<td class="left">u-x</td>
+<td class="left">Remve execute permission from the owner</td>
+</tr>
+
+<tr>
+<td class="left">+x</td>
+<td class="left">Add execute permission for the owner, group, and world (== a+x)</td>
+</tr>
+
+<tr>
+<td class="left">o-rw</td>
+<td class="left">Remove the read and write permissions from anyone besides the owner and group owner</td>
+</tr>
+
+<tr>
+<td class="left">go=rw</td>
+<td class="left">Set the group and anyone besides the owner to have read and write permission. If</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">either the group owner or world previously had execute permissions, remove them</td>
+</tr>
+
+<tr>
+<td class="left">u+x, go=rx</td>
+<td class="left">Add execute permission for the owner and set the permissions for the group and</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">others to read and execute.</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>创建一个新文件的时候,其格式为如下rw-rw-rw-, 但是你可以通过umask来指定
+
+<div class="figure">
+<p><img src="../../static/images/umask.png" alt="umask.png" />
+</p>
+</div>
+</li>
+
+<li>umask的例子
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ umask 000
+bash-3.2$ rm foo.txt
+bash-3.2$ &gt; foo.txt
+bash-3.2$ ls -l foo.txt
+-rw-rw-rw-  1 hfeng  staff  0 Mar  8 12:29 foo.txt
+bash-3.2$ rm foo.txt ; <span style="color: #657b83; font-weight: bold;">umask</span> 0022
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-9-3" class="outline-3">
+<h3 id="sec-9-3">Changing Identities</h3>
+<div class="outline-text-3" id="text-9-3">
+</div><div id="outline-container-sec-9-3-1" class="outline-4">
+<h4 id="sec-9-3-1">su-Run a Shell with Substitute User and Group IDs</h4>
+<div class="outline-text-4" id="text-9-3-1">
+<ul class="org-ul">
+<li>su命令我们很熟悉了,但是其实它的原型并不是只是对root有效(只是默认不指定用户
+就是root用户)其使用方法如下
+<pre class="example">
+su [-[l]] [user]
+</pre>
+</li>
+<li>如果我们使用了-l(甚至是-),那么shell就是一个login shell, 也就意味着:
+<ul class="org-ul">
+<li>[user]标记的environment 导入
+</li>
+<li>working directory转化到/home/[user]
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-3-2" class="outline-4">
+<h4 id="sec-9-3-2">sudo-Execute a Command as Another User</h4>
+<div class="outline-text-4" id="text-9-3-2">
+<ul class="org-ul">
+<li>sudo就是给某些用户某些root权限,好处是权限可控,而且用户不需要知道root密码
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-3-3" class="outline-4">
+<h4 id="sec-9-3-3">chown-Change File Owner and Group</h4>
+<div class="outline-text-4" id="text-9-3-3">
+<ul class="org-ul">
+<li>chown使用方法如下,可以更改文件的owner和group
+<pre class="example">
+chown [owner][:[group]] file ...
+</pre>
+</li>
+<li>其owner group的组合例子如下
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Argument</th>
+<th scope="col" class="left">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">bob</td>
+<td class="left">Changes the ownership of the file from its current owner to user bob</td>
+</tr>
+
+<tr>
+<td class="left">bob:users</td>
+<td class="left">Changes the ownership of the file from it current owner to user bob</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">and changes the file group owner to group users</td>
+</tr>
+
+<tr>
+<td class="left">:admins</td>
+<td class="left">Changes the group owner to the group admins. The file owner is unchanged</td>
+</tr>
+
+<tr>
+<td class="left">bob:</td>
+<td class="left">Changes the file owner from the current owner to suer bob and changes the</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">group owner to the login group of user bob</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-3-4" class="outline-4">
+<h4 id="sec-9-3-4">chgrp-Change Group Ownership</h4>
+<div class="outline-text-4" id="text-9-3-4">
+<ul class="org-ul">
+<li>老版本的Unix chown不能改group,现在chgrp的存在已经没什么必要了
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10">Processes</h2>
+<div class="outline-text-2" id="text-10">
+</div><div id="outline-container-sec-10-1" class="outline-3">
+<h3 id="sec-10-1">How a Proess Works</h3>
+<div class="outline-text-3" id="text-10-1">
+</div><div id="outline-container-sec-10-1-1" class="outline-4">
+<h4 id="sec-10-1-1">Viewing Processes with ps</h4>
+<div class="outline-text-4" id="text-10-1-1">
+<ul class="org-ul">
+<li>最常见的查看进程的命令是ps
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ps
+  PID TTY           TIME CMD
+ 3970 ttys000    0:00.01 /bin/bash --noediting -i
+ 3929 ttys006    0:00.01 -bash
+</pre>
+</div>
+</li>
+<li>加上x后,会显示的更多(注意没有-), 因为所有x windows的进程也会显示
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ps x
+  PID   TT  STAT      TIME COMMAND
+  145   ??  Ss     0:02.79 /sbin/launchd
+  149   ??  S      0:02.93 /usr/libexec/UserEventAgent (Aqua)
+  150   ??  S      2:09.42 /usr/sbin/distnoted agent
+  152   ??  S      0:02.30 /usr/sbin/cfprefsd agent
+  157   ??  S      0:08.60 /System/Library/CoreServices/Dock.app/Contents/MacOS/Dock
+</pre>
+</div>
+</li>
+<li>再加上au,会显示process更多的信息
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ps aux
+USER              PID  %CPU %MEM      VSZ    RSS   TT  STAT STARTED      TIME COMMAND
+hfeng            3848  26.6  3.5  1175648 148560   ??  S    12:57PM   3:05.56 /Applications/Google Chrome.app/Contents/Versions/33.0.1750.117/Google Chrome Helper.app/Contents/M
+hfeng             226   9.7  2.2   902680  91836   ??  S     8:11PM  15:07.57 /Applications/Google Chrome.app/Contents/Versions/33.0.1750.117/Google Chrome Helper.app/Contents/M
+_windowserver     105   8.2  1.3  3066572  54600   ??  Ss    8:11PM  14:18.16 /System/Library/Frameworks/ApplicationServices.framework/Frameworks/CoreGraphics.framework/Resource
+hfeng             205   7.2  3.8  1487564 158904   ??  S     8:11PM  25:21.50 /Applications/Google Chrome.app/Contents/MacOS/Google Chrome
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-10-1-2" class="outline-4">
+<h4 id="sec-10-1-2">Viewing Processes Dynamially with top</h4>
+<div class="outline-text-4" id="text-10-1-2">
+<ul class="org-ul">
+<li>使用top可以动态的查看进程的信息
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10-2" class="outline-3">
+<h3 id="sec-10-2">Controlling Processes</h3>
+<div class="outline-text-3" id="text-10-2">
+</div><div id="outline-container-sec-10-2-1" class="outline-4">
+<h4 id="sec-10-2-1">Putting a Proces in the Background</h4>
+<div class="outline-text-4" id="text-10-2-1">
+<ul class="org-ul">
+<li>把一个进程放到后台运行的方法是在executable后面加个&amp;
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ ./a.out &amp;
+[1] 4130
+</pre>
+</div>
+</li>
+<li>我们可以通过jobs来看到"当前"bash启动的进程(ps是可以看到机器上的所有进程)
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ jobs
+[1]+  Running                 ./a.out &amp;
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-10-2-2" class="outline-4">
+<h4 id="sec-10-2-2">Returning a Proces to the Foreground</h4>
+<div class="outline-text-4" id="text-10-2-2">
+<ul class="org-ul">
+<li>当前terminal开启的进程都是可以用jobs来观看,如果当前terminal开启job的超过
+三个的话,除了[id]以外,还有"+","-". 这里的"+"是fg的首选(在不使用参数的情况下)
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ jobs
+[1]   Running                 ./a.out &amp;
+[2]   Running                 ./a.out &amp;
+[3]-  Running                 ./a.out &amp;
+[4]+  Running                 ./a.out &amp;
+bash-3.2$ fg %4 <span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">equals==&gt; fg %+ equals==&gt; fg</span>
+./a.out
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-10-2-3" class="outline-4">
+<h4 id="sec-10-2-3">Stopping (Pausing) a Process</h4>
+<div class="outline-text-4" id="text-10-2-3">
+<ul class="org-ul">
+<li>无论是前台运行也好,后台运行也好,都是运行.我们有时候还要把程序停止(让他不要
+再使用cpu), 方法是:当程序在前台运行的适合按Ctrl+z
+<div class="org-src-container">
+
+<pre class="src src-sh">hAir:tmp hfeng$ ./a.out
+^Z
+[1]+  Stopped                 ./a.out
+hAir:tmp hfeng$ jobs
+[1]+  Stopped                 ./a.out
+hAir:tmp hfeng$ bg %1
+[1]+ ./a.out &amp;
+hAir:tmp hfeng$ jobs
+[1]+  Running                 ./a.out &amp;
+</pre>
+</div>
+</li>
+<li>我们这里使用了bg把程序从dead状态转到==&gt;running运行状态(并且在后台运行).
+而fg是吧程序从dead状态(或者后台运行状态)转到==&gt;running运行状态(并且是在
+前台运行)
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10-3" class="outline-3">
+<h3 id="sec-10-3">Signals</h3>
+<div class="outline-text-3" id="text-10-3">
+</div><div id="outline-container-sec-10-3-1" class="outline-4">
+<h4 id="sec-10-3-1">Sending Signals to Process with kill</h4>
+<div class="outline-text-4" id="text-10-3-1">
+<ul class="org-ul">
+<li>使用kill可以杀掉某个id的process,使用方法如下
+<pre class="example">
+kill [-signal] PID...
+</pre>
+</li>
+<li>具体使用-signal的时候,可以使用'数字', '命令',还有'SIG命令'.三种方式
+<div class="org-src-container">
+
+<pre class="src src-sh">Air:tmp hfeng$ ./a.out &amp;
+[1] 4214
+hAir:tmp hfeng$ kill -1 4214
+hAir:tmp hfeng$ jobs
+[1]+  Hangup: 1               ./a.out
+hAir:tmp hfeng$ ./a.out &amp;
+[1] 4215
+hAir:tmp hfeng$ jobs
+[1]+  Running                 ./a.out &amp;
+hAir:tmp hfeng$ kill -INT 4215
+hAir:tmp hfeng$ jobs
+[1]+  Interrupt: 2            ./a.out
+hAir:tmp hfeng$ ./a.out &amp;
+[1] 4219
+hAir:tmp hfeng$ jobs
+[1]+  Running                 ./a.out &amp;
+hAir:tmp hfeng$ kill -SIGINT 4219
+hAir:tmp hfeng$ jobs
+[1]+  Interrupt: 2            ./a.out
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-10-3-2" class="outline-4">
+<h4 id="sec-10-3-2">Sending Signals to Multiple Processes with killall</h4>
+<div class="outline-text-4" id="text-10-3-2">
+<ul class="org-ul">
+<li>还可以使用威力巨大的killall 来杀掉一批进程
+<pre class="example">
+killall [-u user] [-signal] name...
+</pre>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10-4" class="outline-3">
+<h3 id="sec-10-4">More Process-Related Commands</h3>
+<div class="outline-text-3" id="text-10-4">
+<ul class="org-ul">
+<li>还有许多监视process的命令,如下
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Command</th>
+<th scope="col" class="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">pstree</td>
+<td class="left">Outputs a process list arranged tree-like pattern</td>
+</tr>
+
+<tr>
+<td class="left">vmstat</td>
+<td class="left">Outputs a snapshot os system resource usage</td>
+</tr>
+
+<tr>
+<td class="left">xload</td>
+<td class="left">A graphical program that draws a graph showing system load over time</td>
+</tr>
+
+<tr>
+<td class="left">tload</td>
+<td class="left">Similar to the xload program, but draws the graph in the terminal</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11">The Environment</h2>
+<div class="outline-text-2" id="text-11">
+</div><div id="outline-container-sec-11-1" class="outline-3">
+<h3 id="sec-11-1">What Is Stored in the Environments?</h3>
+<div class="outline-text-3" id="text-11-1">
+<ul class="org-ul">
+<li>shell 存储两类的信息:
+<ul class="org-ul">
+<li>environment variables(环境变量)
+</li>
+<li>shell variables(shell变量)
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-11-1-1" class="outline-4">
+<h4 id="sec-11-1-1">Examining the Environment</h4>
+<div class="outline-text-4" id="text-11-1-1">
+<ul class="org-ul">
+<li>printenv可以打印全部或者指定的环境变量
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ printenv PATH
+/usr/local/var/rbenv/shims:/usr/local/bin:/bin:/sbin:/usr:/usr/bin:/usr/sbin:/usr/bin:/bin:/usr/sbin:/sbin
+bash-3.2$ printenv USER
+hfeng
+bash-3.2$ printenv
+<span style="color: #268bd2;">SHELL</span>=/bin/bash
+<span style="color: #268bd2;">TERM</span>=dumb
+<span style="color: #268bd2;">TMPDIR</span>=/var/folders/2d/z9f32m_55_71lttsknj0b3980000gn/T/
+<span style="color: #268bd2;">Apple_PubSub_Socket_Render</span>=/tmp/launch-cyv39a/Render
+<span style="color: #268bd2;">LC_ALL</span>=en_US.UTF-8
+<span style="color: #268bd2;">USER</span>=hfeng
+<span style="color: #268bd2;">EMACS</span>=t
+<span style="color: #268bd2;">RBENV_ROOT</span>=/usr/local/var/rbenv
+<span style="color: #268bd2;">SSH_AUTH_SOCK</span>=/tmp/launch-6ChvRY/Listeners
+<span style="color: #268bd2;">TERMCAP</span>=
+<span style="color: #268bd2;">__CF_USER_TEXT_ENCODING</span>=0x1F5:25:52
+<span style="color: #268bd2;">PAGER</span>=cat
+<span style="color: #268bd2;">COLUMNS</span>=167
+<span style="color: #268bd2;">PATH</span>=/usr/local/var/rbenv/shims:/usr/local/bin:/bin:/sbin:/usr:/usr/bin:/usr/sbin:/usr/bin:/bin:/usr/sbin:/sbin
+<span style="color: #268bd2;">__CHECKFIX1436934</span>=1
+<span style="color: #268bd2;">PWD</span>=/Users/hfeng/orgblog/org/notes/bash
+<span style="color: #268bd2;">LANG</span>=en_US.UTF-8
+<span style="color: #268bd2;">SHLVL</span>=1
+<span style="color: #268bd2;">HOME</span>=/Users/hfeng
+<span style="color: #268bd2;">LOGNAME</span>=hfeng
+<span style="color: #268bd2;">DISPLAY</span>=hAir.local
+<span style="color: #268bd2;">INSIDE_EMACS</span>=24.3.1,comint
+<span style="color: #268bd2;">SECURITYSESSIONID</span>=186a4
+<span style="color: #268bd2;">_</span>=/usr/bin/printenv
+</pre>
+</div>
+</li>
+<li>set可以打印1环境变量,2shell变量,3shell function
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ set
+<span style="color: #268bd2;">Apple_PubSub_Socket_Render</span>=/tmp/launch-cyv39a/Render
+<span style="color: #268bd2;">BASH</span>=/bin/bash
+<span style="color: #268bd2;">BASH_ARGC</span>=()
+<span style="color: #268bd2;">BASH_ARGV</span>=()
+<span style="color: #268bd2;">BASH_LINENO</span>=()
+<span style="color: #268bd2;">BASH_SOURCE</span>=()
+<span style="color: #268bd2;">BASH_VERSINFO</span>=([0]=<span style="color: #2aa198;">"3"</span> [1]=<span style="color: #2aa198;">"2"</span> [2]=<span style="color: #2aa198;">"51"</span> [3]=<span style="color: #2aa198;">"1"</span> [4]=<span style="color: #2aa198;">"release"</span> [5]=<span style="color: #2aa198;">"x86_64-apple-darwin13"</span>)
+<span style="color: #268bd2;">BASH_VERSION</span>=<span style="color: #2aa198;">'3.2.51(1)-release'</span>
+<span style="color: #268bd2;">COLUMNS</span>=167
+<span style="color: #268bd2;">DIRSTACK</span>=()
+<span style="color: #268bd2;">DISPLAY</span>=hAir.local
+<span style="color: #268bd2;">EMACS</span>=t
+<span style="color: #268bd2;">EUID</span>=501
+<span style="color: #268bd2;">GROUPS</span>=()
+<span style="color: #268bd2;">HISTFILE</span>=/Users/hfeng/.bash_history
+<span style="color: #268bd2;">HISTFILESIZE</span>=500
+<span style="color: #268bd2;">HISTSIZE</span>=500
+<span style="color: #268bd2;">HOME</span>=/Users/hfeng
+<span style="color: #268bd2;">HOSTNAME</span>=hAir.local
+<span style="color: #268bd2;">HOSTTYPE</span>=x86_64
+<span style="color: #268bd2;">IFS</span>=$<span style="color: #2aa198;">' \t\n'</span>
+<span style="color: #268bd2;">INSIDE_EMACS</span>=24.3.1,comint
+<span style="color: #268bd2;">LANG</span>=en_US.UTF-8
+<span style="color: #268bd2;">LC_ALL</span>=en_US.UTF-8
+<span style="color: #268bd2;">LOGNAME</span>=hfeng
+<span style="color: #268bd2;">MACHTYPE</span>=x86_64-apple-darwin13
+<span style="color: #268bd2;">MAILCHECK</span>=60
+<span style="color: #268bd2;">OPTERR</span>=1
+<span style="color: #268bd2;">OPTIND</span>=1
+<span style="color: #268bd2;">OSTYPE</span>=darwin13
+<span style="color: #268bd2;">PAGER</span>=cat
+<span style="color: #268bd2;">PATH</span>=/usr/local/var/rbenv/shims:/usr/local/bin:/bin:/sbin:/usr:/usr/bin:/usr/sbin:/usr/bin:/bin:/usr/sbin:/sbin
+<span style="color: #268bd2;">PIPESTATUS</span>=([0]=<span style="color: #2aa198;">"0"</span>)
+<span style="color: #268bd2;">PPID</span>=12271
+<span style="color: #268bd2;">PS1</span>=<span style="color: #2aa198;">'\s-\v\$ '</span>
+<span style="color: #268bd2;">PS2</span>=<span style="color: #2aa198;">'&gt; '</span>
+<span style="color: #268bd2;">PS4</span>=<span style="color: #2aa198;">'+ '</span>
+<span style="color: #268bd2;">PWD</span>=/Users/hfeng/orgblog/org/notes/bash
+<span style="color: #268bd2;">RBENV_ROOT</span>=/usr/local/var/rbenv
+<span style="color: #268bd2;">SECURITYSESSIONID</span>=186a4
+<span style="color: #268bd2;">SHELL</span>=/bin/bash
+<span style="color: #268bd2;">SHELLOPTS</span>=braceexpand:hashall:histexpand:history:interactive-comments:monitor
+<span style="color: #268bd2;">SHLVL</span>=1
+<span style="color: #268bd2;">SSH_AUTH_SOCK</span>=/tmp/launch-6ChvRY/Listeners
+<span style="color: #268bd2;">TERM</span>=dumb
+<span style="color: #268bd2;">TERMCAP</span>=
+<span style="color: #268bd2;">TMPDIR</span>=/var/folders/2d/z9f32m_55_71lttsknj0b3980000gn/T/
+<span style="color: #268bd2;">UID</span>=501
+<span style="color: #268bd2;">USER</span>=hfeng
+<span style="color: #268bd2;">_</span>=set
+<span style="color: #268bd2;">__CF_USER_TEXT_ENCODING</span>=0x1F5:25:52
+<span style="color: #268bd2;">__CHECKFIX1436934</span>=1
+<span style="color: #268bd2;">_rbenv</span> ()
+{
+    <span style="color: #268bd2;">COMPREPLY</span>=();
+    <span style="color: #657b83; font-weight: bold;">local</span> <span style="color: #268bd2;">word</span>=<span style="color: #2aa198;">"${COMP_WORDS[COMP_CWORD]}"</span>;
+    <span style="color: #859900; font-weight: bold;">if</span> [ <span style="color: #2aa198;">"$COMP_CWORD"</span> -eq 1 ]; <span style="color: #859900; font-weight: bold;">then</span>
+        <span style="color: #268bd2;">COMPREPLY</span>=($(<span style="color: #6c71c4; font-weight: bold;">compgen</span> -W <span style="color: #2aa198;">"$(</span><span style="color: #6c71c4; font-weight: bold;">rbenv</span><span style="color: #2aa198;"> commands)"</span> -- <span style="color: #2aa198;">"$word"</span>));
+    <span style="color: #859900; font-weight: bold;">else</span>
+        <span style="color: #657b83; font-weight: bold;">local</span> <span style="color: #268bd2;">words</span>=(<span style="color: #2aa198;">"${COMP_WORDS[@]}"</span>);
+        <span style="color: #657b83; font-weight: bold;">unset</span> words[0];
+        <span style="color: #657b83; font-weight: bold;">unset</span> words[$<span style="color: #268bd2;">COMP_CWORD</span>];
+        <span style="color: #657b83; font-weight: bold;">local</span> <span style="color: #268bd2;">completions</span>=$(<span style="color: #6c71c4; font-weight: bold;">rbenv</span> completions <span style="color: #2aa198;">"${words[@]}"</span>);
+        <span style="color: #268bd2;">COMPREPLY</span>=($(<span style="color: #6c71c4; font-weight: bold;">compgen</span> -W <span style="color: #2aa198;">"$completions"</span> -- <span style="color: #2aa198;">"$word"</span>));
+    <span style="color: #859900; font-weight: bold;">fi</span>
+}
+<span style="color: #268bd2;">rbenv</span> ()
+{
+    <span style="color: #657b83; font-weight: bold;">typeset</span> command;
+    <span style="color: #268bd2;">command</span>=<span style="color: #2aa198;">"$1"</span>;
+    <span style="color: #859900; font-weight: bold;">if</span> [ <span style="color: #2aa198;">"$#"</span> -gt 0 ]; <span style="color: #859900; font-weight: bold;">then</span>
+        <span style="color: #657b83; font-weight: bold;">shift</span>;
+    <span style="color: #859900; font-weight: bold;">fi</span>;
+    <span style="color: #859900; font-weight: bold;">case</span> <span style="color: #2aa198;">"$command"</span><span style="color: #859900; font-weight: bold;"> in</span>
+        rehash | shell)
+            <span style="color: #657b83; font-weight: bold;">eval</span> <span style="color: #6c71c4; font-weight: bold;">`rbenv "sh-$command" "$@"`</span>
+        ;;
+        *)
+            <span style="color: #657b83; font-weight: bold;">command</span> rbenv <span style="color: #2aa198;">"$command"</span> <span style="color: #2aa198;">"$@"</span>
+        ;;
+    <span style="color: #859900; font-weight: bold;">esac</span>
+}
+</pre>
+</div>
+</li>
+<li>echo当然也可以显示环境变量了
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ echo $<span style="color: #268bd2;">HOME</span>
+/Users/hfeng
+</pre>
+</div>
+</li>
+<li>alias只有通过alias才能显示出来
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@harrifeng ~]$ alias
+<span style="color: #657b83; font-weight: bold;">alias</span> <span style="color: #268bd2;">ls</span>=<span style="color: #2aa198;">'ls --color=auto'</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-11-2" class="outline-3">
+<h3 id="sec-11-2">How Is the Environment Established?</h3>
+<div class="outline-text-3" id="text-11-2">
+</div><div id="outline-container-sec-11-2-1" class="outline-4">
+<h4 id="sec-11-2-1">Login and Non-login Shells</h4>
+<div class="outline-text-4" id="text-11-2-1">
+<ul class="org-ul">
+<li>存在两种shell:
+<ol class="org-ol">
+<li>login shell: 我们登录的时候弹出输入姓名密码就是login shell. "su -l username"
+也是一种login shell
+</li>
+<li>non-login shell: 我们在GUI系统里面开启virtual console的时候就是non-login shell
+</li>
+</ol>
+</li>
+<li>login shell会在启动之前读取下面的starup files
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">File</th>
+<th scope="col" class="left">Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">/etc/profile</td>
+<td class="left">A global configuration script that applies to all users</td>
+</tr>
+
+<tr>
+<td class="left">~/.bash_profile</td>
+<td class="left">A user's personal starup file. Can be used to extend or</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">override settings in the global configuration script</td>
+</tr>
+
+<tr>
+<td class="left">~/.bash_login</td>
+<td class="left">If ~/.bash_profile is not found, bash attempst to read</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">this script</td>
+</tr>
+
+<tr>
+<td class="left">~/.profile</td>
+<td class="left">If neither ~/.bash_profile nor ~/.bash_login is found,</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">bash attempts to read this file. default to Ubuntu</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>non-login shell在启动的时候会读取如下文件
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">File</th>
+<th scope="col" class="left">Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">/etc/bash.bashrc</td>
+<td class="left">A global configuration script that applies to all users</td>
+</tr>
+
+<tr>
+<td class="left">~/.bashrc</td>
+<td class="left">A user's personal startup file. Can be used to extend</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">or override settings in the global config script</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>除了这些文件non-login shell还会继承parent的environment
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-11-2-2" class="outline-4">
+<h4 id="sec-11-2-2">What's in a Starup File?</h4>
+<div class="outline-text-4" id="text-11-2-2">
+<ul class="org-ul">
+<li>我们来看一个CentOS里面的.bash_profile为如下
+<div class="org-src-container">
+
+<pre class="src src-sh"><span class="linenr"> 1: </span><span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">.bash_profile</span>
+<span class="linenr"> 2: </span>
+<span class="linenr"> 3: </span><span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">Get the aliases and functions</span>
+<span class="linenr"> 4: </span><span style="color: #859900; font-weight: bold;">if</span> [ -f ~/.bashrc]; <span style="color: #859900; font-weight: bold;">then</span>
+<span class="linenr"> 5: </span>    <span style="color: #657b83; font-weight: bold;">.</span> ~/.bashrc
+<span class="linenr"> 6: </span><span style="color: #859900; font-weight: bold;">if</span>
+<span class="linenr"> 7: </span>
+<span class="linenr"> 8: </span><span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">User specific environment and startup programs</span>
+<span class="linenr"> 9: </span><span style="color: #268bd2;">PATH</span>=$<span style="color: #268bd2;">PATH</span>:$<span style="color: #268bd2;">HOME</span>/bin
+<span class="linenr">10: </span><span style="color: #657b83; font-weight: bold;">export</span> PATH
+</pre>
+</div>
+</li>
+<li>line:3-6行的意思是如果某个用户home文件夹下面有.bashrc,那么.bash_profile就
+会去读取.bashrc. 所以我们通常说的.bashrc会在1.登录2.打开新的terminal的时候
+去执行.其中2.是天生执行的.而1.登录是通过上面的.bash_profile读取.bashrc来实
+现的.
+</li>
+<li>lien:8-10行的意思是给PATH环境变量增加一个文件夹(也就是系统会去寻找executable
+的地方).~/bin 通常是自己编写的binary
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-11-3" class="outline-3">
+<h3 id="sec-11-3">Modifying the Environment</h3>
+<div class="outline-text-3" id="text-11-3">
+</div><div id="outline-container-sec-11-3-1" class="outline-4">
+<h4 id="sec-11-3-1">Which Files Should We Modify?</h4>
+<div class="outline-text-4" id="text-11-3-1">
+<ul class="org-ul">
+<li>一般来说我们.bash_profile里面会做如下操作
+<ul class="org-ul">
+<li>增加PATH的文件夹
+</li>
+<li>增加环境变量
+</li>
+</ul>
+</li>
+<li>其他的任何改动(除了.bash_profile提到的两项)都是完成在.bashrc里面
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-11-3-2" class="outline-4">
+<h4 id="sec-11-3-2">Activating Our Changes</h4>
+<div class="outline-text-4" id="text-11-3-2">
+<ul class="org-ul">
+<li>我们使用source来读取某个配置文件
+<div class="org-src-container">
+
+<pre class="src src-sh">bash-3.2$ source .bashrc
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12">A Gentle Introduction to VI</h2>
+<div class="outline-text-2" id="text-12">
+<ul class="org-ul">
+<li>对VI非常熟悉,跳过这一章.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-13" class="outline-2">
+<h2 id="sec-13">Customizing The Prompt</h2>
+<div class="outline-text-2" id="text-13">
+</div><div id="outline-container-sec-13-1" class="outline-3">
+<h3 id="sec-13-1">Anatomy of a Prompt</h3>
+<div class="outline-text-3" id="text-13-1">
+<ul class="org-ul">
+<li>默认情况下是如下的
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$
+</pre>
+</div>
+</li>
+<li>prompt其实是环境变量PS1决定的
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ echo $<span style="color: #268bd2;">PS1</span>
+${<span style="color: #268bd2;">debian_chroot</span>:+($<span style="color: #268bd2;">debian_chroot</span>)}\u@\h:\w<span style="color: #2aa198;">\$</span>
+</pre>
+</div>
+</li>
+<li>PS可以使用如下的变量
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Sequence</th>
+<th scope="col" class="left">Value Displayed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">\a</td>
+<td class="left">ASCII bell</td>
+</tr>
+
+<tr>
+<td class="left">\d</td>
+<td class="left">Current date in day</td>
+</tr>
+
+<tr>
+<td class="left">\h</td>
+<td class="left">Hostname of the local machine minus the trailing domain</td>
+</tr>
+
+<tr>
+<td class="left">\H</td>
+<td class="left">Full hostname</td>
+</tr>
+
+<tr>
+<td class="left">\j</td>
+<td class="left">Number of jobs running in the current shell session</td>
+</tr>
+
+<tr>
+<td class="left">\l</td>
+<td class="left">Name of the current terminal device</td>
+</tr>
+
+<tr>
+<td class="left">\n</td>
+<td class="left">A newline character</td>
+</tr>
+
+<tr>
+<td class="left">\r</td>
+<td class="left">A carriage return</td>
+</tr>
+
+<tr>
+<td class="left">\s</td>
+<td class="left">Name of the shell program</td>
+</tr>
+
+<tr>
+<td class="left">\t</td>
+<td class="left">Current time in 24-hour</td>
+</tr>
+
+<tr>
+<td class="left">\T</td>
+<td class="left">Current time in 12-hour format</td>
+</tr>
+
+<tr>
+<td class="left">\@</td>
+<td class="left">Current time in 12-hour, AM/PM</td>
+</tr>
+
+<tr>
+<td class="left">\A</td>
+<td class="left">Current in 24-hour</td>
+</tr>
+
+<tr>
+<td class="left">\u</td>
+<td class="left">Username of the current user</td>
+</tr>
+
+<tr>
+<td class="left">\v</td>
+<td class="left">Version number of the shell</td>
+</tr>
+
+<tr>
+<td class="left">\V</td>
+<td class="left">Version and release numbers of the shell</td>
+</tr>
+
+<tr>
+<td class="left">\w</td>
+<td class="left">Name of the current working directory</td>
+</tr>
+
+<tr>
+<td class="left">\W</td>
+<td class="left">Last part of the current working directory name</td>
+</tr>
+
+<tr>
+<td class="left">\!</td>
+<td class="left">History number of the current command</td>
+</tr>
+
+<tr>
+<td class="left">\#</td>
+<td class="left">Number of commands entered during this shell session</td>
+</tr>
+
+<tr>
+<td class="left">\$</td>
+<td class="left">This display a "$" if you have superuser privilege</td>
+</tr>
+
+<tr>
+<td class="left">\[</td>
+<td class="left">This signals the start of a series of chars</td>
+</tr>
+
+<tr>
+<td class="left">\]</td>
+<td class="left">This signals the end of a non-printing char sequence</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-13-2" class="outline-3">
+<h3 id="sec-13-2">Trying Some Alternative Prompt Designs</h3>
+<div class="outline-text-3" id="text-13-2">
+<ul class="org-ul">
+<li>我们直接就可以定义PS1,然后回车一下就能看到改变了
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$ <span style="color: #268bd2;">PS1</span>=<span style="color: #2aa198;">"&lt;\u@h \W&gt;\$"</span>
+&lt;lvtest@h ~&gt;$<span style="color: #268bd2;">pwd</span>
+/home/lvtest
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-13-3" class="outline-3">
+<h3 id="sec-13-3">Adding Color</h3>
+<div class="outline-text-3" id="text-13-3">
+<ul class="org-ul">
+<li>可以在PS里面加入ASNI color的值
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtest@auto-inst:~$<span style="color: #268bd2;">PS1</span>=<span style="color: #2aa198;">"\[\033[0;31m\]&lt;\u@\h \W&gt;\$ "</span>
+&lt;lvtest@auto-inst ~&gt;$ pwd
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-13-4" class="outline-3">
+<h3 id="sec-13-4">Saving the Prompt</h3>
+<div class="outline-text-3" id="text-13-4">
+<ul class="org-ul">
+<li>我们通过export来保存设置
+<div class="org-src-container">
+
+<pre class="src src-sh">&lt;lvtest@auto-inst ~&gt;$ <span style="color: #268bd2;">PS1</span>=<span style="color: #2aa198;">"\[\033[s\033[0;0H\033[0;41m\033[K\033[1;33m\t\033[0m\033[u\]&lt;\u@\h \W&gt;\$ "</span>
+17:39:02&lt;lvtest@auto-inst ~&gt;$ export PS1
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-14" class="outline-2">
+<h2 id="sec-14">Package Management</h2>
+<div class="outline-text-2" id="text-14">
+</div><div id="outline-container-sec-14-1" class="outline-3">
+<h3 id="sec-14-1">Packaging Systems</h3>
+<div class="outline-text-3" id="text-14-1">
+<ul class="org-ul">
+<li>Linux上面可以使用源代码来编译,但是这样太费事.所以就有了package system,它是
+帮你编译好的binary,可以直接下载.主要的package 系统有如下:
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Packaging System</th>
+<th scope="col" class="left">Distributions(partial listing)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Debian style(.deb)</td>
+<td class="left">Debian, Ubuntu, Xandros, Linspire</td>
+</tr>
+
+<tr>
+<td class="left">Red Hat style(.rpm)</td>
+<td class="left">Fedora, CentOS, Read Hat, openSUSE, Mandriva</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-14-2" class="outline-3">
+<h3 id="sec-14-2">How a Package System Works</h3>
+<div class="outline-text-3" id="text-14-2">
+</div><div id="outline-container-sec-14-2-1" class="outline-4">
+<h4 id="sec-14-2-1">Package Files</h4>
+<div class="outline-text-4" id="text-14-2-1">
+<ul class="org-ul">
+<li>packaging系统里面最小的单元就是packege file.
+</li>
+<li>package file包含了pre-installation script 和post-installation script在安装
+前后使用.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-14-2-2" class="outline-4">
+<h4 id="sec-14-2-2">Repositories</h4>
+<div class="outline-text-4" id="text-14-2-2">
+<ul class="org-ul">
+<li>成千上万的package会被安排到一个中心的服务器叫做repository
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-14-2-3" class="outline-4">
+<h4 id="sec-14-2-3">Dependencies</h4>
+<div class="outline-text-4" id="text-14-2-3">
+<ul class="org-ul">
+<li>程序很少能够自我完成功能的,很多都要依靠dependency, package management系统会
+提供一种叫做dependency resolution的方法来确保在安装这个文件的时候,它的dependency
+都已经安装完毕了.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-14-2-4" class="outline-4">
+<h4 id="sec-14-2-4">High-and Low-Level Package Tools</h4>
+<div class="outline-text-4" id="text-14-2-4">
+<ul class="org-ul">
+<li>high-level tools用来处理metadata search和dependency resolution (总是和repo相联系)
+</li>
+<li>low-level tools用来安装和移除软件(不和repo有瓜葛,本地操作)
+</li>
+<li>常见的tools有
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Distributions</th>
+<th scope="col" class="left">Low-Level Tools</th>
+<th scope="col" class="left">High-Level Tools</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Debian style</td>
+<td class="left">dpkg</td>
+<td class="left">apt-get, aptitude</td>
+</tr>
+
+<tr>
+<td class="left">Redhat style</td>
+<td class="left">rpm</td>
+<td class="left">yum</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-14-3" class="outline-3">
+<h3 id="sec-14-3">Common Package Management Tasks</h3>
+<div class="outline-text-3" id="text-14-3">
+</div><div id="outline-container-sec-14-3-1" class="outline-4">
+<h4 id="sec-14-3-1">Finding a Package in Repository</h4>
+<div class="outline-text-4" id="text-14-3-1">
+<ul class="org-ul">
+<li>high-level tools就可以来search
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Style</th>
+<th scope="col" class="left">Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Debian</td>
+<td class="left">apt-get update</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">apt-cache search search_string</td>
+</tr>
+
+<tr>
+<td class="left">Red Hat</td>
+<td class="left">yum search search_string</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-14-3-2" class="outline-4">
+<h4 id="sec-14-3-2">Installing a Package from a Repository</h4>
+<div class="outline-text-4" id="text-14-3-2">
+<ul class="org-ul">
+<li>high-level tools可以找到并且下载,然后安装这些软件
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Style</th>
+<th scope="col" class="left">Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Debian</td>
+<td class="left">apt-get update</td>
+</tr>
+
+<tr>
+<td class="left">&#xa0;</td>
+<td class="left">apt-get install package_name</td>
+</tr>
+
+<tr>
+<td class="left">Red Hat</td>
+<td class="left">yum install package_name</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-14-3-3" class="outline-4">
+<h4 id="sec-14-3-3">Installing a Package from a Package File</h4>
+<div class="outline-text-4" id="text-14-3-3">
+<ul class="org-ul">
+<li>如果我们从其他地方下载了安装包,那么就要用low-level tools来直接安装它们
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Style</th>
+<th scope="col" class="left">Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Debian</td>
+<td class="left">dpkg &#x2013;install package_file</td>
+</tr>
+
+<tr>
+<td class="left">Red Hat</td>
+<td class="left">rpm -i package_file</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-14-3-4" class="outline-4">
+<h4 id="sec-14-3-4">Removing a Package</h4>
+<div class="outline-text-4" id="text-14-3-4">
+<ul class="org-ul">
+<li>high-level tools 移除软件的方法如下
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Style</th>
+<th scope="col" class="left">Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Debian</td>
+<td class="left">apt-get remove package_name</td>
+</tr>
+
+<tr>
+<td class="left">Red Hat</td>
+<td class="left">yum erase package_name</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-14-3-5" class="outline-4">
+<h4 id="sec-14-3-5">Updating Packages from a Repository</h4>
+<div class="outline-text-4" id="text-14-3-5">
+<ul class="org-ul">
+<li>package系统不仅仅是为了安装方便,其更重要的作用是为了能让系统总是和repo保证
+同步(软件最新)
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Style</th>
+<th scope="col" class="left">Commands</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Debian</td>
+<td class="left">apt-get update; apt-get upgrade</td>
+</tr>
+
+<tr>
+<td class="left">Red Hat</td>
+<td class="left">yum update</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-14-3-6" class="outline-4">
+<h4 id="sec-14-3-6">Upgrading a Package from a Pckage File</h4>
+<div class="outline-text-4" id="text-14-3-6">
+<ul class="org-ul">
+<li>low-level的方法升级
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Style</th>
+<th scope="col" class="left">Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Debian</td>
+<td class="left">dpkg &#x2013;install package_file</td>
+</tr>
+
+<tr>
+<td class="left">Red Hat</td>
+<td class="left">rpm -U package_file</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-14-3-7" class="outline-4">
+<h4 id="sec-14-3-7">Listing Installed Packages</h4>
+<div class="outline-text-4" id="text-14-3-7">
+<ul class="org-ul">
+<li>查看机器上面有哪些安装的软件,是不需要和repo相联系的,所以是一个low-level
+tool command
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Style</th>
+<th scope="col" class="left">Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Debian</td>
+<td class="left">dpkg &#x2013;list</td>
+</tr>
+
+<tr>
+<td class="left">Red Hat</td>
+<td class="left">rpm -qa</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-14-3-8" class="outline-4">
+<h4 id="sec-14-3-8">Determining Whether a Package Is Installed</h4>
+<div class="outline-text-4" id="text-14-3-8">
+<ul class="org-ul">
+<li>判断一个package是否安装也不需要和repo通信,所以是一个low-level tool command
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Style</th>
+<th scope="col" class="left">Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Debian</td>
+<td class="left">dpkg &#x2013;status package_name</td>
+</tr>
+
+<tr>
+<td class="left">Red Hat</td>
+<td class="left">rpm -q package_name</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-14-3-9" class="outline-4">
+<h4 id="sec-14-3-9">Displaying Information About an Installed Package</h4>
+<div class="outline-text-4" id="text-14-3-9">
+<ul class="org-ul">
+<li>查看一个已经安装文件的信息
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Style</th>
+<th scope="col" class="left">Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Debian</td>
+<td class="left">apt-cache show package_name</td>
+</tr>
+
+<tr>
+<td class="left">Red Hat</td>
+<td class="left">yum info package_name</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-14-3-10" class="outline-4">
+<h4 id="sec-14-3-10">Finding Which Package Installed a File</h4>
+<div class="outline-text-4" id="text-14-3-10">
+<ul class="org-ul">
+<li>查找某个binary是被哪个package安装的
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Style</th>
+<th scope="col" class="left">Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Debian</td>
+<td class="left">dpkg &#x2013;search file_name</td>
+</tr>
+
+<tr>
+<td class="left">Red Hat</td>
+<td class="left">rpm -qf file_name</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>这个命令有点绕,说个例子会比较容易理解:查询哪个package安装了/usr/bin/vim
+<div class="org-src-container">
+
+<pre class="src src-sh">lvtet@auto-inst: rpm -qf /usr/bin/vim
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>
