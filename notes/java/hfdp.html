@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>hfdp</title>
-<!-- 2015-04-02 Thu 17:52 -->
+<!-- 2015-04-13 Mon 08:38 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -242,6 +242,14 @@ for the JavaScript code in this tag.
 <li><a href="#sec-5-5">Can we improve multithreading?</a></li>
 </ul>
 </li>
+<li><a href="#sec-6">Chapter 6: Encapsulating Invocation</a>
+<ul>
+<li><a href="#sec-6-1">Remote Control</a></li>
+<li><a href="#sec-6-2">The Command Pattern defined</a></li>
+<li><a href="#sec-6-3">Time to QA that Undo button!</a></li>
+</ul>
+</li>
+<li><a href="#sec-7">Chapter 7: the Adapter and Facade Patterns: Being Adaptive</a></li>
 </ul>
 </div>
 </div>
@@ -2855,6 +2863,352 @@ synchronized的方式,一般会降低100倍的速度.所以如果经常调用的
 </li>
 </ul>
 </div>
+</div>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Chapter 6: Encapsulating Invocation</h2>
+<div class="outline-text-2" id="text-6">
+</div><div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1">Remote Control</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li>最近我们又接到了新的任务:
+<ul class="org-ul">
+<li>我们要设计一个remote control
+</li>
+<li>这个remote control有七个'可编程槽', 每个槽都有on off的开关
+</li>
+<li>remote control还有一个全局的undo开关
+</li>
+<li>如何控制这些硬件的函数,都已经有了比如
+<ol class="org-ol">
+<li>开:函数on()
+</li>
+<li>关:函数off()
+</li>
+<li>其他函数比如setVolumen(), setInputChannel()也是有的,但是显然我们remote
+control用不到
+</li>
+</ol>
+</li>
+<li>要支持这些函数,同时还要考虑到以后,可能有更多的硬件(最少有on, off函数),要
+能够支持.
+</li>
+</ul>
+</li>
+<li>如果我们没个slot都设计个switch显然是可以解决问题的,比如
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">for slot 1</span>
+<span style="color: #859900; font-weight: bold;">switch</span>(slot1) {
+<span style="color: #859900; font-weight: bold;">case</span> Light:
+    light.on();
+<span style="color: #859900; font-weight: bold;">case</span> TV:
+    tv.on();
+    <span style="color: #93a1a1;">//</span><span style="color: #93a1a1; font-style: italic;">..</span>
+}
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">for slot 2</span>
+<span style="color: #859900; font-weight: bold;">switch</span>(slot2) {
+<span style="color: #859900; font-weight: bold;">case</span> Light:
+    light.on();
+<span style="color: #859900; font-weight: bold;">case</span> TV:
+    tv.on();
+    <span style="color: #93a1a1;">//</span><span style="color: #93a1a1; font-style: italic;">..</span>
+}
+</pre>
+</div>
+</li>
+<li>这种设计最主要的问题是,如果增加了一个新的设备比如DVD,那么所有的十四个slot都要
+更改代码.
+</li>
+<li>这种设计最主要的问题, 是和Light, TV, DVD等耦合的太紧了,解决办法就是:
+<pre class="example">
+       设计一个Command object, 我们的remote control和这个Command object交谈,
+       而Command object则负责和它对应的设备(可以是Light, TV, DVD中的一种)交谈
+</pre>
+</li>
+<li>这也就是Command Pattern的主要思想: 创建一个中间的object来解耦和
+</li>
+<li>对于remoteControl这个例子来说(我们以Light为例子):
+<ul class="org-ul">
+<li>我们首先创建一个抽象的Command interface
+</li>
+<li>Remote Control里面就has-one Command Interface (我们把这个叫做Invoker)
+</li>
+<li>对于'开'和'关'这两个命令,我们分别要实现两个concreteCommand类
+</li>
+<li>这两个concreteCommand类里面要分别has-one 具体的已经存在的Object(这里就是
+Light啦), 然后在内部调用已经存在的Object的函数(On或者Off)
+</li>
+<li>这样Command Interface和Concrete Command在一起:一边联系了的RemoteControl,
+另外一边联系了已经存在了的Object(Light).解除了两者的耦合
+</li>
+</ul>
+</li>
+<li>整体的UML图如下
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/simple-remote.png" alt="simple-remote.png" />
+</p>
+<p><span class="figure-number">Figure 18:</span> simple-remote.png</p>
+</div>
+</li>
+<li>下面我们来看看具体的代码:
+<ul class="org-ul">
+<li>Command Interface
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch6.<span style="color: #268bd2; font-weight: bold;">simpleremote</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900; font-style: italic;">Command</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">execute</span>();
+}
+</pre>
+</div>
+</li>
+<li>Command Concrete Class(以LightOn为例子, LightOff相似)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch6.<span style="color: #268bd2; font-weight: bold;">simpleremote</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">LightOnCommand</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900; font-style: italic;">Command</span> {
+    <span style="color: #b58900; font-style: italic;">Light</span> <span style="color: #268bd2;">light</span>;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">LightOnCommand</span>(<span style="color: #b58900; font-style: italic;">Light</span> <span style="color: #268bd2;">light</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.light = light;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">execute</span>() {
+        light.on();
+    }
+}
+</pre>
+</div>
+</li>
+<li>被Command联系的一边: 已经存在的Light类代码(已经被前面的LightOnCommand所包
+含了,也就是组合)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch6.<span style="color: #268bd2; font-weight: bold;">simpleremote</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Light</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">on</span>() {
+        System.out.println(<span style="color: #2aa198;">"Light On"</span>);
+    }
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">off</span>() {
+        System.out.println(<span style="color: #2aa198;">"Light Off"</span>);
+    }
+}
+</pre>
+</div>
+</li>
+<li>被联系的另外一边,就是remoteControl的代码
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch6.<span style="color: #268bd2; font-weight: bold;">simpleremote</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">SimpleRemoteControl</span> {
+    <span style="color: #b58900; font-style: italic;">Command</span> <span style="color: #268bd2;">slot</span>;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">SimpleRemoteControl</span>(<span style="color: #b58900; font-style: italic;">Command</span> <span style="color: #268bd2;">slot</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.slot = slot;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">SimpleRemoteControl</span>() {}
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">setCommand</span>(<span style="color: #b58900; font-style: italic;">Command</span> <span style="color: #268bd2;">slot</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.slot = slot;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">press</span>() {
+        slot.execute();
+    }
+}
+</pre>
+</div>
+</li>
+<li>我们最后需要一个Main函数来测试一下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch6.<span style="color: #268bd2; font-weight: bold;">simpleremote</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MainTest</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900; font-style: italic;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900; font-style: italic;">Light</span> <span style="color: #268bd2;">light</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Light</span>();
+        <span style="color: #b58900; font-style: italic;">LightOnCommand</span> <span style="color: #268bd2;">lightOnCommand</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">LightOnCommand</span>(light);
+        <span style="color: #b58900; font-style: italic;">LightOffCommand</span> <span style="color: #268bd2;">lightOffCommand</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">LightOffCommand</span>(light);
+
+        <span style="color: #b58900; font-style: italic;">SimpleRemoteControl</span> <span style="color: #268bd2;">SRLightOn</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">SimpleRemoteControl</span>();
+        SRLightOn.setCommand(lightOnCommand);
+        SRLightOn.press();
+
+        <span style="color: #b58900; font-style: italic;">SimpleRemoteControl</span> <span style="color: #268bd2;">SRLightOff</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">SimpleRemoteControl</span>();
+        SRLightOff.setCommand(lightOffCommand);
+        SRLightOff.press();
+
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1; font-style: italic;">All other 6 ONs and 6 OFFs SimpleRemoteControl instances</span>
+        <span style="color: #93a1a1;">//</span><span style="color: #93a1a1; font-style: italic;">list here ...</span>
+    }
+}
+
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Light On                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Light Off                                      //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2">The Command Pattern defined</h3>
+<div class="outline-text-3" id="text-6-2">
+<ul class="org-ul">
+<li>Command Pattern的定义如下
+<pre class="example">
+The COmmand Pattern encapsulates a request as an object, thereby  letting
+you parameterize other objects wieth different requests, queue or log
+requests, and support undoable operations
+</pre>
+</li>
+<li>类图如下
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/command-pattern.png" alt="command-pattern.png" />
+</p>
+<p><span class="figure-number">Figure 19:</span> command-pattern.png</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-3" class="outline-3">
+<h3 id="sec-6-3">Time to QA that Undo button!</h3>
+<div class="outline-text-3" id="text-6-3">
+<ul class="org-ul">
+<li>客户的需求和Command pattern的定义都提到了undo, 要我做到undo,我们必须更改
+Command interface 增加一个函数undo()
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch6.<span style="color: #268bd2; font-weight: bold;">remotewithundo</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900; font-style: italic;">Command</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">execute</span>();
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">undo</span>();
+}
+</pre>
+</div>
+</li>
+<li>undo的实现很巧妙,就跟execute相反就可以
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch6.<span style="color: #268bd2; font-weight: bold;">remotewithundo</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">LightOnCommand</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900; font-style: italic;">Command</span> {
+    <span style="color: #b58900; font-style: italic;">Light</span> <span style="color: #268bd2;">light</span>;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">LightOnCommand</span>(<span style="color: #b58900; font-style: italic;">Light</span> <span style="color: #268bd2;">light</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.light = light;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">execute</span>() {
+        light.on();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">undo</span>() {
+        light.off();
+    }
+}
+</pre>
+</div>
+</li>
+<li>我们的Invoker通过一个参数undoCommand始终记录着上次被调动的Command是哪个,然后
+一旦调用undoButton的时候,就调用那个Command的undo()
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch6.<span style="color: #268bd2; font-weight: bold;">remotewithundo</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">RemoteControlWithUndo</span> {
+    <span style="color: #b58900; font-style: italic;">Command</span>[] <span style="color: #268bd2;">onCommands</span>;
+    <span style="color: #b58900; font-style: italic;">Command</span>[] <span style="color: #268bd2;">offCommands</span>;
+    <span style="color: #b58900; font-style: italic;">Command</span> <span style="color: #268bd2;">undoCommand</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">RemoteControlWithUndo</span>(){
+        onCommands = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Command</span>[7];
+        offCommands = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Command</span>[7];
+
+        <span style="color: #b58900; font-style: italic;">Command</span> <span style="color: #268bd2;">noCommand</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">NoCommand</span>();
+
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; 7; i++) {
+            onCommands[i] = noCommand;
+            offCommands[i] = noCommand;
+        }
+        undoCommand = noCommand;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">setCommand</span>(<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">slot</span>, <span style="color: #b58900; font-style: italic;">Command</span> <span style="color: #268bd2;">onCommand</span>, <span style="color: #b58900; font-style: italic;">Command</span> <span style="color: #268bd2;">offCommand</span>) {
+        onCommands[slot]= onCommand;
+        offCommands[slot] = offCommand;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">onButtonWasPushed</span>(<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">slot</span>) {
+        onCommands[slot].execute();
+        undoCommand = onCommands[slot];
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">offButtonWasPushed</span>(<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">slot</span>) {
+        offCommands[slot].execute();
+        undoCommand = offCommands[slot];
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">undoButtonWasPushed</span>() {
+        undoCommand.undo();
+    }
+}
+</pre>
+</div>
+</li>
+<li>测试例子如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch6.<span style="color: #268bd2; font-weight: bold;">remotewithundo</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MainTest</span> {
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900; font-style: italic;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900; font-style: italic;">RemoteControlWithUndo</span> <span style="color: #268bd2;">remoteControlWithUndo</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">RemoteControlWithUndo</span>();
+        <span style="color: #b58900; font-style: italic;">Light</span> <span style="color: #268bd2;">light</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Light</span>();
+        <span style="color: #b58900; font-style: italic;">LightOnCommand</span> <span style="color: #268bd2;">lightOnCommand</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">LightOnCommand</span>(light);
+        <span style="color: #b58900; font-style: italic;">LightOffCommand</span> <span style="color: #268bd2;">lightOffCommand</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">LightOffCommand</span>(light);
+
+        remoteControlWithUndo.setCommand(0, lightOnCommand, lightOffCommand);
+
+        remoteControlWithUndo.onButtonWasPushed(0);
+        remoteControlWithUndo.offButtonWasPushed(0);
+        remoteControlWithUndo.undoButtonWasPushed();
+    }
+}
+
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Light On                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Light Off                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Light On                                       //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Chapter 7: the Adapter and Facade Patterns: Being Adaptive</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li></li>
+</ul>
 </div>
 </div>
 </div>

@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>the-docker-book</title>
-<!-- 2015-04-02 Thu 17:53 -->
+<!-- 2015-04-13 Mon 08:38 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -205,6 +205,14 @@ for the JavaScript code in this tag.
 <li><a href="#sec-3-10">Stopping a daemonized container</a></li>
 <li><a href="#sec-3-11">Finding out more about our container</a></li>
 <li><a href="#sec-3-12">Deleting a container</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">Chapter 4: Working with Docker images and repositories</a>
+<ul>
+<li><a href="#sec-4-1">What is a Docker image?</a></li>
+<li><a href="#sec-4-2">Listing Docker images</a></li>
+<li><a href="#sec-4-3">Pulling images</a></li>
+<li><a href="#sec-4-4">Searching for images</a></li>
 </ul>
 </li>
 </ul>
@@ -1041,6 +1049,185 @@ a7c56bda446d
 5273e0466f56
 docker ps -a
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS               NAMES
+</pre>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Chapter 4: Working with Docker images and repositories</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">What is a Docker image?</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li>Docker image是由多个filesystem layer组成的.最底层的filesystem是bootfs(也就
+相当于Linux分区里面的/boot)
+</li>
+<li>bootfs的上面一层是rootfs
+</li>
+<li>TODO
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2">Listing Docker images</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li>列出docker所有的images的方法如下
+<pre class="example">
+&gt; docker images
+REPOSITORY           TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+ubuntu               trusty              d0955f21bf24        2 weeks ago         188.3 MB
+ubuntu               trusty-20150320     d0955f21bf24        2 weeks ago         188.3 MB
+ubuntu               14.04               d0955f21bf24        2 weeks ago         188.3 MB
+ubuntu               14.04.2             d0955f21bf24        2 weeks ago         188.3 MB
+ubuntu               latest              d0955f21bf24        2 weeks ago         188.3 MB
+ubuntu               precise             9c5e4be642b7        2 weeks ago         131.9 MB
+ubuntu               precise-20150320    9c5e4be642b7        2 weeks ago         131.9 MB
+ubuntu               12.04               9c5e4be642b7        2 weeks ago         131.9 MB
+ubuntu               12.04.5             9c5e4be642b7        2 weeks ago         131.9 MB
+creack/firefox-vnc   latest              a41e7b939b8a        23 months ago       557.6 MB
+</pre>
+</li>
+<li>首先我们注意到的是我们列出image,但是第一行确实repository. 我们可以把repository
+理解为一类image的集合
+</li>
+<li>repository是建立在不同的registry上面的(但是默认的都是Docker Hub,我们也就不
+再考虑其他registry了)
+</li>
+<li>可以看到,我们有两种image集合(repository):
+<ul class="org-ul">
+<li>类似ubuntu这种image是top-level repository, 是Docker Inc管理,由相应vender
+提供的. 这种image具有公信力.
+</li>
+<li>类似creack/firefox-vnc是由一个username=&gt; creack提供的名字叫做firefox-vnc
+的image. 叫做user repository, 当然这个username是Docker Hub上面的username
+</li>
+</ul>
+</li>
+<li>同一类image(repository)里面,区分不同版本的方法是:tag. 比如这里ubuntu
+repository就有很多tag:
+<ul class="org-ul">
+<li>14.04
+</li>
+<li>14.04.2
+</li>
+<li>trusty
+</li>
+<li>12.04
+</li>
+<li>12.04.5
+</li>
+<li>precise
+</li>
+</ul>
+</li>
+<li>除了TAG以外,我们还发现了Image ID, 而且我们发现所谓的14.04, 14.04.2, trusty等
+等都是一个Image ID, 这也就说明了一个问题,这些tag虽然不同,但是指的缺是同一个
+image. 好比git也是可以给commit打tag的,不同tag也可以打给同一个commit, 但是ID
+是唯一的!
+</li>
+<li>既然已经类比了git,那么我们就类比多一点(以后会发现相似的地方更多):
+<ul class="org-ul">
+<li>docker repository &lt;==&gt; git repository
+</li>
+<li>docker image &lt;==&gt; git commit
+</li>
+<li>docker image id &lt;==&gt; git commit hash id
+</li>
+<li>docker tag &lt;==&gt; git tag
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3">Pulling images</h3>
+<div class="outline-text-3" id="text-4-3">
+<ul class="org-ul">
+<li>我们可以使用pull command来更新repository(git也是使用git pull来&lt;rep&gt;更新某个
+repository)
+<pre class="example">
+docker pull fedora
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4">Searching for images</h3>
+<div class="outline-text-3" id="text-4-4">
+<ul class="org-ul">
+<li>当然我们可以搜索image啦, 所谓搜索image,其实叫做搜索repository更合适,因为其实
+github搜索项目名字,搜索的其实也就是repository的列表. 而我们这里搜索出来的其
+实就是repository的列表
+<pre class="example">
+docker search puppet
+NAME                                 DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
+devopsil/puppet                      Dockerfile for a container with puppet ins...   6                    [OK]
+layerworx/puppetmaster               Standard dockerized Puppetmaster server bu...   5                    [OK]
+macadmins/munki-puppet               Basic munki nginx image with Puppet used f...   5                    [OK]
+devopsil/puppet-yum                                                                  4                    [OK]
+layerworx/puppet                     A Puppet enabled container running the 3.7...   3                    [OK]
+macadmins/puppetmaster               Simple puppetmaster based on CentOS 6           3                    [OK]
+rfkrocktk/puppet                                                                     2                    [OK]
+simpledrupalcloud/puppet                                                             1                    [OK]
+devopsil/puppetmaster                                                                1                    [OK]
+lukasz/docker-puppet-openssl-nginx   This image is derived from https://index.d...   1                    [OK]
+scrothers/puppet                                                                     1                    [OK]
+farodin91/puppet                                                                     0                    [OK]
+razic/puppet                                                                         0                    [OK]
+kassis/puppet-spec                                                                   0                    [OK]
+m0ikz/puppet                                                                         0                    [OK]
+solict/provisionous-puppet-centos    CentOS provisions with Puppet included          0                    [OK]
+solict/provisionous-puppet-debian    Debian provisions with Puppet included          0                    [OK]
+solict/provisionous-puppet-ubuntu    Ubuntu provisions with Puppet included          0                    [OK]
+muccg/puppet-base                    Base images that use puppet and librarian-...   0                    [OK]
+jeyk/puppet                                                                          0                    [OK]
+fr3nd/puppet                                                                         0                    [OK]
+pataquets/puppet                                                                     0                    [OK]
+pmoust/puppet                        Puppet docker image based on Ubuntu 14.04 ...   0                    [OK]
+viljaste/puppet                                                                      0                    [OK]
+vmule/puppet-apt                                                                     0                    [OK]
+</pre>
+</li>
+<li>我们来下载其中一个image集合(repository),如下
+<pre class="example">
+docker@boot2docker:~$ docker search jamtur01/puppetmaster
+NAME                           DESCRIPTION   STARS     OFFICIAL   AUTOMATED
+jamtur01/docker-puppetmaster                 1                    [OK]
+jamtur01/puppetmaster                        0
+docker@boot2docker:~$ docker pull jamtur01/puppetmaster
+Pulling repository jamtur01/puppetmaster
+99200e07340a: Download complete
+511136ea3c5a: Download complete
+3e76c0a80540: Download complete
+be88c4c27e80: Download complete
+bfab314f3b76: Download complete
+e809f156dc98: Download complete
+0ef6ede68afa: Download complete
+Status: Downloaded newer image for jamtur01/puppetmaster:latest
+</pre>
+</li>
+<li>然后,我们可以看到已经在image里面了
+<pre class="example">
+docker images
+REPOSITORY              TAG                 IMAGE ID            CREATED             VIRTUAL SIZE
+ubuntu                  trusty              d0955f21bf24        2 weeks ago         188.3 MB
+ubuntu                  trusty-20150320     d0955f21bf24        2 weeks ago         188.3 MB
+ubuntu                  14.04               d0955f21bf24        2 weeks ago         188.3 MB
+ubuntu                  14.04.2             d0955f21bf24        2 weeks ago         188.3 MB
+ubuntu                  latest              d0955f21bf24        2 weeks ago         188.3 MB
+ubuntu                  precise             9c5e4be642b7        2 weeks ago         131.9 MB
+ubuntu                  precise-20150320    9c5e4be642b7        2 weeks ago         131.9 MB
+ubuntu                  12.04               9c5e4be642b7        2 weeks ago         131.9 MB
+ubuntu                  12.04.5             9c5e4be642b7        2 weeks ago         131.9 MB
+jamtur01/puppetmaster   latest              99200e07340a        10 months ago       312.4 MB
+creack/firefox-vnc      latest              a41e7b939b8a        23 months ago       557.6 MB
 </pre>
 </li>
 </ul>
