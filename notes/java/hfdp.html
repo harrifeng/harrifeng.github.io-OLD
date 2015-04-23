@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>hfdp</title>
-<!-- 2015-04-13 Mon 08:38 -->
+<!-- 2015-04-23 Thu 09:54 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -242,14 +242,37 @@ for the JavaScript code in this tag.
 <li><a href="#sec-5-5">Can we improve multithreading?</a></li>
 </ul>
 </li>
-<li><a href="#sec-6">Chapter 6: Encapsulating Invocation</a>
+<li><a href="#sec-6">Chapter 6: the Command Pattern: Encapsulating Invocation</a>
 <ul>
 <li><a href="#sec-6-1">Remote Control</a></li>
 <li><a href="#sec-6-2">The Command Pattern defined</a></li>
 <li><a href="#sec-6-3">Time to QA that Undo button!</a></li>
 </ul>
 </li>
-<li><a href="#sec-7">Chapter 7: the Adapter and Facade Patterns: Being Adaptive</a></li>
+<li><a href="#sec-7">Chapter 7: the Adapter and Facade Patterns: Being Adaptive</a>
+<ul>
+<li><a href="#sec-7-1">Adapters all around us</a></li>
+<li><a href="#sec-7-2">Object oriented adapters</a></li>
+<li><a href="#sec-7-3">Adapter Example</a></li>
+<li><a href="#sec-7-4">Adapter Pattern defined</a></li>
+<li><a href="#sec-7-5">Real world adapters</a></li>
+<li><a href="#sec-7-6">There is another pattern in this chapter: Facade</a></li>
+<li><a href="#sec-7-7">Construting your home therater facade</a></li>
+<li><a href="#sec-7-8">Facade Pattern defined</a></li>
+<li><a href="#sec-7-9">The Principle of Least Knowledge</a></li>
+</ul>
+</li>
+<li><a href="#sec-8">Chapter 8: the Template Method Pattern: Encapsulating Algorithms</a>
+<ul>
+<li><a href="#sec-8-1">It's time for some more cafeine</a></li>
+<li><a href="#sec-8-2">Whipping up some coffee and tea classes</a></li>
+<li><a href="#sec-8-3">Sir, may I abstract your Coffee, Tea?</a></li>
+<li><a href="#sec-8-4">Taking the design further..</a></li>
+<li><a href="#sec-8-5">The implementation code</a></li>
+<li><a href="#sec-8-6">Meet the Template Method</a></li>
+<li><a href="#sec-8-7">Template Method Pattern defined</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -340,8 +363,8 @@ SimUDuck
 </li>
 <li>这种解决方法, 虽然解决了一部分问题,但是依然不好, 因为它
 <pre class="example">
-       破坏了"code reuse": 因为java的interface里面的函数都没有实现代码,我们要为每个
-       行为在每个subclass里面实现一遍.
+       破坏了"code reuse": 因为java的interface里面的函数都没有实现代
+       码,我们要为每个行为在每个subclass里面实现一遍.
 </pre>
 </li>
 </ul>
@@ -1283,7 +1306,7 @@ Classes should be open for extension, but closed for modification.
 </li>
 <li>Espresso等咖啡就是具体的component(ConcreteComponent)
 </li>
-<li>Milk, Soy等"作料"也想成为heEspresso等一样的Concretecomponent,无奈自己能力
+<li>Milk, Soy等"作料"也想成为和Espresso等一样的Concretecomponent,无奈自己能力
 有限,所以要依靠decorator
 </li>
 <li>CondimentDecorator(作料decorator), 把自己装扮成"ConcreteComponent"
@@ -2866,7 +2889,7 @@ synchronized的方式,一般会降低100倍的速度.所以如果经常调用的
 </div>
 </div>
 <div id="outline-container-sec-6" class="outline-2">
-<h2 id="sec-6">Chapter 6: Encapsulating Invocation</h2>
+<h2 id="sec-6">Chapter 6: the Command Pattern: Encapsulating Invocation</h2>
 <div class="outline-text-2" id="text-6">
 </div><div id="outline-container-sec-6-1" class="outline-3">
 <h3 id="sec-6-1">Remote Control</h3>
@@ -2985,7 +3008,7 @@ Light啦), 然后在内部调用已经存在的Object的函数(On或者Off)
 </div>
 </li>
 <li>被Command联系的一边: 已经存在的Light类代码(已经被前面的LightOnCommand所包
-含了,也就是组合)
+含了,也就是Composition组合)
 <div class="org-src-container">
 
 <pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch6.<span style="color: #268bd2; font-weight: bold;">simpleremote</span>;
@@ -3206,9 +3229,747 @@ Command interface 增加一个函数undo()
 <div id="outline-container-sec-7" class="outline-2">
 <h2 id="sec-7">Chapter 7: the Adapter and Facade Patterns: Being Adaptive</h2>
 <div class="outline-text-2" id="text-7">
+</div><div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1">Adapters all around us</h3>
+<div class="outline-text-3" id="text-7-1">
 <ul class="org-ul">
-<li></li>
+<li>理解adapter并不难,因为它普遍存在于我们的生活: 比如,在欧洲如果想使用美国的插
+头,你得使用一个转接器,这个转接器在英文中的意思就是Adapter
+</li>
 </ul>
+</div>
+</div>
+<div id="outline-container-sec-7-2" class="outline-3">
+<h3 id="sec-7-2">Object oriented adapters</h3>
+<div class="outline-text-3" id="text-7-2">
+<ul class="org-ul">
+<li>看完生活中的例子,我们再来说一个软件开发中的例子:
+<ul class="org-ul">
+<li>Vender为我们提供了一些class的接口让我们来使用, 但是我们已有的代码是无法支
+持这些接口的
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/do-not-match.png" alt="do-not-match.png" />
+</p>
+<p><span class="figure-number">Figure 20:</span> do-not-match.png</p>
+</div>
+</li>
+<li>我们已有的代码经过测试用例和实际环境的千锤百炼,不能轻易去改,而你又不可能去
+更改Vender的代码.那么一个Adapter是一个非常好的选择
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/adapter-between.png" alt="adapter-between.png" />
+</p>
+<p><span class="figure-number">Figure 21:</span> adapter-between.png</p>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-3" class="outline-3">
+<h3 id="sec-7-3">Adapter Example</h3>
+<div class="outline-text-3" id="text-7-3">
+<ul class="org-ul">
+<li>我们第一章讲过duck的例子, 一个Duck的特点是一能quack, 二能fly
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch7.<span style="color: #268bd2; font-weight: bold;">ducks</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900; font-style: italic;">Duck</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">quack</span>();
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">fly</span>();
+}
+</pre>
+</div>
+</li>
+<li>MallardDuck是一种鸭子,所以继承这个接口就可以
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch7.<span style="color: #268bd2; font-weight: bold;">ducks</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MallardDuck</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900; font-style: italic;">Duck</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">quack</span>() {
+        System.out.println(<span style="color: #2aa198;">"Quack"</span>);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">fly</span>() {
+        System.out.println(<span style="color: #2aa198;">"Fly"</span>);
+    }
+}
+</pre>
+</div>
+</li>
+<li>我们有一个如下的接口,需要传入Duck interface
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">testDuck</span>(<span style="color: #b58900; font-style: italic;">Duck</span> <span style="color: #268bd2;">duck</span>)
+</pre>
+</div>
+</li>
+<li>但是我们有的,确只是Turkey interface
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch7.<span style="color: #268bd2; font-weight: bold;">ducks</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900; font-style: italic;">Turkey</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">gobble</span>();
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">fly</span>();
+}
+</pre>
+</div>
+</li>
+<li>如果想把Turkey 传入到一个声明类型为Duck的库函数里面,我们需要的就是一个Adapter
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch7.<span style="color: #268bd2; font-weight: bold;">ducks</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">TurkeyAdapter</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900; font-style: italic;">Duck</span> {
+    <span style="color: #b58900; font-style: italic;">Turkey</span> <span style="color: #268bd2;">turkey</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">TurkeyAdapter</span>(<span style="color: #b58900; font-style: italic;">Turkey</span> <span style="color: #268bd2;">turkey</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.turkey = turkey;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">quack</span>() {
+        turkey.gobble();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">fly</span>() {
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; 5; i++) {
+            turkey.fly();
+        }
+    }
+}
+</pre>
+</div>
+</li>
+<li>这样我们就可以使用testDuck啦
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch7.<span style="color: #268bd2; font-weight: bold;">ducks</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MainTest</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900; font-style: italic;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900; font-style: italic;">WildTurkey</span> <span style="color: #268bd2;">wildTurkey</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">WildTurkey</span>();
+        <span style="color: #b58900; font-style: italic;">Duck</span> <span style="color: #268bd2;">turkeyAdapter</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">TurkeyAdapter</span>(wildTurkey);
+        testDuck(turkeyAdapter);
+    }
+
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">testDuck</span>(<span style="color: #b58900; font-style: italic;">Duck</span> <span style="color: #268bd2;">duck</span>) {
+        duck.quack();
+        duck.fly();
+    }
+}
+
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Gobble gobble                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">I'm flying a short distance                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">I'm flying a short distance                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">I'm flying a short distance                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">I'm flying a short distance                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">I'm flying a short distance                    //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>整个例子的类图如下
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/ducks.png" alt="ducks.png" />
+</p>
+<p><span class="figure-number">Figure 22:</span> ducks.png</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-4" class="outline-3">
+<h3 id="sec-7-4">Adapter Pattern defined</h3>
+<div class="outline-text-3" id="text-7-4">
+<ul class="org-ul">
+<li>Adapter Pattern的定义如下
+<pre class="example">
+The Adapter Pattern converts the interface of a class into another
+interface the clients expect. Adapter lets classes work together that
+couldn't otherwise becasue of incompatible interfaces
+</pre>
+</li>
+<li>我们上面的做法使用了interface,其实是adapter的一种(object adapter), adapter
+一共有两种:
+<ul class="org-ul">
+<li>object adapter, 也就是我们前面使用的.是使用composition来完成adapt的
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/object-adapter.png" alt="object-adapter.png" />
+</p>
+<p><span class="figure-number">Figure 23:</span> object-adapter.png</p>
+</div>
+</li>
+<li>class adapter, 是使用多重继承来完成adapt的, 这在java里面无法实现, c++里面
+可以. 但是显然不如composition的来的更为灵活
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/class-adapter.png" alt="class-adapter.png" />
+</p>
+<p><span class="figure-number">Figure 24:</span> class-adapter.png</p>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-5" class="outline-3">
+<h3 id="sec-7-5">Real world adapters</h3>
+<div class="outline-text-3" id="text-7-5">
+<ul class="org-ul">
+<li>我们来看一个JDK里面存在的使用adapter的例子:
+<ul class="org-ul">
+<li>Java早期的collection(比如Vector, Stack Hashtable等)都implement了一个interface
+Enumeration. 这个interface有两个函数hasMoreElements()和nextElement()
+</li>
+<li>后来,java实现了新的Collection的机制, 引入了一个崭新的和Enumeration类似的
+interface: Iterator, 其有三个函数hasNext(),next(),remove()
+</li>
+</ul>
+</li>
+<li>我们这一章讲的是Adapter,所以救世主就肯定是Adapter啦.新的代码都是提供了Iterator
+的interface(也就是Target).而我们产品的(久经考验, 不便再改)的代码,可能是Enumeration
+的接口,所以,我们要祭出Adapter啦, 类图如下
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/jdk-adapter.png" alt="jdk-adapter.png" />
+</p>
+<p><span class="figure-number">Figure 25:</span> jdk-adapter.png</p>
+</div>
+</li>
+<li>代码如下, remove不支持怎么办?抛异常呗&#x2026;
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">clas</span> <span style="color: #268bd2;">EnumerationIterator</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900; font-style: italic;">Iterator</span> {
+    Enumeration <span style="color: #859900; font-weight: bold;">enum</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">EnumerationIterator</span>(Enumeration <span style="color: #859900; font-weight: bold;">enum</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.<span style="color: #859900; font-weight: bold;">enum</span> = <span style="color: #859900; font-weight: bold;">enum</span>;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">boolean</span> <span style="color: #268bd2;">hasNext</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">enum</span>.hasMoreElements();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">Object</span> <span style="color: #268bd2;">next</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">enum</span>.nextElement();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">remove</span>() {
+        <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">UnsupportedOperationException</span>();
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-6" class="outline-3">
+<h3 id="sec-7-6">There is another pattern in this chapter: Facade</h3>
+<div class="outline-text-3" id="text-7-6">
+<ul class="org-ul">
+<li>我们还要讲述一种比较简单的pattern: Facade
+</li>
+<li>之所以说这个pattern简单,是因为它的原理其实就是
+<pre class="example">
+Compose多个class在自己内部,然后自己设计函数,在函数内部使用compose的对象
+</pre>
+</li>
+<li>说个例子:比如你有一个家庭影院,每次你看的时候都要做很多事情:
+<ul class="org-ul">
+<li>打开功放
+</li>
+<li>打开DVD
+</li>
+<li>打开电视机
+</li>
+<li>&#x2026;..
+</li>
+</ul>
+</li>
+<li>这每一件事情都是某个object的某个调用函数, 如果这个列表很长的话,对于用户来说,
+体验就很不好.我们希望能有个类似"一键开始享受电影"的功能.
+</li>
+<li>实现方法,当然就是compose多个object, 然后在自己的oneKeyWatchMovie函数里面调
+用这些object
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/theater-facade.png" alt="theater-facade.png" />
+</p>
+<p><span class="figure-number">Figure 26:</span> theater-facade.png</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-7" class="outline-3">
+<h3 id="sec-7-7">Construting your home therater facade</h3>
+<div class="outline-text-3" id="text-7-7">
+<ul class="org-ul">
+<li>下面来看看代码实现:
+<ul class="org-ul">
+<li>首先是Amplifier类
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch7.<span style="color: #268bd2; font-weight: bold;">facade</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Amplifier</span> {
+    <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">description</span>;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">Amplifier</span>(<span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">description</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.description = description;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">on</span>() {
+        System.out.println(<span style="color: #2aa198;">"Amplifier is on"</span>);
+    }
+}
+</pre>
+</div>
+</li>
+<li>然后是DvdPlayer类 (compose了Amplifer)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch7.<span style="color: #268bd2; font-weight: bold;">facade</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">DvdPlayer</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">description</span>;
+    <span style="color: #b58900; font-style: italic;">Amplifier</span> <span style="color: #268bd2;">amplifier</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">DvdPlayer</span>(<span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">description</span>, <span style="color: #b58900; font-style: italic;">Amplifier</span> <span style="color: #268bd2;">amplifier</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.description = description;
+        <span style="color: #859900; font-weight: bold;">this</span>.amplifier = amplifier;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">on</span>() {
+        System.out.println(<span style="color: #2aa198;">"DVD player is on"</span>);
+    }
+}
+</pre>
+</div>
+</li>
+<li>Screen类
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch7.<span style="color: #268bd2; font-weight: bold;">facade</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Screen</span> {
+    <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">description</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">Screen</span>(<span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">description</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.description = description;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">on</span>() {
+        System.out.println(<span style="color: #2aa198;">"Screen is on, enjoy the movie"</span>);
+    }
+}
+</pre>
+</div>
+</li>
+<li>Facade类
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch7.<span style="color: #268bd2; font-weight: bold;">facade</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">HomeTheaterFacade</span> {
+    <span style="color: #b58900; font-style: italic;">Amplifier</span> <span style="color: #268bd2;">amplifier</span>;
+    <span style="color: #b58900; font-style: italic;">DvdPlayer</span> <span style="color: #268bd2;">dvdPlayer</span>;
+    <span style="color: #b58900; font-style: italic;">Screen</span> <span style="color: #268bd2;">screen</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">HomeTheaterFacade</span>(<span style="color: #b58900; font-style: italic;">Amplifier</span> <span style="color: #268bd2;">amplifier</span>,
+                             <span style="color: #b58900; font-style: italic;">DvdPlayer</span> <span style="color: #268bd2;">dvdPlayer</span>,
+                             <span style="color: #b58900; font-style: italic;">Screen</span> <span style="color: #268bd2;">screen</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.amplifier = amplifier;
+        <span style="color: #859900; font-weight: bold;">this</span>.dvdPlayer = dvdPlayer;
+        <span style="color: #859900; font-weight: bold;">this</span>.screen = screen;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">oneKeyWatchMovie</span>() {
+        amplifier.on();
+        dvdPlayer.on();
+        screen.on();
+    }
+
+}
+</pre>
+</div>
+</li>
+<li>Main代码
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch7.<span style="color: #268bd2; font-weight: bold;">facade</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MainTest</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900; font-style: italic;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900; font-style: italic;">Amplifier</span> <span style="color: #268bd2;">amplifier</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Amplifier</span>(<span style="color: #2aa198;">"Top Amplifier"</span>);
+        <span style="color: #b58900; font-style: italic;">DvdPlayer</span> <span style="color: #268bd2;">dvdPlayer</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">DvdPlayer</span>(<span style="color: #2aa198;">"Top DVD Player"</span>, amplifier);
+        <span style="color: #b58900; font-style: italic;">Screen</span> <span style="color: #268bd2;">screen</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Screen</span>(<span style="color: #2aa198;">"Top Screen"</span>);
+
+        <span style="color: #b58900; font-style: italic;">HomeTheaterFacade</span> <span style="color: #268bd2;">homeTheaterFacade</span> =
+                <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">HomeTheaterFacade</span>(amplifier, dvdPlayer, screen);
+
+        homeTheaterFacade.watchMovie();
+    }
+}
+
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Amplifier is on                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">DVD player is on                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Screen is on, enjoy the movie                  //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-8" class="outline-3">
+<h3 id="sec-7-8">Facade Pattern defined</h3>
+<div class="outline-text-3" id="text-7-8">
+<ul class="org-ul">
+<li>facade pattern非常直接,定义如下
+<pre class="example">
+The Facade Pattern provides a unified interface to a set of interfaces
+in a subsystem. Facade defines a higher-level interface that makes the
+subsystem easier to use
+</pre>
+</li>
+<li>如果我们从一个更大的视角,我们会看到如下结构:我们隐藏了Facade后面的信息
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/facade-subsystem.png" alt="facade-subsystem.png" />
+</p>
+<p><span class="figure-number">Figure 27:</span> facade-subsystem.png</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-9" class="outline-3">
+<h3 id="sec-7-9">The Principle of Least Knowledge</h3>
+<div class="outline-text-3" id="text-7-9">
+<ul class="org-ul">
+<li>facade的设计其实蕴含了一条design principle
+<pre class="example">
+Principle of Least Knowledge - talk only to your immediate friends
+</pre>
+</li>
+<li>这条principle告诉我们,当我们设计一个系统的时候, 要注意和其interact的class的
+数目. 这个数目能够小的话,尽量小.这样在系统变动的时候,会造成最小的影响.
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">Chapter 8: the Template Method Pattern: Encapsulating Algorithms</h2>
+<div class="outline-text-2" id="text-8">
+</div><div id="outline-container-sec-8-1" class="outline-3">
+<h3 id="sec-8-1">It's time for some more cafeine</h3>
+<div class="outline-text-3" id="text-8-1">
+<ul class="org-ul">
+<li>咖啡和茶是很多人的生活必备,它们除了都含有咖啡因以外,在制作方法上面也很类似:
+<ul class="org-ul">
+<li>对于咖啡:
+<ol class="org-ol">
+<li>Boil some water
+</li>
+<li>Brew coffee in boiling water
+</li>
+<li>Pour coffee in cup
+</li>
+<li>Add sugar and milk
+</li>
+</ol>
+</li>
+<li>对于茶:
+<ol class="org-ol">
+<li>Boil some water
+</li>
+<li>Brew tea in boiling water
+</li>
+<li>Pour tea in cup
+</li>
+<li>Add lemon
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-8-2" class="outline-3">
+<h3 id="sec-8-2">Whipping up some coffee and tea classes</h3>
+<div class="outline-text-3" id="text-8-2">
+<ul class="org-ul">
+<li>如果我们把上面的步骤写成代码的话,你会发现,也很相似
+<ul class="org-ul">
+<li>对于咖啡:
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Coffee</span> {
+    <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">prepareRecipe</span>() {
+        boilWater();
+        brewCoffeeGrinds();
+        pourInCup();
+        addSugarAndMilk();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">boilWater</span>() {
+        System.out.println(<span style="color: #2aa198;">"Boling water"</span>);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">brewCoffeeGrinds</span>() {
+        System.out.println(<span style="color: #2aa198;">"Dripping Coffee through filter"</span>);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">pourInCup</span>() {
+        System.out.println(<span style="color: #2aa198;">"Pouring into cup"</span>);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">addSugarAndMilk</span>() {
+        System.out.println(<span style="color: #2aa198;">"Adding Sugar and Milk"</span>);
+    }
+}
+</pre>
+</div>
+</li>
+<li>对于茶
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Tea</span> {
+    <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">prepareRecipe</span>() {
+        boilWater();
+        steepTeaBag();
+        pourInCup();
+        addLemon();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">boilWater</span>() {
+        System.out.println(<span style="color: #2aa198;">"Boiling water"</span>);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">steepTeaBag</span>() {
+        System.out.println(<span style="color: #2aa198;">"Steeping the tea"</span>);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">addLemon</span>() {
+        System.out.println(<span style="color: #2aa198;">"Adding Lemon"</span>);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">pourInCup</span>() {
+        System.out.println(<span style="color: #2aa198;">"Pouring into cup"</span>);
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-8-3" class="outline-3">
+<h3 id="sec-8-3">Sir, may I abstract your Coffee, Tea?</h3>
+<div class="outline-text-3" id="text-8-3">
+<ul class="org-ul">
+<li>最直观的感受就是Tea和Coffee里面的boilWater()和pourInCup()是可以提取出来的,
+因为它们完全一致. 然后prepareRecipe()就必须设置为abstract函数了,因为其内部
+并不是所有函数都能够在base class里面确定.如下图
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/straightforward-abstract.png" alt="straightforward-abstract.png" />
+</p>
+<p><span class="figure-number">Figure 28:</span> straightforward-abstract.png</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-8-4" class="outline-3">
+<h3 id="sec-8-4">Taking the design further..</h3>
+<div class="outline-text-3" id="text-8-4">
+<ul class="org-ul">
+<li>如果我们更进一步的观察的话会发现:
+<ul class="org-ul">
+<li>brewCoffeeGrinds()和steepTeaBag()是一回事: 都是把原料准备好
+</li>
+<li>addSugarAndMilk()和addLemon()更是一回事: 都是添加调味料,只是调味料不同而已
+</li>
+</ul>
+</li>
+<li>如果能把这两者抽象成base class里面的相同函数(区别在sub class里面进行指定),
+那么我们的prepareReceipe就可以在base class里面实现, 而sub class也就不需要对
+其进行扩展了.
+</li>
+<li>这种把一个步骤(或者说算法)集合在一个base class函数里面让subclass使用的方法
+就是 template method pattern. 类图如下
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/template-abstract.png" alt="template-abstract.png" />
+</p>
+<p><span class="figure-number">Figure 29:</span> template-abstract.png</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-8-5" class="outline-3">
+<h3 id="sec-8-5">The implementation code</h3>
+<div class="outline-text-3" id="text-8-5">
+<ul class="org-ul">
+<li>首先是base class, 这里面prepareRecipe()是final的,因为我们不想让subclass去改
+动我们的算法. 我们能确定的函数比如boilWater()也实现在了base class,不能确定的
+函数比如brew(), 我们设计成abstract class,让subclass去实现
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch8.template.<span style="color: #268bd2; font-weight: bold;">cofeetea</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">CaffeineBeverage</span> {
+
+    <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">prepareRecipe</span>() {
+        boilWater();
+        brew();
+        pourInCup();
+        addCondiments();
+    }
+
+    <span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">brew</span>();
+    <span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">addCondiments</span>();
+    <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">boilWater</span>() {
+        System.out.println(<span style="color: #2aa198;">"Boiling water"</span>);
+    }
+
+    <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">pourInCup</span>() {
+        System.out.println(<span style="color: #2aa198;">"Pouring into cup"</span>);
+    }
+}
+</pre>
+</div>
+</li>
+<li>Coffee函数如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch8.template.<span style="color: #268bd2; font-weight: bold;">cofeetea</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Coffee</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900; font-style: italic;">CaffeineBeverage</span> {
+    <span style="color: #268bd2; font-weight: bold;">@Override</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">brew</span>() {
+        System.out.println(<span style="color: #2aa198;">"Dripping Coffee through filter"</span>);
+    }
+
+    <span style="color: #268bd2; font-weight: bold;">@Override</span>
+    <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">addCondiments</span>() {
+        System.out.println(<span style="color: #2aa198;">"Adding Sugar and Milk"</span>);
+    }
+}
+</pre>
+</div>
+</li>
+<li>Tea函数如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch8.template.<span style="color: #268bd2; font-weight: bold;">cofeetea</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Tea</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900; font-style: italic;">CaffeineBeverage</span> {
+    <span style="color: #268bd2; font-weight: bold;">@Override</span>
+    <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">brew</span>() {
+        System.out.println(<span style="color: #2aa198;">"Steeping the tea"</span>);
+    }
+
+    <span style="color: #268bd2; font-weight: bold;">@Override</span>
+    <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">addCondiments</span>() {
+        System.out.println(<span style="color: #2aa198;">"Adding Lemon"</span>);
+    }
+}
+</pre>
+</div>
+</li>
+<li>测试函数如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch8.template.<span style="color: #268bd2; font-weight: bold;">cofeetea</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MainTest</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900; font-style: italic;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900; font-style: italic;">Tea</span> <span style="color: #268bd2;">tea</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Tea</span>();
+        <span style="color: #b58900; font-style: italic;">Coffee</span> <span style="color: #268bd2;">coffee</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Coffee</span>();
+
+        System.out.println(<span style="color: #2aa198;">"--------Tea---------------------"</span>);
+        tea.prepareRecipe();
+        System.out.println(<span style="color: #2aa198;">"--------Coffee------------------"</span>);
+        coffee.prepareRecipe();
+    }
+}
+
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">--------Tea---------------------               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Boiling water                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Steeping the tea                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Pouring into cup                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Adding Lemon                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">--------Coffee------------------               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Boiling water                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Dripping Coffee through filter                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Pouring into cup                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Adding Sugar and Milk                          //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-8-6" class="outline-3">
+<h3 id="sec-8-6">Meet the Template Method</h3>
+<div class="outline-text-3" id="text-8-6">
+<ul class="org-ul">
+<li>前面我们实现的就是一个template method pattern啦, 总体上来说
+<pre class="example">
+The Template Method defines the steps of an algorithm and allows
+subclasses to provoie the implementation for one or more steps
+</pre>
+</li>
+<li>下面一个图详尽的解释了这句话
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/meet-template-method.png" alt="meet-template-method.png" />
+</p>
+<p><span class="figure-number">Figure 30:</span> meet-template-method</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-8-7" class="outline-3">
+<h3 id="sec-8-7">Template Method Pattern defined</h3>
+<div class="outline-text-3" id="text-8-7">
+<ul class="org-ul">
+<li>照旧,我们还是对template有一个定义,但远不如上面的图和解释清楚
+<pre class="example">
+The Template Method Pattern defines the skeleton of an algorithm in a
+method, deferring some steps to subclasses. Template Method lets
+subclasses redefine certain steps of an algorithm without changing
+the algorithm's structure.
+</pre>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
