@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>hfdp</title>
-<!-- 2015-04-23 Thu 09:54 -->
+<!-- 2015-05-04 Mon 10:20 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -271,8 +271,25 @@ for the JavaScript code in this tag.
 <li><a href="#sec-8-5">The implementation code</a></li>
 <li><a href="#sec-8-6">Meet the Template Method</a></li>
 <li><a href="#sec-8-7">Template Method Pattern defined</a></li>
+<li><a href="#sec-8-8">Hooked on Template Method</a></li>
+<li><a href="#sec-8-9">The Holywood Principls</a></li>
+<li><a href="#sec-8-10">Template Methods in the JDK</a></li>
 </ul>
 </li>
+<li><a href="#sec-9">Chapter 9: the Iterator and Composite Patterns: Well-Managed Collections</a>
+<ul>
+<li><a href="#sec-9-1">Two resturants merge</a></li>
+<li><a href="#sec-9-2">Use java's Iterator</a></li>
+<li><a href="#sec-9-3">Iterator Pattern defined</a></li>
+<li><a href="#sec-9-4">Single Responsibility</a></li>
+<li><a href="#sec-9-5">Iterators and Collections</a></li>
+<li><a href="#sec-9-6">New problem raised</a></li>
+<li><a href="#sec-9-7">The Composite Pattern defined</a></li>
+<li><a href="#sec-9-8">Designing Menus with Composite</a></li>
+<li><a href="#sec-9-9">Flashback to Iterator</a></li>
+</ul>
+</li>
+<li><a href="#sec-10">Chapter 10: the State Pattern: The State of Things</a></li>
 </ul>
 </div>
 </div>
@@ -3970,6 +3987,1658 @@ the algorithm's structure.
 </li>
 </ul>
 </div>
+</div>
+<div id="outline-container-sec-8-8" class="outline-3">
+<h3 id="sec-8-8">Hooked on Template Method</h3>
+<div class="outline-text-3" id="text-8-8">
+<ul class="org-ul">
+<li>template method有一个扩展,叫做"hook",就是在abstract base class里面提供一个
+method, 但是这个method内部没有实现(或者是default实现):
+<ul class="org-ul">
+<li>如果subclass想更改一部分的Algorithm的话,可以选择override这个函数
+</li>
+<li>如果subclass不想更改Algorithm的话,那么不用去管这个函数
+</li>
+</ul>
+</li>
+<li>下面就是一个带有hook的template method实现, customerWantsCondiments就是那个
+hook
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch8.template.<span style="color: #268bd2; font-weight: bold;">coffeeteawithhook</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">CaffeineBeverageWithHook</span> {
+
+    <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">prepareRecipe</span>() {
+        boilWater();
+        brew();
+        pourInCoup();
+        <span style="color: #859900; font-weight: bold;">if</span> (customerWantsCondiments()) {
+            addCondiments();
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">brew</span>();
+    <span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">addCondiments</span>();
+
+    <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">boilWater</span>() {
+        System.out.println(<span style="color: #2aa198;">"Boiling water"</span>);
+    }
+
+    <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">pourInCoup</span>() {
+        System.out.println(<span style="color: #2aa198;">"Pouring into cup"</span>);
+    }
+
+    <span style="color: #b58900; font-style: italic;">boolean</span> <span style="color: #268bd2;">customerWantsCondiments</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">true</span>;
+    }
+}
+</pre>
+</div>
+</li>
+<li>如果你想使用hook的话,就要override函数customerWantsCondiments
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch8.template.<span style="color: #268bd2; font-weight: bold;">coffeeteawithhook</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">io</span>.<span style="color: #b58900; font-style: italic;">BufferedReader</span>;
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">io</span>.<span style="color: #b58900; font-style: italic;">IOException</span>;
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">io</span>.<span style="color: #b58900; font-style: italic;">InputStreamReader</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">CoffeeWithHook</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900; font-style: italic;">CaffeineBeverageWithHook</span> {
+    <span style="color: #268bd2; font-weight: bold;">@Override</span>
+    <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">brew</span>() {
+        System.out.println(<span style="color: #2aa198;">"Dripping Coffee through filter"</span>);
+    }
+
+    <span style="color: #268bd2; font-weight: bold;">@Override</span>
+    <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">addCondiments</span>() {
+        System.out.println(<span style="color: #2aa198;">"Adding Sugar and Milk"</span>);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">boolean</span> <span style="color: #268bd2;">customerWantsCondiments</span>() {
+        <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">answer</span> = getUserInput();
+
+        <span style="color: #859900; font-weight: bold;">if</span> (answer.toLowerCase().startsWith(<span style="color: #2aa198;">"y"</span>)) {
+            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">true</span>;
+        } <span style="color: #859900; font-weight: bold;">else</span> {
+            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">false</span>;
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">getUserInput</span>() {
+        <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">answer</span> = <span style="color: #268bd2; font-weight: bold;">null</span>;
+
+        System.out.println(<span style="color: #2aa198;">"Would you like milk and sugar with your coffee (y/n)"</span>);
+
+        <span style="color: #b58900; font-style: italic;">BufferedReader</span> <span style="color: #268bd2;">in</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">BufferedReader</span>(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">InputStreamReader</span>(System.in));
+
+        <span style="color: #859900; font-weight: bold;">try</span> {
+            answer = in.readLine();
+        } <span style="color: #859900; font-weight: bold;">catch</span> (<span style="color: #b58900; font-style: italic;">IOException</span> <span style="color: #268bd2;">ioe</span>) {
+            System.err.println(<span style="color: #2aa198;">"IO error trying to read your answer"</span>);
+        }
+
+        <span style="color: #859900; font-weight: bold;">if</span> (answer == <span style="color: #268bd2; font-weight: bold;">null</span>) {
+            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #2aa198;">"no"</span>;
+        }
+        <span style="color: #859900; font-weight: bold;">return</span> answer;
+    }
+}
+</pre>
+</div>
+</li>
+<li>我们来看看测试代码
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch8.template.<span style="color: #268bd2; font-weight: bold;">coffeeteawithhook</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MainTest</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900; font-style: italic;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900; font-style: italic;">TeaWithHook</span> <span style="color: #268bd2;">teaWithHook</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">TeaWithHook</span>();
+        <span style="color: #b58900; font-style: italic;">CoffeeWithHook</span> <span style="color: #268bd2;">coffeeWithHook</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">CoffeeWithHook</span>();
+
+        System.out.println(<span style="color: #2aa198;">"--------Tea---------------------"</span>);
+        teaWithHook.prepareRecipe();
+        System.out.println(<span style="color: #2aa198;">"--------Coffee------------------"</span>);
+        coffeeWithHook.prepareRecipe();
+    }
+}
+
+<span style="color: #93a1a1;">//////////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt;       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">--------Tea---------------------                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Boiling water                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Steeping the tea                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Pouring into cup                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Would you like lemon with your coffee (y/n)          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">n                                                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">--------Coffee------------------                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Boiling water                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Dripping Coffee through filter                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Pouring into cup                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Would you like milk and sugar with your coffee (y/n) //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">y                                                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Adding Sugar and Milk                                //</span>
+<span style="color: #93a1a1;">//////////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-8-9" class="outline-3">
+<h3 id="sec-8-9">The Holywood Principls</h3>
+<div class="outline-text-3" id="text-8-9">
+<ul class="org-ul">
+<li>Template method with hook的例子,用到了一个新的design pattern: Hollywood Principle
+<pre class="example">
+The Hollywood Principle: Don't call us, we'll call you
+</pre>
+</li>
+<li>这句话在我们的例子里面是base class (CaffeineBeverageWithHook) 对 subclass
+(CoffeeWithHook)说的:
+<ul class="org-ul">
+<li>首先,你不要调用我,那会产生复杂的调用依赖
+</li>
+<li>其次,我给了你在Algorithm里面的hook(你可以选择override这个hook),所以肯定会
+调用hook函数的,如果你override了这个函数,那么也就可以说,我调用了你.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-8-10" class="outline-3">
+<h3 id="sec-8-10">Template Methods in the JDK</h3>
+<div class="outline-text-3" id="text-8-10">
+<ul class="org-ul">
+<li>JDK中又很多处用到了Template Method with hook, 比如排序. 我们先看下面的例子:
+<ul class="org-ul">
+<li>首先是排序代码
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch8.template.<span style="color: #268bd2; font-weight: bold;">sort</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900; font-style: italic;">Arrays</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MainTest</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900; font-style: italic;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900; font-style: italic;">Duck</span>[] <span style="color: #268bd2;">ducks</span> = {
+                <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Duck</span>(<span style="color: #2aa198;">"Daffy"</span>, 8),
+                <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Duck</span>(<span style="color: #2aa198;">"Dewey"</span>, 1),
+                <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Duck</span>(<span style="color: #2aa198;">"Howard"</span>, 7),
+                <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Duck</span>(<span style="color: #2aa198;">"Louie"</span>, 2),
+                <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Duck</span>(<span style="color: #2aa198;">"Donald"</span>, 10),
+                <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Duck</span>(<span style="color: #2aa198;">"Huy"</span>, 2)
+        };
+
+        System.out.println(<span style="color: #2aa198;">"Before sorting:"</span>);
+        display(ducks);
+
+        Arrays.sort(ducks);
+        System.out.println(<span style="color: #2aa198;">"\nAfter sorting:"</span>);
+        display(ducks);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">display</span>(<span style="color: #b58900; font-style: italic;">Duck</span>[] <span style="color: #268bd2;">ducks</span>) {
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; ducks.<span style="color: #b58900; font-style: italic;">length</span>; i++) {
+            System.out.println(ducks[i]);
+        }
+    }
+}
+
+<span style="color: #93a1a1;">///////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt;    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Before sorting:                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Daffy weights        8                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Dewey weights        1                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Howard weights       7                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Louie weights        2                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Donald weights       10                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Huy weights      2                                //</span>
+<span style="color: #93a1a1;">//                                                   </span><span style="color: #93a1a1; font-style: italic;">//</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">After sorting:                                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Dewey weights        1                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Louie weights        2                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Huy weights      2                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Howard weights       7                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Daffy weights        8                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Donald weights       10                           //</span>
+<span style="color: #93a1a1;">///////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>我们知道,如果你想要完成上面的排序, 得让Duck override compareTo.对了,这个
+compareTo就是hook method
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch8.template.<span style="color: #268bd2; font-weight: bold;">sort</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Duck</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900; font-style: italic;">Comparable</span>&lt;<span style="color: #b58900; font-style: italic;">Duck</span>&gt; {
+    <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">name</span>;
+    <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">weight</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">Duck</span>(<span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">name</span>, <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">weight</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.name = name;
+        <span style="color: #859900; font-weight: bold;">this</span>.weight = weight;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> name + <span style="color: #2aa198;">" weights     \t"</span> + weight;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">compareTo</span>(<span style="color: #b58900; font-style: italic;">Duck</span> <span style="color: #268bd2;">otherDuck</span>) {
+        <span style="color: #859900; font-weight: bold;">if</span> (<span style="color: #859900; font-weight: bold;">this</span>.weight &lt; otherDuck.<span style="color: #b58900; font-style: italic;">weight</span>) {
+            <span style="color: #859900; font-weight: bold;">return</span> -1;
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (<span style="color: #859900; font-weight: bold;">this</span>.weight == otherDuck.weight) {
+            <span style="color: #859900; font-weight: bold;">return</span> 0;
+        } <span style="color: #859900; font-weight: bold;">else</span> {
+            <span style="color: #859900; font-weight: bold;">return</span> 1;
+        }
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>例子中的Arrays.sort里面就蕴含了hook:
+<ul class="org-ul">
+<li>首先Arrays.sort源代码如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">sort</span>(<span style="color: #b58900; font-style: italic;">Object</span>[] <span style="color: #268bd2;">a</span>) {
+    <span style="color: #859900; font-weight: bold;">if</span> (LegacyMergeSort.userRequested)
+        legacyMergeSort(a);
+    <span style="color: #859900; font-weight: bold;">else</span>
+        ComparableTimSort.sort(a);
+}
+</pre>
+</div>
+</li>
+<li>然后legacyMergeSort代码如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">legacyMergeSort</span>(<span style="color: #b58900; font-style: italic;">Object</span>[] <span style="color: #268bd2;">a</span>) {
+    <span style="color: #b58900; font-style: italic;">Object</span>[] <span style="color: #268bd2;">aux</span> = a.clone();
+    mergeSort(aux, a, 0, a.length, 0);
+}
+</pre>
+</div>
+</li>
+<li>mergeSort的代码如下,终于看到了hook compareTo
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">mergeSort</span>(<span style="color: #b58900; font-style: italic;">Object</span>[] <span style="color: #268bd2;">src</span>,
+                              <span style="color: #b58900; font-style: italic;">Object</span>[] <span style="color: #268bd2;">dest</span>,
+                              <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">low</span>,
+                              <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">high</span>,
+                              <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">off</span>) {
+    <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">length</span> = high - low;
+
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Insertion sort on smallest arrays</span>
+    <span style="color: #859900; font-weight: bold;">if</span> (length &lt; <span style="color: #b58900; font-style: italic;">INSERTIONSORT_THRESHOLD</span>) {
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">i</span>=low; i&lt;<span style="color: #b58900; font-style: italic;">high</span>; i++)
+            <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">j</span>=i; j&gt;low &amp;&amp;
+                     ((<span style="color: #b58900; font-style: italic;">Comparable</span>) dest[j-1]).compareTo(dest[j])&gt;0; j--)
+                swap(dest, j, j-1);
+        <span style="color: #859900; font-weight: bold;">return</span>;
+    }
+
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Recursively sort halves of dest into src</span>
+    <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">destLow</span>  = low;
+    <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">destHigh</span> = high;
+    low  += off;
+    high += off;
+    <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">mid</span> = (low + high) &gt;&gt;&gt; 1;
+    mergeSort(dest, src, low, mid, -off);
+    mergeSort(dest, src, mid, high, -off);
+
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">If list is already sorted, just copy from src to dest.  This is an</span>
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">optimization that results in faster sorts for nearly ordered lists.</span>
+    <span style="color: #859900; font-weight: bold;">if</span> (((<span style="color: #b58900; font-style: italic;">Comparable</span>)src[mid-1]).compareTo(src[mid]) &lt;= 0) {
+        System.arraycopy(src, low, dest, destLow, length);
+        <span style="color: #859900; font-weight: bold;">return</span>;
+    }
+
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Merge sorted halves (now in src) into dest</span>
+    <span style="color: #859900; font-weight: bold;">for</span>(<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">i</span> = destLow, <span style="color: #268bd2;">p</span> = low, <span style="color: #268bd2;">q</span> = mid; i &lt; <span style="color: #b58900; font-style: italic;">destHigh</span>; i++) {
+        <span style="color: #859900; font-weight: bold;">if</span> (q &gt;= high || p &lt; <span style="color: #b58900; font-style: italic;">mid</span> &amp;&amp; ((<span style="color: #b58900; font-style: italic;">Comparable</span>)src[p]).compareTo(src[q])&lt;=0)
+            dest[i] = src[p++];
+        <span style="color: #859900; font-weight: bold;">else</span>
+            dest[i] = src[q++];
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>Jdk HttpServlet中的service()也是一个template method的实现
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">HttpServlet</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900; font-style: italic;">GenericServlet</span> {
+    <span style="color: #859900; font-weight: bold;">protected</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">doGet</span>(<span style="color: #b58900; font-style: italic;">HttpServletRequest</span> <span style="color: #268bd2;">req</span>, <span style="color: #b58900; font-style: italic;">HttpServletResponse</span> <span style="color: #268bd2;">resp</span>)
+        <span style="color: #859900; font-weight: bold;">throws</span> <span style="color: #b58900; font-style: italic;">ServletException</span>, <span style="color: #b58900; font-style: italic;">IOException</span> {
+        <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">protocol</span> = req.getProtocol();
+        <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">msg</span> = lStrings.getString(<span style="color: #2aa198;">"http.method_get_not_supported"</span>);
+        <span style="color: #859900; font-weight: bold;">if</span> (protocol.endsWith(<span style="color: #2aa198;">"1.1"</span>)) {
+            resp.sendError(<span style="color: #268bd2; font-weight: bold;">HttpServletResponse</span>.SC_METHOD_NOT_ALLOWED, msg);
+        } <span style="color: #859900; font-weight: bold;">else</span> {
+            resp.sendError(<span style="color: #268bd2; font-weight: bold;">HttpServletResponse</span>.SC_BAD_REQUEST, msg);
+        }
+    }
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">default method for doPost doPut...</span>
+    <span style="color: #859900; font-weight: bold;">protected</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">service</span>(<span style="color: #b58900; font-style: italic;">HttpServletRequest</span> <span style="color: #268bd2;">req</span>, <span style="color: #b58900; font-style: italic;">HttpServletResponse</span> <span style="color: #268bd2;">resp</span>)
+        <span style="color: #859900; font-weight: bold;">throws</span> <span style="color: #b58900; font-style: italic;">ServletException</span>, <span style="color: #b58900; font-style: italic;">IOException</span> {
+        <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">method</span> = req.getMethod();
+
+        <span style="color: #859900; font-weight: bold;">if</span> (method.equals(METHOD_GET)) {
+            <span style="color: #b58900; font-style: italic;">long</span> <span style="color: #268bd2;">lastModified</span> = getLastModified(req);
+            <span style="color: #859900; font-weight: bold;">if</span> (lastModified == -1) {
+                <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">servlet doesn't support if-modified-since, no reason</span>
+                <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">to go through further expensive logic</span>
+                doGet(req, resp);
+            } <span style="color: #859900; font-weight: bold;">else</span> {
+                <span style="color: #b58900; font-style: italic;">long</span> <span style="color: #268bd2;">ifModifiedSince</span> = req.getDateHeader(HEADER_IFMODSINCE);
+                <span style="color: #859900; font-weight: bold;">if</span> (ifModifiedSince &lt; <span style="color: #b58900; font-style: italic;">lastModified</span>) {
+                    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">If the servlet mod time is later, call doGet()</span>
+                    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Round down to the nearest second for a proper compare</span>
+                    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">A ifModifiedSince of -1 will always be less</span>
+                    maybeSetLastModified(resp, lastModified);
+                    doGet(req, resp);
+                } <span style="color: #859900; font-weight: bold;">else</span> {
+                    resp.setStatus(<span style="color: #268bd2; font-weight: bold;">HttpServletResponse</span>.SC_NOT_MODIFIED);
+                }
+            }
+
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (method.equals(METHOD_HEAD)) {
+            <span style="color: #b58900; font-style: italic;">long</span> <span style="color: #268bd2;">lastModified</span> = getLastModified(req);
+            maybeSetLastModified(resp, lastModified);
+            doHead(req, resp);
+
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (method.equals(METHOD_POST)) {
+            doPost(req, resp);
+
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (method.equals(METHOD_PUT)) {
+            doPut(req, resp);
+
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (method.equals(METHOD_DELETE)) {
+            doDelete(req, resp);
+
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (method.equals(METHOD_OPTIONS)) {
+            doOptions(req,resp);
+
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (method.equals(METHOD_TRACE)) {
+            doTrace(req,resp);
+        } <span style="color: #859900; font-weight: bold;">else</span> {
+            <span style="color: #93a1a1;">//</span><span style="color: #93a1a1; font-style: italic;">..</span>
+        }
+    }
+}
+</pre>
+</div>
+</li>
+<li>用户的代码总是:
+<ul class="org-ul">
+<li>extends HttpServlet(因为是abstract class所以只能继承了).
+</li>
+<li>然后override自己的doGet, doPost&#x2026;
+</li>
+<li>不能去override自己的service(), 因为那个是template method (所以如果service
+给设计成final更好)
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9">Chapter 9: the Iterator and Composite Patterns: Well-Managed Collections</h2>
+<div class="outline-text-2" id="text-9">
+<ul class="org-ul">
+<li>设计一个类的时候,如果有一系列类型相同的object,一般会考虑使用容器放置, 在java
+中有很多这种容器:
+<ul class="org-ul">
+<li>Array
+</li>
+<li>Stack
+</li>
+<li>List
+</li>
+<li>Hashtable
+</li>
+</ul>
+</li>
+<li>容器管理object的时候,会遇到两种特别难以处理的情况:
+<ul class="org-ul">
+<li>第一种情况: client可以看到我们类内部的实现, 但是client要处理很多个类,但是
+这些类里面用了不同的容器. client不想为每一种容器写一套遍历代码!
+</li>
+<li>另外一种情况就是,类内部如何放置这些object是你设计的内部细节, 你不想为类外
+部所看到. client想要遍历你们,至少你得给几个最基本的函数来让我们完成遍历
+</li>
+</ul>
+</li>
+<li>Iterator pattern就是解决上面"两种"困境的办法!
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-9-1" class="outline-3">
+<h3 id="sec-9-1">Two resturants merge</h3>
+<div class="outline-text-3" id="text-9-1">
+<ul class="org-ul">
+<li>针对上面第一种情况,我们来说一个例子: 有两个餐馆合并了.但是两个餐馆原来各有
+一套菜单系统:
+<ul class="org-ul">
+<li>KFC餐馆使用的是Array[]来存储menuitems
+</li>
+<li>MCD餐馆使用的是ArrayList来存储menuitems
+</li>
+</ul>
+</li>
+<li>大家的MenuItem定义都是一样的
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.<span style="color: #268bd2; font-weight: bold;">iterator</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MenuItem</span> {
+    <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">name</span>;
+    <span style="color: #b58900; font-style: italic;">double</span> <span style="color: #268bd2;">price</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">MenuItem</span>(<span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">name</span>, <span style="color: #b58900; font-style: italic;">double</span> <span style="color: #268bd2;">price</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.name = name;
+        <span style="color: #859900; font-weight: bold;">this</span>.price = price;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> (name + <span style="color: #2aa198;">", $"</span> + price);
+    }
+}
+</pre>
+</div>
+</li>
+<li>但是大家都不想更改自己的容器实现(因为那可能要破坏几年如一日正常运转的代码):
+<ul class="org-ul">
+<li>KFC的代码如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.<span style="color: #268bd2; font-weight: bold;">iterator</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">KFCMenu</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">MAX_ITEMS</span> = 6;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">numberOfItems</span> = 0;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>[] <span style="color: #268bd2;">menuItems</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">KFCMenu</span>() {
+        menuItems = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>[MAX_ITEMS];
+        addItem(<span style="color: #2aa198;">"KA"</span>, 1.0);
+        addItem(<span style="color: #2aa198;">"KB"</span>, 2.0);
+        addItem(<span style="color: #2aa198;">"KC"</span>, 3.0);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">addItem</span>(<span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">name</span>, <span style="color: #b58900; font-style: italic;">double</span> <span style="color: #268bd2;">price</span>) {
+        <span style="color: #b58900; font-style: italic;">MenuItem</span> <span style="color: #268bd2;">menuItem</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>(name, price);
+        menuItems[numberOfItems++] = menuItem;
+    }
+}
+</pre>
+</div>
+</li>
+<li>MCD的代码如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.<span style="color: #268bd2; font-weight: bold;">iterator</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900; font-style: italic;">ArrayList</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MCDMenu</span> {
+    <span style="color: #b58900; font-style: italic;">ArrayList</span> <span style="color: #268bd2;">menuItems</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">MCDMenu</span>() {
+        menuItems = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">ArrayList</span>();
+        addItem(<span style="color: #2aa198;">"MA"</span>, 1.0);
+        addItem(<span style="color: #2aa198;">"MB"</span>, 2.0);
+        addItem(<span style="color: #2aa198;">"MC"</span>, 3.0);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">addItem</span>(<span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">name</span>, <span style="color: #b58900; font-style: italic;">double</span> <span style="color: #268bd2;">price</span>) {
+        <span style="color: #b58900; font-style: italic;">MenuItem</span> <span style="color: #268bd2;">menuItem</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>(name, price);
+        menuItems.add(menuItem);
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>话又说回来,即便是改了容器实现, 但是把容器实现通过如下的代码"暴露"出来,也是
+违反面向对象设计要求的. (这也就是上面说的"另外一种情况")
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>[] <span style="color: #268bd2;">getMenuItems</span>() {
+    <span style="color: #859900; font-weight: bold;">return</span> menuItems;
+}
+</pre>
+</div>
+</li>
+<li>解决的办法前面说过了,是Iterator pattern. 其接口样子如下.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #b58900; font-style: italic;">ackage</span> org.hfeng.misc.hfdp.ch9.<span style="color: #268bd2;">iterator</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900; font-style: italic;">Iterator</span> {
+    <span style="color: #b58900; font-style: italic;">boolean</span> <span style="color: #268bd2;">hasNext</span>();
+    <span style="color: #b58900; font-style: italic;">Object</span> <span style="color: #268bd2;">next</span>();
+}
+</pre>
+</div>
+</li>
+<li>Iterator接口概括起来就是说,如果你implements了Iterator,说明你内部必定有容器
+你也会告诉我们何时结束,每次当前的内容是什么, 下面就是一个类实现Iterator的例子
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.<span style="color: #268bd2; font-weight: bold;">iterator</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">KFCMenuIterator</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900; font-style: italic;">Iterator</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>[] <span style="color: #268bd2;">items</span>;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">position</span> = 0;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">KFCMenuIterator</span>(<span style="color: #b58900; font-style: italic;">MenuItem</span>[] <span style="color: #268bd2;">items</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.items = items;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">Object</span> <span style="color: #268bd2;">next</span>() {
+        <span style="color: #b58900; font-style: italic;">MenuItem</span> <span style="color: #268bd2;">menuItem</span> = items[position++];
+        <span style="color: #859900; font-weight: bold;">return</span> menuItem;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">boolean</span> <span style="color: #268bd2;">hasNext</span>() {
+        <span style="color: #859900; font-weight: bold;">if</span> (position &gt;= items.length || items[position] == <span style="color: #268bd2; font-weight: bold;">null</span>) {
+            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">false</span>;
+        } <span style="color: #859900; font-weight: bold;">else</span> {
+            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">true</span>;
+        }
+    }
+}
+</pre>
+</div>
+</li>
+<li>我们的类其实现在就可以"暴露"一个函数, 这个函数的返回值就是一个Iterator
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">Iterator</span> <span style="color: #268bd2;">createIterator</span>() {
+    <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">KFCMenuIterator</span>(menuItems);
+}
+</pre>
+</div>
+</li>
+<li>为了让这个接口看起来更专业,我们设计了一个Menu interface, 让我们的类来implements
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.<span style="color: #268bd2; font-weight: bold;">iterator</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">interface</span> <span style="color: #b58900; font-style: italic;">Menu</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">Iterator</span> <span style="color: #268bd2;">createIterator</span>();
+}
+</pre>
+</div>
+</li>
+<li>现在KFCmenu是这个样子
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.<span style="color: #268bd2; font-weight: bold;">iterator</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">KFCMenu</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900; font-style: italic;">Menu</span>{
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">MAX_ITEMS</span> = 6;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">numberOfItems</span> = 0;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>[] <span style="color: #268bd2;">menuItems</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">KFCMenu</span>() {
+        menuItems = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>[MAX_ITEMS];
+        addItem(<span style="color: #2aa198;">"KA"</span>, 1.0);
+        addItem(<span style="color: #2aa198;">"KB"</span>, 2.0);
+        addItem(<span style="color: #2aa198;">"KC"</span>, 3.0);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">addItem</span>(<span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">name</span>, <span style="color: #b58900; font-style: italic;">double</span> <span style="color: #268bd2;">price</span>) {
+        <span style="color: #b58900; font-style: italic;">MenuItem</span> <span style="color: #268bd2;">menuItem</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>(name, price);
+        menuItems[numberOfItems++] = menuItem;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">Iterator</span> <span style="color: #268bd2;">createIterator</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">KFCMenuIterator</span>(menuItems);
+    }
+}
+</pre>
+</div>
+</li>
+<li>waitress就是使用我们类的client code. 它想遍历容器的话,那么它只需要talk to
+Iterator和Menu这两个接口就可以了.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.<span style="color: #268bd2; font-weight: bold;">iterator</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Waitress</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">Menu</span> <span style="color: #268bd2;">kfcMenu</span>;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">Menu</span> <span style="color: #268bd2;">mcdMenu</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">Waitress</span>(<span style="color: #b58900; font-style: italic;">Menu</span> <span style="color: #268bd2;">kfcMenu</span>, <span style="color: #b58900; font-style: italic;">Menu</span> <span style="color: #268bd2;">mcdMenu</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.kfcMenu = kfcMenu;
+        <span style="color: #859900; font-weight: bold;">this</span>.mcdMenu = mcdMenu;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">printMenu</span>() {
+        System.out.println(<span style="color: #2aa198;">"KFC--------&gt;"</span>);
+        printMenuWithIterator(kfcMenu.createIterator());
+        System.out.println(<span style="color: #2aa198;">"MCD--------&gt;"</span>);
+        printMenuWithIterator(mcdMenu.createIterator());
+    }
+
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">printMenuWithIterator</span>(<span style="color: #b58900; font-style: italic;">Iterator</span> <span style="color: #268bd2;">iterator</span>) {
+        <span style="color: #859900; font-weight: bold;">while</span> (iterator.hasNext()) {
+            <span style="color: #b58900; font-style: italic;">MenuItem</span> <span style="color: #268bd2;">menuItem</span> = (<span style="color: #b58900; font-style: italic;">MenuItem</span>)iterator.next();
+            System.out.println(menuItem.toString());
+        }
+    }
+}
+</pre>
+</div>
+</li>
+<li>测试代码
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.<span style="color: #268bd2; font-weight: bold;">iterator</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MainTest</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900; font-style: italic;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900; font-style: italic;">KFCMenu</span> <span style="color: #268bd2;">kfcMenu</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">KFCMenu</span>();
+        <span style="color: #b58900; font-style: italic;">MCDMenu</span> <span style="color: #268bd2;">mcdMenu</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MCDMenu</span>();
+        <span style="color: #b58900; font-style: italic;">Waitress</span> <span style="color: #268bd2;">waitress</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Waitress</span>(kfcMenu, mcdMenu);
+        waitress.printMenu();
+    }
+}
+
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">KFC--------&gt;                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">KA, $1.0                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">KB, $2.0                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">KC, $3.0                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">MCD--------&gt;                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">MA, $1.0                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">MB, $2.0                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">MC, $3.0                                       //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+<li>总体的类图如下
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/menu-iterator.png" alt="menu-iterator.png" />
+</p>
+<p><span class="figure-number">Figure 31:</span> menu-iterator</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-2" class="outline-3">
+<h3 id="sec-9-2">Use java's Iterator</h3>
+<div class="outline-text-3" id="text-9-2">
+<ul class="org-ul">
+<li>java 提供了内置的Iterator, 并且在巨大多数的容器(主要是Collection接口里面定
+义了的iterator())里面实现了返回一个iterator的函数iterator(), 所以比如用
+ArrayList这种大路边的容器来实现我们的例子,就很简单了
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.iterator.<span style="color: #268bd2; font-weight: bold;">jdk</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900; font-style: italic;">ArrayList</span>;
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900; font-style: italic;">Iterator</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">BreakfastMenu</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900; font-style: italic;">Menu</span>{
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">ArrayList</span>&lt;<span style="color: #b58900; font-style: italic;">MenuItem</span>&gt; <span style="color: #268bd2;">menuItems</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">BreakfastMenu</span>() {
+        menuItems = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">ArrayList</span>&lt;<span style="color: #b58900; font-style: italic;">MenuItem</span>&gt;();
+
+        menuItems.add(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>(<span style="color: #2aa198;">"Pancake"</span>, 2.99));
+        menuItems.add(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>(<span style="color: #2aa198;">"Waffles"</span>, 3.59));
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">Iterator</span>&lt;<span style="color: #b58900; font-style: italic;">MenuItem</span>&gt; <span style="color: #268bd2;">createIterator</span>() {
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Notice here!!</span>
+        <span style="color: #859900; font-weight: bold;">return</span> menuItems.iterator();
+    }
+}
+</pre>
+</div>
+</li>
+<li>如果是hashmap这种结构,我们也可以"只返回value的iterator"
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.iterator.<span style="color: #268bd2; font-weight: bold;">jdk</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900; font-style: italic;">HashMap</span>;
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900; font-style: italic;">Iterator</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">LunchMenu</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900; font-style: italic;">Menu</span> {
+    <span style="color: #b58900; font-style: italic;">HashMap</span>&lt;<span style="color: #b58900; font-style: italic;">String</span>, <span style="color: #b58900; font-style: italic;">MenuItem</span>&gt; <span style="color: #268bd2;">map</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">HashMap</span>&lt;<span style="color: #b58900; font-style: italic;">String</span>, <span style="color: #b58900; font-style: italic;">MenuItem</span>&gt;();
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">LunchMenu</span>() {
+        addItem(<span style="color: #2aa198;">"Veggie"</span>, 3.99);
+        addItem(<span style="color: #2aa198;">"Burrito"</span>, 4.29);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">addItem</span>(<span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">name</span>, <span style="color: #b58900; font-style: italic;">double</span> <span style="color: #268bd2;">price</span>) {
+        <span style="color: #b58900; font-style: italic;">MenuItem</span> <span style="color: #268bd2;">menuItem</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>(name, price);
+        map.put(menuItem.getName(), menuItem);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">Iterator</span>&lt;<span style="color: #b58900; font-style: italic;">MenuItem</span>&gt; <span style="color: #268bd2;">createIterator</span>() {
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">only the values' iterator are return</span>
+        <span style="color: #859900; font-weight: bold;">return</span> map.values().iterator();
+    }
+}
+</pre>
+</div>
+</li>
+<li>如果是Array这种结构,那么没有iterator(),那么我们得自己"implements"一个Iterator
+然后返回
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.iterator.<span style="color: #268bd2; font-weight: bold;">jdk</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900; font-style: italic;">Iterator</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">DinerMenuIterator</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900; font-style: italic;">Iterator</span>&lt;<span style="color: #b58900; font-style: italic;">MenuItem</span>&gt; {
+    <span style="color: #b58900; font-style: italic;">MenuItem</span>[] <span style="color: #268bd2;">list</span>;
+    <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">position</span> = 0;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">DinerMenuIterator</span>(<span style="color: #b58900; font-style: italic;">MenuItem</span>[] <span style="color: #268bd2;">list</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.list = list;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">MenuItem</span> <span style="color: #268bd2;">next</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> list[position++];
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">boolean</span> <span style="color: #268bd2;">hasNext</span>() {
+        <span style="color: #859900; font-weight: bold;">if</span> (position &gt;= list.length || list[position] == <span style="color: #268bd2; font-weight: bold;">null</span>) {
+            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">false</span>;
+        } <span style="color: #859900; font-weight: bold;">else</span> {
+            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">true</span>;
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">remove</span>() {
+        <span style="color: #859900; font-weight: bold;">if</span> (position &lt;= 0) {
+            <span style="color: #93a1a1;">//</span><span style="color: #93a1a1; font-style: italic;">throw new Exception("You can't remove an item until you've at least one next()");</span>
+        }
+        <span style="color: #859900; font-weight: bold;">if</span> (list[position-1] != <span style="color: #268bd2; font-weight: bold;">null</span>) {
+            <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">i</span> = position - 1; i &lt; (list.length - 1); i++) {
+                list[i] = list[i+1];
+            }
+            list[list.length] = <span style="color: #268bd2; font-weight: bold;">null</span>;
+        }
+    }
+}
+</pre>
+</div>
+</li>
+<li>使用这个Iterator的例子
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.iterator.<span style="color: #268bd2; font-weight: bold;">jdk</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900; font-style: italic;">Iterator</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">DinerMenu</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900; font-style: italic;">Menu</span>{
+    <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">MAX_ITEMS</span> = 6;
+    <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">numberOfItems</span> = 0;
+    <span style="color: #b58900; font-style: italic;">MenuItem</span>[] <span style="color: #268bd2;">menuItems</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">DinerMenu</span>() {
+        menuItems = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>[MAX_ITEMS];
+        addItem(<span style="color: #2aa198;">"Hotdog"</span>, 3.05);
+        addItem(<span style="color: #2aa198;">"Pasta"</span>, 3.89);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">addItem</span>(<span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">name</span>, <span style="color: #b58900; font-style: italic;">double</span> <span style="color: #268bd2;">price</span>) {
+        <span style="color: #b58900; font-style: italic;">MenuItem</span> <span style="color: #268bd2;">menuItem</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>(name, price);
+        menuItems[numberOfItems++] = menuItem;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">Iterator</span>&lt;<span style="color: #b58900; font-style: italic;">MenuItem</span>&gt; <span style="color: #268bd2;">createIterator</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">DinerMenuIterator</span>(menuItems);
+    }
+}
+</pre>
+</div>
+</li>
+<li>waitress的代码
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.iterator.<span style="color: #268bd2; font-weight: bold;">jdk</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900; font-style: italic;">Iterator</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Waitress</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">Menu</span> <span style="color: #268bd2;">breakfastMenu</span>;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">Menu</span> <span style="color: #268bd2;">lunchMenu</span>;
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">Menu</span> <span style="color: #268bd2;">dinerMenu</span>;
+
+
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">Waitress</span>(<span style="color: #b58900; font-style: italic;">Menu</span> <span style="color: #268bd2;">breakfastMenu</span>, <span style="color: #b58900; font-style: italic;">Menu</span> <span style="color: #268bd2;">lunchMenu</span>, <span style="color: #b58900; font-style: italic;">Menu</span> <span style="color: #268bd2;">dinerMenu</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.breakfastMenu = breakfastMenu;
+        <span style="color: #859900; font-weight: bold;">this</span>.lunchMenu = lunchMenu;
+        <span style="color: #859900; font-weight: bold;">this</span>.dinerMenu = dinerMenu;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">printMenu</span>() {
+        System.out.println(<span style="color: #2aa198;">"Breakfast--------"</span>);
+        printMenuWithIterator(breakfastMenu.createIterator());
+        System.out.println(<span style="color: #2aa198;">"Lunch------------"</span>);
+        printMenuWithIterator(lunchMenu.createIterator());
+        System.out.println(<span style="color: #2aa198;">"Diner------------"</span>);
+        printMenuWithIterator(dinerMenu.createIterator());
+    }
+
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">printMenuWithIterator</span>(<span style="color: #b58900; font-style: italic;">Iterator</span>&lt;<span style="color: #b58900; font-style: italic;">MenuItem</span>&gt; <span style="color: #268bd2;">iterator</span>) {
+        <span style="color: #859900; font-weight: bold;">while</span> (iterator.hasNext()) {
+            <span style="color: #b58900; font-style: italic;">MenuItem</span> <span style="color: #268bd2;">menuItem</span> = iterator.next();
+            System.out.print(menuItem.getName() + <span style="color: #2aa198;">", "</span>);
+            System.out.print(<span style="color: #2aa198;">"$"</span> + menuItem.getPrice());
+            System.out.println();
+        }
+    }
+}
+</pre>
+</div>
+</li>
+<li>测试代码
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.iterator.<span style="color: #268bd2; font-weight: bold;">jdk</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MainTest</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900; font-style: italic;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900; font-style: italic;">BreakfastMenu</span> <span style="color: #268bd2;">breakfastMenu</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">BreakfastMenu</span>();
+        <span style="color: #b58900; font-style: italic;">LunchMenu</span> <span style="color: #268bd2;">lunchMenu</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">LunchMenu</span>();
+        <span style="color: #b58900; font-style: italic;">DinerMenu</span> <span style="color: #268bd2;">dinerMenu</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">DinerMenu</span>();
+
+        <span style="color: #b58900; font-style: italic;">Waitress</span> <span style="color: #268bd2;">waitress</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Waitress</span>(breakfastMenu, lunchMenu, dinerMenu);
+        waitress.printMenu();
+    }
+}
+
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Breakfast--------                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Pancake, $2.99                                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Waffles, $3.59                                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Lunch------------                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Veggie, $3.99                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Burrito, $4.29                                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Diner------------                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Hotdog, $3.05                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Pasta, $3.89                                   //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-3" class="outline-3">
+<h3 id="sec-9-3">Iterator Pattern defined</h3>
+<div class="outline-text-3" id="text-9-3">
+<ul class="org-ul">
+<li>好了,又到了定义的时间
+<pre class="example">
+The Iterator Pattern provides a way to access the elements of an aggregate
+object sequentially without exposing its underlying representation
+</pre>
+</li>
+<li>Iterator的广泛应用有很重要的意义, 这意味着你可以写一份的代码但是却能在很多
+种的aggregate容器中运行.
+</li>
+<li>Iterator Pattern另外一个重要的影响是,把"遍历"这个行为的责任,从"aggregate
+object"转移到iterator object.这样使得"aggregate object"能够更加专注于自己份
+内的工作.
+</li>
+<li>下面就是Iterator Pattern的类图
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/iterator.png" alt="iterator.png" />
+</p>
+<p><span class="figure-number">Figure 32:</span> iterator.png</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-4" class="outline-3">
+<h3 id="sec-9-4">Single Responsibility</h3>
+<div class="outline-text-3" id="text-9-4">
+<ul class="org-ul">
+<li>前面说了, 把aggregae object的"遍历责任"拿掉,让它专注于自己的工作.子所以这样
+做是为了让某个class"只为一个原因而改动", 如果我们的aggregae object还需要考
+虑遍历, 那么:
+<ul class="org-ul">
+<li>如果collection改变,那么我们的aggregate object要改变
+</li>
+<li>如果我们遍历的方法改变, 那么我们的aggregate object也要改变.
+</li>
+</ul>
+</li>
+<li>所以,最好的处理方式是让某一个class只有一个responsibility.
+<pre class="example">
+A class should have only one reaseon to change.
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-5" class="outline-3">
+<h3 id="sec-9-5">Iterators and Collections</h3>
+<div class="outline-text-3" id="text-9-5">
+<ul class="org-ul">
+<li>Java中的Iterator能够轻松使用原因在于大多数的容器都实现了java.util.Collection
+interface, 这个interface有很多很有用的method
+<pre class="example">
++------------------+
+|   &lt;&lt;interface&gt;&gt;  |
+|   Collection     |
++------------------+
+| add()            |
+| addAll()         |
+| clear()          |
+| contains()       |
+| equals()         |
+| hashCode()       |
+| isEmpty()        |
+| iterator()       |
+| remove()         |
+| removeAll()      |
+| retainAll()      |
+| size()           |
+| toArray()        |
+|                  |
++------------------+
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-6" class="outline-3">
+<h3 id="sec-9-6">New problem raised</h3>
+<div class="outline-text-3" id="text-9-6">
+<ul class="org-ul">
+<li>现在我们遇到了新问题: 如果我们的菜单下面不仅仅是item,还可能有子菜单,那我们
+改如何显示.
+</li>
+<li>问题如下(其实在python, ruby中,这都不算事儿,因为array里面的成员不需要类型一
+致):
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/new-problem.png" alt="new-problem.png" />
+</p>
+<p><span class="figure-number">Figure 33:</span> new-problem.png</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-7" class="outline-3">
+<h3 id="sec-9-7">The Composite Pattern defined</h3>
+<div class="outline-text-3" id="text-9-7">
+<ul class="org-ul">
+<li>在java中,解决的办法就是composite pattern啦, 其定义如下
+<pre class="example">
+The Composite Pattern allows you to compose objects into tree
+structures to represent part-whole hierarchies. Composite lets
+clients treat individual objects and composition of objects
+uniformly
+</pre>
+</li>
+<li>其实重点就是最后一句, client代码对待一下两者是公平的:
+<ul class="org-ul">
+<li>individual object
+</li>
+<li>composition of objects
+</li>
+</ul>
+</li>
+<li>如何公平对待这两者呢:继承共同的接口.
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/composite.png" alt="composite.png" />
+</p>
+<p><span class="figure-number">Figure 34:</span> composite.png</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-8" class="outline-3">
+<h3 id="sec-9-8">Designing Menus with Composite</h3>
+<div class="outline-text-3" id="text-9-8">
+<ul class="org-ul">
+<li>让我们来看看上面的Menu的例子的类图
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/menu-composite.png" alt="menu-composite.png" />
+</p>
+<p><span class="figure-number">Figure 35:</span> menu-composite.png</p>
+</div>
+</li>
+<li>代码入下:
+<ul class="org-ul">
+<li>共同的接口(使用了abstract class)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.composite.<span style="color: #268bd2; font-weight: bold;">menu</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MenuComponent</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">add</span>(<span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">menuComponent</span>) {
+        <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">UnsupportedOperationException</span>();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">remove</span>(<span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">menuComponent</span>) {
+        <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">UnsupportedOperationException</span>();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">getChild</span>(<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">i</span>) {
+        <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">UnsupportedOperationException</span>();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">getName</span>() {
+        <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">UnsupportedOperationException</span>();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">getDescription</span>() {
+        <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">UnsupportedOperationException</span>();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">double</span> <span style="color: #268bd2;">getPrice</span>() {
+        <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">UnsupportedOperationException</span>();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">boolean</span> <span style="color: #268bd2;">isVegetarian</span>() {
+        <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">UnsupportedOperationException</span>();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">print</span>() {
+        <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">UnsupportedOperationException</span>();
+    }
+}
+</pre>
+</div>
+</li>
+<li>叶子节点MenuItem
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.composite.<span style="color: #268bd2; font-weight: bold;">menu</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MenuItem</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900; font-style: italic;">MenuComponent</span> {
+    <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">name</span>;
+    <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">description</span>;
+    <span style="color: #b58900; font-style: italic;">boolean</span> <span style="color: #268bd2;">vegetarian</span>;
+    <span style="color: #b58900; font-style: italic;">double</span> <span style="color: #268bd2;">price</span>;
+
+    <span style="color: #268bd2; font-weight: bold;">@Override</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">getName</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> name;
+    }
+
+    <span style="color: #268bd2; font-weight: bold;">@Override</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">getDescription</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> description;
+    }
+
+    <span style="color: #268bd2; font-weight: bold;">@Override</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">boolean</span> <span style="color: #268bd2;">isVegetarian</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> vegetarian;
+    }
+
+    <span style="color: #268bd2; font-weight: bold;">@Override</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">double</span> <span style="color: #268bd2;">getPrice</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> price;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">MenuItem</span>(<span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">name</span>,
+                    <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">description</span>,
+                    <span style="color: #b58900; font-style: italic;">boolean</span> <span style="color: #268bd2;">vegetarian</span>,
+                    <span style="color: #b58900; font-style: italic;">double</span> <span style="color: #268bd2;">price</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.name = name;
+        <span style="color: #859900; font-weight: bold;">this</span>.description = description;
+        <span style="color: #859900; font-weight: bold;">this</span>.vegetarian = vegetarian;
+        <span style="color: #859900; font-weight: bold;">this</span>.price = price;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">print</span>() {
+        System.out.println(<span style="color: #2aa198;">" "</span> + getName());
+        <span style="color: #859900; font-weight: bold;">if</span> (isVegetarian()) {
+            System.out.print(<span style="color: #2aa198;">"(v),"</span>);
+        }
+        System.out.println(getPrice());
+        System.out.println(<span style="color: #2aa198;">"&gt;&gt;-- "</span> + getDescription());
+    }
+}
+</pre>
+</div>
+</li>
+<li>composite节点Menu
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.composite.<span style="color: #268bd2; font-weight: bold;">menu</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900; font-style: italic;">ArrayList</span>;
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900; font-style: italic;">Iterator</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Menu</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900; font-style: italic;">MenuComponent</span> {
+    <span style="color: #b58900; font-style: italic;">ArrayList</span>&lt;<span style="color: #b58900; font-style: italic;">MenuComponent</span>&gt; <span style="color: #268bd2;">menuComponents</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">ArrayList</span>&lt;<span style="color: #b58900; font-style: italic;">MenuComponent</span>&gt;();
+    <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">name</span>;
+    <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">description</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">Menu</span>(<span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">name</span>, <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">description</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.name = name;
+        <span style="color: #859900; font-weight: bold;">this</span>.description = description;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">add</span>(<span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">menuComponent</span>) {
+        menuComponents.add(menuComponent);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">remove</span>(<span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">menuComponent</span>) {
+        menuComponents.remove(menuComponent);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">getChild</span>(<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">i</span>) {
+        <span style="color: #859900; font-weight: bold;">return</span> (<span style="color: #b58900; font-style: italic;">MenuComponent</span>)menuComponents.get(i);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">getName</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> name;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">getDescription</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> description;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">print</span>() {
+        System.out.print(<span style="color: #2aa198;">"\n"</span> + getName());
+        System.out.println(<span style="color: #2aa198;">", "</span> + getDescription());
+        System.out.println(<span style="color: #2aa198;">"-------------------------"</span>);
+
+        <span style="color: #b58900; font-style: italic;">Iterator</span>&lt;<span style="color: #b58900; font-style: italic;">MenuComponent</span>&gt; <span style="color: #268bd2;">iterator</span> = menuComponents.iterator();
+        <span style="color: #859900; font-weight: bold;">while</span> (iterator.hasNext()) {
+            iterator.next().print();
+        }
+    }
+}
+</pre>
+</div>
+</li>
+<li>Client代码Waitress
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.composite.<span style="color: #268bd2; font-weight: bold;">menu</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Waitress</span> {
+    <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">allMenus</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">Waitress</span>(<span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">allMenus</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.allMenus = allMenus;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">printMenu</span>() {
+        allMenus.print();
+    }
+}
+</pre>
+</div>
+</li>
+<li>测试代码
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.composite.<span style="color: #268bd2; font-weight: bold;">menu</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MainTest</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900; font-style: italic;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">breakfastMenu</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Menu</span>(<span style="color: #2aa198;">"Breakfast"</span>, <span style="color: #2aa198;">"Breakfast"</span>);
+        <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">lunchMenu</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Menu</span>(<span style="color: #2aa198;">"Lunch"</span>, <span style="color: #2aa198;">"Lunch"</span>);
+        <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">dinnerMenu</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Menu</span>(<span style="color: #2aa198;">"Dinner"</span>, <span style="color: #2aa198;">"Dinner"</span>);
+        <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">dessertMenu</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Menu</span>(<span style="color: #2aa198;">"Dessert"</span>, <span style="color: #2aa198;">"Dessert menu is sub menu of Dinner"</span>);
+
+        <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">allMenus</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Menu</span>(<span style="color: #2aa198;">"All"</span>, <span style="color: #2aa198;">"All menus combined"</span>);
+
+        allMenus.add(breakfastMenu);
+        allMenus.add(lunchMenu);
+        allMenus.add(dinnerMenu);
+
+        breakfastMenu.add(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>(
+                <span style="color: #2aa198;">"Pancake"</span>,
+                <span style="color: #2aa198;">"scrambled eggs"</span>,
+                <span style="color: #268bd2; font-weight: bold;">true</span>,
+                2.99));
+        breakfastMenu.add(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>(
+                <span style="color: #2aa198;">"Regular Pancake"</span>,
+                <span style="color: #2aa198;">"eggs, sausage"</span>,
+                <span style="color: #268bd2; font-weight: bold;">false</span>,
+                2.99));
+        lunchMenu.add(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>(
+                <span style="color: #2aa198;">"HotDo"</span>,
+                <span style="color: #2aa198;">"hot dog, with cheese"</span>,
+                <span style="color: #268bd2; font-weight: bold;">false</span>,
+                3.05));
+        dinnerMenu.add(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>(
+                <span style="color: #2aa198;">"Burrito"</span>,
+                <span style="color: #2aa198;">"A large burrito, with whole pinto beans"</span>,
+                <span style="color: #268bd2; font-weight: bold;">true</span>,
+                4.29));
+        dessertMenu.add(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>(
+                <span style="color: #2aa198;">"Sorbet"</span>,
+                <span style="color: #2aa198;">"A scoop of raspberry and a scoop of lime"</span>,
+                <span style="color: #268bd2; font-weight: bold;">true</span>,
+                1.89));
+
+        dinnerMenu.add(dessertMenu);
+
+        <span style="color: #b58900; font-style: italic;">Waitress</span> <span style="color: #268bd2;">waitress</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Waitress</span>(allMenus);
+        waitress.printMenu();
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-9" class="outline-3">
+<h3 id="sec-9-9">Flashback to Iterator</h3>
+<div class="outline-text-3" id="text-9-9">
+<ul class="org-ul">
+<li>我们前面的代码也用到了Iterator, 但是是Menu或者MenuItem内部使用了这个Iterator
+来进行遍历. 但是Iterator pattern的"原意"是要让client代码(也就是这里的waitress)
+能够遍历所有内部元素
+</li>
+<li>下面就是让这个既使用Composite pattern,也使用Iterator pattern的代码:
+<ul class="org-ul">
+<li>首先就是让MenuComponent接口有一个createIterator()函数
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MenuComponent</span> {
+    <span style="color: #93a1a1;">//</span><span style="color: #93a1a1; font-style: italic;">...</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">abstract</span> <span style="color: #b58900; font-style: italic;">Iterator</span> <span style="color: #268bd2;">createIterator</span>();
+}
+</pre>
+</div>
+</li>
+<li>MenuItem是没法返回一个iterator的,因为它内部没有容器
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MenuItem</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900; font-style: italic;">MenuComponent</span> {
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">...</span>
+    <span style="color: #268bd2; font-weight: bold;">@Override</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">Iterator</span> <span style="color: #268bd2;">createIterator</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">NullIterator</span>();
+    }
+}
+</pre>
+</div>
+</li>
+<li>NullIterator 类的定义如下(意思是永远不会有下一个的iterator)
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.composite.<span style="color: #268bd2; font-weight: bold;">menuiterator</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900; font-style: italic;">Iterator</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">NullIterator</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900; font-style: italic;">Iterator</span>&lt;<span style="color: #b58900; font-style: italic;">MenuComponent</span>&gt; {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">next</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">null</span>;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">boolean</span> <span style="color: #268bd2;">hasNext</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">false</span>;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">remove</span>() {
+        <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">UnsupportedOperationException</span>();
+    }
+}
+</pre>
+</div>
+</li>
+<li>和MenuItem对应的是Menu, 它也继承MenuComponent,但是它含有容器,所以它要返回
+一个"真的iterator"
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Menu</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900; font-style: italic;">MenuComponent</span> {
+    <span style="color: #b58900; font-style: italic;">ArrayList</span>&lt;<span style="color: #b58900; font-style: italic;">MenuComponent</span>&gt; <span style="color: #268bd2;">menuComponents</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">ArrayList</span>&lt;<span style="color: #b58900; font-style: italic;">MenuComponent</span>&gt;();
+    <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">name</span>;
+    <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">description</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">Menu</span>(<span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">name</span>, <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">description</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.name = name;
+        <span style="color: #859900; font-weight: bold;">this</span>.description = description;
+    }
+
+    <span style="color: #93a1a1;">//</span><span style="color: #93a1a1; font-style: italic;">...</span>
+    <span style="color: #268bd2; font-weight: bold;">@Override</span>
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">Iterator</span> <span style="color: #268bd2;">createIterator</span>() {
+        <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">CompositeIterator</span>(menuComponents.iterator());
+    }
+}
+</pre>
+</div>
+</li>
+<li>返回的CompositeIterator是我们新创建的,要应付Menu里面还有Menu这种逻辑的Iterator
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.composite.<span style="color: #b58900; font-style: italic;">menuiterator</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.*;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">CompositeIterator</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900; font-style: italic;">Iterator</span>&lt;<span style="color: #b58900; font-style: italic;">MenuComponent</span>&gt; {
+    <span style="color: #b58900; font-style: italic;">Stack</span>&lt;<span style="color: #b58900; font-style: italic;">Iterator</span>&lt;<span style="color: #b58900; font-style: italic;">MenuComponent</span>&gt;&gt; <span style="color: #268bd2;">stack</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Stack</span>&lt;<span style="color: #b58900; font-style: italic;">Iterator</span>&lt;<span style="color: #b58900; font-style: italic;">MenuComponent</span>&gt;&gt;();
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">CompositeIterator</span>(<span style="color: #b58900; font-style: italic;">Iterator</span> <span style="color: #268bd2;">iterator</span>) {
+        stack.push(iterator);
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">next</span>() {
+        <span style="color: #859900; font-weight: bold;">if</span> (hasNext()) {
+            <span style="color: #b58900; font-style: italic;">Iterator</span>&lt;<span style="color: #b58900; font-style: italic;">MenuComponent</span>&gt; <span style="color: #268bd2;">iterator</span> = stack.peek();
+            <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">component</span> = (<span style="color: #b58900; font-style: italic;">MenuComponent</span>)iterator.next();
+            <span style="color: #859900; font-weight: bold;">if</span> (component <span style="color: #859900; font-weight: bold;">instanceof</span> Menu) {
+                stack.push(component.createIterator());
+            }
+            <span style="color: #859900; font-weight: bold;">return</span> component;
+        } <span style="color: #859900; font-weight: bold;">else</span> {
+            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">null</span>;
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">boolean</span> <span style="color: #268bd2;">hasNext</span>() {
+        <span style="color: #859900; font-weight: bold;">if</span> (stack.empty()) {
+            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">false</span>;
+        } <span style="color: #859900; font-weight: bold;">else</span> {
+            <span style="color: #b58900; font-style: italic;">Iterator</span>&lt;<span style="color: #b58900; font-style: italic;">MenuComponent</span>&gt; <span style="color: #268bd2;">iterator</span> = stack.peek();
+            <span style="color: #859900; font-weight: bold;">if</span> (<span style="color: #b58900; font-weight: bold;">!</span>iterator.hasNext()) {
+                stack.pop();
+                <span style="color: #859900; font-weight: bold;">return</span> hasNext();
+            } <span style="color: #859900; font-weight: bold;">else</span> {
+                <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">true</span>;
+            }
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">remove</span>() {
+        <span style="color: #859900; font-weight: bold;">throw</span> <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">UnsupportedOperationException</span>();
+    }
+}
+</pre>
+</div>
+</li>
+<li>现在我们的waitress就可以遍历容器里面的内容,然后判断是不是蔬菜,是的话,才会
+打印.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.composite.<span style="color: #268bd2; font-weight: bold;">menuiterator</span>;
+
+<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900; font-style: italic;">Iterator</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Waitress</span> {
+    <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">allMenus</span>;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">Waitress</span>(<span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">allMenus</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.allMenus = allMenus;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">printMenu</span>() {
+        allMenus.print();
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">printVegetarianMenu</span>() {
+        <span style="color: #b58900; font-style: italic;">Iterator</span>&lt;<span style="color: #b58900; font-style: italic;">MenuComponent</span>&gt; <span style="color: #268bd2;">iterator</span> = allMenus.createIterator();
+        System.out.println(<span style="color: #2aa198;">"\nVEGETARIAN MENU\n"</span>);
+
+        <span style="color: #859900; font-weight: bold;">while</span> (iterator.hasNext()) {
+            <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">menuComponent</span> = iterator.next();
+            <span style="color: #859900; font-weight: bold;">try</span> {
+                <span style="color: #859900; font-weight: bold;">if</span> (menuComponent.isVegetarian()) {
+                    menuComponent.print();
+                }
+            } <span style="color: #859900; font-weight: bold;">catch</span> (<span style="color: #b58900; font-style: italic;">UnsupportedOperationException</span> <span style="color: #268bd2;">e</span>) {
+                <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">do nothing here, we just igore, as Menu object does throw</span>
+                <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">UnsupportedOperationException when calling isVegetarian</span>
+            }
+        }
+    }
+}
+</pre>
+</div>
+</li>
+<li>测试代码如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch9.composite.<span style="color: #268bd2; font-weight: bold;">menuiterator</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">MainTest</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900; font-style: italic;">String</span>[] <span style="color: #268bd2;">args</span>) {
+        <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">breakfastMenu</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Menu</span>(<span style="color: #2aa198;">"Breakfast"</span>, <span style="color: #2aa198;">"Breakfast"</span>);
+        <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">lunchMenu</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Menu</span>(<span style="color: #2aa198;">"Lunch"</span>, <span style="color: #2aa198;">"Lunch"</span>);
+        <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">dinnerMenu</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Menu</span>(<span style="color: #2aa198;">"Dinner"</span>, <span style="color: #2aa198;">"Dinner"</span>);
+        <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">dessertMenu</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Menu</span>(<span style="color: #2aa198;">"Dessert"</span>, <span style="color: #2aa198;">"Dessert menu is sub menu of Dinner"</span>);
+
+        <span style="color: #b58900; font-style: italic;">MenuComponent</span> <span style="color: #268bd2;">allMenus</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Menu</span>(<span style="color: #2aa198;">"All"</span>, <span style="color: #2aa198;">"All menus combined"</span>);
+
+        allMenus.add(breakfastMenu);
+        allMenus.add(lunchMenu);
+        allMenus.add(dinnerMenu);
+
+        breakfastMenu.add(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>(
+                <span style="color: #2aa198;">"Pancake"</span>,
+                <span style="color: #2aa198;">"scrambled eggs"</span>,
+                <span style="color: #268bd2; font-weight: bold;">true</span>,
+                2.99));
+        breakfastMenu.add(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>(
+                <span style="color: #2aa198;">"Regular Pancake"</span>,
+                <span style="color: #2aa198;">"eggs, sausage"</span>,
+                <span style="color: #268bd2; font-weight: bold;">false</span>,
+                2.99));
+        lunchMenu.add(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>(
+                <span style="color: #2aa198;">"HotDo"</span>,
+                <span style="color: #2aa198;">"hot dog, with cheese"</span>,
+                <span style="color: #268bd2; font-weight: bold;">false</span>,
+                3.05));
+        dinnerMenu.add(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>(
+                <span style="color: #2aa198;">"Burrito"</span>,
+                <span style="color: #2aa198;">"A large burrito, with whole pinto beans"</span>,
+                <span style="color: #268bd2; font-weight: bold;">true</span>,
+                4.29));
+        dessertMenu.add(<span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">MenuItem</span>(
+                <span style="color: #2aa198;">"Sorbet"</span>,
+                <span style="color: #2aa198;">"A scoop of raspberry and a scoop of lime"</span>,
+                <span style="color: #268bd2; font-weight: bold;">true</span>,
+                1.89));
+
+        dinnerMenu.add(dessertMenu);
+
+        <span style="color: #b58900; font-style: italic;">Waitress</span> <span style="color: #268bd2;">waitress</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">Waitress</span>(allMenus);
+        waitress.printVegetarianMenu();
+    }
+}
+
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">VEGETARIAN MENU                                //</span>
+<span style="color: #93a1a1;">//                                                </span><span style="color: #93a1a1; font-style: italic;">//</span>
+<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1; font-style: italic;">Pancake                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(v),2.99                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&gt;&gt;-- scrambled eggs                            //</span>
+<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1; font-style: italic;">Burrito                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(v),4.29                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&gt;&gt;-- A large burrito, with whole pinto beans   //</span>
+<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1; font-style: italic;">Sorbet                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(v),1.89                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&gt;&gt;-- A scoop of raspberry and a scoop of lime  //</span>
+<span style="color: #93a1a1;">//  </span><span style="color: #93a1a1; font-style: italic;">Sorbet                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(v),1.89                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&gt;&gt;-- A scoop of raspberry and a scoop of lime  //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10">Chapter 10: the State Pattern: The State of Things</h2>
+<div class="outline-text-2" id="text-10">
+<ul class="org-ul">
+<li>我们有个口香糖球(Gumball)售卖机, 然后有他们的state转换图如下, 希望能够有个程
+序实现
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/gumball-state.png" alt="gumball-state.png" />
+</p>
+<p><span class="figure-number">Figure 36:</span> gumball-state.png</p>
+</div>
+</li>
+<li>如果你没有学过设计模式,那么下面的解法是很容易直接的映入脑海的.
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.misc.hfdp.ch10.<span style="color: #268bd2; font-weight: bold;">state</span>;
+
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">GumballMachine</span> {
+    <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">SOLD_OUT</span> = 0;
+    <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">NO_QUARTER</span> = 1;
+    <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">HAS_QUARTER</span> = 2;
+    <span style="color: #859900; font-weight: bold;">final</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">SOLD</span> = 3;
+
+    <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">state</span> = SOLD_OUT;
+    <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">count</span> = 0;
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #268bd2;">GumballMachine</span>(<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">count</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.count = count;
+        <span style="color: #859900; font-weight: bold;">if</span> (count &gt; 0) {
+            state = NO_QUARTER;
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">insertQuarter</span>() {
+        <span style="color: #859900; font-weight: bold;">if</span> (state == HAS_QUARTER) {
+            System.out.println(<span style="color: #2aa198;">"You can't insert another quater"</span>);
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (state == NO_QUARTER) {
+            state = HAS_QUARTER;
+            System.out.println(<span style="color: #2aa198;">"You inserted a quater"</span>);
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (state == SOLD_OUT) {
+            System.out.println(<span style="color: #2aa198;">"You can't insert a quater, the machine is sold out"</span>);
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (state == SOLD) {
+            System.out.println(<span style="color: #2aa198;">"Please wait, we're already giving you a gumball"</span>);
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">ejectQuarter</span>() {
+        <span style="color: #859900; font-weight: bold;">if</span> (state == HAS_QUARTER) {
+            System.out.println(<span style="color: #2aa198;">"Quarter returned"</span>);
+            state = NO_QUARTER;
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (state == NO_QUARTER) {
+            System.out.println(<span style="color: #2aa198;">"You haven't inserted a quarter"</span>);
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (state == SOLD) {
+            System.out.println(<span style="color: #2aa198;">"Sorry, you already turned the crank"</span>);
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (state == SOLD_OUT) {
+            System.out.println(<span style="color: #2aa198;">"You can't eject, you haven't inserted a quarter yet"</span>);
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">turnCrank</span>() {
+        <span style="color: #859900; font-weight: bold;">if</span> (state == SOLD) {
+            System.out.println(<span style="color: #2aa198;">"Turning twice doesn't get you another gumball!"</span>);
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (state == NO_QUARTER) {
+            System.out.println(<span style="color: #2aa198;">"You turned but there's no quarter"</span>);
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (state == SOLD_OUT) {
+            System.out.println(<span style="color: #2aa198;">"You turned, but there are no gumballs"</span>);
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (state == HAS_QUARTER) {
+            System.out.println(<span style="color: #2aa198;">"You turned..."</span>);
+            state = SOLD;
+            dispense();
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">dispense</span>() {
+        <span style="color: #859900; font-weight: bold;">if</span> (state == SOLD) {
+            System.out.println(<span style="color: #2aa198;">"A gumball comes rolling out the slot"</span>);
+            count = count - 1;
+            <span style="color: #859900; font-weight: bold;">if</span> (count == 0) {
+                System.out.println(<span style="color: #2aa198;">"Oops, out of gumballs!"</span>);
+                state = SOLD_OUT;
+            } <span style="color: #859900; font-weight: bold;">else</span> {
+                state = NO_QUARTER;
+            }
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (state == NO_QUARTER) {
+            System.out.println(<span style="color: #2aa198;">"You need to pay first"</span>);
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (state == SOLD_OUT) {
+            System.out.println(<span style="color: #2aa198;">"No gumball dispensed"</span>);
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (state == HAS_QUARTER) {
+            System.out.println(<span style="color: #2aa198;">"No gumball dispensed"</span>);
+        }
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">void</span> <span style="color: #268bd2;">refill</span>(<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">numGumBalls</span>) {
+        <span style="color: #859900; font-weight: bold;">this</span>.count = numGumBalls;
+        state = NO_QUARTER;
+    }
+
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">toString</span>() {
+        <span style="color: #b58900; font-style: italic;">StringBuffer</span> <span style="color: #268bd2;">result</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">StringBuffer</span>();
+        result.append(<span style="color: #2aa198;">"\nMighty Gumball, Inc."</span>);
+        result.append(<span style="color: #2aa198;">"\nJava-enabled Standing Gumball Model #2004\n"</span>);
+        result.append(<span style="color: #2aa198;">"Inventory: "</span> + count + <span style="color: #2aa198;">" gumball"</span>);
+        <span style="color: #859900; font-weight: bold;">if</span> (count != 1) {
+            result.append(<span style="color: #2aa198;">"s"</span>);
+        }
+        result.append(<span style="color: #2aa198;">"\nMachine is "</span>);
+        <span style="color: #859900; font-weight: bold;">if</span> (state == SOLD_OUT) {
+            result.append(<span style="color: #2aa198;">"sold out"</span>);
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (state == NO_QUARTER) {
+            result.append(<span style="color: #2aa198;">"waiting for quarter"</span>);
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (state == HAS_QUARTER) {
+            result.append(<span style="color: #2aa198;">"waiting for turn of crank"</span>);
+        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (state == SOLD) {
+            result.append(<span style="color: #2aa198;">"delivering a gumball"</span>);
+        }
+        result.append(<span style="color: #2aa198;">"\n"</span>);
+        <span style="color: #859900; font-weight: bold;">return</span> result.toString();
+    }
+}
+</pre>
+</div>
+</li>
+<li>这种设计最大的问题,在于我们如果有了CHANGE, 比如,增加了一种新的玩法: 有10%的
+可能性玩家可以花25美分得到两个球! state图如下
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/java/dp/gumball-winner-state.png" alt="gumball-winner-state.png" />
+</p>
+<p><span class="figure-number">Figure 37:</span> gumball-winner-state.png</p>
+</div>
+</li>
+</ul>
 </div>
 </div>
 </div>

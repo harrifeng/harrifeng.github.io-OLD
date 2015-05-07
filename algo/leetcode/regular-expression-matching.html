@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 010: Regular Expression Matching</title>
-<!-- 2015-04-02 Thu 17:54 -->
+<!-- 2015-05-07 Thu 14:05 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -169,6 +169,7 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1">题目</a></li>
 <li><a href="#sec-2">思路</a></li>
 <li><a href="#sec-3">解答</a></li>
+<li><a href="#sec-4">解答二</a></li>
 </ul>
 </div>
 </div>
@@ -234,42 +235,79 @@ isMatch("aab", "c*a*b") → true
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Solution</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">boolean</span> <span style="color: #268bd2;">isMatch</span>(<span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">s</span>, <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">p</span>) {
-        <span style="color: #859900; font-weight: bold;">if</span> (p.length() == 0) {
-            <span style="color: #859900; font-weight: bold;">return</span> s.length() == 0;
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Solution</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">isMatch</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">s</span>, <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">p</span>) {
+        <span style="color: #AE5825;">if</span> (p.length() == 0) {
+            <span style="color: #AE5825;">return</span> s.length() == 0;
         }
 
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">length == 1 is the case that is easy to forget.</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">as p is subtracted 2 each time, so if original</span>
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">p is odd, then finally it will face the length 1</span>
-        <span style="color: #859900; font-weight: bold;">if</span> (p.length() == 1) {
-            <span style="color: #859900; font-weight: bold;">return</span> (s.length() == 1)
-                    &amp;&amp; (p.charAt(0) == s.charAt(0) || p.charAt(0) == <span style="color: #2aa198;">'.'</span>);
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">length == 1 is the case that is easy to forget.</span>
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">as p is subtracted 2 each time, so if original</span>
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">p is odd, then finally it will face the length 1</span>
+        <span style="color: #AE5825;">if</span> (p.length() == 1) {
+            <span style="color: #AE5825;">return</span> (s.length() == 1)
+                    &amp;&amp; (p.charAt(0) == s.charAt(0) || p.charAt(0) == <span style="color: #5A7644;">'.'</span>);
         }
 
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">next char is not '*': must match current character</span>
-        <span style="color: #859900; font-weight: bold;">if</span> (p.charAt(1) != <span style="color: #2aa198;">'*'</span>) {
-            <span style="color: #859900; font-weight: bold;">if</span> (s.length() &lt; 1) {
-                <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">false</span>;
-            } <span style="color: #859900; font-weight: bold;">else</span> {
-                <span style="color: #859900; font-weight: bold;">return</span> (s.charAt(0) == p.charAt(0) || p.charAt(0) == <span style="color: #2aa198;">'.'</span>)
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">next char is not '*': must match current character</span>
+        <span style="color: #AE5825;">if</span> (p.charAt(1) != <span style="color: #5A7644;">'*'</span>) {
+            <span style="color: #AE5825;">if</span> (s.length() &lt; 1) {
+                <span style="color: #AE5825;">return</span> <span style="color: #86453A;">false</span>;
+            } <span style="color: #AE5825;">else</span> {
+                <span style="color: #AE5825;">return</span> (s.charAt(0) == p.charAt(0) || p.charAt(0) == <span style="color: #5A7644;">'.'</span>)
                         &amp;&amp; isMatch(s.substring(1), p.substring(1));
             }
         }
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">next char is *</span>
-        <span style="color: #859900; font-weight: bold;">while</span> (s.length() &gt; 0
-               &amp;&amp; (p.charAt(0) == s.charAt(0) || p.charAt(0) == <span style="color: #2aa198;">'.'</span>)) {
-            <span style="color: #859900; font-weight: bold;">if</span> (isMatch(s, p.substring(2))) {
-                <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">true</span>;
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">next char is *</span>
+        <span style="color: #AE5825;">while</span> (s.length() &gt; 0
+               &amp;&amp; (p.charAt(0) == s.charAt(0) || p.charAt(0) == <span style="color: #5A7644;">'.'</span>)) {
+            <span style="color: #AE5825;">if</span> (isMatch(s, p.substring(2))) {
+                <span style="color: #AE5825;">return</span> <span style="color: #86453A;">true</span>;
             }
             s = s.substring(1);
         }
-        <span style="color: #859900; font-weight: bold;">return</span> isMatch(s, p.substring(2));
+        <span style="color: #AE5825;">return</span> isMatch(s, p.substring(2));
     }
 }
 </pre>
 </div>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">解答二</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>上面的解法逻辑性不强,不应该用while循环做,而应该全部用递归,如下
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #AE5825;">public</span> <span style="color: #AE5825;">class</span> <span style="color: #C6B032; font-style: italic;">Solution</span> {
+    <span style="color: #AE5825;">public</span> <span style="color: #C6B032; font-style: italic;">boolean</span> <span style="color: #C6B032;">isMatch</span>(<span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">s</span>, <span style="color: #C6B032; font-style: italic;">String</span> <span style="color: #46657B;">p</span>) {
+        <span style="color: #AE5825;">if</span> (p.length() == 0) {
+            <span style="color: #AE5825;">return</span> s.length() == 0;
+        }
+        <span style="color: #AE5825;">if</span> (p.length() == 1) {
+            <span style="color: #AE5825;">return</span> s.length() == 1
+                &amp;&amp; (p.charAt(0) == <span style="color: #5A7644;">'.'</span> || p.charAt(0) == s.charAt(0)) ;
+        }
+        <span style="color: #4C565D;">// </span><span style="color: #333B40; font-style: italic;">p.length() i bigger than 1 here</span>
+        <span style="color: #AE5825;">if</span> (p.charAt(1) == <span style="color: #5A7644;">'*'</span>) {
+            <span style="color: #AE5825;">if</span> (isMatch(s, p.substring(2))) {
+                <span style="color: #AE5825;">return</span> <span style="color: #86453A;">true</span>;
+            }
+            <span style="color: #AE5825;">return</span> s.length() &gt; 0
+                &amp;&amp; (p.charAt(0) == <span style="color: #5A7644;">'.'</span> || s.charAt(0) == p.charAt(0))
+                &amp;&amp; isMatch(s.substring(1), p);
+        } <span style="color: #AE5825;">else</span> {
+            <span style="color: #AE5825;">return</span> s.length() &gt; 0
+                &amp;&amp; (p.charAt(0) == <span style="color: #5A7644;">'.'</span> || s.charAt(0) == p.charAt(0))
+                &amp;&amp; isMatch(s.substring(1), p.substring(1));
+        }
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
 </div>
 </div>
 </div>
