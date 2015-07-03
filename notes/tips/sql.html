@@ -3,8 +3,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<title>Leetcode 017: 4Sum</title>
-<!-- 2015-07-03 Fri 15:22 -->
+<title>sql</title>
+<!-- 2015-07-03 Fri 15:11 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -161,107 +161,42 @@ for the JavaScript code in this tag.
          </div>
 </div>
 <div id="content">
-<h1 class="title">Leetcode 017: 4Sum</h1>
+<h1 class="title">sql</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#sec-1">题目</a></li>
-<li><a href="#sec-2">思路</a></li>
-<li><a href="#sec-3">解答</a></li>
+<li><a href="#sec-1">删除id为4到6的项目</a></li>
+<li><a href="#sec-2">列出某项不为NULL的结果</a></li>
 </ul>
 </div>
 </div>
 <div id="outline-container-sec-1" class="outline-2">
-<h2 id="sec-1">题目</h2>
+<h2 id="sec-1">删除id为4到6的项目</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
-<li>给出一个数组的整数,计算出这个数组中哪四个整数的组合等于给定的target
+<li>使用between和and来确定删除的位置
+<div class="org-src-container">
+
+<pre class="src src-sql"><span style="color: #859900; font-weight: bold;">DELETE</span> <span style="color: #859900; font-weight: bold;">FROM</span> oauth_tokens <span style="color: #859900; font-weight: bold;">WHERE</span> id <span style="color: #859900; font-weight: bold;">between</span> 4 <span style="color: #859900; font-weight: bold;">and</span> 6;
+</pre>
+</div>
 </li>
 </ul>
-<pre class="example">
-Sample Input : S = {1 0 -1 0 -2 2}, target = 0
-Sample Output:
-(-1,  0, 0, 1)
-(-2, -1, 1, 2)
-(-2,  0, 0, 2)
-</pre>
 </div>
 </div>
 <div id="outline-container-sec-2" class="outline-2">
-<h2 id="sec-2">思路</h2>
+<h2 id="sec-2">列出某项不为NULL的结果</h2>
 <div class="outline-text-2" id="text-2">
 <ul class="org-ul">
-<li>4sum是从2sum演化到3sum,然后演化出来的, 核心问题都是如何控制好组合产生的顺序
-</li>
-<li>首先还是要排序
-</li>
-<li>关键在于如何控制好四个变量,因为beg &lt; end这个肯定是要有的,另外有两个变量如何
-控制.开始的适合我的思路是设置两个beg两个end,就是把开头和结尾控制住,然后"智能"
-的调节.后来发现这是不行的..没有逻辑能够控制住该怎样跳动
-</li>
-<li>争取的方法是array[i]和array[i+1]这两个控制住,然后后面是beg和end,其实把array[i]
-和array[i+1]看成是一个变量的话,那就是3sum了
-</li>
-</ul>
-</div>
-</div>
-<div id="outline-container-sec-3" class="outline-2">
-<h2 id="sec-3">解答</h2>
-<div class="outline-text-2" id="text-3">
+<li>不为NULL不能使用&lt;&gt;NULL,而是要使用IS NOT NULL
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">Integer</span>&gt;&gt; <span style="color: #268bd2;">fourSum</span>(<span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">num</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">target</span>) {
-        <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">Integer</span>&gt;&gt; <span style="color: #268bd2;">ret</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">Integer</span>&gt;&gt;();
-        <span style="color: #859900; font-weight: bold;">if</span> (num.length &lt; 4) {
-            <span style="color: #859900; font-weight: bold;">return</span> ret;
-        }
-
-        Arrays.sort(num);
-
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; num.<span style="color: #b58900;">length</span> - 3; i++) {
-            <span style="color: #859900; font-weight: bold;">if</span> (i &gt; 0 &amp;&amp; (num[i] == num[i - 1])) {
-                <span style="color: #859900; font-weight: bold;">continue</span>;
-            }
-            <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">j</span> = i + 1; j &lt; num.<span style="color: #b58900;">length</span> - 2; j++) {
-                <span style="color: #859900; font-weight: bold;">if</span> (j &gt; i + 1 &amp;&amp; (num[j] == num[j - 1])) {
-                    <span style="color: #859900; font-weight: bold;">continue</span>;
-                }
-
-                <span style="color: #b58900;">int</span> <span style="color: #268bd2;">beg</span> = j + 1;
-                <span style="color: #b58900;">int</span> <span style="color: #268bd2;">end</span> = num.length - 1;
-                <span style="color: #859900; font-weight: bold;">while</span> (beg &lt; <span style="color: #b58900;">end</span>) {
-                    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">sum</span> = num[beg] + num[end] + num[i] + num[j];
-
-                    <span style="color: #859900; font-weight: bold;">if</span> (sum == target) {
-                        <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">Integer</span>&gt; <span style="color: #268bd2;">al</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">Integer</span>&gt;();
-                        al.add(num[i]);
-                        al.add(num[j]);
-                        al.add(num[beg]);
-                        al.add(num[end]);
-                        ret.add(al);
-                        <span style="color: #859900; font-weight: bold;">while</span> (beg &lt; <span style="color: #b58900;">end</span> &amp;&amp; num[beg] == num[beg + 1]
-                               &amp;&amp; num[end] == num[end - 1]) {
-                            beg++;
-                            end--;
-                        }
-                        beg++;
-                        end--;
-                    } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (sum &lt; <span style="color: #b58900;">target</span>) {
-                        beg++;
-
-                    } <span style="color: #859900; font-weight: bold;">else</span> {
-                        end--;
-                    }
-                }
-            }
-        }
-        <span style="color: #859900; font-weight: bold;">return</span> ret;
-    }
-}
+<pre class="src src-sql"><span style="color: #859900; font-weight: bold;">SELECT</span> * <span style="color: #859900; font-weight: bold;">FROM</span> oauth_tokens <span style="color: #859900; font-weight: bold;">WHERE</span> verifier <span style="color: #859900; font-weight: bold;">IS</span> <span style="color: #859900; font-weight: bold;">NOT</span> <span style="color: #859900; font-weight: bold;">NULL</span>;
 </pre>
 </div>
+</li>
+</ul>
 </div>
 </div>
 </div>

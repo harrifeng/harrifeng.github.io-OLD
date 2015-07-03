@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>user-manual</title>
-<!-- 2015-04-02 Thu 17:53 -->
+<!-- 2015-07-03 Fri 15:20 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -254,7 +254,12 @@ for the JavaScript code in this tag.
 </li>
 </ul>
 </li>
-<li><a href="#sec-14">Chapter 14 Tutorial - 'This and That'</a></li>
+<li><a href="#sec-14">Chapter 14 Tutorial - 'This and That'</a>
+<ul>
+<li><a href="#sec-14-1">Directory creation</a></li>
+<li><a href="#sec-14-2">Gradle properties and system properties</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -300,7 +305,7 @@ for the JavaScript code in this tag.
 <li>先来看看第一个hello world例子.
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">hello</span> {
+<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">hello</span> {
     doLast {
         println <span style="color: #2aa198;">'Hello world!'</span>
     }
@@ -328,7 +333,7 @@ Hello world!
 <li>有时候,上面的doLast可以省略为"&lt;&lt;",于是就有了如下的简约版
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">hello</span> &lt;&lt; {
+<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">hello</span> &lt;&lt; {
     println <span style="color: #2aa198;">'Hello world!'</span>
 }
 </pre>
@@ -344,17 +349,17 @@ Hello world!
 <li>简言之groovy能做的,task都能做,比如下例中的大小写转换.
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">upper</span> &lt;&lt; {
-    <span style="color: #b58900; font-style: italic;">String</span> <span style="color: #268bd2;">someString</span> = <span style="color: #2aa198;">'mY_nAme'</span>
+<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">upper</span> &lt;&lt; {
+    <span style="color: #b58900;">String</span> <span style="color: #268bd2;">someString</span> = <span style="color: #2aa198;">'mY_nAme'</span>
     println <span style="color: #2aa198;">"Original: "</span> + someString;
     println <span style="color: #2aa198;">"Upper case: "</span> + someString.toUpperCase()
 }
 
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:6-2 $ gradle -q upper         //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Original: mY_nAme                              //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Upper case: MY_NAME                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:6-2 $ gradle -q upper         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Original: mY_nAme                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Upper case: MY_NAME                            //</span>
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -362,14 +367,14 @@ Hello world!
 <li>比如打印序列
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">count</span> &lt;&lt; {
+<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">count</span> &lt;&lt; {
     4.times { print <span style="color: #2aa198;">"$it "</span> }
 }
 
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:6-3 $ gradle -q count         //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">0 1 2 3                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:6-3 $ gradle -q count         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">0 1 2 3                                        //</span>
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -384,19 +389,19 @@ Hello world!
 <li>就像和target是相互依赖一样, task也是可以相互依赖的.
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">hello</span> &lt;&lt; {
+<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">hello</span> &lt;&lt; {
     println <span style="color: #2aa198;">'Hello world!'</span>
 }
 
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">intro</span>(dependsOn: hello) &lt;&lt; {
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">intro</span>(dependsOn: hello) &lt;&lt; {
     println <span style="color: #2aa198;">"I'm Gradle"</span>
 }
 
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:6-4 $ gradle -q intro         //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Hello world!                                   //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">I'm Gradle                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:6-4 $ gradle -q intro         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Hello world!                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">I'm Gradle                                     //</span>
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -404,18 +409,18 @@ Hello world!
 <li>依赖关系里面被依赖的task还可以在以后声明的(不需要c语言里面的前置声明)
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">taskX</span>(dependsOn: <span style="color: #2aa198;">'taskY'</span>) &lt;&lt; {
+<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">taskX</span>(dependsOn: <span style="color: #2aa198;">'taskY'</span>) &lt;&lt; {
     println <span style="color: #2aa198;">'taskX'</span>
 }
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">taskY</span> &lt;&lt; {
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">taskY</span> &lt;&lt; {
     println <span style="color: #2aa198;">'taskY'</span>
 }
 
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:6-5 $ gradle -q taskX         //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">taskY                                          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">taskX                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:6-5 $ gradle -q taskX         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">taskY                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">taskX                                          //</span>
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -439,11 +444,11 @@ Hello world!
 }
 
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:6-6 $ gradle -q task1         //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">I'm task number 1                              //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:6-6 $ gradle -q task3         //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">I'm task number 3                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:6-6 $ gradle -q task1         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">I'm task number 1                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:6-6 $ gradle -q task3         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">I'm task number 3                              //</span>
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -463,14 +468,14 @@ Hello world!
         println <span style="color: #2aa198;">"I'm task number $counter"</span>
     }
 }
-task0.<span style="color: #b58900; font-style: italic;">dependsOn</span> <span style="color: #268bd2;">task2</span>, <span style="color: #268bd2;">task3</span>
+task0.<span style="color: #b58900;">dependsOn</span> <span style="color: #268bd2;">task2</span>, <span style="color: #268bd2;">task3</span>
 
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:6-7 $ gradle -q task0         //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">I'm task number 2                              //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">I'm task number 3                              //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">I'm task number 0                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:6-7 $ gradle -q task0         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">I'm task number 2                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">I'm task number 3                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">I'm task number 0                              //</span>
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -480,7 +485,7 @@ task0.<span style="color: #b58900; font-style: italic;">dependsOn</span> <span s
 的别名.
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">hello</span> &lt;&lt; {
+<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">hello</span> &lt;&lt; {
     println <span style="color: #2aa198;">'Hello Earth'</span>
 }
 hello.doFirst {
@@ -489,18 +494,18 @@ hello.doFirst {
 hello.doLast {
     println <span style="color: #2aa198;">'Hello Mars'</span>
 }
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Notice: &lt;&lt; is actually alias for doLast</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Notice: &lt;&lt; is actually alias for doLast</span>
 hello &lt;&lt; {
     println <span style="color: #2aa198;">'Hello Jupiter'</span>
 }
 
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:6-8 $ gradle -q hello         //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Hello Venus                                    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Hello Earth                                    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Hello Mars                                     //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Hello Jupiter                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:6-8 $ gradle -q hello         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Hello Venus                                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Hello Earth                                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Hello Mars                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Hello Jupiter                                  //</span>
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -516,7 +521,7 @@ hello &lt;&lt; {
 其他的task里面加上'$'来调用它
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">hello</span> &lt;&lt; {
+<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">hello</span> &lt;&lt; {
     println <span style="color: #2aa198;">'Hello world'</span>
 }
 hello.doLast {
@@ -524,10 +529,10 @@ hello.doLast {
 }
 
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:6-9 $ gradle -q hello         //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Hello world                                    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Greetings from the hello task.                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:6-9 $ gradle -q hello         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Hello world                                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Greetings from the hello task.                 //</span>
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -542,18 +547,18 @@ hello.doLast {
 <li>除了task"已经存在的"property, 你还可以设置extra task, 设置方法就是ext.xxx =
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">myTask</span> {
+<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">myTask</span> {
     ext.myProperty = <span style="color: #2aa198;">"myValue"</span>
 }
 
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">printTaskProperties</span> &lt;&lt; {
-    <span style="color: #b58900; font-style: italic;">println</span> myTask.<span style="color: #268bd2;">myProperty</span>
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">printTaskProperties</span> &lt;&lt; {
+    <span style="color: #b58900;">println</span> myTask.<span style="color: #268bd2;">myProperty</span>
 }
 
 <span style="color: #93a1a1;">///////////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt;        //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:6-10 $ gradle -q printTaskProperties //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">myValue                                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:6-10 $ gradle -q printTaskProperties //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">myValue                                               //</span>
 <span style="color: #93a1a1;">///////////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -593,19 +598,19 @@ task clean &lt;&lt; {
     println <span style="color: #2aa198;">'Default Cleaning!'</span>
 }
 
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">run</span> &lt;&lt; {
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">run</span> &lt;&lt; {
     println <span style="color: #2aa198;">'Default Running!'</span>
 }
 
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">other</span> &lt;&lt; {
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">other</span> &lt;&lt; {
     println <span style="color: #2aa198;">"I'm not a default task!"</span>
 }
 
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:6-11 $ gradle -q              //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Default Cleaning!                              //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Default Running!                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:6-11 $ gradle -q              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Default Cleaning!                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Default Running!                               //</span>
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -630,11 +635,11 @@ release task是不是已经在我们的用户输入里面,如果在的话,我们
 印1.0-SNAPSHOT
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">distribution</span> &lt;&lt; {
+<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">distribution</span> &lt;&lt; {
     println <span style="color: #2aa198;">"We build the zip with version=$version"</span>
 }
 
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">release</span>(dependsOn: <span style="color: #2aa198;">'distribution'</span>) &lt;&lt; {
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">release</span>(dependsOn: <span style="color: #2aa198;">'distribution'</span>) &lt;&lt; {
     println <span style="color: #2aa198;">'We release now'</span>
 }
 
@@ -647,12 +652,12 @@ gradle.taskGraph.whenReady { taskGraph -&gt;
 }
 
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:6-12 $ gradle -q distribution //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">We build the zip with version=1.0-SNAPSHOT     //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:6-12 $ gradle -q release      //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">We build the zip with version=1.0              //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">We release now                                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:6-12 $ gradle -q distribution //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">We build the zip with version=1.0-SNAPSHOT     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:6-12 $ gradle -q release      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">We build the zip with version=1.0              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">We release now                                 //</span>
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -687,7 +692,7 @@ gradle.taskGraph.whenReady { taskGraph -&gt;
 <li>我们来看看一个最简单的java plugin
 <div class="org-src-container">
 
-<pre class="src src-groovy">apply <span style="color: #b58900; font-style: italic;">plugin</span>: <span style="color: #2aa198;">'java'</span>
+<pre class="src src-groovy">apply <span style="color: #b58900;">plugin</span>: <span style="color: #2aa198;">'java'</span>
 </pre>
 </div>
 </li>
@@ -860,14 +865,14 @@ Total time: 2.031 secs
 <li>一个完整的java plugin依赖如下, 其中dependencies的内容是第八章
 <div class="org-src-container">
 
-<pre class="src src-groovy">apply <span style="color: #b58900; font-style: italic;">plugin</span>: <span style="color: #2aa198;">'java'</span>
+<pre class="src src-groovy">apply <span style="color: #b58900;">plugin</span>: <span style="color: #2aa198;">'java'</span>
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile <span style="color: #b58900; font-style: italic;">group</span>: <span style="color: #2aa198;">'org.hibernate'</span>, name: <span style="color: #2aa198;">'hibernate-core'</span>, version: <span style="color: #2aa198;">'3.6.7.Final'</span>
+    compile <span style="color: #b58900;">group</span>: <span style="color: #2aa198;">'org.hibernate'</span>, name: <span style="color: #2aa198;">'hibernate-core'</span>, version: <span style="color: #2aa198;">'3.6.7.Final'</span>
     testCompile group: <span style="color: #2aa198;">'junit'</span>, name: <span style="color: #2aa198;">'junit'</span>, version: <span style="color: #2aa198;">'4.+'</span>
 }
 </pre>
@@ -1039,14 +1044,14 @@ dependencies
 <li>下面就是一个dependency的例子
 <div class="org-src-container">
 
-<pre class="src src-groovy">apply <span style="color: #b58900; font-style: italic;">plugin</span>: <span style="color: #2aa198;">'java'</span>
+<pre class="src src-groovy">apply <span style="color: #b58900;">plugin</span>: <span style="color: #2aa198;">'java'</span>
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    compile <span style="color: #b58900; font-style: italic;">group</span>: <span style="color: #2aa198;">'org.hibernate'</span>, name: <span style="color: #2aa198;">'hibernate-core'</span>, version: <span style="color: #2aa198;">'3.6.7.Final'</span>
+    compile <span style="color: #b58900;">group</span>: <span style="color: #2aa198;">'org.hibernate'</span>, name: <span style="color: #2aa198;">'hibernate-core'</span>, version: <span style="color: #2aa198;">'3.6.7.Final'</span>
     testCompile group: <span style="color: #2aa198;">'junit'</span>, name: <span style="color: #2aa198;">'junit'</span>, version: <span style="color: #2aa198;">'4.+'</span>
 }
 </pre>
@@ -1098,7 +1103,7 @@ testCompile三者里面的dependency
 <div class="org-src-container">
 
 <pre class="src src-groovy">dependencies {
-    compile <span style="color: #b58900; font-style: italic;">group</span>: <span style="color: #2aa198;">'org.hibernate'</span>, name: <span style="color: #2aa198;">'hibernate-core'</span>, version: <span style="color: #2aa198;">'3.6.7.Final'</span>
+    compile <span style="color: #b58900;">group</span>: <span style="color: #2aa198;">'org.hibernate'</span>, name: <span style="color: #2aa198;">'hibernate-core'</span>, version: <span style="color: #2aa198;">'3.6.7.Final'</span>
 }
 </pre>
 </div>
@@ -1155,7 +1160,7 @@ testCompile三者里面的dependency
 <li>除了java plugin,gradle自然是groovy写成的语言,自然可以用来管理groovy语言的
 <div class="org-src-container">
 
-<pre class="src src-groovy">apply <span style="color: #b58900; font-style: italic;">plugin</span>: <span style="color: #2aa198;">'groovy'</span>
+<pre class="src src-groovy">apply <span style="color: #b58900;">plugin</span>: <span style="color: #2aa198;">'groovy'</span>
 </pre>
 </div>
 </li>
@@ -1182,14 +1187,14 @@ testCompile三者里面的dependency
 字叫webapp(比如src/main/webapp),其plugin的名字叫做war
 <div class="org-src-container">
 
-<pre class="src src-groovy">apply <span style="color: #b58900; font-style: italic;">plugin</span>: <span style="color: #2aa198;">'war'</span>
+<pre class="src src-groovy">apply <span style="color: #b58900;">plugin</span>: <span style="color: #2aa198;">'war'</span>
 </pre>
 </div>
 </li>
 <li>在maven里面,我们见识了配置一行就可以使用jetty的功能,现在gradle也有
 <div class="org-src-container">
 
-<pre class="src src-groovy">apply <span style="color: #b58900; font-style: italic;">plugin</span>: <span style="color: #2aa198;">'jetty'</span>
+<pre class="src src-groovy">apply <span style="color: #b58900;">plugin</span>: <span style="color: #2aa198;">'jetty'</span>
 </pre>
 </div>
 </li>
@@ -1226,47 +1231,47 @@ testCompile三者里面的dependency
 <div class="org-src-container">
 
 <pre class="src src-groovy"><span style="color: #93a1a1;">///////////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1; font-style: italic;">+------------------------------------------+    //</span>
-<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1; font-style: italic;">|                                          |    //</span>
-<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1; font-style: italic;">V                                          |    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">+---------+   +-------------+   +-------+    +---+--+ //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">| compile |&lt;--+ compileTest |&lt;--+ test  |&lt;---+ dist | //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">+---------+   +-------------+   +-----+-+    +------+ //</span>
-<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1; font-style: italic;">^                               |               //</span>
-<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1; font-style: italic;">|                               |               //</span>
-<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1; font-style: italic;">+-------------------------------+               //</span>
+<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1;">+------------------------------------------+    //</span>
+<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1;">|                                          |    //</span>
+<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1;">V                                          |    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">+---------+   +-------------+   +-------+    +---+--+ //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">| compile |&lt;--+ compileTest |&lt;--+ test  |&lt;---+ dist | //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">+---------+   +-------------+   +-----+-+    +------+ //</span>
+<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1;">^                               |               //</span>
+<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1;">|                               |               //</span>
+<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1;">+-------------------------------+               //</span>
 <span style="color: #93a1a1;">///////////////////////////////////////////////////////////</span>
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">compile</span> &lt;&lt; {
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">compile</span> &lt;&lt; {
     println <span style="color: #2aa198;">'compling source'</span>
 }
 
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">compileTest</span> &lt;&lt; {
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">compileTest</span> &lt;&lt; {
     println <span style="color: #2aa198;">'compling unit test'</span>
 }
 
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">test</span>(dependsOn: [compile, compileTest]) &lt;&lt; {
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">test</span>(dependsOn: [compile, compileTest]) &lt;&lt; {
     println <span style="color: #2aa198;">'running unit tests'</span>
 }
 
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">dist</span>(dependsOn: [compile, test]) &lt;&lt; {
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">dist</span>(dependsOn: [compile, test]) &lt;&lt; {
     println <span style="color: #2aa198;">'building the distrubution'</span>
 }
 
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:1 $ gradle dist test          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">:compile                                       //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">compling source                                //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">:compileTest                                   //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">compling unit test                             //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">:test                                          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">running unit tests                             //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">:dist                                          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">building the distrubution                      //</span>
-<span style="color: #93a1a1;">//                                                </span><span style="color: #93a1a1; font-style: italic;">//</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">BUILD SUCCESSFUL                               //</span>
-<span style="color: #93a1a1;">//                                                </span><span style="color: #93a1a1; font-style: italic;">//</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Total time: 2.511 secs                         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:1 $ gradle dist test          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">:compile                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">compling source                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">:compileTest                                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">compling unit test                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">:test                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">running unit tests                             //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">:dist                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">building the distrubution                      //</span>
+<span style="color: #93a1a1;">//                                                </span><span style="color: #93a1a1;">//</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">BUILD SUCCESSFUL                               //</span>
+<span style="color: #93a1a1;">//                                                </span><span style="color: #93a1a1;">//</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Total time: 2.511 secs                         //</span>
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -1275,43 +1280,43 @@ testCompile三者里面的dependency
 <div class="org-src-container">
 
 <pre class="src src-groovy"><span style="color: #93a1a1;">///////////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1; font-style: italic;">+------------------------------------------+    //</span>
-<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1; font-style: italic;">|                                          |    //</span>
-<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1; font-style: italic;">V                                          |    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">+---------+   +-------------+   +-------+    +---+--+ //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">| compile |&lt;--+ compileTest |&lt;--+ test  |&lt;---+ dist | //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">+---------+   +-------------+   +-----+-+    +------+ //</span>
-<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1; font-style: italic;">^                               |               //</span>
-<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1; font-style: italic;">|                               |               //</span>
-<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1; font-style: italic;">+-------------------------------+               //</span>
+<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1;">+------------------------------------------+    //</span>
+<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1;">|                                          |    //</span>
+<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1;">V                                          |    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">+---------+   +-------------+   +-------+    +---+--+ //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">| compile |&lt;--+ compileTest |&lt;--+ test  |&lt;---+ dist | //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">+---------+   +-------------+   +-----+-+    +------+ //</span>
+<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1;">^                               |               //</span>
+<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1;">|                               |               //</span>
+<span style="color: #93a1a1;">//       </span><span style="color: #93a1a1;">+-------------------------------+               //</span>
 <span style="color: #93a1a1;">///////////////////////////////////////////////////////////</span>
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">compile</span> &lt;&lt; {
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">compile</span> &lt;&lt; {
     println <span style="color: #2aa198;">'compling source'</span>
 }
 
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">compileTest</span> &lt;&lt; {
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">compileTest</span> &lt;&lt; {
     println <span style="color: #2aa198;">'compling unit test'</span>
 }
 
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">test</span>(dependsOn: [compile, compileTest]) &lt;&lt; {
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">test</span>(dependsOn: [compile, compileTest]) &lt;&lt; {
     println <span style="color: #2aa198;">'running unit tests'</span>
 }
 
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">dist</span>(dependsOn: [compile, test]) &lt;&lt; {
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">dist</span>(dependsOn: [compile, test]) &lt;&lt; {
     println <span style="color: #2aa198;">'building the distrubution'</span>
 }
 
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:1 $ gradle dist -x test       //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">:compile                                       //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">compling source                                //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">:dist                                          //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">building the distrubution                      //</span>
-<span style="color: #93a1a1;">//                                                </span><span style="color: #93a1a1; font-style: italic;">//</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">BUILD SUCCESSFUL                               //</span>
-<span style="color: #93a1a1;">//                                                </span><span style="color: #93a1a1; font-style: italic;">//</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Total time: 3.202 secs                         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:1 $ gradle dist -x test       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">:compile                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">compling source                                //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">:dist                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">building the distrubution                      //</span>
+<span style="color: #93a1a1;">//                                                </span><span style="color: #93a1a1;">//</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">BUILD SUCCESSFUL                               //</span>
+<span style="color: #93a1a1;">//                                                </span><span style="color: #93a1a1;">//</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Total time: 3.202 secs                         //</span>
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -1341,46 +1346,46 @@ testCompile三者里面的dependency
 如果是camel case命名法还可以把camel case的前几个字母写出来即可
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">compile</span> &lt;&lt; {
+<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">compile</span> &lt;&lt; {
     println <span style="color: #2aa198;">'compling source'</span>
 }
 
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">compileTest</span> &lt;&lt; {
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">compileTest</span> &lt;&lt; {
     println <span style="color: #2aa198;">'compling unit test'</span>
 }
 
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">test</span>(dependsOn: [compile, compileTest]) &lt;&lt; {
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">test</span>(dependsOn: [compile, compileTest]) &lt;&lt; {
     println <span style="color: #2aa198;">'running unit tests'</span>
 }
 
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">dist</span>(dependsOn: [compile, test]) &lt;&lt; {
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">dist</span>(dependsOn: [compile, test]) &lt;&lt; {
     println <span style="color: #2aa198;">'building the distrubution'</span>
 }
 
 <span style="color: #93a1a1;">/////////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt;      //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">c:\code\gradle-in-action\user-manual\11\3&gt;gradle di //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">gradle di                                           //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">:compile                                            //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">compling source                                     //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">:compileTest                                        //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">compling unit test                                  //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">:test                                               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">running unit tests                                  //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">:dist                                               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">building the distrubution                           //</span>
-<span style="color: #93a1a1;">//                                                     </span><span style="color: #93a1a1; font-style: italic;">//</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">BUILD SUCCESSFUL                                    //</span>
-<span style="color: #93a1a1;">//                                                     </span><span style="color: #93a1a1; font-style: italic;">//</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Total time: 4.513 secs                              //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">c:\code\gradle-in-action\user-manual\11\3&gt;gradle cT //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">gradle cT                                           //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">:compileTest                                        //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">compling unit test                                  //</span>
-<span style="color: #93a1a1;">//                                                     </span><span style="color: #93a1a1; font-style: italic;">//</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">BUILD SUCCESSFUL                                    //</span>
-<span style="color: #93a1a1;">//                                                     </span><span style="color: #93a1a1; font-style: italic;">//</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Total time: 1.819 secs                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">c:\code\gradle-in-action\user-manual\11\3&gt;gradle di //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">gradle di                                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">:compile                                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">compling source                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">:compileTest                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">compling unit test                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">:test                                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">running unit tests                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">:dist                                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">building the distrubution                           //</span>
+<span style="color: #93a1a1;">//                                                     </span><span style="color: #93a1a1;">//</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">BUILD SUCCESSFUL                                    //</span>
+<span style="color: #93a1a1;">//                                                     </span><span style="color: #93a1a1;">//</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Total time: 4.513 secs                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">c:\code\gradle-in-action\user-manual\11\3&gt;gradle cT //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">gradle cT                                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">:compileTest                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">compling unit test                                  //</span>
+<span style="color: #93a1a1;">//                                                     </span><span style="color: #93a1a1;">//</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">BUILD SUCCESSFUL                                    //</span>
+<span style="color: #93a1a1;">//                                                     </span><span style="color: #93a1a1;">//</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Total time: 1.819 secs                              //</span>
 <span style="color: #93a1a1;">/////////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -1396,15 +1401,15 @@ testCompile三者里面的dependency
 subdir文件夹下面的myproject.gradle, 参数-b
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">hello</span> &lt;&lt; {
+<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">hello</span> &lt;&lt; {
     println <span style="color: #2aa198;">"using build file '$buildFile.name' in '$buildFile.parentFile.name'."</span>
 }
 
 <span style="color: #93a1a1;">//////////////////////////////////////////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt;                                       //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">c:\code\gradle-in-action\user-manual\11\4&gt;gradle -q -b subdir/myproject.gradle hello //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">gradle -q -b subdir/myproject.gradle hello                                           //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">using build file 'myproject.gradle' in 'subdir'.                                     //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;                                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">c:\code\gradle-in-action\user-manual\11\4&gt;gradle -q -b subdir/myproject.gradle hello //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">gradle -q -b subdir/myproject.gradle hello                                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">using build file 'myproject.gradle' in 'subdir'.                                     //</span>
 <span style="color: #93a1a1;">//////////////////////////////////////////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -1412,15 +1417,15 @@ subdir文件夹下面的myproject.gradle, 参数-b
 <li>也可以使用参数-q制定文件夹, 当然,默认就必须是build.gradle文件
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">hello</span> &lt;&lt; {
+<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">hello</span> &lt;&lt; {
     println <span style="color: #2aa198;">"using build file '$buildFile.name' in '$buildFile.parentFile.name'."</span>
 }
 
 <span style="color: #93a1a1;">/////////////////////////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt;                      //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">c:\code\gradle-in-action\user-manual\11\4&gt;gradle -q -p subdir hello //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">gradle -q -p subdir hello                                           //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">using build file 'build.gradle' in 'subdir'.                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">c:\code\gradle-in-action\user-manual\11\4&gt;gradle -q -p subdir hello //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">gradle -q -p subdir hello                                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">using build file 'build.gradle' in 'subdir'.                        //</span>
 <span style="color: #93a1a1;">/////////////////////////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -1488,7 +1493,7 @@ subdir文件夹下面的myproject.gradle, 参数-b
 <li>我们前面看到过如下的命令
 <div class="org-src-container">
 
-<pre class="src src-groovy">apply <span style="color: #b58900; font-style: italic;">plugin</span>: <span style="color: #2aa198;">'java'</span>
+<pre class="src src-groovy">apply <span style="color: #b58900;">plugin</span>: <span style="color: #2aa198;">'java'</span>
 </pre>
 </div>
 </li>
@@ -1507,7 +1512,7 @@ subdir文件夹下面的myproject.gradle, 参数-b
 <li>我们来看一个例子, project object一般常用的properties就这些
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">check</span> &lt;&lt; {
+<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">check</span> &lt;&lt; {
     println project.name
     println project.path
     println project.description
@@ -1515,24 +1520,24 @@ subdir文件夹下面的myproject.gradle, 参数-b
     println project.group
     println project.version
     println project.ant
-    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">They are the same, if no local variables called buildDir</span>
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">They are the same, if no local variables called buildDir</span>
     println buildDir
-    <span style="color: #b58900; font-style: italic;">println</span> project.<span style="color: #268bd2;">buildDir</span>
+    <span style="color: #b58900;">println</span> project.<span style="color: #268bd2;">buildDir</span>
 
 }
 
 <span style="color: #93a1a1;">/////////////////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt;              //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:1 $ gradle -q check                        //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">1                                                           //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">:                                                           //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">null                                                        //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">/Users/i309511/Code/gradle-in-action/user-manual/13/1       //</span>
-<span style="color: #93a1a1;">//                                                             </span><span style="color: #93a1a1; font-style: italic;">//</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">unspecified                                                 //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">org.gradle.api.internal.project.DefaultAntBuilder@43999ca0  //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">/Users/i309511/Code/gradle-in-action/user-manual/13/1/build //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">/Users/i309511/Code/gradle-in-action/user-manual/13/1/build //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:1 $ gradle -q check                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1                                                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">:                                                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">null                                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">/Users/i309511/Code/gradle-in-action/user-manual/13/1       //</span>
+<span style="color: #93a1a1;">//                                                             </span><span style="color: #93a1a1;">//</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">unspecified                                                 //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">org.gradle.api.internal.project.DefaultAntBuilder@43999ca0  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">/Users/i309511/Code/gradle-in-action/user-manual/13/1/build //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">/Users/i309511/Code/gradle-in-action/user-manual/13/1/build //</span>
 <span style="color: #93a1a1;">/////////////////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -1565,14 +1570,14 @@ object变量
 
 task show &lt;&lt; {
     println buildDir
-    <span style="color: #b58900; font-style: italic;">println</span> project.<span style="color: #268bd2;">buildDir</span>
+    <span style="color: #b58900;">println</span> project.<span style="color: #268bd2;">buildDir</span>
 }
 
 <span style="color: #93a1a1;">/////////////////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt;              //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:2 $ gradle -q show                         //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">localDir                                                    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">/Users/i309511/Code/gradle-in-action/user-manual/13/2/build //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:2 $ gradle -q show                         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">localDir                                                    //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">/Users/i309511/Code/gradle-in-action/user-manual/13/2/build //</span>
 <span style="color: #93a1a1;">/////////////////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -1592,7 +1597,7 @@ object都有的ext property来设置"其他project"的变量
 来设置property A,然后这个property A就可以通过object.propertyA来访问
 <div class="org-src-container">
 
-<pre class="src src-groovy">apply <span style="color: #b58900; font-style: italic;">plugin</span>: <span style="color: #2aa198;">"java"</span>
+<pre class="src src-groovy">apply <span style="color: #b58900;">plugin</span>: <span style="color: #2aa198;">"java"</span>
 
 ext {
     springVersion = <span style="color: #2aa198;">"3.1.0.RELEASE"</span>
@@ -1613,19 +1618,19 @@ sourceSets {
     }
 }
 
-<span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">printProperties</span> &lt;&lt; {
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">printProperties</span> &lt;&lt; {
     println springVersion
-    println <span style="color: #b58900; font-style: italic;">emailNotification</span>
-    sourceSets.<span style="color: #268bd2;">matching</span> { it.purpose == <span style="color: #2aa198;">"production"</span> }.each { <span style="color: #b58900; font-style: italic;">println</span> it.<span style="color: #268bd2;">name</span>}
+    println <span style="color: #b58900;">emailNotification</span>
+    sourceSets.<span style="color: #268bd2;">matching</span> { it.purpose == <span style="color: #2aa198;">"production"</span> }.each { <span style="color: #b58900;">println</span> it.<span style="color: #268bd2;">name</span>}
 }
 
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:3 $ gradle -q printProperties //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">3.1.0.RELEASE                                  //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">build@master.org                               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">main                                           //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">plugin                                         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:3 $ gradle -q printProperties //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">3.1.0.RELEASE                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">build@master.org                               //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">main                                           //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">plugin                                         //</span>
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -1655,14 +1660,14 @@ sourceSets {
 
 <pre class="src src-groovy">configurations.ext.runtime = [1, 2]
 task test &lt;&lt; {
-    configurations.runtime.each { <span style="color: #b58900; font-style: italic;">Integer</span> <span style="color: #268bd2;">i</span> -&gt; println i }
+    configurations.runtime.each { <span style="color: #b58900;">Integer</span> <span style="color: #268bd2;">i</span> -&gt; println i }
 }
 
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:4 $ gradle -q test            //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">1                                              //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">2                                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:4 $ gradle -q test            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">1                                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">2                                              //</span>
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -1677,21 +1682,21 @@ task test &lt;&lt; {
 <li>groovy还自动添加了getter和setter
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900; font-style: italic;">task</span> <span style="color: #268bd2;">test</span> &lt;&lt; {
-    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Using a getter method</span>
+<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">test</span> &lt;&lt; {
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Using a getter method</span>
     println project.buildDir
-    <span style="color: #b58900; font-style: italic;">println</span> <span style="color: #268bd2;">getProject</span>().getBuildDir()
+    <span style="color: #b58900;">println</span> <span style="color: #268bd2;">getProject</span>().getBuildDir()
 
-    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Using a setter method</span>
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Using a setter method</span>
     project.buildDir = <span style="color: #2aa198;">'target'</span>
     getProject().setBuildDir(<span style="color: #2aa198;">'target'</span>)
 }
 
 <span style="color: #93a1a1;">/////////////////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt;              //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:5 $ gradle -q test                         //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">/Users/i309511/Code/gradle-in-action/user-manual/13/5/build //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">/Users/i309511/Code/gradle-in-action/user-manual/13/5/build //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:5 $ gradle -q test                         //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">/Users/i309511/Code/gradle-in-action/user-manual/13/5/build //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">/Users/i309511/Code/gradle-in-action/user-manual/13/5/build //</span>
 <span style="color: #93a1a1;">/////////////////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -1707,7 +1712,7 @@ task test &lt;&lt; {
 <div class="org-src-container">
 
 <pre class="src src-groovy">test.systemProperty( <span style="color: #2aa198;">'some.prop'</span>, <span style="color: #2aa198;">'value'</span>)
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">is equal to</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">is equal to</span>
 test.systemProperty <span style="color: #2aa198;">'some.prop'</span>, <span style="color: #2aa198;">'value'</span>
 </pre>
 </div>
@@ -1726,8 +1731,8 @@ test.systemProperty <span style="color: #2aa198;">'some.prop'</span>, <span styl
 
 <pre class="src src-groovy">test.includes = [<span style="color: #2aa198;">'org/gradle/api/**'</span>, <span style="color: #2aa198;">'org/gradle/internal/**'</span>]
 
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">is equal to</span>
-<span style="color: #b58900; font-style: italic;">List</span>&lt;String&gt; list = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">ArrayList</span>&lt;String&gt;()
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">is equal to</span>
+<span style="color: #b58900;">List</span>&lt;String&gt; list = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ArrayList</span>&lt;String&gt;()
 list.add(<span style="color: #2aa198;">'org/gradle/api/**'</span>)
 list.add(<span style="color: #2aa198;">'org/gradle/internal/**'</span>)
 test.include = list
@@ -1737,10 +1742,10 @@ test.include = list
 <li>map定义的方法
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900; font-style: italic;">Map</span>&lt;String, String&gt; <span style="color: #268bd2;">map</span> = [key1:<span style="color: #2aa198;">'valu1'</span>, key2:<span style="color: #2aa198;">'value2'</span>]
+<pre class="src src-groovy"><span style="color: #b58900;">Map</span>&lt;String, String&gt; <span style="color: #268bd2;">map</span> = [key1:<span style="color: #2aa198;">'valu1'</span>, key2:<span style="color: #2aa198;">'value2'</span>]
 
 apply plugin: <span style="color: #2aa198;">'java'</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">is actually</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">is actually</span>
 apply([plugin:<span style="color: #2aa198;">'java'</span>])
 </pre>
 </div>
@@ -1770,10 +1775,10 @@ apply([plugin:<span style="color: #2aa198;">'java'</span>])
 printNum {|n| <span style="color: #657b83; font-weight: bold;">p</span> <span style="color: #2aa198;">"No. </span><span style="color: #268bd2;">#{n}</span><span style="color: #2aa198;"> hello"</span> }
 
 <span style="color: #93a1a1;">##################################################</span>
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; #</span>
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:13 $ ruby test.rb             #</span>
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">"No. 5 hello"                                  #</span>
-<span style="color: #93a1a1;"># </span><span style="color: #93a1a1; font-style: italic;">"world"                                        #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">(master) i309511:13 $ ruby test.rb             #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"No. 5 hello"                                  #</span>
+<span style="color: #93a1a1;"># </span><span style="color: #93a1a1;">"world"                                        #</span>
 <span style="color: #93a1a1;">##################################################</span>
 </pre>
 </div>
@@ -1781,7 +1786,7 @@ printNum {|n| <span style="color: #657b83; font-weight: bold;">p</span> <span st
 <li>在groovy里面是这个样子
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">method</span>(<span style="color: #b58900; font-style: italic;">Closure</span> <span style="color: #268bd2;">c</span>){
+<pre class="src src-groovy"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">method</span>(<span style="color: #b58900;">Closure</span> <span style="color: #268bd2;">c</span>){
     <span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">firstValue</span> = <span style="color: #2aa198;">'a'</span>
     <span style="color: #859900; font-weight: bold;">def</span> secondValue = <span style="color: #2aa198;">'b'</span>
     <span style="color: #859900; font-weight: bold;">if</span> (c.maximumNumberOfParameters == 1)
@@ -1790,7 +1795,7 @@ printNum {|n| <span style="color: #657b83; font-weight: bold;">p</span> <span st
         c(firstValue, secondValue)
 }
 
-<span style="color: #93a1a1;">//</span><span style="color: #93a1a1; font-style: italic;">execute</span>
+<span style="color: #93a1a1;">//</span><span style="color: #93a1a1;">execute</span>
 method { a -&gt;
     println <span style="color: #2aa198;">"I just need $a"</span>
 }
@@ -1802,11 +1807,11 @@ method() { a -&gt; println <span style="color: #2aa198;">"I just need $a, versio
 method({ a -&gt; println <span style="color: #2aa198;">"I just need $a, version 3 "</span>})
 
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">I just need a                                  //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">I need both a and b                            //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">I just need a, version 2                       //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">I just need a, version 3                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">I just need a                                  //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">I need both a and b                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">I just need a, version 2                       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">I just need a, version 3                       //</span>
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -1834,9 +1839,9 @@ say.delegate = [m:2]
 say()
 
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:7 $ groovy test1.groovy       //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">hello                                          //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:7 $ groovy test1.groovy       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">hello                                          //</span>
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -1846,15 +1851,15 @@ map类型的数据
 <div class="org-src-container">
 
 <pre class="src src-groovy"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">say</span> = {
-    <span style="color: #b58900; font-style: italic;">println</span> <span style="color: #268bd2;">m</span>
+    <span style="color: #b58900;">println</span> <span style="color: #268bd2;">m</span>
 }
 say.delegate = [m:2]
 say()
 
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">(master) i309511:7 $ groovy test2.groovy       //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">2                                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">(master) i309511:7 $ groovy test2.groovy       //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">2                                              //</span>
 <span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
 </pre>
 </div>
@@ -1868,6 +1873,49 @@ say()
 </div>
 <div id="outline-container-sec-14" class="outline-2">
 <h2 id="sec-14">Chapter 14 Tutorial - 'This and That'</h2>
+<div class="outline-text-2" id="text-14">
+</div><div id="outline-container-sec-14-1" class="outline-3">
+<h3 id="sec-14-1">Directory creation</h3>
+<div class="outline-text-3" id="text-14-1">
+<ul class="org-ul">
+<li>很多时候,某些task都要依赖于某些文件夹,所以要求这些文件夹需要一开始就存在.当
+然你可以选择在这个task开始的地方加上mkdir,但这不是最好的方法,最好的方法是创
+建一个"mkdir task",然后需要用的时候DependsOn它, 以后再用到还可以重用
+<div class="org-src-container">
+
+<pre class="src src-groovy"><span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">classesDir</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">File</span>(<span style="color: #2aa198;">'build/classes'</span>)
+
+task resources &lt;&lt; {
+    classesDir.mkdirs()
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">do nothing</span>
+}
+
+<span style="color: #b58900;">task</span> <span style="color: #268bd2;">compile</span>(dependsOn: <span style="color: #2aa198;">'resources'</span>) &lt;&lt; {
+    <span style="color: #859900; font-weight: bold;">if</span> (classesDir.isDirectory()) {
+        println <span style="color: #2aa198;">'The class directory exists. I can operate'</span>
+    }
+    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">do something</span>
+}
+
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">$ gradle -q compile                            //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">The class directory exists. I can operate      //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-14-2" class="outline-3">
+<h3 id="sec-14-2">Gradle properties and system properties</h3>
+<div class="outline-text-3" id="text-14-2">
+<ul class="org-ul">
+<li></li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 <div id="postamble" class="status">

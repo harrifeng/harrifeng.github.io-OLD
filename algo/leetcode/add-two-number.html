@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 004: Add Two Numbers</title>
-<!-- 2015-04-02 Thu 17:54 -->
+<!-- 2015-07-03 Fri 15:22 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -210,34 +210,34 @@ Sample Output: {7-&gt;0-&gt;8}
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">ListNode</span> {
-    <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">val</span>;
-    <span style="color: #b58900; font-style: italic;">ListNode</span> <span style="color: #268bd2;">next</span>;
-    <span style="color: #268bd2;">ListNode</span>(<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">x</span>) {
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ListNode</span> {
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">val</span>;
+    <span style="color: #b58900;">ListNode</span> <span style="color: #268bd2;">next</span>;
+    <span style="color: #268bd2;">ListNode</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span>) {
         val = x;
         next = null;
     }
 }
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Solution</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> ListNode addTwoNumbers(<span style="color: #b58900; font-style: italic;">ListNode</span> <span style="color: #268bd2;">l1</span>, <span style="color: #b58900; font-style: italic;">ListNode</span> <span style="color: #268bd2;">l2</span>) {
-        <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">rem</span> = 0;
-        <span style="color: #b58900; font-style: italic;">ListNode</span> <span style="color: #268bd2;">head</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">ListNode</span>(-1);
-        <span style="color: #b58900; font-style: italic;">ListNode</span> <span style="color: #268bd2;">tmp</span> = head;
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">The logic is EITHER is not null</span>
+<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> ListNode addTwoNumbers(<span style="color: #b58900;">ListNode</span> <span style="color: #268bd2;">l1</span>, <span style="color: #b58900;">ListNode</span> <span style="color: #268bd2;">l2</span>) {
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">rem</span> = 0;
+        <span style="color: #b58900;">ListNode</span> <span style="color: #268bd2;">head</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ListNode</span>(-1);
+        <span style="color: #b58900;">ListNode</span> <span style="color: #268bd2;">tmp</span> = head;
+        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">The logic is EITHER is not null</span>
         <span style="color: #859900; font-weight: bold;">while</span>(l1 != null || l2 != null) {
-            <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">v1</span> = (l1 == null) ? 0 : l1.val;
-            <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">v2</span> = (l2 == null) ? 0 : l2.val;
-            <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">sum</span> = v1 + v2 + rem;
-            head.next = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">ListNode</span>(sum % 10);
+            <span style="color: #b58900;">int</span> <span style="color: #268bd2;">v1</span> = (l1 == null) ? 0 : l1.val;
+            <span style="color: #b58900;">int</span> <span style="color: #268bd2;">v2</span> = (l2 == null) ? 0 : l2.val;
+            <span style="color: #b58900;">int</span> <span style="color: #268bd2;">sum</span> = v1 + v2 + rem;
+            head.next = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ListNode</span>(sum % 10);
             head = head.next;
             rem = sum / 10;
-            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1; font-style: italic;">Be careful, null has no next</span>
+            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Be careful, null has no next</span>
             l1 = (l1 == null) ? null : l1.next;
             l2 = (l2 == null) ? null : l2.next;
         }
         <span style="color: #859900; font-weight: bold;">if</span> (rem &gt; 0) {
-            head.next = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">ListNode</span>(1);
+            head.next = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ListNode</span>(1);
         }
         <span style="color: #859900; font-weight: bold;">return</span> tmp.next;
     }

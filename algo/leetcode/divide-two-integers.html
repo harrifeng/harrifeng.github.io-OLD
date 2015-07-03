@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 028: Divide Two Integers</title>
-<!-- 2015-04-02 Thu 17:53 -->
+<!-- 2015-07-03 Fri 15:22 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -208,26 +208,26 @@ Sample Output: 3
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Solution</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">divide</span>(<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">dividend</span>, <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">divisor</span>) {
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">divide</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">dividend</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">divisor</span>) {
         <span style="color: #859900; font-weight: bold;">if</span> (dividend == 0) {
             <span style="color: #859900; font-weight: bold;">return</span> 0;
         }
         <span style="color: #859900; font-weight: bold;">if</span> (divisor == 1) {
             <span style="color: #859900; font-weight: bold;">return</span> dividend;
         }
-        <span style="color: #b58900; font-style: italic;">boolean</span> <span style="color: #268bd2;">positive</span> = (dividend &gt; 0 &amp;&amp; divisor &gt; 0) || (dividend &lt; 0 &amp;&amp; divisor &lt; 0);
-        <span style="color: #b58900; font-style: italic;">long</span> <span style="color: #268bd2;">absDividend</span> = (dividend &lt; 0) ? (0 - (<span style="color: #b58900; font-style: italic;">long</span>)dividend) : (<span style="color: #b58900; font-style: italic;">long</span>) dividend;
-        <span style="color: #b58900; font-style: italic;">long</span> <span style="color: #268bd2;">absDivisor</span> = (divisor &lt; 0) ? (0 - (<span style="color: #b58900; font-style: italic;">long</span>)divisor) : (<span style="color: #b58900; font-style: italic;">long</span>)divisor;
-        <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">result</span> = dividePositive(absDividend, absDivisor, absDivisor);
+        <span style="color: #b58900;">boolean</span> <span style="color: #268bd2;">positive</span> = (dividend &gt; 0 &amp;&amp; divisor &gt; 0) || (dividend &lt; 0 &amp;&amp; divisor &lt; 0);
+        <span style="color: #b58900;">long</span> <span style="color: #268bd2;">absDividend</span> = (dividend &lt; 0) ? (0 - (<span style="color: #b58900;">long</span>)dividend) : (<span style="color: #b58900;">long</span>) dividend;
+        <span style="color: #b58900;">long</span> <span style="color: #268bd2;">absDivisor</span> = (divisor &lt; 0) ? (0 - (<span style="color: #b58900;">long</span>)divisor) : (<span style="color: #b58900;">long</span>)divisor;
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">result</span> = dividePositive(absDividend, absDivisor, absDivisor);
         <span style="color: #859900; font-weight: bold;">return</span> positive ? result : (0 - result);
     }
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">dividePositive</span>(<span style="color: #b58900; font-style: italic;">long</span> <span style="color: #268bd2;">p</span>, <span style="color: #b58900; font-style: italic;">long</span> <span style="color: #268bd2;">q</span>, <span style="color: #b58900; font-style: italic;">long</span> <span style="color: #268bd2;">originalDivisor</span>) {
-        <span style="color: #859900; font-weight: bold;">if</span> (p &lt; <span style="color: #b58900; font-style: italic;">q</span>) {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">dividePositive</span>(<span style="color: #b58900;">long</span> <span style="color: #268bd2;">p</span>, <span style="color: #b58900;">long</span> <span style="color: #268bd2;">q</span>, <span style="color: #b58900;">long</span> <span style="color: #268bd2;">originalDivisor</span>) {
+        <span style="color: #859900; font-weight: bold;">if</span> (p &lt; <span style="color: #b58900;">q</span>) {
             <span style="color: #859900; font-weight: bold;">return</span> 0;
         }
-        <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">result</span> = 0;
-        <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">e</span> = 0;
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">result</span> = 0;
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">e</span> = 0;
         <span style="color: #859900; font-weight: bold;">while</span>(p &gt;= q) {
             result += (1 &lt;&lt; e);
             p -= q;

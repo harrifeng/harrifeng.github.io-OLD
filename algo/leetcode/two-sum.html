@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 001: Two Sum</title>
-<!-- 2015-04-02 Thu 17:54 -->
+<!-- 2015-07-03 Fri 15:22 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -208,33 +208,33 @@ Sample Output: 1, 2
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900; font-style: italic;">Number</span> {
-    <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">index</span>;
-    <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">value</span>;
-    <span style="color: #268bd2;">Number</span>(<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">i</span>, <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">v</span>) : index(i),  <span style="color: #b58900; font-style: italic;">value</span>(<span style="color: #268bd2;">v</span>){}
+<pre class="src src-c++"><span style="color: #859900; font-weight: bold;">struct</span> <span style="color: #b58900;">Number</span> {
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">index</span>;
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">value</span>;
+    <span style="color: #268bd2;">Number</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">v</span>) : index(i),  <span style="color: #b58900;">value</span>(<span style="color: #268bd2;">v</span>){}
 };
 
-<span style="color: #b58900; font-style: italic;">bool</span> <span style="color: #268bd2;">compare_number</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900; font-style: italic;">Number</span> &amp;<span style="color: #268bd2;">left</span>, <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900; font-style: italic;">Number</span> &amp;<span style="color: #268bd2;">right</span>) {
+<span style="color: #b58900;">bool</span> <span style="color: #268bd2;">compare_number</span>(<span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Number</span> &amp;<span style="color: #268bd2;">left</span>, <span style="color: #859900; font-weight: bold;">const</span> <span style="color: #b58900;">Number</span> &amp;<span style="color: #268bd2;">right</span>) {
     <span style="color: #859900; font-weight: bold;">return</span> left.value &lt; right.value;
 }
 
-<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Solution</span> {
+<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
 <span style="color: #859900; font-weight: bold;">public</span>:
-    <span style="color: #b58900; font-style: italic;">vector</span>&lt;<span style="color: #b58900; font-style: italic;">int</span>&gt; <span style="color: #268bd2;">twoSum</span>(<span style="color: #b58900; font-style: italic;">vector</span>&lt;<span style="color: #b58900; font-style: italic;">int</span>&gt; &amp;<span style="color: #268bd2;">numbers</span>, <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">target</span>) {
-        <span style="color: #b58900; font-style: italic;">vector</span>&lt;<span style="color: #b58900; font-style: italic;">Number</span>&gt; <span style="color: #268bd2;">nn</span>;
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; numbers.size(); i++) {
-            nn.push_back(Number(i+1, <span style="color: #b58900; font-style: italic;">numbers</span>[i]));
+    <span style="color: #b58900;">vector</span>&lt;<span style="color: #b58900;">int</span>&gt; <span style="color: #268bd2;">twoSum</span>(<span style="color: #b58900;">vector</span>&lt;<span style="color: #b58900;">int</span>&gt; &amp;<span style="color: #268bd2;">numbers</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">target</span>) {
+        <span style="color: #b58900;">vector</span>&lt;<span style="color: #b58900;">Number</span>&gt; <span style="color: #268bd2;">nn</span>;
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; numbers.size(); i++) {
+            nn.push_back(Number(i+1, <span style="color: #b58900;">numbers</span>[i]));
         }
         <span style="color: #268bd2; font-weight: bold;">std</span>::sort(nn.begin(), nn.end(), compare_number);
-        <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">beg</span> = 0;
-        <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">end</span> = nn.size() - 1;
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">beg</span> = 0;
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">end</span> = nn.size() - 1;
 
         <span style="color: #859900; font-weight: bold;">while</span> (beg &lt; end) {
-            <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">sum</span> = nn[beg].value + nn[end].value;
+            <span style="color: #b58900;">int</span> <span style="color: #268bd2;">sum</span> = nn[beg].value + nn[end].value;
             <span style="color: #859900; font-weight: bold;">if</span> (sum == target) {
-                <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">small</span> = <span style="color: #268bd2; font-weight: bold;">std</span>::min(<span style="color: #b58900; font-style: italic;">nn</span>[beg].index, <span style="color: #b58900; font-style: italic;">nn</span>[end].index);
-                <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">big</span> = <span style="color: #268bd2; font-weight: bold;">std</span>::max(<span style="color: #b58900; font-style: italic;">nn</span>[beg].index, <span style="color: #b58900; font-style: italic;">nn</span>[end].index);
-                <span style="color: #b58900; font-style: italic;">vector</span>&lt;<span style="color: #b58900; font-style: italic;">int</span>&gt; <span style="color: #268bd2;">ret</span>;
+                <span style="color: #b58900;">int</span> <span style="color: #268bd2;">small</span> = <span style="color: #268bd2; font-weight: bold;">std</span>::min(<span style="color: #b58900;">nn</span>[beg].index, <span style="color: #b58900;">nn</span>[end].index);
+                <span style="color: #b58900;">int</span> <span style="color: #268bd2;">big</span> = <span style="color: #268bd2; font-weight: bold;">std</span>::max(<span style="color: #b58900;">nn</span>[beg].index, <span style="color: #b58900;">nn</span>[end].index);
+                <span style="color: #b58900;">vector</span>&lt;<span style="color: #b58900;">int</span>&gt; <span style="color: #268bd2;">ret</span>;
                 ret.push_back(small);
                 ret.push_back(big);
                 <span style="color: #859900; font-weight: bold;">return</span> ret;
@@ -250,12 +250,12 @@ Sample Output: 1, 2
 </div>
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Solution</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">int</span>[] <span style="color: #268bd2;">twoSum</span>(<span style="color: #b58900; font-style: italic;">int</span>[] <span style="color: #268bd2;">numbers</span>, <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">target</span>) {
-        <span style="color: #b58900; font-style: italic;">HashMap</span>&lt;<span style="color: #b58900; font-style: italic;">Integer</span>, <span style="color: #b58900; font-style: italic;">Integer</span>&gt; <span style="color: #268bd2;">map</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">HashMap</span>&lt;<span style="color: #b58900; font-style: italic;">Integer</span>, <span style="color: #b58900; font-style: italic;">Integer</span>&gt;();
-        <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">n</span> = numbers.length;
-        <span style="color: #b58900; font-style: italic;">int</span>[] <span style="color: #268bd2;">result</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900; font-style: italic;">int</span>[2];
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; numbers.<span style="color: #b58900; font-style: italic;">length</span>; i++) {
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">twoSum</span>(<span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">numbers</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">target</span>) {
+        <span style="color: #b58900;">HashMap</span>&lt;<span style="color: #b58900;">Integer</span>, <span style="color: #b58900;">Integer</span>&gt; <span style="color: #268bd2;">map</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">HashMap</span>&lt;<span style="color: #b58900;">Integer</span>, <span style="color: #b58900;">Integer</span>&gt;();
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">n</span> = numbers.length;
+        <span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">result</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">int</span>[2];
+        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; numbers.<span style="color: #b58900;">length</span>; i++) {
             <span style="color: #859900; font-weight: bold;">if</span> (map.containsKey(target - numbers[i])) {
                 result[0] = map.get(target - numbers[i]) + 1;
                 result[1] = i + 1;

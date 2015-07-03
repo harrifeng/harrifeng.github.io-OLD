@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 002: Median of Two Sorted Arrays</title>
-<!-- 2015-04-02 Thu 17:54 -->
+<!-- 2015-07-03 Fri 15:22 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -225,7 +225,7 @@ Array B | part3         | part4         |
 于). 就是每次都倾向于把某个子数组删除完(其中A是数组A的长度):
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">partA</span> = Math.min(k/2, A.length);
+<pre class="src src-java"><span style="color: #b58900;">int</span> <span style="color: #268bd2;">partA</span> = Math.min(k/2, A.length);
 </pre>
 </div>
 </li>
@@ -251,8 +251,8 @@ Array B | part3         | part4         |
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900; font-style: italic;">Solution</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">findNth</span>(<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">A</span>[], <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">B</span>[], <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">k</span>){
+<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
+    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">findNth</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">A</span>[], <span style="color: #b58900;">int</span> <span style="color: #268bd2;">B</span>[], <span style="color: #b58900;">int</span> <span style="color: #268bd2;">k</span>){
         <span style="color: #859900; font-weight: bold;">if</span> (A.length &gt; B.length) {
             <span style="color: #859900; font-weight: bold;">return</span> findNth(B, A, k);
         }
@@ -265,8 +265,8 @@ Array B | part3         | part4         |
         <span style="color: #859900; font-weight: bold;">if</span> (k == 1) {
             <span style="color: #859900; font-weight: bold;">return</span> Math.min(A[0], B[0]);
         }
-        <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">partA</span> = Math.min(k/2, A.length);
-        <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">partB</span> = k - partA;
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">partA</span> = Math.min(k/2, A.length);
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">partB</span> = k - partA;
 
         <span style="color: #859900; font-weight: bold;">if</span> (A[partA - 1] &lt; B[partB - 1]) {
             <span style="color: #859900; font-weight: bold;">return</span> findNth(Arrays.copyOfRange(A, partA, A.length), B, k - partA);
@@ -275,8 +275,8 @@ Array B | part3         | part4         |
         }
     }
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900; font-style: italic;">double</span> <span style="color: #268bd2;">findMedianSortedArrays</span>(<span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">A</span>[], <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">B</span>[]) {
-        <span style="color: #b58900; font-style: italic;">int</span> <span style="color: #268bd2;">lenSum</span> = A.length + B.length;
+    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">double</span> <span style="color: #268bd2;">findMedianSortedArrays</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">A</span>[], <span style="color: #b58900;">int</span> <span style="color: #268bd2;">B</span>[]) {
+        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">lenSum</span> = A.length + B.length;
         <span style="color: #859900; font-weight: bold;">if</span> (lenSum % 2 == 1) {
             <span style="color: #859900; font-weight: bold;">return</span> findNth(A, B, lenSum / 2 + 1);
         } <span style="color: #859900; font-weight: bold;">else</span> {
