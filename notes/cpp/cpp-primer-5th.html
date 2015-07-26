@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>cpp-primer-5th</title>
-<!-- 2015-07-03 Fri 15:21 -->
+<!-- 2015-07-26 ���� 11:00 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -265,7 +265,46 @@ for the JavaScript code in this tag.
 <li><a href="#sec-4-2">The Member Access Operators</a></li>
 </ul>
 </li>
-<li><a href="#sec-5">Chapter 05: Statements</a></li>
+<li><a href="#sec-5">Chapter 05: Statements</a>
+<ul>
+<li><a href="#sec-5-1">Simple Statements</a>
+<ul>
+<li><a href="#sec-5-1-1">Null Statements</a></li>
+<li><a href="#sec-5-1-2">Beware of Missing or Extraneous Semicolons</a></li>
+<li><a href="#sec-5-1-3">Compound Statements(Blocks)</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-2">Statement Scope</a></li>
+<li><a href="#sec-5-3">Conditional Statements</a>
+<ul>
+<li><a href="#sec-5-3-1">The if Statement</a></li>
+<li><a href="#sec-5-3-2">The switch Statement</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-4">Iterative Statements</a>
+<ul>
+<li><a href="#sec-5-4-1">The while Statement</a></li>
+<li><a href="#sec-5-4-2">Traditional for Statement</a></li>
+<li><a href="#sec-5-4-3">Range for Statement</a></li>
+<li><a href="#sec-5-4-4">The do while Statement</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-5">Jump Statements</a>
+<ul>
+<li><a href="#sec-5-5-1">The break Statement</a></li>
+<li><a href="#sec-5-5-2">The continue Statement</a></li>
+<li><a href="#sec-5-5-3">The goto Statment</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-6">try Blocks and Exception Handling</a>
+<ul>
+<li><a href="#sec-5-6-1">A throw Expression</a></li>
+<li><a href="#sec-5-6-2">The try Block</a></li>
+<li><a href="#sec-5-6-3">Standard Exceptions</a></li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -2888,6 +2927,420 @@ an lvalue in place of an rvalue.
 </div>
 <div id="outline-container-sec-5" class="outline-2">
 <h2 id="sec-5">Chapter 05: Statements</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1">Simple Statements</h3>
+<div class="outline-text-3" id="text-5-1">
+<ul class="org-ul">
+<li>大部分的c++ statement是以分号结尾的. 所谓的expression statement就是说一个
+expression会被evaluated,然后它的结果被丢弃了:
+<ul class="org-ul">
+<li>如下的statement是没有意义的, 因为它的结果在被丢弃前没有保存
+<div class="org-src-container">
+
+<pre class="src src-cpp">ival + 5;
+</pre>
+</div>
+</li>
+<li>下面是一个在丢弃前保存的例子,不过保存的方式是打印
+<div class="org-src-container">
+
+<pre class="src src-cpp">cout &lt;&lt; ival;
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-5-1-1" class="outline-4">
+<h4 id="sec-5-1-1">Null Statements</h4>
+<div class="outline-text-4" id="text-5-1-1">
+<ul class="org-ul">
+<li>如果需要什么都不做的语句,那么直接一个分号就好了,注意这种情况下要加上一些
+comment
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #859900; font-weight: bold;">while</span> (cin &gt;&gt; s &amp;&amp; s != sought)
+    ; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">null statment</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-1-2" class="outline-4">
+<h4 id="sec-5-1-2">Beware of Missing or Extraneous Semicolons</h4>
+<div class="outline-text-4" id="text-5-1-2">
+<ul class="org-ul">
+<li>多余的分号并不是总没有危害,比如在if或者while后面跟了分号的话,可能会导致无线
+循环
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #859900; font-weight: bold;">while</span> (iter != save.end());
+    ++iter;
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-1-3" class="outline-4">
+<h4 id="sec-5-1-3">Compound Statements(Blocks)</h4>
+<div class="outline-text-4" id="text-5-1-3">
+<ul class="org-ul">
+<li>复合语句(Compound Statement)是指的大括号括起来的语句, 也叫做块(block)
+</li>
+<li>复合语句自己本身就是一个作用域(scope), 也就是说,在这个block中引入的名字只
+能在这个block(或其子block)中使用.
+</li>
+<li>复合语句说起来高冷,却是我们最常用的语法:对于while for等控制语句来说,后面本
+来只能跟一行语句,如果需要多行语句的话,要把这个几个语句加入到一个block
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #859900; font-weight: bold;">while</span> (val &lt;= 10) {
+    sum += val;
+    ++val;
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2">Statement Scope</h3>
+<div class="outline-text-3" id="text-5-2">
+<ul class="org-ul">
+<li>我们可以在while if等语句的control structure里面来定义变量.这样定义的变量在
+只在while if的statement里面起作用.
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #859900; font-weight: bold;">while</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = get_num())  <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">i is created and initialized on each iteration</span>
+    cout &lt;&lt; i &lt;&lt; endl;
+i = 0;         <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">error: i is not accessible outside the loop</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-3" class="outline-3">
+<h3 id="sec-5-3">Conditional Statements</h3>
+<div class="outline-text-3" id="text-5-3">
+</div><div id="outline-container-sec-5-3-1" class="outline-4">
+<h4 id="sec-5-3-1">The if Statement</h4>
+<div class="outline-text-4" id="text-5-3-1">
+<ul class="org-ul">
+<li>if 后面跟的condition必须是能够转化成bool类型的类型
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-3-2" class="outline-4">
+<h4 id="sec-5-3-2">The switch Statement</h4>
+<div class="outline-text-4" id="text-5-3-2">
+<ul class="org-ul">
+<li>case label后面必须跟常量表达式
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #b58900;">char</span> <span style="color: #268bd2;">ch</span> = getVal();
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">ival</span> = 42;
+
+<span style="color: #859900; font-weight: bold;">switch</span>(ch) {
+<span style="color: #859900; font-weight: bold;">case</span> 3.14: <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">error: noninteger as case label</span>
+<span style="color: #859900; font-weight: bold;">case</span> ival: <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">error: nonconstant as case label</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">...</span>
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5-4" class="outline-3">
+<h3 id="sec-5-4">Iterative Statements</h3>
+<div class="outline-text-3" id="text-5-4">
+</div><div id="outline-container-sec-5-4-1" class="outline-4">
+<h4 id="sec-5-4-1">The while Statement</h4>
+<div class="outline-text-4" id="text-5-4-1">
+<ul class="org-ul">
+<li>while是不停执行目标statement,只要condition还为true
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #859900; font-weight: bold;">while</span> (condition)
+    statement
+</pre>
+</div>
+</li>
+<li>需要注意的是,我们在condition或者statement部分定义的变量,每次都会经历created
+和destroyed的过程.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-4-2" class="outline-4">
+<h4 id="sec-5-4-2">Traditional for Statement</h4>
+<div class="outline-text-4" id="text-5-4-2">
+<ul class="org-ul">
+<li>传统的for循环要求如下:
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #859900; font-weight: bold;">for</span> (initializer; condition; expression)
+    statement
+</pre>
+</div>
+</li>
+<li>上述三个部分initializer, condition, expression都可以省略
+</li>
+<li>initializer里面的定义只运行一遍,但是如果变量定义于此的话,其作用域就是for语
+句结束之前
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-4-3" class="outline-4">
+<h4 id="sec-5-4-3">Range for Statement</h4>
+<div class="outline-text-4" id="text-5-4-3">
+<ul class="org-ul">
+<li>c++11 引入了range for
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #859900; font-weight: bold;">for</span> (declaration : expression)
+    statement
+</pre>
+</div>
+</li>
+<li>这种for的特点是:
+<ul class="org-ul">
+<li>declaration 会定义一个变量, 这个变量必须能转化为expression里面的容器的成
+员变量的类型. 最简单的方法是使用auto让编译器为我们来判断.如果想更改容器里
+面成员的值,那么declaration的这个变量必须是引用类型
+</li>
+<li>expression必须是一种列表,比如:
+<ol class="org-ol">
+<li>braced initializer list
+</li>
+<li>array
+</li>
+<li>能够支持返回iterator的begin和end的容器
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>下面是一个使用range for来把成员变量大小翻倍的方法
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #b58900;">vector</span>&lt;<span style="color: #b58900;">int</span>&gt; <span style="color: #268bd2;">v</span> = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">range variable must be a reference so we can write to the elements</span>
+<span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #859900; font-weight: bold;">auto</span> &amp;<span style="color: #268bd2;">r</span> : v)
+    r *= 2
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-4-4" class="outline-4">
+<h4 id="sec-5-4-4">The do while Statement</h4>
+<div class="outline-text-4" id="text-5-4-4">
+<ul class="org-ul">
+<li>do while statement就是必须先执行一次的while循环,无论condition是否成立,需要
+注意的是while后面要以分号结尾
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #859900; font-weight: bold;">do</span>
+    statement;
+<span style="color: #859900; font-weight: bold;">while</span> (condition);
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5-5" class="outline-3">
+<h3 id="sec-5-5">Jump Statements</h3>
+<div class="outline-text-3" id="text-5-5">
+</div><div id="outline-container-sec-5-5-1" class="outline-4">
+<h4 id="sec-5-5-1">The break Statement</h4>
+<div class="outline-text-4" id="text-5-5-1">
+<ul class="org-ul">
+<li>break 会结束如下'最近'的一个语句:
+<ul class="org-ul">
+<li>while
+</li>
+<li>do while
+</li>
+<li>for
+</li>
+<li>switch
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-5-2" class="outline-4">
+<h4 id="sec-5-5-2">The continue Statement</h4>
+<div class="outline-text-4" id="text-5-5-2">
+<ul class="org-ul">
+<li>continue会结束循环的最近一次,进入下一次,所以只能出现在循环内部
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-5-3" class="outline-4">
+<h4 id="sec-5-5-3">The goto Statment</h4>
+<div class="outline-text-4" id="text-5-5-3">
+<ul class="org-ul">
+<li>随意跳转,最好不用.
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5-6" class="outline-3">
+<h3 id="sec-5-6">try Blocks and Exception Handling</h3>
+<div class="outline-text-3" id="text-5-6">
+<ul class="org-ul">
+<li>exception是运行期(runtime)出现的反常行为, 比如数据库连接丢失,或者是意外输入
+(unexpected input)
+</li>
+<li>异常处理(exception handling)是指:
+<ul class="org-ul">
+<li>程序的一部分遇到了一个它无法解决的问题, 而且这个问题使得它无法继续运行
+</li>
+<li>遇到问题的这部分程序只需要把问题"声明"出来,不需要知道如何解决
+</li>
+<li>一旦"声明"出问题, 这部分程序就完成了使命.
+</li>
+</ul>
+</li>
+<li>异常的处理在cpp中包含如下几个部分:
+<ul class="org-ul">
+<li>detecting: 遇到问题的部分,会使用throw expression来"声明"自己遇到的问题
+</li>
+<li>handling: 解决问题的代码会使用try后面的block来"等待"block里面的代码"声明"
+问题,然后在catach里面处理
+</li>
+<li>exception class: 用来在throw和catch里面"交流"问题的类型
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-5-6-1" class="outline-4">
+<h4 id="sec-5-6-1">A throw Expression</h4>
+<div class="outline-text-4" id="text-5-6-1">
+<ul class="org-ul">
+<li>遇到问题的部分使用的代码
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #b58900;">Sales_item</span> <span style="color: #268bd2;">item1</span>, <span style="color: #268bd2;">item2</span>;
+
+cin &gt;&gt; item1 &gt;&gt; item2;
+
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">first check that item1 and item2 represent the same book</span>
+<span style="color: #859900; font-weight: bold;">if</span> (item1.isbn() != item2.isbn()) {
+    <span style="color: #859900; font-weight: bold;">throw</span> runtime_error(<span style="color: #2aa198;">"Data must refer to same ISBN"</span>);
+}
+
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">if we're still here, the ISBN are the same</span>
+cout &lt;&lt; item1 + item2 &lt;&lt; endl;
+</pre>
+</div>
+</li>
+<li>runtime_error是stdexcept header里面定义的standard library exception
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-6-2" class="outline-4">
+<h4 id="sec-5-6-2">The try Block</h4>
+<div class="outline-text-4" id="text-5-6-2">
+<ul class="org-ul">
+<li>try block是代码解决问题的部分, 其中
+<ul class="org-ul">
+<li>try后面跟的block里面是"可能出问题"的代码, 这些代码可能调用了函数,或者函
+数里面调用了其他函数,只要是从这个block里面出去的,都可以被"捕捉"到
+</li>
+<li>catch是处理exception的部分, catch可以指定只处理某种类型的exception
+<div class="org-src-container">
+
+<pre class="src src-cpp"><span style="color: #268bd2;">#include</span> <span style="color: #2aa198;">&lt;iostream&gt;</span>
+
+<span style="color: #859900; font-weight: bold;">using</span> <span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #268bd2; font-weight: bold;">std</span>;
+
+<span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">argv</span>[])
+{
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">item1</span> = 0;
+    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">item2</span> = 0;
+
+    <span style="color: #859900; font-weight: bold;">while</span> (cin &gt;&gt; item1 &gt;&gt; item2) {
+        <span style="color: #859900; font-weight: bold;">try</span> {
+            <span style="color: #859900; font-weight: bold;">if</span> (item1 != item2) {
+                <span style="color: #859900; font-weight: bold;">throw</span> runtime_error(<span style="color: #2aa198;">"Data must refer to same ISBN"</span>);
+            }
+
+            cout &lt;&lt; <span style="color: #2aa198;">"The ISBNs are the same"</span> &lt;&lt; endl;
+            <span style="color: #859900; font-weight: bold;">break</span>;
+        } <span style="color: #859900; font-weight: bold;">catch</span> (<span style="color: #b58900;">runtime_error</span> <span style="color: #268bd2;">err</span>) {
+            cout &lt;&lt; err.what()
+                 &lt;&lt; <span style="color: #2aa198;">"\nTry Again? Entry y or n"</span> &lt;&lt; endl;
+            <span style="color: #b58900;">char</span> <span style="color: #268bd2;">c</span>;
+            cin &gt;&gt; c;
+            <span style="color: #859900; font-weight: bold;">if</span> (<span style="color: #b58900; font-weight: bold;">!</span>cin || c == <span style="color: #2aa198;">'n'</span>) {
+                <span style="color: #859900; font-weight: bold;">break</span>;       <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">break ou of the while loop</span>
+            }
+        }
+    }
+    <span style="color: #859900; font-weight: bold;">return</span> 0;
+}
+
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">$ ./a.out                                      //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">111 222                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Data must refer to same ISBN                   //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Try Again? Entry y or n                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">y                                              //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">333 333                                        //</span>
+<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">The ISBNs are the same                         //</span>
+<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-6-3" class="outline-4">
+<h4 id="sec-5-6-3">Standard Exceptions</h4>
+<div class="outline-text-4" id="text-5-6-3">
+<ul class="org-ul">
+<li>cpp在如下的头文件里面定义了一些exception类:
+<ul class="org-ul">
+<li>excepition header: 定义了名叫excepiton的异常
+</li>
+<li>stdexcept header: 定义了常用异常
+</li>
+<li>new header: 定义了bad_alloc 异常
+</li>
+<li>type_info header: 定义了bad_cast 异常
+</li>
+</ul>
+</li>
+<li>exception异常, bad_alloc异常和bad_cast异常是不需要字符串做为初始化参数的,除
+此之外其他的异常都需要字符串初始化参数
+</li>
+</ul>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="postamble" class="status">

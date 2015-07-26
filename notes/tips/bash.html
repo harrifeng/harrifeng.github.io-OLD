@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>bash</title>
-<!-- 2015-07-03 Fri 15:12 -->
+<!-- 2015-07-26 ���� 11:00 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -177,6 +177,8 @@ for the JavaScript code in this tag.
 <li><a href="#sec-9">列出当前文件夹下的所有文件夹.</a></li>
 <li><a href="#sec-10">查看所有硬盘使用的情况(百分比)</a></li>
 <li><a href="#sec-11">查看当前文件夹所有内容占用硬盘的情况</a></li>
+<li><a href="#sec-12">一行在bash命令行里面进行循环</a></li>
+<li><a href="#sec-13">Linux里面的Group分成primary group和secondary group</a></li>
 </ul>
 </div>
 </div>
@@ -239,7 +241,7 @@ terminal或者Emacs的shell一样读取.bashrc
 <div class="org-src-container">
 
 <pre class="src src-sh"><span style="color: #859900; font-weight: bold;">if</span> [ -f ~/.bashrc ]; <span style="color: #859900; font-weight: bold;">then</span>
-    <span style="color: #657b83; font-weight: bold;">source</span> ~/.bashrc
+    source ~/.bashrc
 <span style="color: #859900; font-weight: bold;">fi</span>
 </pre>
 </div>
@@ -418,6 +420,83 @@ none                               102400        0    102400   0% /run/user
 2.5G    ct
 627M    ct.zip
 2.5M    org
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12">一行在bash命令行里面进行循环</h2>
+<div class="outline-text-2" id="text-12">
+<ul class="org-ul">
+<li>可以用如下bash script在命令行打出循环
+<div class="org-src-container">
+
+<pre class="src src-sh">$ for ((<span style="color: #268bd2;">i</span>=1;i&lt;=5;i++)); <span style="color: #859900; font-weight: bold;">do </span><span style="color: #657b83; font-weight: bold;">echo</span> NO.${<span style="color: #268bd2;">i</span>}; <span style="color: #859900; font-weight: bold;">done</span>
+NO.1
+NO.2
+NO.3
+NO.4
+NO.5
+</pre>
+</div>
+</li>
+<li>当然了可以在emacs里面利用这种一行的shell命令,通过C-u M-u shell-command
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-13" class="outline-2">
+<h2 id="sec-13">Linux里面的Group分成primary group和secondary group</h2>
+<div class="outline-text-2" id="text-13">
+<ul class="org-ul">
+<li>在Linux里面,早起一个用户只能属于一个group,就是primary group. 这也就是为什么
+文件里面会列两行,一个user id, 一个group id.因为一个用户只能属于一个group.比如
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@vagrant:~$ ls -al
+total 24
+drwxr-xr-x 2 hfeng hfeng 4096 Jul 13 09:39 .
+drwxr-xr-x 4 root  root  4096 Jul  4 07:24 ..
+-rw------- 1 hfeng hfeng  533 Jul 13 09:36 .bash_history
+-rw-r--r-- 1 hfeng hfeng  220 Oct 29  2014 .bash_logout
+-rw-r--r-- 1 hfeng hfeng 3760 Oct 29  2014 .bashrc
+-rw-r--r-- 1 hfeng hfeng  675 Oct 29  2014 .profile
+</pre>
+</div>
+</li>
+<li>我们使用usermod这个命令加上-g是可以更改primary group的, 而且更改以后文件的
+group id也一同更改(而不是继续保留着是hfeng!)
+<div class="org-src-container">
+
+<pre class="src src-sh">hfeng@vagrant:~$ sudo usermod -g vagrant hfeng
+hfeng@vagrant:~$ ls -al
+total 24
+drwxr-xr-x 2 hfeng vagrant 4096 Jul 13 09:39 .
+drwxr-xr-x 4 root  root    4096 Jul  4 07:24 ..
+-rw------- 1 hfeng vagrant  555 Jul 13 09:39 .bash_history
+-rw-r--r-- 1 hfeng vagrant  220 Oct 29  2014 .bash_logout
+-rw-r--r-- 1 hfeng vagrant 3760 Oct 29  2014 .bashrc
+-rw-r--r-- 1 hfeng vagrant  675 Oct 29  2014 .profile
+</pre>
+</div>
+</li>
+<li>如果要更改secondary的group,那么是使用-G,需要注意的是,-G的默认行为是'重置'所有
+的secondary group.必须加-a才能真正成为"添加一个secondary group"
+<div class="org-src-container">
+
+<pre class="src src-sh">vagrant@vagrant:~$ groups hfeng
+hfeng : vagrant docker
+vagrant@vagrant:~$ sudo usermod -G cdrom hfeng
+vagrant@vagrant:~$ groups hfeng
+hfeng : vagrant cdrom
+vagrant@vagrant:~$ sudo usermod -G docker hfeng
+vagrant@vagrant:~$ groups hfeng
+hfeng : vagrant docker
+vagrant@vagrant:~$ sudo usermod -aG cdrom hfeng
+vagrant@vagrant:~$ groups hfeng
+hfeng : vagrant cdrom docker
 </pre>
 </div>
 </li>
