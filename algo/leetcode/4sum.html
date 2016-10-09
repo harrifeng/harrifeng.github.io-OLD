@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 017: 4Sum</title>
-<!-- 2015-07-03 Fri 15:22 -->
+<!-- 2016-10-09 Sun 01:51 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -211,53 +211,53 @@ Sample Output:
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">Integer</span>&gt;&gt; <span style="color: #268bd2;">fourSum</span>(<span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">num</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">target</span>) {
-        <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">Integer</span>&gt;&gt; <span style="color: #268bd2;">ret</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">Integer</span>&gt;&gt;();
-        <span style="color: #859900; font-weight: bold;">if</span> (num.length &lt; 4) {
-            <span style="color: #859900; font-weight: bold;">return</span> ret;
+<pre class="src src-java">public class Solution {
+    public ArrayList&lt;ArrayList&lt;Integer&gt;&gt; fourSum(int[] num, int target) {
+        ArrayList&lt;ArrayList&lt;Integer&gt;&gt; ret = new ArrayList&lt;ArrayList&lt;Integer&gt;&gt;();
+        if (num.length &lt; 4) {
+            return ret;
         }
 
         Arrays.sort(num);
 
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; num.<span style="color: #b58900;">length</span> - 3; i++) {
-            <span style="color: #859900; font-weight: bold;">if</span> (i &gt; 0 &amp;&amp; (num[i] == num[i - 1])) {
-                <span style="color: #859900; font-weight: bold;">continue</span>;
+        for (int i = 0; i &lt; num.length - 3; i++) {
+            if (i &gt; 0 &amp;&amp; (num[i] == num[i - 1])) {
+                continue;
             }
-            <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">j</span> = i + 1; j &lt; num.<span style="color: #b58900;">length</span> - 2; j++) {
-                <span style="color: #859900; font-weight: bold;">if</span> (j &gt; i + 1 &amp;&amp; (num[j] == num[j - 1])) {
-                    <span style="color: #859900; font-weight: bold;">continue</span>;
+            for (int j = i + 1; j &lt; num.length - 2; j++) {
+                if (j &gt; i + 1 &amp;&amp; (num[j] == num[j - 1])) {
+                    continue;
                 }
 
-                <span style="color: #b58900;">int</span> <span style="color: #268bd2;">beg</span> = j + 1;
-                <span style="color: #b58900;">int</span> <span style="color: #268bd2;">end</span> = num.length - 1;
-                <span style="color: #859900; font-weight: bold;">while</span> (beg &lt; <span style="color: #b58900;">end</span>) {
-                    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">sum</span> = num[beg] + num[end] + num[i] + num[j];
+                int beg = j + 1;
+                int end = num.length - 1;
+                while (beg &lt; end) {
+                    int sum = num[beg] + num[end] + num[i] + num[j];
 
-                    <span style="color: #859900; font-weight: bold;">if</span> (sum == target) {
-                        <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">Integer</span>&gt; <span style="color: #268bd2;">al</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">Integer</span>&gt;();
+                    if (sum == target) {
+                        ArrayList&lt;Integer&gt; al = new ArrayList&lt;Integer&gt;();
                         al.add(num[i]);
                         al.add(num[j]);
                         al.add(num[beg]);
                         al.add(num[end]);
                         ret.add(al);
-                        <span style="color: #859900; font-weight: bold;">while</span> (beg &lt; <span style="color: #b58900;">end</span> &amp;&amp; num[beg] == num[beg + 1]
+                        while (beg &lt; end &amp;&amp; num[beg] == num[beg + 1]
                                &amp;&amp; num[end] == num[end - 1]) {
                             beg++;
                             end--;
                         }
                         beg++;
                         end--;
-                    } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (sum &lt; <span style="color: #b58900;">target</span>) {
+                    } else if (sum &lt; target) {
                         beg++;
 
-                    } <span style="color: #859900; font-weight: bold;">else</span> {
+                    } else {
                         end--;
                     }
                 }
             }
         }
-        <span style="color: #859900; font-weight: bold;">return</span> ret;
+        return ret;
     }
 }
 </pre>

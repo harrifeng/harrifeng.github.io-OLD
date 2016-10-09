@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>gia</title>
-<!-- 2015-07-03 Fri 15:20 -->
+<!-- 2016-10-09 Sun 01:51 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -342,17 +342,17 @@ DSL(domain-specific language)来替代原来的xml
 <li>先看看gradle的helloworld程序
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">helloWorld</span> {
+<pre class="src src-groovy">task helloWorld {
     doLast {
-        println <span style="color: #2aa198;">'Hello World'</span>
+        println 'Hello World'
     }
 }
 
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">c:/Code/tmp &gt;&gt;&gt; gradle -q helloWorld           //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Hello World                                    //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// c:/Code/tmp &gt;&gt;&gt; gradle -q helloWorld           //
+// Hello World                                    //
+////////////////////////////////////////////////////
 </pre>
 </div>
 </li>
@@ -364,8 +364,8 @@ DSL(domain-specific language)来替代原来的xml
 是一个喜欢"一件事情,多种做法"的语言, doLast也可以通过&lt;&lt;方法进行
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">helloWorld</span> &lt;&lt; {
-    println <span style="color: #2aa198;">'Hello world!'</span>
+<pre class="src src-groovy">task helloWorld &lt;&lt; {
+    println 'Hello world!'
 }
 </pre>
 </div>
@@ -375,41 +375,41 @@ DSL(domain-specific language)来替代原来的xml
 <li>下面再来一个例子:多次重复"Gradle rocks!"
 <div class="org-src-container">
 
-<pre class="src src-groovy"><span style="color: #b58900;">task</span> <span style="color: #268bd2;">startSession</span> &lt;&lt; {
+<pre class="src src-groovy">task startSession &lt;&lt; {
     chant()
 }
 
-<span style="color: #859900; font-weight: bold;">def</span> <span style="color: #268bd2;">chant</span>() {
-    ant.echo(message: <span style="color: #2aa198;">'Repeat after me...'</span>)
+def chant() {
+    ant.echo(message: 'Repeat after me...')
 }
 
 3.times {
-    task <span style="color: #2aa198;">"yayGradle$it"</span> &lt;&lt; {
-        println <span style="color: #2aa198;">'Gradle rocks'</span>
+    task "yayGradle$it" &lt;&lt; {
+        println 'Gradle rocks'
     }
 }
 
 yayGradle0.dependsOn startSession
-yayGradle2.<span style="color: #b58900;">dependsOn</span> <span style="color: #268bd2;">yayGradle1</span>, <span style="color: #268bd2;">yayGradle0</span>
+yayGradle2.dependsOn yayGradle1, yayGradle0
 task groupTherapy(dependsOn: yayGradle2)
 
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">c:/Code/tmp &gt;&gt;&gt; gradle groupTherapy            //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">:startSession                                  //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">[ant:echo] Repeat after me...                  //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">:yayGradle0                                    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Gradle rocks                                   //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">:yayGradle1                                    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Gradle rocks                                   //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">:yayGradle2                                    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Gradle rocks                                   //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">:groupTherapy                                  //</span>
-<span style="color: #93a1a1;">//                                                </span><span style="color: #93a1a1;">//</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">BUILD SUCCESSFUL                               //</span>
-<span style="color: #93a1a1;">//                                                </span><span style="color: #93a1a1;">//</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Total time: 2.883 secs                         //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// c:/Code/tmp &gt;&gt;&gt; gradle groupTherapy            //
+// :startSession                                  //
+// [ant:echo] Repeat after me...                  //
+// :yayGradle0                                    //
+// Gradle rocks                                   //
+// :yayGradle1                                    //
+// Gradle rocks                                   //
+// :yayGradle2                                    //
+// Gradle rocks                                   //
+// :groupTherapy                                  //
+//                                                //
+// BUILD SUCCESSFUL                               //
+//                                                //
+// Total time: 2.883 secs                         //
+////////////////////////////////////////////////////
 </pre>
 </div>
 </li>

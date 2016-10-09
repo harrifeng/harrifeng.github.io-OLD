@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 019: Remove Nth Node From End of List</title>
-<!-- 2015-07-03 Fri 15:22 -->
+<!-- 2016-10-09 Sun 01:51 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -185,12 +185,12 @@ Sample Output:  1-&gt;2-&gt;3-&gt;5
 <li>linked list的java定义如下
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ListNode</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Cloneable</span>{
-    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">val</span>;
-    <span style="color: #b58900;">ListNode</span> <span style="color: #268bd2;">next</span>;
-    <span style="color: #268bd2;">ListNode</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span>) {
+<pre class="src src-java">public class ListNode implements Cloneable{
+    int val;
+    ListNode next;
+    ListNode(int x) {
         val = x;
-        next = <span style="color: #268bd2; font-weight: bold;">null</span>;
+        next = null;
     }
 }
 </pre>
@@ -212,8 +212,8 @@ Sample Output:  1-&gt;2-&gt;3-&gt;5
 边界条件,需要如下进行判断
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">if</span> (end == <span style="color: #268bd2; font-weight: bold;">null</span>) {
-    <span style="color: #859900; font-weight: bold;">return</span> head.next;
+<pre class="src src-java">if (end == null) {
+    return head.next;
 }
 </pre>
 </div>
@@ -226,27 +226,27 @@ Sample Output:  1-&gt;2-&gt;3-&gt;5
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
+<pre class="src src-java">public class Solution {
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">ListNode</span> <span style="color: #268bd2;">removeNthFromEnd</span>(<span style="color: #b58900;">ListNode</span> <span style="color: #268bd2;">head</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">n</span>) {
-        <span style="color: #b58900;">ListNode</span> <span style="color: #268bd2;">beg</span> = head;
-        <span style="color: #b58900;">ListNode</span> <span style="color: #268bd2;">end</span> = head;
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; <span style="color: #b58900;">n</span>; i++) {
-            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">the n can be invalid</span>
-            <span style="color: #859900; font-weight: bold;">if</span> (end == <span style="color: #268bd2; font-weight: bold;">null</span>) {
-                <span style="color: #859900; font-weight: bold;">return</span> head;
+    public ListNode removeNthFromEnd(ListNode head, int n) {
+        ListNode beg = head;
+        ListNode end = head;
+        for (int i = 0; i &lt; n; i++) {
+            // the n can be invalid
+            if (end == null) {
+                return head;
             }
             end = end.next;
         }
-        <span style="color: #859900; font-weight: bold;">if</span> (end == <span style="color: #268bd2; font-weight: bold;">null</span>) {
-            <span style="color: #859900; font-weight: bold;">return</span> head.next;
+        if (end == null) {
+            return head.next;
         }
-        <span style="color: #859900; font-weight: bold;">while</span> (end.next != <span style="color: #268bd2; font-weight: bold;">null</span>) {
+        while (end.next != null) {
             end = end.next;
             beg = beg.next;
         }
         beg.next = beg.next.next;
-        <span style="color: #859900; font-weight: bold;">return</span> head;
+        return head;
     }
 }
 </pre>

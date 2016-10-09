@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>multi-thread</title>
-<!-- 2015-07-03 Fri 15:20 -->
+<!-- 2016-10-09 Sun 01:51 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -257,8 +257,8 @@ thread的运行状态
 <li>想要继承thread的话,需要在run函数里面做你具体想让thread做的事情
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">run</span>() {
-    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">you job code goes here</span>
+<pre class="src src-java">public void run() {
+    // you job code goes here
 }
 </pre>
 </div>
@@ -287,9 +287,9 @@ thread的运行状态
 <li>首先看一个其实不常用的例子,那就是extends Thread
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MyThread</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Thread</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">run</span>() {
-        System.out.println(<span style="color: #2aa198;">"Important job running in MyThread"</span>);
+<pre class="src src-java">class MyThread extends Thread {
+    public void run() {
+        System.out.println("Important job running in MyThread");
     }
 }
 </pre>
@@ -303,12 +303,12 @@ thread的运行状态
 有"自动调用"在新的call stack的特性的,比如下面的void run(String s)
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MyThread</span> <span style="color: #859900; font-weight: bold;">extends</span> <span style="color: #b58900;">Thread</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">run</span>() {
-        System.out.println(<span style="color: #2aa198;">"Important job running in MyThread"</span>);
+<pre class="src src-java">class MyThread extends Thread {
+    public void run() {
+        System.out.println("Important job running in MyThread");
     }
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">run</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>) {
-        System.out.println(<span style="color: #2aa198;">"String in run is "</span> + s);
+    public void run(String s) {
+        System.out.println("String in run is " + s);
     }
 }
 </pre>
@@ -318,9 +318,9 @@ thread的运行状态
 另外的thread运行逻辑的便利
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">MyRunnable</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Runnable</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">run</span>() {
-        System.out.println(<span style="color: #2aa198;">"Important job running i MyRunnable"</span>);
+<pre class="src src-java">class MyRunnable implements Runnable {
+    public void run() {
+        System.out.println("Important job running i MyRunnable");
     }
 }
 </pre>
@@ -339,7 +339,7 @@ thread的运行状态
 <li>如果你是extends Thread的话,那么实例化很简单
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #b58900;">MyThread</span> <span style="color: #268bd2;">t</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">MyThread</span>()
+<pre class="src src-java">MyThread t = new MyThread()
 </pre>
 </div>
 </li>
@@ -347,8 +347,8 @@ thread的运行状态
 instance作为参赛传递给Thread,再创建一个instance
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #b58900;">MyRunnable</span> <span style="color: #268bd2;">r</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">MyRunnable</span>();
-<span style="color: #b58900;">Thread</span> <span style="color: #268bd2;">t</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Thread</span>(r);       <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Pass your Runnable to the Thread</span>
+<pre class="src src-java">MyRunnable r = new MyRunnable();
+Thread t = new Thread(r);       // Pass your Runnable to the Thread
 </pre>
 </div>
 </li>
@@ -359,13 +359,13 @@ thread"使用我覆盖的run()", 这种用法还可以让多个不同的Thread�
 Runnable'的instance: 这也就意味着多个thread会运行相同的job!
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">TestThreads</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #b58900;">MyRunnable</span> <span style="color: #268bd2;">r</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">MyRunnable</span>();
-        <span style="color: #b58900;">Thread</span> <span style="color: #268bd2;">foo</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Thread</span>(r);
-        <span style="color: #b58900;">Thread</span> <span style="color: #268bd2;">bar</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Thread</span>(r);
-        <span style="color: #b58900;">Thread</span> <span style="color: #268bd2;">bat</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Thread</span>(r);
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">do something else</span>
+<pre class="src src-java">public class TestThreads {
+    public static void main(String[] args) {
+        MyRunnable r = new MyRunnable();
+        Thread foo = new Thread(r);
+        Thread bar = new Thread(r);
+        Thread bat = new Thread(r);
+        // do something else
         foo.start();
         bar.start();
         bat.start();
@@ -403,30 +403,30 @@ Runnable'的instance: 这也就意味着多个thread会运行相同的job!
 让thread instance运行.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">FooRunable</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Runnable</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">run</span>() {
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span> = 1; x &lt; 6; x++) {
-            System.out.println(<span style="color: #2aa198;">"Runnable running"</span>);
+<pre class="src src-java">class FooRunable implements Runnable {
+    public void run() {
+        for (int x = 1; x &lt; 6; x++) {
+            System.out.println("Runnable running");
         }
     }
 }
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">TestThreads</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #b58900;">FooRunable</span> <span style="color: #268bd2;">r</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">FooRunable</span>();
-        <span style="color: #b58900;">Thread</span> <span style="color: #268bd2;">t</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Thread</span>(r);
+public class TestThreads {
+    public static void main(String[] args) {
+        FooRunable r = new FooRunable();
+        Thread t = new Thread(r);
         t.start();
     }
 }
 
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Runnable running                               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Runnable running                               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Runnable running                               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Runnable running                               //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Runnable running                               //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// Runnable running                               //
+// Runnable running                               //
+// Runnable running                               //
+// Runnable running                               //
+// Runnable running                               //
+////////////////////////////////////////////////////
 </pre>
 </div>
 </li>
@@ -434,72 +434,72 @@ Runnable'的instance: 这也就意味着多个thread会运行相同的job!
 以及currentThread()
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">NameRunnable</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Runnable</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">run</span>() {
-        System.out.println(<span style="color: #2aa198;">"NameRunnable running"</span>);
-        System.out.println(<span style="color: #2aa198;">"Run by "</span> + Thread.currentThread().getName());
+<pre class="src src-java">class NameRunnable implements Runnable {
+    public void run() {
+        System.out.println("NameRunnable running");
+        System.out.println("Run by " + Thread.currentThread().getName());
     }
 }
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">NameThread</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #b58900;">NameRunnable</span> <span style="color: #268bd2;">nr</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">NameRunnable</span>();
-        <span style="color: #b58900;">Thread</span> <span style="color: #268bd2;">t</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Thread</span>(nr);
-        t.setName(<span style="color: #2aa198;">"Fred"</span>);
+public class NameThread {
+    public static void main(String[] args) {
+        NameRunnable nr = new NameRunnable();
+        Thread t = new Thread(nr);
+        t.setName("Fred");
         t.start();
     }
 }
 
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">NameRunnable running                           //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Run by Fred                                    //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// NameRunnable running                           //
+// Run by Fred                                    //
+////////////////////////////////////////////////////
 </pre>
 </div>
 </li>
 <li>即便我们不明确的设置Name, thread还是会有default的name的
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">NameRunnable</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Runnable</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">run</span>() {
-        System.out.println(<span style="color: #2aa198;">"NameRunnable running"</span>);
-        System.out.println(<span style="color: #2aa198;">"Run by "</span> + Thread.currentThread().getName());
+<pre class="src src-java">class NameRunnable implements Runnable {
+    public void run() {
+        System.out.println("NameRunnable running");
+        System.out.println("Run by " + Thread.currentThread().getName());
     }
 }
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">NameThread</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #b58900;">NameRunnable</span> <span style="color: #268bd2;">nr</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">NameRunnable</span>();
-        <span style="color: #b58900;">Thread</span> <span style="color: #268bd2;">t</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Thread</span>(nr);
-        t.setName(<span style="color: #2aa198;">"Fred"</span>);
+public class NameThread {
+    public static void main(String[] args) {
+        NameRunnable nr = new NameRunnable();
+        Thread t = new Thread(nr);
+        t.setName("Fred");
         t.start();
     }
 }
 
-<span style="color: #93a1a1;">/////////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;      //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">NameRunnable running                                //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Run by Thread-0                                     //</span>
-<span style="color: #93a1a1;">/////////////////////////////////////////////////////////</span>
+/////////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt;      //
+// NameRunnable running                                //
+// Run by Thread-0                                     //
+/////////////////////////////////////////////////////////
 </pre>
 </div>
 </li>
 <li>我们还可以使用Thread.currentThread()来获取我们当前的thread名字
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.<span style="color: #268bd2; font-weight: bold;">misc</span>;
+<pre class="src src-java">package org.hfeng.misc;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">NameThreadTwo</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        System.out.println(<span style="color: #2aa198;">"thread is "</span> + Thread.currentThread().getName());
+public class NameThreadTwo {
+    public static void main(String[] args) {
+        System.out.println("thread is " + Thread.currentThread().getName());
     }
 }
 
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">thread is org.hfeng.misc.NameThreadTwo.main()  //</span>
-<span style="color: #93a1a1;">////////////////////////////////////////////////////</span>
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// thread is org.hfeng.misc.NameThreadTwo.main()  //
+////////////////////////////////////////////////////
 </pre>
 </div>
 </li>
@@ -521,46 +521,46 @@ Runnable'的instance: 这也就意味着多个thread会运行相同的job!
 <li>我们来看一个每个thread打印多次,然后同时启动多个thread的例子
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> org.hfeng.<span style="color: #268bd2; font-weight: bold;">misc</span>;
+<pre class="src src-java">package org.hfeng.misc;
 
-<span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">NameRunnable</span> <span style="color: #859900; font-weight: bold;">implements</span> <span style="color: #b58900;">Runnable</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">run</span>() {
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span> = 1; x &lt;= 3; x++) {
-            System.out.println(<span style="color: #2aa198;">"Run by "</span> + Thread.currentThread().getName()
-                               + <span style="color: #2aa198;">", x is "</span> + x);
+class NameRunnable implements Runnable {
+    public void run() {
+        for (int x = 1; x &lt;= 3; x++) {
+            System.out.println("Run by " + Thread.currentThread().getName()
+                               + ", x is " + x);
         }
     }
 }
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">ManyNames</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">String</span>[] <span style="color: #268bd2;">args</span>) {
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Make one Runnable</span>
-        <span style="color: #b58900;">NameRunnable</span> <span style="color: #268bd2;">nr</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">NameRunnable</span>();
-        <span style="color: #b58900;">Thread</span> <span style="color: #268bd2;">one</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Thread</span>(nr);
-        <span style="color: #b58900;">Thread</span> <span style="color: #268bd2;">two</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Thread</span>(nr);
-        <span style="color: #b58900;">Thread</span> <span style="color: #268bd2;">three</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">Thread</span>(nr);
+public class ManyNames {
+    public static void main(String[] args) {
+        // Make one Runnable
+        NameRunnable nr = new NameRunnable();
+        Thread one = new Thread(nr);
+        Thread two = new Thread(nr);
+        Thread three = new Thread(nr);
 
-        one.setName(<span style="color: #2aa198;">"Fred"</span>);
-        two.setName(<span style="color: #2aa198;">"Lucy"</span>);
-        three.setName(<span style="color: #2aa198;">"Ricky"</span>);
+        one.setName("Fred");
+        two.setName("Lucy");
+        three.setName("Ricky");
         one.start();
         two.start();
         three.start();
     }
 }
 
-<span style="color: #93a1a1;">/////////////////////////////////////////////////////////////</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">&lt;===================POSSIBLE OUTPUT===================&gt; //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Run by Lucy, x is 1                                     //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Run by Ricky, x is 1                                    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Run by Fred, x is 1                                     //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Run by Ricky, x is 2                                    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Run by Lucy, x is 2                                     //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Run by Ricky, x is 3                                    //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Run by Fred, x is 2                                     //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Run by Fred, x is 3                                     //</span>
-<span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Run by Lucy, x is 3                                     //</span>
-<span style="color: #93a1a1;">/////////////////////////////////////////////////////////////</span>
+/////////////////////////////////////////////////////////////
+// &lt;===================POSSIBLE OUTPUT===================&gt; //
+// Run by Lucy, x is 1                                     //
+// Run by Ricky, x is 1                                    //
+// Run by Fred, x is 1                                     //
+// Run by Ricky, x is 2                                    //
+// Run by Lucy, x is 2                                     //
+// Run by Ricky, x is 3                                    //
+// Run by Fred, x is 2                                     //
+// Run by Fred, x is 3                                     //
+// Run by Lucy, x is 3                                     //
+/////////////////////////////////////////////////////////////
 </pre>
 </div>
 </li>

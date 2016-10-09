@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>快速排序</title>
-<!-- 2015-07-03 Fri 15:22 -->
+<!-- 2016-10-09 Sun 01:51 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -228,39 +228,39 @@ swap，这里j和i+1是同一个数字，后面我们会看到， i和j之间其
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">package</span> algo.<span style="color: #268bd2; font-weight: bold;">classic</span>;
+<pre class="src src-java">package algo.classic;
 
-<span style="color: #859900; font-weight: bold;">import</span> <span style="color: #268bd2; font-weight: bold;">java</span>.<span style="color: #268bd2; font-weight: bold;">util</span>.<span style="color: #b58900;">Arrays</span>;
+import java.util.Arrays;
 
-<span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">QuickSort</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">quickSort</span>(<span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">array</span>) {
-        <span style="color: #859900; font-weight: bold;">if</span> (array.length &lt;= 1) {
-            <span style="color: #859900; font-weight: bold;">return</span>;
+public class QuickSort {
+    public void quickSort(int[] array) {
+        if (array.length &lt;= 1) {
+            return;
         }
         sort(array, 0, array.length - 1);
     }
 
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">partition</span>(<span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">array</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">beg</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">end</span>) {
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">pivot</span> = array[end];
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = beg - 1;
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">j</span> = beg;
-        <span style="color: #859900; font-weight: bold;">for</span> (; j &lt; <span style="color: #b58900;">end</span>; j++) {
-            <span style="color: #859900; font-weight: bold;">if</span> (array[j] &lt; pivot) {
+    private int partition(int[] array, int beg, int end) {
+        int pivot = array[end];
+        int i = beg - 1;
+        int j = beg;
+        for (; j &lt; end; j++) {
+            if (array[j] &lt; pivot) {
                 i++;
-                <span style="color: #b58900;">int</span> <span style="color: #268bd2;">tmp</span> = array[j];
+                int tmp = array[j];
                 array[j] = array[i];
                 array[i] = tmp;
             }
         }
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">tmp</span> = array[j];
+        int tmp = array[j];
         array[j] = array[i + 1];
         array[i + 1] = tmp;
-        <span style="color: #859900; font-weight: bold;">return</span> i + 1;
+        return i + 1;
     }
 
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">sort</span>(<span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">array</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">beg</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">end</span>) {
-        <span style="color: #859900; font-weight: bold;">if</span> (beg &lt; <span style="color: #b58900;">end</span>) {
-            <span style="color: #b58900;">int</span> <span style="color: #268bd2;">mid</span> = partition(array, beg, end);
+    private void sort(int[] array, int beg, int end) {
+        if (beg &lt; end) {
+            int mid = partition(array, beg, end);
             sort(array, beg, mid - 1);
             sort(array, mid + 1, end);
         }

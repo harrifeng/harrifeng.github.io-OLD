@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 005: Longest Palindromic Substring</title>
-<!-- 2015-07-03 Fri 15:22 -->
+<!-- 2016-10-09 Sun 01:51 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -203,58 +203,58 @@ Sample Output: aaabaaa
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">insertSharp</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>) {
-        <span style="color: #b58900;">StringBuffer</span> <span style="color: #268bd2;">sb</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">StringBuffer</span>();
-        sb.append(<span style="color: #2aa198;">"^#"</span>);
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; s.<span style="color: #b58900;">length</span>(); i++) {
+<pre class="src src-java">public class Solution {
+    private String insertSharp(String s) {
+        StringBuffer sb = new StringBuffer();
+        sb.append("^#");
+        for (int i = 0; i &lt; s.length(); i++) {
             sb.append(s.charAt(i));
-            sb.append(<span style="color: #2aa198;">'#'</span>);
+            sb.append('#');
         }
-        sb.append(<span style="color: #2aa198;">'$'</span>);
+        sb.append('$');
 
-        <span style="color: #859900; font-weight: bold;">return</span> sb.toString();
+        return sb.toString();
     }
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">String</span> <span style="color: #268bd2;">longestPalindrome</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>) {
-        <span style="color: #b58900;">String</span> <span style="color: #268bd2;">newStr</span> = insertSharp(s);
+    public String longestPalindrome(String s) {
+        String newStr = insertSharp(s);
 
-        <span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">index</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">int</span>[newStr.length()];
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">maxPos</span> = 0;
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">maxCenter</span> = 0;
+        int[] index = new int[newStr.length()];
+        int maxPos = 0;
+        int maxCenter = 0;
 
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 1; i &lt; newStr.<span style="color: #b58900;">length</span>() - 1; i++) {
-            <span style="color: #b58900;">int</span> <span style="color: #268bd2;">curV</span> = 0;
-            <span style="color: #859900; font-weight: bold;">if</span> (i &lt; <span style="color: #b58900;">maxPos</span>) {
+        for (int i = 1; i &lt; newStr.length() - 1; i++) {
+            int curV = 0;
+            if (i &lt; maxPos) {
                 curV = Math.min(index[2 * maxCenter - i] , (maxPos - i));
             }
 
-            <span style="color: #859900; font-weight: bold;">while</span> (newStr.charAt(i + curV + 1) == newStr.charAt(i - curV - 1)) {
+            while (newStr.charAt(i + curV + 1) == newStr.charAt(i - curV - 1)) {
                 ++curV;
             }
             index[i] = curV;
 
-            <span style="color: #859900; font-weight: bold;">if</span> (i + curV &gt; maxPos) {
+            if (i + curV &gt; maxPos) {
                 maxPos = i + curV;
                 maxCenter = i;
             }
         }
 
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">maxIndex</span> = 0;
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 1; i &lt; index.<span style="color: #b58900;">length</span>; i++) {
-            <span style="color: #859900; font-weight: bold;">if</span> (index[i] &gt; index[maxIndex]) {
+        int maxIndex = 0;
+        for (int i = 1; i &lt; index.length; i++) {
+            if (index[i] &gt; index[maxIndex]) {
                 maxIndex = i;
             }
         }
 
-        <span style="color: #b58900;">StringBuffer</span> <span style="color: #268bd2;">sb</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">StringBuffer</span>();
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = maxIndex - index[maxIndex]; i &lt;= maxIndex + index[maxIndex]; i++) {
-            <span style="color: #859900; font-weight: bold;">if</span> (newStr.charAt(i) != <span style="color: #2aa198;">'#'</span> &amp;&amp; newStr.charAt(i) != <span style="color: #2aa198;">'^'</span> &amp;&amp; newStr.charAt(i) != <span style="color: #2aa198;">'$'</span>) {
+        StringBuffer sb = new StringBuffer();
+        for (int i = maxIndex - index[maxIndex]; i &lt;= maxIndex + index[maxIndex]; i++) {
+            if (newStr.charAt(i) != '#' &amp;&amp; newStr.charAt(i) != '^' &amp;&amp; newStr.charAt(i) != '$') {
                 sb.append(newStr.charAt(i));
             }
         }
 
-        System.out.println(<span style="color: #2aa198;">"Result is:"</span> + sb.toString());
-        <span style="color: #859900; font-weight: bold;">return</span> sb.toString();
+        System.out.println("Result is:" + sb.toString());
+        return sb.toString();
     }
 }
 </pre>

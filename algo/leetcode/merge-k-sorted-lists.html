@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 022: Merge K Sorted Lists</title>
-<!-- 2015-07-03 Fri 15:22 -->
+<!-- 2016-10-09 Sun 01:51 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -212,44 +212,44 @@ Sample Output: {1, 2, 3, 4, 5, 6, 7}
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
+<pre class="src src-java">public class Solution {
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">ListNode</span> <span style="color: #268bd2;">mergeKLists</span>(<span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">ListNode</span>&gt; <span style="color: #268bd2;">lists</span>) {
-        <span style="color: #859900; font-weight: bold;">if</span> (lists == <span style="color: #268bd2; font-weight: bold;">null</span> || lists.size() == 0) {
-            <span style="color: #859900; font-weight: bold;">return</span> <span style="color: #268bd2; font-weight: bold;">null</span>;
+    public ListNode mergeKLists(ArrayList&lt;ListNode&gt; lists) {
+        if (lists == null || lists.size() == 0) {
+            return null;
         }
-        <span style="color: #859900; font-weight: bold;">return</span> helper(lists, 0, lists.size() - 1);
+        return helper(lists, 0, lists.size() - 1);
     }
 
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">ListNode</span> <span style="color: #268bd2;">helper</span>(<span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">ListNode</span>&gt; <span style="color: #268bd2;">lists</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">left</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">right</span>) {
-        <span style="color: #859900; font-weight: bold;">if</span> (left &lt; <span style="color: #b58900;">right</span>) {
-            <span style="color: #b58900;">int</span> <span style="color: #268bd2;">mid</span> = (right + left) / 2;
-            <span style="color: #859900; font-weight: bold;">return</span> mergeTwoLists(helper(lists, left, mid), helper(lists, mid + 1, right));
+    private ListNode helper(ArrayList&lt;ListNode&gt; lists, int left, int right) {
+        if (left &lt; right) {
+            int mid = (right + left) / 2;
+            return mergeTwoLists(helper(lists, left, mid), helper(lists, mid + 1, right));
         }
-        <span style="color: #859900; font-weight: bold;">return</span> lists.get(left);
+        return lists.get(left);
     }
 
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">ListNode</span> <span style="color: #268bd2;">mergeTwoLists</span>(<span style="color: #b58900;">ListNode</span> <span style="color: #268bd2;">listA</span>, <span style="color: #b58900;">ListNode</span> <span style="color: #268bd2;">listB</span>) {
-        <span style="color: #b58900;">ListNode</span> <span style="color: #268bd2;">head</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ListNode</span>(-1);
-        <span style="color: #b58900;">ListNode</span> <span style="color: #268bd2;">tmp</span> = head;
-        <span style="color: #859900; font-weight: bold;">while</span> (listA != <span style="color: #268bd2; font-weight: bold;">null</span> &amp;&amp; listB != <span style="color: #268bd2; font-weight: bold;">null</span>) {
-            <span style="color: #859900; font-weight: bold;">if</span> (listA.val &lt; listB.<span style="color: #b58900;">val</span>) {
+    private ListNode mergeTwoLists(ListNode listA, ListNode listB) {
+        ListNode head = new ListNode(-1);
+        ListNode tmp = head;
+        while (listA != null &amp;&amp; listB != null) {
+            if (listA.val &lt; listB.val) {
                 head.next = listA;
                 listA = listA.next;
                 head = head.next;
-            } <span style="color: #859900; font-weight: bold;">else</span> {
+            } else {
                 head.next = listB;
                 listB = listB.next;
                 head = head.next;
             }
         }
-        <span style="color: #859900; font-weight: bold;">if</span> (listA != <span style="color: #268bd2; font-weight: bold;">null</span>) {
+        if (listA != null) {
             head.next = listA;
         }
-        <span style="color: #859900; font-weight: bold;">if</span> (listB != <span style="color: #268bd2; font-weight: bold;">null</span>) {
+        if (listB != null) {
             head.next = listB;
         }
-        <span style="color: #859900; font-weight: bold;">return</span> tmp.next;
+        return tmp.next;
     }
 }
 </pre>

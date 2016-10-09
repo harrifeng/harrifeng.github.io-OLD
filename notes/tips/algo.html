@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>algo</title>
-<!-- 2015-07-26 ���� 11:00 -->
+<!-- 2016-10-09 Sun 01:50 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -180,13 +180,13 @@ for the JavaScript code in this tag.
 <li>因为整形数组的内容是整形的, 而index(比如i, j)也是整形的,可以相互加减
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">longestSubstringWithoutRepeat</span>(<span style="color: #b58900;">String</span> <span style="color: #268bd2;">s</span>) {
-    <span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">index</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">int</span>[256];
+<pre class="src src-java">public int longestSubstringWithoutRepeat(String s) {
+    int[] index = new int[256];
     Arrays.fill(index, -1);
-    <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; s.<span style="color: #b58900;">length</span>(); i++) {
-        <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">error here, should be index[s.charAt(i)]</span>
-        <span style="color: #859900; font-weight: bold;">if</span> (index[i] &gt; -1) {
-            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">....</span>
+    for (int i = 0; i &lt; s.length(); i++) {
+        // error here, should be index[s.charAt(i)]
+        if (index[i] &gt; -1) {
+            // ....
         }
     }
 }
@@ -218,22 +218,22 @@ for the JavaScript code in this tag.
 章完成了一个correct的版本.Joshua也在Jdk源代码里面实现了这个binary search
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">binarySearch</span>(<span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">a</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">key</span>) {
-    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">low</span> = 0;
-    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">high</span> = a.length - 1;
+<pre class="src src-java">public static int binarySearch(int[] a, int key) {
+    int low = 0;
+    int high = a.length - 1;
 
-    <span style="color: #859900; font-weight: bold;">while</span> (low &lt;= high) {
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">mid</span> = (low + high) / 2;
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">midVal</span> = a[mid];
+    while (low &lt;= high) {
+        int mid = (low + high) / 2;
+        int midVal = a[mid];
 
-        <span style="color: #859900; font-weight: bold;">if</span> (midVal &lt; <span style="color: #b58900;">key</span>)
+        if (midVal &lt; key)
             low = mid + 1;
-        <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (midVal &gt; key)
+        else if (midVal &gt; key)
             high = mid - 1;
-        <span style="color: #859900; font-weight: bold;">else</span>
-            <span style="color: #859900; font-weight: bold;">return</span> mid; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">key found</span>
+        else
+            return mid; // key found
     }
-    <span style="color: #859900; font-weight: bold;">return</span> -(low + 1); <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">key not found</span>
+    return -(low + 1); // key not found
 }
 </pre>
 </div>
@@ -241,7 +241,7 @@ for the JavaScript code in this tag.
 <li>错误就是下面这一行
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #b58900;">int</span> <span style="color: #268bd2;">mid</span> = (low + high) / 2;
+<pre class="src src-java">int mid = (low + high) / 2;
 </pre>
 </div>
 </li>
@@ -251,7 +251,7 @@ for the JavaScript code in this tag.
 <li>对于此错误的修复,一个可行的方法是
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #b58900;">int</span> <span style="color: #268bd2;">mid</span> = low + ((high - low) / 2);
+<pre class="src src-java">int mid = low + ((high - low) / 2);
 </pre>
 </div>
 </li>
@@ -260,24 +260,24 @@ for the JavaScript code in this tag.
 符号不同,相减也可能是大于Integer.MAX_VALUE)
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">Like public version, but without range checks.</span>
-<span style="color: #859900; font-weight: bold;">private</span> <span style="color: #859900; font-weight: bold;">static</span> <span style="color: #b58900;">int</span> <span style="color: #268bd2;">binarySearch0</span>(<span style="color: #b58900;">long</span>[] <span style="color: #268bd2;">a</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">fromIndex</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">toIndex</span>,
-                                 <span style="color: #b58900;">long</span> <span style="color: #268bd2;">key</span>) {
-    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">low</span> = fromIndex;
-    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">high</span> = toIndex - 1;
+<pre class="src src-java">// Like public version, but without range checks.
+private static int binarySearch0(long[] a, int fromIndex, int toIndex,
+                                 long key) {
+    int low = fromIndex;
+    int high = toIndex - 1;
 
-    <span style="color: #859900; font-weight: bold;">while</span> (low &lt;= high) {
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">mid</span> = (low + high) &gt;&gt;&gt; 1;
-        <span style="color: #b58900;">long</span> <span style="color: #268bd2;">midVal</span> = a[mid];
+    while (low &lt;= high) {
+        int mid = (low + high) &gt;&gt;&gt; 1;
+        long midVal = a[mid];
 
-        <span style="color: #859900; font-weight: bold;">if</span> (midVal &lt; <span style="color: #b58900;">key</span>)
+        if (midVal &lt; key)
             low = mid + 1;
-        <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (midVal &gt; key)
+        else if (midVal &gt; key)
             high = mid - 1;
-        <span style="color: #859900; font-weight: bold;">else</span>
-            <span style="color: #859900; font-weight: bold;">return</span> mid; <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">key found</span>
+        else
+            return mid; // key found
     }
-    <span style="color: #859900; font-weight: bold;">return</span> -(low + 1);  <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">key not found.</span>
+    return -(low + 1);  // key not found.
 }
 </pre>
 </div>

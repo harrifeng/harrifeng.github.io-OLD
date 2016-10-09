@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>二分查找法查找数字首次末次出现位置</title>
-<!-- 2015-07-03 Fri 15:22 -->
+<!-- 2016-10-09 Sun 01:51 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -209,56 +209,56 @@ Sample Output: {-1, -1}
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-c++"><span style="color: #268bd2;">#include</span> <span style="color: #2aa198;">&lt;iostream&gt;</span>
-<span style="color: #859900; font-weight: bold;">using</span> <span style="color: #859900; font-weight: bold;">namespace</span> <span style="color: #268bd2; font-weight: bold;">std</span>;
+<pre class="src src-c++">#include &lt;iostream&gt;
+using namespace std;
 
-<span style="color: #b58900;">int</span> <span style="color: #268bd2;">binary_search_first</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">arr</span>[], <span style="color: #b58900;">int</span> <span style="color: #268bd2;">len</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">key</span>) {
-    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">low</span> = 0;
-    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">high</span> = len - 1;
-    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">result</span> = -1;
-    <span style="color: #859900; font-weight: bold;">while</span> (low &lt;= high) {
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">mid</span> = (low + high) / 2;
-        <span style="color: #859900; font-weight: bold;">if</span> (key == arr[mid]) {
+int binary_search_first(int arr[], int len, int key) {
+    int low = 0;
+    int high = len - 1;
+    int result = -1;
+    while (low &lt;= high) {
+        int mid = (low + high) / 2;
+        if (key == arr[mid]) {
             result = mid;
             high = mid -1;
-        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (key &lt; arr[mid]) {
+        } else if (key &lt; arr[mid]) {
             high = mid - 1;
-        } <span style="color: #859900; font-weight: bold;">else</span> {
+        } else {
             low = mid + 1;
         }
     }
-    <span style="color: #859900; font-weight: bold;">return</span> result;
+    return result;
 }
 
-<span style="color: #b58900;">int</span> <span style="color: #268bd2;">binary_search_last</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">arr</span>[], <span style="color: #b58900;">int</span> <span style="color: #268bd2;">len</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">key</span>) {
-    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">low</span> = 0;
-    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">high</span> = len - 1;
-    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">result</span> = -1;
-    <span style="color: #859900; font-weight: bold;">while</span> (low &lt;= high) {
-        <span style="color: #b58900;">int</span> <span style="color: #268bd2;">mid</span> = (low + high) / 2;
-        <span style="color: #859900; font-weight: bold;">if</span> (arr[mid] == key) {
+int binary_search_last(int arr[], int len, int key) {
+    int low = 0;
+    int high = len - 1;
+    int result = -1;
+    while (low &lt;= high) {
+        int mid = (low + high) / 2;
+        if (arr[mid] == key) {
             result = mid;
             low = mid + 1;
-        } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (arr[mid] &gt; key) {
+        } else if (arr[mid] &gt; key) {
             high = mid - 1;
-        } <span style="color: #859900; font-weight: bold;">else</span> {
+        } else {
             low = mid + 1;
         }
     }
-    <span style="color: #859900; font-weight: bold;">return</span> result;
+    return result;
 }
 
-<span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">argv</span>[])
+int main(int argc, char *argv[])
 {
-    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">array</span>[] = {0,0,1,2,4,5,5,6,6,6,6,7,11};
-    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">n</span> = <span style="color: #859900; font-weight: bold;">sizeof</span>(array) / <span style="color: #859900; font-weight: bold;">sizeof</span>(array[0]);
-    cout &lt;&lt; <span style="color: #2aa198;">"Found 5 from "</span> &lt;&lt; binary_search_first(array, n, 5) &lt;&lt; <span style="color: #2aa198;">" to "</span>
+    int array[] = {0,0,1,2,4,5,5,6,6,6,6,7,11};
+    int n = sizeof(array) / sizeof(array[0]);
+    cout &lt;&lt; "Found 5 from " &lt;&lt; binary_search_first(array, n, 5) &lt;&lt; " to "
          &lt;&lt; binary_search_last(array, n, 5) &lt;&lt; endl;
 
-    cout &lt;&lt; <span style="color: #2aa198;">"Found 8 from "</span> &lt;&lt; binary_search_first(array, n, 8) &lt;&lt; <span style="color: #2aa198;">" to "</span>
+    cout &lt;&lt; "Found 8 from " &lt;&lt; binary_search_first(array, n, 8) &lt;&lt; " to "
          &lt;&lt; binary_search_last(array, n, 8) &lt;&lt; endl;
 
-    <span style="color: #859900; font-weight: bold;">return</span> 0;
+    return 0;
 }
 </pre>
 </div>

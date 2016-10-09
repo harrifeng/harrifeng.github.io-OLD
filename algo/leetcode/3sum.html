@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 015: 3Sum</title>
-<!-- 2015-07-03 Fri 15:22 -->
+<!-- 2016-10-09 Sun 01:51 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -199,8 +199,8 @@ Sample Output: (-1, 0, 1) (-1, -1, 2)
 <li>控制固定的i的重复的,这个continue用的很传神,把i的越界问题交给了大的循环
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">if</span> (i &gt; 0 &amp;&amp; num[i] == num[i - 1]) {
-    <span style="color: #859900; font-weight: bold;">continue</span>;
+<pre class="src src-java">if (i &gt; 0 &amp;&amp; num[i] == num[i - 1]) {
+    continue;
 }
 </pre>
 </div>
@@ -209,7 +209,7 @@ Sample Output: (-1, 0, 1) (-1, -1, 2)
 生重复,要通过如下代码进行排除.
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">while</span> (beg &lt; <span style="color: #b58900;">end</span> &amp;&amp; num[beg] == num[beg + 1]
+<pre class="src src-java">while (beg &lt; end &amp;&amp; num[beg] == num[beg + 1]
        &amp;&amp; num[end] == num[end - 1]) {
     beg++;
     end--;
@@ -228,49 +228,49 @@ Sample Output: (-1, 0, 1) (-1, -1, 2)
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
+<pre class="src src-java">public class Solution {
 
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">Integer</span>&gt;&gt; <span style="color: #268bd2;">threeSum</span>(<span style="color: #b58900;">int</span>[] <span style="color: #268bd2;">num</span>) {
-        <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">Integer</span>&gt;&gt; <span style="color: #268bd2;">ret</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">Integer</span>&gt;&gt;();
+    public ArrayList&lt;ArrayList&lt;Integer&gt;&gt; threeSum(int[] num) {
+        ArrayList&lt;ArrayList&lt;Integer&gt;&gt; ret = new ArrayList&lt;ArrayList&lt;Integer&gt;&gt;();
 
         Arrays.sort(num);
-        <span style="color: #859900; font-weight: bold;">for</span> (<span style="color: #b58900;">int</span> <span style="color: #268bd2;">i</span> = 0; i &lt; num.<span style="color: #b58900;">length</span>; i++) {
-            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">if and continue is better solution without judging the valid</span>
-            <span style="color: #859900; font-weight: bold;">if</span> (i &gt; 0 &amp;&amp; num[i] == num[i - 1]) {
-                <span style="color: #859900; font-weight: bold;">continue</span>;
+        for (int i = 0; i &lt; num.length; i++) {
+            // if and continue is better solution without judging the valid
+            if (i &gt; 0 &amp;&amp; num[i] == num[i - 1]) {
+                continue;
             }
 
-            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">No need to check whether i is equal(or bigger than) num.length - 2,</span>
-            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">in the equal case, beg == num.length - 1, which equals end, no loop</span>
-            <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">will happen</span>
-            <span style="color: #b58900;">int</span> <span style="color: #268bd2;">beg</span> = i + 1;
-            <span style="color: #b58900;">int</span> <span style="color: #268bd2;">end</span> = num.length - 1;
+            // No need to check whether i is equal(or bigger than) num.length - 2,
+            // in the equal case, beg == num.length - 1, which equals end, no loop
+            // will happen
+            int beg = i + 1;
+            int end = num.length - 1;
 
-            <span style="color: #859900; font-weight: bold;">while</span> (beg &lt; <span style="color: #b58900;">end</span>) {
-                <span style="color: #b58900;">int</span> <span style="color: #268bd2;">sum</span> = num[beg] + num[end];
-                <span style="color: #859900; font-weight: bold;">if</span> (num[i] + sum == 0) {
-                    <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">Integer</span>&gt; <span style="color: #268bd2;">oneRet</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">Integer</span>&gt;();
+            while (beg &lt; end) {
+                int sum = num[beg] + num[end];
+                if (num[i] + sum == 0) {
+                    ArrayList&lt;Integer&gt; oneRet = new ArrayList&lt;Integer&gt;();
                     oneRet.add(num[i]);
                     oneRet.add(num[beg]);
                     oneRet.add(num[end]);
                     ret.add(oneRet);
-                    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">should be while until it is not equal</span>
-                    <span style="color: #93a1a1;">// </span><span style="color: #93a1a1;">only duplicated if both beg and end are equal with their neighbor</span>
-                    <span style="color: #859900; font-weight: bold;">while</span> (beg &lt; <span style="color: #b58900;">end</span> &amp;&amp; num[beg] == num[beg + 1]
+                    // should be while until it is not equal
+                    // only duplicated if both beg and end are equal with their neighbor
+                    while (beg &lt; end &amp;&amp; num[beg] == num[beg + 1]
                            &amp;&amp; num[end] == num[end - 1]) {
                         beg++;
                         end--;
                     }
                     beg++;
                     end--;
-                } <span style="color: #859900; font-weight: bold;">else</span> <span style="color: #859900; font-weight: bold;">if</span> (num[i] + sum &lt; 0) {
+                } else if (num[i] + sum &lt; 0) {
                     beg++;
-                } <span style="color: #859900; font-weight: bold;">else</span> {
+                } else {
                     end--;
                 }
             }
         }
-        <span style="color: #859900; font-weight: bold;">return</span> ret;
+        return ret;
     }
 }
 </pre>

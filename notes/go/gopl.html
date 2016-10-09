@@ -1,0 +1,5566 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>gopl</title>
+<!-- 2016-10-09 Sun 01:51 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">gopl</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Chapter 01: Tutorial</a>
+<ul>
+<li><a href="#sec-1-1">Hello, World</a></li>
+<li><a href="#sec-1-2">Command-Line Arguments</a></li>
+<li><a href="#sec-1-3">Finding Duplicate Lines</a></li>
+<li><a href="#sec-1-4">Animated GIFs</a></li>
+<li><a href="#sec-1-5">Fetching a URL</a></li>
+<li><a href="#sec-1-6">Fetching URLs Concurrently</a></li>
+<li><a href="#sec-1-7">A Web Server</a></li>
+<li><a href="#sec-1-8">Losse Ends</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">Chapter 02: Program Structure</a>
+<ul>
+<li><a href="#sec-2-1">Names</a></li>
+<li><a href="#sec-2-2">Declarations</a></li>
+<li><a href="#sec-2-3">Variables</a>
+<ul>
+<li><a href="#sec-2-3-1">Short Variable Declarations</a></li>
+<li><a href="#sec-2-3-2">Pointers</a></li>
+<li><a href="#sec-2-3-3">The new Function</a></li>
+<li><a href="#sec-2-3-4">Lifetime of Variables</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-4">Assignments</a>
+<ul>
+<li><a href="#sec-2-4-1">Tuple Assignment</a></li>
+<li><a href="#sec-2-4-2">Assignability</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-5">Type Declarations</a></li>
+<li><a href="#sec-2-6">Packages and Files</a>
+<ul>
+<li><a href="#sec-2-6-1">Imports</a></li>
+<li><a href="#sec-2-6-2">Package Initialization</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-7">Scope</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">Chapter 03: Basic Data Types</a>
+<ul>
+<li><a href="#sec-3-1">Integers</a></li>
+<li><a href="#sec-3-2">Floating-Point Numbers</a></li>
+<li><a href="#sec-3-3">Complex Numbers</a></li>
+<li><a href="#sec-3-4">Booleans</a></li>
+<li><a href="#sec-3-5">Strings</a>
+<ul>
+<li><a href="#sec-3-5-1">String Literals</a></li>
+<li><a href="#sec-3-5-2">Unicode</a></li>
+<li><a href="#sec-3-5-3">UTF-8</a></li>
+<li><a href="#sec-3-5-4">Strings and Byte Slices</a></li>
+<li><a href="#sec-3-5-5">Conversions between Strings and Numbers</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-6">Constants</a>
+<ul>
+<li><a href="#sec-3-6-1">The Constant Generator iota</a></li>
+<li><a href="#sec-3-6-2">Untyped Constants</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-4">Chapter 04: Composite Types</a>
+<ul>
+<li><a href="#sec-4-1">Arrays</a></li>
+<li><a href="#sec-4-2">Slices</a>
+<ul>
+<li><a href="#sec-4-2-1">The append Function</a></li>
+<li><a href="#sec-4-2-2">In-Place Slice Techniques</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-3">Maps</a></li>
+<li><a href="#sec-4-4">Structs</a>
+<ul>
+<li><a href="#sec-4-4-1">Struct Literals</a></li>
+<li><a href="#sec-4-4-2">Comparing Structs</a></li>
+<li><a href="#sec-4-4-3">Struct Embedding and Anonymous Fields</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-5">Json</a></li>
+<li><a href="#sec-4-6">Text and HTML Templates</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">Chapter 05: Functions</a>
+<ul>
+<li><a href="#sec-5-1">Function Declarations</a></li>
+<li><a href="#sec-5-2">Recursion</a></li>
+<li><a href="#sec-5-3">Multiple Return Values</a></li>
+<li><a href="#sec-5-4">Errors</a>
+<ul>
+<li><a href="#sec-5-4-1">Error Handling Stratgies</a></li>
+<li><a href="#sec-5-4-2">End of File (EOF)</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-5">Function Values</a></li>
+<li><a href="#sec-5-6">Anonymous Functions</a></li>
+<li><a href="#sec-5-7">Variadic Functions</a></li>
+<li><a href="#sec-5-8">Deferred Function Calls</a></li>
+<li><a href="#sec-5-9">Panic</a></li>
+<li><a href="#sec-5-10">Recover</a></li>
+</ul>
+</li>
+<li><a href="#sec-6">Chapter 06: Methods</a>
+<ul>
+<li><a href="#sec-6-1">Method Declarations</a></li>
+<li><a href="#sec-6-2">Methods with a Pointer Receiver</a>
+<ul>
+<li><a href="#sec-6-2-1">Nil Is a Valid Receiver Value</a></li>
+</ul>
+</li>
+<li><a href="#sec-6-3">Composing Types by Struct Embedding</a></li>
+<li><a href="#sec-6-4">Method Vaues and Expressions</a></li>
+</ul>
+</li>
+<li><a href="#sec-7">Chapter 07: Interfaces</a>
+<ul>
+<li><a href="#sec-7-1">Interfaces as Contracts</a></li>
+<li><a href="#sec-7-2">Interface Types</a></li>
+<li><a href="#sec-7-3">Interface Satisfaction</a></li>
+<li><a href="#sec-7-4">Parsing Flags with flag.Value</a></li>
+<li><a href="#sec-7-5">Interface Values</a>
+<ul>
+<li><a href="#sec-7-5-1">Caveat: An Interface Containing a Nil Pointer Is Non-Nil</a></li>
+</ul>
+</li>
+<li><a href="#sec-7-6">Sorting with sort.Interface</a></li>
+<li><a href="#sec-7-7">The http.Handler Interface</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Chapter 01: Tutorial</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Hello, World</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>下面就是go的helloworld代码
+<div class="org-src-container">
+
+<pre class="src src-go">// Copyright © 2016 Alan A. A. Donovan &amp; Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+// See page 1.
+
+// Helloworld is our first Go program.
+//!+
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Hello, 世界")
+}
+
+//!-
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// Hello, 世界                                    //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>go是编译语言, go toolchain会把源代码以及源代码依赖的库转换成native machine
+language.
+</li>
+<li>编译的方法是使用命令go 加上一些subcommand,最简单的subcommand就是run, 比如上
+面的代码就是使用go run获得的OUTPUT
+<div class="org-src-container">
+
+<pre class="src src-shell">$ go run main.go
+Hello, 世界
+</pre>
+</div>
+</li>
+<li>go内部支持Unicode,所以他可以处理世界上的所有语言
+</li>
+<li>另外一个常见的sucommand就是build, go build可以把源代码编译成一个executable
+binary file
+</li>
+<li>go的代码是以package的形式进行组织的.一个package包含一个或者多个.go文件,并且
+被定义在同一个文件夹下面
+</li>
+<li>每一个文件都要以package开头,上面的例子是以package main开头,指的是main package
+</li>
+<li>go的standard libray有超过100个package,比如fmt,这个package就包含input,output
+等的函数
+</li>
+<li>package main是一个test的package,只有它是表示了自己是standalone executable文
+件其他所有的package都是代表library
+</li>
+<li>在package main内部, 函数main也是特别的,它是表示了executable文件开始的地方
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Command-Line Arguments</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>和c语言类似,我们的go exe文件需要在运行之初获得一些参数,这些参数在go里面是存
+放在变量Args里面的,而这个变量是package os暴露出来的,所以这个变量叫做os.Args
+</li>
+<li>os.Args的类型是string slice. 而你现在可以把它理解为一个string"变长数组".这样
+一来os.Args就和Java里面的args差不多了:
+<ul class="org-ul">
+<li>os.Args表示exe自己
+</li>
+<li>os.Args[1:len(os.Args)]表示剩下的参数
+</li>
+</ul>
+</li>
+<li>下面是一个使用go来重写unix的echo函数的例子
+<div class="org-src-container">
+
+<pre class="src src-go">// Copyright © 2016 Alan A. A. Donovan &amp; Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+// See page 4.
+//!+
+
+// Echo1 prints its command-line arguments.
+package main
+
+import (
+    "fmt"
+    "os"
+)
+
+func main() {
+    var s, sep string
+    for i := 1; i &lt; len(os.Args); i++ {
+        s += sep + os.Args[i]
+        sep = " "
+    }
+    fmt.Println(s)
+}
+
+//!-
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// $ go run main.go a b c d   E   f               //
+// a b c d E f                                    //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>上面是比较c的方式来实现我们的逻辑,其实还有更加go的方式,那就是使用range函数:
+range函数是非常特殊的一种函数,它返回两个值(所以必须使用`:`), 第一个值是index
+而第二个值是value,我们只需要value,所以第一个值可以使用`_`占位符,例子如下
+<div class="org-src-container">
+
+<pre class="src src-go">// Copyright © 2016 Alan A. A. Donovan &amp; Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+// See page 6.
+//!+
+
+// Echo2 prints its command-line arguments.
+package main
+
+import (
+    "fmt"
+    "os"
+)
+
+func main() {
+    s, sep := "", ""
+    for _, arg := range os.Args[1:] {
+        s += sep + arg
+        sep = " "
+    }
+    fmt.Println(s)
+}
+
+//!-
+</pre>
+</div>
+</li>
+<li>和java语言类似,string在go里面也是immutable的,所以上面两个例子接连在循环中append
+字符给s可能会造成性能方面的缺失.解决的办法是下面的例子:使用strings package里
+面的Join函数(大写函数为public函数)
+<div class="org-src-container">
+
+<pre class="src src-go">// Copyright © 2016 Alan A. A. Donovan &amp; Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+// See page 8.
+
+// Echo3 prints its command-line arguments.
+package main
+
+import (
+    "fmt"
+    "os"
+    "strings"
+)
+
+//!+
+func main() {
+    fmt.Println(strings.Join(os.Args[1:], " "))
+}
+
+//!-
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// $ go run main.go A b C D e   F                 //
+// A b C D e F                                    //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Finding Duplicate Lines</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>Unix有个命令叫做uniq,就是把"相邻"的重复行给找出来.注意只是能找"相邻"重复的行
+所以在使用的时候要使用sort命令,把重复的行都排在一块.如下是sort和uniq配合使用
+的例子
+<div class="org-src-container">
+
+<pre class="src src-shell">i309511@ tmp (master) $ cat test.txt
+A good idea
+Below everage
+Below everage
+Below everage
+Custom Issue
+Below everage
+Below everage
+Custom Issue
+Custom Issue
+Custom Issue
+A good idea
+i309511@ tmp (master) $ sort test.txt
+A good idea
+A good idea
+Below everage
+Below everage
+Below everage
+Below everage
+Below everage
+Custom Issue
+Custom Issue
+Custom Issue
+Custom Issue
+i309511@ tmp (master) $ uniq test.txt
+A good idea
+Below everage
+Custom Issue
+Below everage
+Custom Issue
+A good idea
+i309511@ tmp (master) $ sort test.txt | uniq
+A good idea
+Below everage
+Custom Issue
+i309511@ tmp (master) $ sort test.txt | uniq -c
+   2 A good idea
+   5 Below everage
+   4 Custom Issue
+</pre>
+</div>
+</li>
+<li>下面就是模仿uniq -c的演示程序dup,我们先来看看第一个版本dup1
+<div class="org-src-container">
+
+<pre class="src src-go">// Copyright © 2016 Alan A. A. Donovan &amp; Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+// See page 8.
+//!+
+
+// Dup1 prints the text of each line that appears more than
+// once in the standard input, preceded by its count.
+package main
+
+import (
+    "bufio"
+    "fmt"
+    "os"
+)
+
+func main() {
+    counts := make(map[string]int)
+    input := bufio.NewScanner(os.Stdin)
+    for input.Scan() {
+        counts[input.Text()]++
+    }
+    // NOTE: ignoring potential errors from input.Err()
+    for line, n := range counts {
+        if n &gt; 1 {
+            fmt.Printf("%d\t%s\n", n, line)
+        }
+    }
+}
+
+//!-
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// go run main.go                                 //
+// hello                                          //
+// hello                                          //
+// world                                          //
+// world                                          //
+// world                                          //
+// we                                             //
+// 2       hello                                  //
+// 3       world                                  //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>借助内置的map,实现uniq变得如此的容易!我们来看看几个细节:
+<ul class="org-ul">
+<li>内置数据结构map,使用函数make来创建(make只能用来创建map, slice, chan三种类
+型)一个empty的map
+</li>
+<li>bufio.NewScanner创建了一个Scanner,所谓Scanner你理解成token array就可以了.
+</li>
+<li>for input.Scan():这一句要注意了.这里的for,其实是起到了while (true)的作用,
+因为input.Scan()会"探测"下面还有没有token.
+</li>
+<li>input.Text()其实就是取出当前的token
+</li>
+<li>下面的for &#x2026; range是go特殊的用法了. range函数会返回两个值(key, value)的
+循环. map iteration是顺序是随机的.(为了更有效的设计map结构)
+</li>
+</ul>
+</li>
+<li>我们来看看版本三,这个版本的输入是一个文件,输出是这个文件里面的, 超过一次现身
+的行,出现的次数
+<div class="org-src-container">
+
+<pre class="src src-go">// Copyright © 2016 Alan A. A. Donovan &amp; Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+// See page 12.
+
+// Dup3 prints the count and text of lines that appear more than once
+// in the named input files.
+//!+
+package main
+
+import (
+    "fmt"
+    "io/ioutil"
+    "os"
+    "strings"
+)
+
+func main() {
+    counts := make(map[string]int)
+    for _, filename := range os.Args[1:] {
+        data, err := ioutil.ReadFile(filename)
+        if err != nil {
+            fmt.Fprintf(os.Stderr, "dup3: %v\n", err)
+            continue
+        }
+        for _, line := range strings.Split(string(data), "\n") {
+            counts[line]++
+        }
+    }
+    for line, n := range counts {
+        if n &gt; 1 {
+            fmt.Printf("%d\t%s\n", n, line)
+        }
+    }
+}
+
+//!-
+///////////////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt;            //
+// i309511@ dup3 (master) $ cat test.input                   //
+// A                                                         //
+// BB                                                        //
+// BB                                                        //
+// A                                                         //
+// CCC                                                       //
+// CCC                                                       //
+// CCC                                                       //
+// DDDD                                                      //
+// CCCi309511@ dup3 (master) $ go run main.go test.input     //
+// 2    BB                                                   //
+// 4    CCC                                                  //
+// 2    A                                                    //
+///////////////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Animated GIFs</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>下面是一个创建"动态gif"文件的程序
+<div class="org-src-container">
+
+<pre class="src src-go">// Copyright © 2016 Alan A. A. Donovan &amp; Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+// Run with "web" command-line argument for web server.
+// See page 13.
+//!+main
+
+// Lissajous generates GIF animations of random Lissajous figures.
+package main
+
+import (
+    "image"
+    "image/color"
+    "image/gif"
+    "io"
+    "math"
+    "math/rand"
+    "os"
+)
+
+//!-main
+// Packages not needed by version in book.
+import (
+    "log"
+    "net/http"
+    "time"
+)
+
+//!+main
+
+var palette = []color.Color{color.White, color.Black}
+
+const (
+    whiteIndex = 0 // first color in palette
+    blackIndex = 1 // next color in palette
+)
+
+func main() {
+    //!-main
+    // The sequence of images is deterministic unless we seed
+    // the pseudo-random number generator using the current time.
+    // Thanks to Randall McPherson for pointing out the omission.
+    rand.Seed(time.Now().UTC().UnixNano())
+
+    if len(os.Args) &gt; 1 &amp;&amp; os.Args[1] == "web" {
+        //!+http
+        handler := func(w http.ResponseWriter, r *http.Request) {
+            lissajous(w)
+        }
+        http.HandleFunc("/", handler)
+        //!-http
+        log.Fatal(http.ListenAndServe("localhost:8000", nil))
+        return
+    }
+    //!+main
+    lissajous(os.Stdout)
+}
+
+func lissajous(out io.Writer) {
+    const (
+        cycles  = 5     // number of complete x oscillator revolutions
+        res     = 0.001 // angular resolution
+        size    = 100   // image canvas covers [-size..+size]
+        nframes = 64    // number of animation frames
+        delay   = 8     // delay between frames in 10ms units
+    )
+    freq := rand.Float64() * 3.0 // relative frequency of y oscillator
+    anim := gif.GIF{LoopCount: nframes}
+    phase := 0.0 // phase difference
+    for i := 0; i &lt; nframes; i++ {
+        rect := image.Rect(0, 0, 2*size+1, 2*size+1)
+        img := image.NewPaletted(rect, palette)
+        for t := 0.0; t &lt; cycles*2*math.Pi; t += res {
+            x := math.Sin(t)
+            y := math.Sin(t*freq + phase)
+            img.SetColorIndex(size+int(x*size+0.5), size+int(y*size+0.5),
+                blackIndex)
+        }
+        phase += 0.1
+        anim.Delay = append(anim.Delay, delay)
+        anim.Image = append(anim.Image, img)
+    }
+    gif.EncodeAll(out, &amp;anim) // NOTE: ignoring encoding errors
+}
+
+//!-main
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// go run main.go &gt; lissajous.gif                 //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>上面的程序蕴含了许多的信息:
+<ul class="org-ul">
+<li>我们import的很多package,虽然有时候名字是image/color两个部分组成的,但是使
+用的时候,还是会使用后面的部分,比如color.White就是color package里面的, 而
+gif.GIF则是image/gif package里面的
+</li>
+<li>const关键字是给予'常量'一个有意义的名字的.const的定义可以出现在两个地方:
+<ol class="org-ol">
+<li>package level(在main packge就是全局变量啦), 整个package可见
+</li>
+<li>function level, 只在function内部可见
+</li>
+</ol>
+</li>
+<li>const的值只可能是三种值:number, string或者boolden
+</li>
+<li>类似于[]color.Color{&#x2026;}的这种表达式叫做composite literal, 因为[]color.Color
+是一个composite type(它是一个数组). {&#x2026;}里面的组成成员color.White, color.Black
+都是color.Color类型的.
+</li>
+<li>和[]color.Color{&#x2026;}类似的是gif.GIF{&#x2026;}.这也是一个composite literal, 只不
+过gif.GIF的类型是composite type里面的struct.
+</li>
+<li>composite literal是一种非常好的初始化手段,利用"一系列的"数据(仅仅简单的将
+它们排列)初始化一个比较复杂的类型.
+</li>
+<li>gif.GIF是一个stuct类型,所谓struct就是包含一组value的'变量'
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Fetching a URL</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>我们来看如下一个使用go来模仿bash里面的curl的例子
+<div class="org-src-container">
+
+<pre class="src src-go">// Copyright © 2016 Alan A. A. Donovan &amp; Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+// See page 16.
+//!+
+
+// Fetch prints the content found at a URL.
+package main
+
+import (
+    "fmt"
+    "io/ioutil"
+    "net/http"
+    "os"
+)
+
+func main() {
+    for _, url := range os.Args[1:] {
+        resp, err := http.Get(url)
+        if err != nil {
+            fmt.Fprintf(os.Stderr, "fetch: %v\n", err)
+            os.Exit(1)
+        }
+        b, err := ioutil.ReadAll(resp.Body)
+        resp.Body.Close()
+        if err != nil {
+            fmt.Fprintf(os.Stderr, "fetch: reading %s: %v\n", url, err)
+            os.Exit(1)
+        }
+        fmt.Printf("%s", b)
+    }
+}
+
+//!-
+
+///////////////////////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt;                    //
+// $ ./fetch http://baidu.com                                        //
+// &lt;html&gt;                                                            //
+// &lt;meta http-equiv="refresh" content="0;url=http://www.baidu.com/"&gt; //
+// &lt;/html&gt;                                                           //
+///////////////////////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>这个例子有如下的要点要学习:
+<ul class="org-ul">
+<li>http.Get函数是会使用GET method来访问某个url,如果没有错误的话,resp里面就会
+含有Response类型的变量,包含有所有的HTTP response的信息
+</li>
+<li>iotil.ReadAll负责把Body里面的信息读取出来返回给b, 然后我们caller需要负责
+Close() resp.Body
+</li>
+<li>其实更让我们需要学习的是go组织代码的方式:
+<ol class="org-ol">
+<li>Response本身就是一个struct
+</li>
+<li>Body是Response内部的一个interface,两者的关系用代码表示如下
+<div class="org-src-container">
+
+<pre class="src src-go">type Response struct {
+    Status     string // e.g. "200 OK"
+
+    // ....
+    Body io.ReadCloser
+    // ....
+}
+</pre>
+</div>
+</li>
+<li>这就引出了一个问题:我们的Body是在哪里实现io.ReadCloser接口的.因为go是一
+种"默认实现接口的所有函数"就可以说自己实现了这个接口.所以很难找到一个地
+方明确的写出这个Body实现了哪些函数.
+</li>
+<li>真正能找出Body实现这些函数的地方是当Body被"实例化"的时候(而这些实例化过
+程则可能淹没在茫茫代码中),我们在测试代码里面找到了Response实例化的一个
+例子
+<div class="org-src-container">
+
+<pre class="src src-go">Response{
+    StatusCode:    503,
+    ProtoMajor:    1,
+    ProtoMinor:    0,
+    Request:       dummyReq("GET"),
+    Header:        Header{},
+    Body:          ioutil.NopCloser(strings.NewReader("abcdef")),
+    ContentLength: 6,
+},
+</pre>
+</div>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Fetching URLs Concurrently</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>下面我们来简单的使用以下go的killer feature, goroutine, 下面是goroutine的一
+个例子
+<div class="org-src-container">
+
+<pre class="src src-go">// Copyright © 2016 Alan A. A. Donovan &amp; Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+// See page 17.
+//!+
+
+// Fetchall fetches URLs in parallel and reports their times and sizes.
+package main
+
+import (
+    "fmt"
+    "io"
+    "io/ioutil"
+    "net/http"
+    "os"
+    "time"
+)
+
+func main() {
+    start := time.Now()
+    ch := make(chan string)
+    for _, url := range os.Args[1:] {
+        go fetch(url, ch) // start a goroutine
+    }
+    for range os.Args[1:] {
+        fmt.Println(&lt;-ch) // receive from channel ch
+    }
+    fmt.Printf("%.2fs elapsed\n", time.Since(start).Seconds())
+}
+
+func fetch(url string, ch chan&lt;- string) {
+    start := time.Now()
+    resp, err := http.Get(url)
+    if err != nil {
+        ch &lt;- fmt.Sprint(err) // send to channel ch
+        return
+    }
+
+    nbytes, err := io.Copy(ioutil.Discard, resp.Body)
+    resp.Body.Close() // don't leak resources
+    if err != nil {
+        ch &lt;- fmt.Sprintf("while reading %s: %v", url, err)
+        return
+    }
+    secs := time.Since(start).Seconds()
+    ch &lt;- fmt.Sprintf("%.2fs  %7d  %s", secs, nbytes, url)
+}
+
+//!-
+
+/////////////////////////////////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt;                              //
+// &gt; go run main.go http://www.baidu.com http://www.bing.com http://www.360.cn //
+// 0.21s    61705  http://www.bing.com                                         //
+// 0.31s    98409  http://www.baidu.com                                        //
+// 0.41s   105174  http://www.360.cn                                           //
+// 0.41s elapsed                                                               //
+/////////////////////////////////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>首先介绍两个概念:
+<ul class="org-ul">
+<li>goroutine: 是一个并发的function execution.我们可以把它看做是轻量级thread
+</li>
+<li>channel: 是一个允许goroutine间传递"某种一种类型"数据的"通道". channel是有
+类型的,比如上面例子的channel就是string类型的,那么string类型的channel就只
+可以在goroutine之间传递string
+</li>
+</ul>
+</li>
+<li>我们来看看整个代码:
+<ul class="org-ul">
+<li>创建channel使用的是make, make只可以为slice, map, chan三种类型服务, 而且make
+的返回值是引用而不是指针.
+</li>
+<li>对于每一个Arg参数, 我们都会使用go关键字来创建一个goroutine来'单独地异步地'
+运行fetch函数
+</li>
+<li>fetch函数的原理就和上一节的main函数很像啦:就是GET打开一个url, 只不过这次
+我们不关心具体数据是啥(所以Discard掉),只是把字节数写入nbytes而已.
+</li>
+<li>第二个循环就是把channel里面的内容打印出来.
+</li>
+</ul>
+</li>
+<li>关于channel:
+<ul class="org-ul">
+<li>channel有两个操作:
+<ol class="org-ol">
+<li>写入:
+<div class="org-src-container">
+
+<pre class="src src-go">ch &lt;- fmt.Sprintf("while reading %s: %v", url, err)
+</pre>
+</div>
+</li>
+<li>读取:
+<div class="org-src-container">
+
+<pre class="src src-go">fmt.Println(&lt;-ch) // receive from channel ch
+</pre>
+</div>
+</li>
+</ol>
+</li>
+<li>当goroutine 试图去写入channel的时候是会block住的,直到有另外一个goroutine来
+'读取'. 在上面的例子中main goroutine 中"读取"ch的操作会一直block,直到ch被
+某个其他的goroutine写入.反之亦然
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">A Web Server</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>刚才写的fetch是client端的操作,go也很容易写出server的服务器,比如下面就是一个
+简单的echo server服务器
+<div class="org-src-container">
+
+<pre class="src src-go">// Copyright © 2016 Alan A. A. Donovan &amp; Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+// See page 19.
+//!+
+
+// Server1 is a minimal "echo" server.
+package main
+
+import (
+    "fmt"
+    "log"
+    "net/http"
+)
+
+func main() {
+    http.HandleFunc("/", handler) // each request calls handler
+    log.Fatal(http.ListenAndServe("localhost:8000", nil))
+}
+
+// handler echoes the Path component of the request URL r.
+func handler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, "URL.Path = %q\n", r.URL.Path)
+}
+
+//!-
+</pre>
+</div>
+</li>
+<li>此程序的要点:
+<ul class="org-ul">
+<li>HandleFunc设置了一个函数handler来处理"所有以/开头的request"
+</li>
+<li>函数handler就是接受类型为http.Request的input,然后把结果写入到ResponseWriter
+里面.
+</li>
+</ul>
+</li>
+<li>一个最简单的更改就是增加一个HandleFunc和一个handler
+<div class="org-src-container">
+
+<pre class="src src-go">// Copyright © 2016 Alan A. A. Donovan &amp; Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+// See page 20.
+//!+
+
+// Server2 is a minimal "echo" and counter server.
+package main
+
+import (
+    "fmt"
+    "log"
+    "net/http"
+    "sync"
+)
+
+var mu sync.Mutex
+var count int
+
+func main() {
+    http.HandleFunc("/", handler)
+    http.HandleFunc("/count", counter)
+    log.Fatal(http.ListenAndServe("localhost:8000", nil))
+}
+
+// handler echoes the Path component of the requested URL.
+func handler(w http.ResponseWriter, r *http.Request) {
+    mu.Lock()
+    count++
+    mu.Unlock()
+    fmt.Fprintf(w, "URL.Path = %q\n", r.URL.Path)
+}
+
+// counter echoes the number of calls so far.
+func counter(w http.ResponseWriter, r *http.Request) {
+    mu.Lock()
+    fmt.Fprintf(w, "Count %d\n", count)
+    mu.Unlock()
+}
+
+//!-
+</pre>
+</div>
+</li>
+<li>这里的新handler是用来记录从多个不同的client来的不同访问总过有多少.
+</li>
+<li>因为是多个不同的client,所以要保证我们的count只能"同时被一个client更新",所以
+我们这个例子还需要mutex的支持.所以这里使用了sync.Mutex
+</li>
+<li>对server的进一步扩展就是增加了header信息
+<div class="org-src-container">
+
+<pre class="src src-go">// Copyright © 2016 Alan A. A. Donovan &amp; Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+// See page 21.
+//!+
+
+// Server3 is a minimal "echo" and counter server.
+package main
+
+import (
+    "fmt"
+    "log"
+    "net/http"
+    "sync"
+)
+
+var mu sync.Mutex
+var count int
+
+func main() {
+    http.HandleFunc("/", handler)
+    http.HandleFunc("/count", counter)
+    log.Fatal(http.ListenAndServe("localhost:8000", nil))
+}
+
+//!+handler
+// handler echoes the HTTP request.
+func handler(w http.ResponseWriter, r *http.Request) {
+    fmt.Fprintf(w, "%s %s %s\n", r.Method, r.URL, r.Proto)
+    for k, v := range r.Header {
+        fmt.Fprintf(w, "Header[%q] = %q\n", k, v)
+    }
+    fmt.Fprintf(w, "Host = %q\n", r.Host)
+    fmt.Fprintf(w, "RemoteAddr = %q\n", r.RemoteAddr)
+    if err := r.ParseForm(); err != nil {
+        log.Print(err)
+    }
+    for k, v := range r.Form {
+        fmt.Fprintf(w, "Form[%q] = %q\n", k, v)
+    }
+}
+
+//!-handler
+
+// counter echoes the number of calls so far.
+func counter(w http.ResponseWriter, r *http.Request) {
+    mu.Lock()
+    fmt.Fprintf(w, "Count %d", count)
+    mu.Unlock()
+}
+
+//!-
+</pre>
+</div>
+</li>
+<li>这个例子里面提供了一个check err的新思路"nested err in if statement"
+<div class="org-src-container">
+
+<pre class="src src-go">if err := r.ParseForm(); err != nil {
+    log.Print(err)
+}
+</pre>
+</div>
+</li>
+<li>我们还可以使用function literal的方法来设置匿名函数处理不同的url
+<div class="org-src-container">
+
+<pre class="src src-go">http.HandleFunc("/", func(w http.ResonseWriter, r *http.Request){lissajous(w)})
+</pre>
+</div>
+</li>
+<li>因为接口的通用性我们可以把server再次更改如下,可以在网页显示lissajous
+<div class="org-src-container">
+
+<pre class="src src-diff">diff --git a/ch1/server3/main.go b/ch1/server3/main.go
+index aa8316c..42c0354 100644
+--- a/ch1/server3/main.go
++++ b/ch1/server3/main.go
+@@ -9,7 +9,13 @@ package main
+
+ import (
+    "fmt"
++   "image"
++   "image/color"
++   "image/gif"
++   "io"
+    "log"
++   "math"
++   "math/rand"
+    "net/http"
+    "sync"
+ )
+@@ -20,6 +26,9 @@ var count int
+ func main() {
+    http.HandleFunc("/", handler)
+    http.HandleFunc("/count", counter)
++   http.HandleFunc("/lis", func(w http.ResponseWriter, r *http.Request) {
++       lissajous(w)
++   })
+    log.Fatal(http.ListenAndServe("localhost:8000", nil))
+ }
+
+@@ -49,4 +58,39 @@ func counter(w http.ResponseWriter, r *http.Request) {
+    mu.Unlock()
+ }
+
++// helper
++var palette = []color.Color{color.White, color.Black}
++
++const (
++   whiteIndex = 0 // first color in palette
++   blackIndex = 1 // next color in palette
++)
++
++func lissajous(out io.Writer) {
++   const (
++       cycles  = 5     // number of complete x oscillator revolutions
++       res     = 0.001 // angular resolution
++       size    = 100   // image canvas covers [-size..+size]
++       nframes = 64    // number of animation frames
++       delay   = 8     // delay between frames in 10ms units
++   )
++   freq := rand.Float64() * 3.0 // relative frequency of y oscillator
++   anim := gif.GIF{LoopCount: nframes}
++   phase := 0.0 // phase difference
++   for i := 0; i &lt; nframes; i++ {
++       rect := image.Rect(0, 0, 2*size+1, 2*size+1)
++       img := image.NewPaletted(rect, palette)
++       for t := 0.0; t &lt; cycles*2*math.Pi; t += res {
++           x := math.Sin(t)
++           y := math.Sin(t*freq + phase)
++           img.SetColorIndex(size+int(x*size+0.5), size+int(y*size+0.5),
++               blackIndex)
++       }
++       phase += 0.1
++       anim.Delay = append(anim.Delay, delay)
++       anim.Image = append(anim.Image, img)
++   }
++   gif.EncodeAll(out, &amp;anim) // NOTE: ignoring encoding errors
++}
++
+ //!-
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-8" class="outline-3">
+<h3 id="sec-1-8">Losse Ends</h3>
+<div class="outline-text-3" id="text-1-8">
+<ul class="org-ul">
+<li>go里面的switch是遇到"合适的"自动break的,不需要额外的break
+</li>
+<li>而且switch是可以没有operand的, 如下.这种其实就是switch true的意思
+<div class="org-src-container">
+
+<pre class="src src-go">func Signum(x int) int {
+    switch {
+    case x &gt; 0:
+        return +1
+    default:
+        return 0
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Chapter 02: Program Structure</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Names</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>go的命名规则和c一致,大小写也是区分的.
+</li>
+<li>keyword有25个不算很多
+</li>
+<li>但是其实int这种类型名字其实也算关键字
+</li>
+<li>如果一个entity在function内部定义,那么这个entity是local于这个function的
+</li>
+<li>如果定义在function之外,那么这个entity是在整个package内可见的.
+</li>
+<li>变量的第一个字母决定了这个变量是不是在"不同package之间可见":
+<ul class="org-ul">
+<li>如果变量第一个字母大写,那么则package之间可见
+</li>
+<li>第一字母小写则package之间不可见.为了表示区分,一般package自己的名字都是全
+小写的.
+</li>
+</ul>
+</li>
+<li>变量的长度是没有要求的,但是go倾向于你在作用域比较小的变量上面,使用short name
+</li>
+<li>同样的Go的变量命名格式一般是"camel case"的,比如parseRequestLine,但是绝对不会
+是parse_request_line
+</li>
+<li>需要特别注意的是,如果HTML或者WTO这种首字母大写的拼写,一定会是"共进退":
+<ul class="org-ul">
+<li>要么全大写: HTMLEscape, escapeHTML
+</li>
+<li>要么全小写: htmlEscape
+</li>
+<li>单绝不可能不一致: escapeHtml
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">Declarations</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>声明(declaration)命名了一个program entity,并且确定了它"全部或者部分"的properties
+</li>
+<li>主要的声明方式有四种:
+<ul class="org-ul">
+<li>var
+</li>
+<li>const
+</li>
+<li>type
+</li>
+<li>func
+</li>
+</ul>
+</li>
+<li>下面是一个声明的例子
+<div class="org-src-container">
+
+<pre class="src src-go">// Copyright © 2016 Alan A. A. Donovan &amp; Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+// See page 29.
+//!+
+
+// Boiling prints the boiling point of water.
+package main
+
+import "fmt"
+
+const boilingF = 212.0
+
+func main() {
+    var f = boilingF
+    var c = (f - 32) * 5 / 9
+    fmt.Printf("boiling point = %g°F or %g°C\n", f, c)
+    // Output:
+    // boiling point = 212°F or 100°C
+}
+
+//!-
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// boiling point = 212°F or 100°C                 //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>这个例子的要点有:
+<ul class="org-ul">
+<li>常量boilingF是一个package-level的声明(和main是一个层次)
+</li>
+<li>变量f和c都是main函数的local变量
+</li>
+<li>func main()其实是一个函数的定义
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">Variables</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li>var是声明变量的最基本方法,其常规格式如下
+<pre class="example">
+var name type = expression
+</pre>
+</li>
+<li>其中,'type'和'= expression'都是可以省略的.但不能同时省略!因为:
+<ul class="org-ul">
+<li>如果type省略了, type可以依靠expression来确定自己的类型
+</li>
+<li>如果expression省略了.那么name的initial value就都是zero value(也就是如果是
+数字就为0,如果是布尔就为false,string就为"", interface和reference type就为
+nil)
+</li>
+</ul>
+</li>
+<li>一个声明表达式声明多个变量是可行的,比如
+<div class="org-src-container">
+
+<pre class="src src-go">var b, f, s = true, 2.3, "four" // bool, float64, string
+</pre>
+</div>
+</li>
+<li>也可以使用函数的返回值来初始化变量,比如
+<div class="org-src-container">
+
+<pre class="src src-go">var f, err = os.Open(name)      // os.Open returns a file and an error
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-2-3-1" class="outline-4">
+<h4 id="sec-2-3-1">Short Variable Declarations</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<ul class="org-ul">
+<li>var是最基本的声明方式,而且哪里都可以用.另外go还在"function level"提供了一个
+声明变量的方式,叫做short variable declaration. 用来声明local variable,其格
+式如下
+<pre class="example">
+name := expression
+</pre>
+</li>
+<li>因为这种声明的方式简洁而灵活,所以local variable就大多使用这种方式来声明啦
+</li>
+<li>当然了var在local variable里面也有其多种的用途:
+<ul class="org-ul">
+<li>声明一个变量其初始值无法有效推导出类型
+</li>
+<li>声明一个一开始没有值的变量
+</li>
+</ul>
+</li>
+<li>和var能够声明多个变量一样, short variable declaration也可以声明多个变量比
+如:
+<div class="org-src-container">
+
+<pre class="src src-go">i, j := 0, 1
+</pre>
+</div>
+</li>
+<li>需要注意的是,使用short variable declaration一次声明多个变量只有在"能够提高
+readability的时候"才使用.比如for loop里面
+</li>
+<li>需要注意的是:=是声明,而=是赋值. multi-variable 声明不能和tuple assignment
+相混淆,如下是tuple assignment
+<div class="org-src-container">
+
+<pre class="src src-go">i, j = j, i                     // swap values of i and j
+</pre>
+</div>
+</li>
+<li>short variable declaration 一个重要的却容易被忽视的特性
+<pre class="example">
+A sort variable declaration does NOT necessarily declare all
+the variable on its left-hand side
+</pre>
+</li>
+<li>也就是说如果short variable declaration的左边的"其中一部分变量"已经声明过了,
+那么shaort variable declaration自动转成对其进行"赋值":
+<ul class="org-ul">
+<li>注意一定是"一部分变量",比如下面例子中err在第二次的short variable声明中其
+实已经被第一次short variable声明中"声明"过了.所以第二次其实是赋值
+<div class="org-src-container">
+
+<pre class="src src-go">in, err := os.Open(infile)
+// ...
+out, err := os.Create(outfile)
+</pre>
+</div>
+</li>
+<li>注意,如果全部都声明过了,是会报错的
+<div class="org-src-container">
+
+<pre class="src src-go">f, err := os.Open(infile)
+// ...
+f, err := os.Create(outfile)    // compile error: no new variables
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-3-2" class="outline-4">
+<h4 id="sec-2-3-2">Pointers</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<ul class="org-ul">
+<li>其实golang里面的pointer的定义和c语言里面是一样的,只是能力有所缺失(这是故意的)
+</li>
+<li>pointer是variable的address
+</li>
+<li>不是每个value都有地址,但是每一个variable都有地址,也就会有pointer.有了pointer,
+我们可以读取甚至更新varaible的值,而甚至不需要知道这varaible的name
+</li>
+<li>下面是一个pointer的例子, 表达了pointer在go里面的能力.
+<div class="org-src-container">
+
+<pre class="src src-go">x := 1
+p := &amp;x                         // p, of type *int, points to x
+fmt.Println(*p)                 // "1"
+*p = 2                          // equivalent to x = 2
+fmt.Println(x)                  // "2"
+</pre>
+</div>
+</li>
+<li>pointer的zero value是nil, 使用p != nil来确定p是否指向一个variable
+<div class="org-src-container">
+
+<pre class="src src-go">var x, y in
+fmt.Println(&amp;x == &amp;x, &amp;x == &amp;y, &amp;x == nil) // "true false false"
+</pre>
+</div>
+</li>
+<li>和c语言不同的地方是, 在go里面"函数返回一个指向local variable的地址"是非常
+安全的,比如下面的例子
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+var p = f()
+
+func f() *int {
+    v := 1
+    return &amp;v
+}
+
+func main() {
+    fmt.Println(p)
+    fmt.Println(f() == f())
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 0x82024e220                                    //
+// false                                          //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>"返回function的local variable的地址"这种方法极大的提高了生存率,我们知道在
+c语言里面,如果想返回稍微复杂的数据(int类型可以放在寄存器里面返回),那么就需
+要声明一个static的存储结构,然后返回这个存储结构的地址.这又引入了另外一个问题:
+由于使用了static存储,程序就无法做成reentrant的了
+</li>
+<li>"返回function的local variable的地址"被std里面的flag库应用,轻松实现了分析一
+个command line参数,然后返回指向参数值的"pointer".其代码实现如下
+<div class="org-src-container">
+
+<pre class="src src-go">// Bool defines a bool flag with specified name, default value, and usage string.
+// The return value is the address of a bool variable that stores the value of the flag.
+func (f *FlagSet) Bool(name string, value bool, usage string) *bool {
+    p := new(bool)              // equals to var x bool first, then &amp;x
+    f.BoolVar(p, name, value, usage)
+    return p
+}
+
+// Bool defines a bool flag with specified name, default value, and usage string.
+// The return value is the address of a bool variable that stores the value of the flag.
+func Bool(name string, value bool, usage string) *bool {
+    return CommandLine.Bool(name, value, usage)
+}
+</pre>
+</div>
+</li>
+<li>使用flag的一个例子如下
+<div class="org-src-container">
+
+<pre class="src src-go">// Copyright © 2016 Alan A. A. Donovan &amp; Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+// See page 33.
+//!+
+
+// Echo4 prints its command-line arguments.
+package main
+
+import (
+    "flag"
+    "fmt"
+    "strings"
+)
+
+var n = flag.Bool("n", false, "omit trailing newline")
+var sep = flag.String("s", " ", "separator")
+
+func main() {
+    flag.Parse()
+    fmt.Print(strings.Join(flag.Args(), *sep))
+    if !*n {
+        fmt.Println()
+    }
+}
+
+//!-
+
+////////////////////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt;                 //
+// i309511@ echo4 (master) $ go run main.go -s="," Hello World    //
+// Hello,World                                                    //
+// i309511@ echo4 (master) $ go run main.go -n -s="," Hello World //
+// Hello,Worldi309511@ echo4 (master) $                           //
+////////////////////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-3-3" class="outline-4">
+<h4 id="sec-2-3-3">The new Function</h4>
+<div class="outline-text-4" id="text-2-3-3">
+<ul class="org-ul">
+<li>另外一种创建变量的方法是使用内置的new function.而且这种创建方法是和指针密切
+联系的,因为
+<pre class="example">
+The expression new(T) creates an unnamed variable of type T,
+initializes it to the zero value of T, and returns its address,
+which is a value of type *T
+</pre>
+</li>
+<li>例子如下
+<pre class="example">
+package main
+
+import "fmt"
+
+func main() {
+    p := new(int)
+    fmt.Println(p)
+    fmt.Println(*p)
+    *p = 2
+    fmt.Println(p)
+    fmt.Println(*p)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 0x82024e220                                    //
+// 0                                              //
+// 0x82024e220                                    //
+// 2                                              //
+////////////////////////////////////////////////////
+</pre>
+</li>
+<li>new创建变量的情况主要应用在我们不需要给一个变量名字,而只需要它的地址的时候,
+比如下面的两个例子其实是等价的.第二个例子写起来就有点复杂:
+<ul class="org-ul">
+<li>use new function:
+<div class="org-src-container">
+
+<pre class="src src-go">func newInt() *int {
+    return new(int)
+}
+</pre>
+</div>
+</li>
+<li>use dummy variable
+<div class="org-src-container">
+
+<pre class="src src-go">func newInt() *int {
+    var dummy int
+    return &amp;dummy
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>每次new"大多数情况下"都会返回一个unique的address
+<div class="org-src-container">
+
+<pre class="src src-go">p := new(int)
+q := new(int)
+fmt.Println(p == q)             // "false"
+</pre>
+</div>
+</li>
+<li>但是"根据具体implementation", 有些时候也会返回相同的地址,这些情况,通常是一
+个类型没有任何的信息,其size为0. 比如struct{}, int
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    fmt.Printf("%d\n", new(int))
+    fmt.Printf("%d\n", new(int))
+    fmt.Printf("%d\n", new([0]int))
+    fmt.Printf("%d\n", new([0]int))
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 34898576208                                    //
+// 34898576240                                    //
+// &amp;[]                                            //
+// &amp;[]                                            //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>因为new只是predeclared function,而不是keyword,所以我们是可以redefine new使
+用的.当然,这不推荐.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-3-4" class="outline-4">
+<h4 id="sec-2-3-4">Lifetime of Variables</h4>
+<div class="outline-text-4" id="text-2-3-4">
+<ul class="org-ul">
+<li>一个variable根据其类型的不同,有不同的作用域:
+<ul class="org-ul">
+<li>对于package level variable来说,在程序运行的全部时刻都一直有效
+</li>
+<li>对于local variable来说,每当local variable的declaration运行的时候,这个variable
+就开始有效,知道其变得unreachable
+</li>
+</ul>
+</li>
+<li>我们可以看到go和c最大的不同就在于local variable,go中local variable并不是在
+离开作用域后就不可用,而是直到unreachable才不可用.也就是说,我们可以在其作用
+域消失后依然存在.
+</li>
+<li>是编译器在编译的时候来决定某个变量存放在heap或者stack,从而拥有不同的生命期
+的.但是编译器是通过分析程序,而不是通过这个变量使用了var或者new来决定其放置
+在heap或者stack的.比如下面两个例子:
+<ul class="org-ul">
+<li>虽然x看起来是个局部变量,但是因为它一被global所"reach",即便func f退出,这个
+x还是要reachable,所以编译器要把它分配在heap上面.而这种情况下,我们称x"esacpe
+from f"
+<div class="org-src-container">
+
+<pre class="src src-go">var global *int
+
+func f() {
+    var x int
+    x = 1
+    global = &amp;x
+}
+</pre>
+</div>
+</li>
+<li>下面这个例子,虽然y是一new上面分配的一个地址,但是因为它并没有escape from g,
+所以把g分配在stack上面也是很安全的
+<div class="org-src-container">
+
+<pre class="src src-go">func g() {
+    y := new(int)
+    *y = 1
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>总之,虽然变量是否"escape"其function不需要我们关系,但是了解原理是非常重要的,
+因为每个escape的变量都需要额外的内存.
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4">Assignments</h3>
+<div class="outline-text-3" id="text-2-4">
+<ul class="org-ul">
+<li>从常用几种方式来讲, go中的assignment和c中的assignment没有什么区别:
+<ul class="org-ul">
+<li>使用"="赋值
+</li>
+<li>支持assignment operator,比如
+<div class="org-src-container">
+
+<pre class="src src-go">count[x] *= scale
+</pre>
+</div>
+</li>
+<li>支持自增,自减
+<div class="org-src-container">
+
+<pre class="src src-go">v := 1
+v++                             // v becomes 2
+v--                             // v becomes 1 again
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-2-4-1" class="outline-4">
+<h4 id="sec-2-4-1">Tuple Assignment</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<ul class="org-ul">
+<li>go中新引入的一种assignment叫做tuple assignment,其和python中的交换赋值相似
+的赋值方法:
+<ul class="org-ul">
+<li>赋值数为两个的时候,可以用来swap两个变量的值
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    x := 1
+    y := 2
+    fmt.Println(x, y)
+    x, y = y, x
+    fmt.Println(x, y)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 1 2                                            //
+// 2 1                                            //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>赋值数多于三个的时候,也是可以使用的,如下,但是为了让程序更加易懂,尽量少使
+用为妙
+<div class="org-src-container">
+
+<pre class="src src-go">i, j, k = 2, 3, 5
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>赋值为两个的时候,还有如下几种常见的用法:
+<ul class="org-ul">
+<li>我们前面说过变量"声明"的时候讲过short variable declaration可以允许用函数
+返回值来"声明一个或者两个未声明的变量", 但如果两个变量都已经声明过了的情
+况下,我们就只能使用tuple assignment了
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import (
+    "fmt"
+    "os"
+)
+
+func main() {
+    f, err := os.Open("foo.txt")
+    fmt.Println(f)
+    fmt.Println(err)
+    //! ERROR no new variables on left side of :=
+    // f, err := os.Open("foo.txt")
+    f, err = os.Open("foo.txt")
+}
+</pre>
+</div>
+</li>
+<li>map是两个值么,key和value,所以map lookup是会用到tuple assignment
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    m := make(map[int]string)
+    m[1] = "One"
+    m[2] = "Two"
+
+    var v string
+    var ok bool
+    v, ok = m[2]
+    fmt.Println(v, ok)
+}
+</pre>
+</div>
+</li>
+<li>type assertion: go特有的,对inteface的assertion
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import (
+    "fmt"
+)
+
+func main() {
+    var x interface{}
+    x = "abc"
+    var v string
+    var k bool
+    v, k = x.(string)
+    if k {
+        fmt.Println(v, k)
+    } else {
+        fmt.Println("first x is Not a String")
+    }
+
+    x = 12
+    v, k = x.(string)
+    if k {
+        fmt.Println(v, k)
+    } else {
+        fmt.Println("second x is Not a String")
+    }
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// abc true                                       //
+// second x is Not a String                       //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>channel receive
+<div class="org-src-container">
+
+<pre class="src src-go">v, ok = &lt;-ch                    // channel receive
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-4-2" class="outline-4">
+<h4 id="sec-2-4-2">Assignability</h4>
+<div class="outline-text-4" id="text-2-4-2">
+<ul class="org-ul">
+<li>有"="的情况下是explicit assignment, 但是还有很多情况下发生了assignment,但
+是因为没有"=",所以是implicit assignment,比如:
+<ul class="org-ul">
+<li>function call的参数都是通过assignment来传递值的
+</li>
+<li>function call的 return value也是assignment给接收function结果的变量
+</li>
+<li>go特有的literal expression
+<div class="org-src-container">
+
+<pre class="src src-go">medals := []string{"gold", "sliver", "bronze"}
+// equals to
+medals[0] = "gold"
+medals[1] = "sliver"
+medals[2] = "bronze"
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>既然这些都是赋值,那么就必须遵守赋值的最基本要求:variable(left side)和value
+(right side)拥有一样的type!
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5">Type Declarations</h3>
+<div class="outline-text-3" id="text-2-5">
+<ul class="org-ul">
+<li>type是程序设计非常重要的一个部分, variable的type的可以决定其很多特性,比如大
+小,可以使用的函数(behavior),和操作符等等
+</li>
+<li>有时候,两个variable的"特性"一样,但是却在"概念"上不同,比如float64即可以代表
+速度(几点几秒),也可以代表温度(几点几度)
+</li>
+<li>type declaration就是把一个underlying-type定义成一种新的named的类型
+<pre class="example">
+type new-named-type underlying-type
+</pre>
+</li>
+<li>我们来看看下面这个例子:
+<ul class="org-ul">
+<li>华氏温度和摄氏温度是"温度"的两种不同的表达方式,其实都可以使用float64表示
+但是我们定义成不同的type
+<div class="org-src-container">
+
+<pre class="src src-go">// Copyright © 2016 Alan A. A. Donovan &amp; Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+//!+
+
+// Package tempconv performs Celsius and Fahrenheit conversions.
+package tempconv
+
+import "fmt"
+
+type Celsius float64
+type Fahrenheit float64
+
+const (
+    AbsoluteZeroC Celsius = -273.15
+    FreezingC     Celsius = 0
+    BoilingC      Celsius = 100
+)
+
+func (c Celsius) String() string    { return fmt.Sprintf("%g°C", c) }
+func (f Fahrenheit) String() string { return fmt.Sprintf("%g°F", f) }
+
+//!-
+</pre>
+</div>
+</li>
+<li>定义成不同type的好处,是当两者进行运算的时候,因为类型不同,我们必须先"convert",
+这会减少很多错误.这种错误在underlying type为float64的时候不是很明显,但是
+如果underlying type是复杂的struct的话,我们会减少非常多的错误.
+<div class="org-src-container">
+
+<pre class="src src-go">// Copyright © 2016 Alan A. A. Donovan &amp; Brian W. Kernighan.
+// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
+
+// See page 41.
+
+//!+
+
+package tempconv
+
+// CToF converts a Celsius temperature to Fahrenheit.
+func CToF(c Celsius) Fahrenheit { return Fahrenheit(c*9/5 + 32) }
+
+// FToC converts a Fahrenheit temperature to Celsius.
+func FToC(f Fahrenheit) Celsius { return Celsius((f - 32) * 5 / 9) }
+
+//!-
+</pre>
+</div>
+</li>
+<li>定义这种type的另外一个好处是go特有的,那就是定义此类型独有的behavior(调用函数):
+<ol class="org-ol">
+<li>定义String(), 会被打印函数调用
+<div class="org-src-container">
+
+<pre class="src src-go">func (c Celsius) String() string { return fmt.Sprintf("%g°C", c) }
+</pre>
+</div>
+</li>
+<li>调用结果
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+import "github.com/harrifeng/gopl.io/ch2/tempconv0"
+
+func main() {
+    var c tempconv.Celsius
+    fmt.Println(c)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 0°C                                            //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6">Packages and Files</h3>
+<div class="outline-text-3" id="text-2-6">
+<ul class="org-ul">
+<li>package就是go语言的namespace
+</li>
+<li>go语言的package level variable 和function,如果是大写就export.
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-2-6-1" class="outline-4">
+<h4 id="sec-2-6-1">Imports</h4>
+<div class="outline-text-4" id="text-2-6-1">
+<ul class="org-ul">
+<li>go里面,导入package的方法是使用import
+</li>
+<li>import后面跟的是我们"确定了导入工具后(一般是git)", 使用这个工具下载的代码,
+比如gopl.io/ch2/tempcov
+</li>
+<li>我们当然不会使用"gopl.io/ch2/tempcov"这么长的名字,一般来说就是最后一节名字
+这里是tempcov
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-6-2" class="outline-4">
+<h4 id="sec-2-6-2">Package Initialization</h4>
+<div class="outline-text-4" id="text-2-6-2">
+<ul class="org-ul">
+<li>package initializtion的第一步是initialize package-level的variable,其顺序一
+般是按照variable的定义的顺序,除非先定义的variable依赖了后定义的variable
+<div class="org-src-container">
+
+<pre class="src src-go">var a = b + c                   // a initialized third, to 3
+var b = f()                     // b initialized second, to 2, by calling f
+var c = 1                       // c initialized first, to 1,
+
+func f() int { return c + 1 }
+</pre>
+</div>
+</li>
+<li>package level的变量其初始化值就是其初始化expression里面赋予的.但是有些时候
+initializer expression不是最好的初始化方式,这种情况下init function就被引入
+了.
+<div class="org-src-container">
+
+<pre class="src src-go">func init() {  /* ... */ }
+</pre>
+</div>
+</li>
+<li>init function和其他function一样,唯二的区别就是一不能被call,二不能被refer
+</li>
+<li>每个文件里面都可以含有多个init()函数
+</li>
+<li>每个文件里面的init()函数都按照declare的顺序被"自动"调用
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-7" class="outline-3">
+<h3 id="sec-2-7">Scope</h3>
+<div class="outline-text-3" id="text-2-7">
+<ul class="org-ul">
+<li>scope是一种通过program text就可以分析到的,也就是是一种compile-time property.
+</li>
+<li>而lifetime和scope是不同的概念.lifetime是一个run-time的属性,必须在运行时进行
+判断
+</li>
+<li>syntactic block是一个{}, 在syntactic block里面定义的变量在外面是看不到的.
+</li>
+<li>如果declaration没有在一个明显的{}里面的话,有几种情况:
+<ul class="org-ul">
+<li>declaration定义在了universe block (block for entire source code)
+</li>
+<li>declaration定义在了package
+</li>
+<li>declaration定义在了for
+</li>
+<li>declaration定义在了if
+</li>
+<li>declaration定义在了switch statement
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Chapter 03: Basic Data Types</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>Go的type主要分成四个大的类别:
+<ul class="org-ul">
+<li>Basic type: 包括number, string, boolean
+</li>
+<li>Aggregate type: 包括array,struct, 他们共同的特点是把多个不同的value结合在
+一起
+</li>
+<li>Refference type: 包括slice, map, function, channel.他们的特点是包括多个不
+同的pointer(reference).
+</li>
+<li>Interface type
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">Integers</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>Go的number是按照其长度(bit数)和是否有符号,分成了,如下的多个类型
+<pre class="example">
+int8, 1int16, int32, int64, uint8, uint16, uint32, uint64
+</pre>
+</li>
+<li>而最最常用的类型是int和unit,他们对应int32"或者"int64, 这是根据平台不同而不同
+的,所以不要assume int的size
+</li>
+<li>rune也是一种int32的同义词,但是使用rune了以后,就标示了这个variable其实就是一
+个Unicode.
+</li>
+<li>同样的, byte也是uint8的同义词,但是使用了byte以后,就说明这个变量是raw data而
+不是small numeric quantity
+</li>
+<li>uintptr是一个width没有定义的类型,但是可以用来存储"全部类型的pointer"
+</li>
+<li>即便是size一样, int和int32也不能相互直接转换,而是需要explicit conversion
+</li>
+<li>所有basic type内部,都是可以使用==或者!=来进行比较大小
+</li>
+<li>操作符的情况和c语言差不多
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">Floating-Point Numbers</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>Go提供了两种floating-point number:
+<ul class="org-ul">
+<li>float32:提供了6个decimal digit
+</li>
+<li>float64:提供了15个decimal digit
+</li>
+</ul>
+</li>
+<li>float32是非常容易出错的,因为float32的最大表示值不是很大
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    var f float32 = (1 &lt;&lt; 24)
+    fmt.Println(f)
+    fmt.Println(f + 1)
+    fmt.Println(f == f+1)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 1.6777216e+07                                  //
+// 1.6777216e+07                                  //
+// true                                           //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>TODO
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3">Complex Numbers</h3>
+<div class="outline-text-3" id="text-3-3">
+<ul class="org-ul">
+<li>Go提供了两种complex number:
+<ul class="org-ul">
+<li>complex64 (由两个float32组成)
+</li>
+<li>complex128(由两个float64组成)
+</li>
+</ul>
+</li>
+<li>简单例子如下
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    var x complex128 = complex(1, 2) // 1+2i
+    var y complex128 = complex(3, 4) // 3+4i
+
+    fmt.Println(x * y)
+    fmt.Println(real(x * y))
+    fmt.Println(imag(x * y))
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// (-5+10i)                                       //
+// -5                                             //
+// 10                                             //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4">Booleans</h3>
+<div class="outline-text-3" id="text-3-4">
+<ul class="org-ul">
+<li>Go里面的bool值有两个可能的值true或false(都是小写),其他规则和c一样
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5">Strings</h3>
+<div class="outline-text-3" id="text-3-5">
+<ul class="org-ul">
+<li>string是一系列"immutable" byte序列的集合
+</li>
+<li>一般来说byte就是uint8, 所以string里面也可以存储0等数字,但是一般来说都是存储
+有意义的字符
+</li>
+<li>内置的len()函数用来返回string里面的byte(注意!不是rune)的数目,而s[i]则返回ith
+string s的数目.还有类似python的s[i:j]功能
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    s := "hello, world"
+    fmt.Println(len(s))
+    fmt.Println(s[0], s[7])
+    fmt.Println(s[0:5])
+    fmt.Println(s[:5])
+    fmt.Println(s[7:])
+    fmt.Println(s[:])
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 12                                             //
+// 104 119                                        //
+// hello                                          //
+// hello                                          //
+// world                                          //
+// hello, world                                   //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>"+"可以作用于两个string的连接
+</li>
+<li>string是basic type, 那么两个string之间也是可以比较大小的
+</li>
+<li>string的重大特点是string是immutable的.如下操作是不允许的
+<div class="org-src-container">
+
+<pre class="src src-go">s[0] = 'L'                      // compile error: cannot assign to s[0]
+</pre>
+</div>
+</li>
+<li>immutability有很多的好处:
+<ul class="org-ul">
+<li>string的copy可以安全的共享一份内存
+</li>
+<li>substring的操作也是在一个固定的内存里面的操作,所以substring操作也很cheap
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-3-5-1" class="outline-4">
+<h4 id="sec-3-5-1">String Literals</h4>
+<div class="outline-text-4" id="text-3-5-1">
+<ul class="org-ul">
+<li>string value最常见的引入方式就是双引号""啦.
+</li>
+<li>双引号里面的string value对待backslash是要转义的和c语言一样
+</li>
+<li>raw string使用`&#x2026;`来表示,而不是"",raw string里面的slash是不转义的
+</li>
+<li>`&#x2026;`包括的字符串是可以跨行的.不过换行符会被删除,以保证所有的平台的字符相等.
+</li>
+<li>raw string literal的特点决定了它可以很方便的用在以下几个方面(一般都有很多
+的backslash):
+<ul class="org-ul">
+<li>HTML template
+</li>
+<li>JSON literal
+</li>
+<li>command usage message
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-5-2" class="outline-4">
+<h4 id="sec-3-5-2">Unicode</h4>
+<div class="outline-text-4" id="text-3-5-2">
+<ul class="org-ul">
+<li>最早的时候,计算机字符串就是ASCII的同义词,可以使用7个bit来管理128个"character"
+</li>
+<li>为了让英语以外的国家也能享受到计算机字符的处理,诞生了包含非常多字符信息的
+字符集:Unicode
+</li>
+<li>Unicode version 8定义了超过120000个character.需要32bit的存储,也就是int32.
+在Go里面,设计了int32的一个同义词rune来处理Unicode
+</li>
+<li>有了Unicode,如果把所有的字符串里面的每个字符都设计成Unicode(rune类型)的话,
+一切问题就都解决了.这种情况下,这个字符串叫做UTF-32(或者UCS-4)
+</li>
+<li>这种做法简单而粗暴.虽然解决了问题,但是造成了巨大的浪费.因为计算机中最主要
+的字符还是ASCII(而ASCII只需要8bit,那么剩下的24bit就白白浪费了)
+</li>
+<li>解决这个问题的新技术就是UTF-8
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-5-3" class="outline-4">
+<h4 id="sec-3-5-3">UTF-8</h4>
+<div class="outline-text-4" id="text-3-5-3">
+<ul class="org-ul">
+<li>UTF-8就是为了克服Unicode浪费空间而设计的一种新的编码方式. 其核心就是:
+<ul class="org-ul">
+<li>对于ASCII 字符使用1byte
+</li>
+<li>对于常用的字符串使用2-3byte
+</li>
+<li>其他不常用字符串使用4byte
+</li>
+</ul>
+</li>
+<li>具体实现的方法是第一个byte的前几个bit来"告知"系统后面有几个byte是和当前byte
+是"一体的"(当前byte的小弟):
+<ul class="org-ul">
+<li>小弟(非第一个byte)的编码是10xxxxxx
+</li>
+<li>大哥(第一个byte)的编码前几位有几个1就是自己有几个"小弟"(包括自己)
+</li>
+</ul>
+</li>
+<li>按照上面的规则,我们可以看出不同的Unicode值对应的UTF-8长度
+<table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Runes number</th>
+<th scope="col" class="left">UTF-8 bits</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">0 - 127</td>
+<td class="left">0xxxxxxx</td>
+</tr>
+
+<tr>
+<td class="left">128 - 2047</td>
+<td class="left">110xxxxx 10xxxxxx</td>
+</tr>
+
+<tr>
+<td class="left">2048 - 65535</td>
+<td class="left">110xxxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+
+<tr>
+<td class="left">65535 - 0x10ffff</td>
+<td class="left">110xxxxx 10xxxxxx 10xxxxxx 10xxxxxx</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>Go的代码总是以UTF-8来进行编码.
+</li>
+<li>而代码中的字符串如果是UTF-8的话,需要unicode/utf8 package来提供访问单独rune
+的功能.
+</li>
+<li>很多Unicode字符都是无法打印出来的.所以我们需要转义符来打印.在Go string literal
+里面,有三种valid的方式(以'世界'为例):
+<ul class="org-ul">
+<li>\xhh(小写的x加上ASCII字符, 这个是原始的UTF-8编码,去掉标志位之后,就是utf-8
+实际的参数)
+<pre class="example">
+"\xe4\xb8\x96\xe7\x95\x8c"
+
+e4b896 hex_to_binary =&gt; "11100100 10111000 10010110"
+按照先后顺序去掉'标志位'=&gt; "   00100   111000   010110"
+                     =&gt; "00100 1110 0001 0110"
+                     =&gt; "4     e    1    6"
+</pre>
+</li>
+<li>\uhhhh(小写的u加上4位16进制数):
+<pre class="example">
+"\u4e16\u754c"
+</pre>
+</li>
+<li>Uhhhhhhhh(大写的U加上8位16进制数)
+<pre class="example">
+"\U00004e16\U0000754c"
+</pre>
+</li>
+</ul>
+</li>
+<li>以上的三种UTF-8 escape sequence对于string literal来说都是等价的.但是对于rune
+类型来说只有当其值为小于256的时候才能使用'\x..'的格式, "\xe4\xb8\x96"就不是
+一个valid的rune格式.对于'世'这个超过256值的rune类型来说,只有如下三个是可以
+赋值给rune类型变量的:
+<ul class="org-ul">
+<li>'世'
+</li>
+<li>"\u4e16"
+</li>
+<li>"\u00004e16"
+</li>
+</ul>
+</li>
+<li>我们来看看一个utf-8的string是如何存储的:
+<ul class="org-ul">
+<li>其示意图如下
+<pre class="example">
+              +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
+              |...| h | e | l | l | o | , |   | e4| b8| 96| e7| 95| 8c|...|   |   |   |   |   |
+              +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
+                    ^                          _____世____+_____界_____
+                    |
+                    |
++----------+        |
+| data    -+--------+
++----------+
+| len: 13  |
++----------+
+</pre>
+</li>
+<li>我们可以看到字符串是真实的以8bit为单位,存储了其8bit单元格的数目13作为其
+len.我们必须借助utf8 package才能判断出其内部到底有多个unicode字符串
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import (
+    "fmt"
+    "unicode/utf8"
+)
+
+func main() {
+    s := "hello, 世界"
+    fmt.println(len(s))
+    fmt.println(utf8.runecountinstring(s))
+}
+
+////////////////////////////////////////////////////
+// &lt;===================output===================&gt; //
+// 13                                             //
+// 9                                              //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>但是有些函数,比如range,在loop的时候,就会自动decode
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    for i, r := range "hello, 世界" {
+        fmt.printf("%d\t%q\t%x\n", i, r, r)
+
+    }
+}
+
+///////////////////////////////////////////////////////
+// &lt;===================output===================&gt;    //
+// 0    'h' 48                                       //
+// 1    'e' 65                                       //
+// 2    'l' 6c                                       //
+// 3    'l' 6c                                       //
+// 4    'o' 6f                                       //
+// 5    ',' 2c                                       //
+// 6    ' ' 20                                       //
+// 7    '世'    4e16                                 //
+// 10   '界'    754c                                 //
+///////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>换句话说就是range implicit地调用了utf8.DecodeRuneInString.
+</li>
+<li>调用utf8.DecodeRuneInString,无论是explicit还是implicit的情况下,有时候会遇到
+所decode的字符串里含有unexpected的input byte.这种情况下,go会自动将unexpected
+的字符替换成'\uFFFD',这会是一个菱形的问号.如果遇到这个字符,说明上游的字符串
+出了问题
+</li>
+<li>UTF-8很方便,又节省空间.但是有时候,我们不希望节省空间,这个时候,我们就可以直
+接使用rune类型.我们可以认为rune类型是为Unicode设计的,即便是ASCII类型的字符
+也是使用32个bit.换句话说,rune类型数组的len不在是以8bit为单位记录的了,而是以
+32bit为单位记录.这样虽然不高效,但是容易理解
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    s := "a世界"
+
+    r := []rune(s)
+    fmt.Println(len(r))
+    fmt.Printf("%x\n", r)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 3                                              //
+// [61 4e16 754c]                                 //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-5-4" class="outline-4">
+<h4 id="sec-3-5-4">Strings and Byte Slices</h4>
+<div class="outline-text-4" id="text-3-5-4">
+<ul class="org-ul">
+<li>go处理string主要有如下几个package:
+<ul class="org-ul">
+<li>bytes: 主要对byte提供search, replace, compara, trim, split join等功能.而
+且因为string是immutable的,所有有些情况下需要使用bytes来提高字符串处理的效率
+</li>
+<li>strings: 主要对string提供search, replace, compara, trim, split join等功能.
+</li>
+<li>strconv: 负责boolean, integer, floating-point值和string之间的相互转换.
+</li>
+<li>unicode: 提供了对rune类型的帮助函数
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-5-5" class="outline-4">
+<h4 id="sec-3-5-5">Conversions between Strings and Numbers</h4>
+<div class="outline-text-4" id="text-3-5-5">
+<ul class="org-ul">
+<li>我们来看看strconv的转换功能.
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import (
+    "fmt"
+    "strconv"
+)
+
+func main() {
+    x := 123
+    y := fmt.Sprintf("%d", x)
+    fmt.Println(y, strconv.Itoa(x))
+
+    fmt.Println(strconv.FormatInt(int64(x), 2))
+
+    fmt.Printf("x=%b\n", x)
+
+    x2, _ := strconv.Atoi("123")
+    y2, _ := strconv.ParseInt("123", 10, 64) // base 10, up to 64 bits
+
+    fmt.Println(x2)
+    fmt.Println(y2)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 123 123                                        //
+// 1111011                                        //
+// x=1111011                                      //
+// 123                                            //
+// 123                                            //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6">Constants</h3>
+<div class="outline-text-3" id="text-3-6">
+<ul class="org-ul">
+<li>所谓Constant,就是在compile time就被编译器所知的,而且不会改变的值.
+</li>
+<li>只有如下三种类型可以设置为constant:
+<ul class="org-ul">
+<li>boolean
+</li>
+<li>string
+</li>
+<li>number
+</li>
+</ul>
+</li>
+<li>const value只是mathematical constant的一种更为容易接受的表示方法(对人类更友
+好, 对编译器来说,没区别)
+</li>
+<li>const可以在()里面一次定义多个
+<div class="org-src-container">
+
+<pre class="src src-go">const (
+    e = 2.71828
+    pi = 3.1415926
+)
+</pre>
+</div>
+</li>
+<li>因为constant其值在compile time已知,所以可以使用在定义type的时候
+</li>
+<li>定义的时候,如果某一项不赋值,其值从上一项来. 当然这种设置方式不太合理.
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    const (
+        a = 1
+        b
+        c = 2
+        d
+    )
+    fmt.Println(a, b, c, d)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 1 1 2 2                                        //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-3-6-1" class="outline-4">
+<h4 id="sec-3-6-1">The Constant Generator iota</h4>
+<div class="outline-text-4" id="text-3-6-1">
+<ul class="org-ul">
+<li>const 的定义还可以更加的"智能",就是iota,能够"智能"的增加.默认从0开始,默认
+每次增加1
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    type Weekday int
+
+    const (
+        Sunday Weekday = iota
+        Monday
+        Tuesday
+        Wednesday
+        Thursday
+        Friday
+        Saturday
+    )
+
+    fmt.Println(Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 0 1 2 3 4 5 6                                  //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>还可以使用更加复杂的用法
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    const (
+        First uint = 1 &lt;&lt; iota
+        Second
+        Third
+        Fourth
+        Fifth
+    )
+
+    fmt.Println(First, Second, Third, Fourth, Fifth)
+    fmt.Println("Binary:")
+    fmt.Printf("%b, %b, %b, %b, %b", First, Second, Third, Fourth, Fifth)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 1 2 4 8 16                                     //
+// Binary:                                        //
+// 1, 10, 100, 1000, 10000                        //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-6-2" class="outline-4">
+<h4 id="sec-3-6-2">Untyped Constants</h4>
+<div class="outline-text-4" id="text-3-6-2">
+<ul class="org-ul">
+<li>虽然constant可以是一种basic data type比如int或者float64,但是很多情况下constant
+在编译时间是无法确定其类型的.这种情况下, go编译器会使用一个最大256bit的存储
+空间来存储这个constant,这就是所谓的untyped constant
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Chapter 04: Composite Types</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">Arrays</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li>Array是一种"固定"长度的某种类型的element的集合.因为其长度固定,所以在"具有动
+态特性"的go语言中,很少使用.而更具动态特点的slice则更多的被使用.slice和array
+则是相辅相成的一对.不理解array,则无法理解slice
+</li>
+<li>array初始化方法主要以array literal为主(如果不初始化,或者literal没有提到的,就
+设置为0)
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    var q [3]int = [3]int{1, 2, 3}
+    var r [3]int = [3]int{1, 2}
+    fmt.Println(q)
+    fmt.Println(r)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// [1 2 3]                                        //
+// [1 2 0]                                        //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>当然了,如果我们想让literal的长度来决定数组的话,就要使用ellipsis(&#x2026;)
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    q := [...]int{1, 2, 3, 4}
+    fmt.Println(q)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// [1 2 3 4]                                      //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>ellipsis还可以指定index的, 比如指定了index 9为-1之后,前八个值都为0
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    symbol := [...]int{9: -1}
+    fmt.Println(symbol)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// [0 0 0 0 0 0 0 0 0 -1]                         //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>ellipsis是array, slice, map, struct通用的方法
+</li>
+<li>如果两个array的element type是"可以比较的", 那么这两个array也是可以比较的,比
+较只有"相同"和"不相同",没有大小关系.所以只能使用"==","!="来比较
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    a := [2]int{1, 2}
+    b := [...]int{1, 2}
+    c := [2]int{1, 3}
+    fmt.Println(a == b, a == c, b == c)
+    d := [3]int{1, 2}
+    _ = d
+    // fmt.Println(a == d)      // invalid operation: a == d (mismatched types [2]int and [3]int)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// true false false                               //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>可以比较数组是非常"实用"的功能.这样让两个"非常长的数"放到两个数组里面,比较
+这两个数组就能比较两个"非常长的数"
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import (
+    "crypto/sha256"
+    "fmt"
+)
+
+func main() {
+    c1 := sha256.Sum256([]byte("x"))
+    c2 := sha256.Sum256([]byte("X"))
+    fmt.Printf("%x\n%x\n%t\n%T\n", c1, c2, c1 == c2, c1)
+}
+
+//////////////////////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt;                   //
+// 2d711642b726b04401627ca9fbac32f5c8530fb1903cc4db02258717921a4881 //
+// 4b68ab3847feda7d6c62c1fbcbeebfa35eab7351ed5e78f4ddadea5df64b8015 //
+// false                                                            //
+// [32]uint8                                                        //
+//////////////////////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2">Slices</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li>slice是"变长"的相同数据类型的集合.和数组的"固定长度"相对立.数组的类型一般是
+[n]T, 数组长度不一样,其类型肯定不一样. 而slice的类型则是[]T, 也就是说slice
+的类型,只和其内部数据的类型有关系
+</li>
+<li>slice其实是依附于array的, 每个slice都有三部分组成:
+<ul class="org-ul">
+<li>pointer: 指向自己的underlying array的某个一位置(不一定是第一个)
+</li>
+<li>length: slice的长度. len函数返回这个值
+</li>
+<li>capacity: slice的长度(pointer指向的underlying array位置开始,到underlying
+array 结束时候的长度). cap函数返回这个值
+</li>
+</ul>
+</li>
+<li>slice的创建方法是s[i:j], 其中这里的s类型可能是:
+<ul class="org-ul">
+<li>array
+</li>
+<li>指向array的pointer
+</li>
+<li>另外一个slice
+</li>
+</ul>
+</li>
+<li>[i:j]的规则和python相同,所以大家应该不会陌生.
+</li>
+<li>所以slice看起来有点像c语言里面的数组指针!只不过是包裹过的,更加安全的指针!因
+为是指针,所以两个slice之间也是有可能重叠的.
+</li>
+<li>还是因为slice内部有一个指针,所以传递一个slice到一个函数里面是常用的做法,因为
+这避免了拷贝.但是也有一个副作用,那就是underlying array的值可能会被改变
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func reverse(s []int) {
+    for i, j := 0, len(s)-1; i &lt; j; i, j = i+1, j-1 {
+        s[i], s[j] = s[j], s[i]
+    }
+}
+
+func main() {
+    a := [...]int{0, 1, 2, 3, 4, 5}
+    reverse(a[:])
+    fmt.Println(a)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// [5 4 3 2 1 0]                                  //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>编程珠玑里面的rotate 一个数组n个位置的经典问题,在slice看来就变得非常简单
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func reverse(s []int) {
+    for i, j := 0, len(s)-1; i &lt; j; i, j = i+1, j-1 {
+        s[i], s[j] = s[j], s[i]
+    }
+}
+
+func main() {
+    // rotate s by 2
+    s := []int{0, 1, 2, 3, 4, 5} // Important! slice is []int type
+    reverse(s[:2])
+    reverse(s[2:])
+    reverse(s)
+    fmt.Println(s)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// [2 3 4 5 0 1]                                  //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>和数组不一样的是,slice是不能使用==进行比较的.唯一一个类外,是[]byte类型的slice
+可以使用bytes.Equal来进行比较.我们必须自己写函数来比较两个slice.比如
+<div class="org-src-container">
+
+<pre class="src src-go">func equal(x, y []string) bool {
+    if len(x) != len(y) {
+        return false
+    }
+    for i := range x {
+        if x[i] != y[i] {
+            return false
+        }
+    }
+    return true
+}
+</pre>
+</div>
+</li>
+<li>slice使用==的情况只有一种,就是和nil比较.
+<div class="org-src-container">
+
+<pre class="src src-go">if summer == nil { /* ... */ }
+</pre>
+</div>
+</li>
+<li>之所以可以和nil比较.是因为slice有一种形态叫做zero value. 注意不是成员是zero
+个,而是什么都没有的状态. 这种状态下的slice是没有underlying array的.反之,有
+zero个的slice是存在的,比如[]int{}, 其明显有类型为[]int.所以
+<pre class="example">
+If you need to test whether a slice is empty,
+use len(s) == 0, not s == nil
+</pre>
+</li>
+<li>go使用内置的make函数来创建一个slice(其核心就是创建一个unnamed array, 然后在
+这个array基础上创建slice),其有三个参数:类型, length, capacity.其中capacity
+可以省略,省略的情况下length等于capacity. 其实这个capacity就是unnamed array的
+全部长度啦.
+<div class="org-src-container">
+
+<pre class="src src-go">make([]T, len)
+make([]T, len, cap)
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-4-2-1" class="outline-4">
+<h4 id="sec-4-2-1">The append Function</h4>
+<div class="outline-text-4" id="text-4-2-1">
+<ul class="org-ul">
+<li>append是go语言内置的函数,用来添加item到slice里面.append添加的数目不受slice
+capacity的限制,所以最后很可能返回一个和原来的slice'不相同的'slice(重新分配
+了地址). 比如下面的runes slice从0开始,最后的size肯定不是0
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    var runes []rune
+
+    for _, r := range "Hello, 世界" {
+        runes = append(runes, r)
+    }
+    fmt.Printf("%q\n", runes)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// ['H' 'e' 'l' 'l' 'o' ',' ' ' '世' '界']        //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>append对于slice的处理,类似c++中对于vector的处理&#x2013;空间不够的情况下,cap加倍
+当然这只是简单的描述,具体的算法可能更加的精密.我们来通过下面的例子来验证我
+们的想法
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    var x, y []int
+    for i := 0; i &lt; 10; i++ {
+        y = append(x, i)
+        fmt.Printf("%d cap =%d\t%v\n", i, cap(y), y)
+        x = y
+    }
+}
+
+///////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt;    //
+// 0 cap =1 [0]                                      //
+// 1 cap =2 [0 1]                                    //
+// 2 cap =4 [0 1 2]                                  //
+// 3 cap =4 [0 1 2 3]                                //
+// 4 cap =8 [0 1 2 3 4]                              //
+// 5 cap =8 [0 1 2 3 4 5]                            //
+// 6 cap =8 [0 1 2 3 4 5 6]                          //
+// 7 cap =8 [0 1 2 3 4 5 6 7]                        //
+// 8 cap =16    [0 1 2 3 4 5 6 7 8]                  //
+// 9 cap =16    [0 1 2 3 4 5 6 7 8 9]                //
+///////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>append函数更加强大的地方在于其允许每次加多个item, 甚至允许增加一整个slice.
+当然了,slice做参数的时候需要在后面加上&#x2026;
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    var x []int
+    x = append(x, 1)
+    x = append(x, 2, 3)
+    x = append(x, 4, 5, 6)
+    fmt.Println(x)
+    x = append(x, x...)
+    fmt.Println(x)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// [1 2 3 4 5 6]                                  //
+// [1 2 3 4 5 6 1 2 3 4 5 6]                      //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-2-2" class="outline-4">
+<h4 id="sec-4-2-2">In-Place Slice Techniques</h4>
+<div class="outline-text-4" id="text-4-2-2">
+<ul class="org-ul">
+<li>in-place的更改一个slice的值是非常常用的手段.比如下面的这个nonempty的例子,就
+是输入一个slice,去除这个slice里面为empty的string,然后返回.nonempty函数"implicit"
+的更改了input slice(因为使用了相同的underlying array),所以我们最后要赋一下
+值.防止这个被改写的slice在别的地方被使用
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func nonempty(strings []string) []string {
+    i := 0
+    for _, s := range strings {
+        if s != "" {
+            strings[i] = s
+            i++
+        }
+    }
+    return strings[:i]
+}
+
+func main() {
+    data := []string{"one", "", "three"}
+    // usually write
+    // data = nonempty(data)
+    fmt.Printf("%q\n", nonempty(data))
+    fmt.Printf("%q\n", data)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// ["one" "three"]                                //
+// ["one" "three" "three"]                        //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>一个slice可以用来实现stack:
+<ul class="org-ul">
+<li>比如我们一开始有一个empty slice `stack`,我们可以使用append来模仿push
+<div class="org-src-container">
+
+<pre class="src src-go">stack = append(stack, v)        // push v
+</pre>
+</div>
+</li>
+<li>[len(stack)-1]就可以模仿top
+<div class="org-src-container">
+
+<pre class="src src-go">top := stack[len(stack)-1]      // top of stack
+</pre>
+</div>
+</li>
+<li>[:len(stack)-1]就可以模仿pop
+<div class="org-src-container">
+
+<pre class="src src-go">stack = stack[:len(stack)-1]    // pop
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>从slice中间删除数据:
+<ul class="org-ul">
+<li>如果需要保持原来的顺序
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func remove(slice []int, i int) []int {
+    copy(slice[i:], slice[i+1:])
+    return slice[:len(slice)-1]
+}
+
+func main() {
+    s := []int{5, 6, 7, 8, 9}
+    fmt.Println(remove(s, 2))
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// [5 6 8 9]                                      //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>如果不需要保持原来的顺序
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func remove(slice []int, i int) []int {
+    slice[i] = slice[len(slice)-1]
+    return slice[:len(slice)-1]
+}
+
+func main() {
+    s := []int{5, 6, 7, 8, 9}
+    fmt.Println(remove(s, 2))
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// [5 6 9 8]                                      //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3">Maps</h3>
+<div class="outline-text-3" id="text-4-3">
+<ul class="org-ul">
+<li>哈希表是计算机重要的数据结构,在go里面,是使用map关键字来指代hashmap,其有两个
+类型需要指定,一个是key的类型,一个是value的类型(两者类型不一定需要相同)
+</li>
+<li>key的类型是需要能够使用"=="来比较的类型,所以,虽然float类型可以使用"=="来比较
+但是显然比较不准确,所以使用float类型做key是不合理的.
+</li>
+<li>创建map有两种方式:
+<ul class="org-ul">
+<li>最基本的当然是使用make
+<div class="org-src-container">
+
+<pre class="src src-go">ages := make(map[string]int)
+</pre>
+</div>
+</li>
+<li>也可以使用map literal
+<div class="org-src-container">
+
+<pre class="src src-go">ages := map[string]int {
+    "alice":  31,
+    "charlie":34,
+}
+</pre>
+</div>
+</li>
+<li>使用map literal等同于先使用make,然后赋值
+<div class="org-src-container">
+
+<pre class="src src-go">ages := make(map[string]int)
+ages["alice"] = 31
+ages["charlie"] = 34
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>map的访问是使用[]
+</li>
+<li>map的删除是使用内置的delete函数
+<div class="org-src-container">
+
+<pre class="src src-go">delete(ages, "alice")
+</pre>
+</div>
+</li>
+<li>go中map的一大特性是:如果key不存在就会返回zero value,所以如下操作即便是在map
+中没有bob的时候,依然不会出错
+<div class="org-src-container">
+
+<pre class="src src-go">ages["bob"]= ages["bob"] + 1
+</pre>
+</div>
+</li>
+<li>map element还支持+= 和++操作
+<div class="org-src-container">
+
+<pre class="src src-go">ages["bob"] += 1
+ages["bob"]++
+</pre>
+</div>
+</li>
+<li>但是map element不是一个variable,所以我们无法取得它的地址. 这样做也是有其深
+层次原因的. 因为map可能每加入一个element就会重构内部的存储,m[key]的存储位置
+可能就会改变.
+</li>
+<li>对于map来说,range返回的结果,不再是index value,而是key,value
+<div class="org-src-container">
+
+<pre class="src src-go">for name, age := range ages {
+    fmt.Printf("%s\t%d\n", name, age)
+}
+</pre>
+</div>
+</li>
+<li>需要特别注意的是,map的结果是random的,没有顺序的.这么做当然也是故意的.所以我
+们不要依赖range返回的顺序,真的需要顺序访问的话,需要借助slice和sort
+<div class="org-src-container">
+
+<pre class="src src-go">import "sort"
+
+var names []string
+for name := range ages {
+    names = append(names, name)
+}
+
+sort.Strings(names)
+for _, name := range names {
+    fmt.Printf("%s\t%d\n", name, ages[name])
+}
+</pre>
+</div>
+</li>
+<li>map type的zero value是nil
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func main() {
+    var ages map[string]int
+    fmt.Println(ages == nil)
+    fmt.Println(len(ages) == 0)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// true                                           //
+// true                                           //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>delete, len, range这些操作于一个nil的map(而不是empty size map)都是可以的,但
+是m[key] = value操作不可以在一个nil的map上面.你得分配了空间才能用啊!
+<div class="org-src-container">
+
+<pre class="src src-go">ages["carol"] = 21
+</pre>
+</div>
+</li>
+<li>m[key]一个值,即便key不存在,也是没有问题的,但是很多情况下,我们希望知道有没有,
+然后进行后续的操作,这就出现了如下的两种写法,它们是等价的:
+<ul class="org-ul">
+<li>two-line version:
+<div class="org-src-container">
+
+<pre class="src src-go">age, ok := ages["bob"]
+if !ok { /* bob is not a key in this map age == 0 */}
+</pre>
+</div>
+</li>
+<li>one-line version
+<div class="org-src-container">
+
+<pre class="src src-go">if age, ok := ages["bob"]; !ok { /* ... */}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>和slice一样,两个map也不可以相互比较(和nil的比较是可以的).如果想比较需要自己
+写loop
+<div class="org-src-container">
+
+<pre class="src src-go">func equal(x, y map[string]int) bool {
+    if len(x) != len(y) {
+        return false
+    }
+    for k, xv := range x {
+        if yv, ok := y[k]; !ok || yv != xv{
+            return false
+        }
+    }
+    return true
+}
+</pre>
+</div>
+</li>
+<li>go没有为我们提供set类型,但是因为map的key也是必须distinct的,所以我们可以如下
+提供一个set
+<div class="org-src-container">
+
+<pre class="src src-go">set := make(map[string]bool)
+</pre>
+</div>
+</li>
+<li>有时候,我们需要使用slice做为key,但是slice显然无法使用'==',进行比较,那么我们
+就需要一些方法来让slice变成string,然后string肯定就可以使用'=='比较啦.注意,
+我们下面的函数使用了"q", 这会给每个参数加上""
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+var m = make(map[string]int)
+
+func k(list []string) string { return fmt.Sprintf("%q", list) }
+
+func Add(list []string)       { m[k(list)]++ }
+func Count(list []string) int { return m[k(list)] }
+
+func main() {
+
+    Add([]string{"1", "2", "3"})
+    Add([]string{"1", "2", "3"})
+    Add([]string{"1", "2", "3", "4"})
+    Add([]string{"1", "2", "3"})
+
+    fmt.Println(Count([]string{"1", "2", "3"}))
+
+    for k, v := range m {
+        fmt.Println(k, v)
+    }
+
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 3                                              //
+// ["1" "2" "3" "4"] 1                            //
+// ["1" "2" "3"] 3                                //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4">Structs</h3>
+<div class="outline-text-3" id="text-4-4">
+<ul class="org-ul">
+<li>struct 是一种aggregate date type. 它的内部可能有0个或者多个"任意类型的"named
+value
+</li>
+<li>struct的每一个named valu都叫做一个field. 下面就是一个有多个field的struct类型
+Employee. 而 dilbert则是Employee类型的一个实例
+<div class="org-src-container">
+
+<pre class="src src-go">import "time"
+
+type Employee struct {
+    ID        int
+    Name      string
+    Address   string
+    DoB       time.Time
+    Position  string
+    Salary    int
+    ManagerID int
+}
+
+var dilbert Employee
+</pre>
+</div>
+</li>
+<li>struct 实例的每个field都可以使用"&lt;instance&gt;.&lt;field&gt;"来访问, 而且这些个实例
+都是真正的variable,都有自己地址的
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import (
+    "fmt"
+    "time"
+)
+
+type Employee struct {
+    ID        int
+    Name      string
+    Address   string
+    DoB       time.Time
+    Position  string
+    Salary    int
+    ManagerID int
+}
+
+func main() {
+    var dilbert Employee
+    fmt.Println(dilbert.Salary)
+    dilbert.Salary += 5000
+    fmt.Println(dilbert.Salary)
+
+    dilbert.Position = "Engineer"
+    fmt.Println(dilbert.Position)
+    position := &amp;dilbert.Position
+    *position = "Senior " + *position
+    fmt.Println(dilbert.Position)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 0                                              //
+// 5000                                           //
+// Engineer                                       //
+// Senior Engineer                                //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>dot notation 的"奇特"之处在于不能仅仅instance可以使用"pointer to instance"
+也可以使用(相对于go, c语言里面指针会使用-&gt;)
+<div class="org-src-container">
+
+<pre class="src src-go">var employeeOfTheMonth *Employee = &amp;dilbert
+employeeOfTheMonth.Position += " (proactive team player)"
+</pre>
+</div>
+</li>
+<li>struct里面field的位置是不能随便换的.一旦换了,那么就是一个新的struct类型了.
+</li>
+<li>如果首字母大写的话,那么这个field就是exported的啦.这是Go独特的控制field是否
+private的方法
+</li>
+<li>一个struct类型内部不能声明另外一个自己的类型, 但是却可以声明一个自己类型的指
+针. 这样的话,才可以实现linkedlist
+</li>
+<li>对于一个struct来说,它的zero value,就是它的每个成员的zero value的组合.
+</li>
+<li>如果一个struct什么"其他类型都不包含",那么它的样子是这样子的struct{}.
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-4-4-1" class="outline-4">
+<h4 id="sec-4-4-1">Struct Literals</h4>
+<div class="outline-text-4" id="text-4-4-1">
+<ul class="org-ul">
+<li>一般来说，初始化struct有两种literal：
+<ul class="org-ul">
+<li>无field版本:(需要自己记住struct初始化时候field的顺序,这也是为什么struct
+初始化的顺序改变了的话,就是不同的struct了)
+<div class="org-src-container">
+
+<pre class="src src-go">type Point struct{X, Y int}
+p := Point{1, 2}
+</pre>
+</div>
+</li>
+<li>有field版本(没有设置的field自动设置为zero value)
+<div class="org-src-container">
+
+<pre class="src src-go">anim := gif.GIF{LoopCount: nframes}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>上面两种方法不能"混着用"
+</li>
+<li>另外需要注意的是,如果这个struct的field是unexported的(小写),那么只可以在本
+package内部使用
+<div class="org-src-container">
+
+<pre class="src src-go">package p
+type T struct{a, b int}         // a and b are not exported
+
+package q
+import "p"
+var _ = p.T{a:1, b:2}           // compile error: can't reference a, b
+var _ = p.T{1, 2}               // compile error: can't reference a, b
+</pre>
+</div>
+</li>
+<li>struct 可以传递给函数,也可以从函数中返回
+<div class="org-src-container">
+
+<pre class="src src-go">func Scale(p Point, factor int) Point {
+    return Point(p.X * factor, p.Y * factor)
+}
+</pre>
+</div>
+</li>
+<li>如果struct的size过大,我们就最好使用pointer来传递数据, 因为Go语言是如假包换
+的pass-by-value.如果需要更改参数的值,那么使用pointer传递数据也是必须的
+<div class="org-src-container">
+
+<pre class="src src-go">func AwardAnnualRaise(e *Employee) {
+    e.Salary = e.Salary * 105  / 100
+}
+</pre>
+</div>
+</li>
+<li>由于struct和pointer如此紧密的联系,Go设计了一种shorthand notation来创建一个
+struct,并且马上获取它的指针的写法. 这种写法非常简洁有效
+<div class="org-src-container">
+
+<pre class="src src-go">pp := &amp;Point{1, 2}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-4-2" class="outline-4">
+<h4 id="sec-4-4-2">Comparing Structs</h4>
+<div class="outline-text-4" id="text-4-4-2">
+<ul class="org-ul">
+<li>如果struct的每个field都可以比较,那么两个struct就可以比较(注意只是比较"相等"
+或者"不相等",而不是比较大小)
+</li>
+<li>可以比较的struct,就可以做为map的key
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-4-3" class="outline-4">
+<h4 id="sec-4-4-3">Struct Embedding and Anonymous Fields</h4>
+<div class="outline-text-4" id="text-4-4-3">
+<ul class="org-ul">
+<li>下面介绍的是Go语言struct的嵌套,这种嵌套是把一个named的struct放入到另外的一
+个struct里面,作为一个anonymous field.这种做法是Go语言特有的.
+</li>
+<li>我们通过一个例子来看看这个特性:
+<ul class="org-ul">
+<li>2D图像中常用的shape类型有如下两个(一个是圆形,一个是车轮)
+<div class="org-src-container">
+
+<pre class="src src-go">type Circle struct {
+    X, Y, Radius int
+}
+
+type Wheel struct {
+    X, Y, Radius, Spokes int
+}
+</pre>
+</div>
+</li>
+<li>车轮和Circle都有X,Y,也都有Radius,只是车轮比Circle多了一个Spoke.而X,Y很明
+显能转换成一个Point类型的struct.于是在"其他语言中"会有如下的写法
+<div class="org-src-container">
+
+<pre class="src src-go">type Point struct {
+    X, Y int
+}
+
+type Circle struct {
+    Center Point
+    Radius int
+}
+
+type Wheel struct {
+    Circle Circle
+    Spokes int
+}
+
+var w Wheel
+w.Circle.Center.X = 8
+w.Circle.Center.Y = 8
+w.Circle.Radius = 5
+w.Spokes = 20
+</pre>
+</div>
+</li>
+<li>这一切看起来太麻烦了.Go让一个named struct可以直接存在于另外一个struct里面
+而且不需要name(所以叫做anonymous field),注意存一个struct可以,或者存struct
+的指针也可以.
+<div class="org-src-container">
+
+<pre class="src src-go">type Circle struct {
+    Point
+    Radius int
+}
+
+type Wheel struct {
+    Circle
+    Spokes int
+}
+</pre>
+</div>
+</li>
+<li>更绝的是,使用的时候,不需要再加上anonymous struct的名字了
+<div class="org-src-container">
+
+<pre class="src src-go">var w Wheel
+w.X = 8
+w.Y = 8
+w.Radius = 5
+w.Spokes = 20
+</pre>
+</div>
+</li>
+<li>当然了,一旦你选择了anonymous struct,就不能再向下面一样使用literal了
+<div class="org-src-container">
+
+<pre class="src src-go">w = Wheel{8, 8, 5, 20}          // compile error: unknown fields
+w = Wheel{X:8, Y:8, Radius: 5, Spokes:20} // compile error: unknown fields
+</pre>
+</div>
+</li>
+<li>使用的方法是要列出anonymous field
+<div class="org-src-container">
+
+<pre class="src src-go">w = Wheel {Circle{Point{8, 8},5}, 20}
+
+w = Wheel {
+    Circle: Circle{
+        Point: Point{X: 8, Y:8},
+        Radius: 5,
+    }
+    Spokes: 20,
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5">Json</h3>
+<div class="outline-text-3" id="text-4-5">
+<ul class="org-ul">
+<li>在互联网上传送structured information.有很多的协议,比如json, xml, asn.1等,Go
+统统都有支持,比如encoding/json, encoding/xml, encoding/asn1. 但是当前显然大
+部分人都只使用json
+</li>
+<li>JSON类型types有如下几种:
+<ul class="org-ul">
+<li>numbers(decimal 或者scientific notation)
+</li>
+<li>boolean(true or false)
+</li>
+<li>string (Unicode code, 但是JSON使用的是Unicode-16)
+</li>
+</ul>
+</li>
+<li>JSON array是ordered sequence value, 使用逗号分隔, Go中使用array或者slice对应
+</li>
+<li>JSON object是一个name:value的对应串,Go中使用map[string]struct来对应
+</li>
+<li>Go使用struct filed name来作为JSON object的name(使用了reflection机制), 当然了,
+如果你需要一个另外的名字可以使用如下的写法
+<div class="org-src-container">
+
+<pre class="src src-go">Year int `json:"released"`
+</pre>
+</div>
+</li>
+<li>Go"只"会处理exported field,所以我们必须大写所有的struct field
+</li>
+<li>JSON里面还有一种特别的情况是,如果某个field是zero value,我们不希望JSON字符串
+里面有这个值,那么就要使用omitempty
+<div class="org-src-container">
+
+<pre class="src src-go">Color bool `json:"color,omitempty"`
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-6" class="outline-3">
+<h3 id="sec-4-6">Text and HTML Templates</h3>
+<div class="outline-text-3" id="text-4-6">
+<ul class="org-ul">
+<li>Go有其特殊的将variable value转换成text或者HTML template的能力.docker的inspect
+就是使用了这个特性.
+</li>
+<li>在Go里面,template的定义,就是有一个或者多个的{{&#x2026;}}. 每一个{{}}叫做一个action
+</li>
+<li>每一个action都包含一个expression,可以用来做以下的事情:
+<ul class="org-ul">
+<li>printing value
+</li>
+<li>select structfield
+</li>
+<li>call function
+</li>
+<li>if else 或者 range loop
+</li>
+<li>实例化其他的template
+</li>
+</ul>
+</li>
+<li>TODO
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Chapter 05: Functions</h2>
+<div class="outline-text-2" id="text-5">
+<ul class="org-ul">
+<li>function是计算机编程里面的老概念了,其是把一系列的statement组合起来,然后赋予
+一个名字,以备后来再用.
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1">Function Declarations</h3>
+<div class="outline-text-3" id="text-5-1">
+<ul class="org-ul">
+<li>Go中的函数定义方法如下
+<pre class="example">
+func name(parameter-list) (result-list) {
+     body
+}
+</pre>
+</li>
+<li>每个函数都必须在调用的时候,提供"所有的"参数, Go没有所谓的default parameter
+的概念.
+</li>
+<li>parameter是作用域为function的local variable
+</li>
+<li>Go的参数传递方式是pass by value.所以function接到的是一个agrument的copy.所以
+对参数的更改不会影响到调用者.但是要非常注意的是,不同于c语言, go语言是有自己
+的reference类型的(比如pointer, slice, map, function, channel),这些reference
+类型内部"间接"包含的内容会被function更改的.
+</li>
+<li>有些情况下你会看到function的声明了,却没有body, 这是因为这个function是使用其
+他的语言实现的
+<div class="org-src-container">
+
+<pre class="src src-go">package math
+func Sin(x float64) float64     // implemented in assembly language
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2">Recursion</h3>
+<div class="outline-text-3" id="text-5-2">
+<ul class="org-ul">
+<li>递归是编程语言最常见的函数使用方法,但是普通的编程语言为了防止stack的增长过快,
+设置了fiexed-size的stack.一般是64KB到2MB, 而Go语言则设置了variable-size stack
+stack最高可以达到gigabyte. 这让我们在Go里面可以放心的使用递归.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-3" class="outline-3">
+<h3 id="sec-5-3">Multiple Return Values</h3>
+<div class="outline-text-3" id="text-5-3">
+<ul class="org-ul">
+<li>Go的多次返回大部分都做到了返回值上
+<div class="org-src-container">
+
+<pre class="src src-go">func main() {
+    for _, url := range os.Args[1:] {
+        links, err := findLinks(url)
+        if err != nil {
+            fmt.Fprintf(os.Stederr, "findlink2: %v\n", err)
+        }
+        for _, link := range links {
+            fmt.Println(link)
+        }
+    }
+}
+
+func findLinks(url string) ([]string, error) {
+    resp, err := http.Get(url)
+    if err != nil {
+        return nil, err
+    }
+    if resp.StatusCode != http.StatusOK {
+        resp.Body.Close()
+        return nil, fmt.Errorf("getting %s: %s", url, resp.Status)
+    }
+
+    doc, err := html.Parse(resp.Body)
+    resp.Body.Close()
+    if err != nil {
+        return nil, fmt.Errorf("parsing %s as HTML: %v", url, err)
+    }
+    return visit(nil, doc), nil
+}
+</pre>
+</div>
+</li>
+<li>我们要自己关闭resp.Body,因为Go的gc是只收集unused内存,而其他的系统资源,还是
+要我们自己手动进行回收.
+</li>
+<li>Go中还有所谓的bare return,就是说你的return的value有name的话(也就是分配了变
+量内存),我可以不"显式"的返回, 而是function block结束的时候named return value
+是啥,就返回啥
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-4" class="outline-3">
+<h3 id="sec-5-4">Errors</h3>
+<div class="outline-text-3" id="text-5-4">
+<ul class="org-ul">
+<li>有些function总是完成它们的工作.比如strings.Contains,还有strconv.FormatBool
+</li>
+<li>还有一些function总是返回成功,只要它们的precondition能够得到满足.而如果"不成功
+就成仁"(preconditoin不满足,以time.Date为例, 第二个参数为nil), 函数就会直接panic
+</li>
+<li>但是还有更多更多的函数,其成功与否依赖太多的factor,都不是程序员可以控制的.比
+如IO操作的时候,文件是否存在这种是程序员无法控制的,所以我们必须要为可能存在的
+错误负责
+</li>
+<li>在Go里面为这些"可能的可预期错误"负责的方式是"返回一个额外的返回值,一般是最后
+一个"来表明错误.
+</li>
+<li>如果"expected error"只有一种的情况下,我们可以只返回一个boolean类型
+<div class="org-src-container">
+
+<pre class="src src-go">value, ok := cache.Lookup(key)
+if !ok {
+    // ...cache[key] does not exist
+}
+</pre>
+</div>
+</li>
+<li>当然了,大多数情况下expected error不可能只有一种情况(脑补java的checked
+exception)这个时候,就不能再返回boolean类型了,而要返回error类型.
+</li>
+<li>error类型是一种interface类型:
+<ul class="org-ul">
+<li>如果没有错误,那么error就是nil
+</li>
+<li>如果有错误, 那么error就是non-nil, error其值可以被fmt.print(因为其实这个
+error就是string)
+<div class="org-src-container">
+
+<pre class="src src-go">type error interface {
+    Error() string
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>一旦返回值的error不为nil,那么其返回的前面的值也就不再可以被信任了.
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-5-4-1" class="outline-4">
+<h4 id="sec-5-4-1">Error Handling Stratgies</h4>
+<div class="outline-text-4" id="text-5-4-1">
+<ul class="org-ul">
+<li>每当function call返回错误的时候,caller有责任和义务去check这个返回值,并且做
+出相应的举动
+</li>
+<li>Go处理错误的方式,有个最大的特点是"当时发现,当时处理",所以就有一个最重要的
+任务,就是在发现错误的第一时间将这个错误"扩大并且传播到main", 要做到这一点,
+必须
+<pre class="example">
+A failure in a subroutine becomes a failure of the calling routine.
+</pre>
+</li>
+<li>我们来看两个subroutine出错,caller"传播"这个错误,到更上层(直到main)
+<ul class="org-ul">
+<li>findLinks在处理Get请求的时候如果http.Get fail了的话,findLinks需要把HTTP
+error传递给caller.因为http.Get的error已经包含了url信息,所以直接传递错误
+给"上层"是可以的
+<div class="org-src-container">
+
+<pre class="src src-go">resp, err := http.Get(url)
+if err != nil {
+    return nil, err
+}
+</pre>
+</div>
+</li>
+<li>而html处理resp.Body的时候,其html error里面并不包括url信息(而我们的findLinks
+其实是处理url的,所以我们要重新处理一下这个url,然后把它抛出去!)
+<div class="org-src-container">
+
+<pre class="src src-go">doc, err := html.Parse(resp.Body)
+resp.Body.Close()
+if err != nil {
+    return nil, fmt.Errorf("parsing %s as HTML: %v", url, err)
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>这样做的好处是,我们的main会得到如下一条chain的错误链(例子从NASA acident来)
+<pre class="example">
+genesis: crashed: no parachute: G-switch failed: bad relay orientation
+</pre>
+</li>
+<li>这个例子如下的两个特点,易于我们使用grep来对它们进行分析
+<ul class="org-ul">
+<li>没有大写字母
+</li>
+<li>没有换行符
+</li>
+</ul>
+</li>
+<li>当然,这种良好的error message的返回离不开我们每次都"认真并且简洁有效"的自己
+书写error message.才能让总体的message简洁有效.
+</li>
+<li>Go的standard library是书写良好error message的典范.比如os package里面的函数
+一旦出现了error message,其错误信息不仅仅包含错误原因(比如permission denied,
+no shu directory等等), 同时还包括了自己所处理的file name.所以caller并不需要
+自己再使用fmt.Errorf来再次"自己处理"error了.(也就是和上面例子1. http.Get处
+理方法一致)
+</li>
+<li>讲了这么多,我们可以来总结一下
+<pre class="example">
+        当我们调用f(x)的时候,如果出现了error. error message里面必须包
+        括operation f失误的信息,以及参数x的信息
+</pre>
+</li>
+<li>第二种比较常见的处理error的策略就是:处理某些transient错误(或者是unpredictable
+错误, 也是一个策略)的时候, 我们可以重试几次,当然每次要等一段random的时间.
+下面就是这样一个例子
+<div class="org-src-container">
+
+<pre class="src src-go">func WaitForServer(url string) error {
+    const timeout = 1 * time.Minute
+    deadline := time.Now().Add(timeout)
+    for tries := 0; time.Now().Before(deadline); tries++ {
+        _, err := http.Head(url)
+        if err == nil {
+            return nil          // success
+        }
+        log.Printf("server not responding (%s); retrying...", err)
+        time.Sleep(time.Second &lt;&lt; unit(tries))
+    }
+    return fmt.Errorf("server %s failed to respond after %s", url, timeout)
+}
+</pre>
+</div>
+</li>
+<li>第三种情况是, 如果program实在不可行, caller可以打印错误,然后直接关闭这个program,
+当然了,这种情况下主要用于main函数, library是不建议这样做的.
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+func main() {
+    // ...
+    if err := WaitForServer(url); err != nil {
+        fmt.Fprintf(os.Stderr, "Site is down: %v\n", err)
+        os.Exit(1)
+    }
+}
+</pre>
+</div>
+</li>
+<li>一种达到那个如上同样,但是更便捷的方法是使用log.Fatalf
+<div class="org-src-container">
+
+<pre class="src src-go">if err := WaitForServer(url); err != nil {
+    log.Fatalf("Site is down: %v\n", err)
+}
+</pre>
+</div>
+</li>
+<li>第四种情况是"只记录error,而不返回,让程序继续运行下去"
+<div class="org-src-container">
+
+<pre class="src src-go">if err := Ping(); err != nil {
+    log.Printf("ping failed: %v; networking disabled", err)
+}
+</pre>
+</div>
+</li>
+<li>第五种情况,就是直接忽略错误,用到的地方不多.比如删除temporary文件夹, 这个行
+为操作系统经常做,所以错了也没事,我们不去处理error
+<div class="org-src-container">
+
+<pre class="src src-go">// dir is temp dir
+os.RemoveAll(dir)               // ignore errors; $TMPDIR is cleaned periodically
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-4-2" class="outline-4">
+<h4 id="sec-5-4-2">End of File (EOF)</h4>
+<div class="outline-text-4" id="text-5-4-2">
+<ul class="org-ul">
+<li>大多数情况下, function返回的错误是给end user的,但是在极个别的情况下,有些错
+误信息是给program看的.因为有些情况下, program必须根据返回的erro的不同来进行
+不同的处理.
+</li>
+<li>比如.program 要从文件读取n byte的数据:
+<ul class="org-ul">
+<li>如果n是小于等于file 文件长度的,那么read函数返回的error肯定是肯定代表了某
+种failure
+</li>
+<li>如果n是大于file文件长度的,那么read函数会在读取到文件尾部的时候,返回一个EOF
+这个必须和"真正的failure"相互区分开. Go的io package保证由end-of-file产生
+的错误,都会返回一个特殊的erro叫做io.EOF
+<div class="org-src-container">
+
+<pre class="src src-go">// Source code for EOF
+package io
+import "errors"
+
+// EOF is the error returned by Read when no more input is available.
+var EOF = errors.New("EOF")
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>使用方法如下:我们从standard input读取rune,把读取过程写在一个loop里面.如果
+中间遇到了io.EOF说明是用户停止了输入,否则就是一个错误
+<div class="org-src-container">
+
+<pre class="src src-go">in := bufio.NewReader(os.Stdin)
+
+for  {
+    r, _, err := in.ReadRune()
+    if err == io.EOF {
+        break                   // finished reading
+    }
+
+    if err != nil {
+        return fmt.Errorf("read failed: %v", err)
+    }
+    // ...use r...
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5-5" class="outline-3">
+<h3 id="sec-5-5">Function Values</h3>
+<div class="outline-text-3" id="text-5-5">
+<ul class="org-ul">
+<li>在Go语言里面, function是first-class. 它拥有和value一样的特质:
+<ul class="org-ul">
+<li>type
+</li>
+<li>可以assigned给变量
+</li>
+<li>可以传递给函数
+</li>
+<li>可以从函数中返回
+</li>
+</ul>
+</li>
+<li>下面是一个把function"当成变量使"的例子
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func square(n int) int     { return n * n }
+func negative(n int) int   { return -n }
+func product(m, n int) int { return m * n }
+
+func main() {
+
+    f := square
+    fmt.Println(f(3))
+    f = negative
+    fmt.Println(f(3))
+
+    fmt.Printf("%T\n", f)
+
+    // cannot use product (type func(int, int) int) as type func(int) int in assignment
+    // f = product
+
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 9                                              //
+// -3                                             //
+// func(int) int                                  //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>上面的例子中,我们可以看到,一个function的类型是由两部分组成的:
+<ul class="org-ul">
+<li>所有的参数
+</li>
+<li>返回值
+</li>
+</ul>
+</li>
+<li>function type的zero value为nil(也就是你声明了这个函数,但是却没有函数"实体")
+这种情况下,调用zero value的function会产生panic
+<div class="org-src-container">
+
+<pre class="src src-go">var f func(int) int
+f(3)                            // panic: call of nil function
+</pre>
+</div>
+</li>
+<li>但是zero value function可以和nil相互比较. 但是不可以相互比较!
+<div class="org-src-container">
+
+<pre class="src src-go">var f func(int) int
+if f != nil {
+    f(3)
+}
+</pre>
+</div>
+</li>
+<li>function可以作为参数传入另外的function,这样一来,我们可以传给"另外的function"
+一个behavior, 而不仅仅是像传统参数一样,传递一个data. 下面是一个例子,我们把
+"加一"这个behavior传递给了strings.Map, 而strings.Map是为string里面的所有的
+字符都调用一边"参数1"
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import (
+    "fmt"
+    "strings"
+)
+
+func add1(r rune) rune { return r + 1 }
+
+func main() {
+
+    fmt.Println(strings.Map(add1, "ABC"))
+    fmt.Println(strings.Map(add1, "WXY"))
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// BCD                                            //
+// XYZ                                            //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-6" class="outline-3">
+<h3 id="sec-5-6">Anonymous Functions</h3>
+<div class="outline-text-3" id="text-5-6">
+<ul class="org-ul">
+<li>在Go中, named function只可以定义在package level
+</li>
+<li>如果想在其他地方定义function,那么只能使用anonymous function. anonymous function
+是function literal的value值.所谓function literal就是
+<pre class="example">
+A function literal is written like a function declaration, but
+without a name following the func keyword
+</pre>
+</li>
+<li>比如上面"加一"的例子,我们就可以使用function literal来实现
+<div class="org-src-container">
+
+<pre class="src src-go">strings.Map(func(r rune) rune {return r + 1}, "ABC")
+</pre>
+</div>
+</li>
+<li>上面只是function literal"最肤浅"的使用方法, 还有更加"深刻"的用法,那就是让inner
+function使用包裹它的函数的变量!
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func squares() func() int {
+    var x int
+    return func() int {
+        x++
+        return x * x
+    }
+}
+
+func main() {
+    f := squares()
+    fmt.Println(f())
+    fmt.Println(f())
+    fmt.Println(f())
+    fmt.Println(f())
+
+    new_f := squares()
+    fmt.Println(new_f())
+    fmt.Println(new_f())
+    fmt.Println(squares()())
+    fmt.Println(squares()())
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 1                                              //
+// 4                                              //
+// 9                                              //
+// 16                                             //
+// 1                                              //
+// 4                                              //
+// 1                                              //
+// 1                                              //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>我们可以看到,上面的例子中, :
+<ul class="org-ul">
+<li>inner function并没有声明x,而是直接使用了"包裹它"的函数的变量.
+</li>
+<li>原来function不能当变量使用的时候,"返回值为函数"的函数使用方法是最后两行,
+等同于每次都申请一个新的"变量(保存函数返回值)", 所以其内部的值无法累加
+</li>
+<li>而我们现在可以把函数"当做变量"使用,那么就可以理解多次调用"函数变量f",其内
+部值竟然可以累加. 这种累加的效果,可以看做是function value的state.
+</li>
+</ul>
+</li>
+<li>由于function value 可以和enclosing function里面的local variable有所联系,那么
+function 被分类为"reference type"也就不足为奇了.
+</li>
+<li>Go实现这种function value的方法叫做closure.
+</li>
+<li>function value这种ref enclosuring function local variable 的能力,再更多的时
+候,会带来一些"怪异的错误":
+<ul class="org-ul">
+<li>看下面的这个例子, 这个例子要我们先要创建一系列的文件夹,而我们需要在后面把
+这些文件夹一一删除掉
+<div class="org-src-container">
+
+<pre class="src src-go">var rmdirs []func()             // rmdirs is array of function values
+
+for _, d := range tempDirs() {
+    dir := d                    // NOTE: necessary!
+    os.MkdirAll(dir, 0755)
+
+    rmdirs = append(rmdirs, func() {
+        os.RemoveAll(dir)
+    })
+}
+
+// ... do some work...
+for _, rmdir := range rmdirs {
+    rmdir()                     // clean up
+}
+</pre>
+</div>
+</li>
+<li>上面版本"诡异"的地方在于其在每个loop里面都又申请了一个local variable dir
+而不是像下面这样,直接使用for里面声明的变量
+<div class="org-src-container">
+
+<pre class="src src-go">var rmdirs []func()
+
+for _, dir := range tempDirs() {
+    os.MkdirAll(dir, 0755)
+    rmdirs = append(rmdirs, func() {
+        os.RemoveAll(dir)
+    })
+}
+</pre>
+</div>
+</li>
+<li>第二种写法的害处在于dir是一个在for loop整个生命期都有作用的,所以在这个loop
+里面创建的function variable都会share这个dir 地址, 而不是值!!,所以如果按照
+第二种写法,系统会不停的删除同一个文件夹!
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-7" class="outline-3">
+<h3 id="sec-5-7">Variadic Functions</h3>
+<div class="outline-text-3" id="text-5-7">
+<ul class="org-ul">
+<li>变长参数是一个非常重要的特性,这个特性在c里面就有, go里面支持就不足为奇了.常
+见的例子就是fmt.Printf. 它需要一个固定的参数,后面允许有个数不等的参数
+</li>
+<li>变长参数在go里面的要求是最后一个参数的类型为"&#x2026;&lt;Type&gt;"表示有零个或者多个类
+型为Type的作为最后一个变量
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func sum(vals ...int) int {
+    total := 0
+    for _, val := range vals {
+        total += val
+    }
+    return total
+}
+
+func main() {
+    fmt.Println(sum())
+    fmt.Println(sum(3))
+    fmt.Println(sum(1, 2, 3, 4))
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 0                                              //
+// 3                                              //
+// 10                                             //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>&#x2026;int类型的行为和 integer slice类型[]int是一样的
+<div class="org-src-container">
+
+<pre class="src src-go">values := []int{1, 2, 3, 4}
+fmt.Println(sum(values...))     // "10"
+</pre>
+</div>
+</li>
+<li>虽然&#x2026;int类型和[]int behave一致,但是还是不同的类型
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import "fmt"
+
+func f(...int) {}
+func g([]int)  {}
+
+func main() {
+    fmt.Printf("%T\n", f)
+    fmt.Printf("%T\n", g)
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// func(...int)                                   //
+// func([]int)                                    //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-8" class="outline-3">
+<h3 id="sec-5-8">Deferred Function Calls</h3>
+<div class="outline-text-3" id="text-5-8">
+<ul class="org-ul">
+<li>Go使用defer来进行deferred function call,因为go是自动释放内存的语言,但是却不
+能自动释放其他资源,比如打开的文件(或者网络链接),下面一个就是"自动"释放打开
+文件的例子
+<div class="org-src-container">
+
+<pre class="src src-go">package ioutil
+
+func ReadFile(filename string) ([]byte, error) {
+    f, err := os.Open(filename)
+    if err != nil {
+        return nil, err
+    }
+
+    defer f.Close()
+    return ReadAll(f)
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-9" class="outline-3">
+<h3 id="sec-5-9">Panic</h3>
+<div class="outline-text-3" id="text-5-9">
+<ul class="org-ul">
+<li>Go在编译期会发现很多错误,但是某些错误,比如out-fo-bounds array access, 或者
+nil pointer dereference需要在run time进行处理. 而Go在runtime遇到这种问题的
+时候,都是直接panic
+</li>
+<li>一个panic发生的时候:
+<ul class="org-ul">
+<li>所有normal execution停止
+</li>
+<li>deferred function执行
+</li>
+<li>程序crash并且会产生一个log message,包括panic value
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-10" class="outline-3">
+<h3 id="sec-5-10">Recover</h3>
+<div class="outline-text-3" id="text-5-10">
+<ul class="org-ul">
+<li>对于绝大多数的出现panic的程序来说来说,放弃这个程序可能是最明智的做法.但是有
+时候,我们也是需要"拯救"这个panic的(好比catch来拯救exception). 在Go中起到拯救
+作用的方法就是defer
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">Chapter 06: Methods</h2>
+<div class="outline-text-2" id="text-6">
+<ul class="org-ul">
+<li>从1990年代开始,OOP就已经开始主导了programming 领域.Go也不例外
+</li>
+<li>从我们Go开发者的角度上讲, object其实就是一个value(或者varaible), 只不过这个value
+是拥有method.
+</li>
+<li>method呢,其实是一种特殊的function, 只不过这个function和一个particular type相
+关联.
+</li>
+<li>所谓OOP,其实就是用户使用method来和data structure交流,而不是直接取用object的representation
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1">Method Declarations</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li>前面说过了, method和function只有一处不同,就是和一个Type 相关联, Go的设计就让
+这个关联体现在method的declare的时候(而不是像java一样写在class的定义处)
+</li>
+<li>下面第二个就是一个method的例子, 多出来的(p Point),就是method的type
+<div class="org-src-container">
+
+<pre class="src src-go">package geometry
+
+import "math"
+
+type Point struct{ X, Y float64 }
+
+// traditional function
+func Distance(p, q Point) float64 {
+    return math.Hypot(q.X-p.x, q.Y-p.Y)
+}
+
+func (p Point) Distance(q Point) float64 {
+    return math.Hypot(q.X-p.x, q.Y-p.Y)
+}
+</pre>
+</div>
+</li>
+<li>在大多数的OOP语言里面,因为method都是写在class里面的,所以都是使用this或者self
+来指代method的receiver(也就是instance啦). 但是Go因为没有class的这个scope,
+method其实是散落各处的.所以使用this就不现实(你this谁呢). 所以,Go的选择是一个
+多余的Type变量在method里面. 这个变量一般是取Type的第一个字母.比如这里的p
+</li>
+<li>我们使用method的方法是"."也就是selector法, 这个和field的使用方法是一样的,所
+以定义一个和field相同的method是不被编译器所接受的
+</li>
+<li>Method的associated Type是它天然的namespace,所以为其他类型定义一个Distance()
+函数是完全可以接受的.这里说的其他类型,范围非常的广,比如下面就是为slice类型定
+义了Distance函数.
+<div class="org-src-container">
+
+<pre class="src src-go">// A Path is a jorney connecting the points with straight lines.
+type Path []Point
+
+// Distance returns the distance traveled along the path.
+func (path Path) Distance() float64 {
+    sum := 0.0
+    for i := range path {
+        if i &gt; 0 {
+            sum += path[i-1].Distance(path[i])
+        }
+    }
+    return sum
+}
+</pre>
+</div>
+</li>
+<li>"其他类型"也不是"所有类型",唯二的不可以的类型是:
+<ul class="org-ul">
+<li>pointer类型
+</li>
+<li>interface类型
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2">Methods with a Pointer Receiver</h3>
+<div class="outline-text-3" id="text-6-2">
+<ul class="org-ul">
+<li>因为function的调用,会copy每一个argument,所以如果出现下面两种情况,我们一般会选择
+使用pointer参数:
+<ul class="org-ul">
+<li>函数的参数"过大",copy一次很耗费内存
+</li>
+<li>希望更改这个参数
+</li>
+</ul>
+</li>
+<li>我们可以把method的associated type看成是另外一个paramter,那么很明显,我们也需
+要再遇到上述两种情况的时候,把associated type设置为pointer类型,比如
+<div class="org-src-container">
+
+<pre class="src src-go">func (p *Point) ScaleBy(factor float64) {
+    p.X *= factor
+    p.Y *= factor
+}
+</pre>
+</div>
+</li>
+<li>使用的时候,就很麻烦了, 需要在*Point外围来使用()
+<div class="org-src-container">
+
+<pre class="src src-go">(*Point).ScaleBy
+</pre>
+</div>
+</li>
+<li>使用Type作为method 的associated Type是常见现象,但是如果使用Pointer来作为method
+的associated type,那么务必要要让所有的method都使用Pointer来作为associate type,
+否则的话,使用(*Pointer).method_a之后,再使用(*Pointer).method_b发现不能调用,
+是非常奇怪的行为.当然了,我们这里一个Type,不同的method_a,method_b一会使用Type,
+一会使用pointer,是为了让我们学习两者区别
+</li>
+<li>在receiver declaration里面,只能出现named type(比如Pointer)或者pointer to named
+type(比如*Pointer),为了避免误解,method declaration是不允许使用"自己本身是pointer
+type"的named type的,比如
+<div class="org-src-container">
+
+<pre class="src src-go">type P *int
+func (p) f() {  /* ... */ } // compile error: invalid receiver type
+</pre>
+</div>
+</li>
+<li>如果觉得(*Point).ScaleBy method在使用的时候,有如下几种方法:
+<ul class="org-ul">
+<li>提供一个*Point类型的receiver
+<div class="org-src-container">
+
+<pre class="src src-go">r := &amp;Pointer{1, 2}
+r.ScaleBy(2)
+fmt.Println(*r)                 // "{2, 4}"
+</pre>
+</div>
+</li>
+<li>提供一个Pointer类型变量, 然后取这个变量的地址,再调用
+<div class="org-src-container">
+
+<pre class="src src-go">p := Point{1, 2}
+pptr := &amp;p
+pptr.ScaleBy(2)
+fmt.Println(p)                  // "{2, 4}"
+</pre>
+</div>
+</li>
+<li>或者更干脆的使用(&amp;p)
+<div class="org-src-container">
+
+<pre class="src src-go">p := Point{1, 2}
+(&amp;p).ScaleBy(2)
+fmt.Println(p)                  // "{2, 4}"
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>三种方法无一例外的都非常的麻烦,所以Go不得已做了一个语言级别的支持.那就是
+<pre class="example">
+       如果method的associated Type是*Point类型, 我们可以在使用的时候
+       提供Point类型, 编译器(注意是编译器)会把Point类型变量p换成(&amp;p)
+</pre>
+</li>
+<li>注意,这种方法的本质是加"取地址符&amp;", 所以只有有地址的类型,比如struct, array,
+或者slice element,如果一个receiver无法取得地址,那么是无法适用的
+<div class="org-src-container">
+
+<pre class="src src-go">Point{1, 2}.ScaleBy(2)          // compile error: can't take address ofPoint literal
+</pre>
+</div>
+</li>
+<li>反之,如果我们定义的时候是associated type是Point类型,那么我们"总是"可以使用
+<b>Pointer类型的instance的变量来调用它. 这是因为对于任意指针变量,我们总可以取
+到它指向的地址里面的value.我们编译器每次帮我们插入(</b>)而已,只不过对于pointer
+来说(*p)总成功(即便是Nil也没事, 后面会介绍)
+</li>
+<li>我们来总结一下:
+<ul class="org-ul">
+<li>情况一: receiver parameter 和 receiver argument都是T, 这种情况下,就好比java
+的情况,没有指针的存在.不会该改变instance的值.这种情况下拷贝这个类型是很安
+全的.这个类型下面的method每次调用都会copy一个新的instance,不会产生共享underlying
+instance而造成的危险
+<div class="org-src-container">
+
+<pre class="src src-go">Point{1, 2}.Distance(q)
+</pre>
+</div>
+</li>
+<li>情况二: receiver parameter和receiver argument都是*T, 这种情况下调用是没有
+问题的. 但是因为method会共享underlying instance,所以不能到处拷贝这种类型
+<div class="org-src-container">
+
+<pre class="src src-go">pptr.ScaleBy(2)                 // *Point
+</pre>
+</div>
+</li>
+<li>情况三: receiver paramter是*T类型, 而 receiver argument是T,这种情况下编译器
+会自动的加上&amp;, 因为method会共享underlying instance,所以不能到处拷贝这种类型
+<div class="org-src-container">
+
+<pre class="src src-go">p.ScaleBy(2)                    // implicit (&amp;p)
+</pre>
+</div>
+</li>
+<li>情况四: receiver paramter是T类型, 而 receiver argument是*T, 这种情况下,
+编译器自动添加*
+<div class="org-src-container">
+
+<pre class="src src-go">pptr.Distance(q)                // implicit (*pptr)
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-6-2-1" class="outline-4">
+<h4 id="sec-6-2-1">Nil Is a Valid Receiver Value</h4>
+<div class="outline-text-4" id="text-6-2-1">
+<ul class="org-ul">
+<li>有些function允许其pointer的paramter为nil,同样的有些method也允许其receiver
+为nil. 特别是如果nil对于map和slice来说是meaningful的zero value
+</li>
+<li>下面的例子中nil的*IntList代表empty list
+<div class="org-src-container">
+
+<pre class="src src-go">// An IntList is a Linkedlist of integers.
+// A nil *IntList represents the empty list.
+
+type IntList struct {
+    Value int
+    Tail *IntList
+}
+
+// Sum returns the sum of the list elements.
+func (list *IntList) Sum() int {
+    if list == nil {
+        return 0
+    }
+    return list.Value + list.Tail.Sum()
+}
+</pre>
+</div>
+</li>
+<li>如果你的method允许nil作为其receiver value, 需要把这个明确的写在文档里面
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-6-3" class="outline-3">
+<h3 id="sec-6-3">Composing Types by Struct Embedding</h3>
+<div class="outline-text-3" id="text-6-3">
+<ul class="org-ul">
+<li>下例中的ColoredPoint, 我们本可以把ColoredPoint定义成三个field的struct,但是
+我们没有这么做,而是把一个Point 嵌入到了ColoredPoint里面.
+<div class="org-src-container">
+
+<pre class="src src-go">import "image/color"
+
+type Point struct{X, Y float64}
+type ColoredPoint struct {
+    Point
+    Color color.RGBA
+}
+</pre>
+</div>
+</li>
+<li>embedding会让我们的ColoredPoint拥有Point所有的field,所以ColoredPoint使用Point
+的field的时候还可以完全不"mention" Point
+<div class="org-src-container">
+
+<pre class="src src-go">var cp ColoredPoint
+cp.X = 1
+fmt.Println(cp.Point.X)         // "1"
+cp.Point.Y = 2
+fmt.Println(cp.Y)               // "2"
+</pre>
+</div>
+</li>
+<li>不仅仅是field,在使用Point的method的问题上, ColoredPoint也是一点也不含糊.ColoredPoint
+可以使用Point的所有method,即便ColoredPoint根本没有声明过它们
+<div class="org-src-container">
+
+<pre class="src src-go">red := color.RGBA{255, 0, 0, 255}
+blue := color.RGBA{0, 0, 255, 255}
+var p = ColoredPoint{Point{1, 1}, red}
+var q = ColoredPoint{Point{5, 4}, blue}
+fmt.Println(p.Distance(q.Point)) // "5"
+p.ScaleBy(2)
+q.ScaleBy(2)
+fmt.Println(p.Distance(q.Point)) // "10"
+</pre>
+</div>
+</li>
+<li>注意!这里ColoredPoint能够使用Point的method
+<pre class="example">
+并"不是"因为Point是ColoredPoint的base class, 而恰恰相反,
+ColoredPoint "包含"了Point, 所以这里是一个 composition over inheritance
+的例子!
+</pre>
+</li>
+<li>这里编译器其实帮助我们实现了两个wrapper函数,让我们的p可以直接调用Distance,而
+不需要p.Point.Distance()
+<div class="org-src-container">
+
+<pre class="src src-go">func (p ColoredPoint) Distance(q Point) float64 {
+    return p.Point.Distance(q)
+}
+
+func (p *ColoredPoint) ScaleBy(factor float64) {
+    p.Point.ScaleBy(factor)
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-4" class="outline-3">
+<h3 id="sec-6-4">Method Vaues and Expressions</h3>
+<div class="outline-text-3" id="text-6-4">
+<ul class="org-ul">
+<li>一般来说,我们都是1select method然后马上2call method,比如p.Distance(), 但因
+为在go里面function是first class citizen. 和function实质一样的method其实也是
+"一等公民",也可以被存储起来作为变量(method value), 之后这个变量调用的时候,
+就不需要receiver信息了
+<div class="org-src-container">
+
+<pre class="src src-go">p := Point{1, 2}
+q := Point{4, 6}
+
+distanceFromP := p.Distance     // method value
+fmt.Println(distanceFromP(q))   // "5"
+var origin Point                // {0, 0}
+fmt.Println(distanceFromP(origin)) // "2.236..."
+</pre>
+</div>
+</li>
+<li>如果一个package API的一个参数是function value的话,而我们的client的提供这个function
+value的方式就是"使用一个specific的receiver来调用某个method", 那么这个时候我
+们可以对比"普通写法"和"method value"写法,会发现,后者更简单:
+<ul class="org-ul">
+<li>普通写法
+<div class="org-src-container">
+
+<pre class="src src-go">type Rocket struct {/* */}
+func (r *Rocket) Launch() {/* */}
+
+r := new(Rocket)
+time.AfterFunc(10 * time.Second, func() {r.Launch()})
+</pre>
+</div>
+</li>
+<li>method value写法
+<div class="org-src-container">
+
+<pre class="src src-go">time.AfterFunc(10 * time.Second, r.Launch)
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>和method value相对的是method expression. 这个"对立"是对在"对象上":
+<ul class="org-ul">
+<li>对于method value来说,其instance是已经指定了的
+</li>
+<li>而对于method expression来说,其仅仅制定了receiver Type,具体使用哪个instance
+还需要在"使用的时候",把receiver放成第一个参数,也就是distance(p&#x2026;)
+<div class="org-src-container">
+
+<pre class="src src-go">p := Point{1, 2}
+q := Point{4, 6}
+
+distance := Point.Distance      // method expression
+fmt.Println(distance(p, q))     // "5"
+fmt.Println("%T\n", distance)   // "func(Point, Point) float64'
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>Method expression其实有一种"接口"的感觉在里面,因为其instance没有定具体值,但
+是定了具体的type,所以使用的时候,就可以指定'同一类型,不同instance'
+<div class="org-src-container">
+
+<pre class="src src-go">type Point strut{X, Y float64}
+func (p Point) Add(q Point) Point { return Point{p.X + q.X, p.Y + q.Y}}
+func (p Point) Sub(q Point) Point { return Point{p.X - q.X, p.Y - q.Y}}
+
+type Path []Point
+
+func (path Path) TranslateBy(offset Point, add bool) {
+    var op func(p, q Point) Point
+    if add {
+        op = Point.Add
+    } else {
+        op = Point.Sub
+    }
+    for i := range path {
+        // Call either path[i].Add(offset) or path[i].Sub(offset).
+        path[i] = op(path[i], offset)
+    }
+
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Chapter 07: Interfaces</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li>interface 类型表示了其他类型的一种"抽象"和"概括", 总结起来就是: inteface的存
+在,让我们的function更加的flexible和adaptble,因为interface不和特定的implementation
+相关
+</li>
+<li>很多OO语言都有interface,但是go的interface是一种叫做"暗自符合(satisfied
+implicitly)"的方式存在的,换句话说
+<pre class="example">
+go并没有必要"显式"的声明一个concrete type符合哪些interface,
+只要你有相应的函数,你就"自动"符合某个interface
+</pre>
+</li>
+<li>这种设计带来一个极大的便利:你可以创建一个新的interface, 而已经存在的concrete
+type自动的就"符合"了这个interface的要求,但是我们不需要去更改这个concrete type
+对于定义在lib里面的我们无法更改的concrete type, 新定义一个interface,lib就能
+适应,那是非常美妙的!
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1">Interfaces as Contracts</h3>
+<div class="outline-text-3" id="text-7-1">
+<ul class="org-ul">
+<li>我们前面所有的类型都是concrete type.它们的特点是:
+<ul class="org-ul">
+<li>列出了自己内部的exact的value, 以及自己支持的operation
+</li>
+<li>提供一系列的method,可以使用这些method来操作自己的类型
+</li>
+</ul>
+</li>
+<li>我们这里要介绍的,就是interface type了, 它和concrete type相比,其只展现了第二
+个部分,就是method.如果你拥有一个interface type,你只能知道它"能做什么",而对它
+内部,则一无所知
+</li>
+<li>我们整本书都在使用两个函数fmt.Printf把拼接好的字符串写到standord output, 另
+外一个是fmt.Sprintf:把拼接好的字符串返回.这两个函数其实最麻烦的地方(也是功能
+相同的地方),就是拼接字符串. DRY原则要求我们最好不要重复书写.而golang源代码里
+面就把这部分共同的逻辑写在了第三个函数fmt.Fprintf里面, 而这个函数的第一个参
+数io.Writer,就是一个interface
+<div class="org-src-container">
+
+<pre class="src src-go">package fmt
+func Fprintf(w io.Writer, format string, args ...interface{}) (int, error)
+</pre>
+</div>
+</li>
+<li>这个Fprintf里面的F代表文件,意思是这个函数要把结果写入到一个file里面:
+<ul class="org-ul">
+<li>在Printf的例子里面, 我们直接把结果写入到了os.Stdout里面, 可见os.Stdout是符
+合io.Writer interface的
+</li>
+<li>在Sprintf里面, &amp;buf是一个指向memoery buffer的pointer,可见string是符合io.Writer
+interface的
+</li>
+</ul>
+</li>
+<li>那么问题来了, 怎样才能符合io.Writer interface呢?我们看代码
+<div class="org-src-container">
+
+<pre class="src src-go">package io
+
+// Writer is the interface that wraps the basic Write method
+type Writer interface {
+    Write(p []byte) (n int, err error)
+}
+</pre>
+</div>
+</li>
+<li>简言之,就是一旦一个type,它有一个和Write(p []byte) (n int, err error)的声明样
+式一样的函数,那么,我们就说这个type"符合"io.Writer,比如我们可以让我们的新类型
+ByteCounter(其实就是int)也符合io.Writer
+<div class="org-src-container">
+
+<pre class="src src-go">type ByteCounter int
+func (c *ByteCounter) Write(p []byte) (int, error) {
+    *c += ByteCounter(len(p))
+    return len(p), nil
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-2" class="outline-3">
+<h3 id="sec-7-2">Interface Types</h3>
+<div class="outline-text-3" id="text-7-2">
+<ul class="org-ul">
+<li>所谓的Interface Type,是指:一个concrete type如果想被认为是某个interface的instance
+的话,它必须要暴露的method
+</li>
+<li>io.Writer类型是最常用的interface,因为它提供了一种抽象,在这个抽象下面, byte
+可以写入各种类型,比如文件, network connection等等
+</li>
+<li>io package下面还定义了很多有用的interface,比如io.Reader,这个interface表示了
+你可以从各种类型里面"读取"byte
+<div class="org-src-container">
+
+<pre class="src src-go">package io
+type Reader interface {
+    Read(p []byte) (n int, err error)
+}
+
+type Closer interface {
+    Close() error
+}
+</pre>
+</div>
+</li>
+<li>我们还可以把两个interface包裹起来,形成一个新的interface
+<div class="org-src-container">
+
+<pre class="src src-go">type ReadWriter interface {
+    Reader
+    Writer
+}
+</pre>
+</div>
+</li>
+<li>上面的表述方法其实就等同于
+<div class="org-src-container">
+
+<pre class="src src-go">type ReadWriter interface {
+    Read(p []byte) (n int, err error)
+    Write(p []byte) (n int, err error)
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-3" class="outline-3">
+<h3 id="sec-7-3">Interface Satisfaction</h3>
+<div class="outline-text-3" id="text-7-3">
+<ul class="org-ul">
+<li>在Go里面,我们说一个concrete type "is a" particular interface type,意思就是
+说这个concrete type"暴露"了某个interface所需要的素有的method
+</li>
+<li>还有一种特殊的interface叫做interface{},就是这个interface不要求暴露"任何的
+method", 这种interface叫做empty interface type. 因为不需要暴露任何method,所
+以所有的type都"符合"empty interface type的要求.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-4" class="outline-3">
+<h3 id="sec-7-4">Parsing Flags with flag.Value</h3>
+<div class="outline-text-3" id="text-7-4">
+<ul class="org-ul">
+<li>我们先来看一个"设置休眠时间"的例子
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import (
+    "flag"
+    "fmt"
+    "time"
+)
+
+var period = flag.Duration("period", 1*time.Second, "sleep period")
+
+func main() {
+    flag.Parse()
+    fmt.Printf("Sleeping for %v...\n", *period)
+    time.Sleep(*period)
+    fmt.Println()
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// Sleeping for 1s...                             //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>这个例子在没有输入任何-period的情况下,自然是默认的停顿一秒了,但是其神奇的地
+方在于,我们可以任意的制定我们需要停顿的时间!
+<pre class="example">
+$ ./sleep -period 50ms
+Sleeping for 50ms...
+$ ./sleep -period 2m30s
+Sleeping for 2m30s...
+$ ./sleep -period 1.5h
+Sleeping for 1h30m0s...
+$ ./sleep -period "1 day"
+invalid value "1 day" for flag -period: time: invalid duration 1 day
+</pre>
+</li>
+<li>更牛逼的是，我们让flag里面的value满足如下的interface，我们就可以自己定义显示情况。
+<div class="org-src-container">
+
+<pre class="src src-go">type Value interface {
+    String() string
+    Set(string) error
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-5" class="outline-3">
+<h3 id="sec-7-5">Interface Values</h3>
+<div class="outline-text-3" id="text-7-5">
+<ul class="org-ul">
+<li>interface type如果被存储成value的话，我们把这个值叫做interface value
+</li>
+<li>interface value有两个部分：
+<ul class="org-ul">
+<li>部分一:concrete type:也就是这个interface是被哪个concrete type的值给"赋予"了,
+这个部分又叫做dynamic type. 显然这个部分是可以改变的
+</li>
+<li>部分二:value of concrete type:就是这个concrete type的value值是多少.这个部
+分也叫dynamic value.显然这个部分是可以改变的
+</li>
+</ul>
+</li>
+<li>我们以下面的这个例子来介绍一下interface value的"概念上的(conceptual)内存布局"
+<div class="org-src-container">
+
+<pre class="src src-go">var w io.Writer
+w = os.Stdout
+w = new(bytes.Buffer)
+w = nil
+</pre>
+</div>
+</li>
+<li>第一句创建io.Writer interface的value w, 因为没有赋值,所以这个时候的w是zero
+value,其内存情况如下
+<pre class="example">
+            w
+      +------------+
+type  |    nil     |
+      +------------+
+value |    nil     |
+      +------------+
+</pre>
+</li>
+<li>第二句,把一个concrete 类型为*os.File类型的变量(os.Stdout返回值为*os.File)赋
+值给w, w的type部分就是*os.File, value部分是一个指针,"指向os.File Type里面的
+id为1的对象"
+<pre class="example">
+            w
+      +------------+
+type  |  *os.File  |                      os.File
+      +------------+                  +---------------------+
+value |     .      |-----------------&gt;|  fd int = 1(stdout) |
+      +------------+                  +---------------------+
+</pre>
+</li>
+<li>第三句,w被赋予了以*bytes.Buffer为concrete类型的值,其内存模型为
+<pre class="example">
+            w
+      +-------------+
+type  |*bytes.Buffer|                     bytes.Buffer
+      +-------------+                 +---------------------+
+value |     .       |----------------&gt;| data []byte         |
+      +-------------+                 +---------------------+
+</pre>
+</li>
+<li>最后一句又把w赋值为zero value,内存模型和第一个一致
+</li>
+<li>我们的例子刚好value都是pointer类型,其实value值可以是"任何类型",如果不是pointer
+类型,而是一个type的话,那么一个指针的空间肯定是不够了, 但是go还是会存储它们,
+全部!这就是值语义语言的执着
+<pre class="example">
+                     x
+          +---------------------------------+
+type      |     time.Time                   |
+          |                                 |
+          +---------------------------------+
+          |+------------------------------+ |
+ value    ||    sec: 65567389742          | |
+          |+------------------------------+ |
+          ||    nsec: 689632918           | |
+          |+------------------------------+ |
+          ||    loc: "UTC"                | |
+          |+------------------------------+ |
+          +---------------------------------+
+</pre>
+</li>
+<li>上图就是一个interface value被赋了time.Time type后的结果(time.Time虽然没有什
+么函数,也就没实现什么接口,但是它还是肯定实现了interface{}的)
+<div class="org-src-container">
+
+<pre class="src src-go">var x interface{} = time.Now()
+</pre>
+</div>
+</li>
+<li>上面的这些信息都是"概念性"的, 并非真是真的内存布局,而interface value的信息
+则真的是可以通过fmt里面的%T来取得dynamic type, 而fmt能够实现这个的原因是其
+使用了reflection机制
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import (
+    "bytes"
+    "fmt"
+    "io"
+    "os"
+)
+
+func main() {
+    var w io.Writer
+    fmt.Printf("%T\n", w)
+
+    w = os.Stdout
+    fmt.Printf("%T\n", w)
+
+    w = new(bytes.Buffer)
+    fmt.Printf("%T\n", w)
+
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// &lt;nil&gt;                                          //
+// *os.File                                       //
+// *bytes.Buffer                                  //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-7-5-1" class="outline-4">
+<h4 id="sec-7-5-1">Caveat: An Interface Containing a Nil Pointer Is Non-Nil</h4>
+<div class="outline-text-4" id="text-7-5-1">
+<ul class="org-ul">
+<li>如下两个interface是不相同的:
+<ul class="org-ul">
+<li>nil interface value: type和value都是nil,前面讲过
+</li>
+<li>interface value 包括一个正好为nil的pointer: value是nil, type不是nil!
+</li>
+</ul>
+</li>
+<li>下面这个例子中,debug为true当然可以正常工作,但是一旦debug为false,就无法正常
+工作了,这是因为f(p)的调用中, p会有一次赋值的过程,这个过程就类型于如下代码,
+这样一来,这个out的dynamic type不是nil了,out != nil就一直都是true了!使用dynamic
+value为nil的value来调用代码,是非常危险的,所以panic了
+<div class="org-src-container">
+
+<pre class="src src-go">var buf *bytes.Buffer       // concrete type
+out = buf                   // out is interface with dynamic type is *bytes.Buffer and dynamic type is nil
+</pre>
+</div>
+</li>
+<li>完整例子如下
+<div class="org-src-container">
+
+<pre class="src src-go">package main
+
+import (
+    "bytes"
+    "fmt"
+    "io"
+)
+
+const debug = true
+
+// const debug = false  // will panic with following errors
+/////////////////////////////////////////////////////////////////////////////
+// panic: runtime error: invalid memory address or nil pointer dereference //
+// [signal 0xb code=0x1 addr=0x68 pc=0x57410]                              //
+//                                                                         //
+// goroutine 1 [running]:                                                  //
+// bytes.(*Buffer).Write(0x0, 0xc82000a370, 0x5, 0x8, 0x5, 0x0, 0x0)       //
+/////////////////////////////////////////////////////////////////////////////
+
+func main() {
+    var buf *bytes.Buffer
+    if debug {
+        buf = new(bytes.Buffer)
+    }
+    f(buf)
+}
+
+func f(out io.Writer) { // Have a assignment here!!
+    if out != nil {
+        out.Write([]byte("done!"))
+        fmt.Println(out)
+    }
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// done!                                          //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7-6" class="outline-3">
+<h3 id="sec-7-6">Sorting with sort.Interface</h3>
+<div class="outline-text-3" id="text-7-6">
+<ul class="org-ul">
+<li>golang 的sort package提供了in-place的排序功能,排序的原则是ordering function
+提供的. 这一点是和传统的语言里面差不多的结构
+</li>
+<li>但是golang不一样的地方在于其ording function不再是type的某一个函数, 而只是要
+求"想利用sort功能的type"实现如下一个interface就可以了.
+<div class="org-src-container">
+
+<pre class="src src-go">package sort
+
+type Interface interface {
+    Len() int
+    Less(i, j int) bool //i, j are indices of sequence elements
+    Swap(i, j int)
+}
+</pre>
+</div>
+</li>
+<li>需要注意的是, "想利用sort功能"的type,一般来说都是slice类型的,而Less比较的,
+则是这个slice类型里面的"两个序列"的大小
+<div class="org-src-container">
+
+<pre class="src src-go">type StringSlice []string
+func (p StringSlice) Len() int {
+    return len(p)}
+func (p StringSlice) Less(i, j int) bool {
+    return p[i] &lt; p[j]
+}
+func (p StringSlice) Swap(i, j int) {
+    p[i], p[j] = p[j], p[i]
+}
+</pre>
+</div>
+</li>
+<li>排列strings数组的需求非常常用,以至于sortpackage直接提供了sort.Strings(names)
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-7-7" class="outline-3">
+<h3 id="sec-7-7">The http.Handler Interface</h3>
+<div class="outline-text-3" id="text-7-7">
+<ul class="org-ul">
+<li>go里面处理server,最常见的API的核心接口如下
+<div class="org-src-container">
+
+<pre class="src src-go">// net/http
+package http
+
+type Handler interface {
+    ServeHTTP(w ResponseWriter, r *Request)
+}
+</pre>
+</div>
+</li>
+<li>真正起作用的函数,接受两个参数,一个是类型"localhost:8000"这样的host+port字符
+串组合, 另外一个就是一个实现了Handler interface的instance啦
+<div class="org-src-container">
+
+<pre class="src src-go">func ListenAndServe(address string, h Handler) error
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

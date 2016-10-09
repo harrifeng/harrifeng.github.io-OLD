@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>arch</title>
-<!-- 2015-07-26 ���� 11:00 -->
+<!-- 2016-10-09 Sun 01:50 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -167,6 +167,12 @@ for the JavaScript code in this tag.
 <div id="text-table-of-contents">
 <ul>
 <li><a href="#sec-1">Big endian VS Little endian</a></li>
+<li><a href="#sec-2">Memory Segmentation only show in Linux 32-bit arch</a>
+<ul>
+<li><a href="#sec-2-1">X86-32</a></li>
+<li><a href="#sec-2-2">X86-64</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -263,35 +269,35 @@ advantage
 优点
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #268bd2;">#include</span> <span style="color: #2aa198;">&lt;stdio.h&gt;</span>
+<pre class="src src-c">#include &lt;stdio.h&gt;
 
-<span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">argv</span>[]){
-    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">num</span> = 0x01020304;
-    <span style="color: #b58900;">int</span>* <span style="color: #268bd2;">pt</span> = &amp;num;
-    <span style="color: #b58900;">char</span>* <span style="color: #268bd2;">cpt</span> = (<span style="color: #b58900;">char</span>*)pt;
-    printf(<span style="color: #2aa198;">"num is %d\n"</span>, *cpt);
+int main(int argc, char *argv[]){
+    int num = 0x01020304;
+    int* pt = &amp;num;
+    char* cpt = (char*)pt;
+    printf("num is %d\n", *cpt);
     cpt++;
-    printf(<span style="color: #2aa198;">"num is %d\n"</span>, *cpt);
+    printf("num is %d\n", *cpt);
     cpt++;
-    printf(<span style="color: #2aa198;">"num is %d\n"</span>, *cpt);
+    printf("num is %d\n", *cpt);
     cpt++;
-    printf(<span style="color: #2aa198;">"num is %d\n"</span>, *cpt);
-    <span style="color: #859900; font-weight: bold;">return</span> 0;
+    printf("num is %d\n", *cpt);
+    return 0;
 }
 
-<span style="color: #93a1a1;">/****************************************************/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;   </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">&gt; result on Little-Endian Machine (Intel i7 CPU) </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">num is 4                                         </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">num is 3                                         </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">num is 2                                         </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">num is 1                                         </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">&gt; result on Big-Endian Machine (IBM Power CPU)   </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">num is 1                                         </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">num is 2                                         </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">num is 3                                         </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">num is 4                                         </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/****************************************************/</span>
+/****************************************************/
+/* &lt;===================OUTPUT===================&gt;   */
+/* &gt; result on Little-Endian Machine (Intel i7 CPU) */
+/* num is 4                                         */
+/* num is 3                                         */
+/* num is 2                                         */
+/* num is 1                                         */
+/* &gt; result on Big-Endian Machine (IBM Power CPU)   */
+/* num is 1                                         */
+/* num is 2                                         */
+/* num is 3                                         */
+/* num is 4                                         */
+/****************************************************/
 </pre>
 </div>
 </li>
@@ -299,30 +305,239 @@ advantage
 得到1, 而在big-endian则在把这个地址当16bit数据读取中,会读成0
 <div class="org-src-container">
 
-<pre class="src src-c"><span style="color: #268bd2;">#include</span> <span style="color: #2aa198;">&lt;stdio.h&gt;</span>
+<pre class="src src-c">#include &lt;stdio.h&gt;
 
-<span style="color: #b58900;">int</span> <span style="color: #268bd2;">main</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">argc</span>, <span style="color: #b58900;">char</span> *<span style="color: #268bd2;">argv</span>[]){
-    <span style="color: #b58900;">int</span> <span style="color: #268bd2;">num</span> = 0x00000001;
-    <span style="color: #b58900;">int</span>* <span style="color: #268bd2;">pt</span> = &amp;num;
-    printf(<span style="color: #2aa198;">"num is %d\n"</span>, *pt);
-    <span style="color: #b58900;">short</span>* <span style="color: #268bd2;">spt</span> = (<span style="color: #b58900;">short</span>*)pt;
-    printf(<span style="color: #2aa198;">"num is %d\n"</span>, *spt);
-    <span style="color: #859900; font-weight: bold;">return</span> 0;
+int main(int argc, char *argv[]){
+    int num = 0x00000001;
+    int* pt = &amp;num;
+    printf("num is %d\n", *pt);
+    short* spt = (short*)pt;
+    printf("num is %d\n", *spt);
+    return 0;
 }
 
-<span style="color: #93a1a1;">/****************************************************/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">&lt;===================OUTPUT===================&gt;   </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">&gt; result on Little-Endian Machine (Intel i7 CPU) </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">num is 1                                         </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">num is 1                                         </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">&gt; result on Big-Endian Machine (IBM Power CPU)   </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">num is 1                                         </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/* </span><span style="color: #93a1a1;">num is 0                                         </span><span style="color: #93a1a1;">*/</span>
-<span style="color: #93a1a1;">/****************************************************/</span>
+/****************************************************/
+/* &lt;===================OUTPUT===================&gt;   */
+/* &gt; result on Little-Endian Machine (Intel i7 CPU) */
+/* num is 1                                         */
+/* num is 1                                         */
+/* &gt; result on Big-Endian Machine (IBM Power CPU)   */
+/* num is 1                                         */
+/* num is 0                                         */
+/****************************************************/
 </pre>
 </div>
 </li>
 </ul>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Memory Segmentation only show in Linux 32-bit arch</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">X86-32</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>内存的分页和分段都是将"不同进程"的内存映射到不同物理内存的实践,而Linux更喜欢
+分页的方法,但是分段的方法在x86的机器上面又绕不过去,怎么办呢?
+</li>
+<li>Linux的办法就是所有的进程只用一个segmentation item.kernel自己也就一个segmentation
+item.
+</li>
+<li>而这个分段也是"徒有其表",因为user和kernel的这个分段的可寻址地址都是0到4G
+</li>
+<li>我们来看看3.2版本的Kernel对于user CS和DS寄存器的设置
+<div class="org-src-container">
+
+<pre class="src src-c"> /* File =&gt; arch/x86/include/asm/segment.h */
+
+#define GDT_ENTRY_DEFAULT_USER_CS   14
+
+#define GDT_ENTRY_DEFAULT_USER_DS   15
+
+#define GDT_ENTRY_KERNEL_BASE       (12)
+
+#define GDT_ENTRY_KERNEL_CS     (GDT_ENTRY_KERNEL_BASE+0)
+
+#define GDT_ENTRY_KERNEL_DS     (GDT_ENTRY_KERNEL_BASE+1)
+</pre>
+</div>
+</li>
+<li>也就是说User CS的位置是14, CS的index前十五项就是1110
+</li>
+<li>而CS的后三项是TI和RPL:
+<ul class="org-ul">
+<li>TI是0, 因为没使用LDT
+</li>
+<li>RPL是3, 因为是用户态
+</li>
+</ul>
+</li>
+<li>所以组合起来就是1110011, 换算成16进制就是73
+</li>
+<li>同理可得User DS的值为1111011, 换算成16进制是7B, 在随便实验了两个x86Linux版本
+3.2的程序之后,gdb打印出来的cs ds都如我们所设想的
+<pre class="example">
+(gdb) info registers
+...
+cs             0x73     115
+ss             0x7b     123
+ds             0x7b     123
+...
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">X86-64</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>当然了,这个是x86-32的设置, 而x86-64则有不同的设置, 首先需要理解的是ia64是安
+腾处理器的架构,所以去arch/ia64下面是找不到任何x86-64bit的配置的.安腾系列就
+根本没有segmentation的设置,如下
+<div class="org-src-container">
+
+<pre class="src src-c">/* File ==&gt; arch/ia64/include/asm/segment.h */
+#ifndef _ASM_IA64_SEGMENT_H
+#define _ASM_IA64_SEGMENT_H
+
+/* Only here because we have some old header files that expect it.. */
+
+#endif /* _ASM_IA64_SEGMENT_H */
+</pre>
+</div>
+</li>
+<li>真正的64bit设置还是在文件arch/x86/include/asm/segment.h里面,只不过32位和64位
+通过一个`#ifdef CONFIG_X86_32 `和`#else`分开了, 在else的部分,我们就看到了下
+面的代码
+<div class="org-src-container">
+
+<pre class="src src-c">#else
+#include &lt;asm/cache.h&gt;
+
+#define GDT_ENTRY_KERNEL32_CS 1
+#define GDT_ENTRY_KERNEL_CS 2
+#define GDT_ENTRY_KERNEL_DS 3
+
+#define __KERNEL32_CS   (GDT_ENTRY_KERNEL32_CS * 8)
+
+/*
+ * we cannot use the same code segment descriptor for user and kernel
+ * -- not even in the long flat mode, because of different DPL /kkeil
+ * The segment offset needs to contain a RPL. Grr. -AK
+ * GDT layout to get 64bit syscall right (sysret hardcodes gdt offsets)
+ */
+#define GDT_ENTRY_DEFAULT_USER32_CS 4
+#define GDT_ENTRY_DEFAULT_USER_DS 5
+#define GDT_ENTRY_DEFAULT_USER_CS 6
+</pre>
+</div>
+</li>
+<li>这里我们发现CS有两个值,分别是4和6, 看起来6更像一点,毕竟是64位么,不是32位
+</li>
+<li>如果是6的话,那么cs的value就应该是&lt;110&gt;+&lt;011&gt;, 也就是16位的0x33, 我们在ubuntu
+12.04版本的64位机器上面运行的话结果如下
+<pre class="example">
+cs             0x23     35
+</pre>
+</li>
+<li>Great!,那么那个4是什么意思呢?那个4是在64位上面运行32位的程序的时候,GDT_for_32
+     的那个item在GDT数组4的位置!, cs的value应该是&lt;100&gt;+&lt;011&gt;,也就是0x23.
+</li>
+<li>在64机器上面编译代码为32位,以ubuntu为例,需要下载如下lib
+<div class="org-src-container">
+
+<pre class="src src-sh">$ sudo apt-get install g++-multilib libc6-dev-i386
+</pre>
+</div>
+</li>
+<li>我们再来写一个检测long长度的c代码
+<div class="org-src-container">
+
+<pre class="src src-c">/* Filename long.c */
+#include &lt;stdio.h&gt;
+
+int main() {
+    long z;
+    printf("Long int size is %d bytes long!\n", sizeof(z));
+}
+</pre>
+</div>
+</li>
+<li>编译不同的native code:
+<ul class="org-ul">
+<li>32bit native code
+<div class="org-src-container">
+
+<pre class="src src-sh">gcc -m32 -o -g output32 long.c
+</pre>
+</div>
+</li>
+<li>64bit native code
+<div class="org-src-container">
+
+<pre class="src src-sh">gcc -m64 -o -g output64 long.c
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>gdb来进行测试:
+<ul class="org-ul">
+<li>32bit native code: 果真为0x23!
+<pre class="example">
+(gdb) info registers
+eax            0xf7fc30a0       -134467424
+ecx            0xffffd4c0       -11072
+edx            0xffffd4e4       -11036
+ebx            0xf7fc1000       -134475776
+esp            0xffffd4a0       0xffffd4a0
+ebp            0xffffd4a8       0xffffd4a8
+esi            0x0      0
+edi            0x8048320        134513440
+eip            0x804842c        0x804842c &lt;main+17&gt;
+eflags         0x286    [ PF SF IF ]
+cs             0x23     35
+ss             0x2b     43
+ds             0x2b     43
+es             0x2b     43
+fs             0x0      0
+gs             0x63     99
+</pre>
+</li>
+<li>64bit native code: 也如我们所预测的是0x33
+<pre class="example">
+(gdb) info registers
+rax            0x400536 4195638
+rbx            0x0      0
+rcx            0x0      0
+rdx            0x7fffffffe438   140737488348216
+rsi            0x7fffffffe428   140737488348200
+rdi            0x1      1
+rbp            0x7fffffffe340   0x7fffffffe340
+rsp            0x7fffffffe340   0x7fffffffe340
+r8             0x7ffff7dd4dd0   140737351863760
+r9             0x7ffff7de99d0   140737351948752
+r10            0x833    2099
+r11            0x7ffff7a2f950   140737348041040
+r12            0x400440 4195392
+r13            0x7fffffffe420   140737488348192
+r14            0x0      0
+r15            0x0      0
+rip            0x40053a 0x40053a &lt;main+4&gt;
+eflags         0x246    [ PF ZF IF ]
+cs             0x33     51
+ss             0x2b     43
+ds             0x0      0
+es             0x0      0
+fs             0x0      0
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>

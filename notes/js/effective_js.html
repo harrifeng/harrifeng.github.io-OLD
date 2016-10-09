@@ -1,0 +1,2482 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>effective_js</title>
+<!-- 2016-10-09 Sun 01:50 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">effective_js</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Chapter 1: Accustoming Yourself to JavaScript</a>
+<ul>
+<li><a href="#sec-1-1">Item 01: Know Which JavaScript You are Using</a></li>
+<li><a href="#sec-1-2">Item 02: Understand JavaScript's Floating-Point Numbers</a></li>
+<li><a href="#sec-1-3">Item 03: Beware of Implicit Coercions</a></li>
+<li><a href="#sec-1-4">Item 04: Prefer Primitives to Object Wrappers</a></li>
+<li><a href="#sec-1-5">Item 05: Avoid using == with Mixed Types</a></li>
+<li><a href="#sec-1-6">Item 06: Learn the Limits of Semicolon Insertion</a></li>
+<li><a href="#sec-1-7">Item 07: Think of Strings As Sequences of 16-Bit Code Units</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">Chapter 2: Variable Scope</a>
+<ul>
+<li><a href="#sec-2-1">Item 08: Minimize Use of the Global Object</a></li>
+<li><a href="#sec-2-2">Item 09: Always Declare Local Variable</a></li>
+<li><a href="#sec-2-3">Item 10: Avoid with</a></li>
+<li><a href="#sec-2-4">Item 11: Get Comfortable with Closures</a></li>
+<li><a href="#sec-2-5">Item 12: Understand Variable Hoisting</a></li>
+<li><a href="#sec-2-6">Item 13: Use Immediately Invoked Function Expressions to Create Local Scopes</a></li>
+<li><a href="#sec-2-7">Item 14: Beware of Unportable Scoping of Named Function Expresions</a></li>
+<li><a href="#sec-2-8">Item 15: Beware of Unportable Scoping of Block-Local Function Declarations</a></li>
+<li><a href="#sec-2-9">Item 16: Avaoid Creating Local Variables with eval</a></li>
+<li><a href="#sec-2-10">Item 17: Prefer Indirect eval to Direct eval</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">Chapter 3: Working with Functions</a>
+<ul>
+<li><a href="#sec-3-1">Item 18: Understand the Difference between Function, Method, and COnstructor Cells</a></li>
+<li><a href="#sec-3-2">Item 19: Get Comfortable Using Higher-Order Functions</a></li>
+<li><a href="#sec-3-3">Item 20: Use call to Call Methods with a Custom Receiver</a></li>
+<li><a href="#sec-3-4">Item 21: Use apply to Call Functions with Different Numbers of Arguments</a></li>
+<li><a href="#sec-3-5">Item 22: Use arguments to Create Variadic Functions</a></li>
+<li><a href="#sec-3-6">Item 23: Never Modify the arguments Object</a></li>
+<li><a href="#sec-3-7">Item 24: Use a Variable to Save a Reference to arguments</a></li>
+<li><a href="#sec-3-8">Item 25: Use bind to Extract Methods with a Fixed Receiver</a></li>
+<li><a href="#sec-3-9">Item 26: Use bind to Curry Functions</a></li>
+<li><a href="#sec-3-10">Item 27: Prefer Closures to Strings for Encapsulating Code</a></li>
+<li><a href="#sec-3-11">Item 28: Avoid Relyingon the toString Method of Functions</a></li>
+<li><a href="#sec-3-12">Item 29: Avoid Nonstandard StackInspection Properties</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">Chapter 4: Objects and Prototypes</a>
+<ul>
+<li><a href="#sec-4-1">Item 30: Understand the difference between prototype, getPrototypeOf, and __proto__</a></li>
+<li><a href="#sec-4-2">Item 31: Prefer Object.getPrototypeOf to __proto__</a></li>
+<li><a href="#sec-4-3">Item 32: Never Modify __proto__</a></li>
+<li><a href="#sec-4-4">Item 33: Make Your Constructors new-Agnostic</a></li>
+<li><a href="#sec-4-5">Item 34: Store Methods on Prototypes</a></li>
+<li><a href="#sec-4-6">Item 35: Use Closure to Store Private Data</a></li>
+<li><a href="#sec-4-7">Item 36: Store Instance State only on Instance Objects</a></li>
+<li><a href="#sec-4-8">Item 37: Recognize the Implicit Binding of this</a></li>
+<li><a href="#sec-4-9">Item 38: Call Superclass Constructors from Subclass Constructors</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Chapter 1: Accustoming Yourself to JavaScript</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>js设计的初衷是让人看起来熟悉,它有很多script语言以及java的影子
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">Item 01: Know Which JavaScript You are Using</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>js最开始是作为java在web编程领域的补充而开发的
+</li>
+<li>js的流行造成了第一次的标准化行动1997年,诞生了ECMAScript
+</li>
+<li>第三个版本的ECMAScript(也就是ES3,完成于1999年)是当今世界最为流行的js标准化
+的版本
+</li>
+<li>2005年引入的ES5也是非常的重要,它引入了很多新feature,同时把一些广泛使用的非
+标准化的feature给标准化了
+</li>
+<li>在js的世界里面,除了标准化,还有很多的非标准化,比如:
+<ul class="org-ul">
+<li>有些浏览器支持const
+<div class="org-src-container">
+
+<pre class="src src-js">const PI = 3.1415926;
+PI = "modified";
+PI; //3.1415926
+</pre>
+</div>
+</li>
+<li>有些浏览器直接把const当做var
+<div class="org-src-container">
+
+<pre class="src src-js">const PI = 3.1415926;
+PI = "modified";
+PI; // "modified"
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>ES5引入了一个新的feature叫做strict mode,这个feature可以让你选择使用"严格版
+本"的js:也就是去成那些有问题的,容易出错的feature版本的js
+</li>
+<li>而没有实施strict mode check的浏览器也是可以执行这些代码的,因为并没有使用新
+的feature,只不过是严格使用"固定的feature",使用方法是:
+<ul class="org-ul">
+<li>在程序最开始使用字符串来声明
+<div class="org-src-container">
+
+<pre class="src src-js">"use strict";
+</pre>
+</div>
+</li>
+<li>或者在function body里面声明(在这个function内部使用strict mode)
+<div class="org-src-container">
+
+<pre class="src src-js">function f(x) {
+    "use strict";
+    // ...
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>使用一个字符串来作为strict mode的标识符是为了向前兼容,因为ES3不知道strict
+mode的存在,所以它看到这个字符串evaluate它的值一下,然后马上就丢弃了,不会产生
+任何负面的影响
+</li>
+<li>当然了,你的strict mode一定要在支持ES5的浏览器里面测试一下,只在ES3的浏览器下
+怎么写都是对的&#x2013;因为ES3的浏览器就压根不会去测试strict mode啊
+</li>
+<li>strict mode的一个坑源自于它的要求:
+<ul class="org-ul">
+<li>要么在文件最开始
+</li>
+<li>要么在function最开始
+</li>
+</ul>
+</li>
+<li>但是,js有可能是开发的时候各自为战,部署的时候,合成一个大的js文件,这个时候:
+<ul class="org-ul">
+<li>原本是文件第一行的strict mode,可能已经变成文件中部的一句字符串了.
+</li>
+<li>原本第一行不是strict mode,但是因为"跟了一个strict mode"的文件,也变成strict
+mode了.
+</li>
+</ul>
+</li>
+<li>所以我们开发的时候,要尽量避免strict和nonstrict文件合在一起,最极端的情况下,
+如果我们必须合并文件(为了减少文件大小),我们可最终合并成两个文件:
+<ul class="org-ul">
+<li>一个strict mode
+</li>
+<li>一个nonstrict mode
+</li>
+</ul>
+</li>
+<li>当然还有比较屌的方法:就是把一个文件所有的内容放入到一个function里面去,这就
+避免了合并文件时候的问题
+<div class="org-src-container">
+
+<pre class="src src-js">(function() {
+    //file1.js
+    "use strict";
+    function f() {
+        // ...
+    }
+    // ...
+})();
+(function() {
+    //file2.js
+    // no strict-mode directive
+    function f() {
+        var arguments = [];
+        //...
+    }
+})();
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">Item 02: Understand JavaScript's Floating-Point Numbers</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>很多编程语言都有多种的numer type,但是js只有一种,这个可以通过type各种js里面
+的数字得出结论.
+<div class="org-src-container">
+
+<pre class="src src-js">console.log(typeof 17);
+console.log(typeof 98.6);
+console.log(typeof -2.1);
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// number                                         //
+// number                                         //
+// number                                         //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>实际上,所有的js number都是64位精度的浮点数
+</li>
+<li>一般的操作符都是正常的
+<div class="org-src-container">
+
+<pre class="src src-js">console.log(0.1 * 1.9);
+console.log(-99 + 100);
+console.log(21 - 2.3);
+console.log(2.5 / 5);
+console.log(21 % 8);
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 0.19                                           //
+// 1                                              //
+// 18.7                                           //
+// 0.5                                            //
+// 5                                              //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>但是对于bitwise操作符,js却会把浮点数转换成32-bit的整数
+<div class="org-src-container">
+
+<pre class="src src-js">console.log(8|1);
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 9                                              //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>十进制数字和二进制"字符串"之间的转换如下:
+<ul class="org-ul">
+<li>十进制到二进制
+<div class="org-src-container">
+
+<pre class="src src-js">(8).toString(2); // "1000"
+</pre>
+</div>
+</li>
+<li>二进制字符串到十进制
+<div class="org-src-container">
+
+<pre class="src src-js">parseInt("1001", 2); // 9
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>浮点数的计算,有时候是不准确的
+<div class="org-src-container">
+
+<pre class="src src-js">console.log(0.1+0.2); // 0.30000000000000004
+</pre>
+</div>
+</li>
+<li>浮点数的不准确性还在于,它不满足"结合性(associative property)",所谓结合性就
+是总符合
+<pre class="example">
+(x + y) + z = x + (y + z)
+</pre>
+</li>
+<li>但是js里面的浮点数肯定就不符合啦
+<div class="org-src-container">
+
+<pre class="src src-js">console.log((0.1 + 0.2) + 0.3);
+console.log(0.1 + (0.2 + 0.3));
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 0.6000000000000001                             //
+// 0.6                                            //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>如果js里面需要计算,那么把浮点数转换成整数去计算是非常好的一个workaround,因
+为整数不会有rounding errors.
+<div class="org-src-container">
+
+<pre class="src src-js">(10 + 20) + 30; //60
+10 + (20 + 30); //60
+</pre>
+</div>
+</li>
+<li>在js里面,integer只是double的一个subset,而不是另外的一个datatype,js里面所有
+的数据类型都是number
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">Item 03: Beware of Implicit Coercions</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>对于type error, js的容忍性极强,很多别的语言编译器会抱怨的,js都能忍,比如
+<div class="org-src-container">
+
+<pre class="src src-js">3 + true; // 4
+</pre>
+</div>
+</li>
+<li>对于静态语言,上面肯定是报错的.对于大部分的静态语言,上面也是至少会throw一个
+exception
+</li>
+<li>当然js的忍耐是有限度的,如下两个过于明显的type错误它还是会抱怨的
+<div class="org-src-container">
+
+<pre class="src src-js">"hello"(1);
+null.x;
+</pre>
+</div>
+</li>
+<li>其他情况下,js之所以没有抱怨(或者说错的不离谱),其原因是js会coerce某些类型到
+另外一种类型,使得错的不离谱的js能够运行下去, coerce的规则是:
+<ul class="org-ul">
+<li>减号,乘号,除号,取余(出了加号以外):都是把argument转换成number
+</li>
+<li>加号的话,又分两种情况:
+<ol class="org-ol">
+<li>如果两边都不是string,那么转换成number:
+<div class="org-src-container">
+
+<pre class="src src-js">2 + 3 ; //5
+</pre>
+</div>
+</li>
+<li>两边有一个是string,那么就转换为string:
+<div class="org-src-container">
+
+<pre class="src src-js">1 + 2 + "3";     // "33"
+1 + "2" + 3;     // "123"
+</pre>
+</div>
+</li>
+</ol>
+</li>
+<li>bitwise还是会统一转换成nubmer来处理,只不过,还是老样子,double变成integer
+<div class="org-src-container">
+
+<pre class="src src-js">"8.2" | "1"  //9
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>coercion并不是总是能够hide error,有时候会把事情搞得更糟糕:
+<ul class="org-ul">
+<li>一个null的变量会被coerce成0
+</li>
+<li>一个undefined的变量会被coerce成一个特殊的浮点数NaN
+</li>
+</ul>
+</li>
+<li>更加悲惨的是NaN是一个特别特殊的数,非常难以对付,甚至是测试一变量是不是NaN是
+非常麻烦的,因为:
+<ul class="org-ul">
+<li>NaN和自己不相等
+<div class="org-src-container">
+
+<pre class="src src-js">var x = NaN;
+console.log(x === NaN);
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// false                                          //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>isNaN(num)函数也不可靠,因为它只有在num是number类型的时候才有用,所以如果num
+不是number的情况下,它总是认为这是一个NaN
+<div class="org-src-container">
+
+<pre class="src src-js">isNaN("foo")                    // true
+isNaN(undefined)                // true
+isNaN({})                       // true
+isNaN({ valueOf: "foo" })       // true
+</pre>
+</div>
+</li>
+<li>当然了NaN也有弱点,它的弱点就是自己不和自己相等,所以可以使用如下函数来进行
+判断NaN
+<div class="org-src-container">
+
+<pre class="src src-js">function isReallyNaN(x) {
+    return x !== x;
+}
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>object也可以转换成primitive类型, 一般用在object变化成string, 注意是因为加号
+左边是字符串,所以右边也要转换成字符串. 内部其实是调用的toString函数
+<div class="org-src-container">
+
+<pre class="src src-js">"The Math object:" + Math;      // "the Math object: [object Math]"
+"The Json object:" + Json;      // "the Json object: [object Json]"
+</pre>
+</div>
+</li>
+<li>object要转换成number,那么就是要调用valueOf函数
+<div class="org-src-container">
+
+<pre class="src src-js">2 * { valueOf: function() { return 3; } }; // 6
+</pre>
+</div>
+</li>
+<li>如果你认为"+"号左右有string就会调用toString(),那就大错特错了,因为toValue()
+返回了number还可以在"+"的时候转换成string.而且结果也是大家没有想到的
+<pre class="example">
+       在toString()和valueOf()都存在的情况下,优先调用valueOf()
+</pre>
+</li>
+<li>知道了上面的情景设定,下面的代码就不难理解了
+<div class="org-src-container">
+
+<pre class="src src-js">var obj = {
+    toString: function() {
+        return "[object MyObject]";
+    },
+    valueOf: function() {
+        return 17;
+    }
+};
+
+console.log("object: " + obj);
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// object: 17                                     //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>可见valueOf其实是为number类型的object准备的,大部分情况下,我们不要为自己的
+object准备valueOf函数,toString函数是大多数object需要的.
+</li>
+<li>最后一种coercion就是boolean类型的转换.如果变量和if, ||, &amp;&amp;等一起合作的话,它
+会自动从任意类型转换成布尔类型,转换的规则很简单:
+<ul class="org-ul">
+<li>如下几个value转换成false:
+<div class="org-src-container">
+
+<pre class="src src-js">false, 0, -0, "", NaN, null, undefined
+</pre>
+</div>
+</li>
+<li>剩下的value都转换成true
+</li>
+</ul>
+</li>
+<li>所以0和""都会被认为是false,因此,如下的代码是错误的,因为没有考虑到0为false的
+情况
+<div class="org-src-container">
+
+<pre class="src src-js">function point(x, y) {
+    if (!x) {
+        x = 320;
+    }
+    if (!y) {
+        y = 240;
+    }
+    return {
+        x: x,
+        y: y
+    };
+}
+
+console.log(point(0,0));
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// { x: 320, y: 240 }                             //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>正确的方法是使用typeof
+<div class="org-src-container">
+
+<pre class="src src-js">function point(x, y) {
+    if (typeof x === "undefined") {
+        x = 320;
+    }
+    if (typeof y === "undefined") {
+        y = 240;
+    }
+    return {
+        x: x,
+        y: y
+    };
+}
+
+console.log(point());
+console.log(point(0, 0));
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// { x: 320, y: 240 }                             //
+// { x: 0, y: 0 }                                 //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">Item 04: Prefer Primitives to Object Wrappers</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>js中object是一个"复杂"的类型, 而除了object以外,js还有五种primitive类型:
+<ul class="org-ul">
+<li>boolean
+</li>
+<li>number
+</li>
+<li>string
+</li>
+<li>null: 非常令人费解的是typeof null的结果是object
+<div class="org-src-container">
+
+<pre class="src src-js">console.log(typeof null);
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// object                                         //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>undefined
+</li>
+</ul>
+</li>
+<li>就像Java里面的Boxing一样,js也有Object类型的String, Boolean, Number,以String
+为例, object类型的String和string类型有不少类型的地方
+<div class="org-src-container">
+
+<pre class="src src-js">var s = new String("hello");
+console.log(s + " world");
+console.log(s[4]);
+console.log(typeof s);
+console.log(typeof "hello");
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// hello world                                    //
+// o                                              //
+// object                                         //
+// string                                         //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>但就是typeof不相同这一样,就会导致一些和primitive string不一样的行为,比如虽然
+两个String object都是"hello",但并不相等(object只和自己相等)
+<div class="org-src-container">
+
+<pre class="src src-js">var s1 = new String("hello");
+var s2 = new String("hello");
+
+s1 === s2;                      // false
+s1 == s2;                       // false
+</pre>
+</div>
+</li>
+<li>正是因为不相等这个现象,所以String object其实没啥用,之所以创建及出来,是因为
+primitive类型不能有自己的函数,而String object因为是object,那肯定可以有自己
+的函数.
+<ul class="org-ul">
+<li>primitive不能有自己的函数, 但是set和get property的时候会创建临时的boxing
+类型,这里就是String object.因为下面两个语句其实是两个不同的Object,所以第二
+句不会有结果
+<div class="org-src-container">
+
+<pre class="src src-js">"hello".somProperty = 17;
+"hello".somProperty;            // undefined
+</pre>
+</div>
+</li>
+<li>primitive可以调用toUpperCase()其实是先生成一个String Object, 然后调用String
+object的函数toUpperCase()
+<div class="org-src-container">
+
+<pre class="src src-js">"hello".toUpperCase();          // "HELLO"
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>所以primitive不能有函数,但是因为相应的"Box"类型可能为他提供了某些函数,所以
+primivite.func()也是不会报错的.这同时也隐藏了错误,如果你使用了var.func(),你
+以为var是object,其实是primitive,那么其实var.func()是不会报错的.这种错误非常
+隐蔽,要小心
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5">Item 05: Avoid using == with Mixed Types</h3>
+<div class="outline-text-3" id="text-1-5">
+<ul class="org-ul">
+<li>js中有两个equal:
+<ul class="org-ul">
+<li>strict equal (===) 如果比较的两个数连类型都不一样,就直接返回false
+</li>
+<li>nonstrict equal(==)允许比较的两者类型不一样,会都转换成number类型,然后再比
+较,所以如下的两个看起来不相干的值,都会转换成1,一比较,还真相等
+<div class="org-src-container">
+
+<pre class="src src-js">"1.0e0" == { valueOf: function() { return true; } }; // true
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>既然==能够比较两个类型不一样的对象,那么很多人就会马上想到"应用场景",而且对
+此非常满意(feature总算用上了)
+<div class="org-src-container">
+
+<pre class="src src-js">var today = new Date();
+
+if (form.month.value == (today.getMonth() + 1 &amp;&amp;
+                         form.day.value == today.getDate()) {
+    // happy birthday!
+}
+</pre>
+</div>
+</li>
+<li>但是这却并不是推荐的做法,使用==给读者传递的信号是,==两边的类型是不一样的,他
+们需要依靠js的coerce功能进行转换,这就给了js各种奇怪的语法以空隙,所以更加好
+的practice是把两者转化成同一种类型(number),然后使用===来比较
+</li>
+<li>===给读者传递的语义就是===左右两者类型是是一样的,减少了读者的焦虑,而unary+
+operator可以把value转换成number类型,所以更加清晰的写法如下
+<div class="org-src-container">
+
+<pre class="src src-js">var today = new Date();
+
+if (+form.month.value === (today.getMonth() + 1) &amp;&amp;
+    +form.day.value === today.getDate()) {
+    // happy birthday!
+}
+</pre>
+</div>
+</li>
+<li>最后我们来总结下===和==的规则(总体上只需要记住===要求类型一样,==不要求就可
+以了):
+<ul class="org-ul">
+<li>对于===:
+<ol class="org-ol">
+<li>如果类型不同,就[不相等]
+</li>
+<li>如果两个都是number类型,并且值一样,那么[相等],例外是NaN和NaN不相等
+</li>
+<li>如果两个都是string类型,并且每个位置都一样,那么[相等]
+</li>
+<li>如果两个都是boolean类型,并且都是true或者false,那么[相等]
+</li>
+<li>如果两个都是null类型,那么[相等]
+</li>
+<li>如果两个都是undefined类型,那么[相等]
+</li>
+<li>如果两个都是指向同一个object或者function,那么[相等]
+</li>
+</ol>
+</li>
+<li>对于==:
+<ol class="org-ol">
+<li>如果两个类型相同,进行===比较
+</li>
+<li>如果一个是null类型,另一个是undefined类型,那么[相等]
+</li>
+<li>如果一个是string类型,一个是number类型,那么字符串先valueOf(),然后===比较
+</li>
+<li>如果任意一个是boolean类型,那么先也是valueOf(),true为1, false为0
+</li>
+<li>如果任意一个是object类型,那么先调用valueOf(), 不成功再调用toString()转
+换后再进行比较,例外是Date,它先调用toString(),然后调用valueOf().
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6">Item 06: Learn the Limits of Semicolon Insertion</h3>
+<div class="outline-text-3" id="text-1-6">
+<ul class="org-ul">
+<li>Js的一个方便的地方在于,你可以不在行尾添加分号,系统可以自动添加,自动添加的机
+制叫做automatic semicolon insertion
+<div class="org-src-container">
+
+<pre class="src src-js">function Point(x, y) {
+    this.x = x || 0
+    this.y = y || 0
+}
+</pre>
+</div>
+</li>
+<li>ECMAScript标准明确表示了分号插入的机制,所以少些分号是不影响代码的portablity
+的.
+</li>
+<li>但是就像前面的coercion一样,semicolon insertion有自己的陷阱在里面,所以我们要
+非常了解semicolon insertion的机制,才能正常工作.
+</li>
+<li>semicolon insertion的第一个机制如下:
+<pre class="example">
+Semicolons are only ever inserted before a } token, after one
+or more newlines, or at the end of the program input.
+分号通常在}之前加入分号,或者换行符之后,或者在program input之后
+</pre>
+</li>
+<li>所以如下的代码是错误的,因为"+r"后面既没有},也没有换行符,也不是程序的结束之前
+<div class="org-src-container">
+
+<pre class="src src-js">function area(r) { r = +r return Math.PI * r * r}
+</pre>
+</div>
+</li>
+<li>semicolon insertion的第二个机制如下:
+<pre class="example">
+Semicolons are only ever inserted when the next input token
+cannot be parsed
+分号,只有再下一个input无法解析的时候,才会自动插入分号
+</pre>
+</li>
+<li>比如如下的这个例子
+<div class="org-src-container">
+
+<pre class="src src-js">a = b
+(f());
+</pre>
+</div>
+</li>
+<li>上述这个例子不会在b后面自动插入分号,因为如下的代码是合法的
+<div class="org-src-container">
+
+<pre class="src src-js">a = b(f());
+</pre>
+</div>
+</li>
+<li>所以,当下一行是如下的几种符号的时候,我们要特别的小心,因为可能会被和当前行解
+析在一起
+<pre class="example">
+(, [, +, -, /
+</pre>
+</li>
+<li>看到这里,读者可能会想,如果我从来不省略分号,是不是最后就不会有问题?答案是否
+定的:因为在某些情况下js会强制的插入分号,即便能够正确的分析下一个input,这种
+情况叫做restricted production
+</li>
+<li>在restricted production中, 在两个token之间是不允许出现newline的:
+<ul class="org-ul">
+<li>正常代码中如下代码是可行的,因为js不会主动在return后面,{前面加分号,因为js
+能够正常parse这个语句
+<div class="org-src-container">
+
+<pre class="src src-js">return
+{};
+</pre>
+</div>
+</li>
+<li>在restricted production中,只要出现newline就会加入分号(来替代newline,因为
+不能存在newline嘛)
+<div class="org-src-container">
+
+<pre class="src src-js">return; {} ;
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>其他restricted production还有:
+<ul class="org-ul">
+<li>A throw statement
+</li>
+<li>break or continue statement
+</li>
+<li>postfix ++ or &#x2013; operator
+</li>
+</ul>
+</li>
+<li>semicolon insertion的第三个机制是:
+<pre class="example">
+Semicolons are never inserted as separators in the head of a
+for loop or as empty statements
+for循环里面的分号从来都不能省略, 有empty body的loop要有明确的分号
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7">Item 07: Think of Strings As Sequences of 16-Bit Code Units</h3>
+<div class="outline-text-3" id="text-1-7">
+<ul class="org-ul">
+<li>Unicode的本质非常容易理解:每一个世界上存在的单个字符都被赋予了一integer值,
+这个值的range是0~1,114,111这也被称之为Unicode的code piont.换句话说,其实
+Unicode就是一个超大字符集的ASCII
+</li>
+<li>说Unicode是一个超大字符集的ASCII是有先决条件的,那就是要使用UTF-32的encoding
+格式.所谓UTF-32,意思就是每个字符都使用32个bit来存储,Unicode有1百多万么,32-bit
+就是40个亿,所以可以轻松存储Unicode
+</li>
+<li>后来人们发现用UTF-32太浪费了,那就使用UTF-16, 而UTF-16只有6万多个表示方式,所
+以就有一个映射,比如如果小于6万的Unicode就用一个UTF-16表示,大于的,就用两个UTF-15
+字符表示
+</li>
+<li>更后来大家发现ASCII占大多数,那么我们可以使用UTF-8, 常用的ASCII就使用一个UTF-8
+其他的可以使用两个,三个,或者四个UTF-8字符.
+</li>
+<li>那很明显最省劲的办法是使用UTF-32,一劳永逸,每个字符都有唯一对应的integer值,但
+是坑爹的是在js诞生的那个时候,Unicode还是16bit的,所以UTF-16自然是一劳永逸的.
+所以和JavaScript和Java一样选择了UTF-16.所以
+<pre class="example">
+An element of a JavaScript string is a 16-bit code unit
+</pre>
+</li>
+<li>也就是说,如果有Unicode integer超过65535的字符的话,那么在JS里面就会使用两个
+16-bit code unit来进行存储
+<div class="org-src-container">
+
+<pre class="src src-js">console.log("𝄞loveyou".length);
+console.log("Iloveyou".length);
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 9                                              //
+// 8                                              //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>也就是说,如果js要应对full range of Unicdoe,那么它的很多内置函数比如length,
+index, regular expression pattern都不能使用了.
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Chapter 2: Variable Scope</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Item 08: Minimize Use of the Global Object</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>全局变量有着很特殊的一面,它可以接触整个程序里面的任意代码.但这种便利只对新手
+有诱惑,对于有经验的程序员来说,他们会尽量避免global variable
+</li>
+<li>定义全局变量会污染common namespace,会引入可能的name collision
+</li>
+<li>全局变量还违反了模块化原则,他们的存在可能会造成两个本来模块化的代码之间的联
+系.
+</li>
+<li>也正是因为global namespace是js中不同component之间联系的唯一纽带,所以很多时
+候global namespace也是不得不使用的.比如一些js的库,必须定义global的name,所以
+其他部分的js才能调用它.
+</li>
+<li>一个常见的错误就是在全局定义temporary变量, 如下例,如果我买的score函数也使用
+了i,n,sum等变量的话,那么程序就会出错
+<div class="org-src-container">
+
+<pre class="src src-js">var i, n, sum;
+
+function averageScore(players) {
+    sum = 0;
+    for (i = 0, n = players.length; i &lt; n; i++) {
+        sum += score(players[i]);
+    }
+    return sum /n;
+}
+</pre>
+</div>
+</li>
+<li>解决办法当然是让临时变量的scope尽可能的小
+<div class="org-src-container">
+
+<pre class="src src-js">function averageScore(players) {
+    var i, n, sum;
+    sum = 0;
+    for (i = 0, n = players.length; i &lt; n; i++) {
+        sum += score(players[i]);
+    }
+    return sum / n;
+}
+</pre>
+</div>
+</li>
+<li>JS的global namespace也会被导出成global object,在程序开始的时候,会被作为this
+的初始化值.这个是非常特殊的用法,需要特别注意
+<div class="org-src-container">
+
+<pre class="src src-js">var foo = "global foo";
+this.foo = "changed";
+foo;                            // "changed"
+</pre>
+</div>
+</li>
+<li>而且在浏览器里面global object还和window variable进行了绑定,也就是说,在浏览器
+的global域里面,this就等于window
+</li>
+<li>我们虽然可以使用this(或者window).variable = xxx的方式来定义全局变量,但是使用
+var是更加清晰的做法
+</li>
+<li>当然了this(window)的存在还是很有意义的,因为一个library要想发挥作用,就要在global
+里面定义一个变量,所以我们可以通过查询this(window)里面时候有某个变量来判读某
+个feature是否已经应用,比如我们测试浏览器是否提供了ES5的JSON功能
+<div class="org-src-container">
+
+<pre class="src src-js">if (!this.JSON) {
+    this.JSON = {
+        //parse: ..
+    };
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">Item 09: Always Declare Local Variable</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>如果有比global variable更麻烦的事情的话,那就当属unintential global variable
+了.但是由于JS的自身特点,就很容易"一不小心创建了global variable"
+</li>
+<li>比如下面的例子,由于忘了给temp前面加var,所以程序自动创建了一个全局变量temp,
+并给他赋了值
+<div class="org-src-container">
+
+<pre class="src src-js">function swap(a, i, j) {
+    temp = a[i];
+    a[i] = a[j];
+    a[j] = temp;
+}
+
+swap([2, 3], 0, 1);
+console.log(temp);
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 2                                              //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>正确的做法是使用var
+<div class="org-src-container">
+
+<pre class="src src-js">function swap(a, i, j) {
+    var temp = a[i];
+    a[i] = a[j];
+    a[j] = temp;
+}
+
+swap([2, 3], 0, 1);
+console.log(typeof temp);
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// undefined                                      //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>有很多lint工具可以检查这种错误,推荐使用lint工具进行检查.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">Item 10: Avoid with</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li>with是为了让大家能够少写一点代码,自动绑定某个object,但是事实证明,这个feature
+由于歧义太大,完全不推荐使用!
+<div class="org-src-container">
+
+<pre class="src src-js">function status(info) {
+    var widget = new Widget();
+    with(widget) {
+        setBackground("blue");
+        setForeground("white");
+        setText("Status: " + info); // ambiguous reference because of info
+        show();
+    }
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4">Item 11: Get Comfortable with Closures</h3>
+<div class="outline-text-3" id="text-2-4">
+<ul class="org-ul">
+<li>Closure是js自己带的一种feature,其他语言里面并没有.理解closure需要理解如下的
+三个重要的fact:
+<ol class="org-ol">
+<li>JS允许function引用那些定义在当前function之外scope的variable, 比如下例中
+的make函数,它调用了不在它scope里面的magicIngredient
+<div class="org-src-container">
+
+<pre class="src src-js">function makeSandwich() {
+    var magicIngredient = "peanut butter";
+    function make(filling) {
+        return magicIngredient + " and " + filling;
+    }
+    return make("jelly");
+}
+console.log(makeSandwich());
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// peanut butter and jelly                        //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>JS允许function引用那些定义在"outer function"里面的variable,即便这个outer
+function已经returned了!这种情况描述起来比较晦涩,需要看看代码,比如下例中,
+inner function就是make, outer function就是sandwichMaker, inner function
+引用了outer function中定义的变量magicIngredient, 但是即便outer function
+已经返回,我们还是可以引用到它里面的变量
+<div class="org-src-container">
+
+<pre class="src src-js">function sandwichMaker() {
+    var magicIngredient = "peanut butter";
+    function make(filling) {
+        return magicIngredient + " and " + filling;
+    }
+    return make;
+}
+
+var f = sandwichMaker();
+console.log(f("jelly"));
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// peanut butter and jelly                        //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>上述两种情况可以实现的原因就是closure,它的原理就是function一旦引用了某个
+变量.那么它就会一直保持着对这个变量的reference.这种机制叫做closure.我们
+第三个fact就是closure保持的reference是真正的ref(而不是copy),所以一旦函数
+对其ref的变量进行了更改,那么所有包括这个ref的closure都会看到
+<div class="org-src-container">
+
+<pre class="src src-js">function box() {
+    var val = undefined;
+    return {
+        set: function(newVal) { val = newVal; },
+        get: function() {return val;},
+        type:function() {return typeof val;}
+    };
+};
+
+var b = box();
+console.log(b.type());
+b.set(98.6);
+console.log(b.get());
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// undefined                                      //
+// 98.6                                           //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ol>
+</li>
+<li>closure存储了其能够访问的变量的ref,那么一个function能够访问的变量肯定是在它
+的scope里面.这里又涉及到一个问题,js里面的scope是多大,答案如下.注意js里面的
+scope是和外部function紧密联系的,而不是`{}`
+<pre class="example">
+parameters and variables of outer functions
+外部函数里面定义的参数和变量
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5">Item 12: Understand Variable Hoisting</h3>
+<div class="outline-text-3" id="text-2-5">
+<ul class="org-ul">
+<li>JS里面的scope不是以block为界限的,也就是说variable difinition不是限定在最近
+的`{}`,而是限定在包含它(这个variable)的function里面
+</li>
+<li>如果不明白上述这个原理,就会犯如下的错误:以为自己在for里面定义player,就会有
+一个local的variable player,但是其实这只是重复定义了函数参数里面的player
+<div class="org-src-container">
+
+<pre class="src src-js">function isWinner(player, otehrs) {
+    var highest = 0;
+    for (var i = 0, n = others.length; i &lt; n; i++) {
+        var player = otehrs[i];
+        if (player.score &gt; highest) {
+            highest = player.score;
+        }
+    }
+    return player.score &gt; highest;
+}
+</pre>
+</div>
+</li>
+<li>这个看似奇怪的"重复定义"其实是没了解js的variable declaration规则,js的变量定
+义规则其实包括两个部分:
+<ul class="org-ul">
+<li>declaration: js暗中把所有的出现的变量都declaration都放在function closure
+的最上面
+</li>
+<li>assignment: var出现的时候,其实不是声明,而是assignment,每次var出现就赋值一
+次.既然var只不过是"赋值",那么var两次一样的变量是完全没有问题的
+</li>
+</ul>
+</li>
+<li>唯一一个不遵守js的约定,使用block scoping的是try&#x2026;catch里面是catch scope
+<div class="org-src-container">
+
+<pre class="src src-js">function test() {
+    var x = "var",
+        result = [];
+    result.push(x);
+    try {
+        throw "exception";
+    } catch (x) {
+        x = "catch";
+    }
+    result.push(x);
+    return result;
+}
+
+console.log(test());
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// [ 'var', 'var' ]                               //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6">Item 13: Use Immediately Invoked Function Expressions to Create Local Scopes</h3>
+<div class="outline-text-3" id="text-2-6">
+<ul class="org-ul">
+<li>closure存储outer function的reference,而不是value copy,所以下面的代码没有能
+够得到10,而是得到了undefined.
+<div class="org-src-container">
+
+<pre class="src src-js">function wrapElements(a) {
+    var result = [], i, n;
+    for (i = 0, n = a.length; i &lt; n; i++) {
+        result[i] = function() { return a[i];};
+    }
+    return result;
+}
+
+var wrapped = wrapElements([10, 20, 30, 40, 50]);
+var f = wrapped[0];
+console.log(f());
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// undefined                                      //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>return a[i]的这个i,只能使用a.length这个值, 因为result的每个成员都是a[i], 而
+i最后都是5,了,所以肯定都返回undefined,如果我们最后强制的改变i的值为1的话,那
+么所有的值最后都是20了
+<div class="org-src-container">
+
+<pre class="src src-js">function wrapElements(a) {
+    var result = [], i, n;
+    for (i = 0, n = a.length; i &lt; n; i++) {
+        result[i] = function() { return a[i];};
+    }
+    i = 1;
+    return result;
+}
+
+var wrapped = wrapElements([10, 20, 30, 40, 50]);
+var f = wrapped[0];
+console.log(f());
+var f2 = wrapped[1];
+console.log(f2());
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 20                                             //
+// 20                                             //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>解决办法是创建一个nested function,并且快速调用它,这个技巧叫做immediately
+invoked function expression (IIFE)
+<div class="org-src-container">
+
+<pre class="src src-js">function wrapElements(a) {
+    var result = [];
+    for (var i = 0, n = a.length; i &lt; n; i++) {
+        (function() {
+            var j = i;
+            result[i] = function() { return a[j];};
+        })();
+    }
+    return result;
+}
+
+var wrapped = wrapElements([10, 20, 30, 40, 50]);
+var f = wrapped[0];
+console.log(f());
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 10                                             //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-7" class="outline-3">
+<h3 id="sec-2-7">Item 14: Beware of Unportable Scoping of Named Function Expresions</h3>
+<div class="outline-text-3" id="text-2-7">
+<ul class="org-ul">
+<li>TODO
+</li>
+<li>named function 问题太多,不推荐使用
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-8" class="outline-3">
+<h3 id="sec-2-8">Item 15: Beware of Unportable Scoping of Block-Local Function Declarations</h3>
+<div class="outline-text-3" id="text-2-8">
+<ul class="org-ul">
+<li>TODO
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-9" class="outline-3">
+<h3 id="sec-2-9">Item 16: Avaoid Creating Local Variables with eval</h3>
+<div class="outline-text-3" id="text-2-9">
+<ul class="org-ul">
+<li>TODO
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-10" class="outline-3">
+<h3 id="sec-2-10">Item 17: Prefer Indirect eval to Direct eval</h3>
+<div class="outline-text-3" id="text-2-10">
+<ul class="org-ul">
+<li>TODO
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Chapter 3: Working with Functions</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">Item 18: Understand the Difference between Function, Method, and COnstructor Cells</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>从oo语言过来的人,肯定会把function, method, class当做三个不同的概念,但是在
+js里面,这个三者都是对function的不同应用而已:
+<ul class="org-ul">
+<li>最简单的当然就是function call了
+<div class="org-src-container">
+
+<pre class="src src-js">function hello(username) {
+    return "hello, " + username;
+}
+hello("Keyser Soze");           // "hello, Keyser Soze"
+</pre>
+</div>
+</li>
+<li>在js里面,如果一个object的某个property是个function的话,那么object.property
+的使用,就是一种method啦. 和function不同的是,method需要一个reciver,会去这个
+receiver的property里面寻找.
+<div class="org-src-container">
+
+<pre class="src src-js">var obj = {
+    hello: function() {
+        return "hello, " + this.username;
+    },
+    username: "Hans Gruber"
+};
+
+obj.hello();                    // "hello, Hans Gruber"
+</pre>
+</div>
+</li>
+<li>js里面new后面跟的不是class name,而是一个function(也就是ctor function一
+般function name是大写的)
+<div class="org-src-container">
+
+<pre class="src src-js">function User(name, passwordHash) {
+    this.name = name;
+    this.passwordHash = passwordHash;
+}
+var u = new User("sfalken",
+                 "0ef33a79dawbaweadw");
+u.name;                         // "sfalken"
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">Item 19: Get Comfortable Using Higher-Order Functions</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>functional 语言用的非常多的两点是:
+<ul class="org-ul">
+<li>把function当做函数的参数
+</li>
+<li>把function当做函数的返回值
+</li>
+</ul>
+</li>
+<li>这两种方法能让我们的代码变得非常简洁容易理解,比如排序,我们可以把规则做成一
+个函数,然后传入到sort()函数里面
+<div class="org-src-container">
+
+<pre class="src src-js">function compareNumbers(x, y) {
+    if (x &lt; y) {
+        return -1;
+    }
+    if (x &gt; y) {
+        return 1;
+    }
+    return 0;
+}
+
+[3, 1, 4, 1, 5, 9].sort(compareNumbers); // [1, 1, 3, 4, 5, 9]
+</pre>
+</div>
+</li>
+<li>ES5还引入了map函数,可以对一个数组里面所有的成员实施某个'函数',而我们的函数
+其实也没必要使用named
+<div class="org-src-container">
+
+<pre class="src src-js">var names = ["Fred", "Wilma", "Pebbles"];
+var upper = names.map(function(name) {
+    return name.toUpperCase();
+});
+upper;                          // ["FRED", "WILMA", "PEBBLES"]
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3">Item 20: Use call to Call Methods with a Custom Receiver</h3>
+<div class="outline-text-3" id="text-3-3">
+<ul class="org-ul">
+<li>一般来说,function或者method的调用者是固定的,比如method的caller就是method前
+面的object
+</li>
+<li>但是有些时候,我们需要使用特定的receiver来调用函数,当然了,最简单的办法是把
+function作为'特定receiver'的caller
+</li>
+<li>但是这种做法有很大风险,并不推荐使用(因为object里面可能已经有同名函数)
+</li>
+<li>JS提供了内置的call函数来做这件事情,如下两个语句是等价的
+<div class="org-src-container">
+
+<pre class="src src-js">f.call(obj, arg1, arg2, arg3);
+f(arg1, arg2, arg3);
+</pre>
+</div>
+</li>
+<li>这个build-in功能很实用,比如hasOwnProperty这个函数可以使用任何类型来调用它的
+作用是能够查找某个property是"自定义的"而不是"原型链"上继承来的.
+<div class="org-src-container">
+
+<pre class="src src-js">Object.prototype.bar = 1;
+var foo = { goo: undefined};
+
+console.log(foo.bar);
+console.log('bar' in foo);
+
+console.log(foo.hasOwnProperty('bar'));
+console.log(foo.hasOwnProperty('goo'));
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 1                                              //
+// true                                           //
+// false                                          //
+// true                                           //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>call还可以用来调用已经被删除,或者覆盖的函数,比如下面例子中的hasOwenProperty
+<div class="org-src-container">
+
+<pre class="src src-js">var dict = {};
+var hasOwnProperty = {}.hasOwnProperty;
+dict.foo = 1;
+delete dict.hasOwnProperty;
+console.log(hasOwnProperty.call(dict, "foo"));
+console.log(hasOwnProperty.call(dict, "hasOwnProperty"));
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// true                                           //
+// false                                          //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4">Item 21: Use apply to Call Functions with Different Numbers of Arguments</h3>
+<div class="outline-text-3" id="text-3-4">
+<ul class="org-ul">
+<li>apply是call函数的一个变体,就是把call的第二个参数开始到最后一个函数,合成一个
+数组参数也就是说,如下两个函数是等价的
+<div class="org-src-container">
+
+<pre class="src src-js">func.call(obj, arg1, arg2, arg3)
+func.apply(obj, [arg1, arg2, arg3])
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5">Item 22: Use arguments to Create Variadic Functions</h3>
+<div class="outline-text-3" id="text-3-5">
+<ul class="org-ul">
+<li>variadic function是非常好用的函数形式,因为它可以使用"任意长度"的参数,由于js
+里面arguments的存在,所以自己写一个variadic function是非常容易的
+<div class="org-src-container">
+
+<pre class="src src-js">function average() {
+    for (var i = 0, sum = 0, n = arguments.length;
+         i &lt; n;
+         i++) {
+        sum += arguments[i];
+    }
+    return sum / n;
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6">Item 23: Never Modify the arguments Object</h3>
+<div class="outline-text-3" id="text-3-6">
+<ul class="org-ul">
+<li>arguments只是看起来像Array,但是却并不是真的Array,所以不要更改arguments的内
+容
+</li>
+<li>如果想使用arguments的内容,那么我们得把arguments的内容先存放到一个array里面
+<div class="org-src-container">
+
+<pre class="src src-js">console.log([0, 1, 2, 3, 4, 5].slice(2));
+
+function callMethod() {
+    var args = [].slice.call(arguments, 2);
+    console.log(args);
+}
+
+callMethod(0, 1, 2, 3, 4, 5);
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// [ 2, 3, 4, 5 ]                                 //
+// [ 2, 3, 4, 5 ]                                 //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-7" class="outline-3">
+<h3 id="sec-3-7">Item 24: Use a Variable to Save a Reference to arguments</h3>
+<div class="outline-text-3" id="text-3-7">
+<ul class="org-ul">
+<li>iterator 是一个常见的设计模式,在js里面的的实现的话,不知道js的细节的话,我们
+可以实现一个如下的版本
+<div class="org-src-container">
+
+<pre class="src src-js">function values() {
+    var i = 0, n = arguments.length;
+    return {
+        hasNext: function() {
+            return i &lt; n;
+        },
+        next: function() {
+            if (i &gt;= n) {
+                throw new Error("endo of iteration");
+            }
+            return arguments[i++];
+        }
+    };
+}
+
+var i = values(0, 1, 2, 3, 4, 5, 6);
+console.log(i.next());
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// undefined                                      //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>这个版本的结果有点出乎人们的意料,原因是arguments是每个函数都有的,所以我们调
+用next的时候,其实是调用的next自己的arguments,而不是values()的arguments,所以
+我们要使用如下的更改
+<div class="org-src-container">
+
+<pre class="src src-js">function values() {
+    var i = 0, n = arguments.length, a = arguments;
+    return {
+        hasNext: function() {
+            return i &lt; n;
+        },
+        next: function() {
+            if (i &gt;= n) {
+                throw new Error("endo of iteration");
+            }
+            return a[i++];
+        }
+    };
+}
+
+var i = values(0, 1, 2, 3, 4, 5, 6);
+console.log(i.next());
+console.log(i.next());
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 0                                              //
+// 1                                              //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-8" class="outline-3">
+<h3 id="sec-3-8">Item 25: Use bind to Extract Methods with a Fixed Receiver</h3>
+<div class="outline-text-3" id="text-3-8">
+<ul class="org-ul">
+<li>object的property可以是function,但是这个function在"调用那一刻"的this是绑定的
+不同的object,所以直接把object里面的function property提取出来,然后在其他的地
+方"当做method使用(也就是object不一定)"的时候,可能会出现错误,因为"提取"method
+的过程,并不能一并"提取"object
+</li>
+<li>下面的例子会出现错误，因为forEach在调用buffer.add这个method的时候,并没有能力
+知道buffer.add的this是谁,它只好用了global object作为了default receiver.而
+global object并没有entries,所以push就会被认为是使用在了undefined object上面
+<div class="org-src-container">
+
+<pre class="src src-js">var sources = ["867", "-", "5309"];
+
+var buffer = {
+    entries: [],
+    add: function(s) {
+        this.entries.push(s);
+    },
+    concat: function() {
+        return this.entries.join("");
+    }
+};
+
+sources.forEach(buffer.add);
+console.log(buffer.concat());
+
+/////////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt;      //
+// TypeError: Cannot read property 'push' of undefined //
+/////////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>幸运的是forEach意识到它可能会调用一些method,所以forEach可以添加第二个参数来
+设置default receiver
+<div class="org-src-container">
+
+<pre class="src src-js">source.forEach(buffer.add, buffer);
+buffer.concat();                // "867-5309"
+</pre>
+</div>
+</li>
+<li>但是并不是所有的function都如此的有礼貌,会提供一个第二参数让我们来指定default
+receiver.所以需要一个更通用的方案，ES5给了我们答案就是bind,bind是所有的
+object.property都拥有的一个函数
+<div class="org-src-container">
+
+<pre class="src src-js">var sources = ["867", "-", "5309"];
+
+var buffer = {
+    entries: [],
+    add: function(s) {
+        this.entries.push(s);
+    },
+    concat: function() {
+        return this.entries.join("");
+    }
+};
+
+sources.forEach(buffer.add.bind(buffer));
+console.log(buffer.concat());
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// 867-5309                                       //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>需要注意的是,bind会产生一个新的函数(只不过receiver不同),这是一种更安全的处
+理方式,因为这样bind产生的函数可以放心大胆的被share
+</li>
+<li>如果不支持ES5可以使用如下的临时方案
+<div class="org-src-container">
+
+<pre class="src src-js">source.forEach(function(s) {
+    buffer.add(s);
+});
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-9" class="outline-3">
+<h3 id="sec-3-9">Item 26: Use bind to Curry Functions</h3>
+<div class="outline-text-3" id="text-3-9">
+<ul class="org-ul">
+<li>bind函数并不是只能用来指定receiver,有时候receiver就是global object(或者无所
+谓是谁)的时候,我们依然可以使用bind函数来达到简化代码的目的
+</li>
+<li>比如curry function就是这样一种情况,这种情况的特点是:
+<ul class="org-ul">
+<li>receiver 无所谓,所以我们一般设置为null或者undefined,也就是bind的一个参数
+是null或者undefined
+</li>
+<li>bind从第二个参数开始到最后一个参数,都是原来调用需要的参数(如果是map或者
+forEach,那么最后一个参数不用提供)
+</li>
+</ul>
+</li>
+<li>看一个不使用curry的例子
+<div class="org-src-container">
+
+<pre class="src src-js">function simpleURL(protocol, domain, path) {
+    return protocol + "://" + domain + "/" + path;
+}
+
+var urls = paths.map(function(path) {
+    return simpleURL("http", siteDomain, path);
+});
+</pre>
+</div>
+</li>
+<li>使用了curry以后,显然更加简洁
+<div class="org-src-container">
+
+<pre class="src src-js">var urls = paths.map(simpleURL.bind(null, "http", siteDomain));
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-10" class="outline-3">
+<h3 id="sec-3-10">Item 27: Prefer Closures to Strings for Encapsulating Code</h3>
+<div class="outline-text-3" id="text-3-10">
+<ul class="org-ul">
+<li>function是比string更好的一种把code存储成data structure的方式
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-11" class="outline-3">
+<h3 id="sec-3-11">Item 28: Avoid Relyingon the toString Method of Functions</h3>
+<div class="outline-text-3" id="text-3-11">
+<ul class="org-ul">
+<li>不要依赖JS里面函数的toString()结果,因为有些函数是使用c++书写的
+<div class="org-src-container">
+
+<pre class="src src-js">var s1 = (function(x)  {
+    return x + 1;
+}).toString();
+
+var s2 = (function(x)  {
+    return x + 1;
+}).bind(16).toString();
+console.log(s1);
+console.log(s2);
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// node.exe c:/tmp/hh.js                          //
+// function (x)  {                                //
+//     return x + 1;                              //
+// }                                              //
+// function () { [native code] }                  //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-12" class="outline-3">
+<h3 id="sec-3-12">Item 29: Avoid Nonstandard StackInspection Properties</h3>
+<div class="outline-text-3" id="text-3-12">
+<ul class="org-ul">
+<li>不要使用标准并不支持的argument.caller和argument.callee
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Chapter 4: Objects and Prototypes</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">Item 30: Understand the difference between prototype, getPrototypeOf, and __proto__</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li>如题目所示,js里面存在着三个特别像又有点联系的概念:
+<ul class="org-ul">
+<li>C.prototype的作用是"建立和完善"被new()函数创建的object的prototype的.注意
+这个C.prototype并不是指向prototype object, 它只能用来设置prototype object
+的property,只有下面的方法可以取得prototype object
+</li>
+<li>Object.getPrototype(object)是ES5才引入的机制,用来取得一个object的prototype object
+</li>
+<li>obj.__proto__是在ES5之前的一种非官方的取得object的prototype object的方法
+</li>
+</ul>
+</li>
+<li>第一种用法的例子如下,我们要创建一个js的datatype,那么就要有一个ctor(js里面没
+有class), 下面的User就是这样一个ctor,除了user和hash两个attribute以外,还为这
+两个attribute各自提供了一个setter,其代码如下
+<div class="org-src-container">
+
+<pre class="src src-js">function User(name, passwordHash) {
+    this.name = name;
+    this.passwordHash = passwordHash;
+}
+
+User.prototype.toString = function() {
+    return "[User " + this.name + "]";
+};
+
+User.prototype.checkPassword = function(password) {
+    return hash(password) === this.passwordHash;
+};
+
+var u = new User("sfalken", "0ef33awefswe");
+</pre>
+</div>
+</li>
+<li>这里的机制比较复杂,我们要详细的说一下:
+<ul class="org-ul">
+<li>User本质上是一个function,functionn作为一个first class object,其也是可以拥
+有property的,而每个function都有一个default的property叫做prototype(当然这个
+property如果function不作为ctor的话,没什么作用)
+</li>
+<li>这个default的property,其实是一个object,所以一个object是可以有property的,所
+以这里我们赋予了这个property object两个函数
+</li>
+<li>当我们运行new来生成"object u"的时候,"object u"的prototype就指向了刚才我们
+生成的"function User"的prototype object
+</li>
+</ul>
+</li>
+<li>上面所述的复杂的关系列图于如下
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/js/effective_js_prototype_all.png" alt="effective_js_prototype_all.png" />
+</p>
+<p><span class="figure-number">Figure 1:</span> effective_js_prototype_all.png</p>
+</div>
+</li>
+<li>我们需要注意的是"object u"从某种意义上来说,是"继承"自"function User"的
+prototype object:
+<pre class="example">
+       当使用u.methodname调用的时候,methodname寻找的顺序是,首先查找object u
+       自己的property,如果没有就查找object u的property的perperty
+</pre>
+</li>
+<li>而ES5新近引入的Object.getPrototypeOf(obj)正是取得一个函数的prototype
+<div class="org-src-container">
+
+<pre class="src src-js">function User() {
+    this.password = "ello";
+}
+
+var u = new User();
+
+console.log(Object.getPrototypeOf(u) === User.prototype);
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// true                                           //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>__proto__就很好说了,这就是一个非standard的取得prototype的方法
+<div class="org-src-container">
+
+<pre class="src src-js">u.__proto__ === User.prototype  // true
+</pre>
+</div>
+</li>
+<li>抽象一下其他语言里面class的概念其实就是提供一个ctor(ctor里面共享变量),另外
+提供一系列共享的函数(一般在class体内,和ctor并列)
+</li>
+<li>而js其实是把其他语言里面的class的概念一分为二:
+<ul class="org-ul">
+<li>ctor就是function User,内部可以初始化变量
+</li>
+<li>其他"类和自己的instance"共享的函数放在了User.prototype里面
+</li>
+</ul>
+</li>
+<li>我们使用下图来表示一下这个概念
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/js/effective_js_prototype_class.png" alt="effective_js_prototype_class.png" />
+</p>
+<p><span class="figure-number">Figure 2:</span> effective_js_prototype_class.png</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2">Item 31: Prefer Object.getPrototypeOf to __proto__</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li>很显然,一个是标准的一个是非标准的肯定是使用标准的getPrototypeOf有更好的可移
+植性啊
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3">Item 32: Never Modify __proto__</h3>
+<div class="outline-text-3" id="text-4-3">
+<ul class="org-ul">
+<li>本来就不推荐使用,那更不要去修改这个值啦.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4">Item 33: Make Your Constructors new-Agnostic</h3>
+<div class="outline-text-3" id="text-4-4">
+<ul class="org-ul">
+<li>JS的问题在于其new后面跟的是一个function,人家毕竟是function,所以没有new的情
+况下,也是可以调用的.而且竟然在global域里面产生了两个全局变量name和passwordHash
+<div class="org-src-container">
+
+<pre class="src src-js">function User(name, passwordHash) {
+    this.name =name;
+    this.passwordHash = passwordHash;
+}
+
+var u = User("abaravelli", "d8laiabwes");
+u;                              // undefined
+this.name;                      // "abaravelli"
+this.passwordHash               // "d8laiabwes"
+</pre>
+</div>
+</li>
+<li>上述代码在strict mode下面不可用
+<div class="org-src-container">
+
+<pre class="src src-js">function User(name, passwordHash) {
+    "use strict";
+     this.name =name;
+    this.passwordHash = passwordHash;
+}
+
+var u = User("abaravelli", "d8laiabwes");
+
+////////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt;     //
+// TypeError: Cannot set property 'name' of undefined //
+////////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>所以,我们最后提供一个机制(其实是为js填坑),让本来作为ctor用的function一旦被
+调用的时候忘了加new,我们能智能的帮助其进行补救,这里用到了我们ES5的新特性Object.create
+其参数是一个prototype object,并且返回一个新的继承自这个prototype object的新
+的object.运用在这里刚好
+<div class="org-src-container">
+
+<pre class="src src-js">function User(name, passwordHash) {
+    var self = this instanceof User ?
+        this :
+        Object.create(User.prototype);
+
+    self.name = name;
+    self.passwordHash = passwordHash;
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5">Item 34: Store Methods on Prototypes</h3>
+<div class="outline-text-3" id="text-4-5">
+<ul class="org-ul">
+<li>上面讲到的prototype写起来非常的麻烦(很不像其他语言书写class的感觉),我们其实
+可以如下,把method直接写到ctor里面
+<div class="org-src-container">
+
+<pre class="src src-js">function User(name, passwordHash) {
+    this.name = name;
+    this.passwordHash = passwordHash;
+    this.toString = function() {
+        return "[User " + this.name + "]";
+    };
+    this.checkPassword = function(password) {
+        return hash(password) === this.passwordHash;
+    };
+}
+</pre>
+</div>
+</li>
+<li>这看起来还好像是"function作为first-class object"的一个佐证.但是这样做的话,
+在多个instance都从这个ctor诞生的情况下,会有麻烦,创建多个instance的代码如下
+<div class="org-src-container">
+
+<pre class="src src-js">var u1 = new User(/* ... */);
+var u2 = new User(/* ... */);
+var u3 = new User(/* ... */);
+</pre>
+</div>
+</li>
+<li>麻烦就是如下所示,我们会存储三份一样的function代码
+<pre class="example">
+                         User.prototype
+                    +----+----------+----+
+                    |                    |
+                    +--------------------+
+                   /          |           \
+                  /           |            \
+        prototype/            |prototype    \prototype
++---------------/      +------+--------+     \---------------+
+|  .toString    |      |  .toString    |     |  .toString    |
++---------------+      +---------------+     +---------------+
+|.checkPassword |      |.checkPassword |     |.checkPassword |
++---------------+      +---------------+     +---------------+
+|    .name      |      |    .name      |     |    .name      |
++---------------+      +---------------+     +---------------+
+| .passwordHash |      | .passwordHash |     | .passwordHash |
++---------------+      +---------------+     +---------------+
+|               |      |               |     |               |
++---------------+      +---------------+     +---------------+
+</pre>
+</li>
+<li>而如果我们把toString和checkPassword放到ctor的prototype里面去的话,结果是如下
+的样子.不比不知道,function还是放到ctor的prototype里面好, 因为更节省资源
+<pre class="example">
+                         User.prototype
+                    +--------------------+
+                    |    .toString       |
+                    +--------------------+
+                    |  .checkPassword    |
+                    +--------------------+
+                    |                    |
+                    +--------------------+
+                   /          |           \
+                  /           |            \
+        prototype/            |prototype    \prototype
++---------------/      +------+--------+     \---------------+
+|    .name      |      |    .name      |     |    .name      |
++---------------+      +---------------+     +---------------+
+| .passwordHash |      | .passwordHash |     | .passwordHash |
++---------------+      +---------------+     +---------------+
+|               |      |               |     |               |
++---------------+      +---------------+     +---------------+
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-6" class="outline-3">
+<h3 id="sec-4-6">Item 35: Use Closure to Store Private Data</h3>
+<div class="outline-text-3" id="text-4-6">
+<ul class="org-ul">
+<li>JS的object系统从来也就没考虑过数据封装,一个object里面其所有的数据都可以使用
+多种方法取出
+<div class="org-src-container">
+
+<pre class="src src-js">var obj = {
+    name: 'hfeng',
+    age: 30
+};
+
+console.log(Object.keys(obj));
+console.log(Object.getOwnPropertyNames(obj));
+
+for (var one in obj) {
+    console.log(one);
+}
+
+////////////////////////////////////////////////////
+// &lt;===================OUTPUT===================&gt; //
+// [ 'name', 'age' ]                              //
+// [ 'name', 'age' ]                              //
+// name                                           //
+// age                                            //
+////////////////////////////////////////////////////
+</pre>
+</div>
+</li>
+<li>在JS的世界中,命名规范会起到"一定的"数据封装的作用,比如是使用'_'开头的变量被
+     认为是private变量
+</li>
+<li>但是"命名规范"的数据封装方式,只能防君子,而没法对付小人,JS里面对付小人的办法
+就是closure
+</li>
+<li>closure在js里面值得大书特书,但是我们这里只讲closure和object对比起来的一个完
+全"相反"的特性:能够访问closure的function才有机会访问closure的数据
+<pre class="example">
+The properties of an object are automatically exposed,
+whereas the variables in a closure are automatically hidden
+</pre>
+</li>
+<li>下面就是能够"真正"的数据封装的ctor(虽然这个ctor还是犯了在不同instance会重复
+存储function的毛病,但是显然数据封装更重要)
+<div class="org-src-container">
+
+<pre class="src src-js">function User(name, passwordHash) {
+    this.toString = function() {
+        return "[User " + name + "]";
+    };
+
+    this.checkPassword = function(password) {
+        return hash(password) === passwordHash;
+    };
+}
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-7" class="outline-3">
+<h3 id="sec-4-7">Item 36: Store Instance State only on Instance Objects</h3>
+<div class="outline-text-3" id="text-4-7">
+<ul class="org-ul">
+<li>理解prototype object和instances之间的one-to-many的关系至关重要, prototype里
+面存储的应该是多个instance"可以共享"的数据,比如函数(因为函数是stateless的).
+</li>
+<li>但是代表了instance的内部state的数据,比如下例中一个树ctor里面的children列表,
+就应该是不同instance拥有各自的列表,而不是共享一个.
+<div class="org-src-container">
+
+<pre class="src src-js">function Tree(x) {
+    this.value = x;
+}
+
+Tree.prototype = {
+    children: [],
+    addChild: function(x) {
+        this.children.push(x);
+    }
+};
+</pre>
+</div>
+</li>
+<li>正确的实现方式如下,因为this保证在运行的时候是绑定调用函数的instance的,所以
+this.children也是可以正确使用的
+<div class="org-src-container">
+
+<pre class="src src-js">function Tree(x) {
+    this.value = x;
+    this.children = [];
+}
+
+Tree.prototype = {
+    addChild: function(x) {
+        this.children.push(x)
+    }
+};
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-8" class="outline-3">
+<h3 id="sec-4-8">Item 37: Recognize the Implicit Binding of this</h3>
+<div class="outline-text-3" id="text-4-8">
+<ul class="org-ul">
+<li>this在js里面有着非常丰富的内涵,因为js的动态属性,只有在调用的时候,才知道真的
+this是什么,所以会出现很多的问题,比如下面这个例子用来处理CSV文件,因为CSV文件
+的分隔符也可能不止是',',所以我们设置了一个参数来设置分隔符
+<div class="org-src-container">
+
+<pre class="src src-js">function CSVReader(separators) {
+    this.separators = separators || [","];
+    this.regexp =
+        new RegExp(this.separators.map(function(sep) {
+            return "\\" + sep[0]; // sep[0] means strings[0] char
+        }).join("|"));
+}
+</pre>
+</div>
+</li>
+<li>而分割cvs的过程简单来说有两步:第一把文件按行分成多个,第二每一行都分成多个字
+符而组成的数组,这个过程可以简化成一个函数(放在ctor的prototype里面)
+<div class="org-src-container">
+
+<pre class="src src-js">CSVReader.prototype.read = function(str) {
+    var lines = str.trim().split(/\n/);
+    return lines.map(function(line) {
+        return line.split(this.regexp); // wrong here!, this point to `lines`
+    });
+};
+</pre>
+</div>
+</li>
+<li>上面出错的原因是因为this取决于最近的enclosing函数(nearest enclosing function)
+所以这里的this指的是lines
+</li>
+<li>幸运的是map这个函数和forEach一样,经常出现这种问题,所以可以加一个第二参数来
+制定函数内部用哪个this
+<div class="org-src-container">
+
+<pre class="src src-js">CSVReader.prototype.read = function(str) {
+    var lines = str.trim().split(/\n/);
+    return lines.map(function(line) {
+        return line.split(this.regexp);
+    }, this);
+};
+</pre>
+</div>
+</li>
+<li>如果map没提供这种支持(或者其他不提供这种支持的函数),那么我们需要使用self(或
+者其他名字)在调用前绑定this
+<div class="org-src-container">
+
+<pre class="src src-js">CSVReader.prototype.read = function(str) {
+    var lines = str.trim().split(/\n/);
+    var self = this;
+    return lines.map(function(line) {
+        return line.split(self.regexp);
+    });
+};
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-9" class="outline-3">
+<h3 id="sec-4-9">Item 38: Call Superclass Constructors from Subclass Constructors</h3>
+<div class="outline-text-3" id="text-4-9">
+<ul class="org-ul">
+<li>在游戏当中,有一种模式叫做Scene,就是包含所有actors的信息而包括所有的关于actors
+的图片等信息的,叫做context:
+<ul class="org-ul">
+<li>先看Scene:
+<div class="org-src-container">
+
+<pre class="src src-js">function Scene(context, width, height, images) {
+    this.context = context;
+    this.width = width;
+    this.height = height;
+    this.images = images;
+    this.actors = [];
+}
+
+Scene.prototype.register = function(actor) {
+    this.actors.push(actor);
+}
+
+Scene.prototype.unregister = function(actor) {
+    var i = this.actors.indexOf(actor);
+    if (i &gt;= 0) {
+        this.actors.splice(i, 1);
+    }
+};
+
+Scene.prototype.draw = function() {
+    this.context.clearRect(0, 0, this.width, this.height);
+    for (var a = this.actors, i = 0, n = a.length;
+         i &lt; n;
+         i++) {
+        a[i].draw();
+    }
+};
+</pre>
+</div>
+</li>
+<li>再看看Actor
+<div class="org-src-container">
+
+<pre class="src src-js">function Actor(scene, x, y) {
+    this.scene = scene;
+    this.x = x;
+    this.y = y;
+    scene.register(this);
+}
+
+Actor.prototype.moveTo = function(x, y) {
+    this.x = x;
+    this.y = y;
+    this.scene.draw();
+};
+
+Actor.prototype.exit = function() {
+    this.scene.unregister(this);
+    this.scene.draw();
+};
+
+Actor.prototype.draw = function() {
+    var image = this.scene.images[this.type];
+    this.scene.context.drawImage(image, this.x, this.y);
+};
+
+Actor.prototype.width = function() {
+    return this.scene.images[this.type].width;
+};
+
+Actor.prototype.height = function() {
+    return this.scene.images[this.type].height;
+};
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>TODO
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

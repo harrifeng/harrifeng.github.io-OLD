@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>Leetcode 021: Generate Parentheses</title>
-<!-- 2015-07-03 Fri 15:22 -->
+<!-- 2016-10-09 Sun 01:51 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -204,25 +204,25 @@ Sample Output: "((()))", "(()())", "(())()", "()(())", "()()()"
 <div class="outline-text-2" id="text-3">
 <div class="org-src-container">
 
-<pre class="src src-java"><span style="color: #859900; font-weight: bold;">public</span> <span style="color: #859900; font-weight: bold;">class</span> <span style="color: #b58900;">Solution</span> {
-    <span style="color: #859900; font-weight: bold;">public</span> <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">String</span>&gt; <span style="color: #268bd2;">generateParenthesis</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">n</span>) {
-        <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">String</span>&gt; <span style="color: #268bd2;">ret</span> = <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">String</span>&gt;();
-        genP(n, n, <span style="color: #859900; font-weight: bold;">new</span> <span style="color: #b58900;">StringBuilder</span>(), ret);
-        <span style="color: #859900; font-weight: bold;">return</span> ret;
+<pre class="src src-java">public class Solution {
+    public ArrayList&lt;String&gt; generateParenthesis(int n) {
+        ArrayList&lt;String&gt; ret = new ArrayList&lt;String&gt;();
+        genP(n, n, new StringBuilder(), ret);
+        return ret;
     }
 
-    <span style="color: #859900; font-weight: bold;">private</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">genP</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">left</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">right</span>, <span style="color: #b58900;">StringBuilder</span> <span style="color: #268bd2;">tmp</span>, <span style="color: #b58900;">ArrayList</span>&lt;<span style="color: #b58900;">String</span>&gt; <span style="color: #268bd2;">result</span>) {
-        <span style="color: #859900; font-weight: bold;">if</span> (0 == left &amp;&amp; left == right) {
+    private void genP(int left, int right, StringBuilder tmp, ArrayList&lt;String&gt; result) {
+        if (0 == left &amp;&amp; left == right) {
             result.add(tmp.toString());
-            <span style="color: #859900; font-weight: bold;">return</span>;
+            return;
         }
-        <span style="color: #859900; font-weight: bold;">if</span> (left &gt; 0) {
-            tmp.append(<span style="color: #2aa198;">'('</span>);
+        if (left &gt; 0) {
+            tmp.append('(');
             genP(left-1, right, tmp, result);
             tmp.deleteCharAt(tmp.length()-1);
         } 
-        <span style="color: #859900; font-weight: bold;">if</span> (right &gt; left) {
-            tmp.append(<span style="color: #2aa198;">')'</span>);
+        if (right &gt; left) {
+            tmp.append(')');
             genP(left, right-1, tmp, result);
             tmp.deleteCharAt(tmp.length()-1);
         }

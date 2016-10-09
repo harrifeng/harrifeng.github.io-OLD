@@ -1,0 +1,1747 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>oo_design_in_ruby</title>
+<!-- 2016-10-09 Sun 01:50 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="your name" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+
+         <link href="http://fonts.googleapis.com/css?family=Droid+Sans+Mono|Galdeano|Open+Sans:600italic,400,600|Roboto+Condensed:400,700" rel="stylesheet" type="text/css">
+         <link rel="stylesheet" type="text/css" href="/static/css/main.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="http://harrifeng.github.io/sitemap.html"> UP </a>
+ |
+ <a accesskey="H" href="http://harrifeng.github.io/index.html"> HOME </a>
+</div><div id="preamble" class="status">
+
+         <div id="header">
+            <div id="header-top">
+                <div id="blog-title">Harrifeng's Path</div>
+                <div id="blog-sub-title">纸上得来终觉浅,绝知此事要Coding</div>
+            </div>
+            <div id="nav">
+                <ul>
+                    <li><a href="/">首页</a></li>
+                    <li><a href="/about.html">About Me</a></li>
+                    <li>
+                    </li>
+                </ul>
+            </div>
+         </div>
+</div>
+<div id="content">
+<h1 class="title">oo_design_in_ruby</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">Chapter 1: Object-Oriented Design</a>
+<ul>
+<li><a href="#sec-1-1">In Praise of Design</a>
+<ul>
+<li><a href="#sec-1-1-1">The Problem Design Solves</a></li>
+<li><a href="#sec-1-1-2">Why Change Is Hard</a></li>
+<li><a href="#sec-1-1-3">A Practical Definition of Design</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-2">The Tools of Design</a>
+<ul>
+<li><a href="#sec-1-2-1">Design Principles</a></li>
+<li><a href="#sec-1-2-2">Design Patterns</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">The Art of Design</a>
+<ul>
+<li><a href="#sec-1-3-1">How Design Fails</a></li>
+<li><a href="#sec-1-3-2">When to Design</a></li>
+<li><a href="#sec-1-3-3">Judging Desin</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">A Brief Introduction to Object-Oriented Programming</a>
+<ul>
+<li><a href="#sec-1-4-1">Procedural Languages</a></li>
+<li><a href="#sec-1-4-2">Object-Oriented Languages</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-2">Chapter 2: Designing Classes with a Single Responsibility</a>
+<ul>
+<li><a href="#sec-2-1">Deciding What Belongs in a Class</a>
+<ul>
+<li><a href="#sec-2-1-1">Grouping Methods into Classes</a></li>
+<li><a href="#sec-2-1-2">Organizing Code to Allow for Easy Changes</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-2">Creating Classes That Have a Single Responsibility</a>
+<ul>
+<li><a href="#sec-2-2-1">An Example Application: Bicycles and Geers</a></li>
+<li><a href="#sec-2-2-2">Why Single Responsibility Matters</a></li>
+<li><a href="#sec-2-2-3">Determining If a Class Has a Single Responsibility</a></li>
+<li><a href="#sec-2-2-4">Dtermining When to Make Design Decisions</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-3">Writing Code That Embraces Changes</a>
+<ul>
+<li><a href="#sec-2-3-1">Depend on Behavior, Not Data</a></li>
+<li><a href="#sec-2-3-2">Envorce Single Responsibility Everywhere</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-4">Finally, the Real Wheel</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">Chapter 3: Managing Dependencies</a>
+<ul>
+<li><a href="#sec-3-1">Understanding Dependencies</a>
+<ul>
+<li><a href="#sec-3-1-1">Recognizing Dependencies</a></li>
+<li><a href="#sec-3-1-2">Coupling Between Objects(CBO)</a></li>
+<li><a href="#sec-3-1-3">Other Dependencies</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-2">Writing Loosely Coupled Code</a>
+<ul>
+<li><a href="#sec-3-2-1">Inject Dependencies</a></li>
+<li><a href="#sec-3-2-2">Isolate Dependencies</a></li>
+<li><a href="#sec-3-2-3">Isolate Instance Creation</a></li>
+<li><a href="#sec-3-2-4">Isolate Vulnerable External Messages</a></li>
+<li><a href="#sec-3-2-5">Remove Argument-Order Dependencies</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-3">Managing Dependency Direction</a>
+<ul>
+<li><a href="#sec-3-3-1">Reversing Dependencies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-4">Chapter 4 Creating Flexible Interfaces</a>
+<ul>
+<li><a href="#sec-4-1">Understanding Interfaces</a></li>
+<li><a href="#sec-4-2">Defining Interfaces</a>
+<ul>
+<li><a href="#sec-4-2-1">Public Interfaces &amp; Private Interfaces</a></li>
+<li><a href="#sec-4-2-2">Responsibilities, Dependencies, and Interfaces</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-3">Finding the Public Interface</a>
+<ul>
+<li><a href="#sec-4-3-1">An Example Application: Bicycle Touring Company</a></li>
+<li><a href="#sec-4-3-2">Constructin an Intention</a></li>
+<li><a href="#sec-4-3-3">Using Sequence Diagrams</a></li>
+<li><a href="#sec-4-3-4">Asking for "What" Instead of Telling "How"</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-4">Writing Code That Puts Its Best (Inter)Face Forward</a>
+<ul>
+<li><a href="#sec-4-4-1">Create Explicit Interfaces</a></li>
+<li><a href="#sec-4-4-2">Honor the Public Interfaces of Others</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-5">The Law of Demeter</a>
+<ul>
+<li><a href="#sec-4-5-1">Defining Demeter</a></li>
+<li><a href="#sec-4-5-2">Consequences of Violations</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-5">Chapter 5: Reducing Costs with Duck Typing</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">Chapter 1: Object-Oriented Design</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>OOD (Object-oriented design)就是让你转变你对这个世界的认知:
+<ul class="org-ul">
+<li>传统的面向过程的思维:
+<pre class="example">
+        把世界看成是一系列已经定义好的流程(predefined procedure)
+</pre>
+</li>
+<li>全新的面向对象的思维:
+<pre class="example">
+        把世界看成是在不同object之间传递的一系列message
+</pre>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1">In Praise of Design</h3>
+<div class="outline-text-3" id="text-1-1">
+</div><div id="outline-container-sec-1-1-1" class="outline-4">
+<h4 id="sec-1-1-1">The Problem Design Solves</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<ul class="org-ul">
+<li>假设你有一个系统,需求足够清晰,而且需求绝对不会更改,对这样一个系统design的
+确是不重要的.
+</li>
+<li>但是世界上唯一不变的就是"改变",需求也是这样.而正是"改变"让我们的design变得
+重要
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-1-2" class="outline-4">
+<h4 id="sec-1-1-2">Why Change Is Hard</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<ul class="org-ul">
+<li>Object-oriented application是有很多"相互联系"的部分组成的.这些"相互之间的
+联系"代表了整个系统的behavior
+</li>
+<li>OO 设计还包括了管理依赖,没有经过精细设计的依赖,会无法"容忍"change.因为如果
+object之间"过度"的依赖,那么更改一个object,那么"依赖它"的object就可能奔溃了
+</li>
+<li>当object知道太多的情况下,它们的expectation就提高了,它们需要其他的object"必
+须"达到某种程度.这些expectation极大的束缚了object,而且让它们难以重用.难以
+测试
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-1-3" class="outline-4">
+<h4 id="sec-1-1-3">A Practical Definition of Design</h4>
+<div class="outline-text-4" id="text-1-1-3">
+<ul class="org-ul">
+<li>design的难度在于两点:
+<ul class="org-ul">
+<li>第一,你必须写出满足feature的代码
+</li>
+<li>第二,你的代码必须在以后"容易改变"
+</li>
+</ul>
+</li>
+<li>而practical的设计不是说我"知道这个部分要更改",而是"我不知道以后哪里会更改",
+我只是保留我的代码更改的能力.
+</li>
+<li>对于design来说, 目的就是以后还能继续"design(也就是改)", 而且要降低"改"的代
+价
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2">The Tools of Design</h3>
+<div class="outline-text-3" id="text-1-2">
+<ul class="org-ul">
+<li>对于oo设计来说,其核心的工具就是两个:
+<ul class="org-ul">
+<li>design principle
+</li>
+<li>design pattern
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1">Design Principles</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<ul class="org-ul">
+<li>SOLID是oo设计的五大principle的首字母缩写,这五个原则分别是:
+<ul class="org-ul">
+<li>Single Responsibility
+</li>
+<li>Open-Closed
+</li>
+<li>Liskov Substitution
+</li>
+<li>Interface Segregation
+</li>
+<li>Dependency Inversion
+</li>
+</ul>
+</li>
+<li>还有两个重要的,但是没有列入上面的两个principle:
+<ul class="org-ul">
+<li>DRY (Don't Repeat Yourself)
+</li>
+<li>LoD (Law of Demeter)
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2">Design Patterns</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<ul class="org-ul">
+<li>设计模式可能是我们更熟悉的一个名词.设计模式可以看做是对"设计原则"的一个实
+例化
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3">The Art of Design</h3>
+<div class="outline-text-3" id="text-1-3">
+</div><div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1">How Design Fails</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<ul class="org-ul">
+<li>由于很多OO语言特别的友好,导致很多人对design毫无所知也能轻松的完成工作.
+</li>
+<li>对于design的无知会导致程序很容易写出来,但是很难改变,基本处于:你可以改变但是
+你改了,就break其他所有的部分
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2">When to Design</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<ul class="org-ul">
+<li>Agile相信,你的customer在软件诞生之前,根本无法定义自己想要什么,只能在看到你
+给他的软件之后来告诉你,这是不是他想要的
+</li>
+<li>所以最好的办法是,经常拿给customer看.而且逐渐的(小步快跑的)添加新的功能,然
+后保证这些功能是用户想要的.
+</li>
+<li>如果Agile是正确的,那么下面两个想法是错误的:
+<ul class="org-ul">
+<li>软件的完成时间可以预估
+</li>
+<li>软件可以使用BUFD(Big Up Front Design)的方法来进行设计.
+</li>
+</ul>
+</li>
+<li>Agile并不是阻止design,相反Agile需要良好的design
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-3-3" class="outline-4">
+<h4 id="sec-1-3-3">Judging Desin</h4>
+<div class="outline-text-4" id="text-1-3-3">
+<ul class="org-ul">
+<li>好的设计也不能耽误太多时间
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4">A Brief Introduction to Object-Oriented Programming</h3>
+<div class="outline-text-3" id="text-1-4">
+</div><div id="outline-container-sec-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1">Procedural Languages</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<ul class="org-ul">
+<li>OO programming是相对于procedural programming来说的.
+</li>
+<li>对于procedural 语言来说,一小部分data被赋予了一个变量,然后就可以访问了.这种
+情况非常普遍,比如string, number, array, file等等
+</li>
+<li>因为是你自己创建的这些data type,所以你要非常了解这些type,比如,你知道string
+可以append, number可以加减等等
+</li>
+<li>而且你可以以这些data type为基础,创建更加复杂的data type,或者是把一些处理抽
+象成function,这也就是你所有可以做的了.你"不可以"创建新的类型,也不可以创建
+新的操作.
+</li>
+<li>也就是在procedural programming language里面, data和behavior是"完全没有联系"
+的两个事物: data被包装成variable,然后把variable传递给behavior也就是function
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2">Object-Oriented Languages</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<ul class="org-ul">
+<li>好了,我们到了纯的,class-bassed的面向对象语言的时间了,比如ruby
+</li>
+<li>ruby里面, data和behavior不再是老死不相往来的, ruby把data和behavior包装在了
+一个东西里面,这个东西叫做object
+</li>
+<li>object自己拥有behavior,和data,而且这个data是object自己才能访问的(别人没有
+权限).object如果想要使用别的object的behavior,它必须发送message给对方
+</li>
+<li>举例来说,ruby里面没有string data type,而是string object. 而对string进行的
+操作(也就是behavior)也就自然而然的包裹进了string object
+</li>
+<li>不同的string object之间:
+<ul class="org-ul">
+<li>behavior是一样的
+</li>
+<li>但是string包含的信息,也就是原来的data内容是不一样的.而且这个data是string
+object自己控制的,string object来决定"以什么样的开放程度"来分享这种数据.
+</li>
+</ul>
+</li>
+<li>因为string object自己提供behavior并且共享它的behavior,所以ruby并不需要知道
+其data(并不一定共享)是什么,它只需要提供一种给object发送message, 让object来
+根据message来调用相应的behavior
+</li>
+<li>这种"根据message来调用相应behavior"的方法就是method, 而不一定分享的数据叫
+做attribute, method和attribute组合起来就叫class
+</li>
+<li>一旦我们有了string class,我们就可以在内存中创建一个class的"实体",也就是instance
+每个instance都和其他的instance共享同一份的method,但是包含不同的data
+</li>
+<li>在面向过程的语言中,一个data type可以告诉我们哪些operation对它来说是适用的
+</li>
+<li>在面向对象的语言中,一个object可以有多个type(其中一个来自它的class), 知道一
+个object的type可以让我们知道,它会对哪些method有所反应.
+</li>
+<li>Ruby自带了很多class,一般来说普通面向过程的语言提供的每一个data type都会有
+一个对应的ruby class,比如string有String class, integer有Fixnum class
+</li>
+<li>Ruby有趣的地方在于, class本身也是object!
+</li>
+<li>比如String class,它是string object的蓝图:
+<ul class="org-ul">
+<li>string class实例化的结果就是string object(每次实例化拥有不同的内存地址).
+</li>
+<li>但是同时String class是Class class 实例化的结果(不同的class都有自己不同的
+内存地址).
+</li>
+</ul>
+</li>
+<li>换句话说就是String class制造新的string,而Class class制造新的class
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">Chapter 2: Designing Classes with a Single Responsibility</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>对于oo system来说,其核心其实是message, 但是从代码里面看出来其实是class,所以
+我们本章着重讨论class应该放哪些东西,但是你要谨记message才是设计的核心
+</li>
+<li>对于design来说,使用class的要点还是那两句:一是符合当前的要求,二是以后可以灵活改变
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1">Deciding What Belongs in a Class</h3>
+<div class="outline-text-3" id="text-2-1">
+</div><div id="outline-container-sec-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1">Grouping Methods into Classes</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<ul class="org-ul">
+<li>对于ruby这种语言来说,method是定义在class里面的.
+</li>
+<li>还是那句话,你现在做的很多看起来是成功的决定,可能以后都要面临着改变.所以当前
+的决定并不需要达到"完美",保持"可更改性"的基础上,尽可能完美就可以了
+<pre class="example">
+Design is more the art of preserving changeability than it
+is the art of achieving perfection
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-1-2" class="outline-4">
+<h4 id="sec-2-1-2">Organizing Code to Allow for Easy Changes</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<ul class="org-ul">
+<li>easy的概念太宽了.你必须把easy落实到实处:
+<ul class="org-ul">
+<li>改动代码没有unexpected的side effect
+</li>
+<li>small的需求要对应small的改动
+</li>
+<li>已有代码要easy to reuse
+</li>
+<li>新加入的代码本身也是要easy to change的
+</li>
+</ul>
+</li>
+<li>有人总结了一下,想要达到上面的目标,需要我们的代码满足TRUE要求:
+<ul class="org-ul">
+<li>Transparent: 改动的结果要在代码中体现的很明显
+</li>
+<li>Reasonable: 小的改动,也意味着代码小量改动
+</li>
+<li>Usable: 已有代码需要在别的地方重用
+</li>
+<li>Exemplary: 代码要有好的规范,使得新加入的代码能够"不自觉"的follow我们easy
+to change的要求
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2">Creating Classes That Have a Single Responsibility</h3>
+<div class="outline-text-3" id="text-2-2">
+</div><div id="outline-container-sec-2-2-1" class="outline-4">
+<h4 id="sec-2-2-1">An Example Application: Bicycles and Geers</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<ul class="org-ul">
+<li>自行车非常有效率,在于它使用了齿轮(gear)来替代人力的走动.而你汽车的时候,可
+以选择小齿轮上山,而选择大齿轮下山.
+</li>
+<li>齿轮的大小只的是前轮(chainring)和后轮(cog)的对比,如果前轮小,那么就是上山的
+装备,如果前轮大,那就是下山的装备. 前后轮的比例ratio决定了,我们蹬一圈的话,
+轮子转几圈.
+<div class="org-src-container">
+
+<pre class="src src-ruby">chainring = 52
+cog = 11
+ratio = chainring / cog.to_f
+puts ratio
+
+
+chainring = 30
+cog = 27
+ratio = chainring / cog.to_f
+puts ratio
+
+##################################################
+# &lt;===================OUTPUT===================&gt; #
+# 4.7272727272727275                             #
+# 1.1111111111111112                             #
+##################################################
+</pre>
+</div>
+</li>
+<li>ratio决定了我们蹬三轮的效率(当然效率越高越累),所以很多人很在意.那么我们设
+计类的时候,就可以以Gear为最基本类了(因为data, method两要素都齐了),而以
+Bicycle为基本类, 显然太大了
+<div class="org-src-container">
+
+<pre class="src src-ruby">class Gear
+  attr_reader :chainring, :cog
+  def initialize(chainring, cog)
+    # @xx is instance variable - and is available to all
+    # methods within the class
+    @chainring = chainring
+    @cog = cog
+  end
+
+  def ratio
+    chainring / cog.to_f
+  end
+end
+
+puts Gear.new(52, 11).ratio
+puts Gear.new(30, 27).ratio
+
+##################################################
+# &lt;===================OUTPUT===================&gt; #
+# 4.7272727272727275                             #
+# 1.1111111111111112                             #
+##################################################
+</pre>
+</div>
+</li>
+<li>Gear是Object的subclass,所以它继承了很多Object的method,所以虽然我们这里写出
+来的method并不多,但是实际上可调用的method(也就是其可response的message)非常
+多.
+</li>
+<li>Gear本来是一个很稳定的代码,但是如果有需求说需要给Gear加上额外的初始化变量,
+比如rim和tire,那么我们怎么更改代码呢,如下?
+<div class="org-src-container">
+
+<pre class="src src-ruby">class Gear
+  attr_reader :chaining, :cog, :rim, :tire
+  def initialize(chainring, cog, rim, tire)
+    @chainring = chainring
+    @cog = cog
+    @rim = rim
+    @tire = tire
+  end
+  # ...
+end
+</pre>
+</div>
+</li>
+<li>这样一来的话,Gear的ctor变了,那么所有原来跟Gear instance有"联系"的地方都要
+进行更改,这是非常不明智的做法!
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2-2" class="outline-4">
+<h4 id="sec-2-2-2">Why Single Responsibility Matters</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<ul class="org-ul">
+<li>easy to change的application里面,通常包含很多可以reuse的class
+</li>
+<li>reusable class的意思就是和其他部分"牵挂"很少,可以作为"革命一块砖"到处使用
+的那种class
+</li>
+<li>easy to change的application就好像有很多这种reusable class作为自己的"砖",用
+的时候,选一块放到固定位置就可以了
+</li>
+<li>而如果某个class有两种以上的responsibility,那么是非常难以reuse的.因为其他的
+responsibility即便用不到也会待在class里面.你还不能去掉这些部分,这时候两个
+问题摆在你面前:
+<ul class="org-ul">
+<li>如果这两个以上的responsibility是紧密联系在一起的,你甚至无法单独使用,那么
+你就必须要duplicate代码,这是非常差的选择,违反了DRY原则
+</li>
+<li>即便是这些responsibility没有紧密联系,你可以使用其中一部分的功能,那也不是
+说就一切安好了,因为一个具有多重responsibility的class,也会有"多种原因"被
+要求更改.也就是说,你承担了来自"另外的N-1中Responsibility"更改所带来的危
+险性
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2-3" class="outline-4">
+<h4 id="sec-2-2-3">Determining If a Class Has a Single Responsibility</h4>
+<div class="outline-text-4" id="text-2-2-3">
+<ul class="org-ul">
+<li>判断一个class时候做一件事件,可以从其总结中看出:如果总结里面有and或者or这种
+词语,那么很大可能你的Responsibility太多了
+</li>
+<li>OO设计还希望你的cohesion更强些,也就是说做的这事情有很强的内聚性
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-2-4" class="outline-4">
+<h4 id="sec-2-2-4">Dtermining When to Make Design Decisions</h4>
+<div class="outline-text-4" id="text-2-2-4">
+<ul class="org-ul">
+<li>很多时候,我们不知道怎么做的时候,可能要postpone我们的decision,因为未来可能
+会有(一定会有)更多的需求,等需求来的时候,我们再决定如何去取舍,如何去设计
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3">Writing Code That Embraces Changes</h3>
+<div class="outline-text-3" id="text-2-3">
+<ul class="org-ul">
+<li>因为change是不可避免的,所以以changeable的style来做工作,是非常有效的.这一节
+就是介绍一些技巧来"拥抱change"
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-2-3-1" class="outline-4">
+<h4 id="sec-2-3-1">Depend on Behavior, Not Data</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<ul class="org-ul">
+<li>behavior被method所"掩护",会在object response message的时候被调用.
+</li>
+<li>如果你的class真的只有一个responsibility,那么你的behavior也只能在一个地方,
+也就是我们所说的DRY(Don't Repeat Yourself)
+</li>
+<li>DRY是一种"拥抱change",或者说对change友好的代码,因为有了change的需求,你只需
+要更改一个地方就好了.
+</li>
+<li>而data在class里面,一般是存在instance variable里面的,一般来说data都是private
+的,不能直接使用. 即便使用的话,也要使用method.也就是说,最多可以给大家一些
+getter(),在ruby里面就是attr_reader:
+<ul class="org-ul">
+<li>attr_reader使用方法如下:
+<div class="org-src-container">
+
+<pre class="src src-ruby">class Gear
+  attr_reader :cog
+
+  def initialize(cog)
+    @cog = cog
+  end
+  # ...
+end
+</pre>
+</div>
+</li>
+<li>其实机会相当于如下:
+<div class="org-src-container">
+
+<pre class="src src-ruby">def cog
+  @cog
+end
+</pre>
+</div>
+</li>
+</ul>
+</li>
+<li>attr_reader看似简单, 其实是把cog从data(data可以在代码中被引用很多次)转换成了
+behavior(behavior只能定义在一个地方),这非常重要,因为
+<pre class="example">
+        在代码中被"很多次"引用的data,如果一旦更改了原始的定义,那就需
+        要"很多次"去更改, 而如果把data"包裹"在behavior里面,因为behavior
+        也到处引用,但是其定义却可以只在一个地方,我们只需要更改它的定
+        义的地方就可以了.说白了,是因为data是一块内存,而behavior是一个
+        引用!
+</pre>
+</li>
+<li>我们上面的做法也引入了两个问题:
+<ul class="org-ul">
+<li>首先,我们的attr_reader是一个public的函数,这样就等于向其他object公开了我们
+的一个message "responser",这就有可能被其他object所依赖.如果你不希望公开
+这个接口,那么请你写一个private的method
+</li>
+<li>其次,因为可以把所有的variable都包裹成method,那么这些variable也就看起来不
+是那么的data,而是"只有一个函数的"object.我们还是希望你能把data看成是object
+的一部分
+</li>
+</ul>
+</li>
+<li>我们再来看看一个非常棘手的例子,ObscuringReferences的ctor接受一个complicated
+data structure(数组)作为初始化参数,下面是一个不是特别好的实现方法
+<div class="org-src-container">
+
+<pre class="src src-ruby">class ObscuringReferences
+  attr_reader :data
+  def initialize(data)
+    @data = data
+  end
+
+  def diameters
+    # 0 is rim, 1 is tire
+    data.collect {|cell|
+      cell[0] + (cell[1] * 2)
+    }
+  end
+end
+
+puts ObscuringReferences.new([[1,2], [3,4]]).diameters
+
+##################################################
+# &lt;===================OUTPUT===================&gt; #
+# 5                                              #
+# 11                                             #
+##################################################
+</pre>
+</div>
+</li>
+<li>这个例子和上面例子的区别是,其initialize的参数是一个complicated data structure,
+这种情况下,仅仅做到对@data的hiding,是不够的.
+</li>
+<li>为什么呢?因为method data只是返回一个数组而已,你需要知道这个数组是一个"数组
+的数组",而且需要知道每个数组的第一个成员变量是rim,第二个成员变量是tire
+</li>
+<li>在ruby里面,就像你使用method来wrap instance variable一样,你也可以使用Struct
+class来wrap一个structure,如下
+<div class="org-src-container">
+
+<pre class="src src-ruby">class RevealingReferences
+  attr_reader :wheels
+  def initialize(data)
+    @wheels = wheelify(data)
+  end
+
+  def diameters
+    wheels.collect { |wheel|
+      wheel.rim + (wheel.tire * 2)
+    }
+  end
+
+  Wheel = Struct.new(:rim, :tire)
+  def wheelify(data)
+    data.collect { |cell|
+      Wheel.new(cell[0], cell[1])
+    }
+  end
+end
+
+put RevealingReferences.new([[1,2], [3,4]]).diameters
+
+##################################################
+# &lt;===================OUTPUT===================&gt; #
+# 5                                              #
+# 11                                             #
+##################################################
+</pre>
+</div>
+</li>
+<li>上例中的wheelify函数就是把一个Array转化成一个array of Struct,它其实是让我
+们去"code化"理解我们的输入,而如果输入改变了(比如改成了hash),我们可以"只"在
+这一个地方进行改变
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-3-2" class="outline-4">
+<h4 id="sec-2-3-2">Envorce Single Responsibility Everywhere</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<ul class="org-ul">
+<li>class的"责任单一性"非常重要,其实这个"责任单一性"也可以应用到其他的概念里面比如:
+<ul class="org-ul">
+<li>method: method只有一个责任会让它的改动变得容易并且容易重用
+</li>
+<li>class内部:我们也可以"暂时"的在class内部包含一个类(当然我们以后可以单独拿
+出来),例子就是我们前面说的Struct.new
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4">Finally, the Real Wheel</h3>
+<div class="outline-text-3" id="text-2-4">
+<ul class="org-ul">
+<li>下面就是我们说的,改变来了"wheel需要一个新的class啦",那我们前面已经预见到这
+个问题,所以把wheel从Struct里面解放出来就好了
+<div class="org-src-container">
+
+<pre class="src src-ruby">class Gear
+  attr_reader :chainring, :cog, :wheel
+  def initialize(chainring, cog, wheel=nil)
+    @chainring = chainring
+    @cog = cog
+    @wheel = wheel
+  end
+
+  def ratio
+    chainring / cog.to_f
+  end
+
+  def gear_inches
+    ratio * wheel.diameter
+  end
+end
+
+class Wheel
+  attr_reader :rim, :tire
+
+  def initialize(rim, tire)
+    @rim = rim
+    @tire = tire
+  end
+
+  def diameter
+    rim + (tire * 2)
+  end
+
+  def circumference
+    diameter * Math::PI
+  end
+end
+
+@wheel = Wheel.new(26, 1.5)
+puts @wheel.circumference
+
+puts Gear.new(52, 11, @wheel).gear_inches
+
+puts Gear.new(52, 11).ratio
+
+##################################################
+# &lt;===================OUTPUT===================&gt; #
+# 91.106186954104                                #
+# 137.0909090909091                              #
+# 4.7272727272727275                             #
+##################################################
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Chapter 3: Managing Dependencies</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>OO 编程语言认为自己效率特别的高,高的地方在于他们"抽象"真实世界的能力
+</li>
+<li>object反应了真实世界的问题,而object之间的"通信"为这些问题提供了答案.
+</li>
+<li>所以object之间的"通信"是非常重要的,因为一个object是无法完成所有工作的
+</li>
+<li>从一个更高的高度看,message都是object发起的,用来触发某种behavior.
+</li>
+<li>一个object如果触发某个behavior,那么它必须知道"有个behavior",这个behavior的来
+源主要有:
+<ul class="org-ul">
+<li>object自己的class里面创建了这个behavior
+</li>
+<li>object的class从parent class里面继承了这个behavior
+</li>
+<li>object知道其他的object有这个behavior
+</li>
+</ul>
+</li>
+<li>我们这一章就是讲第三章情况,"请别的object代劳"来帮我们触发behavior
+</li>
+<li>每一个object都是完成一个工作(single responsibility), 这就要求如果我们的工作
+是complex的话,我们需要多个object共同的进行collaborate
+</li>
+<li>而collaborate则需要知道其他object的情况,而knowing则会创造dependency, 这些
+dependency如果不管理好,则会对你的application产生影响
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1">Understanding Dependencies</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>一个object depends on另外一个object的话,当一个object改变的时候,另外的object
+可能也不得不进行更改
+</li>
+<li>下面是一个Gear的版本,ctor有四个parameter
+<div class="org-src-container">
+
+<pre class="src src-ruby">class Gear
+  attr_reader :chainring, :cog, :rim, :tire
+  def initialize(chainring, cog, rim, tire)
+    @chainring = chainring
+    @cog = cog
+    @rim = rim
+    @tire = tire
+  end
+
+  def gear_inches
+    ratio * Wheel.new(rim, tire).diameter
+  end
+
+  def ratio
+    chainring / cog.to_f
+  end
+end
+
+class Wheel
+  attr_reader :rim, :tire
+  def initialize(rim, tire)
+    @rim = rim
+    @tire = tire
+  end
+
+  def diameter
+    rim + (tire * 2)
+  end
+end
+
+puts Gear.new(52, 11, 26, 1.5).gear_inches
+
+##################################################
+# &lt;===================OUTPUT===================&gt; #
+# 137.0909090909091                              #
+##################################################
+</pre>
+</div>
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-3-1-1" class="outline-4">
+<h4 id="sec-3-1-1">Recognizing Dependencies</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<ul class="org-ul">
+<li>上面的例子有如下的dependency:
+<ol class="org-ol">
+<li>another class的名字: Gear要求,一个叫做Wheel的class必须存在
+</li>
+<li>another class的instance的message的名字: Gear要求,Wheel instance的叫做
+diameter的method必须存在
+</li>
+<li>another class的ctor的argument名字, 需要rim, tire
+</li>
+<li>another class的ctor的argument的顺序, 第一个是rim,第二个是tire
+</li>
+</ol>
+</li>
+<li>这样每多一个dependency,就会多一个"因为Wheel改动"而被迫改动的可能
+</li>
+<li>因为两个object要collaborate,所以相互的依赖,是必须的,不可避免的.但是我们希
+望尽可能的减少依赖的数目.
+</li>
+<li>减少不必要的一来,让依赖数目尽可能的少,其实就是我们设计的基本核心目的
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-1-2" class="outline-4">
+<h4 id="sec-3-1-2">Coupling Between Objects(CBO)</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<ul class="org-ul">
+<li>两个object的依赖越多,我们就说两个object耦合(coupling)的越紧密,而耦合的越紧
+密,两个object就越像一个entity
+</li>
+<li>假设我们的Gear依赖了Wheel以及其他四个object,第一次开始书写的时候,并没有什
+么不妥,但是,如果你准备把Gear放到一个新的Context下运行,或者是Gear依赖的五个
+class有一个需要改变的时候,事情就变得麻烦了. 因为耦合的太紧,更改一个就意味着
+更改全部
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-1-3" class="outline-4">
+<h4 id="sec-3-1-3">Other Dependencies</h4>
+<div class="outline-text-4" id="text-3-1-3">
+<ul class="org-ul">
+<li>除了上面"明目张胆"的dependency,还有些依赖是不容易察觉的:
+<ul class="org-ul">
+<li>objectA认识另外的objectB, objectB认识另外的objectC&#x2026;..认识另外的objectZ,
+然后objectZ才知道具体的我们需要的message. 换句话说,我们需要一另外的object
+来帮我们发送method,而不是self就可以解决这个问题.我们需要一个chain的object
+来解决问题的话,chain上的任何object改变,都会必然让我们做出改变
+</li>
+<li>另外的一种dependency是我们的测试代码.如果测试代码设计的不好,那么就会出现
+一旦我们的代码改变,即便代码总体的逻辑没有改变,但是测试却fail了,这是因为测
+试代码在写的时候,过度依赖了我们object的内部实现.
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2">Writing Loosely Coupled Code</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>我们可以把dependency看成是沾着胶水的点,它会让你的class和其他"被依赖"的class
+粘起来.
+</li>
+<li>少数"胶水点"不可避免,但是如果点太多,行成了"面",那么class之间就分不开,最后变
+成一个class了
+</li>
+<li>下面介绍的都是在代码端的能够减少依赖的方法
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-3-2-1" class="outline-4">
+<h4 id="sec-3-2-1">Inject Dependencies</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<ul class="org-ul">
+<li>需要知道对方class的名字,是一个非常常见的依赖,也就是如下的代码
+<div class="org-src-container">
+
+<pre class="src src-ruby">def gear_inches
+  ratio * Wheel.new(rim, tire).diameter
+end
+</pre>
+</div>
+</li>
+<li>这个dependency的一个最直接的可以预见的问题就是:如果Wheel如果更改了自己的名
+字的话, gear_inches也必须更改
+</li>
+<li>当然了,改名字这种看起来有点"可笑"的改动并不是特别常见.这种问题,更像是是一
+个重构的问题(我们可以使用IDE的重构工具,找到所有需要更改的名字,全部一次改掉)
+</li>
+<li>我们说改名字,只是为了说明:一旦Wheel的改动,我们gear_inches需要去改动.而Wheel
+的改动并不是总是"天真"的改名字,也可能是我们Wheel的位置希望有更多的"替代者",
+这些"替代者"除了有diameter这个message(也就是可以对diameter做出反应)以外并
+没有其他共同点(这一看就是Java里面的interface的概念)
+</li>
+<li>Gear不care,也不应该去了解object的class是什么,它需要的就是对某个method的反
+应性
+</li>
+<li>好,我们下面就来看看我们是如何把对"名字为Wheelclass"的依赖去掉的
+<div class="org-src-container">
+
+<pre class="src src-ruby">class Gear
+  attr_reader :chainring, :cog, :wheel
+  def initialize(chainring, cog, wheel)
+    @chainring = chainring
+    @cog = cog
+    @wheels = wheel
+  end
+
+  def gear_inches
+    ratio * wheel.diameter
+  end
+end
+
+# Gear expecte a `Duck` that knows `diameter`
+Gear.new(52, 11, Wheel.new(26, 1.5)).gear_inches
+</pre>
+</div>
+</li>
+<li>代码改动不多,但是收效却非常的大, 把Wheel instance创建的过程放到了Gear外面
+解放了这两个object:我们的Gear可以和任何一个能够提供diameter method的object
+合作.
+</li>
+<li>这种技法就叫做依赖注入dependency injection:也就是把原来的对class的依赖(包
+括名字,还有初始化参数的顺序)通过"注入依赖"的方式,转换成"对一个method"的依
+赖
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-2-2" class="outline-4">
+<h4 id="sec-3-2-2">Isolate Dependencies</h4>
+<div class="outline-text-4" id="text-3-2-2">
+<ul class="org-ul">
+<li>最好的事情,当然是object之间没有任何依赖,但是很明显,生活没有那么容易,你总是
+会遇到一些情况,你必须处理legacy code,你得受到一些限制,在限制下,你不必做到
+完美,比原来好就可以了.
+</li>
+<li>如果你无法remove不必要的dependency,那么请你做到把这个dependency限定在你的
+class里面.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-2-3" class="outline-4">
+<h4 id="sec-3-2-3">Isolate Instance Creation</h4>
+<div class="outline-text-4" id="text-3-2-3">
+<ul class="org-ul">
+<li>如果你必须在你的Gear里面包含Wheel,那么请你把Wheel的creation限定在Gear class
+里面.
+</li>
+<li>第一种处理,把Wheel instance创建的过程放到initialize函数里面,这样就解放了函
+数gear_inches,并且把我们对Wheel instance的依赖"公开了"
+<div class="org-src-container">
+
+<pre class="src src-ruby">class Gear
+  attr_reader :chainring, :cog, :rim, :tire
+  def initialize(chainring, cog, rim, tire)
+    @chainring = chainring
+    @cog = cog
+    @rim = rim
+    @tire = tire
+    @wheel = Wheel.new(rim, tire)
+  end
+
+  def gear_inches
+    ratio * @wheel.diameter
+  end
+
+  def ratio
+    chainring / cog.to_f
+  end
+end
+
+class Wheel
+  attr_reader :rim, :tire
+  def initialize(rim, tire)
+    @rim = rim
+    @tire = tire
+  end
+
+  def diameter
+    rim + (tire * 2)
+  end
+end
+
+puts Gear.new(52, 11, 26, 1.5).gear_inches
+
+##################################################
+# &lt;===================OUTPUT===================&gt; #
+# 137.0909090909091                              #
+##################################################
+</pre>
+</div>
+</li>
+<li>上面这种做法的一个弊端就是每次创建一个Gear instance的时候,都会在创建self的
+时候,同时创建一个Wheel的instance.我们可以有如下的"非常小"的改进,使用了||=
+operator可以让我们lazy initialize我们自己的Wheel instance(还是无法避免每个
+Gear instance一个Wheel instance的窘境,但是至少有些情况下(如果不调用gear_inches)
+不需要了)
+<div class="org-src-container">
+
+<pre class="src src-ruby">class Gear
+  attr_reader :chainring, :cog, :rim, :tire
+
+  def initialize(chainring, cog, rim, tire)
+    @chainring = chainring
+    @cog = cog
+    @rim = rim
+    @tire = tire
+  end
+
+  def gear_inches
+    ratio * wheel.diameter
+  end
+
+  def wheel
+    @wheel ||= Wheel.new(rim, tire)
+  end
+end
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-2-4" class="outline-4">
+<h4 id="sec-3-2-4">Isolate Vulnerable External Messages</h4>
+<div class="outline-text-4" id="text-3-2-4">
+<ul class="org-ul">
+<li>我们在无法避免引入"其他class到自己内部"的时候,已经尽可能的在ctor里面初始化,
+并暴露了我们"对其他class的依赖". 现在我们要把这个"其他class"的影响力减小
+</li>
+<li>"其他class"已经在我们class内部了,这不能改变.但是其影响力有大有小:
+<ul class="org-ul">
+<li>我们先看看之前的,"影响比较大"的情况
+<div class="org-src-container">
+
+<pre class="src src-ruby">def gear_inches
+  ratio * wheel.diameter
+end
+</pre>
+</div>
+</li>
+<li>问题大是因为我们的"外部class的instance"出现在了我们自己的method里面,我们
+的method需要知道这个instance有自己的diameter method,而让我们的method减少
+这种知识的办法就是引入另外的"自己的method来处理这个依赖".这样做同时满足
+了DRY的要求
+<div class="org-src-container">
+
+<pre class="src src-ruby">def gear_inches
+  foo = som_intermediate_result * diameter
+end
+
+def diameter
+  wheel.diameter
+end
+</pre>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-2-5" class="outline-4">
+<h4 id="sec-3-2-5">Remove Argument-Order Dependencies</h4>
+<div class="outline-text-4" id="text-3-2-5">
+<ul class="org-ul">
+<li>函数的参数也是一个"knowledge",使用者了解这个"knowledge"也意味着dependency,
+而且更可怕的是,如果参数必须是按照某个fixed order的话,过长的parameter list
+会经常把人搞晕
+</li>
+<li>而且你如果以后想改这个顺序,那更是麻烦!因为所有依赖这个fixed order的其他object
+都要改自己的代码
+</li>
+<li>处理这种情况在ruby里面有如下方式:使用hash的initialization argument,一看就
+明了, 这个方法在rails里面也广泛使用
+<div class="org-src-container">
+
+<pre class="src src-ruby">class Gear
+  attr_reader :chainring, :cog, :wheel
+  def initialize(args)
+    @chainring = args[:chainring]
+    @cog = args[:cog]
+    @wheels = args[:wheel]
+  end
+  # ...
+end
+
+Gear.new(
+  :chainring =&gt; 52,
+  :cong =&gt; 11,
+  :wheel =&gt; Wheel.new(26, 1.5)).gear_inches
+</pre>
+</div>
+</li>
+<li>上面可以说是python的named paramter的翻版,但是python paramter还支持default
+value, ruby对此的反应是|| operator
+<div class="org-src-container">
+
+<pre class="src src-ruby">def initialize(args)
+  @chainring = args[:chainring] || 40
+  # ...
+end
+</pre>
+</div>
+</li>
+<li>但是要指出的是|| operator对于boolean的支持不足!因为||operator的原理是:
+<pre class="example">
+        如果左边的计算结果为false或者nil的话,就使用右边的值
+</pre>
+</li>
+<li>而我们知道||左边的值在paramter里面一般是hash, hash[:x]得到nil会表示没有找到,
+是一个"不正常的结果",但是hash[:x]却可以"正常的"返回false.所以如果我们的hash
+里面有可能返回false的话,可能不能使用||operator
+</li>
+<li>解决的办法是fetch
+<div class="org-src-container">
+
+<pre class="src src-ruby">def initialize(args)
+  @chainring = args.fetch(:chainring, 40)
+  # ...
+end
+</pre>
+</div>
+</li>
+<li>可见使用hash paramter是一种"best practice",应该广泛的在ruby社区推广,但是并
+不是所有的ruby代码都遵守了这个过程,如果你要使用的代码没有使用hash作为自己的
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3">Managing Dependency Direction</h3>
+<div class="outline-text-3" id="text-3-3">
+<ul class="org-ul">
+<li>依赖都是有方向的,我们前面说的"控制反转"其实就是把依赖"反转"一个方向
+</li>
+<li>这一章我们就讲如何确定这个依赖的方向
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-3-3-1" class="outline-4">
+<h4 id="sec-3-3-1">Reversing Dependencies</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<ul class="org-ul">
+<li>TODO
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Chapter 4 Creating Flexible Interfaces</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>我们可以把oo application看成是一堆class的合体.
+</li>
+<li>但是我们却要说,对于oo application,其表象是class,但是却是被message所定义的
+<pre class="example">
+Object-oriented application is made up of classes but defined by messages.
+</pre>
+</li>
+<li>正因为如此,design的时候,更应该考虑message的重要性. message决定了:
+<ul class="org-ul">
+<li>object自己知道什么(它的责任)
+</li>
+<li>object知道哪些其他的object(它的依赖)
+</li>
+<li>如何和其他的object进行对话(talk to)
+</li>
+</ul>
+</li>
+<li>而两个object对话的部分就是我们说的interface啦
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1">Understanding Interfaces</h3>
+<div class="outline-text-3" id="text-4-1">
+<ul class="org-ul">
+<li>如果我们的method被所有人知道,而我们也知道所有人的method,那么这种代码是非常
+难以重用的.因为大家相互之间了解的过多,一旦一个更改会引起更多的更改.
+</li>
+<li>所以设计method的问题在于,不是class怎么样,而是你的class到底要"告诉别人"哪些
+method?
+</li>
+<li>这些"告诉别人的"(希望被别人用的)也就是exposed method也就组成了我们class的
+public interface
+</li>
+<li>interface还有另外一层意思,就是所有一类class都"表示自己肯定公开一类method"的
+意思,也就是java里面interface的意思
+</li>
+<li>我们这里理的是interface的第一个意思:也就是说怎样确定公开哪些method"给别人用"
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2">Defining Interfaces</h3>
+<div class="outline-text-3" id="text-4-2">
+<ul class="org-ul">
+<li>我们以点菜为例子,在饭馆里面,我们点好菜以后,把order放入到厨房入口,过一段时间
+厨房就会端出我们希望的菜.这里厨房就像一个类,而对"点菜"这个behavior,厨房类做
+出的反应,就是把菜盛出来.
+</li>
+<li>实际上,厨房里面并不是"立马"就有菜,它有人,有原料,有厨具.但是这些外面的人"并
+不关心",所以我们也没必要"展示"给其他人(这也就是private method)
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-4-2-1" class="outline-4">
+<h4 id="sec-4-2-1">Public Interfaces &amp; Private Interfaces</h4>
+<div class="outline-text-4" id="text-4-2-1">
+<ul class="org-ul">
+<li>上面提到了public和private的interface,下面我们就做个比较:
+<ul class="org-ul">
+<li>public interface的特点如下:
+<ol class="org-ol">
+<li>展示了其主要职责
+</li>
+<li>希望被其他的object调用
+</li>
+<li>绝不会随意更改
+</li>
+<li>其他object依赖于这个interface是安全的
+</li>
+<li>必须认真测试和在文档中记录
+</li>
+</ol>
+</li>
+<li>private interface的特点如下:
+<ol class="org-ol">
+<li>处理逻辑细节
+</li>
+<li>不希望被其他object使用
+</li>
+<li>可以随意改动
+</li>
+<li>其他object依赖的话,不安全
+</li>
+<li>测试可以覆盖
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-2-2" class="outline-4">
+<h4 id="sec-4-2-2">Responsibilities, Dependencies, and Interfaces</h4>
+<div class="outline-text-4" id="text-4-2-2">
+<ul class="org-ul">
+<li>我们第二章讲的内容是创建一个class,然后让这个class只有一个单独的responsibility
+</li>
+<li>而我们的public method恰恰是来完成这个单独的responsibility的
+</li>
+<li>我们第三章讲的控制依赖,要依赖那些不经常改动的method,public interface就是不
+经常改动的那种,而private interface则是经常需要改动的.
+</li>
+<li>所以public interface是其他object天然的依赖
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3">Finding the Public Interface</h3>
+<div class="outline-text-3" id="text-4-3">
+<ul class="org-ul">
+<li>当然没有万能的方法啦,我们的public interface能够减轻以外的change带来的cost就
+已经非常好了
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-4-3-1" class="outline-4">
+<h4 id="sec-4-3-1">An Example Application: Bicycle Touring Company</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<ul class="org-ul">
+<li>我们试着来实现一个自行车公司的例子:
+<ul class="org-ul">
+<li>这个自行车公司有自己的自行车,也可以使用当地的自行车租赁公司的车
+</li>
+<li>自行车公司有多种线路,整体上来说是公路和山地
+</li>
+<li>自行车公司的线路根据难度有分级,山地总体更难
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-3-2" class="outline-4">
+<h4 id="sec-4-3-2">Constructin an Intention</h4>
+<div class="outline-text-4" id="text-4-3-2">
+<ul class="org-ul">
+<li>向已有代码的系统里面添加代码,更多的是对系统的一个扩展,而从一开始书写一个系
+统则不是那么容易的事情
+</li>
+<li>当我们看到这个需求的时候,第一批映入我们脑海的,就是这一些列的"名字",因为它
+们是绝佳的class的候选人:
+<ul class="org-ul">
+<li>Trip
+</li>
+<li>Route
+</li>
+<li>Bike
+</li>
+<li>Mechanic
+</li>
+</ul>
+</li>
+<li>这些class就是domain object,这个是刚刚接触面向对象编程的新手,最容易想到的东
+西,也是人类直觉对class最好的"反射"反应.但是真正的面向对象的编程,看中的,是message,
+我们通过message来发现需要的class
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-3-3" class="outline-4">
+<h4 id="sec-4-3-3">Using Sequence Diagrams</h4>
+<div class="outline-text-4" id="text-4-3-3">
+<ul class="org-ul">
+<li>时序图(sequence diagram)是非常完美高效的表达object和message关系的图表
+</li>
+<li>时序图是UML定义的一种图表
+</li>
+<li>时序表是把class-based design转换成message-based design的重要步骤,比如使用
+了下面的时序图,你自然而然的会想"我要发送一条message,谁来回应我们",而不是"我
+们这里有很多的class,然后呢,该怎么做?"
+
+<div class="figure">
+<p><img src="https://raw.githubusercontent.com/harrifeng/org_dot/master/notes/ruby/sequence-diagram-example.png" alt="sequence-diagram-example.png" />
+</p>
+<p><span class="figure-number">Figure 1:</span> duck-super.png</p>
+</div>
+</li>
+<li>换句话说,message才是class存在的意义,不能因为class而class
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-3-4" class="outline-4">
+<h4 id="sec-4-3-4">Asking for "What" Instead of Telling "How"</h4>
+<div class="outline-text-4" id="text-4-3-4">
+<ul class="org-ul">
+<li>一般意义上来说,message有两种:
+<ul class="org-ul">
+<li>receiver询问sender, 你需要what
+</li>
+<li>sender告诉receiver,你要How to去做
+</li>
+</ul>
+</li>
+<li>从题目上来看,我们也是建议大家使用第一个,也就是receiver询问sender what.理解
+并正确运用,是我们创建reusable class的关键
+</li>
+<li>TODO
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4">Writing Code That Puts Its Best (Inter)Face Forward</h3>
+<div class="outline-text-3" id="text-4-4">
+</div><div id="outline-container-sec-4-4-1" class="outline-4">
+<h4 id="sec-4-4-1">Create Explicit Interfaces</h4>
+<div class="outline-text-4" id="text-4-4-1">
+<ul class="org-ul">
+<li>你的目标是书写当前能工作,还能够适应以后工作的代码,别人也会调用你的method,
+所以维护好你的interface,极为重要
+</li>
+<li>每次你公开了自己的public 代码,都需要:
+<ul class="org-ul">
+<li>明确需求
+</li>
+<li>更多的是体现what,而不是how
+</li>
+<li>名字不要改变
+</li>
+<li>使用hash作为(最后一个)options paramter
+</li>
+</ul>
+</li>
+<li>ruby也提供了public, protected, private三种method公开的级别:
+<ul class="org-ul">
+<li>private是最最容易改变的,private method必须使用implicit receiver(default
+就是self)来调用
+</li>
+<li>protected比private stable那么一点点,它可以explicit的使用self,或者self的subclass
+</li>
+<li>public那就是最最稳定,而且可以使用任意的explicit receiver啦!
+</li>
+</ul>
+</li>
+<li>在ruby里面,所有的这些private, protected都可以使用redefine的方式变成public的,
+所以这两个关键字更多的起到的是flexible barrier的作用,而不是concrete restrictions
+</li>
+<li>所以,使用这两个关键字就能起到method access的限制是一种illusion,而ruby里面
+使用`_`作为private method前缀的方式倒是非常的实用.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-4-2" class="outline-4">
+<h4 id="sec-4-4-2">Honor the Public Interfaces of Others</h4>
+<div class="outline-text-4" id="text-4-4-2">
+<ul class="org-ul">
+<li>别人的public method是他们唯一承诺的事情.如果你一定要使用对方的private method
+那么你要思考下,是不是自己的设计有问题.
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5">The Law of Demeter</h3>
+<div class="outline-text-3" id="text-4-5">
+<ul class="org-ul">
+<li>LoD,也就是迪米特法则,简言之就是talk only to your immediate friend,也就是不
+要和陌生人说话.换句话说就是要设计上的"低耦合"
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-4-5-1" class="outline-4">
+<h4 id="sec-4-5-1">Defining Demeter</h4>
+<div class="outline-text-4" id="text-4-5-1">
+<ul class="org-ul">
+<li>迪米特法则又叫做"use only one dot",意思是希望你不要"假借"其他的object来发送
+message,比如下面几个例子都违反了迪米特法则
+<div class="org-src-container">
+
+<pre class="src src-ruby">customer.bicycle.wheel.tire
+hash.keys.sort.join(',')
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-5-2" class="outline-4">
+<h4 id="sec-4-5-2">Consequences of Violations</h4>
+<div class="outline-text-4" id="text-4-5-2">
+<ul class="org-ul">
+<li>迪米特法则是类似"坚持每天刷牙"这种法则,而不是"万有引力"这种法则.也就是说,
+偶尔的违背并不会造成宇宙大爆炸
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">Chapter 5: Reducing Costs with Duck Typing</h2>
+</div>
+</div>
+<div id="postamble" class="status">
+
+         <!-- Disqus Comment BEGIN -->
+          <div id="disqus_thread"></div>
+          <script type="text/javascript">
+              var disqus_shortname = 'harrifeng';
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          </script>
+          <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+         <!-- Disqus Comment END -->
+</div>
+</body>
+</html>

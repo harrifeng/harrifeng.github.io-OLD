@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>emacs</title>
-<!-- 2015-07-03 Fri 15:12 -->
+<!-- 2016-10-09 Sun 01:50 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -168,6 +168,8 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#sec-1">Create a file name based on the seconds from Epoch</a></li>
 <li><a href="#sec-2">Use Regular Expression to find and replace</a></li>
+<li><a href="#sec-3">Open all some kinds of files under specific folder</a></li>
+<li><a href="#sec-4">Make terminal client use emacs color theme</a></li>
 </ul>
 </div>
 </div>
@@ -228,9 +230,75 @@ id多少位的都有,比如f1, f12, f1234, 然后后来就惆怅了,想把这些
 <li>通过查询,胜利的找到了正确的正则表达式
 <div class="org-src-container">
 
-<pre class="src src-lisp">(default <span style="color: #2aa198;">"f\w+"</span> -&gt; <span style="color: #2aa198;">"f0000"</span>):
+<pre class="src src-lisp">(default "f\w+" -&gt; "f0000"):
 </pre>
 </div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">Open all some kinds of files under specific folder</h2>
+<div class="outline-text-2" id="text-3">
+<ul class="org-ul">
+<li>有时候想打开一个文件夹下面的所有的名如xxx.html或者legacy*的文件,方法如下:
+<ol class="org-ol">
+<li>M-x 输入find-dired
+</li>
+<li>选定文件夹,比如~/tmp
+</li>
+<li>弹出Run find (with args), 选择想打开的文件的"类型":
+<ul class="org-ul">
+<li>可以是[-name "legacy*"]
+</li>
+<li>也可以是[-type f]来打开所有类型为regular的file,这个参数是和find里面的
+-type参数用法一致
+<pre class="example">
+-type c
+       File is of type c:
+
+       b      block (buffered) special
+
+       c      character (unbuffered) special
+
+       d      directory
+
+       p      named pipe (FIFO)
+
+       f      regular file
+
+       l      symbolic link; this is never true if the -L option or
+              the -follow option is in effect, unless the symbolic
+              link is broken.  If you want to search for symbolic
+              links when -L is in effect, use -xtype.
+
+       s      socket
+
+       D      door (Solaris)
+</pre>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">Make terminal client use emacs color theme</h2>
+<div class="outline-text-2" id="text-4">
+<ul class="org-ul">
+<li>If you want to use Emacs's own color-theme other than SSH client's simple 8
+color, you need to :
+<ol class="org-ol">
+<li>Set the ssh client terminal type to xterm-256color
+</li>
+<li>Start Emacs and input following to test whether it show 256 colors
+<pre class="example">
+M-x list-colors-display
+</pre>
+</li>
+</ol>
 </li>
 </ul>
 </div>
