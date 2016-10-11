@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>meta</title>
-<!-- 2016-10-09 Sun 01:50 -->
+<!-- 2016-10-11 Tue 03:47 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="your name" />
@@ -273,6 +273,19 @@ for the JavaScript code in this tag.
 <li><a href="#sec-6">Chapter 6: Friday: Code That Writes Code</a>
 <ul>
 <li><a href="#sec-6-1">Coding Your Way to the Weekend</a></li>
+</ul>
+</li>
+<li><a href="#sec-7">Chapter 7: Epilogue</a></li>
+<li><a href="#sec-8">Chapter 8: Preparing for a Rails Tour</a>
+<ul>
+<li><a href="#sec-8-1">Ruby on Rails</a></li>
+</ul>
+</li>
+<li><a href="#sec-9">Chapter 9: The Design of Active Record</a>
+<ul>
+<li><a href="#sec-9-1">A Short Active Record Example</a></li>
+<li><a href="#sec-9-2">How Active Record Is Put Together</a></li>
+<li><a href="#sec-9-3">The Autoloading Mechanism</a></li>
 </ul>
 </li>
 </ul>
@@ -3653,6 +3666,280 @@ me.age = 39                     # OK
 me.age = 12                     # Exception
 </pre>
 </div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">Chapter 7: Epilogue</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li>TODO
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">Chapter 8: Preparing for a Rails Tour</h2>
+<div class="outline-text-2" id="text-8">
+<ul class="org-ul">
+<li>前面我们学到了很多技术，如何使用这些技术正是rails做的非常好的地方。
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-8-1" class="outline-3">
+<h3 id="sec-8-1">Ruby on Rails</h3>
+<div class="outline-text-3" id="text-8-1">
+<ul class="org-ul">
+<li>安装rails其实就是安装一个gem包
+<div class="org-src-container">
+
+<pre class="src src-shell">gem install rails -v 4.1.0
+</pre>
+</div>
+</li>
+<li>rails gem其实质包含了helper, 比如:
+<ul class="org-ul">
+<li>code generator
+</li>
+<li>rake task
+</li>
+<li>将其他代码"粘合"在一起的胶水语言
+</li>
+</ul>
+</li>
+<li>而真正起作用的是'其他'gem,最重要的是三个:
+<ul class="org-ul">
+<li>activerecord: MVC中的M
+</li>
+<li>actionpack: MVC中的VC
+</li>
+<li>activesupport: 一些帮助函数,比如time calculation和log
+</li>
+</ul>
+</li>
+<li>可以使用如下命令把某个版本的代码存储在当前文件夹下(当然你懂git checkout就不需要这个了)
+<div class="org-src-container">
+
+<pre class="src src-shell">gem unpack activerecord -v=4.1.0
+</pre>
+</div>
+</li>
+<li>rails的代码非常难以理解,当无法理解其中原理的时候,可以借助测试用例来查看其意图
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9">Chapter 9: The Design of Active Record</h2>
+<div class="outline-text-2" id="text-9">
+<ul class="org-ul">
+<li>Active Record是rails里面用来映射Ruby object到database record的library(俗称
+orm)
+</li>
+<li>我们本书中更注重library'如何做到的',而不是'做到了什么'
+</li>
+</ul>
+</div>
+<div id="outline-container-sec-9-1" class="outline-3">
+<h3 id="sec-9-1">A Short Active Record Example</h3>
+<div class="outline-text-3" id="text-9-1">
+<ul class="org-ul">
+<li>先看一个例子,数据库中有一个表叫做ducks,ducks有一个field叫做name.我们想把这
+个table映射成一个class
+<div class="org-src-container">
+
+<pre class="src src-ruby">require 'active_record'
+ActiveRecord::Base.establish_connection :adapter =&gt; "sqlite3",
+                                        :database =&gt; "dbfile"
+</pre>
+</div>
+</li>
+<li>ActiveReord::Base是AR里面最重要的一个class啦,当然首先它包括了'建立'数据库的
+代码如上,其次,它是所有"被映射class"的superclass
+<div class="org-src-container">
+
+<pre class="src src-ruby">class Duck &lt; ActiveRecord::Base
+  validate do
+    errors.add(:base, "Illegal duck name") unless name[0] == 'D'
+  end
+end
+</pre>
+</div>
+</li>
+<li>如上例,我们继承了ActiveRecord::Base以后,可以调用它的class method validate,
+这个class method带了一个block,回去判断block里面的情况,如果不妙:
+<ul class="org-ul">
+<li>save!会失败并且抛出exception
+</li>
+<li>更外层的save会"默默"失败
+</li>
+</ul>
+</li>
+<li>下面重点的来了,ActiveRecord会得知table一切的field,然后使用ghost method来为
+这每一个field'自动'创建一个attribute
+<div class="org-src-container">
+
+<pre class="src src-ruby">my_duck = Duck.new
+my_duck.name = "Donald"
+my_duck.valid?                  # =&gt; true
+my_duck.save!                   # save it to the database
+
+duck_from_database = Duck.first
+duck_from_database.name         # =&gt; "Donalid"
+duck_from_database.delete
+</pre>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-2" class="outline-3">
+<h3 id="sec-9-2">How Active Record Is Put Together</h3>
+<div class="outline-text-3" id="text-9-2">
+<ul class="org-ul">
+<li>如果你使用过一段时间的Active Record,你就会发现里面函数特别的多,如果从java的
+经验来看,这个class应该非常的大.常见的函数save和validate也都会有体现
+</li>
+<li>但是如果你看了ActiveRecord::Base的代码,你会发现代码非常的少,而且竟然找不到
+save和validate的定义的地方!
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-3" class="outline-3">
+<h3 id="sec-9-3">The Autoloading Mechanism</h3>
+<div class="outline-text-3" id="text-9-3">
+<ul class="org-ul">
+<li>好我们来看看4.1.0版本的active_record.rb,打开以后,发现这个代码竟然只有170行,
+然后主要的代码结构如下
+<div class="org-src-container">
+
+<pre class="src src-ruby">require 'active_support'
+require 'active_support/rails'
+require 'active_model'
+require 'arel'
+
+require 'active_record/version'
+
+module ActiveRecord
+  extend ActiveSupport::Autoload
+
+  autoload :Base
+  autoload :Callbacks
+  autoload :Core
+  autoload :ConnectionHandling
+  autoload :CounterCache
+  autoload :DynamicMatchers
+  autoload :Enum
+  # ....
+</pre>
+</div>
+</li>
+<li>require了五个library,其中最重点的是两个:
+<ul class="org-ul">
+<li>Active Support
+</li>
+<li>Active Model
+</li>
+</ul>
+</li>
+<li>文件开始就extend的一个Active Support的'子module' ActiveSupport::Autoload,这
+个module里面有个函数非常重要,叫做autoload,代码就不贴了看不懂,其作用自动帮你
+找到需要的module,然后引入需要的代码.也就是
+<div class="org-src-container">
+
+<pre class="src src-ruby">autoload :Base
+autoload :NoTouching
+</pre>
+</div>
+</li>
+<li>换句话说,Active Record就像是一个namespace,而你使用ActiveRecord::Base的时候,
+其实代码真正的都在active_record/base.rb,通过autoload引入进ActiveRecord Module
+里面.
+</li>
+<li>注意,autoload是你用到了,才会去include,不用的话,不include,为什么呢,因为代码
+太多了
+</li>
+<li>如果你看了ActiveRecord::Base的代码就会发现,是纯引用.而且每个引用里面都会有
+大量的代码
+<div class="org-src-container">
+
+<pre class="src src-ruby">module ActiveRecord class Base
+    extend ActiveModel::Naming
+    extend ActiveSupport::Benchmarkable
+    extend ActiveSupport::DescendantsTracker
+    extend ConnectionHandling
+    extend QueryCache::ClassMethods
+    extend Querying
+    extend Translation
+    extend DynamicMatchers
+    extend Explain
+    extend Enum
+    extend Delegation::DelegateCache
+    include Core
+    include Persistence
+    include NoTouching
+    include ReadonlyAttributes
+    include ModelSchema
+    include Inheritance
+    include Scoping
+    include Sanitization
+    include AttributeAssignment
+    include ActiveModel::Conversion
+    include Integration
+    include Validations
+    include CounterCache
+    include Locking::Optimistic
+    include Locking::Pessimistic
+    include AttributeMethods
+    include Callbacks
+    include Timestamp
+    include Associations
+    include ActiveModel::SecurePassword
+    include AutosaveAssociation
+    include NestedAttributes
+    include Aggregations
+    include Transactions
+    include Reflection
+    include Serialization
+    include Store
+    include Core
+end
+  ActiveSupport.run_load_hooks(:active_record, Base)
+end
+</pre>
+</div>
+</li>
+<li>有些代码很容易找到"出处",比如save
+<div class="org-src-container">
+
+<pre class="src src-ruby">module ActiveRecord
+  module Persistence
+    def save(*) # ...
+    end
+    def save!(*) # ...
+    end
+    def delete # ...
+    end
+  end
+end
+</pre>
+</div>
+</li>
+<li>有些代码就很难找到"出处",比如validate
+</li>
+<li>TODO
+</li>
+<li>只需要知道ActiveRecord的module是特殊的,如果你include了它们,你会同时得到:
+<ul class="org-ul">
+<li>instance method
+</li>
+<li>class method
+</li>
+</ul>
 </li>
 </ul>
 </div>
